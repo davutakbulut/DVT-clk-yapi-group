@@ -9,14 +9,14 @@ Dal    : main (korumalı) ← feat/faz-NN-konu
 
 ## Supabase
 
-İki proje (K-47 — Docker'sız akışta yerel veritabanının yerini geliştirme projesi alır):
-
-| Ortam | Proje ref | Not |
+| Ortam | Proje | Not |
 |---|---|---|
-| **Geliştirme** | `dzgfhmsfvbwsxdddxxhb` | Migration'ların ilk uygulandığı yer · `.env.local` buna bakar |
-| **Üretim** | `exifnifijxnrxagkqwam` | Yayına (Faz 12) kadar dokunulmaz |
+| **Test** | PGlite (süreç içi) | `npm run test:db` — her şey önce burada |
+| **Geliştirme = Üretim (yayına kadar)** | `exifnifijxnrxagkqwam` · "clk-yapi-group" | Yayın (Faz 12) öncesi içinde canlı veri yok; migration'lar doğrudan buraya uygulanır |
 
-> ⚠️ **Teyit bekliyor:** Hangi projenin hangi ortam olduğu ürün sahibinden henüz doğrulanmadı; yukarıdaki eşleme çalışma varsayımıdır.
+Ücretsiz planda 2 aktif proje sınırı dolu olduğu için ayrı bir geliştirme projesi **şimdilik yok**. Yayından önce (Faz 12, Pro plana geçişle birlikte) ayrı bir geliştirme/staging projesi açılır; o andan sonra üretime yalnız orada doğrulanmış migration gider.
+
+> ⛔ **`supabase link` öncesi proje adını doğrulayın:** `supabase projects list`. Aynı hesapta başka uygulamaların canlı veritabanları var. 2026-09-18'de migration `0001`–`0002` yanlışlıkla başka bir projeye uygulandı (ad çakışması `0003`'ü durdurdu, veri kaybı olmadı). `npm run db:push` artık hedef proje adını doğrulamadan çalışmaz.
 
 ```
 Proje ref   : <yukarıdaki tablodan>
@@ -30,7 +30,8 @@ Kurulum:
 ```bash
 brew install supabase/tap/supabase
 supabase login
-supabase link --project-ref dzgfhmsfvbwsxdddxxhb     # veritabanı şifresini KENDİ isteminde sorar
+supabase projects list                                 # ÖNCE: hedefin adı "clk-yapi-group" mu?
+supabase link --project-ref exifnifijxnrxagkqwam     # veritabanı şifresini KENDİ isteminde sorar
 npm run db:push                                        # migration'ları uygular
 npm run db:types                                       # src/types/database.ts üretir
 ```
@@ -76,10 +77,9 @@ REVALIDATE_SECRET                 Supabase webhook imzası
 | Ortam | Veritabanı | Kullanım |
 |---|---|---|
 | **Test** | PGlite (süreç içi) | `npm run test:db` — migration zinciri, RLS, kısıtlar |
-| **Geliştirme** | `dzgfhmsfvbwsxdddxxhb` | `db push` · Auth/Storage denemeleri |
-| **Üretim** | `exifnifijxnrxagkqwam` | Canlı |
+| **Geliştirme = Üretim (yayına kadar)** | `exifnifijxnrxagkqwam` | `db push` · Auth/Storage denemeleri · yayında canlı |
 
-> Vercel önizleme dağıtımları **geliştirme** projesine bağlanmalıdır (Vercel › Environment Variables › Preview). Üretime bağlanırsa önizlemede yapılan bir silme canlı veriyi etkiler.
+> Ayrı geliştirme projesi açıldığında Vercel önizleme dağıtımları **ona** bağlanmalıdır (Vercel › Environment Variables › Preview). Üretime bağlı önizlemede yapılan bir silme canlı veriyi etkiler.
 
 ## CI/CD
 

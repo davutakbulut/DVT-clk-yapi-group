@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 3 — Medya migrasyonu ⏳ (sırada) · Faz 1–2 PR'da · Faz 2'nin `db push` adımı ürün sahibinde
+**Şu an:** Faz 3 — Medya migrasyonu ⏳ (sırada) · Faz 1–2 PR'da
 
 ---
 
@@ -54,7 +54,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Vitest 36 · Playwright 51 (3 kırılım, axe WCAG 2.1 AA) · Lighthouse 100/100/100
   - [x] CI: lint · typecheck · test · circular · statik tarama · build · audit · e2e · Lighthouse
   - [ ] *Açık:* Varsayım #1'in Vercel kenarında ölçümü — ilk Vercel dağıtımında (`experiments/faz-01/next-canary`)
-- [x] **Faz 02** — Veritabanı ✅ 2026-09-18 *(kod tamam · uzak projeye uygulama bekliyor)*
+- [x] **Faz 02** — Veritabanı ✅ 2026-09-18 *(12 migration `clk-yapi-group` projesine uygulandı)*
   - [x] **Docker'sız akış (K-47):** elle migration → PGlite testleri → geliştirme projesi → üretim
   - [x] 12 migration · **83 tablo + 4 görünüm** · 171 RLS politikası · 129 FK · 226 CHECK · uzantısız
   - [x] Sözleşme prosedürleri (K-48): `secure` · `publishable` · `localized_slug` · `content_policies` · `sortable` · `audited`
@@ -66,8 +66,10 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Yapısal emniyetler: her tabloda RLS · anonim yazamaz · anonime açık tablolar açık listeyle birebir
   - [x] `npm run db:report` — katalogdan üretilen şema gezgini + yetki matrisi
   - [x] Referans verisi migration'da; gerçek-veri tabloları (fiyat, yorum, proje, ekip, sertifika) **boş**
-  - [ ] *Ürün sahibi:* `supabase login` → `link` → `npm run db:push` → `create-super-admin.mjs` → `npm run db:types`
-  - [ ] *Teyit:* hangi Supabase projesi geliştirme, hangisi üretim (`docs/processes/05-ENVIRONMENTS.md`)
+  - [x] Uzak projeye uygulandı · gerçek API üzerinden anonim anahtarla doğrulandı (hassas tablolar 401, `app_private` 404) · `src/types/database.ts` üretildi
+  - [x] `npm run db:push` hedef projeyi izin listesinden doğrulamadan çalışmaz (`scripts/db-push.mjs`)
+  - [ ] *Ürün sahibi:* `.env.local` › `SUPABASE_SECRET_KEY` → `create-super-admin.mjs`
+  - [ ] *Ürün sahibi:* yanlış projeye (başka uygulama) uygulanan `0001`–`0002`'nin temizliği — betik hazır, karar bekliyor
 - [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*
 - [ ] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp

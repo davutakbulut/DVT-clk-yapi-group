@@ -17,6 +17,8 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - `scripts/generate-schema-report.mjs` (`npm run db:report`) — katalogdan üretilen şema gezgini
 - `scripts/create-super-admin.mjs` — ilk yönetici; davet e-postasıyla, şifre betikten geçmeden
 - npm: `test:db` · `db:push` · `db:status` · `db:types` · `db:report`
+- `scripts/db-push.mjs` — `db push` sarmalayıcısı: bağlı proje izin listesinde değilse reddeder (migration'ların yanlışlıkla başka bir projeye uygulanması olayından sonra eklendi)
+- `src/types/database.ts` — uzak şemadan üretilen tipler (83 tablo + 4 görünüm)
 
 ### Düzeltildi — Faz 2
 - Slug doğrulayıcıları `coalesce(…, false)` ile sarıldı: `CHECK` kısıtı `NULL`'ı geçer saydığı için TR anahtarı olmayan slug kabul ediliyordu (davranış testi yakaladı)

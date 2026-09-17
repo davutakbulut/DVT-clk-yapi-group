@@ -18,7 +18,7 @@
     "circular": "madge --circular --extensions ts,tsx --ts-config tsconfig.json src",
     "scan:static": "node scripts/scan-static-data.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run circular && npm run scan:static && npm run build",
-    "db:push": "supabase db push",
+    "db:push": "node scripts/db-push.mjs",
     "db:status": "supabase migration list",
     "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
     "db:report": "node scripts/generate-schema-report.mjs"

@@ -11,8 +11,7 @@ Her şema değişikliği versiyonlu bir migration dosyası olarak geçer. Aksi h
 | Ortam | Veritabanı | Kullanım |
 |---|---|---|
 | **Test** | **PGlite** — süreç içi gerçek Postgres (WASM), Vitest içinde | Migration zinciri · RLS · kısıtlar · indeks planı. ~4 sn, internetsiz, gizli anahtarsız |
-| **Geliştirme** | Supabase bulut projesi (geliştirme) | `db push` ile ilk gerçek uygulama · Auth/Storage denemeleri · elle doğrulama |
-| **Üretim** | Supabase bulut projesi (üretim) | Canlı — yalnız geliştirmede doğrulanmış migration'lar |
+| **Uzak** | Supabase projesi `clk-yapi-group` | Yayına (Faz 12) kadar geliştirme ortamı; içinde canlı veri yok. Yayından önce ayrı bir geliştirme projesi açılır |
 
 `supabase start` (Docker) **kullanılmıyor.** Yerini iki şey aldı: hızlı geri bildirim için PGlite testleri, gerçek platform davranışı için ayrı bir geliştirme projesi. Docker gerektiren CLI komutları (`start`, yerel `db reset`, `db diff`, `db pull`, `test db`) akışta yok; gerektirmeyenler (`login`, `link`, `db push`, `migration list`, `gen types --linked`) var.
 
@@ -24,8 +23,7 @@ Her şema değişikliği versiyonlu bir migration dosyası olarak geçer. Aksi h
 3. Sıfırdan uygula + test et     npm run test:db        ← `db reset`in karşılığı: her test dosyası boş DB'den başlar
 4. Gözle bak                     npm run db:report      → supabase/.temp/schema-report.html
 5. Commit + PR                   CI aynı testleri koşar
-6. Geliştirme projesine uygula   npm run db:push        (supabase link ile bağlı proje)
-7. Doğrula, sonra üretime        supabase link --project-ref <üretim> && npm run db:push
+6. Uzak projeye uygula           npm run db:push        (önce bağlı projenin ADINI doğrular — yanlış projeye gitmez)
 ```
 
 **`db diff` neden yok:** Migration'lar elle yazılıyor — üretilen SQL'de "beklenmeyen DROP var mı" diye bakmaya gerek kalmıyor, çünkü her satırı biz yazdık.
