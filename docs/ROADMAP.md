@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 0 — Kurulum & Dokümantasyon 🔨
+**Şu an:** Faz 1 — İskelet + i18n ⏳ (sırada)
 
 ---
 
@@ -19,7 +19,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
-| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Devam ediyor |
+| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0 ✅ · Faz 1 sırada |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
@@ -33,14 +33,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v0.5 — Temel
 
-- [ ] **Faz 00** — Kurulum & Dokümantasyon 🔨
+- [x] **Faz 00** — Kurulum & Dokümantasyon ✅ 2026-09-18
   - [x] Kök klasör `clk-yapi-group` olarak yeniden adlandırıldı
   - [x] Prototipler `_archive/prototypes/` altına taşındı
   - [x] `git init` + `.gitignore` + `.env.example`
   - [x] `README.md` + `CLAUDE.md`
-  - [x] `docs/` yapısı — 27 doküman
-  - [ ] GitHub deposuna ilk push
-  - [ ] Project board + 32 issue
+  - [x] `docs/` yapısı — 29 doküman
+  - [x] GitHub deposuna ilk push
+  - [x] 7 milestone + 6 etiket + 33 issue
+  - [x] Project board #5 — tüm issue'lar eklendi
 - [ ] **Faz 01** — İskelet + i18n · *5 riskli varsayım deneyle doğrulanır*
 - [ ] **Faz 02** — Veritabanı (~80 tablo, RLS, ilk super_admin seed)
 - [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage)

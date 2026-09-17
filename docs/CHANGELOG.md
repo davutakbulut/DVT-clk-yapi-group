@@ -30,6 +30,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
   - `konfigurator_v3 (1).html` → `configurator-v3-copy.html`
 - Rakip fiyat tablosu referansı `_archive/reference/competitor-price-table.jpg` altına alındı
 
+### Altyapı
+- GitHub deposu bağlandı: `davutakbulut/DVT-clk-yapi-group`
+- 7 milestone (v0.5 → v2.0), 6 etiket, **33 issue** oluşturuldu
+- Project board #5 — "CLK Yapı Group — Yol Haritası", tüm issue'lar eklendi
+- Her issue'da 12 maddelik Bitti Tanımı kontrol listesi
+
 ### Notlar
 - Planlama aşamasında alınan 44 karar `docs/02-DECISIONS.md` içinde gerekçeleriyle kayıtlı
 - 7 karar MSSQL geçişinde etkilenecek şekilde 🔴 işaretlendi
