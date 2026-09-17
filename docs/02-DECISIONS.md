@@ -225,6 +225,13 @@ Sıcaklık haritası, öfke tıklaması ve form analizi "tıkanma" noktalarını
 
 ---
 
+### K-45 · Depo public kalacak
+`github.com/davutakbulut/DVT-clk-yapi-group` herkese açık.
+**Bilinen bedeli:** Fiyatlandırma yaklaşımı, kâr marjı mantığı, tevkifat kurgusu ve iş stratejisi rakiplere açık. Ürün sahibi bunu değerlendirip public kalmasına karar verdi.
+**Zorunlu sonuç:** Gerçek anahtar, şifre veya müşteri verisi **hiçbir koşulda** repoya girmez. `.env.example` yalnız placeholder içerir; GitHub secret scanning açık tutulur.
+
+---
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*
