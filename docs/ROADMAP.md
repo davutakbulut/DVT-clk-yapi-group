@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 1 — İskelet + i18n ⏳ (sırada)
+**Şu an:** Faz 2 — Veritabanı ⏳ (sırada) · Faz 1 PR'da
 
 ---
 
@@ -19,7 +19,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
-| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0 ✅ · Faz 1 sırada |
+| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–1 ✅ · Faz 2 sırada |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
@@ -42,7 +42,18 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] GitHub deposuna ilk push
   - [x] 7 milestone + 6 etiket + 33 issue
   - [x] Project board #5 — tüm issue'lar eklendi
-- [ ] **Faz 01** — İskelet + i18n · *5 riskli varsayım deneyle doğrulanır*
+- [x] **Faz 01** — İskelet + i18n ✅ 2026-09-18
+  - [x] 5 riskli varsayım deneyle sınandı → `docs/architecture/06-ASSUMPTION-EXPERIMENTS.md` · **K-46** doğdu
+  - [x] Next 15.5 · TypeScript strict · Tailwind v4 katmanları · `data-surface` stil izolasyonu
+  - [x] next-intl: `localePrefix: always`, `localeDetection: false`, tipli pathnames, tipli mesajlar
+  - [x] Middleware kompozisyonu (K-13) — çerez toplama, 10 birim testiyle kilitli
+  - [x] Dil değiştirici: sorgu + hash korur, `RouteAlternates` bağlamı, JS'siz çalışır
+  - [x] Hata sayfaları: kök 404 · dilli 404 · `[...rest]` yakalayıcı · `error.tsx` · `global-error.tsx`
+  - [x] ESLint sınırları (6 kasıtlı ihlalle doğrulandı) · `toLowerCase` yasağı · Supabase import kısıtı
+  - [x] `Result<T,E>` · `ModuleBoundary` · modül etiketli logger · `slugify` (K-16)
+  - [x] Vitest 36 · Playwright 51 (3 kırılım, axe WCAG 2.1 AA) · Lighthouse 100/100/100
+  - [x] CI: lint · typecheck · test · circular · statik tarama · build · audit · e2e · Lighthouse
+  - [ ] *Açık:* Varsayım #1'in Vercel kenarında ölçümü — ilk Vercel dağıtımında (`experiments/faz-01/next-canary`)
 - [ ] **Faz 02** — Veritabanı (~80 tablo, RLS, ilk super_admin seed)
 - [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*

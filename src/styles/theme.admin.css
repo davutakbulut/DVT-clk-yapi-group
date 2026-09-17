@@ -1,0 +1,11 @@
+/* Admin semantik tokenları. Panel Faz 5'te kurulur; blok şimdiden ayrı ki ön yüz teması buraya sızmasın. */
+@layer tokens {
+  [data-surface='admin'] {
+    --color-bg: #f8fafc;
+    --color-surface: #fff;
+    --color-text: #0f172a;
+    --color-text-muted: #475569;
+    --color-border: #e2e8f0;
+    --color-focus: #1d4ed8;
+  }
+}

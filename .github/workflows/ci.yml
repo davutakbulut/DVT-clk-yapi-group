@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+  # CI'da Supabase'e gidilmez: site Supabase'siz de derlenebilmeli (readSupabasePublicEnv → not_configured)
+  NEXT_PUBLIC_SITE_URL: http://localhost:3200
+
+jobs:
+  quality:
+    name: lint · typecheck · test · circular · static-scan · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run circular
+      - run: npm run scan:static
+      - run: npm run build
+      # Yalnız üretim bağımlılıkları ve yüksek önem: dev araçlarındaki düşük riskli uyarılar hattı kilitlemesin
+      - run: npm audit --omit=dev --audit-level=high
+
+  e2e:
+    name: e2e · axe · 3 kırılım
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # canonical derlemede gömülür; sunulan porttan farklıysa Lighthouse "başka hreflang'e işaret ediyor" der
+      NEXT_PUBLIC_SITE_URL: http://localhost:3300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx --yes @lhci/cli@0.15 autorun

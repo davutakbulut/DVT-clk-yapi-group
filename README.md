@@ -26,12 +26,23 @@
 
 ```bash
 npm install
-cp .env.example .env.local     # değerleri doldurun
-supabase start                 # yerel veritabanı (Docker gerekir)
+cp .env.example .env.local     # değerleri doldurun (Supabase'siz de açılır)
+supabase start                 # yerel veritabanı — Faz 2'den itibaren (Docker gerekir)
 npm run dev
 ```
 
-Ön yüz: `http://localhost:3000/tr` · Panel: `http://localhost:3000/admin`
+Ön yüz: `http://localhost:3000/tr` · Panel: `http://localhost:3000/admin` *(Faz 5)*
+
+### Komutlar
+
+| Komut | Ne yapar |
+|---|---|
+| `npm run dev` | Geliştirme sunucusu |
+| `npm run check` | **PR öncesi hepsi:** lint · typecheck · test · circular · statik veri taraması · build |
+| `npm run test` | Vitest birim testleri (`src/**/__tests__/`) |
+| `npm run test:e2e` | Playwright + axe — üretim derlemesine karşı, 3 kırılımda |
+| `npm run scan:static` | "Sıfır statik veri" kuralı taraması |
+| `npm run circular` | Döngüsel bağımlılık denetimi (madge) |
 
 ## Dokümantasyon
 

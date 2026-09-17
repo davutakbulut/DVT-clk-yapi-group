@@ -1,0 +1,47 @@
+/* Ham değerler — site ve admin arasında PAYLAŞILAN tek stil dosyası.
+   Bileşenler bunlara doğrudan erişmez; theme.*.css içindeki semantik tokenları kullanır. */
+@layer tokens {
+  :root {
+    /* Renk — docs/design/01-DESIGN-SYSTEM.md */
+    --ink: #0f1315;
+    --bar-dark: #14181c;
+    --charcoal: #1b2a3d;
+    --steel: #3a4750;
+    --steel-light: #5c6b75;
+    --turq: #5c7fa3;
+    --turq-deep: #4a6a8c; /* kesin değer Faz 4'te ölçülecek (hedef ≥ 4.5:1) */
+    --turq-light: #8fa9c4;
+    --paper: #f7f6f4;
+    --line: #2b3a4e;
+    --line-light: #d8d3c8;
+
+    /* Aralık — 4 tabanlı */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-24: 96px;
+    --space-32: 128px;
+
+    --section-y: clamp(3.5rem, 2rem + 6vw, 7rem);
+    --gutter: clamp(16px, 8px + 2vw, 28px);
+    --content-max: 1180px;
+    --prose-max: 68ch;
+
+    /* Radius — keskin, endüstriyel */
+    --radius-0: 0;
+    --radius-1: 2px;
+    --radius-2: 4px;
+    --radius-full: 9999px;
+
+    /* Hareket */
+    --dur-fast: 150ms;
+    --dur: 250ms;
+    --dur-slow: 400ms;
+    --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+}

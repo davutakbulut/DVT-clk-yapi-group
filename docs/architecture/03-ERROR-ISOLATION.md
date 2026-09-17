@@ -84,8 +84,9 @@ Sorunlu modül kapatma anahtarıyla izole edilip düzeltilir. Etiket olmadan "bi
 app/global-error.tsx                 kök çökme — i18n YOK, metin gömülü, stiller satır içi
 app/not-found.tsx                    dilsiz 404
 app/[locale]/error.tsx               ön yüz 500
-app/[locale]/not-found.tsx           ön yüz 404
-app/[locale]/[...rest]/page.tsx      eşleşmeyen /tr/* → notFound()
+app/[locale]/not-found.tsx           (marketing) dışındaki gruplar için dilli 404
+app/[locale]/(marketing)/not-found.tsx        dilli 404 — header/footer İÇİNDE render edilir
+app/[locale]/(marketing)/[...rest]/page.tsx   eşleşmeyen /tr/* → notFound()
 app/[locale]/(marketing)/403/page.tsx
 app/admin/error.tsx · not-found.tsx · 403/page.tsx
 ```

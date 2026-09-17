@@ -26,9 +26,12 @@ src/
 │  ├─ events/              süreç içi olay veri yolu
 │  ├─ errors/              Result tipi, hata sınıfları, modül etiketli loglama
 │  ├─ mail/                sağlayıcı soyutlaması + kuyruk
-│  ├─ i18n/                routing, pathnames, çeviri
+│  ├─ middleware/          middleware kompozisyonu (K-13) — test edilebilir, bağımlılıkları dışarıdan alır
+│  ├─ config/              site URL, indekslenebilirlik bayrağı
 │  └─ observability/       logger, RUM
 │
+├─ i18n/                   routing (pathnames), navigation, request, RouteAlternates — next-intl kuralı gereği src/i18n
+├─ lib/                    saf yardımcılar (slugify…) — herkes import edebilir, kimseyi import etmez
 ├─ ui/                     ön yüz tasarım sistemi ilkelleri
 ├─ components/ui/          shadcn — YALNIZ admin
 └─ app/                    route'lar — İNCE, sadece modülleri birleştirir

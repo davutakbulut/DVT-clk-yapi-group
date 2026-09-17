@@ -1,0 +1,16 @@
+/* Ön yüz semantik tokenları. Marka rengini burada değiştirmek admin'e dokunmaz. */
+@layer tokens {
+  [data-surface='site'] {
+    --color-bg: var(--paper);
+    --color-surface: #fff;
+    --color-text: var(--ink);
+    --color-text-muted: var(--steel);
+    --color-text-subtle: var(--steel-light);
+    --color-text-inverse: var(--paper);
+    --color-accent: var(--turq);
+    --color-accent-text: var(--turq-deep); /* --turq gövde metninde KULLANILMAZ: 3.87:1 */
+    --color-border: var(--line-light);
+    --color-border-strong: var(--steel);
+    --color-focus: var(--charcoal);
+  }
+}

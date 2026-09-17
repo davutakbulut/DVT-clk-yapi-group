@@ -1,0 +1,19 @@
+import { defineRouting } from 'next-intl/routing';
+
+// K-11 · Klasör adları İngilizce, URL'ler çevrili. Anahtar = app/[locale] altındaki klasör yolu.
+// Her faz KENDİ route'unu buraya ekler (ekleme yapılan ortak dosya — CONTRIBUTING).
+// Sayfası olmayan yol eklenmez: tipli <Link href> 404'e bağlantı üretebilir hâle gelir.
+export const routing = defineRouting({
+  locales: ['tr', 'en'],
+  defaultLocale: 'tr',
+  localePrefix: 'always',
+  // Bilinçli: Accept-Language: en-US gönderen Türk ziyaretçi /en'e düşmesin;
+  // "/" crawler ve edge önbelleği için tek anlamlı kalsın.
+  localeDetection: false,
+  pathnames: {
+    '/': '/',
+  },
+});
+
+export type Locale = (typeof routing.locales)[number];
+export type AppPathname = keyof typeof routing.pathnames;

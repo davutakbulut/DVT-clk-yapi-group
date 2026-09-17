@@ -1,0 +1,29 @@
+{
+  "Meta": {
+    "siteName": "CLK Yapı Group",
+    "titleTemplate": "%s · CLK Yapı Group"
+  },
+  "A11y": {
+    "skipToContent": "Skip to content",
+    "mainNavigation": "Main navigation"
+  },
+  "LanguageSwitcher": {
+    "label": "Language",
+    "tr": "Türkçe",
+    "en": "English",
+    "current": "{language} (current language)",
+    "unavailable": "This page is not yet available in {language}",
+    "switching": "Switching language…"
+  },
+  "Home": {
+    "underConstruction": "Under construction"
+  },
+  "Errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you are looking for may have moved or never existed.",
+    "serverErrorTitle": "Something went wrong",
+    "serverErrorBody": "The problem is on our side. Please try again shortly.",
+    "retry": "Try again",
+    "backHome": "Back to home"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "clk-yapi-group",
+  "version": "0.5.0",
+  "private": true,
+  "engines": { "node": ">=20.9" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "circular": "madge --circular --extensions ts,tsx --ts-config tsconfig.json src",
+    "scan:static": "node scripts/scan-static-data.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run circular && npm run scan:static && npm run build"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.116.0",
+    "next": "15.5.25",
+    "next-intl": "^4.14.5",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4",
+    "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.25",
+    "eslint-plugin-boundaries": "^5",
+    "madge": "^8",
+    "tailwindcss": "^4",
+    "typescript": "^5.9.3",
+    "vitest": "^3"
+  }
+}
