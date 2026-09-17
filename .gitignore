@@ -54,3 +54,9 @@ pnpm-debug.log*
 
 # Lighthouse CI
 .lighthouseci/
+
+# Tek seferlik, başka projeye ait temizlik betiği — commit edilmez
+cleanup-marketplace.sql
+
+# Claude — kişisel izinler (paylaşılmaz)
+.claude/settings.local.json
