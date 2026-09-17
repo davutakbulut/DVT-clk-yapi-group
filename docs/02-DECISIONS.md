@@ -232,6 +232,14 @@ Sıcaklık haritası, öfke tıklaması ve form analizi "tıkanma" noktalarını
 
 ---
 
+### K-46 · ISR: yayındaki tüm slug'lar build'de ön-üretilir
+`generateStaticParams` her içerik tipinde yayındaki **tüm** slug'ları döndürür. Veri katmanı her zaman `unstable_cache` + etiketle önbelleklidir.
+**Neden:** Faz 1 deneyi gösterdi ki next-intl rewrite'ı (`/tr/projeler/x` → `/tr/projects/x`) ön-üretilmiş sayfalarda ISR'ı korur, ama build'de var olmayan bir slug rewrite üzerinden **hiç önbelleğe yazılmaz** — her istekte yeniden render edilir (`Cache-Control: private, no-store`). İç yolu önceden ısıtmak da çözmez. İlk plandaki yedek ("ön üretimden vazgeç, yalnız on-demand") tam ters yöndeydi.
+**Bilinen bedeli:** Son dağıtımdan sonra yayınlanan yeni içerik, bir sonraki dağıtıma kadar her ziyarette sunucuda render edilir. Veri önbellekli olduğu için maliyet bir DB sorgusu değil, bir React render'ıdır. Yoğun içerik girişinde "yayınla → Vercel deploy hook (gecikmeli, toplu)" seçeneği Faz 7'de değerlendirilir.
+**Açık kalan:** Sonuç `next start` içindir; Vercel kenarında ilk dağıtımda ölçülür. Kanıt: `docs/architecture/06-ASSUMPTION-EXPERIMENTS.md`.
+
+---
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

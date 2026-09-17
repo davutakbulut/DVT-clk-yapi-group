@@ -1,0 +1,8 @@
+{
+  "name": "faz-01-next-canary",
+  "private": true,
+  "description": "Faz 1 kanarya: varsayim #1 (rewrite+ISR), #2 (gecirgen kok layout), #5 (next/og Turkce glif)",
+  "scripts": { "dev": "next dev -p 3100", "build": "next build", "start": "next start -p 3100" },
+  "dependencies": { "next": "15.5.25", "next-intl": "^4.14.5", "react": "19.1.0", "react-dom": "19.1.0" },
+  "devDependencies": { "typescript": "^5.9.3", "@types/node": "^20", "@types/react": "^19", "@types/react-dom": "^19" }
+}

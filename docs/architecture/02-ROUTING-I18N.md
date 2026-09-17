@@ -143,6 +143,7 @@ export async function generateStaticParams({ params: { locale } }) {
 }
 ```
 
+- **`generateStaticParams` yayındaki TÜM slug'ları döndürür, alt küme değil (K-46).** Rewrite edilen yolda on-demand ISR önbelleğe yazmıyor; build'de üretilmeyen sayfa her istekte render edilir
 - Dönen `slug` o dilin kendi slug'ıdır ve **iç yola** verilir (`/tr/projects/...`); middleware rewrite'ı dış adresten oraya düşer
 - Build'de Supabase oturumu yok → anon key + `status = 'published'` RLS politikası kullanılır. **Service-role anahtarı build'e verilmez**
 - Next 15 varsayılan fetch önbelleğini kaldırdı — her okuma `unstable_cache` ile açıkça etiketlenir
@@ -227,14 +228,14 @@ CVE-2025-29927 middleware'in `x-middleware-subrequest` başlığıyla tamamen at
 
 Ayrıca: service-role anahtarı istekle erişilebilen hiçbir yerde kullanılmaz; `/api/admin/*` route handler'ları kendi auth kontrolünü yapar.
 
-## Faz 1'de Doğrulanacak Varsayımlar
+## Faz 1'de Doğrulanan Varsayımlar
 
-Bu tasarımda kesinliği garanti edilemeyen 5 nokta — **kod yazmadan önce** küçük denemelerle doğrulanır:
+Bu tasarımda kesinliği garanti edilemeyen 5 nokta kod yazılmadan önce deneyle sınandı (2026-09-18). **Ayrıntı ve ham çıktılar:** [`06-ASSUMPTION-EXPERIMENTS.md`](06-ASSUMPTION-EXPERIMENTS.md)
 
-| # | Konu | Doğrulama | Yanlışsa |
+| # | Konu | Sonuç | Tasarıma etkisi |
 |---|---|---|---|
-| 1 | Middleware rewrite'ı ISR önbellek isabetini koruyor mu | Kanarya dağıtım, `x-vercel-cache: HIT` | Build'de ön üretimden vazgeçilir, yalnız on-demand ISR |
-| 2 | Geçirgen kök layout + kök `not-found.tsx` Next 15'te çalışıyor mu | Boş proje, `/olmayan-route` | Kök layout `<html lang="tr">` render eder, `[locale]` istemci tarafında düzeltir |
-| 3 | Supabase çerez ön eki (`sb-`) doğru mu | Gerçek `Set-Cookie` adları | **Yanlışsa hiç kimsenin oturumu yenilenmez** — erken çıkış optimizasyonu kaldırılır |
-| 4 | RPC'deki OR dallanması ifade indeksini kullanıyor mu | `EXPLAIN (ANALYZE, BUFFERS)` | PL/pgSQL `IF` ile iki ayrı sorguya bölünür |
-| 5 | `next/og` fontu Türkçe glifleri kapsıyor mu | "Çelik Konstrüksiyon İşleri ŞĞÜÖİ" test görseli | Alt küme genişletilir veya OG görselleri build'de üretilir |
+| 1 | Middleware rewrite'ı ISR önbellek isabetini koruyor mu | ⚠️ **Kısmen** — ön-üretilmiş sayfalar `HIT`, on-demand üretilenler rewrite üzerinden **hiç önbelleğe girmiyor** | **K-46:** `generateStaticParams` yayındaki tüm slug'ları döndürür. Vercel kenarında ayrıca ölçülecek |
+| 2 | Geçirgen kök layout + kök `not-found.tsx` Next 15'te çalışıyor mu | ✅ | — |
+| 3 | Supabase çerez ön eki (`sb-`) doğru mu | ✅ — ama çerez `.0 .1 .2` diye parçalanıyor | Erken çıkış kontrolü tam adla değil **ön ek + `-auth-token`** ile yazılır; proje ref'ine sabitlenmez |
+| 4 | RPC'deki OR dallanması ifade indeksini kullanıyor mu | ✅ generic plan'da bile `BitmapOr` (0.16 ms); `CASE` 58× yavaş | Faz 2'de DB testiyle sabitlenir |
+| 5 | `next/og` fontu Türkçe glifleri kapsıyor mu | ✅ `ı` / `İ` dahil | Marka fontu Faz 4'te ayrıca sınanır |
