@@ -1,6 +1,28 @@
 # Veritabanı Şeması
 
-~80 tablo, tamamı RLS korumalı. Gerçek DDL `supabase/migrations/` altındadır; bu doküman **yapıyı ve sözleşmeleri** anlatır.
+83 tablo + 4 görünüm, tamamı RLS korumalı. Gerçek DDL `supabase/migrations/` altındadır; bu doküman **yapıyı ve sözleşmeleri** anlatır.
+
+> **Canlı görünüm:** `npm run db:report` → `supabase/.temp/schema-report.html`. Migration'ları boş bir Postgres'e uygulayıp **katalogdan** üretir: her tablo, kolon, politika, kısıt, indeks ve rol bazlı yetki matrisi. Elle yazılmadığı için şemadan ayrışamaz.
+
+## Sözleşme Prosedürleri
+
+80 tabloda aynı DDL'i elle tekrarlamak yerine sözleşmeler `app_private` şemasındaki prosedürlerle uygulanır. Migration'da tek satır; böylece bir tabloda `with check` ya da slug indeksi **unutulamaz**.
+
+| Çağrı | Ne ekler |
+|---|---|
+| `secure(t)` | RLS açar · platformun varsayılan yetkilerini **geri alır** (yetkiler açıkça verilir) |
+| `allow_public_read(t, koşul)` | `anon`+`authenticated`'a `select` yetkisi + politika |
+| `allow_staff_read(t, roller…)` / `allow_staff_write(t, roller…)` | Rol bazlı politika — yazmada `using` **ve** `with check` |
+| `content_policies(t)` | Yayındaki → herkes · taslak → içerik ekibi + viewer · yazma → içerik ekibi |
+| `publishable(t, başlık_kolonu)` | `status` · `published_locales` · `published_at` · `translation_meta` + K-07/K-08 kısıtı |
+| `localized_slug(t, tip)` | Biçim `CHECK`'i · TR/EN kısmi unique ifade indeksi · `slug_history` tetikleyicisi |
+| `seo_columns(t)` · `sortable(t, kapsam)` · `track_updated_at(t)` · `audited(t)` | İlgili kolon/tetikleyiciler |
+
+`app_private` API'ye **açılmaz** (`config.toml › [api].schemas` içinde yok). `security definer` fonksiyonlar bu yüzden burada durur; `public`'te dursalardı `/rest/v1/rpc` ile çağrılabilirlerdi.
+
+### ⚠️ `CHECK` kısıtı `NULL`'ı geçer sayar
+
+`CHECK` yalnız sonuç `FALSE` ise reddeder. `slug->>'tr'` anahtarı yoksa `NULL ~ 'regex'` → `NULL` → kısıt **sessizce onaylar** (kolon `NOT NULL` olsa bile JSONB'nin *içi* korunmaz). Doğrulayıcı fonksiyonların hepsi bu yüzden `coalesce(…, false)` ile sarılıdır. Bu hatayı yapısal test değil, kötü veriyi gerçekten eklemeye çalışan davranış testi yakaladı.
 
 ## Ortak Sözleşmeler
 
@@ -76,7 +98,7 @@ GIN değil — GIN benzersizlik uygulayamaz. Ayrıntı: [`../architecture/02-ROU
 
 ## Tablo Grupları
 
-### Kullanıcı & Sistem (8)
+### Kullanıcı & Sistem (11)
 
 | Tablo | İçerik |
 |---|---|
@@ -87,7 +109,10 @@ GIN değil — GIN benzersizlik uygulayamaz. Ayrıntı: [`../architecture/02-ROU
 | `audit_logs` | Kim, ne zaman, neyi değiştirdi (eski/yeni değer JSONB) |
 | `error_logs` | Yol, hata kodu, mesaj, stack, **modül etiketi**, kullanıcı, IP |
 | `slug_history` | Eski slug → 308 yönlendirme kaynağı |
-| `redirects` | Elle tanımlanan yönlendirmeler |
+| `redirects` | Elle tanımlanan yönlendirmeler (410 Gone dahil) |
+| `media_library` | Tüm görsel/video/belge kayıtları — `alt` JSONB (TR/EN), `variants` (WebP boyutları) |
+| `content_revisions` | Editördeki revizyon geçmişi — her içerik tipi için ortak |
+| `document_counters` | `TLP-2026-0118` · `SAT-2026-0042` — yıl başına, yarışa dayanıklı sayaç |
 
 **Roller:** `super_admin` · `admin` · `editor` · `sales` · `viewer` · `member`
 
@@ -153,16 +178,16 @@ GIN değil — GIN benzersizlik uygulayamaz. Ayrıntı: [`../architecture/02-ROU
 
 🔒 **Kalın yazılanlar maliyet/kâr alanlarıdır** — `sales` rolüne RLS seviyesinde kapalıdır.
 
-### Konfigüratör (7)
+### Konfigüratör (8)
 
-`steel_profiles` · `material_prices` · `panel_types` · `configurator_rules` · `configurations` · `configuration_versions` · `configuration_items`
+`steel_profiles` · `material_prices` · `material_price_history` (tetikleyiciyle dolan fiyat geçmişi) · `panel_types` · `configurator_rules` · `configurations` · `configuration_versions` · `configuration_items`
 
 `configurations` hem üye (`user_id`) hem anonim (`public_token`) sahipliği destekler.
 `material_prices` **fiyatın tek kaynağıdır** — fiyat rehberi ve konfigüratör buradan okur.
 
-### Servis (8)
+### Servis (7)
 
-`email_templates` · `email_queue` · `email_logs` · `media_library` · `whatsapp_settings` · `ui_translations` · `translation_glossary` · `faqs`
+`email_templates` · `email_queue` · `email_logs` · `whatsapp_settings` · `ui_translations` · `translation_glossary` · `cron_heartbeats` (canlılık denetimi) — `media_library` temelde, `faqs` içerik migration'ında
 
 `faqs` **polimorfiktir**: `entity_type` + `entity_id` (boş = genel SSS sayfası). Böylece SSS bloğu hizmet, ürün, çözüm ve proje sayfalarında aynı şekilde çalışır.
 

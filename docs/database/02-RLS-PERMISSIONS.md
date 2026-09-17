@@ -53,7 +53,9 @@ sale_items.unit_cost · sale_items.line_cost · sale_items.line_profit
 sale_expenses.*  (tüm tablo)
 ```
 
-**Uygulama:** Maliyet içermeyen bir görünüm (`view`) `sales` rolüne açılır; temel tablolar yalnız `admin` ve `super_admin`'e görünür. Böylece API üzerinden bile çekilemez.
+**Uygulama:** Temel tablolar (`sales`, `sale_items`, `sale_expenses`) yalnız `admin` ve `super_admin`'e açıktır. Satış personeli ve viewer, maliyet kolonu **içermeyen** `sales_without_cost` / `sale_items_without_cost` görünümlerini kullanır — böylece API üzerinden bile çekilemez.
+
+Görünümler sahibinin yetkisiyle çalışır ve temel tablonun RLS'ini atlar (bilinçli: erişim, görünümün `WHERE`'indeki rol kontrolüdür; `security_barrier` açık). Yazma bu yüzden RLS ile değil **`guard_sales_write` tetikleyicisiyle** denetlenir: viewer okur ama yazamaz · sales yazar ama maliyet kolonuna dokunamaz ve satış silemez. Birisi ileride temel tabloyu yanlışlıkla açsa bile tetikleyici maliyet yazımını reddeder (testle sabit). Supabase linter'ı "security definer view" uyarısı verir; burada tasarımın kendisidir.
 
 **Neden bu kadar sıkı:** Satış personelinin kâr marjını görmesi, müşteriyle pazarlıkta firmanın aleyhine kullanılabilir. Arayüzde gizlemek yetmez — tarayıcı geliştirici araçlarından ağ isteği incelenebilir.
 
@@ -115,7 +117,13 @@ $$;
 
 ## Test
 
-RLS politikaları **pgTAP** ile test edilir. Her rol için:
+RLS politikaları **PGlite + Vitest** ile test edilir (K-47 — pgTAP Docker gerektirir). `supabase/tests/helpers/db.ts › as()` gövdeyi PostgREST'in yapacağı gibi çalıştırır: DB rolüne geçer (`anon` / `authenticated`), JWT claim'lerini yazar, sonunda geri alır.
+
+```ts
+expect(await as(db, user(users.ids.sales), (tx) => count(tx, 'select 1 from public.sales'))).toBe(0);
+```
+
+Her rol için:
 
 ```
 □ Görmesi gereken satırları görüyor mu
@@ -125,5 +133,7 @@ RLS politikaları **pgTAP** ile test edilir. Her rol için:
 ```
 
 **En sık atlanan:** İkinci madde. "Admin her şeyi görüyor" testi geçer ama "sales maliyeti görmüyor" testi yazılmazsa açık fark edilmez.
+
+**Yapısal emniyetler** (`conventions.test.ts`) tek tek politikaların ötesini korur: her tabloda RLS açık · anonim hiçbir tabloya yazamaz · **anonimin okuyabildiği tablolar açık bir listeyle birebir aynı** (yeni tabloyu yanlışlıkla açan migration testi kırar) · her yazma politikasında `with check` var · her `security definer` fonksiyonda `search_path` sabit.
 
 Bitti Tanımı'nda **"RLS yetkisiz rolle test edildi"** maddesi bunu zorunlu kılar.

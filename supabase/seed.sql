@@ -1,0 +1,3 @@
+-- Yalnız GELİŞTİRME verisi buraya gelir (supabase db reset sonrası çalışır; db push ÇALIŞTIRMAZ).
+-- Üretimde de gereken yapısal kayıtlar migration'dadır: migrations/0012_reference_data.sql
+-- İlk super_admin: scripts/create-super-admin.mjs

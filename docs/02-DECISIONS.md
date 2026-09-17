@@ -238,6 +238,17 @@ Sıcaklık haritası, öfke tıklaması ve form analizi "tıkanma" noktalarını
 **Bilinen bedeli:** Son dağıtımdan sonra yayınlanan yeni içerik, bir sonraki dağıtıma kadar her ziyarette sunucuda render edilir. Veri önbellekli olduğu için maliyet bir DB sorgusu değil, bir React render'ıdır. Yoğun içerik girişinde "yayınla → Vercel deploy hook (gecikmeli, toplu)" seçeneği Faz 7'de değerlendirilir.
 **Açık kalan:** Sonuç `next start` içindir; Vercel kenarında ilk dağıtımda ölçülür. Kanıt: `docs/architecture/06-ASSUMPTION-EXPERIMENTS.md`.
 
+### K-47 · Docker'sız veritabanı akışı: PGlite testleri + uzak geliştirme projesi
+Yerel `supabase start` (Docker) kullanılmaz. Migration'lar elle yazılır; **PGlite** (süreç içi gerçek Postgres) üzerinde Vitest ile test edilir; ardından ayrı bir **geliştirme** Supabase projesine, doğrulandıktan sonra **üretim** projesine `db push` edilir.
+**Neden:** Geliştirme makinesinde Docker yok ve kurulması istenmedi. PGlite, RLS'in dayandığı üç şeyi de destekliyor (`set role`, politika değerlendirmesi, `request.jwt.claims`) — 108 test 83 tabloyu yedi ayrı veritabanında sıfırdan kurup ~4 saniyede koşuyor; `db reset` + pgTAP döngüsü dakikalar sürerdi. CI'da da gizli anahtar gerekmiyor.
+**Bilinen bedeli:** `db diff` yok (zaten elle yazıyoruz). Auth akışları, Storage politikaları ve Realtime PGlite'ta taklit edilemez — yalnız geliştirme projesinde doğrulanır. PGlite Postgres 18, Supabase 17: sürüme özgü sözdiziminden kaçınılır.
+**Yan kazanç:** Uzantı olmadığı için şema uzantısız kaldı → MSSQL geçişinde (K-02) bir engel daha az.
+
+### K-48 · Şema sözleşmeleri prosedürle uygulanır, yetkiler açıkça verilir
+Tekrarlayan DDL (`updated_at` tetikleyicisi, slug indeksleri, yayın kolonları, RLS politikaları) `app_private` şemasındaki prosedürlerle eklenir. Her tabloda önce platformun varsayılan yetkileri **geri alınır**, sonra yalnız gereken yetki verilir.
+**Neden:** 83 tabloda elle tekrar, bir tabloda `with check`'in ya da EN slug indeksinin unutulmasını garanti eder. Açık yetki ise çift kemerdir: Supabase yeni tabloyu varsayılan olarak API rollerine tam yetkili açar; RLS tek savunma olmamalı.
+**Bilinen bedeli:** Kolonların bir kısmı `create table` içinde görünmez (`call app_private.publishable(…)` ile gelir). Karşılığı: `npm run db:report` katalogdan tam görünümü üretir.
+
 ---
 
 ## Değiştirilen Kararlar

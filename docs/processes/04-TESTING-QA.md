@@ -6,7 +6,7 @@
 |---|---|---|
 | **Tip** | TypeScript `strict` | Derleme zamanı |
 | **Birim** | Vitest | **Metraj motoru · tevkifat/KDV hesabı · slug üretimi · `returnUrl` doğrulayıcı** — hata pahalı olan saf mantık |
-| **Veritabanı** | pgTAP | RLS: her rol için görmeli/görmemeli satırlar |
+| **Veritabanı** | **PGlite + Vitest** (`npm run test:db`) | Migration zinciri sıfırdan · RLS: her rol için görmeli/**görmemeli** satırlar · kısıtlar · indeks planı — Docker'sız, ~4 sn (K-47) |
 | **E2E** | Playwright | Teklif gönderme · teklif sepeti · giriş + returnUrl · konfigürasyon kaydetme · admin CRUD · dil değiştirme |
 | **Görsel regresyon** | Playwright screenshot | Bölümler 3 kırılımda bozulmuyor |
 | **Erişilebilirlik** | axe-core + klavye + VoiceOver | Odak sırası, etiket, kontrast, ARIA |

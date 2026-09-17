@@ -7,6 +7,20 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 2 · Veritabanı
+- **K-47 Docker'sız akış:** migration'lar elle yazılır, PGlite (süreç içi Postgres) üzerinde Vitest ile test edilir, sonra uzak projeye `db push` edilir
+- `supabase/migrations/0001–0012` — 83 tablo + 4 görünüm, 171 RLS politikası, tamamı uzantısız
+- `app_private` şeması: rol yardımcıları (`has_role`, `user_role`), sözleşme prosedürleri (K-48), denetim ve slug geçmişi tetikleyicileri, belge numarası sayacı
+- Finans: `sales_without_cost` / `sale_items_without_cost` görünümleri + `guard_sales_write` tetikleyicisi (K-33) · satış ve fatura tutarları `CHECK` ile kilitli (K-31, K-32)
+- `get_project_by_slug` (RPC şablonu) · `resolve_old_slug` (308) · `get_configuration_by_token` (anonim erişim tabloya değil RPC'ye) · `mark_notifications_read`
+- `supabase/tests/` — 108 test: migration zinciri, şema sözleşmeleri, rol rol RLS, slug kuralları, indeks planı
+- `scripts/generate-schema-report.mjs` (`npm run db:report`) — katalogdan üretilen şema gezgini
+- `scripts/create-super-admin.mjs` — ilk yönetici; davet e-postasıyla, şifre betikten geçmeden
+- npm: `test:db` · `db:push` · `db:status` · `db:types` · `db:report`
+
+### Düzeltildi — Faz 2
+- Slug doğrulayıcıları `coalesce(…, false)` ile sarıldı: `CHECK` kısıtı `NULL`'ı geçer saydığı için TR anahtarı olmayan slug kabul ediliyordu (davranış testi yakaladı)
+
 ### Eklendi — Faz 1 · İskelet + i18n
 - **Varsayım deneyleri** (`experiments/faz-01/`, sonuçlar `docs/architecture/06-ASSUMPTION-EXPERIMENTS.md`): 4'ü doğrulandı, #1 kısmen — rewrite edilen yolda on-demand ISR önbelleğe yazmıyor → **K-46**
 - Uygulama iskeleti: Next.js 15.5.25 · React 19.1 · TypeScript strict (`noUncheckedIndexedAccess`) · Tailwind v4

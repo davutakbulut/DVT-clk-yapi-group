@@ -9,9 +9,18 @@ Dal    : main (korumalı) ← feat/faz-NN-konu
 
 ## Supabase
 
+İki proje (K-47 — Docker'sız akışta yerel veritabanının yerini geliştirme projesi alır):
+
+| Ortam | Proje ref | Not |
+|---|---|---|
+| **Geliştirme** | `dzgfhmsfvbwsxdddxxhb` | Migration'ların ilk uygulandığı yer · `.env.local` buna bakar |
+| **Üretim** | `exifnifijxnrxagkqwam` | Yayına (Faz 12) kadar dokunulmaz |
+
+> ⚠️ **Teyit bekliyor:** Hangi projenin hangi ortam olduğu ürün sahibinden henüz doğrulanmadı; yukarıdaki eşleme çalışma varsayımıdır.
+
 ```
-Proje ref   : exifnifijxnrxagkqwam
-URL         : https://exifnifijxnrxagkqwam.supabase.co
+Proje ref   : <yukarıdaki tablodan>
+URL         : https://<ref>.supabase.co
 Publishable : sb_publishable_…   (tarayıcıya iner, tasarım gereği açık)
 Secret      : sb_secret_…        ⚠ repoya veya sohbete yazılmaz
 DB şifresi  : ⚠ yalnız Vercel ortam değişkenlerinde
@@ -19,10 +28,14 @@ DB şifresi  : ⚠ yalnız Vercel ortam değişkenlerinde
 
 Kurulum:
 ```bash
+brew install supabase/tap/supabase
 supabase login
-supabase init
-supabase link --project-ref exifnifijxnrxagkqwam
+supabase link --project-ref dzgfhmsfvbwsxdddxxhb     # veritabanı şifresini KENDİ isteminde sorar
+npm run db:push                                        # migration'ları uygular
+npm run db:types                                       # src/types/database.ts üretir
 ```
+
+`supabase init` yapılmış durumda (`supabase/config.toml` repoda).
 
 ### ⚠️ Bağlantı portu
 
@@ -62,10 +75,11 @@ REVALIDATE_SECRET                 Supabase webhook imzası
 
 | Ortam | Veritabanı | Kullanım |
 |---|---|---|
-| **Yerel** | `supabase start` (Docker, izole) | Geliştirme · migration denemesi · seed |
+| **Test** | PGlite (süreç içi) | `npm run test:db` — migration zinciri, RLS, kısıtlar |
+| **Geliştirme** | `dzgfhmsfvbwsxdddxxhb` | `db push` · Auth/Storage denemeleri |
 | **Üretim** | `exifnifijxnrxagkqwam` | Canlı |
 
-> ⚠️ Ayrı staging projesi **şimdilik yok.** Vercel önizleme dağıtımları üretim veritabanına bağlanır — önizlemede yapılan bir silme işlemi canlı veriyi etkiler. **Riskli fazlarda (2, 21–24 finans) ayrı staging projesi açılması önerilir.**
+> Vercel önizleme dağıtımları **geliştirme** projesine bağlanmalıdır (Vercel › Environment Variables › Preview). Üretime bağlanırsa önizlemede yapılan bir silme canlı veriyi etkiler.
 
 ## CI/CD
 

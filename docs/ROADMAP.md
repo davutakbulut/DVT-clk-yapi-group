@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 2 — Veritabanı ⏳ (sırada) · Faz 1 PR'da
+**Şu an:** Faz 3 — Medya migrasyonu ⏳ (sırada) · Faz 1–2 PR'da · Faz 2'nin `db push` adımı ürün sahibinde
 
 ---
 
@@ -19,7 +19,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
-| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–1 ✅ · Faz 2 sırada |
+| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–2 ✅ · Faz 3 sırada |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
@@ -54,7 +54,20 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Vitest 36 · Playwright 51 (3 kırılım, axe WCAG 2.1 AA) · Lighthouse 100/100/100
   - [x] CI: lint · typecheck · test · circular · statik tarama · build · audit · e2e · Lighthouse
   - [ ] *Açık:* Varsayım #1'in Vercel kenarında ölçümü — ilk Vercel dağıtımında (`experiments/faz-01/next-canary`)
-- [ ] **Faz 02** — Veritabanı (~80 tablo, RLS, ilk super_admin seed)
+- [x] **Faz 02** — Veritabanı ✅ 2026-09-18 *(kod tamam · uzak projeye uygulama bekliyor)*
+  - [x] **Docker'sız akış (K-47):** elle migration → PGlite testleri → geliştirme projesi → üretim
+  - [x] 12 migration · **83 tablo + 4 görünüm** · 171 RLS politikası · 129 FK · 226 CHECK · uzantısız
+  - [x] Sözleşme prosedürleri (K-48): `secure` · `publishable` · `localized_slug` · `content_policies` · `sortable` · `audited`
+  - [x] K-33: maliyet/kâr `sales` rolüne DB seviyesinde kapalı (maliyetsiz görünümler + yazma tetikleyicisi)
+  - [x] K-07/K-08 kısıtla zorlanıyor: insan onayı olmadan `en` yayına giremez
+  - [x] K-15: `slug_history` tetikleyicisi + `resolve_old_slug` · K-31: tevkifat hesabı CHECK ile kilitli
+  - [x] `get_project_by_slug` RPC şablonu — Faz 1 deney #4 (OR → BitmapOr) testle sabitlendi
+  - [x] **108 veritabanı testi** (~4 sn): her rol için görmeli / **görmemeli** / yazmalı / yazmamalı
+  - [x] Yapısal emniyetler: her tabloda RLS · anonim yazamaz · anonime açık tablolar açık listeyle birebir
+  - [x] `npm run db:report` — katalogdan üretilen şema gezgini + yetki matrisi
+  - [x] Referans verisi migration'da; gerçek-veri tabloları (fiyat, yorum, proje, ekip, sertifika) **boş**
+  - [ ] *Ürün sahibi:* `supabase login` → `link` → `npm run db:push` → `create-super-admin.mjs` → `npm run db:types`
+  - [ ] *Teyit:* hangi Supabase projesi geliştirme, hangisi üretim (`docs/processes/05-ENVIRONMENTS.md`)
 - [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*
 - [ ] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp

@@ -6,37 +6,44 @@
 
 Her şema değişikliği versiyonlu bir migration dosyası olarak geçer. Aksi hâlde şema ile kod birbirinden kopar ve hangi ortamda ne olduğu bilinemez hale gelir.
 
-## Ortamlar
+## Ortamlar — Docker'sız (K-47)
 
 | Ortam | Veritabanı | Kullanım |
 |---|---|---|
-| **Yerel** | `supabase start` (Docker, izole) | Geliştirme, migration denemesi, seed |
-| **Üretim** | Supabase bulut projesi | Canlı |
+| **Test** | **PGlite** — süreç içi gerçek Postgres (WASM), Vitest içinde | Migration zinciri · RLS · kısıtlar · indeks planı. ~4 sn, internetsiz, gizli anahtarsız |
+| **Geliştirme** | Supabase bulut projesi (geliştirme) | `db push` ile ilk gerçek uygulama · Auth/Storage denemeleri · elle doğrulama |
+| **Üretim** | Supabase bulut projesi (üretim) | Canlı — yalnız geliştirmede doğrulanmış migration'lar |
 
-Ayrı bir staging projesi şimdilik yok. Vercel önizleme dağıtımları **üretim veritabanına** bağlanır — önizlemede yapılan bir silme işlemi canlı veriyi etkiler. Riskli fazlarda (2, 21–24 finans) ayrı staging projesi açılması önerilir.
+`supabase start` (Docker) **kullanılmıyor.** Yerini iki şey aldı: hızlı geri bildirim için PGlite testleri, gerçek platform davranışı için ayrı bir geliştirme projesi. Docker gerektiren CLI komutları (`start`, yerel `db reset`, `db diff`, `db pull`, `test db`) akışta yok; gerektirmeyenler (`login`, `link`, `db push`, `migration list`, `gen types --linked`) var.
 
 ## Akış
 
 ```
-1. Yerelde değişiklik yap      supabase start · SQL çalıştır veya Studio'dan düzenle
-2. Farkı dosyaya al            supabase db diff -f <sıra>_<konu>
-3. Gözden geçir                üretilen SQL'i oku — beklenmeyen DROP var mı?
-4. Yerelde sıfırdan dene       supabase db reset   (tüm migration'lar baştan çalışır)
-5. Commit + PR                 supabase/migrations/0007_add_product_variants.sql
-6. Merge sonrası               supabase db push    (üretime uygulanır)
+1. Migration'ı ELLE yaz          supabase/migrations/00NN_<konu>.sql   (tablo + RLS aynı dosyada)
+2. Testini yaz                   supabase/tests/*.test.ts
+3. Sıfırdan uygula + test et     npm run test:db        ← `db reset`in karşılığı: her test dosyası boş DB'den başlar
+4. Gözle bak                     npm run db:report      → supabase/.temp/schema-report.html
+5. Commit + PR                   CI aynı testleri koşar
+6. Geliştirme projesine uygula   npm run db:push        (supabase link ile bağlı proje)
+7. Doğrula, sonra üretime        supabase link --project-ref <üretim> && npm run db:push
 ```
 
-**Adım 4 neden zorunlu:** `db diff` bazen sıralamayı yanlış üretir. `db reset` ile tüm zincir baştan çalışır; sırada bir sorun varsa orada patlar, üretimde değil.
+**`db diff` neden yok:** Migration'lar elle yazılıyor — üretilen SQL'de "beklenmeyen DROP var mı" diye bakmaya gerek kalmıyor, çünkü her satırı biz yazdık.
+
+**Adım 3 neden yeterli:** Her test dosyası **boş** bir veritabanına tüm zinciri baştan uygular. Sıralama hatası (FK'nin tablodan önce gelmesi gibi) orada patlar, üretimde değil.
+
+**PGlite'ın sınırı:** Supabase'in `auth` şeması, rolleri ve varsayılan yetkileri `supabase/tests/helpers/supabase-shim.sql` ile taklit edilir. Şim, platformun **en gevşek** hâlini kurar (her tablo API rollerine tam yetkili) — testler böylece "RLS tek başına tutuyor mu"yu ölçer. Uzantı yoktur (`pg_cron` dahil); şema bu yüzden uzantısızdır ve zamanlama varlık kontrolüyle korunur. Auth akışları, Storage politikaları ve Realtime **yalnız geliştirme projesinde** doğrulanabilir.
 
 ## Dosya Adlandırma
 
 ```
 supabase/migrations/
-├─ 0001_initial_schema.sql
-├─ 0002_rls_policies.sql
-├─ 0003_seed_functions.sql
-├─ 0004_content_tables.sql
-└─ 0005_product_catalog.sql
+├─ 0001_foundation.sql          yardımcı şema · profiller · sözleşme prosedürleri · sistem tabloları
+├─ 0002_content.sql             içerik + ilişki + SSS
+├─ 0003_product_catalog.sql
+├─ …
+├─ 0011_slug_resolution.sql     RPC şablonu · slug geçmişi → 308 · bakım zamanlaması
+└─ 0012_reference_data.sql      yapısal kayıtlar (menüler, ayar anahtarları, hata sayfası metinleri, sözlük)
 ```
 
 Sıra numarası + konu. Tarih damgası kullanılmaz — dal birleştirmelerinde çakışma yaratır.
@@ -78,7 +85,9 @@ create policy "editors manage" on products
 supabase/seed.sql
 ```
 
-İlk `super_admin` hesabı, menü yapısı, site ayarları, terim sözlüğü ve örnek içerik burada. `supabase db reset` sonrası otomatik çalışır.
+`supabase db push` **seed.sql'i çalıştırmaz.** Bu yüzden üretimde de gereken yapısal kayıtlar (menü kapsayıcıları, ayar anahtarları, hata sayfası metinleri, terim sözlüğü) `0012_reference_data.sql` **migration**'ındadır — tekrar çalışsa zarar vermez ve panelden yapılan düzenlemeyi ezmez. `seed.sql` yalnız geliştirme verisi içindir.
+
+İlk `super_admin`: `node --env-file=.env.local scripts/create-super-admin.mjs <e-posta> "Ad Soyad"` — davet e-postası gider, şifreyi kişi kendi belirler; şifre hiçbir betikten geçmez.
 
 **Seed'de gerçek olmayan veri yoktur:** uydurma fiyat, sahte müşteri yorumu, hayalî proje bilgisi seed'e girmez. Bu tablolar boş başlar.
 

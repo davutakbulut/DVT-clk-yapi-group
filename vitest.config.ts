@@ -6,6 +6,6 @@ export default defineConfig({
   test: {
     environment: 'node',
     // Testler modülün içinde yaşar (CONTRIBUTING) — merkezi tests/ klasörü yok
-    include: ['src/**/__tests__/**/*.test.ts', 'src/**/__tests__/**/*.test.tsx'],
+    include: ['src/**/__tests__/**/*.test.ts', 'src/**/__tests__/**/*.test.tsx', 'supabase/tests/**/*.test.ts'],
   },
 });
