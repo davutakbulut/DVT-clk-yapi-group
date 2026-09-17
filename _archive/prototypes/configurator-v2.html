@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Başkurt Yapı — Çelik Konstrüksiyon Konfigüratörü (Prototip v2)</title>
+<style>
+  :root{
+    --charcoal:#1C2126; --steel:#3A4750; --rust:#A8461F; --rust-light:#C25A2C;
+    --concrete:#EDEAE3; --paper:#F7F6F4; --line:#D8D3C8; --ink:#14171A;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',Arial,sans-serif;background:var(--charcoal);color:var(--paper);}
+  #app{display:grid;grid-template-columns:340px 1fr;height:100vh;}
+  #panel{background:var(--charcoal);border-right:1px solid #2B3138;padding:22px;overflow-y:auto;}
+  #panel h1{font-size:18px;margin:0 0 4px 0;font-weight:700;}
+  #panel .sub{color:#9AA5AC;font-size:12.5px;margin-bottom:20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:flex;justify-content:space-between;font-size:12.5px;color:#C7CDD1;margin-bottom:5px;}
+  .field label span.val{color:var(--rust-light);font-family:monospace;}
+  .field input[type=range]{width:100%;accent-color:var(--rust);}
+  .divider{height:1px;background:#2B3138;margin:18px 0;}
+  .legend{font-size:11.5px;color:#9AA5AC;line-height:1.7;}
+  .legend .row{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid #2B3138;padding:5px 0;}
+  .legend .row span:last-child{color:var(--paper);font-family:monospace;text-align:right;}
+  .swatch{display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:1px;vertical-align:middle;flex-shrink:0;}
+  #stats{font-size:11.5px;color:#9AA5AC;margin-top:14px;line-height:1.8;}
+  #stats b{color:var(--paper);}
+  #modeflag{font-size:11px;margin-top:10px;padding:8px 10px;border-left:2px solid var(--rust);background:rgba(168,70,31,0.12);color:#E3B79E;}
+  #canvas-wrap{position:relative;}
+  #canvas-wrap canvas{display:block;width:100%;height:100%;}
+  #hint{position:absolute;bottom:14px;left:14px;font-size:11px;color:#8D9498;background:rgba(28,33,38,0.7);padding:6px 10px;border:1px solid #2B3138;}
+  #note{position:absolute;top:14px;left:14px;right:14px;font-size:11.5px;color:#C7CDD1;background:rgba(28,33,38,0.88);padding:9px 13px;border-left:2px solid var(--rust);max-width:560px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="panel">
+    <h1>Çelik Konstrüksiyon</h1>
+    <div class="sub">Ölçüleri gir, sistem otomatik oluşsun (prototip v2)</div>
+
+    <div class="field">
+      <label>Bina eni / açıklık (m) <span class="val" id="v-width">20</span></label>
+      <input type="range" id="width" min="8" max="60" step="1" value="20">
+    </div>
+    <div class="field">
+      <label>Bina boyu (m) <span class="val" id="v-length">40</span></label>
+      <input type="range" id="length" min="8" max="100" step="1" value="40">
+    </div>
+    <div class="field">
+      <label>Duvar (saçak) yüksekliği (m) <span class="val" id="v-eave">6</span></label>
+      <input type="range" id="eave" min="3" max="15" step="0.5" value="6">
+    </div>
+    <div class="field">
+      <label>Mahya yüksekliği (m) <span class="val" id="v-ridge">9</span></label>
+      <input type="range" id="ridge" min="4" max="20" step="0.5" value="9">
+    </div>
+    <div class="field">
+      <label>Aks aralığı / makas aralığı (m) <span class="val" id="v-bay">5</span></label>
+      <input type="range" id="bay" min="4" max="10" step="0.5" value="5">
+    </div>
+
+    <div id="modeflag"></div>
+
+    <div class="divider"></div>
+
+    <div class="legend">
+      <div class="row"><span><span class="swatch" style="background:#A8461F"></span>Kolon</span><span>HEB 360</span></div>
+      <div class="row"><span><span class="swatch" style="background:#C25A2C"></span>Ana makas (≤30m)</span><span>IPE 500</span></div>
+      <div class="row"><span><span class="swatch" style="background:#8A6A3A"></span>Makas sistemi (&gt;30m)</span><span>2L 100×100×10</span></div>
+      <div class="row"><span><span class="swatch" style="background:#5C6B75"></span>Aks arası kiriş (mafsallı)</span><span>IPE 300</span></div>
+      <div class="row"><span><span class="swatch" style="background:#8D5A44"></span>Çapraz (duvar/çatı)</span><span>Ø139.7×6.0 boru</span></div>
+      <div class="row"><span><span class="swatch" style="background:#D8D3C8"></span>Birleşim levhaları</span><span>Moment akt. / berkitme</span></div>
+    </div>
+
+    <div id="stats"></div>
+  </div>
+
+  <div id="canvas-wrap">
+    <div id="note">
+      <b>Prototip v2</b> — kolon yönü düzeltildi (güçlü eksen çerçeve düzlemine göre), kolon-makas ve mahya birleşimleri moment aktaran (rijit) olarak gösteriliyor, taban berkitme levhalı (plakasız), aks arası kirişler mafsallı. Statik doğrulama yerine geçmez.
+    </div>
+    <div id="hint">Sürükle: döndür · Tekerlek: yakınlaştır</div>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const wrap = document.getElementById('canvas-wrap');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1C2126);
+scene.fog = new THREE.Fog(0x1C2126, 50, 200);
+
+const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 600);
+camera.position.set(38, 24, 38);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+wrap.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 4, 0);
+controls.enableDamping = true;
+
+scene.add(new THREE.HemisphereLight(0xF7F6F4, 0x1C2126, 0.9));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.1);
+dirLight.position.set(30, 45, 18);
+scene.add(dirLight);
+const fillLight = new THREE.DirectionalLight(0x88a0b0, 0.35);
+fillLight.position.set(-25, 15, -20);
+scene.add(fillLight);
+
+const grid = new THREE.GridHelper(160, 80, 0x3A4750, 0x2B3138);
+scene.add(grid);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshStandardMaterial({ color: 0x14171A, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+ground.position.y = -0.02;
+scene.add(ground);
+
+const structureGroup = new THREE.Group();
+scene.add(structureGroup);
+
+// ---------------- Profile definitions (approx. real dimensions, meters) ----------------
+const I_PROFILES = {
+  HEB360: { h: 0.360, b: 0.300, tf: 0.0225, tw: 0.0125 },
+  IPE500: { h: 0.500, b: 0.200, tf: 0.016, tw: 0.0102 },
+  IPE300: { h: 0.300, b: 0.150, tf: 0.0107, tw: 0.0071 }
+};
+const PIPE = { od: 0.1397, wall: 0.006 };
+const ANGLE = { leg: 0.100, t: 0.010, gap: 0.012 };
+
+const columnMat = new THREE.MeshStandardMaterial({ color: 0xA8461F, roughness: 0.55, metalness: 0.35 });
+const rafterMat = new THREE.MeshStandardMaterial({ color: 0xC25A2C, roughness: 0.5, metalness: 0.35 });
+const trussMat = new THREE.MeshStandardMaterial({ color: 0x8A6A3A, roughness: 0.5, metalness: 0.4 });
+const purlinMat = new THREE.MeshStandardMaterial({ color: 0x5C6B75, roughness: 0.55, metalness: 0.3 });
+const braceMat = new THREE.MeshStandardMaterial({ color: 0x8D5A44, roughness: 0.6, metalness: 0.35 });
+const plateMat = new THREE.MeshStandardMaterial({ color: 0xD8D3C8, roughness: 0.6, metalness: 0.25, side: THREE.DoubleSide });
+
+// ---------------- Shape builders ----------------
+function iBeamShape(p) {
+  const { h, b, tf, tw } = p;
+  const hh = h / 2, hb = b / 2, ht = tw / 2;
+  const s = new THREE.Shape();
+  s.moveTo(-hb, hh); s.lineTo(hb, hh); s.lineTo(hb, hh - tf); s.lineTo(ht, hh - tf);
+  s.lineTo(ht, -(hh - tf)); s.lineTo(hb, -(hh - tf)); s.lineTo(hb, -hh); s.lineTo(-hb, -hh);
+  s.lineTo(-hb, -(hh - tf)); s.lineTo(-ht, -(hh - tf)); s.lineTo(-ht, hh - tf); s.lineTo(-hb, hh - tf);
+  s.closePath();
+  return s;
+}
+function pipeShape(p) {
+  const rOut = p.od / 2, rIn = rOut - p.wall;
+  const s = new THREE.Shape();
+  s.absarc(0, 0, rOut, 0, Math.PI * 2, false);
+  const hole = new THREE.Path();
+  hole.absarc(0, 0, rIn, 0, Math.PI * 2, true);
+  s.holes.push(hole);
+  return s;
+}
+function angleShape(leg, t) {
+  const s = new THREE.Shape();
+  s.moveTo(0, 0); s.lineTo(leg, 0); s.lineTo(leg, t); s.lineTo(t, t); s.lineTo(t, leg); s.lineTo(0, leg);
+  s.closePath();
+  return s;
+}
+
+function extrudeCentered(shape, length) {
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: Math.max(length, 0.01), bevelEnabled: false, curveSegments: 12 });
+  geo.translate(0, 0, -length / 2);
+  return geo;
+}
+
+function makeIBeam(key, length, material) {
+  return new THREE.Mesh(extrudeCentered(iBeamShape(I_PROFILES[key]), length), material);
+}
+function makePipe(length, material) {
+  return new THREE.Mesh(extrudeCentered(pipeShape(PIPE), length), material);
+}
+function makeDoubleAngle(length, material) {
+  const grp = new THREE.Group();
+  const g1 = extrudeCentered(angleShape(ANGLE.leg, ANGLE.t), length);
+  const m1 = new THREE.Mesh(g1, material);
+  m1.position.x = -(ANGLE.gap / 2);
+  const g2 = extrudeCentered(angleShape(ANGLE.leg, ANGLE.t), length);
+  const m2 = new THREE.Mesh(g2, material);
+  m2.rotation.z = Math.PI; // mirror
+  m2.position.x = ANGLE.gap / 2;
+  grp.add(m1, m2);
+  return grp;
+}
+
+// ---------------- Orientation: flanges consistently along building length ----------------
+function frameQuaternion(dir) {
+  const zAxis = dir.clone().normalize();
+  const lengthRef = new THREE.Vector3(0, 0, 1);
+  let xAxis = lengthRef.clone().sub(zAxis.clone().multiplyScalar(lengthRef.dot(zAxis)));
+  if (xAxis.lengthSq() < 1e-6) xAxis = new THREE.Vector3(1, 0, 0);
+  xAxis.normalize();
+  const yAxis = new THREE.Vector3().crossVectors(zAxis, xAxis).normalize();
+  const m = new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis);
+  return new THREE.Quaternion().setFromRotationMatrix(m);
+}
+
+function placeBetween(obj, p1, p2) {
+  const start = new THREE.Vector3(...p1), end = new THREE.Vector3(...p2);
+  const mid = start.clone().add(end).multiplyScalar(0.5);
+  const dir = end.clone().sub(start);
+  obj.position.copy(mid);
+  obj.quaternion.copy(frameQuaternion(dir));
+}
+
+function addMember(kind, material, p1, p2) {
+  const len = new THREE.Vector3(...p1).distanceTo(new THREE.Vector3(...p2));
+  let obj;
+  if (kind === 'PIPE') obj = makePipe(len, material);
+  else if (kind === 'L2') obj = makeDoubleAngle(len, material);
+  else obj = makeIBeam(kind, len, material);
+  placeBetween(obj, p1, p2);
+  structureGroup.add(obj);
+  return obj;
+}
+
+// small flat gusset/haunch plate in the local frame (X-Y) plane at a given z
+function addGussetPlate(cx, cy, z, sizeX, sizeY, rotationDeg, thickness = 0.014) {
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0); shape.lineTo(sizeX, 0); shape.lineTo(0, sizeY); shape.closePath();
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: thickness, bevelEnabled: false });
+  geo.translate(0, 0, -thickness / 2);
+  const mesh = new THREE.Mesh(geo, plateMat);
+  mesh.position.set(cx, cy, z);
+  mesh.rotation.z = THREE.MathUtils.degToRad(rotationDeg);
+  structureGroup.add(mesh);
+}
+
+function addNodeBlock(p, size = 0.16) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), plateMat);
+  mesh.position.set(...p);
+  structureGroup.add(mesh);
+}
+
+function clearStructure() {
+  while (structureGroup.children.length) {
+    const o = structureGroup.children.pop();
+    o.traverse?.((c) => c.geometry && c.geometry.dispose());
+    o.geometry?.dispose();
+  }
+}
+
+// roof slope point: side = -1 (left) or +1 (right); t: 0 at eave -> 1 at ridge
+function slopePoint(side, t, z, width, eave, ridge) {
+  const x = side * (width / 2) * (1 - t);
+  const y = eave + (ridge - eave) * t;
+  return [x, y, z];
+}
+
+function build(params) {
+  clearStructure();
+  const { width, length, eave, ridge, bay } = params;
+  const numBays = Math.max(1, Math.round(length / bay));
+  const spacing = length / numBays;
+  const zPositions = [];
+  for (let i = 0; i <= numBays; i++) zPositions.push(-length / 2 + i * spacing);
+
+  const useTruss = width > 30;
+  const halfWidth = width / 2;
+
+  // --- Main transverse frames: columns + rafter (solid or truss) + moment joints ---
+  zPositions.forEach((z) => {
+    const colL_bot = [-halfWidth, 0, z], colL_top = [-halfWidth, eave, z];
+    const colR_bot = [halfWidth, 0, z], colR_top = [halfWidth, eave, z];
+    addMember('HEB360', columnMat, colL_bot, colL_top);
+    addMember('HEB360', columnMat, colR_bot, colR_top);
+
+    // base stiffener plates (no base plate, moment/fixed base with gussets)
+    addGussetPlate(-halfWidth - 0.02, 0.02, z - 0.02, 0.42, 0.55, 0);
+    addGussetPlate(halfWidth - 0.4, 0.02, z - 0.02, 0.42, 0.55, 90);
+
+    if (!useTruss) {
+      const ridgeTop = [0, ridge, z];
+      addMember('IPE500', rafterMat, colL_top, ridgeTop);
+      addMember('IPE500', rafterMat, ridgeTop, colR_top);
+      // eave haunch (moment connection column->rafter)
+      addGussetPlate(-halfWidth + 0.03, eave - 0.03, z - 0.018, 0.9, 0.6, -12);
+      addGussetPlate(halfWidth - 0.93, eave - 0.03, z - 0.018, 0.9, 0.6, 102);
+      // ridge moment connection
+      addGussetPlate(-0.55, ridge - 0.55, z - 0.018, 1.1, 0.7, -8);
+      addNodeBlock(ridgeTop, 0.2);
+    } else {
+      // truss system for spans > 30 m: 2L100x100x10 chords + diagonals (Warren)
+      const numPanels = Math.max(6, Math.round(width / 2.5));
+      const bottomY = eave;
+      const topPts = [];
+      const botPts = [];
+      for (let i = 0; i <= numPanels; i++) {
+        const x = -halfWidth + (i * width) / numPanels;
+        const tRel = 1 - Math.abs(x) / halfWidth;
+        const topY = eave + (ridge - eave) * tRel;
+        topPts.push([x, topY, z]);
+        botPts.push([x, bottomY, z]);
+      }
+      // chords
+      for (let i = 0; i < numPanels; i++) {
+        addMember('L2', trussMat, topPts[i], topPts[i + 1]);
+        addMember('L2', trussMat, botPts[i], botPts[i + 1]);
+      }
+      // Warren diagonals
+      for (let i = 0; i < numPanels; i++) {
+        if (i % 2 === 0) addMember('L2', trussMat, botPts[i], topPts[i + 1]);
+        else addMember('L2', trussMat, topPts[i], botPts[i + 1]);
+      }
+      // moment connection: column top to truss bottom chord end
+      addGussetPlate(-halfWidth + 0.03, eave - 0.33, z - 0.018, 0.6, 0.5, 0);
+      addGussetPlate(halfWidth - 0.63, eave - 0.33, z - 0.018, 0.6, 0.5, 90);
+      addNodeBlock([0, ridge, z], 0.22);
+    }
+  });
+
+  // --- Secondary longitudinal beams between axes (pinned, IPE300) ---
+  for (let i = 0; i < zPositions.length - 1; i++) {
+    const z1 = zPositions[i], z2 = zPositions[i + 1];
+    addMember('IPE300', purlinMat, [-halfWidth, eave, z1], [-halfWidth, eave, z2]);
+    addMember('IPE300', purlinMat, [halfWidth, eave, z1], [halfWidth, eave, z2]);
+    if (!useTruss) addMember('IPE300', purlinMat, [0, ridge, z1], [0, ridge, z2]);
+  }
+
+  // --- Side wall bracing: alternate bays, pipe 139.7x6, "bir dolu bir boş" ---
+  [-halfWidth, halfWidth].forEach((x) => {
+    for (let i = 0; i < numBays; i++) {
+      if (i % 2 === 0) {
+        const z1 = zPositions[i], z2 = zPositions[i + 1];
+        const a = addMember('PIPE', braceMat, [x, 0, z1], [x, eave, z2]);
+        const b = addMember('PIPE', braceMat, [x, eave, z1], [x, 0, z2]);
+        addNodeBlock([x, eave / 2, (z1 + z2) / 2], 0.14);
+      }
+    }
+  });
+
+  // --- Roof bracing: alternate bays, one diagonal pair per 5 m of slope span, pipe 139.7x6 ---
+  const segLen = 5;
+  const nSegSide = Math.max(1, Math.round(halfWidth / segLen));
+  [-1, 1].forEach((side) => {
+    for (let i = 0; i < numBays; i++) {
+      if (i % 2 === 0) {
+        const z1 = zPositions[i], z2 = zPositions[i + 1];
+        for (let s = 0; s < nSegSide; s++) {
+          const t0 = s / nSegSide, t1 = (s + 1) / nSegSide;
+          const A = slopePoint(side, t0, z1, width, eave, ridge);
+          const B = slopePoint(side, t1, z1, width, eave, ridge);
+          const C = slopePoint(side, t0, z2, width, eave, ridge);
+          const D = slopePoint(side, t1, z2, width, eave, ridge);
+          addMember('PIPE', braceMat, A, D);
+          addMember('PIPE', braceMat, B, C);
+          const mid = [(A[0] + D[0]) / 2, (A[1] + D[1]) / 2, (A[2] + D[2]) / 2];
+          addNodeBlock(mid, 0.13);
+        }
+      }
+    }
+  });
+
+  const totalRoofBraceCount = 2 * Math.ceil(numBays / 2) * nSegSide;
+  document.getElementById('stats').innerHTML =
+    `<div>Taban alanı: <b>${(width * length).toFixed(0)} m²</b></div>
+     <div>Açıklık sayısı (aks): <b>${numBays}</b> (aralık ~${spacing.toFixed(1)} m)</div>
+     <div>Kolon adedi: <b>${zPositions.length * 2}</b></div>
+     <div>Çatı çaprazı (segment/kenar): <b>${nSegSide}</b> · toplam çift: <b>${totalRoofBraceCount}</b></div>
+     <div>Çatı sistemi: <b>${useTruss ? 'MAKAS (2L köşebent, >30m)' : 'DÜZ IPE500 MAKAS'}</b></div>`;
+
+  document.getElementById('modeflag').textContent = useTruss
+    ? `Açıklık ${width} m > 30 m — çatıda 2L100×100×10 köşebent makas sistemine otomatik geçildi.`
+    : `Açıklık ${width} m ≤ 30 m — düz IPE500 makas kullanılıyor.`;
+
+  controls.target.set(0, eave / 2, 0);
+}
+
+function readParams() {
+  return {
+    width: parseFloat(document.getElementById('width').value),
+    length: parseFloat(document.getElementById('length').value),
+    eave: parseFloat(document.getElementById('eave').value),
+    ridge: parseFloat(document.getElementById('ridge').value),
+    bay: parseFloat(document.getElementById('bay').value)
+  };
+}
+
+['width', 'length', 'eave', 'ridge', 'bay'].forEach((id) => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    document.getElementById('v-' + id).textContent = el.value;
+    let p = readParams();
+    if (p.ridge < p.eave) { p.ridge = p.eave; document.getElementById('ridge').value = p.eave; document.getElementById('v-ridge').textContent = p.eave; }
+    build(p);
+  });
+});
+
+build(readParams());
+
+window.addEventListener('resize', () => {
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+
+</body>
+</html>

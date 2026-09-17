@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Çelik Konstrüksiyon ile Kentsel Dönüşüm | CLK Yapı Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1315;
+    --charcoal:#1B2A3D;
+    --steel:#3A4750;
+    --steel-light:#5C6B75;
+    --turq:#5C7FA3;
+    --turq-light:#8FA9C4;
+    --bar-dark:#14181C;
+    --paper:#F7F6F4;
+    --line:#2B3A4E;
+    --line-light:#D8D3C8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  h1,h2,h3{font-family:'Syne',sans-serif;font-weight:800;line-height:1.05;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(28,33,38,0.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .kademe-icon{width:32px;height:24px;flex-shrink:0;}
+  .brand .divider{width:1px;height:26px;background:rgba(255,255,255,0.25);}
+  .brand .txt{font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--paper);letter-spacing:0.5px;line-height:1.1;}
+  .brand .txt span{display:block;font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:9px;color:var(--turq-light);letter-spacing:2.5px;margin-top:3px;}
+  .navlinks{display:flex;gap:30px;font-size:14px;font-weight:500;color:#C7CDD1;}
+  .navlinks a:hover{color:var(--turq-light);}
+  .nav-cta{background:var(--turq);color:var(--ink);padding:10px 20px;font-size:13.5px;font-weight:600;}
+  .nav-cta:hover{background:var(--turq-light);}
+  @media(max-width:760px){.navlinks{display:none;}}
+
+  .hero{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:url('https://images.pexels.com/photos/32468329/pexels-photo-32468329/free-photo-of-high-rise-building-under-construction-with-crane.jpeg?auto=compress&cs=tinysrgb&w=1800') center/cover;}
+  .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,19,21,0.35) 0%,rgba(15,19,21,0.55) 55%,rgba(15,19,21,0.92) 100%);}
+  .hero-inner{position:relative;z-index:2;padding:64px 0 56px 0;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--turq-light);display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .eyebrow::before{content:'';width:22px;height:1px;background:var(--turq-light);}
+  .hero h1{font-size:clamp(34px,5.2vw,58px);color:var(--paper);max-width:820px;margin-bottom:20px;}
+  .hero h1 em{font-style:normal;color:var(--turq-light);}
+  .hero p{color:#D8DEE1;font-size:17px;max-width:600px;}
+
+  section{padding:76px 0;border-bottom:1px solid var(--line-light);}
+  .section-head{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:44px;align-items:end;}
+  .section-head .kicker{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .kicker-num{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:var(--ink);background:var(--turq);padding:4px 10px;}
+  .kicker-label{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13.5px;color:var(--turq);letter-spacing:2.5px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,42px);color:var(--charcoal);}
+  .section-head .desc{color:var(--steel);font-size:15.5px;max-width:420px;}
+  @media(max-width:760px){.section-head{grid-template-columns:1fr;}}
+
+  /* SPEED SECTION */
+  .timeline{background:var(--charcoal);padding:40px;margin-bottom:40px;}
+  .timeline .row{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;margin-bottom:22px;}
+  .timeline .row:last-child{margin-bottom:0;}
+  .timeline .lbl{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#9AA5AC;}
+  .timeline .track{background:rgba(255,255,255,0.08);height:34px;position:relative;}
+  .timeline .fill{height:100%;display:flex;align-items:center;padding-left:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);font-weight:500;}
+  .timeline .fill.rc{width:100%;background:#8A9199;}
+  .timeline .fill.steel{width:46%;background:var(--turq);}
+  .timeline .note{font-size:12.5px;color:#8D9498;margin-top:6px;}
+
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-light);margin-bottom:8px;}
+  .stat{background:var(--paper);padding:26px 24px;}
+  .stat .num{font-family:'Syne',sans-serif;font-weight:800;font-size:38px;color:var(--turq);}
+  .stat .lbl{font-size:13px;color:var(--steel);margin-top:6px;}
+  @media(max-width:760px){.stat-row{grid-template-columns:1fr;}}
+
+  p.body-text{color:var(--steel);font-size:16px;max-width:760px;margin-bottom:16px;}
+
+  /* ADVANTAGES GRID */
+  .adv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-light);}
+  .adv-card{background:var(--paper);padding:30px 28px;}
+  .adv-card .idx{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--line-light);margin-bottom:10px;}
+  .adv-card h3{font-size:19px;color:var(--charcoal);text-transform:none;font-weight:700;letter-spacing:0;margin-bottom:10px;}
+  .adv-card p{color:var(--steel);font-size:14.5px;}
+  @media(max-width:760px){.adv-grid{grid-template-columns:1fr;}}
+
+  /* GALLERY */
+  .gallery{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;height:520px;}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block;}
+  .gallery .col{display:grid;grid-template-rows:1fr 1fr;gap:14px;height:100%;}
+  @media(max-width:760px){.gallery{grid-template-columns:1fr;height:auto;}.gallery .col{grid-template-rows:220px 220px;}}
+
+  /* CTA */
+  .cta{background:var(--charcoal);padding:70px 0;border-bottom:none;text-align:center;}
+  .cta h2{color:var(--paper);font-size:clamp(28px,3.6vw,40px);margin-bottom:16px;}
+  .cta p{color:#B9C0C4;margin-bottom:30px;}
+  .btn-primary{display:inline-block;background:var(--turq);color:var(--ink);padding:16px 34px;font-weight:600;font-size:15px;}
+  .btn-primary:hover{background:var(--turq-light);}
+
+  footer{background:var(--charcoal);padding:28px 0;}
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  footer .fine{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8D9498;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand">
+        <svg class="kademe-icon" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="18" width="9" height="12" fill="#8FA9C4"/>
+          <rect x="13" y="10" width="9" height="20" fill="#5C7FA3"/>
+          <rect x="26" y="2" width="9" height="28" fill="#F7F6F4"/>
+        </svg>
+        <div class="divider"></div>
+        <div class="txt">CLK<span>YAPI GROUP</span></div>
+      </a>
+      <div class="navlinks">
+        <a href="index.html#hizmetler">Hizmetler</a>
+        <a href="index.html#projeler">Projeler</a>
+        <a href="index.html#iletisim">İletişim</a>
+      </div>
+      <a href="index.html#iletisim" class="nav-cta">Teklif Al</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow mono">HİZMETLERİMİZ · ÇELİK KONSTRÜKSİYON</div>
+    <h1>Kentsel Dönüşümde <em>Çelik Konstrüksiyon</em> Hızı</h1>
+    <p>İstanbul'da kentsel dönüşüm süreçlerine özel: klasik betonarmeye göre çok daha hızlı tamamlanan, daha hafif ve depreme karşı daha güvenilir kaba yapı çözümü.</p>
+  </div>
+</section>
+
+<section id="hiz" class="wrap">
+  <div class="section-head">
+    <div>
+      <div class="kicker"><span class="kicker-num">01</span><span class="kicker-label">HIZ</span></div>
+      <h2>Neden Bu Kadar Hızlı?</h2>
+    </div>
+    <div class="desc">Proje onaylandıktan sonra çelik karkas fabrikada paralel olarak üretilir — sahada temel çalışması sürerken zaman kaybetmezsiniz.</div>
+  </div>
+
+  <p class="body-text">Betonarme yapıda kalıp, demir, dökümden sonra beton priz ve kür süresi beklenir — bu süreç haftalar sürer. Çelik konstrüksiyonda ise proje onaylanır onaylanmaz karkas parçaları atölyede imalata girer; sahada aynı anda hafriyat ve temel işleri yürütülür. <strong>Temel tamamlandığı anda, önceden imal edilmiş çelik karkasın montajına doğrudan başlanır</strong> — örneğin orta ölçekli bir yapıda montaj birkaç gün içinde tamamlanabilir. Islak inşaat gibi priz/kür beklemesi olmadığı için kaba yapı süreci klasik betonarmeye göre belirgin şekilde kısalır.</p>
+
+  <div class="timeline">
+    <div class="row">
+      <div class="lbl">BETONARME</div>
+      <div>
+        <div class="track"><div class="fill rc">Kalıp → Demir → Döküm → Priz/Kür Bekleme</div></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="lbl">ÇELİK KONSTRÜKSİYON</div>
+      <div>
+        <div class="track"><div class="fill steel">Fabrikada Paralel İmalat → Hızlı Montaj</div></div>
+        <div class="note">Temel işleriyle eş zamanlı üretim sayesinde kaba yapı süresi belirgin şekilde kısalır.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><div class="num">%40-60</div><div class="lbl">Kaba yapı sürecinde tipik hızlanma (sektör ortalaması)</div></div>
+    <div class="stat"><div class="num">0</div><div class="lbl">Priz/kür bekleme süresi — kuru montaj</div></div>
+    <div class="stat"><div class="num">Paralel</div><div class="lbl">Temel + karkas imalatı aynı anda ilerler</div></div>
+  </div>
+</section>
+
+<section id="deprem" class="wrap">
+  <div class="section-head">
+    <div>
+      <div class="kicker"><span class="kicker-num">02</span><span class="kicker-label">GÜVENLİK</span></div>
+      <h2>Daha Hafif, Depreme Karşı Daha Avantajlı</h2>
+    </div>
+    <div class="desc">Yapıya etkiyen deprem kuvveti, büyük ölçüde yapının kütlesiyle orantılıdır.</div>
+  </div>
+  <p class="body-text">Çelik konstrüksiyon, eşdeğer betonarme yapıya göre çok daha hafiftir. Deprem sırasında bir binaya etkiyen yatay kuvvet doğrudan yapının kütlesiyle ilişkili olduğundan, daha hafif bir yapı daha düşük deprem kuvvetine maruz kalır — bu da hem taşıyıcı sistem hem de temel üzerindeki yükü azaltır. Hafif olmanın getirdiği tek fark rüzgar etkisinin nispeten daha belirleyici hale gelmesidir; bu da TBDY 2018 ve Çelik Yapılar Yönetmeliği'ne tam uyumlu tasarımla hesaba katılır. Sonuç: doğru mühendislikle tasarlanmış, güvenilir ve öngörülebilir bir yapı.</p>
+</section>
+
+<section id="digeravantajlar" class="wrap">
+  <div class="section-head">
+    <div>
+      <div class="kicker"><span class="kicker-num">03</span><span class="kicker-label">DİĞER AVANTAJLAR</span></div>
+      <h2>Kentsel Dönüşüme Özel Nedenler</h2>
+    </div>
+    <div class="desc">İstanbul'un yoğun yerleşim dokusunda çelik konstrüksiyonu öne çıkaran ek faktörler.</div>
+  </div>
+  <div class="adv-grid">
+    <div class="adv-card">
+      <div class="idx">01</div>
+      <h3>Dar Parsellerde Az Zahmetli Şantiye</h3>
+      <p>Kuru montaj yöntemi sayesinde saha içi ıslak imalat, kalıp ve uzun süreli beton dökümü olmaz — komşu binalara ve dar sokaklara sıkışan kentsel dönüşüm parsellerinde şantiye süresi ve rahatsızlığı azalır.</p>
+    </div>
+    <div class="adv-card">
+      <div class="idx">02</div>
+      <h3>Fabrika Toleransında Hassasiyet</h3>
+      <p>Karkas parçaları kontrollü atölye ortamında, milimetrik toleranslarla imal edilir; sahadaki insan kaynaklı hata payı düşer, kalite daha öngörülebilir olur.</p>
+    </div>
+    <div class="adv-card">
+      <div class="idx">03</div>
+      <h3>Daha Hafif Temel Yükü</h3>
+      <p>Yapı ağırlığının azalması temele aktarılan yükü de azaltır — özellikle zemin koşulları zorlu parsellerde temel maliyetinde ve büyüklüğünde avantaj sağlayabilir.</p>
+    </div>
+    <div class="adv-card">
+      <div class="idx">04</div>
+      <h3>Esneklik ve Geri Dönüştürülebilirlik</h3>
+      <p>Çelik taşıyıcı sistemler ileride iç mekan değişikliğine ve kat/bölme düzenlemesine betonarmeye kıyasla daha uygundur; malzeme ömrü sonunda da geri dönüştürülebilir.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="border-bottom:none;">
+  <div class="section-head">
+    <div>
+      <div class="kicker"><span class="kicker-num">04</span><span class="kicker-label">ÖRNEKLER</span></div>
+      <h2>Katlı Çelik Yapı</h2>
+    </div>
+    <div class="desc">Çok katlı çelik konstrüksiyon sistemlerinden referans görseller.</div>
+  </div>
+  <div class="gallery">
+    <img src="https://images.pexels.com/photos/32468329/pexels-photo-32468329/free-photo-of-high-rise-building-under-construction-with-crane.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Çok katlı çelik yapı inşaatı, vinç ile montaj">
+    <div class="col">
+      <img src="https://images.pexels.com/photos/35400859/pexels-photo-35400859/free-photo-of-skyscraper-construction-in-birmingham-fog.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Çok katlı çelik konstrüksiyon iskeleti">
+      <img src="https://images.unsplash.com/photo-1643795900098-60630d2e25a8?fm=jpg&q=80&w=900&auto=format&fit=crop" alt="Şehir içi çok katlı çelik yapı taşıyıcı sistemi">
+    </div>
+  </div>
+</section>
+
+<section class="cta" style="border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <h2>Kentsel Dönüşüm Projeniz İçin Hızlı ve Güvenilir Çözüm</h2>
+    <p>Parselinizi ve hedeflediğiniz süreyi anlatın, çelik konstrüksiyon ile size özel bir zaman çizelgesi çıkaralım.</p>
+    <a href="index.html#iletisim" class="btn-primary">Ücretsiz Teklif Al</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="brand">
+      <svg class="kademe-icon" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="18" width="9" height="12" fill="#8FA9C4"/>
+        <rect x="13" y="10" width="9" height="20" fill="#5C7FA3"/>
+        <rect x="26" y="2" width="9" height="28" fill="#F7F6F4"/>
+      </svg>
+      <div class="divider"></div>
+      <div class="txt">CLK<span>YAPI GROUP</span></div>
+    </div>
+    <div class="fine">HİZMET SAYFASI — ÇELİK KONSTRÜKSİYON KENTSEL DÖNÜŞÜM</div>
+  </div>
+</footer>
+
+</body>
+</html>

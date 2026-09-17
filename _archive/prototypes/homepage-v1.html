@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demir Yapı Mühendislik | Çelik Konstrüksiyon & Yapı Çözümleri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171A;
+    --charcoal:#1C2126;
+    --steel:#3A4750;
+    --steel-light:#5C6B75;
+    --rust:#A8461F;
+    --rust-light:#C25A2C;
+    --concrete:#EDEAE3;
+    --paper:#F7F6F4;
+    --line:#D8D3C8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  h1,h2,h3{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  /* NAV */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,246,244,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:900;font-size:22px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand .mark{
+    width:26px;height:26px;
+    background:var(--rust);
+    position:relative;
+    flex-shrink:0;
+  }
+  .brand .mark::before,.brand .mark::after{
+    content:'';position:absolute;background:var(--paper);
+  }
+  .brand .mark::before{width:100%;height:3px;top:50%;left:0;transform:translateY(-50%);}
+  .brand .mark::after{width:3px;height:100%;top:0;left:50%;transform:translateX(-50%);}
+  .navlinks{display:flex;gap:32px;font-size:15px;font-weight:500;}
+  .navlinks a{border-bottom:1px solid transparent;padding-bottom:2px;transition:border-color .15s;}
+  .navlinks a:hover{border-color:var(--rust);}
+  .nav-cta{
+    background:var(--charcoal);color:var(--paper);
+    padding:10px 20px;font-size:14px;font-weight:600;
+    border:1px solid var(--charcoal);
+  }
+  .nav-cta:hover{background:var(--rust);border-color:var(--rust);}
+  .navlinks-mobile{display:none;}
+
+  /* HERO */
+  .hero{
+    display:grid;grid-template-columns:1.15fr 0.85fr;
+    align-items:stretch;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-left{
+    padding:88px 28px 72px 28px;
+    display:flex;flex-direction:column;justify-content:center;
+    max-width:640px;margin-left:auto;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;color:var(--rust);
+    display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .eyebrow::before{content:'';width:22px;height:1px;background:var(--rust);}
+  .hero h1{
+    font-size:clamp(40px,6vw,68px);
+    color:var(--charcoal);
+    margin-bottom:26px;
+  }
+  .hero h1 em{
+    font-style:normal;color:var(--rust);
+  }
+  .hero p{
+    font-size:18px;color:var(--steel);
+    max-width:480px;margin-bottom:34px;
+  }
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--rust);color:var(--paper);
+    padding:15px 28px;font-weight:600;font-size:15px;
+    border:1px solid var(--rust);
+  }
+  .btn-primary:hover{background:var(--rust-light);}
+  .btn-ghost{
+    padding:15px 28px;font-weight:600;font-size:15px;
+    border:1px solid var(--steel);color:var(--charcoal);
+  }
+  .btn-ghost:hover{border-color:var(--charcoal);}
+
+  .hero-right{
+    background:var(--charcoal);
+    position:relative;overflow:hidden;
+    border-left:1px solid var(--line);
+    min-height:520px;
+  }
+  .truss-svg{width:100%;height:100%;position:absolute;inset:0;}
+  .hero-stats{
+    position:absolute;bottom:0;left:0;right:0;
+    display:grid;grid-template-columns:1fr 1fr;
+    border-top:1px solid rgba(247,246,244,0.15);
+  }
+  .stat{
+    padding:22px 24px;border-right:1px solid rgba(247,246,244,0.15);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:34px;font-weight:700;color:var(--paper);
+  }
+  .stat .lbl{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;color:#9AA5AC;margin-top:2px;
+  }
+
+  /* SECTION HEAD */
+  .section-head{
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;
+    padding:76px 0 44px 0;align-items:end;
+  }
+  .section-head .num-tag{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--rust);margin-bottom:14px;
+  }
+  .section-head h2{font-size:clamp(30px,4vw,44px);color:var(--charcoal);}
+  .section-head .desc{color:var(--steel);font-size:16px;max-width:400px;align-self:end;}
+
+  /* SERVICES */
+  .services{border-top:1px solid var(--line);}
+  .service-row{
+    display:grid;grid-template-columns:70px 1.3fr 1.7fr;
+    gap:24px;align-items:start;
+    padding:32px 0;border-top:1px solid var(--line);
+  }
+  .service-row:last-child{border-bottom:1px solid var(--line);}
+  .service-row .idx{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:36px;font-weight:700;color:var(--line);
+  }
+  .service-row h3{
+    font-size:24px;color:var(--charcoal);
+    text-transform:none;font-weight:700;letter-spacing:0;
+  }
+  .service-row p{color:var(--steel);font-size:15px;max-width:520px;}
+  .service-row .tags{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;}
+  .service-row .tags span{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    color:var(--rust);border:1px solid var(--rust);
+    padding:3px 8px;
+  }
+
+  /* PORTFOLIO */
+  .portfolio{background:var(--concrete);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .proj-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line);
+    margin-bottom:76px;
+  }
+  .proj-card{
+    background:var(--concrete);padding:32px 26px 26px 26px;
+    min-height:260px;display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .proj-card .ptag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--rust);margin-bottom:auto;}
+  .proj-card svg{width:100%;height:90px;margin:18px 0;}
+  .proj-card h4{font-size:19px;font-weight:700;color:var(--charcoal);text-transform:none;letter-spacing:0;margin-bottom:6px;}
+  .proj-card .loc{color:var(--steel-light);font-size:13px;}
+
+  /* ABOUT */
+  .about{
+    display:grid;grid-template-columns:0.9fr 1.1fr;gap:60px;
+    padding:80px 0;border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .about-figure{
+    background:var(--charcoal);aspect-ratio:4/5;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;
+  }
+  .about-figure .ini{
+    font-family:'Big Shoulders Display',sans-serif;
+    font-size:120px;font-weight:900;color:rgba(247,246,244,0.08);
+  }
+  .about-figure .corner{position:absolute;width:16px;height:16px;border:2px solid var(--rust);}
+  .about-figure .corner.tl{top:16px;left:16px;border-right:none;border-bottom:none;}
+  .about-figure .corner.br{bottom:16px;right:16px;border-left:none;border-top:none;}
+  .about-text h2{font-size:clamp(28px,3.6vw,38px);color:var(--charcoal);margin-bottom:22px;}
+  .about-text p{color:var(--steel);font-size:16px;margin-bottom:16px;max-width:520px;}
+  .about-list{margin-top:26px;display:flex;flex-direction:column;gap:0;}
+  .about-list div{
+    display:flex;justify-content:space-between;padding:14px 0;
+    border-top:1px solid var(--line);font-size:15px;
+  }
+  .about-list div:last-child{border-bottom:1px solid var(--line);}
+  .about-list span:first-child{color:var(--steel);}
+  .about-list span:last-child{font-family:'IBM Plex Mono',monospace;color:var(--charcoal);font-weight:500;}
+
+  /* CONTACT */
+  .contact{padding:80px 0 90px 0;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+  .contact h2{font-size:clamp(30px,4vw,44px);color:var(--charcoal);margin-bottom:18px;}
+  .contact > .contact-grid > div:first-child p{color:var(--steel);font-size:16px;max-width:420px;margin-bottom:30px;}
+  .contact-channels div{
+    display:flex;justify-content:space-between;padding:16px 0;border-top:1px solid var(--line);
+  }
+  .contact-channels div:last-child{border-bottom:1px solid var(--line);}
+  .contact-channels .lbl{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--rust);}
+  .contact-channels .val{font-size:15px;color:var(--charcoal);font-weight:500;}
+
+  form{display:flex;flex-direction:column;gap:16px;}
+  .field label{
+    display:block;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;color:var(--steel);margin-bottom:6px;
+  }
+  .field input,.field select,.field textarea{
+    width:100%;border:1px solid var(--line);background:var(--paper);
+    padding:13px 14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;color:var(--ink);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:2px solid var(--rust);outline-offset:1px;border-color:var(--rust);
+  }
+  .field textarea{resize:vertical;min-height:90px;}
+  form .btn-primary{align-self:flex-start;margin-top:6px;cursor:pointer;font-family:inherit;}
+
+  footer{
+    background:var(--charcoal);color:var(--paper);
+    padding:32px 0;
+  }
+  .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+  .footer-row .brand{color:var(--paper);}
+  footer .fine{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8D9498;}
+
+  @media (max-width:860px){
+    .navlinks{display:none;}
+    .hero{grid-template-columns:1fr;}
+    .hero-right{min-height:320px;order:-1;border-left:none;border-bottom:1px solid var(--line);}
+    .hero-left{margin-left:0;max-width:none;padding:56px 28px 48px 28px;}
+    .section-head{grid-template-columns:1fr;gap:14px;padding:56px 0 32px 0;}
+    .section-head .desc{align-self:auto;}
+    .service-row{grid-template-columns:44px 1fr;}
+    .service-row p{grid-column:2;}
+    .proj-grid{grid-template-columns:1fr;}
+    .about{grid-template-columns:1fr;gap:36px;padding:56px 0;}
+    .about-figure{aspect-ratio:16/9;}
+    .contact-grid{grid-template-columns:1fr;gap:40px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="brand"><span class="mark"></span>DEMİR YAPI</div>
+      <div class="navlinks">
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#projeler">Projeler</a>
+        <a href="#hakkimda">Hakkımda</a>
+        <a href="#iletisim">İletişim</a>
+      </div>
+      <a href="#iletisim" class="nav-cta">Teklif Al</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="eyebrow mono">İNŞAAT MÜHENDİSİ · ÇELİK KONSTRÜKSİYON</div>
+    <h1>Çizimden <em>montaja</em>,<br>tek elden yapı.</h1>
+    <p>Çelik konstrüksiyon, statik-mimari proje çizimi, 3D render ve tadilat işlerini aynı ekipten alın — küçük bir ahırdan büyük ölçekli sanayi yapılarına kadar.</p>
+    <div class="hero-ctas">
+      <a href="#iletisim" class="btn-primary">Ücretsiz Teklif Al</a>
+      <a href="#projeler" class="btn-ghost">Projeleri Gör</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <svg class="truss-svg" viewBox="0 0 600 700" preserveAspectRatio="xMidYMid slice">
+      <g stroke="#4A5761" stroke-width="2" fill="none">
+        <line x1="0" y1="120" x2="600" y2="120"/>
+        <line x1="0" y1="120" x2="80" y2="220"/>
+        <line x1="80" y1="220" x2="0" y2="320"/>
+        <line x1="80" y1="220" x2="180" y2="120"/>
+        <line x1="180" y1="120" x2="80" y2="220"/>
+        <line x1="180" y1="120" x2="280" y2="220"/>
+        <line x1="280" y1="220" x2="180" y2="320"/>
+        <line x1="180" y1="320" x2="80" y2="220"/>
+        <line x1="280" y1="220" x2="380" y2="120"/>
+        <line x1="380" y1="120" x2="280" y2="220"/>
+        <line x1="380" y1="120" x2="480" y2="220"/>
+        <line x1="480" y1="220" x2="380" y2="320"/>
+        <line x1="380" y1="320" x2="280" y2="220"/>
+        <line x1="480" y1="220" x2="580" y2="120"/>
+        <line x1="0" y1="320" x2="600" y2="320"/>
+        <line x1="180" y1="320" x2="380" y2="320"/>
+      </g>
+      <g stroke="#A8461F" stroke-width="2.5" fill="none" opacity="0.85">
+        <line x1="80" y1="220" x2="180" y2="320"/>
+        <line x1="380" y1="220" x2="480" y2="320" opacity="0"/>
+        <line x1="280" y1="220" x2="380" y2="120"/>
+      </g>
+      <g fill="#A8461F">
+        <circle cx="80" cy="220" r="4"/>
+        <circle cx="280" cy="220" r="4"/>
+        <circle cx="480" cy="220" r="4"/>
+      </g>
+    </svg>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">3+</div><div class="lbl mono">YIL SAHA & TASARIM</div></div>
+      <div class="stat"><div class="num">5</div><div class="lbl mono">HİZMET ALANI</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="hizmetler" class="wrap services">
+  <div class="section-head">
+    <div>
+      <div class="num-tag mono">01 — HİZMETLER</div>
+      <h2>Ne Yapıyoruz</h2>
+    </div>
+    <div class="desc">Proje aşamasından imalat ve montaja, tadilata kadar yapının her adımı tek noktadan yönetilir.</div>
+  </div>
+
+  <div class="service-row">
+    <div class="idx">01</div>
+    <h3>Çelik Konstrüksiyon</h3>
+    <div>
+      <p>Hangar, depo, sanayi yapısı ve özel projeler için çelik taşıyıcı sistem tasarımı, imalat ve montaj süreçlerinin tamamı.</p>
+      <div class="tags"><span>TASARIM</span><span>İMALAT</span><span>MONTAJ</span></div>
+    </div>
+  </div>
+  <div class="service-row">
+    <div class="idx">02</div>
+    <h3>Proje Çizimi · Statik & Mimari</h3>
+    <div>
+      <p>Yapının taşıyıcı sistem hesapları, statik projeler ve mimari çizimlerin mühendislik standartlarına uygun hazırlanması.</p>
+      <div class="tags"><span>STATİK PROJE</span><span>MİMARİ ÇİZİM</span></div>
+    </div>
+  </div>
+  <div class="service-row">
+    <div class="idx">03</div>
+    <h3>3D Render & Görselleştirme</h3>
+    <div>
+      <p>Yapıyı inşa etmeden önce gerçekçi 3D görsellerle görme imkanı — karar sürecini kolaylaştıran detaylı sunumlar.</p>
+      <div class="tags"><span>3D MODELLEME</span><span>SUNUM</span></div>
+    </div>
+  </div>
+  <div class="service-row">
+    <div class="idx">04</div>
+    <h3>Kutu Profil & Alçıpan</h3>
+    <div>
+      <p>İç ve dış mekan bölme, kaplama ve hafif taşıyıcı sistemler için kutu profil ve alçıpan uygulamaları.</p>
+      <div class="tags"><span>UYGULAMA</span></div>
+    </div>
+  </div>
+  <div class="service-row">
+    <div class="idx">05</div>
+    <h3>Tadilat & Tamirat</h3>
+    <div>
+      <p>Mevcut yapılarda güçlendirme, onarım ve yenileme işleri — küçük ölçekli işlerden kapsamlı tadilatlara.</p>
+      <div class="tags"><span>GÜÇLENDİRME</span><span>YENİLEME</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projeler" class="portfolio">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="num-tag mono">02 — PROJELER</div>
+        <h2>Seçili İşler</h2>
+      </div>
+      <div class="desc">Küçük ölçekten büyük ölçekli sanayi yapılarına, tamamlanan ve devam eden projelerden örnekler.</div>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="ptag">ÇELİK KONSTRÜKSİYON</div>
+        <svg viewBox="0 0 200 90"><g stroke="#A8461F" stroke-width="2" fill="none"><path d="M10 80 L60 20 L110 80 M35 50 L85 50"/><path d="M110 80 L160 20 L190 80 M135 50 L175 50"/></g></svg>
+        <h4>Kırma Çatı Taşıyıcı Sistemi</h4>
+        <div class="loc">Başakşehir, İstanbul</div>
+      </div>
+      <div class="proj-card">
+        <div class="ptag">3D RENDER</div>
+        <svg viewBox="0 0 200 90"><g stroke="#A8461F" stroke-width="2" fill="none"><rect x="30" y="30" width="60" height="50"/><rect x="55" y="10" width="60" height="50"/><line x1="30" y1="30" x2="55" y2="10"/><line x1="90" y1="30" x2="115" y2="10"/><line x1="90" y1="80" x2="115" y2="60"/></g></svg>
+        <h4>Sanayi Yapısı Görselleştirme</h4>
+        <div class="loc">Konsept Çalışma</div>
+      </div>
+      <div class="proj-card">
+        <div class="ptag">TADİLAT</div>
+        <svg viewBox="0 0 200 90"><g stroke="#A8461F" stroke-width="2" fill="none"><rect x="20" y="20" width="160" height="55"/><line x1="20" y1="45" x2="180" y2="45"/><line x1="70" y1="20" x2="70" y2="75"/><line x1="130" y1="20" x2="130" y2="75"/></g></svg>
+        <h4>Yapı Güçlendirme & Yenileme</h4>
+        <div class="loc">Örnek Uygulama</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hakkimda" class="wrap about">
+  <div class="about-figure">
+    <div class="corner tl"></div><div class="corner br"></div>
+    <div class="ini mono">DY</div>
+  </div>
+  <div class="about-text">
+    <h2>Sahada Deneyim, Masada Hassasiyet</h2>
+    <p>İnşaat mühendisliği geçmişiyle, çelik konstrüksiyon projelerinin tasarımından imalat ve montaj sürecine kadar tüm aşamalarında bizzat yer alıyorum.</p>
+    <p>Amaç, her ölçekten yapı sahibine — küçük bir tarım yapısından büyük ölçekli sanayi tesisine — aynı mühendislik titizliğini sunmak.</p>
+    <div class="about-list">
+      <div><span>Uzmanlık</span><span>ÇELİK KONSTRÜKSİYON</span></div>
+      <div><span>Deneyim</span><span>3+ YIL</span></div>
+      <div><span>Kapsam</span><span>PROJE → MONTAJ</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="iletisim" class="wrap contact">
+  <div class="contact-grid">
+    <div>
+      <h2>Projenizi<br>Konuşalım</h2>
+      <p>İster küçük bir yapı, ister büyük ölçekli bir çelik konstrüksiyon projesi olsun — ihtiyacınızı anlatın, size dönüş yapalım.</p>
+      <div class="contact-channels">
+        <div><span class="lbl">TELEFON</span><span class="val">+90 5XX XXX XX XX</span></div>
+        <div><span class="lbl">E-POSTA</span><span class="val">info@demiryapi.com</span></div>
+        <div><span class="lbl">KONUM</span><span class="val">İstanbul</span></div>
+      </div>
+    </div>
+    <form onsubmit="event.preventDefault();">
+      <div class="field">
+        <label>AD SOYAD</label>
+        <input type="text" placeholder="Adınız Soyadınız">
+      </div>
+      <div class="field">
+        <label>TELEFON / E-POSTA</label>
+        <input type="text" placeholder="İletişim bilginiz">
+      </div>
+      <div class="field">
+        <label>HİZMET</label>
+        <select>
+          <option>Çelik Konstrüksiyon</option>
+          <option>Proje Çizimi / 3D Render</option>
+          <option>Kutu Profil & Alçıpan</option>
+          <option>Tadilat & Tamirat</option>
+          <option>Diğer</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>PROJE DETAYI</label>
+        <textarea placeholder="Yapmak istediğiniz işi kısaca anlatın"></textarea>
+      </div>
+      <button type="submit" class="btn-primary">Teklif İste</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div class="brand"><span class="mark"></span>DEMİR YAPI</div>
+    <div class="fine">TASLAK — İÇERİK VE MARKA ADI DÜZENLENEBİLİR</div>
+  </div>
+</footer>
+
+</body>
+</html>
