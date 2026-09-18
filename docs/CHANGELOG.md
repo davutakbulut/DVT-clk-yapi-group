@@ -7,6 +7,16 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 26 · Three.js → React Three Fiber
+- `src/modules/configurator` — `domain/params` · `domain/structure` (prototip v4 saf port, 4 test) · `domain/profiles` · `data/rulesRepository` · `Scene` (R3F, dinamik) · `Configurator`
+- Route grubu `app/[locale]/(configurator)` (layout, `error.tsx` yedek, `configurator/page`); `/konfigurator`; kill switch `configurator`; `configurator.disclaimer`; CSS `.configurator-*`; mesajlar `Configurator`
+- `supabase/migrations/0038_configurator_rules.sql`; `e2e/configurator.spec.ts`; `three`, `@react-three/fiber`, `@react-three/drei` bağımlılıkları; `ui/Container` ElementType daraltması
+
+### Eklendi — Faz 25 · Hata takip + performans izleme
+- `src/modules/errors` — `ErrorReporter` · `NotFoundReporter` · `domain/errorReport` (3 test) · `data/errorsRepository` · `actions`; `core/observability/logger` hata raporlama; `core/jobs/heartbeatMonitor`
+- Route'lar `/api/errors`, `/api/csp-report`, `/api/cron/heartbeat`, `app/admin/errors`, `app/admin/errors/links`, `app/admin/analytics/vitals`; `next.config` CSP report-only; kök layout + 404 sayfası raporlayıcılar; nav; `vercel.json`
+- `supabase/migrations/0037_errors.sql` (`report_error`, `web_vitals_summary`, `system.stale_cron` şablonu, `alerted_at`) · `supabase/tests/errors.test.ts` (3); mesajlar `Admin.errorLogs`; `e2e/errors.spec.ts`; cleanup betiği E2E hata kayıtlarını temizler
+
 ### Eklendi — Faz 24 · Sıcaklık haritası + huni + form analizi
 - `analytics` modülü: `data/insightsRepository` (heatmap, huni değerlendirme, form istatistikleri, yolculuk) · `adminFunnelsRepository` · `InsightViews` · `FunnelForm`; `actions` huni kaydet/sil; route'lar `app/admin/analytics/{heatmap,funnels,forms,journeys}`; nav
 - `supabase/migrations/0036_funnels.sql` (`evaluate_funnel`) · `supabase/tests/funnels.test.ts` (2); mesajlar `Admin.insights`; `e2e/insights.spec.ts`

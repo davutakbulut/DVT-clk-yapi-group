@@ -5302,6 +5302,7 @@ export type Database = {
         Args: { p_body: string; p_lead_id: string; p_subject: string }
         Returns: string
       }
+      report_error: { Args: { p: Json }; Returns: Json }
       resolve_old_slug: {
         Args: { p_entity_type: string; p_locale: string; p_old_slug: string }
         Returns: string
@@ -5309,6 +5310,18 @@ export type Database = {
       submit_job_application: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }
       submit_testimonial: { Args: { p: Json }; Returns: Json }
+      web_vitals_summary: {
+        Args: { p_from: string; p_to: string }
+        Returns: {
+          good: number
+          metric: string
+          needs_improvement: number
+          p75: number
+          path: string
+          poor: number
+          samples: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

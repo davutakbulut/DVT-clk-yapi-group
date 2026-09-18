@@ -64,6 +64,7 @@ for (const [table, col, pattern] of [
   ['redirects', 'source_path', '/e2e-%'],
   ['ui_translations', 'value', 'E2E %'],
   ['translation_glossary', 'term_tr', 'E2E %'],
+  ['funnels', 'name', 'E2E Huni %'],
 ]) {
   const { data } = await client.from(table).select(`id, ${col}`).like(col, pattern);
   for (const row of data ?? []) {
@@ -87,5 +88,12 @@ for (const [table, col, pattern] of [
     await client.from('payment_schedules').delete().eq('sale_id', row.id);
     const { error: e } = await client.from('sales').delete().eq('id', row.id);
     console.log('sales', row.sale_no, e ? `HATA ${e.message}` : 'silindi');
+  }
+}
+{
+  const { data } = await client.from('error_logs').select('id, message').or('message.like.E2E %,module.eq.e2e,path.like./tr/e2e-yok-sayfa-%');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('error_logs').delete().eq('id', row.id);
+    console.log('error_logs', row.message.slice(0, 40), e ? `HATA ${e.message}` : 'silindi');
   }
 }

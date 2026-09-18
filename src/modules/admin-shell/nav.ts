@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -28,6 +28,9 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'journeys', href: '/admin/analytics/journeys' },
   { key: 'funnels', href: '/admin/analytics/funnels' },
   { key: 'formAnalytics', href: '/admin/analytics/forms' },
+  { key: 'vitals', href: '/admin/analytics/vitals' },
+  { key: 'errorLogs', href: '/admin/errors', roles: ['super_admin', 'admin'] },
+  { key: 'brokenLinks', href: '/admin/errors/links', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'analyticsSettings', href: '/admin/settings/analytics', roles: ['super_admin', 'admin'] },
   { key: 'translations', href: '/admin/translations', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'redirects', href: '/admin/redirects', roles: ['super_admin', 'admin', 'editor'] },

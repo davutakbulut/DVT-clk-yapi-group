@@ -326,6 +326,16 @@ Satış, fatura ve tahsilat tutarları TypeScript'te kayan nokta yerine kuruş t
 **Neden:** 06-ANALYTICS "onay yoksa hiç yüklenmez" ilkesi tek başına istemciye güvenir; sunucu denetimi ikinci kemerdir. Tuzlu özet, veritabanı sızsa bile ziyaretçi kimliğinin geri döndürülememesini sağlar; tuz değişirse eski özetler eşleşmez (ziyaretçi sayımı sıfırlanır — bilinçli). `web-vitals` paketi ~2 KB ama ek bağımlılık; dört gözlemci 40 satır.
 **Bilinen bedeli:** Playwright/E2E tarayıcısı bot sayılır — testler `?e2e_track=1` ile açıkça izin alır, bu bayrak yalnız bot süzgecini gevşetir (onay yine gerekir). Attention ölçümü yalnız `main section[id]` bölümlerinde; INP yaklaşımı `event` gözlemcisinin en uzun süresidir (resmi INP algoritması değil).
 
+### K-64 · Hata takibi kendi tablomuzda; logger raporlar; CSP önce yalnız raporlar
+Üçüncü parti hata servisi (Sentry vb.) yok: tarayıcı ve sunucu hataları `/api/errors` üzerinden `report_error` RPC'sine düşer, sunucuda parmak izine (kaynak | modül | sayı/uuid maskeli mesaj | stack ilk satırı) göre gruplanır. `logger.error` çağrıları otomatik raporlanır (aynı hata dakikada bir; test ortamında kapalı), çağıran kod değişmez. 404'ler tarayıcıdan raporlanır ki bot tarayıcıları sunucuda süzülsün. CSP `Report-Only` başlığıyla başlar; ihlaller aynı tabloya `csp` modülüyle düşer.
+**Neden:** 06-ANALYTICS "üçüncü parti yok, veri bizde" ilkesi; ücretsiz plan ve KVKK açısından hata servisine kişisel veri göndermemek. Zorlayıcı CSP, Next.js'in satır içi scriptleri ve üçüncü parti etiketler yüzünden ilk günde siteyi kırardı — rapor birikince zorlamaya geçilir.
+**Bilinen bedeli:** Sunucu tarafı raporlama kendi origin'e fetch'tir (Vercel'de yanıttan sonra kesilebilir; kritik hatalar console'da da kalır). `unsafe-inline`/`unsafe-eval` içeren rapor politikası güvenlik sağlamaz, yalnız envanter çıkarır.
+
+### K-65 · Konfigüratör geometrisi saf TypeScript'te, sahne yalnız çizer; profil kesitleri görsel, ağırlık veritabanından
+`buildStructure(params, rules)` prototip v4'ün `build()` fonksiyonunun bire bir portudur ve Three.js'e bağımlı değildir: eleman listesi (grup, profil anahtarı, uç noktalar, boy), paneller (köşe noktaları, alan), plakalar, civata sayısı döner. `Scene` bu listeyi çizer; Faz 27 metraj aynı listeden hesaplanır — 3D ile metraj tek kaynaktan gelir, sayılar sahneden okunmaz. `domain/profiles` yalnız kesit çizim ölçülerini tutar; kg/m `steel_profiles` tablosundan gelir (K-55, tohum yok). Eleman grubu → profil kodu eşlemesi `configurator_rules.profile_map` ile panelden değiştirilir.
+**Neden:** Vitest'te WebGL yok; geometri testleri (aks sayısı, eleman sayısı, alanlar) elle doğrulanan sayılarla saf fonksiyona yazılır. Metrajın sahneyle ayrışması "3D'de görünen ≠ fiyatlanan" hatasını yapısal olarak engeller.
+**Bilinen bedeli:** Kesit ölçü tablosu (`SECTIONS`) koddadır; yeni profil kodu eklenirse görsel için varsayılan IPE300 kesiti kullanılır (metraj etkilenmez).
+
 ---
 
 ## Değiştirilen Kararlar

@@ -159,7 +159,10 @@
       "heatmap": "Heatmap",
       "funnels": "Conversion Funnels",
       "formAnalytics": "Form Analysis",
-      "journeys": "User Journeys"
+      "journeys": "User Journeys",
+      "errorLogs": "Error Tracking",
+      "brokenLinks": "Broken Links",
+      "vitals": "Slow Pages"
     },
     "common": {
       "save": "Save",
@@ -896,7 +899,8 @@
         "leads": "Contact / quote forms",
         "quoteBasket": "Quote basket",
         "whatsapp": "WhatsApp button",
-        "consent": "Cookie banner"
+        "consent": "Cookie banner",
+        "configurator": "3D configurator"
       }
     },
     "translations": {
@@ -965,7 +969,8 @@
         "job_application_created": "New job application: {full_name}",
         "comment_pending": "Blog comment awaiting approval",
         "schedule_due": "Instalment due soon: {sale_no} · {customer} · {amount} ₺ · {due_date}",
-        "schedule_overdue": "Overdue instalment: {sale_no} · {customer} · {amount} ₺ · {due_date}"
+        "schedule_overdue": "Overdue instalment: {sale_no} · {customer} · {amount} ₺ · {due_date}",
+        "system_stale_cron": "Cron silent: {job_key} (last run {last_run_at})"
       }
     },
     "customers": {
@@ -1263,6 +1268,31 @@
       "transitions": "Transitions",
       "exitRate": "Exit rate",
       "landing": "Landing pages"
+    },
+    "errorLogs": {
+      "title": "Error Tracking",
+      "lead": "JS and server errors grouped by fingerprint (one row even if the same error hits 500 times). Mark resolved; reopens if seen again. Personal data: masked IP only.",
+      "brokenLinks": "Broken Links",
+      "brokenLinksLead": "Most-hit 404 addresses and where they came from. Close them with a redirect.",
+      "vitals": "Slow Pages",
+      "vitalsLead": "Real-user Core Web Vitals (p75). Green/amber/red distribution by sample count.",
+      "module": "Module",
+      "source": "Source",
+      "open": "Open",
+      "resolved": "Resolved",
+      "count": "{count} error groups",
+      "none": "No open errors 🎉",
+      "firstSeen": "First seen",
+      "lastSeen": "Last seen",
+      "path": "Path",
+      "browser": "Browser",
+      "reopen": "Reopen",
+      "resolve": "Resolved",
+      "hits": "404 hits",
+      "referrers": "Referrers",
+      "metric": "Metric",
+      "samples": "Samples",
+      "rating": "Distribution"
     }
   },
   "Services": {
@@ -1622,6 +1652,46 @@
       "submit": "Send review",
       "successTitle": "Thank you!",
       "successBody": "Your review has been received and will appear on the site once approved."
+    }
+  },
+  "Configurator": {
+    "title": "3D Configurator",
+    "lead": "Enter the dimensions; the 3D model and take-off of the steel structure are computed instantly.",
+    "skip": "Skip to content",
+    "backHome": "Home",
+    "panelLabel": "Parameters",
+    "canvasLabel": "3D model of a {width} × {length} m steel structure",
+    "params": {
+      "title": "Dimensions",
+      "width": "Width (span)",
+      "length": "Length",
+      "eave": "Eave height",
+      "ridge": "Ridge height",
+      "bay": "Bay spacing",
+      "visual": "View",
+      "purlins": "Purlins and girts",
+      "door": "Door",
+      "panels": "Panels"
+    },
+    "stats": {
+      "footprint": "Footprint",
+      "bays": "Bays",
+      "columns": "Columns",
+      "windColumns": "Wind columns (per gable)",
+      "system": "Roof system",
+      "portal": "Portal frame (≤ {threshold} m)",
+      "truss": "Truss (> {threshold} m)",
+      "door": "Door"
+    },
+    "share": "Copy link",
+    "copied": "Copied",
+    "disclaimerFallback": "This is a preliminary take-off estimate; it does not replace structural design or a formal quotation.",
+    "fallback": {
+      "title": "The 3D view could not open on this device",
+      "body": "Your browser may not support WebGL or memory may be insufficient. Browse our projects or send your dimensions via the quote form.",
+      "retry": "Try again",
+      "projects": "Projects",
+      "quote": "Get a quote"
     }
   }
 }

@@ -39,8 +39,11 @@ test.describe('analitik içgörüler', () => {
     await form.getByRole('button', { name: 'Ekle' }).click();
     const item = page.locator('details').filter({ hasText: name });
     await expect(item).toBeVisible();
-    await item.locator('summary').click();
-    await expect(item.getByRole('cell', { name: 'Hizmet' })).toBeVisible();
+    await item.evaluate((el) => {
+      (el as HTMLDetailsElement).open = true;
+    });
+    // veri yokken tablo yerine "Kayıt yok" gelir → adımlar düzenleme alanından doğrulanır
+    await expect(item.getByLabel('Adımlar')).toHaveValue(/Hizmet \| path_prefix/);
     await item.getByRole('button', { name: 'Sil' }).click();
     await expect(page.locator('details').filter({ hasText: name })).toHaveCount(0);
   });

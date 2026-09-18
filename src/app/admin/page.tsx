@@ -95,7 +95,11 @@ export default async function AdminDashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.recentErrors')}</CardTitle>
+            <CardTitle>
+              <NextLink href="/admin/errors" className="underline-offset-4 hover:underline">
+                {t('dashboard.recentErrors')}
+              </NextLink>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             {recentErrors.length === 0 ? (

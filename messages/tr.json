@@ -159,7 +159,10 @@
       "heatmap": "Sıcaklık Haritası",
       "funnels": "Dönüşüm Hunileri",
       "formAnalytics": "Form Analizi",
-      "journeys": "Kullanıcı Yolculuğu"
+      "journeys": "Kullanıcı Yolculuğu",
+      "errorLogs": "Hata Takip",
+      "brokenLinks": "Kırık Linkler",
+      "vitals": "Yavaş Sayfalar"
     },
     "common": {
       "save": "Kaydet",
@@ -896,7 +899,8 @@
         "leads": "İletişim / teklif formları",
         "quoteBasket": "Teklif sepeti",
         "whatsapp": "WhatsApp butonu",
-        "consent": "Çerez bandı"
+        "consent": "Çerez bandı",
+        "configurator": "3D konfigüratör"
       }
     },
     "translations": {
@@ -965,7 +969,8 @@
         "job_application_created": "Yeni iş başvurusu: {full_name}",
         "comment_pending": "Onay bekleyen blog yorumu",
         "schedule_due": "Hakediş yaklaşıyor: {sale_no} · {customer} · {amount} ₺ · {due_date}",
-        "schedule_overdue": "Vadesi geçen hakediş: {sale_no} · {customer} · {amount} ₺ · {due_date}"
+        "schedule_overdue": "Vadesi geçen hakediş: {sale_no} · {customer} · {amount} ₺ · {due_date}",
+        "system_stale_cron": "Cron sessiz: {job_key} (son çalışma {last_run_at})"
       }
     },
     "customers": {
@@ -1263,6 +1268,31 @@
       "transitions": "Geçiş",
       "exitRate": "Çıkış oranı",
       "landing": "Giriş sayfaları"
+    },
+    "errorLogs": {
+      "title": "Hata Takip",
+      "lead": "JS ve sunucu hataları parmak izine göre gruplanır (aynı hata 500 kez düşse tek satır). Çözüldü işaretlenir; tekrar görülürse yeniden açılır. Kişisel veri: yalnız maskeli IP.",
+      "brokenLinks": "Kırık Linkler",
+      "brokenLinksLead": "En çok 404 alan adresler ve geldikleri yerler. Yönlendirme ekleyerek kapatın.",
+      "vitals": "Yavaş Sayfalar",
+      "vitalsLead": "Gerçek kullanıcı Core Web Vitals (p75). Yeşil/sarı/kırmızı dağılım örnek sayısına göre.",
+      "module": "Modül",
+      "source": "Kaynak",
+      "open": "Açık",
+      "resolved": "Çözüldü",
+      "count": "{count} hata grubu",
+      "none": "Açık hata yok 🎉",
+      "firstSeen": "İlk görülme",
+      "lastSeen": "Son görülme",
+      "path": "Yol",
+      "browser": "Tarayıcı",
+      "reopen": "Yeniden aç",
+      "resolve": "Çözüldü",
+      "hits": "404 sayısı",
+      "referrers": "Referrer",
+      "metric": "Metrik",
+      "samples": "Örnek",
+      "rating": "Dağılım"
     }
   },
   "Services": {
@@ -1622,6 +1652,46 @@
       "submit": "Yorumu gönder",
       "successTitle": "Teşekkürler!",
       "successBody": "Yorumunuz alındı; onaylandıktan sonra sitede görünecek."
+    }
+  },
+  "Configurator": {
+    "title": "3D Konfigüratör",
+    "lead": "Ölçüleri girin; çelik yapının 3D modeli ve metrajı anında hesaplansın.",
+    "skip": "İçeriğe geç",
+    "backHome": "Ana sayfa",
+    "panelLabel": "Parametreler",
+    "canvasLabel": "{width} × {length} m çelik yapı 3D modeli",
+    "params": {
+      "title": "Ölçüler",
+      "width": "En (açıklık)",
+      "length": "Boy",
+      "eave": "Saçak yüksekliği",
+      "ridge": "Mahya yüksekliği",
+      "bay": "Aks aralığı",
+      "visual": "Görünüm",
+      "purlins": "Aşık ve kuşaklar",
+      "door": "Kapı",
+      "panels": "Paneller"
+    },
+    "stats": {
+      "footprint": "Taban alanı",
+      "bays": "Açıklık (aks)",
+      "columns": "Kolon adedi",
+      "windColumns": "Rüzgar kolonu (alın başına)",
+      "system": "Çatı sistemi",
+      "portal": "Düz makas (≤ {threshold} m)",
+      "truss": "Kafes makas (> {threshold} m)",
+      "door": "Kapı"
+    },
+    "share": "Bağlantıyı kopyala",
+    "copied": "Kopyalandı",
+    "disclaimerFallback": "Bu bir ön metraj tahminidir; statik hesap ve resmî teklif yerine geçmez.",
+    "fallback": {
+      "title": "3D görünüm bu cihazda açılamadı",
+      "body": "Tarayıcınız WebGL desteklemiyor ya da bellek yetersiz olabilir. Projelerimize göz atabilir veya ölçülerinizi teklif formuyla iletebilirsiniz.",
+      "retry": "Yeniden dene",
+      "projects": "Projeler",
+      "quote": "Teklif al"
     }
   }
 }

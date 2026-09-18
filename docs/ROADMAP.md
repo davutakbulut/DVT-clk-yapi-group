@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 25 — Hata takip + performans izleme ⏳ (sırada) · Faz 1–24 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 27 — Metraj motoru ⏳ (sırada) · Faz 1–26 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -23,7 +23,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ✅ Faz 5–12 kod tamam · yayın ürün sahibinde |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ✅ Faz 17 |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ✅ |
-| **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
+| **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ✅ |
 | **v1.4 Konfigüratör** | 26–29 | 3D araç, metraj, fiyat, teklif | ⏳ |
 | **v2.0 İleri Seviye** | 30–31 | AI görünürlük, reklam takibi, ince ayar | ⏳ |
 
@@ -264,11 +264,22 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `0036_funnels.sql` `evaluate_funnel` (path / path_prefix / event[form anahtarı]) — 2 DB testi; `data/insightsRepository` + `adminFunnelsRepository`; `FunnelForm`; nav
   - [x] E2E `insights.spec.ts` (sayfalar + huni oluştur → adımlar → sil)
   - [ ] *Sonraki:* gerçek sayfa ekran görüntüsü üstüne bindirme (şimdilik oran ızgarası) · Sankey görselleştirme (isteğe bağlı kütüphane)
-- [ ] **Faz 25** — Hata takip + performans izleme
+- [x] **Faz 25** — Hata takip + performans izleme ✅ 2026-09-18
+  - [x] `src/modules/errors` — `ErrorReporter` (kök layout: window.onerror + unhandledrejection, sayfa başına ≤ 5) · `NotFoundReporter` (404 → kırık linkler) · `domain/errorReport` (şema, CSP raporu dönüşümü, tekilleştirme — 3 test); `core/observability/logger` `error` seviyesini `/api/errors`'a raporlar (dakikada bir/parmak izi; test ortamında kapalı)
+  - [x] `/api/errors` (bot süzgeci, hız sınırı, 204) → `report_error` security definer (0037: parmak izi = kaynak|modül|normalize mesaj|stack ilk satırı; occurrences/affected_users; çözülmüş tekrar görülürse **yeniden açılır**) · `/api/csp-report` + `Content-Security-Policy-Report-Only` başlığı (K-64) · `web_vitals_summary` (p75) — 3 DB testi
+  - [x] `/admin/errors` (modül/kaynak/durum süzgeci; görülme, etkilenen, tarayıcı, stack, bağlam; çözüldü/yeniden aç) · `/admin/errors/links` (🔗 404 + referrer → yönlendirme) · `/admin/analytics/vitals` (⚡ p75 + dağılım); panel "son hatalar" bağlantısı
+  - [x] Canlılık denetimi: `core/jobs/heartbeatMonitor` + `/api/cron/heartbeat` (30 dk: `stale_cron_jobs` → admin bildirimi + `system.stale_cron` maili, 6 saatte bir yineler)
+  - [x] E2E `errors.spec.ts` (API 204/401, CSP başlığı; 3 rapor → ×3 👤3 → çöz → 404 → kırık linkler → vitals)
+  - [ ] *Ürün sahibi:* harici uptime izleme (UptimeRobot vb.) · CSP raporları temizlenince `Report-Only` → zorlama
 
 ## v1.4 — Konfigüratör
 
-- [ ] **Faz 26** — Three.js → React Three Fiber migrasyonu
+- [x] **Faz 26** — Three.js → React Three Fiber migrasyonu ✅
+  - [x] `src/modules/configurator` — `domain/params` (sınır/adım/mahya kırpma, `?w&l&e&r&b&p&d&c` gidiş-dönüş) · `domain/structure` (prototip v4 `build()` saf port: akslar, portal/kafes, ikincil, rüzgar kolonu, çaprazlar, aşık/kuşak, kapı, plaka/civata, paneller; 4 test) · `domain/profiles` (görsel kesitler; kg/m **yok**, K-55)
+  - [x] `Scene.tsx` (R3F, dinamik import `ssr:false`, K-24: ekstrüde I/UNP/boru/2L kesitler, gölge, sis, OrbitControls) · `Configurator.tsx` (kayar çubuklar, anahtarlar, canlı istatistik, `history.replaceState`, localStorage taslağı, bağlantı kopyala, `renderExtras` yuvası Faz 27–28)
+  - [x] Route grubu `app/[locale]/(configurator)` (K-23: kendi layout'u, ince üst çubuk, `error.tsx` statik yedek: projeler + teklif) · `/konfigurator` ↔ `/configurator` · kill switch anahtarı `configurator` · `configurator.disclaimer` ayarı
+  - [x] `0038_configurator_rules.sql` (limits, truss_threshold_m, purlin_spacing_m, labor_factor, profile_map) · `data/rulesRepository` (bozuk/yok → varsayılan) · mesajlar `Configurator` · E2E `configurator.spec.ts` (sorgu → istatistik, klavye → URL, kırpma, EN)
+  - [ ] *Ürün sahibi:* `steel_profiles` kg/m değerleri (Faz 27 metraj için zorunlu)
 - [ ] **Faz 27** — Metraj motoru *(çıktı elle doğrulanır)*
 - [ ] **Faz 28** — Fiyat, kaydetme, teklif, PDF
 - [ ] **Faz 29** — Konfigüratör admin + satışa dönüştür

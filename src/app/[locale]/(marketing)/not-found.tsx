@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { getMenu } from '@/modules/navigation';
+import { NotFoundReporter } from '@/modules/errors';
 import { ErrorPage, getErrorPage } from '@/modules/static-pages';
 import { MenuSuggestions } from '@/ui/MenuSuggestions';
 
@@ -11,7 +12,9 @@ export default async function MarketingNotFound() {
   const suggestions = menu.filter((n) => !n.isCta && n.link.kind === 'internal');
 
   return (
-    <ErrorPage
+    <>
+      <NotFoundReporter />
+      <ErrorPage
       variant="not-found"
       code={t('notFoundCode')}
       title={page?.title ?? t('notFoundTitle')}
@@ -19,6 +22,7 @@ export default async function MarketingNotFound() {
       homeLabel={t('backHome')}
       suggestions={suggestions.length > 0 ? { heading: t('popularPages'), items: <MenuSuggestions items={suggestions} /> } : null}
     />
+    </>
   );
 }
 
