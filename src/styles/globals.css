@@ -407,6 +407,139 @@
     }
   }
 
+  /* ── İlk giriş yükleyicisi (SiteLoader): varsayılan GİZLİ; yalnız html.clk-loading iken görünür */
+  .site-loader {
+    display: none;
+  }
+  html.clk-loading {
+    overflow: hidden;
+  }
+  html.clk-loading .site-loader {
+    --p: 0;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    background:
+      repeating-linear-gradient(90deg, rgb(247 246 244 / 0.035) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(0deg, rgb(247 246 244 / 0.035) 0 1px, transparent 1px 64px),
+      var(--color-surface-darker, #0f1315);
+    color: var(--color-text-inverse);
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.7s var(--ease-out);
+    /* React hiç çalışmazsa: 9. saniyede katman kendini kaldırır */
+    animation: loader-failsafe 0.01s 9s forwards;
+  }
+  html.clk-loaded .site-loader {
+    opacity: 0;
+    transform: translateY(-4%);
+    pointer-events: none;
+  }
+  @keyframes loader-failsafe {
+    to {
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+  .site-loader-inner {
+    display: grid;
+    gap: var(--space-5);
+    width: min(82vw, 600px);
+  }
+  .site-loader-frame {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  /* Her parça toplam ilerlemenin [--s, --s + --d] diliminde çizilir */
+  .site-loader .ld {
+    stroke-linecap: square;
+    stroke-dasharray: 1;
+    stroke-dashoffset: calc(1 - clamp(0, (var(--p) - var(--s)) / var(--d), 1));
+  }
+  .site-loader .ld-ground {
+    stroke: rgb(247 246 244 / 0.45);
+    stroke-width: 1.5;
+  }
+  .site-loader .ld-main {
+    stroke: var(--color-text-inverse);
+    stroke-width: 2.5;
+  }
+  .site-loader .ld-thin {
+    stroke: rgb(247 246 244 / 0.55);
+    stroke-width: 1.25;
+  }
+  .site-loader .ld-accent {
+    stroke: var(--color-accent-on-dark);
+    stroke-width: 3;
+  }
+  .site-loader .ld-brace {
+    stroke: var(--color-accent-on-dark);
+    stroke-width: 1.5;
+  }
+  .site-loader .ld-bolt {
+    fill: var(--color-accent-on-dark);
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(clamp(0, (var(--p) - var(--s)) / var(--d), 1));
+  }
+  .site-loader .ld-spark {
+    fill: #ffd27a;
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: calc(clamp(0, (var(--p) - 0.4) * 10, 1) * clamp(0, (0.97 - var(--p)) * 20, 1));
+    animation: loader-spark 0.5s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 6px #ffb84d);
+  }
+  @keyframes loader-spark {
+    from {
+      transform: scale(0.6);
+    }
+    to {
+      transform: scale(1.9);
+    }
+  }
+  .site-loader-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+  }
+  .site-loader-pct {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-inverse);
+  }
+  .site-loader-bar {
+    position: relative;
+    height: 2px;
+    background: rgb(247 246 244 / 0.16);
+  }
+  .site-loader-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent-on-dark);
+    transform-origin: left;
+    transform: scaleX(var(--p));
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-loader .ld-spark {
+      animation: none;
+    }
+    html.clk-loading .site-loader {
+      transition: opacity 0.2s linear;
+    }
+    html.clk-loaded .site-loader {
+      transform: none;
+    }
+  }
+
   /* ── Hero (Faz 6). Sahne: video (scrub → 300dvh sarmalayıcı + sticky sahne) ya da koyu desen. Kopya alt-sol. */
   .hero {
     position: relative;

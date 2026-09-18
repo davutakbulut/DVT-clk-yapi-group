@@ -92,7 +92,11 @@ JavaScript yüklendiğinde `<html>`'e `.js-ready` eklenir. **Bu olmadan:** JS ha
 
 **Masaüstü ve mobil için ayrı encode**, `<source media=...>` ile seçilir.
 
-## İlk Açılış — Loader Yok
+## İlk Açılış — Yükleyici (K-74, 2026-09-18'de değişti)
+
+Ürün sahibi kararıyla ilk girişte çelik çerçevenin kurulduğu bir yükleyici gösterilir (`src/ui/SiteLoader.tsx`). Aşağıdaki "loader yok" gerekçesinin bedelini sınırlamak için: katman içeriğin ÜSTÜNDEDİR (sayfa altta tam render edilir), oturumda bir kez çıkar, JS yoksa hiç görünmez, otomasyon/botlarda kapalıdır, en fazla 7 sn sürer (CSS emniyeti 9 sn). Hero videosu scrub için tamamen indirilir (blob) ve ilerlemesi yükleyiciyi sürer.
+
+## (Önceki karar) İlk Açılış — Loader Yok
 
 ```
 0 ms    HTML + kritik CSS → header, başlık, CTA, poster ZATEN YERİNDE (ISR)

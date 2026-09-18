@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { HERO_PROGRESS_EVENT } from '@/ui/siteLoaderShared';
 
 interface Source {
   readonly src: string;
@@ -31,6 +32,14 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
   const [mode, setMode] = useState<Mode>('poster');
   const [wide, setWide] = useState(true);
   const [ready, setReady] = useState(false);
+  const [decided, setDecided] = useState(false);
+  /** Scrub kaynağı: tamamen indirilmiş blob adresi (ya da indirme başarısızsa doğrudan adres). */
+  const [scrubSrc, setScrubSrc] = useState<string | null>(null);
+
+  // Tablet ve üstü: -g 1 yatay kaynak; telefon: -g 1 dikey kırpılmış yüksek çözünürlüklü kaynak
+  const source = (wide ? desktop : mobile) ?? desktop ?? mobile;
+  const poster = source?.poster ?? desktop?.poster ?? mobile?.poster ?? null;
+  const sourceUrl = source?.src ?? null;
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -39,8 +48,12 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
     const decide = () => {
       setWide(tabletUp.matches);
-      if (reduced.matches || saveData) setMode('poster');
-      else setMode('scrub'); // telefon dahil her kırılımda scrub; cihaz kaldırmazsa aşağıda döngüye düşülür
+      setDecided(true);
+      if (reduced.matches || saveData) {
+        setMode('poster');
+        return;
+      }
+      setMode('scrub'); // telefon dahil her kırılımda scrub; cihaz kaldırmazsa aşağıda döngüye düşülür
     };
     decide();
     // matchMedia dinleyicisi: kırılım/yön değişince mod yeniden seçilir (elle innerWidth kontrolü yok)
@@ -49,6 +62,48 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
       for (const mq of [reduced, tabletUp, desktopUp]) mq.removeEventListener('change', decide);
     };
   }, []);
+
+  // Yükleyiciye ilerleme bildirimi (SiteLoader %70'ini buradan alır). Video yoksa/oynatılmayacaksa hemen 1.
+  const emit = (value: number) => window.dispatchEvent(new CustomEvent(HERO_PROGRESS_EVENT, { detail: value }));
+
+  // Scrub: video TAMAMEN indirilir (blob) → her `currentTime` atlaması bellekten çözülür, ağ beklemez; kare atlamaz.
+  // İndirme akışla okunur → gerçek yüzde. Başarısız olursa (CORS/ağ) doğrudan adrese düşülür; site yine çalışır.
+  useEffect(() => {
+    if (!decided) return;
+    if (mode !== 'scrub' || !sourceUrl) {
+      if (mode === 'poster' || !sourceUrl) emit(1);
+      return;
+    }
+    const controller = new AbortController();
+    let objectUrl: string | null = null;
+    setScrubSrc(null);
+    setReady(false);
+    (async () => {
+      try {
+        const res = await fetch(sourceUrl, { signal: controller.signal });
+        if (!res.ok || !res.body) throw new Error(String(res.status));
+        const total = Number(res.headers.get('content-length')) || 0;
+        const reader = res.body.getReader();
+        const chunks: BlobPart[] = [];
+        let loaded = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+          loaded += value.byteLength;
+          if (total > 0) emit(Math.min(0.97, loaded / total));
+        }
+        objectUrl = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
+        setScrubSrc(objectUrl);
+      } catch {
+        if (!controller.signal.aborted) setScrubSrc(sourceUrl);
+      }
+    })();
+    return () => {
+      controller.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [decided, mode, sourceUrl]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -113,11 +168,8 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
       video.removeEventListener('seeked', onSeeked);
       cancelAnimationFrame(frame);
     };
-  }, [mode, wide]);
+  }, [mode, wide, scrubSrc]);
 
-  // Tablet ve üstü: -g 1 yatay kaynak; telefon: -g 1 dikey kırpılmış yüksek çözünürlüklü kaynak
-  const source = (wide ? desktop : mobile) ?? desktop ?? mobile;
-  const poster = source?.poster ?? desktop?.poster ?? mobile?.poster ?? null;
 
   return (
     <div ref={wrapRef} className={mode === 'scrub' ? 'hero-scrub' : 'hero-static'}>
@@ -126,20 +178,24 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
           // eslint-disable-next-line @next/next/no-img-element -- Storage WebP, LCP adayı; fetchPriority high
           <img src={poster} alt={posterAlt} width={source?.posterWidth ?? undefined} height={source?.posterHeight ?? undefined} fetchPriority="high" decoding="async" className={`hero-media ${ready ? 'hero-media-hidden' : ''}`} />
         ) : null}
-        {mode !== 'poster' && source ? (
+        {mode !== 'poster' && source && (mode === 'loop' || scrubSrc) ? (
           <video
-            key={source.src}
+            key={mode === 'scrub' ? scrubSrc : source.src}
             ref={videoRef}
-            src={source.src}
+            src={mode === 'scrub' ? (scrubSrc ?? undefined) : source.src}
             muted
             playsInline
             preload="auto"
             aria-hidden="true"
-            onLoadedData={() => setReady(true)}
+            onLoadedData={() => {
+              setReady(true);
+              emit(1);
+            }}
             onError={() => {
               // Dosya yüklenemedi (ör. önbellekteki eski adres): poster kalır, boş/siyah sahne gösterilmez
               setReady(false);
               setMode('poster');
+              emit(1);
             }}
             className={`hero-media ${ready ? '' : 'hero-media-hidden'}`}
           />

@@ -6,7 +6,8 @@
   "A11y": {
     "skipToContent": "Skip to content",
     "mainNavigation": "Main navigation",
-    "secondaryNavigation": "Secondary navigation"
+    "secondaryNavigation": "Secondary navigation",
+    "loading": "Loading page"
   },
   "LanguageSwitcher": {
     "label": "Language",

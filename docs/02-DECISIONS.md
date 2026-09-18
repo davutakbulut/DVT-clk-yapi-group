@@ -375,6 +375,11 @@ Başlık Archivo (değişken; genişlik ekseni %116 ile geniş kesim), gövde Ge
 K-08 EN yayını için insan onayı ister. Ürün sahibi 2026-09-18'de İngilizce sitenin tamamlanmasını istedi; mevcut makine taslakları gözden geçirilip `translation_meta.en = {machine: true, reviewed: true, approved_via: "urun-sahibi-talimati-2026-09-18"}` ile yayınlandı. `reviewed_by` boştur; panelde bir dil uzmanı onayladığında dolar.
 **Kapsam dışı:** yasal sayfalar ve mail şablonları (K-08 listesi) — hukuki sorumluluk taşır, İngilizcesi insan eliyle girilir.
 
+### K-74 · İlk giriş yükleyicisi: kurulum animasyonu gerçek ilerlemeye bağlı, içerik altta render edilir
+İlk girişte (oturumda bir kez) tam ekran yükleyici: çelik çerçeve, yükleme ilerledikçe kurulur (zemin → kolonlar → makaslar → aşıklar → çaprazlar → bulonlar; mahyada kaynak kıvılcımı). İlerleme = hero videosunun akışla indirilmesi %70 + `load` %20 + fontlar %10; en az 1,4 sn, en fazla 7 sn. Hero videosu scrub modunda `fetch` ile tamamen indirilip blob olarak bağlanır.
+**Neden:** Ürün sahibi, video ve görseller hazır olmadan sitenin açılmasını istemedi; scrub'ın takılmadan çalışması için videonun tamamının bellekte olması zaten en sağlam yoldur. 03-RESPONSIVE-ANIMATION'daki "loader yok" kararı bu kararla değişti.
+**Bedeli ve sınırları:** Gerçek kullanıcıda ilk anlamlı boyama gecikir. Bunu sınırlamak için katman varsayılan gizlidir ve yalnız satır içi betik `html.clk-loading` eklerse görünür (JS yoksa çıkmaz); `navigator.webdriver` olan ortamlarda (E2E, Lighthouse, otomasyon) kapalıdır; sayfa katmanın altında tam render edildiği için arama motorları içeriği görür; React çalışmazsa CSS animasyonu 9. saniyede katmanı kaldırır. `<html>` sınıfı hidrasyondan önce eklendiği için `suppressHydrationWarning` kullanılır.
+
 ---
 
 ## Değiştirilen Kararlar

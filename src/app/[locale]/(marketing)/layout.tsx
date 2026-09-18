@@ -12,6 +12,8 @@ import { BasketProvider } from '@/modules/quote-basket';
 import { getPublicSettings } from '@/modules/site-settings';
 import { getErrorPage, getLegalPage } from '@/modules/static-pages';
 import { WhatsAppButton } from '@/modules/whatsapp';
+import { SiteLoader } from '@/ui/SiteLoader';
+import { SITE_LOADER_BOOT } from '@/ui/siteLoaderShared';
 import { Container } from '@/ui/Container';
 
 interface Props {
@@ -55,6 +57,9 @@ export default async function MarketingLayout({ children, params }: Props) {
   return (
     <RouteAlternatesProvider>
       <BasketProvider>
+      {/* İlk giriş yükleyicisi: betik boyamadan önce sınıfı koyar; katman varsayılan gizlidir (JS yoksa hiç görünmez) */}
+      <script dangerouslySetInnerHTML={{ __html: SITE_LOADER_BOOT }} />
+      <SiteLoader label={a11y('loading')} siteName={siteName} />
       <JsonLd data={organization} />
       <a href="#main-content" className="skip-link">
         {a11y('skipToContent')}

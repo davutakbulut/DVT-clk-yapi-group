@@ -6,7 +6,8 @@
   "A11y": {
     "skipToContent": "İçeriğe geç",
     "mainNavigation": "Ana gezinme",
-    "secondaryNavigation": "İkincil gezinme"
+    "secondaryNavigation": "İkincil gezinme",
+    "loading": "Sayfa yükleniyor"
   },
   "LanguageSwitcher": {
     "label": "Dil seçimi",

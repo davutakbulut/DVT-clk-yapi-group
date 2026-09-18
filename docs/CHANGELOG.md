@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — ilk giriş yükleyicisi (K-74)
+- `src/ui/SiteLoader.tsx` + `siteLoaderShared.ts`: çelik çerçeve gerçek yükleme ilerledikçe kurulur (SVG, `--p` ile dilimli çizim), yüzde + ilerleme çizgisi, kaynak kıvılcımı; oturumda bir kez, JS'siz/otomasyonda kapalı, 7 sn üst sınır + 9 sn CSS emniyeti; `A11y.loading`
+- `HeroVideo`: scrub kaynağı `fetch` akışıyla tamamen indirilir (blob) → seek ağ beklemez; ilerleme `clk:hero-progress` olayıyla yayınlanır; indirme başarısızsa doğrudan adrese düşer
+- `e2e/loader.spec.ts` (otomasyonda kapalı · zorlanınca görünür/kapanır/işaret yazar · video blob)
+
 ### Değişti — tipografi · mobil scrub · İngilizce içerik
 - **Fontlar (K-72):** Syne + IBM Plex → **Archivo** (başlık, `wdth` ekseni %116) + **Geist** (gövde) + **Geist Mono** (etiket). `display: optional` → `swap`: Türkçe harflerin bulunduğu `latin-ext` alt kümesi geç gelince sayfa boyunca yedek fontla çiziliyordu (karışık "inşa"); artık her zaman yerine oturur
 - **Mobil hero:** telefonda da kaydırmayla kare kare (dikey 912×1080 `-g 1`, 5,3 MB; 220dvh); iOS için oynat-duraklat ile kod çözücü uyandırma; dosya yüklenemezse poster kalır
