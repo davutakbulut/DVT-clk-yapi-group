@@ -42,7 +42,9 @@ export function WhatsAppWidget({ phone, displayName, greeting, replyTime, messag
   if (!visible || hiddenPaths.some((p) => pathname === p || pathname.startsWith(`${p}/`))) return null;
 
   const url = typeof window === 'undefined' ? '' : window.location.href;
-  const message = (messageTemplate ?? t('defaultMessage', { url: '{{url}}' })).replaceAll('{{url}}', url);
+  // Kayıtlı şablon anlamsız kısaysa (ör. yanlışlıkla "/") yok sayılır → varsayılan mesaj
+  const template = messageTemplate && messageTemplate.trim().length >= 10 ? messageTemplate : null;
+  const message = (template ?? t('defaultMessage', { url: '{{url}}' })).replaceAll('{{url}}', url);
   const chatHref = `https://wa.me/${phone.slice(1)}?text=${encodeURIComponent(message)}`;
 
   async function copy() {

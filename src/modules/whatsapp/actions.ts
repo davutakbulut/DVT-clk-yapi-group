@@ -19,8 +19,9 @@ const schema = z
     greetingEn: optional,
     replyTr: optional,
     replyEn: optional,
-    templateTr: optional,
-    templateEn: optional,
+    // Şablon ya boş (varsayılan mesaj kullanılır) ya da anlamlı bir cümle: tek karakterlik yanlış giriş müşteriye "/" göndertir
+    templateTr: optional.refine((v) => !v || v.trim().length >= 10, { message: 'validation' }),
+    templateEn: optional.refine((v) => !v || v.trim().length >= 10, { message: 'validation' }),
     delay: z.coerce.number().int().min(0).max(120),
     hiddenPaths: z.string().max(2000).optional().or(z.literal('')),
   })

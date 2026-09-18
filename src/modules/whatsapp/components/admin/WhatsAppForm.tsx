@@ -39,6 +39,7 @@ export function WhatsAppForm({ row }: { readonly row: WhatsAppAdminRow }) {
         {field('replyEn', `${t('whatsapp.replyTime')} (EN)`, row.reply_time['en'] ?? '')}
         {field('templateTr', `${t('whatsapp.template')} (TR)`, row.template['tr'] ?? '')}
         {field('templateEn', `${t('whatsapp.template')} (EN)`, row.template['en'] ?? '')}
+        <p className="text-xs text-muted-foreground sm:col-span-2">{t('whatsapp.templateHint')}</p>
       </div>
       <div className="grid gap-1">
         <Label htmlFor="w-hidden">{t('whatsapp.hiddenPaths')}</Label>

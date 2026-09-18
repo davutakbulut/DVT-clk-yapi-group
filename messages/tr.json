@@ -277,7 +277,8 @@
       "replyTime": "Yanıt süresi metni",
       "template": "Varsayılan mesaj şablonu ('{{url}}' sayfa adresiyle değiştirilir)",
       "delay": "Gösterim gecikmesi (sn)",
-      "hiddenPaths": "Gizlenecek yollar (satır başına bir yol)"
+      "hiddenPaths": "Gizlenecek yollar (satır başına bir yol)",
+      "templateHint": "Boş bırakırsanız varsayılan mesaj gönderilir: \"Merhaba, bilgi almak istiyorum.\" ve sayfa adresi. Kendi metninizi yazacaksanız en az 10 karakter olmalı."
     },
     "errorPages": {
       "title": "Hata Sayfaları",

@@ -277,7 +277,8 @@
       "replyTime": "Reply time text",
       "template": "Default message template ('{{url}}' is replaced with the page URL)",
       "delay": "Show delay (s)",
-      "hiddenPaths": "Hidden paths (one per line)"
+      "hiddenPaths": "Hidden paths (one per line)",
+      "templateHint": "Leave empty to send the default message: \"Hello, I would like some information.\" plus the page URL. A custom text must be at least 10 characters."
     },
     "errorPages": {
       "title": "Error Pages",

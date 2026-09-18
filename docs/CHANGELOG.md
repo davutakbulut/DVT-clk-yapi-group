@@ -8,6 +8,7 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 ## [Yayınlanmadı]
 
 ### Düzeltildi — panel konsol hataları
+- WhatsApp: kayıtlı mesaj şablonu anlamsız kısaysa (ör. yanlışlıkla `/`) yok sayılıp varsayılan mesaj kullanılır; form 10 karakterden kısa şablonu kaydetmez ve alan altında açıklama gösterir
 - `components/ui/input`: kayıt sonrası `defaultValue` değişince alan yeniden kurulur → Base UI "default value changed" uyarısı biter, kaydedilen değer ekranda güncel görünür (paneldeki tüm formlar)
 - `Admin.whatsapp.template` ve `Admin.mailTemplates.lead` düz metinde `{{url}}` / `{{degisken}}` içeriyordu → next-intl `MALFORMED_ARGUMENT`; ICU kaçışıyla `'{{url}}'` yazıldı. `src/i18n/__tests__/messagesFormat.test.ts`: her mesaj ICU ayrıştırıcısından geçer + TR/EN anahtar eşliği
 - `AdminLayout` → `AdminShell` `headerExtra` öğesine `key` (sunucudan gelen öğe kardeşlerle render edilince React anahtar uyarısı veriyordu)
