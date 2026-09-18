@@ -67,7 +67,7 @@ const html = `<!doctype html>
   .stat b{display:block;font-size:1.5rem}.stat span{opacity:.7;font-size:.85rem}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
   .card{margin:0;border:1px solid color-mix(in srgb,currentColor 15%,transparent);border-radius:10px;overflow:hidden;font-size:.8rem}
-  .card img,.card video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background-size:cover;background-color:#8883}
+  .card img,.card video{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background-size:cover;background-color:#8883}
   figcaption{padding:8px 10px;display:grid;gap:3px}code{font-size:.72rem;word-break:break-all}
   .meta{opacity:.85}.from{opacity:.6}.variants a{margin-right:2px}.alt{opacity:.6;font-size:.72rem}
   nav a{margin-right:12px}

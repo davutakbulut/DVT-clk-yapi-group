@@ -13,6 +13,8 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - `scripts/lib/media-pipeline.mjs` — saf parçalar (slug yolları, varyant planı, hash → uuid, mp4 üst verisi) · 5 test (`scripts/__tests__`)
 - `scripts/generate-media-report.mjs` (`npm run media:report`) — anonim anahtarla `media_library` galerisi (HTML)
 - `src/core/storage/` — `publicStorageUrl` · `mediaSrcSet` · `mediaAlt` · `MediaAsset` tipi (K-02 soyutlaması) · 3 test
+- Yükleme: 3 deneme + geri çekilme · `--skip-existing` (kesilen koşuyu tamamlar) · manifest önceki koşuyla birleştirilir
+- 166 dosya `clk-yapi-group` projesine yüklendi; Storage politikaları anonim anahtarla doğrulandı
 - devDependency: `sharp`
 - **K-49** — medya boru hattı kararı (`docs/02-DECISIONS.md`)
 
