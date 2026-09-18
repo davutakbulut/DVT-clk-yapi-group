@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — konfigüratör seçim sayfası + çok katlı çelik yapı konfigüratörü (K-80)
+- **`/konfigurator`:** artık doğrudan 3D açmaz; "Hangi yapıyı tasarlamak istiyorsunuz?" — iki tür kartı. Eski `?w=&l=…` bağlantıları `/konfigurator/hol`'e yönlenir
+- **`/konfigurator/hol`:** mevcut çelik hol konfigüratörü (taşındı; kayıt, fiyat, metraj aynı)
+- **`/konfigurator/cok-katli`:** yeni — en · boy · kat yüksekliği · kat adedi; aks aralığı, kolon adedi, radye kalınlığı/hacmi, eleman metrajı; paylaşılabilir URL; InstancedMesh sahne
+- **Panel:** Konfigüratör → Kurallar sayfasına "Çok katlı konfigüratör" formu (limitler, en büyük kolon aralığı, radye kuralı, profiller)
+- **Test:** `multiStorey.test.ts` (5), `e2e/configurator-chooser.spec.ts` (4 × 3 kırılım); taşma ve axe listelerine yeni sayfalar
+
 ### Değişti — tasarım kuralları, tek kalıp bölüm başlıkları, örnek yorumlar (K-78, K-79)
 - **`docs/design/04-DESIGN-RULES.md`:** kararsız kalınan noktaların kuralları (bölüm başlığı, renk, köşe/gölge, kart, carousel, buton, boş durum/örnek içerik, mobil, panel) + yeni bölüm kontrol listesi
 - **Bölüm başlıkları:** "Sahadan videolar" (05) ve "Müşteri değerlendirmeleri" (06) artık "Son yazılar" ile aynı kalıpta — numaralı kicker, sola hizalı, sağda ghost buton; altın vurgu ve 20px köşeler kaldırıldı

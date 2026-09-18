@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
 import { AdminPageHeader } from '@/modules/admin-shell';
-import { DEFAULT_RULES, getCachedRules, RulesForm } from '@/modules/configurator';
+import { DEFAULT_RULES, getCachedRules, MultiStoreyRulesForm, RulesForm } from '@/modules/configurator';
 import { listRuleChoices } from '@/modules/configurator/server';
 
 /** Konfigüratör kuralları (yalnız admin): limitler, sistem eşiği, işçilik, profil/fiyat eşlemeleri; profil ve fiyat kataloğuna bağlantı. */
@@ -22,7 +22,9 @@ export default async function ConfiguratorRulesPage() {
           {t('materials.title')}
         </NextLink>
       </p>
+      <h2 className="text-sm font-medium">{t('configuratorRules.hallTitle')}</h2>
       <RulesForm rules={rules.ok ? rules.data : DEFAULT_RULES} choices={choices.data} />
+      <MultiStoreyRulesForm rules={(rules.ok ? rules.data : DEFAULT_RULES).multiStorey} profileCodes={choices.data.profiles} />
     </div>
   );
 }

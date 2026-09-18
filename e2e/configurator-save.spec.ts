@@ -51,11 +51,11 @@ test.describe('konfigüratör kaydet/paylaş', () => {
       test.skip(test.info().project.name !== 'desktop', 'yalnız desktop');
     });
     test('fiyat paneli görünür (kapı yok); Hesabım listesi', async ({ page }) => {
-      await page.goto('/tr/giris?next=%2Ftr%2Fkonfigurator');
+      await page.goto('/tr/giris?next=%2Ftr%2Fkonfigurator%2Fhol');
       await page.getByLabel('E-posta').fill(EMAIL!);
       await page.getByLabel('Şifre', { exact: true }).fill(PASSWORD!);
       await page.getByRole('button', { name: 'Giriş yap' }).click();
-      await page.waitForURL(/\/tr\/konfigurator/);
+      await page.waitForURL(/\/tr\/konfigurator\/hol/);
       await expect(page.getByTestId('price-panel')).toBeVisible();
       await expect(page.getByTestId('price-gate')).toHaveCount(0);
       await page.goto('/tr/hesabim');

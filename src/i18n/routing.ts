@@ -56,6 +56,9 @@ export const routing = defineRouting({
     '/solutions/[slug]': { tr: '/cozumler/[slug]', en: '/solutions/[slug]' },
     // Faz 26 · konfigüratör (kendi route grubu, K-23)
     '/configurator': { tr: '/konfigurator', en: '/configurator' },
+    // Seçim sayfası → tür sayfaları (K-80)
+    '/configurator/hall': { tr: '/konfigurator/hol', en: '/configurator/hall' },
+    '/configurator/multi-storey': { tr: '/konfigurator/cok-katli', en: '/configurator/multi-storey' },
     '/configurator/k/[token]': { tr: '/konfigurator/k/[token]', en: '/configurator/k/[token]' },
     '/configurator/k/[token]/print': { tr: '/konfigurator/k/[token]/yazdir', en: '/configurator/k/[token]/print' },
     // Faz 17 · müşteri yorumları

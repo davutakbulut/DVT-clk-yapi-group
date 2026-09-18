@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLK Yapı Group — Çok Katlı Çelik Yapı Konfigüratörü</title>
+<style>
+  :root{
+    --navy:#1B2A3D; --steelblue:#5C7FA3; --lightblue:#8FA9C4; --gray:#8A9199;
+    --bg:#101820; --panelbg:#16202B; --line:#26333F; --paper:#F2F0EA;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',Arial,sans-serif;background:var(--bg);color:var(--paper);}
+  #app{display:grid;grid-template-columns:340px 1fr;height:100vh;}
+  #panel{background:var(--panelbg);border-right:1px solid var(--line);padding:22px;overflow-y:auto;}
+  #panel h1{font-size:18px;margin:0 0 4px 0;font-weight:700;}
+  #panel .sub{color:#8FA0AE;font-size:12.5px;margin-bottom:20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:flex;justify-content:space-between;font-size:12.5px;color:#C7D0D6;margin-bottom:5px;}
+  .field label span.val{color:var(--lightblue);font-family:monospace;}
+  .field input[type=range]{width:100%;accent-color:var(--steelblue);}
+  .divider{height:1px;background:var(--line);margin:18px 0;}
+  .legend{font-size:11.5px;color:#8FA0AE;line-height:1.7;}
+  .legend .row{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:5px 0;}
+  .legend .row span:last-child{color:var(--paper);font-family:monospace;text-align:right;}
+  .swatch{display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:1px;vertical-align:middle;flex-shrink:0;}
+  #stats{font-size:11.5px;color:#8FA0AE;margin-top:14px;line-height:1.8;}
+  #stats b{color:var(--paper);}
+  #canvas-wrap{position:relative;}
+  #canvas-wrap canvas{display:block;width:100%;height:100%;}
+  #hint{position:absolute;bottom:14px;left:14px;font-size:11px;color:#7C8994;background:rgba(16,24,32,0.7);padding:6px 10px;border:1px solid var(--line);}
+  #note{position:absolute;top:14px;left:14px;right:14px;font-size:11.5px;color:#C7D0D6;background:rgba(16,24,32,0.88);padding:9px 13px;border-left:2px solid var(--steelblue);max-width:600px;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="panel">
+    <h1>Çok Katlı Çelik Yapı</h1>
+    <div class="sub">CLK Yapı Group — konfigüratör prototipi</div>
+
+    <div class="field">
+      <label>Bina genişliği (m) <span class="val" id="v-width">20</span></label>
+      <input type="range" id="width" min="8" max="60" step="1" value="20">
+    </div>
+    <div class="field">
+      <label>Bina uzunluğu (m) <span class="val" id="v-length">30</span></label>
+      <input type="range" id="length" min="8" max="80" step="1" value="30">
+    </div>
+    <div class="field">
+      <label>Kat yüksekliği (m) <span class="val" id="v-fh">3.2</span></label>
+      <input type="range" id="fh" min="2.5" max="4.5" step="0.1" value="3.2">
+    </div>
+    <div class="field">
+      <label>Kat adedi <span class="val" id="v-floors">5</span></label>
+      <input type="range" id="floors" min="1" max="20" step="1" value="5">
+    </div>
+
+    <div id="modeflag"></div>
+
+    <div class="divider"></div>
+
+    <div class="legend">
+      <div class="row"><span><span class="swatch" style="background:#1B2A3D"></span>Kolonlar</span><span>HEB 300</span></div>
+      <div class="row"><span><span class="swatch" style="background:#5C7FA3"></span>Ana kirişler</span><span>IPE 500</span></div>
+      <div class="row"><span><span class="swatch" style="background:#8FA9C4"></span>Tali kirişler</span><span>IPE 400</span></div>
+      <div class="row"><span><span class="swatch" style="background:#8A9199"></span>Temel</span><span>Radye, min. 50cm</span></div>
+    </div>
+
+    <div id="stats"></div>
+  </div>
+
+  <div id="canvas-wrap">
+    <div id="note">
+      <b>Prototip</b> — kolon aralıkları genişlik/uzunluğa göre eşit dağıtılır, en fazla 5m olacak şekilde otomatik hesaplanır. Radye temel kalınlığı 3 kattan sonra her kat için +10cm artar. Gösterim amaçlıdır, statik doğrulama yerine geçmez.
+    </div>
+    <div id="hint">Sürükle: döndür · Tekerlek: yakınlaştır</div>
+  </div>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const wrap = document.getElementById('canvas-wrap');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x101820);
+scene.fog = new THREE.Fog(0x101820, 60, 240);
+
+const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth / wrap.clientHeight, 0.1, 700);
+camera.position.set(46, 34, 46);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+wrap.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.target.set(0, 6, 0);
+controls.enableDamping = true;
+
+scene.add(new THREE.HemisphereLight(0xC9D6DE, 0x101820, 0.9));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.15);
+dirLight.position.set(36, 55, 22);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(2048, 2048);
+dirLight.shadow.camera.near = 1;
+dirLight.shadow.camera.far = 180;
+dirLight.shadow.camera.left = -70;
+dirLight.shadow.camera.right = 70;
+dirLight.shadow.camera.top = 70;
+dirLight.shadow.camera.bottom = -70;
+dirLight.shadow.bias = -0.0015;
+scene.add(dirLight);
+const fillLight = new THREE.DirectionalLight(0x7C93A8, 0.3);
+fillLight.position.set(-30, 18, -24);
+scene.add(fillLight);
+
+const grid = new THREE.GridHelper(200, 100, 0x2A3A48, 0x1E2934);
+scene.add(grid);
+
+const structureGroup = new THREE.Group();
+scene.add(structureGroup);
+
+// ---------------- Profiles ----------------
+const I_PROFILES = {
+  HEB300: { h: 0.300, b: 0.300, tf: 0.019, tw: 0.011 },
+  IPE500: { h: 0.500, b: 0.200, tf: 0.016, tw: 0.0102 },
+  IPE400: { h: 0.400, b: 0.180, tf: 0.0135, tw: 0.0086 }
+};
+
+const columnMat = new THREE.MeshStandardMaterial({ color: 0x1B2A3D, roughness: 0.5, metalness: 0.4 });
+const mainBeamMat = new THREE.MeshStandardMaterial({ color: 0x5C7FA3, roughness: 0.5, metalness: 0.35 });
+const secBeamMat = new THREE.MeshStandardMaterial({ color: 0x8FA9C4, roughness: 0.5, metalness: 0.3 });
+const foundationMat = new THREE.MeshStandardMaterial({ color: 0x8A9199, roughness: 0.85, metalness: 0.05 });
+
+function iBeamShape(p) {
+  const { h, b, tf, tw } = p;
+  const hh = h / 2, hb = b / 2, ht = tw / 2;
+  const s = new THREE.Shape();
+  s.moveTo(-hb, hh); s.lineTo(hb, hh); s.lineTo(hb, hh - tf); s.lineTo(ht, hh - tf);
+  s.lineTo(ht, -(hh - tf)); s.lineTo(hb, -(hh - tf)); s.lineTo(hb, -hh); s.lineTo(-hb, -hh);
+  s.lineTo(-hb, -(hh - tf)); s.lineTo(-ht, -(hh - tf)); s.lineTo(-ht, hh - tf); s.lineTo(-hb, hh - tf);
+  s.closePath();
+  return s;
+}
+function extrudeCentered(shape, length) {
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: Math.max(length, 0.01), bevelEnabled: false, curveSegments: 8 });
+  geo.translate(0, 0, -length / 2);
+  return geo;
+}
+function makeIBeam(key, length, material) {
+  return new THREE.Mesh(extrudeCentered(iBeamShape(I_PROFILES[key]), length), material);
+}
+function frameQuaternion(dir) {
+  const zAxis = dir.clone().normalize();
+  const lengthRef = new THREE.Vector3(0, 0, 1);
+  let xAxis = lengthRef.clone().sub(zAxis.clone().multiplyScalar(lengthRef.dot(zAxis)));
+  if (xAxis.lengthSq() < 1e-6) xAxis = new THREE.Vector3(1, 0, 0);
+  xAxis.normalize();
+  const yAxis = new THREE.Vector3().crossVectors(zAxis, xAxis).normalize();
+  const m = new THREE.Matrix4().makeBasis(xAxis, yAxis, zAxis);
+  return new THREE.Quaternion().setFromRotationMatrix(m);
+}
+function placeBetween(obj, p1, p2) {
+  const start = new THREE.Vector3(...p1), end = new THREE.Vector3(...p2);
+  const mid = start.clone().add(end).multiplyScalar(0.5);
+  obj.position.copy(mid);
+  obj.quaternion.copy(frameQuaternion(end.clone().sub(start)));
+  obj.castShadow = true; obj.receiveShadow = true;
+}
+function addMember(key, material, p1, p2) {
+  const len = new THREE.Vector3(...p1).distanceTo(new THREE.Vector3(...p2));
+  const obj = makeIBeam(key, len, material);
+  placeBetween(obj, p1, p2);
+  structureGroup.add(obj);
+}
+
+function clearStructure() {
+  while (structureGroup.children.length) {
+    const o = structureGroup.children.pop();
+    o.geometry && o.geometry.dispose();
+  }
+}
+
+function gridPositions(span) {
+  const n = Math.max(1, Math.ceil(span / 5));
+  const step = span / n;
+  const pts = [];
+  for (let i = 0; i <= n; i++) pts.push(-span / 2 + i * step);
+  return { pts, step, n };
+}
+
+function build(params) {
+  clearStructure();
+  const { width, length, fh, floors } = params;
+  const halfW = width / 2, halfL = length / 2;
+  const gx = gridPositions(width);
+  const gz = gridPositions(length);
+
+  // columns: full height at every grid intersection
+  gx.pts.forEach((x) => {
+    gz.pts.forEach((z) => {
+      addMember('HEB300', columnMat, [x, 0, z], [x, floors * fh, z]);
+    });
+  });
+
+  // beams at each floor level
+  for (let f = 1; f <= floors; f++) {
+    const y = f * fh;
+    // ana kirişler: grid lines both directions
+    gz.pts.forEach((z) => {
+      for (let i = 0; i < gx.pts.length - 1; i++) {
+        addMember('IPE500', mainBeamMat, [gx.pts[i], y, z], [gx.pts[i + 1], y, z]);
+      }
+    });
+    gx.pts.forEach((x) => {
+      for (let i = 0; i < gz.pts.length - 1; i++) {
+        addMember('IPE500', mainBeamMat, [x, y, gz.pts[i]], [x, y, gz.pts[i + 1]]);
+      }
+    });
+    // tali kirişler: mid-bay secondary beams spanning Z, at X mid-points
+    for (let i = 0; i < gx.pts.length - 1; i++) {
+      const xm = (gx.pts[i] + gx.pts[i + 1]) / 2;
+      for (let j = 0; j < gz.pts.length - 1; j++) {
+        addMember('IPE400', secBeamMat, [xm, y, gz.pts[j]], [xm, y, gz.pts[j + 1]]);
+      }
+    }
+  }
+
+  // foundation: raft slab
+  const thickness = 0.5 + Math.max(0, floors - 3) * 0.1;
+  const slabGeo = new THREE.BoxGeometry(width + 1.5, thickness, length + 1.5);
+  const slab = new THREE.Mesh(slabGeo, foundationMat);
+  slab.position.set(0, -thickness / 2, 0);
+  slab.receiveShadow = true; slab.castShadow = true;
+  structureGroup.add(slab);
+
+  document.getElementById('stats').innerHTML =
+    `<div>Taban alanı: <b>${(width * length).toFixed(0)} m²</b></div>
+     <div>Kat adedi: <b>${floors}</b> · kat yüksekliği: <b>${fh} m</b></div>
+     <div>Toplam bina yüksekliği: <b>${(floors * fh).toFixed(1)} m</b></div>
+     <div>Kolon aralığı: <b>${gx.step.toFixed(2)} m × ${gz.step.toFixed(2)} m</b></div>
+     <div>Kolon adedi (aks): <b>${gx.pts.length * gz.pts.length}</b></div>
+     <div>Temel kalınlığı: <b>${(thickness * 100).toFixed(0)} cm</b></div>`;
+
+  document.getElementById('modeflag').textContent =
+    floors > 3
+      ? `${floors} kat: temel kalınlığı 50cm + ${(floors - 3) * 10}cm = ${(thickness * 100).toFixed(0)}cm olarak hesaplandı.`
+      : `${floors} kat: minimum radye temel kalınlığı 50cm uygulanıyor.`;
+
+  controls.target.set(0, (floors * fh) / 3, 0);
+}
+
+function readParams() {
+  return {
+    width: parseFloat(document.getElementById('width').value),
+    length: parseFloat(document.getElementById('length').value),
+    fh: parseFloat(document.getElementById('fh').value),
+    floors: parseInt(document.getElementById('floors').value)
+  };
+}
+['width', 'length', 'fh', 'floors'].forEach((id) => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById('v-' + id).textContent = document.getElementById(id).value;
+    build(readParams());
+  });
+});
+
+build(readParams());
+
+window.addEventListener('resize', () => {
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+});
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
+
+</body>
+</html>

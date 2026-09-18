@@ -10,3 +10,6 @@ export { SteelProfileForm } from './components/admin/SteelProfileForm';
 export { computePrice, type PriceTable, type PriceEstimate } from './domain/pricing';
 export { PrintButton } from './components/site/PrintButton';
 export { RulesForm } from './components/admin/RulesForm';
+export { MultiStoreyConfigurator } from './components/site/MultiStoreyConfigurator';
+export { MultiStoreyRulesForm } from './components/admin/MultiStoreyRulesForm';
+export { parseMultiStorey, buildMultiStorey, DEFAULT_MULTI_STOREY_RULES, type MultiStoreyParams, type MultiStoreyRules } from './domain/multiStorey';

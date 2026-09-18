@@ -165,6 +165,7 @@ export async function setSharing(formData: FormData): Promise<void> {
 
 // ── Faz 29 · admin: kurallar, satışa dönüştür
 import { redirect } from 'next/navigation';
+import { multiStoreyRulesSchema } from './domain/multiStorey';
 import { limitsSchema } from './domain/params';
 import { DEFAULT_PROFILE_MAP } from './domain/profiles';
 import type { ProfileKey } from './domain/structure';
@@ -229,6 +230,48 @@ export async function saveRules(_prev: ActionState, formData: FormData): Promise
 }
 
 /** Konfigürasyon → satış (RPC, sales/admin): talebi olmalı; kalemler satış kalemi olur, fiyat satışçı girer. */
+/** Çok katlı konfigüratör kuralları: tek `multi_storey` anahtarı (limitler JSON, aks aralığı, radye kuralı, profiller). Yalnız admin. */
+export async function saveMultiStoreyRules(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(ADMINS);
+  if (!gate.ok) return failed('forbidden');
+  const raw = Object.fromEntries(formData);
+  const num = (k: string) => Number(String(raw[k] ?? '').replace(',', '.'));
+  let limits: unknown;
+  try {
+    limits = JSON.parse(String(raw['msLimits'] ?? ''));
+  } catch {
+    return failed('validation', { msLimits: 'validation' });
+  }
+  const parsed = multiStoreyRulesSchema.safeParse({
+    limits,
+    maxColumnSpacingM: num('msMaxColumnSpacingM'),
+    raftBaseM: num('msRaftBaseM'),
+    raftFreeFloors: num('msRaftFreeFloors'),
+    raftExtraPerFloorM: num('msRaftExtraPerFloorM'),
+    raftOverhangM: num('msRaftOverhangM'),
+    profiles: { column: String(raw['msProfile_column'] ?? ''), main_beam: String(raw['msProfile_main_beam'] ?? ''), secondary_beam: String(raw['msProfile_secondary_beam'] ?? '') },
+  });
+  if (!parsed.success) {
+    const fields: Record<string, string> = {};
+    for (const issue of parsed.error.issues) {
+      const head = String(issue.path[0] ?? '');
+      const name = head === 'limits' ? 'msLimits' : head === 'profiles' ? `msProfile_${String(issue.path[1] ?? '')}` : `ms${head.charAt(0).toUpperCase()}${head.slice(1)}`;
+      fields[name] = 'validation';
+    }
+    return failed('validation', fields);
+  }
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  const { error } = await client.data.from('configurator_rules').upsert({ key: 'multi_storey', value: parsed.data as unknown as Json }, { onConflict: 'key' });
+  if (error) {
+    logger.error('Çok katlı kurallar kaydedilemedi', { module: 'configurator', code: error.code, message: error.message });
+    return failed(dbErrorKey(error.code));
+  }
+  revalidateTag(CACHE_TAGS.configurator);
+  revalidatePath('/admin/configurator/rules');
+  return DONE;
+}
+
 export async function convertConfigurationToSale(formData: FormData): Promise<void> {
   const gate = await requireRole(['super_admin', 'admin', 'sales']);
   if (!gate.ok) return;

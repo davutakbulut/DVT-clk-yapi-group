@@ -1391,7 +1391,25 @@
         "roof_panel": "Roof panel",
         "wall_panel": "Wall/gable panel",
         "bolt": "Bolts"
-      }
+      },
+      "multiStorey": {
+        "title": "Multi-storey configurator",
+        "lead": "Rules for the /configurator/multi-storey page. The site updates as soon as you save.",
+        "maxColumnSpacing": "Max column spacing (m)",
+        "maxColumnSpacingHint": "Grid lines are spaced evenly without exceeding this value.",
+        "raftBase": "Raft base thickness (m)",
+        "raftFreeFloors": "Floors without increase",
+        "raftFreeFloorsHint": "Raft thickness does not grow up to this many floors.",
+        "raftExtraPerFloor": "Extra per further floor (m)",
+        "raftOverhang": "Raft overhang (m, each side)",
+        "limitsHint": "JSON: width, length, floor_height, floors → min · max · step",
+        "groups": {
+          "column": "Column section",
+          "main_beam": "Main beam section",
+          "secondary_beam": "Secondary beam section"
+        }
+      },
+      "hallTitle": "Steel hall configurator"
     },
     "navGroups": {
       "overview": "Overview",
@@ -1967,7 +1985,62 @@
       "title": "My configurations",
       "empty": "No saved configurations yet.",
       "start": "Open the configurator"
-    }
+    },
+    "chooser": {
+      "kicker": "Configurator",
+      "title": "Which structure would you like to design?",
+      "lead": "Pick a structure type; as you enter dimensions the frame is built in 3D and the take-off is calculated instantly.",
+      "open": "Open configurator"
+    },
+    "types": {
+      "hall": {
+        "title": "Steel hall · industrial building",
+        "body": "Single-storey pitched-roof steel frame for factories, warehouses, workshops and hangars. Switches to a truss system at wide spans.",
+        "params": "Width · length · eave · ridge · bay spacing"
+      },
+      "multiStorey": {
+        "title": "Multi-storey steel building",
+        "body": "Column-and-beam frame for offices, housing and commercial buildings. Grid spacing, column count and raft thickness follow the number of floors.",
+        "params": "Width · length · storey height · floors"
+      }
+    },
+    "multiStorey": {
+      "params": {
+        "width": "Building width",
+        "length": "Building length",
+        "floorHeight": "Storey height",
+        "floors": "Number of floors"
+      },
+      "stats": {
+        "footprint": "Footprint",
+        "totalArea": "Total floor area",
+        "height": "Building height",
+        "spacing": "Column spacing",
+        "columns": "Columns (grid)",
+        "raft": "Raft foundation"
+      },
+      "groups": {
+        "column": "Columns",
+        "main_beam": "Main beams",
+        "secondary_beam": "Secondary beams"
+      },
+      "takeoff": {
+        "title": "Take-off",
+        "member": "Member",
+        "profile": "Section",
+        "count": "Qty",
+        "length": "Total length",
+        "weight": "Weight",
+        "total": "Total steel",
+        "noWeight": "Weight is calculated once kg/m values are entered in the section catalogue."
+      },
+      "raftNoteBase": "{floors} floors: minimum raft thickness of {base} cm applies.",
+      "raftNoteExtra": "{floors} floors: raft thickness {base} cm + {extra} cm = {total} cm.",
+      "prototypeNote": "Columns are spaced evenly across width and length, at most {spacing} m apart.",
+      "quote": "Get a quote for this building",
+      "canvasLabel": "3D model of a {width} × {length} m steel building with {floors} floors"
+    },
+    "allTypes": "All configurators"
   },
   "FieldVideos": {
     "lead": "Short clips from our sites and erection work.",

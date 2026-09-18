@@ -64,12 +64,14 @@ test.describe('konfigüratör admin', () => {
     const labor = page.getByLabel('İşçilik katsayısı');
     const original = await labor.inputValue();
     await labor.fill('1.15');
-    await page.getByRole('button', { name: 'Kaydet' }).click();
+    await page.getByRole('button', { name: 'Kaydet' }).first().click();
     await expect(page.getByRole('status')).toContainText(/Kaydedildi/);
     await page.reload();
     await expect(page.getByLabel('İşçilik katsayısı')).toHaveValue('1.15');
+    // Çok katlı kurallar formu aynı sayfada (K-80): varsayılanlar görünür
+    await expect(page.getByLabel('En büyük kolon aralığı (m)')).toHaveValue('5');
     await page.getByLabel('İşçilik katsayısı').fill(original);
-    await page.getByRole('button', { name: 'Kaydet' }).click();
+    await page.getByRole('button', { name: 'Kaydet' }).first().click();
     await expect(page.getByRole('status')).toContainText(/Kaydedildi/);
   });
 });

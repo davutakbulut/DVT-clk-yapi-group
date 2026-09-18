@@ -20,7 +20,9 @@ export default async function ConfiguratorLayout({ children }: { readonly childr
         <Link href="/" className="font-[family-name:var(--font-heading)] font-bold tracking-tight">
           ← {t('backHome')}
         </Link>
-        <span className="label-mono text-[var(--color-text-inverse-subtle)]">{t('title')}</span>
+        <Link href="/configurator" className="label-mono text-[var(--color-text-inverse-subtle)] underline-offset-4 hover:underline">
+          {t('allTypes')}
+        </Link>
       </header>
       <main id="main-content" tabIndex={-1} className="configurator-main">
         {children}

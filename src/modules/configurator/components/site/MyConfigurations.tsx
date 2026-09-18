@@ -14,7 +14,7 @@ export async function MyConfigurations() {
       {rows.data.length === 0 ? (
         <p className="text-[length:var(--fs-sm)] text-[var(--color-text-muted)]">
           {t('empty')}{' '}
-          <Link href="/configurator" className="underline underline-offset-4">
+          <Link href="/configurator/hall" className="underline underline-offset-4">
             {t('start')}
           </Link>
         </p>

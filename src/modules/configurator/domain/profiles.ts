@@ -33,6 +33,8 @@ export type Section = ISection | PipeSection | DoubleAngleSection | UnpSection;
 
 export const SECTIONS: Readonly<Record<string, Section>> = {
   HEB360: { kind: 'i', h: 0.36, b: 0.3, tf: 0.0225, tw: 0.0125 },
+  HEB300: { kind: 'i', h: 0.3, b: 0.3, tf: 0.019, tw: 0.011 },
+  IPE400: { kind: 'i', h: 0.4, b: 0.18, tf: 0.0135, tw: 0.0086 },
   IPE500: { kind: 'i', h: 0.5, b: 0.2, tf: 0.016, tw: 0.0102 },
   IPE300: { kind: 'i', h: 0.3, b: 0.15, tf: 0.0107, tw: 0.0071 },
   UNP160: { kind: 'unp', h: 0.16, b: 0.065, tf: 0.0105, tw: 0.0075 },

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 // Mobilde yatay taşma denetimi: belge genişliği görünüm alanını aşmamalı (sayfa sağa kaymaz, sağda boş şerit oluşmaz).
 // Tablolar kendi kaydırma kutusunda taşabilir; belge taşamaz. Yeni sayfa eklenince listeye yazılır.
-const PAGES = ['/tr', '/tr/hizmetler', '/tr/cozumler', '/tr/urunler', '/tr/urunler/kutu-profil-karkas', '/tr/urunler/alcipan-bolme-duvar-ve-asma-tavan', '/tr/urunler/hafif-celik-yapi-sistemi', '/tr/urunler/celik-korkasa', '/tr/projeler', '/tr/blog', '/tr/blog/celik-yapi-tasariminda-temel-mevzuat', '/tr/hakkimizda', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/fiyatlar', '/tr/yorumlar', '/tr/kariyer', '/tr/gizlilik-politikasi', '/tr/kvkk-aydinlatma-metni', '/tr/site-haritasi', '/tr/giris', '/tr/konfigurator', '/en', '/en/products/box-section-steel-framing', '/tr/olmayan-sayfa'];
+const PAGES = ['/tr', '/tr/hizmetler', '/tr/cozumler', '/tr/urunler', '/tr/urunler/kutu-profil-karkas', '/tr/urunler/alcipan-bolme-duvar-ve-asma-tavan', '/tr/urunler/hafif-celik-yapi-sistemi', '/tr/urunler/celik-korkasa', '/tr/projeler', '/tr/blog', '/tr/blog/celik-yapi-tasariminda-temel-mevzuat', '/tr/hakkimizda', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/fiyatlar', '/tr/yorumlar', '/tr/kariyer', '/tr/gizlilik-politikasi', '/tr/kvkk-aydinlatma-metni', '/tr/site-haritasi', '/tr/giris', '/tr/konfigurator', '/tr/konfigurator/hol', '/tr/konfigurator/cok-katli', '/en', '/en/products/box-section-steel-framing', '/tr/olmayan-sayfa'];
 
 test.describe('mobil yatay taşma', () => {
   test.beforeEach(() => {

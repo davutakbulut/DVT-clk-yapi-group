@@ -407,6 +407,12 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Neden:** Referans görsellerden alınan renk ve köşe dili, "keskin, endüstriyel" sistemle çelişiyordu; bölümler farklı sitelerden kesilmiş gibi duruyordu.
 **Sonuç:** Referans görsel yalnız yerleşim fikri verir. Tek istisna yüzen WhatsApp penceresi.
 
+### K-80 · Konfigüratör seçim sayfası; her yapı türü kendi adresinde
+**Karar:** `/konfigurator` artık 3D açmaz, yapı türünü seçtirir (kartlar, Three.js yüklenmez). Türler: `/konfigurator/hol` (mevcut çelik hol — prototip v4) ve `/konfigurator/cok-katli` (yeni — `_archive/prototypes/katlı-konfigurator.html`). Eski paylaşım bağlantıları (`/konfigurator?w=&l=&e=…`) hol sayfasına 307 ile yönlenir. Üst çubukta "Tüm konfigüratörler" bağlantısı.
+**Çok katlı:** saf geometri `domain/multiStorey.ts` (aks ≤ en büyük aralık, her katta ana + tali kiriş, radye kuralı); sahne `InstancedMesh` ile (20 kat × 60×80 m ≈ 9 bin eleman → birkaç çizim çağrısı). Kurallar `configurator_rules.multi_storey` anahtarında, panelden düzenlenir (Konfigüratör → Kurallar). Ağırlık yalnız profil kataloğunda kg/m varsa gösterilir — uydurma değer yok. İlk sürümde kayıt/fiyat yok; "teklif al" bağlantısı var.
+**Not:** Ürün sahibinin gönderdiği `Çelik Konstrüksiyon- konfigurator_v4.html`, arşivdeki `configurator-v4.html` ile bayt bayt aynıdır — yani zaten yayındaki hol konfigüratörüdür; ayrı bir tür olarak eklenmedi.
+**Yeni tür eklemek:** route + `Configurator.types.<key>` mesajları + seçim sayfasındaki `TYPES` dizisine bir satır.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

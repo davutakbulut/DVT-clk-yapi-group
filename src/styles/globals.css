@@ -1582,6 +1582,20 @@
   .configurator-print table { width: 100%; border-collapse: collapse; font-size: 13px; }
   .configurator-print th, .configurator-print td { border-bottom: 1px solid #ddd; padding: 4px 6px; text-align: left; }
   @media print { .configurator-bar, .print\:hidden { display: none !important; } .configurator-shell { background: #fff; color: #111; min-height: 0; } }
+  /* Konfigüratör seçim sayfası (K-80): koyu zeminde çizgi kartlar; köşe ≤4px, vurgu --color-accent-on-dark (04-DESIGN-RULES) */
+  .configurator-chooser { display: grid; align-content: start; gap: var(--space-8); width: 100%; max-width: var(--content-max); margin-inline: auto; padding: var(--section-y) var(--gutter); }
+  .configurator-chooser-grid { display: grid; gap: var(--space-5); margin: 0; padding: 0; list-style: none; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 768px) { .configurator-chooser-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .configurator-type { display: grid; gap: var(--space-3); height: 100%; padding: var(--space-6); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: var(--radius-2); background: rgba(255, 255, 255, 0.03); color: inherit; text-decoration: none; transition: border-color var(--dur-fast), background-color var(--dur-fast); }
+  .configurator-type:hover, .configurator-type:focus-visible { border-color: var(--color-accent-on-dark); background: rgba(255, 255, 255, 0.06); }
+  .configurator-type-glyph { width: 100%; max-width: 220px; height: auto; margin-block: var(--space-2); color: var(--color-accent-on-dark); }
+  .configurator-type-title { font-family: var(--font-heading); font-size: var(--fs-h3); font-weight: 700; line-height: 1.15; }
+  .configurator-type-params { font-family: var(--font-mono, monospace); font-size: var(--fs-xs); color: var(--color-text-muted); padding-top: var(--space-3); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .configurator-type-cta { margin-top: auto; font-weight: 600; color: var(--color-accent-on-dark); }
+  .configurator-swatch { display: inline-block; width: 8px; height: 8px; margin-right: 6px; vertical-align: middle; background: #8A9199; }
+  .configurator-swatch[data-group='column'] { background: #31486A; outline: 1px solid rgba(255, 255, 255, 0.35); }
+  .configurator-swatch[data-group='main_beam'] { background: #5C7FA3; }
+  .configurator-swatch[data-group='secondary_beam'] { background: #B7CBDD; }
   .configurator-shell .btn-ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--color-text-inverse); }
 
   /* ── Yorumlar: orta-kart carousel (K-60 scroll-snap): ortadaki kart vurgulu, yanlar soluk ve kenarlardan kırpık;

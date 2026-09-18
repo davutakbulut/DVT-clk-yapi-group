@@ -1391,7 +1391,25 @@
         "roof_panel": "Çatı paneli",
         "wall_panel": "Duvar/alın paneli",
         "bolt": "Civata"
-      }
+      },
+      "multiStorey": {
+        "title": "Çok katlı konfigüratör",
+        "lead": "/konfigurator/cok-katli sayfasının kuralları. Kaydedince site anında güncellenir.",
+        "maxColumnSpacing": "En büyük kolon aralığı (m)",
+        "maxColumnSpacingHint": "Akslar bu değeri aşmayacak şekilde eşit dağıtılır.",
+        "raftBase": "Radye taban kalınlığı (m)",
+        "raftFreeFloors": "Artışsız kat sayısı",
+        "raftFreeFloorsHint": "Bu kat sayısına kadar radye kalınlığı artmaz.",
+        "raftExtraPerFloor": "Sonraki her kat için ek (m)",
+        "raftOverhang": "Radye taşması (m, her kenar)",
+        "limitsHint": "JSON: width, length, floor_height, floors → min · max · step",
+        "groups": {
+          "column": "Kolon profili",
+          "main_beam": "Ana kiriş profili",
+          "secondary_beam": "Tali kiriş profili"
+        }
+      },
+      "hallTitle": "Çelik hol konfigüratörü"
     },
     "navGroups": {
       "overview": "Genel",
@@ -1967,7 +1985,62 @@
       "title": "Konfigürasyonlarım",
       "empty": "Henüz kayıt yok.",
       "start": "Konfigüratörü aç"
-    }
+    },
+    "chooser": {
+      "kicker": "Konfigüratör",
+      "title": "Hangi yapıyı tasarlamak istiyorsunuz?",
+      "lead": "Yapı türünü seçin; ölçüleri girdikçe taşıyıcı sistem üç boyutlu olarak oluşur, metraj anında hesaplanır.",
+      "open": "Konfigüratörü aç"
+    },
+    "types": {
+      "hall": {
+        "title": "Çelik hol · endüstriyel yapı",
+        "body": "Fabrika, depo, atölye ve hangar için tek katlı, beşik çatılı çelik çerçeve. Geniş açıklıkta makas sisteme geçer.",
+        "params": "En · boy · saçak · mahya · aks aralığı"
+      },
+      "multiStorey": {
+        "title": "Çok katlı çelik yapı",
+        "body": "Ofis, konut ve ticari binalar için kolon-kiriş çerçeve. Aks aralığı, kolon adedi ve radye kalınlığı kat sayısına göre hesaplanır.",
+        "params": "En · boy · kat yüksekliği · kat adedi"
+      }
+    },
+    "multiStorey": {
+      "params": {
+        "width": "Bina genişliği",
+        "length": "Bina uzunluğu",
+        "floorHeight": "Kat yüksekliği",
+        "floors": "Kat adedi"
+      },
+      "stats": {
+        "footprint": "Taban alanı",
+        "totalArea": "Toplam kat alanı",
+        "height": "Bina yüksekliği",
+        "spacing": "Kolon aralığı",
+        "columns": "Kolon adedi (aks)",
+        "raft": "Radye temel"
+      },
+      "groups": {
+        "column": "Kolonlar",
+        "main_beam": "Ana kirişler",
+        "secondary_beam": "Tali kirişler"
+      },
+      "takeoff": {
+        "title": "Metraj",
+        "member": "Eleman",
+        "profile": "Profil",
+        "count": "Adet",
+        "length": "Toplam boy",
+        "weight": "Ağırlık",
+        "total": "Toplam çelik",
+        "noWeight": "Ağırlık, profil kataloğunda kg/m değeri girildiğinde hesaplanır."
+      },
+      "raftNoteBase": "{floors} kat: en az radye kalınlığı {base} cm uygulanıyor.",
+      "raftNoteExtra": "{floors} kat: radye kalınlığı {base} cm + {extra} cm = {total} cm.",
+      "prototypeNote": "Kolon aralıkları en ve boya eşit dağıtılır, en fazla {spacing} m olur.",
+      "quote": "Bu yapı için teklif al",
+      "canvasLabel": "{width} × {length} m, {floors} katlı çelik yapının üç boyutlu modeli"
+    },
+    "allTypes": "Tüm konfigüratörler"
   },
   "FieldVideos": {
     "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",

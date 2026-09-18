@@ -6,7 +6,7 @@ const PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
 const hasAccount = Boolean(EMAIL && PASSWORD);
 
 // Faz 31 · erişilebilirlik denetimi: Faz 5–30'da eklenen tüm ana ön yüz sayfaları + panel ekranları WCAG 2.1 AA (axe) ihlalsiz.
-const PUBLIC_PAGES = ['/tr/hizmetler', '/tr/cozumler', '/tr/fiyat-rehberi', '/tr/yorumlar', '/tr/urunler', '/tr/projeler', '/tr/blog', '/tr/hakkimizda', '/tr/ekibimiz', '/tr/referanslarimiz', '/tr/belgelerimiz', '/tr/kariyer', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/giris', '/tr/kayit', '/tr/konfigurator?w=20&l=40&e=6&r=8&b=6', '/en/services', '/en/configurator'];
+const PUBLIC_PAGES = ['/tr/hizmetler', '/tr/cozumler', '/tr/fiyat-rehberi', '/tr/yorumlar', '/tr/urunler', '/tr/projeler', '/tr/blog', '/tr/hakkimizda', '/tr/ekibimiz', '/tr/referanslarimiz', '/tr/belgelerimiz', '/tr/kariyer', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/giris', '/tr/kayit', '/tr/konfigurator', '/tr/konfigurator/hol?w=20&l=40&e=6&r=8&b=6', '/tr/konfigurator/cok-katli?w=20&l=30&h=3.2&n=5', '/en/services', '/en/configurator'];
 const ADMIN_PAGES = ['/admin', '/admin/leads', '/admin/customers', '/admin/sales', '/admin/invoices', '/admin/reports', '/admin/analytics', '/admin/analytics/funnels', '/admin/errors', '/admin/configurator', '/admin/configurator/rules', '/admin/configurator/profiles', '/admin/translations', '/admin/redirects', '/admin/settings/modules', '/admin/settings/seo', '/admin/audit'];
 
 async function axe(page: Page) {
