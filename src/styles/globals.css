@@ -1660,7 +1660,7 @@
     margin: 0;
     padding: var(--space-6) var(--space-8);
     border: 1px solid var(--color-border);
-    background: var(--color-bg);
+    background: #fff; /* krem bölüm zemininde kart öne çıksın */
     transition: border-color 0.35s, box-shadow 0.35s;
   }
   .testimonial[data-active] .testimonial-card {
@@ -1756,10 +1756,21 @@
   .testimonials-dot[aria-selected='true'] { width: 44px; }
   .testimonials-dot[aria-selected='true']::before { background: #a87a1f; inset: 8px 4px; }
   @media (max-width: 639px) {
-    .testimonials-stage { --card-w: 86vw; }
-    .testimonial-card { padding: var(--space-5); }
-    .testimonials-arrow { display: none; } /* mobilde kaydırma + noktalar */
-    .testimonial-date { display: none; }
+    /* Mobilde de orta-kart: kart 78vw → iki yandan komşu kartlar görünür; oklar kart kenarlarına biner */
+    .testimonials-stage { --card-w: 78vw; }
+    .testimonials-track {
+      gap: var(--space-3);
+      mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+    }
+    .testimonial { transform: scale(0.92); opacity: 0.6; }
+    .testimonial-card { padding: var(--space-5); gap: var(--space-4); }
+    .testimonial-top .ml-auto { margin-left: 0; flex-basis: 100%; }
+    .testimonial-body { font-size: var(--fs-body); }
+    .testimonial-author { flex-wrap: wrap; }
+    .testimonial-date { margin-left: auto; }
+    .testimonials-arrow { width: 44px; height: 44px; margin-top: -30px; }
+    .testimonials-arrow-prev { left: 4px; }
+    .testimonials-arrow-next { right: 4px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .testimonial { transition: none; }
