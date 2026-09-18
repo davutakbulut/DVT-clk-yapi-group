@@ -64,6 +64,7 @@ test.describe('hizmet yönetimi', () => {
   test.skip(!hasAccount, 'E2E_ADMIN_* yok');
 
   test('liste → yeni hizmet oluştur (taslak) → düzenle → sil', async ({ page }) => {
+    test.slow(); // uzun akış: giriş + oluştur + 3 sayfa + sil; paralel çalışanlarla 30 sn yetmiyor
     await login(page, '/admin/services');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hizmetler');
     await page.getByRole('link', { name: 'Yeni hizmet' }).click();

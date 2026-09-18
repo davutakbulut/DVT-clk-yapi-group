@@ -15,6 +15,7 @@
     "test:watch": "vitest",
     "test:db": "vitest run supabase",
     "test:e2e": "playwright test",
+    "test:e2e:cleanup": "node scripts/e2e-cleanup.mjs",
     "circular": "madge --circular --extensions ts,tsx --ts-config tsconfig.json src",
     "scan:static": "node scripts/scan-static-data.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run circular && npm run scan:static && npm run build",

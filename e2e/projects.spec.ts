@@ -44,6 +44,7 @@ test.describe('proje yönetimi', () => {
   test.skip(!hasAccount, 'E2E_ADMIN_* yok');
 
   test('oluştur → yayınla → sitede detay (künye, JSON-LD Article, hizmet bağlantısı) → sil → 404', async ({ page }) => {
+    test.slow(); // uzun akış: giriş + oluştur + 3 sayfa + sil; paralel çalışanlarla 30 sn yetmiyor
     await login(page, '/admin/projects/new');
     const name = `E2E Proje ${Date.now()}`;
     await page.getByLabel('Ad (Türkçe)').fill(name);
@@ -63,8 +64,9 @@ test.describe('proje yönetimi', () => {
     const detail = await page.goto(`/tr/projeler/${slug}`);
     expect(detail?.status()).toBe(200);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
-    await expect(page.getByText('2.400 m²')).toBeVisible();
-    await expect(page.getByText('Gebze')).toBeVisible();
+    // Suspense akışının gizli kapsayıcısı (body sonunda) kısa süre kopya taşıyabilir → ana içeriğe daraltılır
+    await expect(page.locator('#main-content .facts')).toContainText('2.400 m²');
+    await expect(page.locator('#main-content .facts')).toContainText('Gebze');
     expect(await page.locator('script[type="application/ld+json"]').first().textContent()).toContain('"@type":"Article"');
     if (await firstService.count()) await expect(page.locator('main a[href^="/tr/hizmetler/"]').first()).toBeVisible();
     const list = await page.goto('/tr/projeler');
@@ -74,8 +76,8 @@ test.describe('proje yönetimi', () => {
     await page.goto('/admin/projects');
     const row = page.getByRole('row').filter({ hasText: name });
     await row.getByRole('button', { name: 'Sil' }).click();
-    await page.waitForURL(/\/admin\/projects$/);
-    const gone = await page.goto(`/tr/projeler/${slug}`);
-    expect(gone?.status()).toBe(404);
+    // Action bitmeden sayfa değiştirilmez (istek iptal olur): satırın kaybolması beklenir.
+    await expect(row).toHaveCount(0);
+    await expect.poll(async () => (await page.goto(`/tr/projeler/${slug}`))?.status(), { timeout: 15_000 }).toBe(404);
   });
 });
