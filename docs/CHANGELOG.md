@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Düzeltildi — panel konsol hataları
+- `Admin.whatsapp.template` ve `Admin.mailTemplates.lead` düz metinde `{{url}}` / `{{degisken}}` içeriyordu → next-intl `MALFORMED_ARGUMENT`; ICU kaçışıyla `'{{url}}'` yazıldı. `src/i18n/__tests__/messagesFormat.test.ts`: her mesaj ICU ayrıştırıcısından geçer + TR/EN anahtar eşliği
+- `AdminLayout` → `AdminShell` `headerExtra` öğesine `key` (sunucudan gelen öğe kardeşlerle render edilince React anahtar uyarısı veriyordu)
+
 ### Eklendi — ilk giriş yükleyicisi (K-74)
 - `src/ui/SiteLoader.tsx` + `siteLoaderShared.ts`: çelik çerçeve gerçek yükleme ilerledikçe kurulur (SVG, `--p` ile dilimli çizim), yüzde + ilerleme çizgisi, kaynak kıvılcımı; oturumda bir kez, JS'siz/otomasyonda kapalı, 7 sn üst sınır + 9 sn CSS emniyeti; `A11y.loading`
 - `HeroVideo`: scrub kaynağı `fetch` akışıyla tamamen indirilir (blob) → seek ağ beklemez; ilerleme `clk:hero-progress` olayıyla yayınlanır; indirme başarısızsa doğrudan adrese düşer

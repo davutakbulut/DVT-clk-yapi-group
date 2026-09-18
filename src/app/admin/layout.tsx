@@ -30,7 +30,7 @@ export default async function AdminLayout({ children }: { readonly children: Rea
       <body>
         <NextIntlClientProvider locale="tr" messages={messages}>
           {user.isStaff ? (
-            <AdminShell user={user} nav={ADMIN_NAV} headerExtra={<NotificationBell initialUnread={0} />}>
+            <AdminShell user={user} nav={ADMIN_NAV} headerExtra={<NotificationBell key="notification-bell" initialUnread={0} />}>
               {children}
             </AdminShell>
           ) : (

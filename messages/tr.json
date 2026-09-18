@@ -275,7 +275,7 @@
       "displayName": "Görünen ad",
       "greeting": "Karşılama mesajı",
       "replyTime": "Yanıt süresi metni",
-      "template": "Varsayılan mesaj şablonu ({{url}} sayfa adresiyle değiştirilir)",
+      "template": "Varsayılan mesaj şablonu ('{{url}}' sayfa adresiyle değiştirilir)",
       "delay": "Gösterim gecikmesi (sn)",
       "hiddenPaths": "Gizlenecek yollar (satır başına bir yol)"
     },
@@ -568,7 +568,7 @@
     },
     "mail": {
       "title": "Mail Şablonları",
-      "lead": "{{degisken}} yer tutucuları. Otomatik çeviri kapalı; EN gövde boşsa TR gönderilir. Test, kendi e-postanıza kuyruğa atar.",
+      "lead": "'{{degisken}}' yer tutucuları. Otomatik çeviri kapalı; EN gövde boşsa TR gönderilir. Test, kendi e-postanıza kuyruğa atar.",
       "template": "Şablon",
       "subject": "Konu",
       "body": "Gövde",

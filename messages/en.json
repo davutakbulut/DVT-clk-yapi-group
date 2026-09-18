@@ -275,7 +275,7 @@
       "displayName": "Display name",
       "greeting": "Greeting",
       "replyTime": "Reply time text",
-      "template": "Default message template ({{url}} is replaced with the page URL)",
+      "template": "Default message template ('{{url}}' is replaced with the page URL)",
       "delay": "Show delay (s)",
       "hiddenPaths": "Hidden paths (one per line)"
     },
@@ -568,7 +568,7 @@
     },
     "mail": {
       "title": "Mail Templates",
-      "lead": "{{variable}} placeholders. No machine translation; empty EN body falls back to TR. Test queues to your own email.",
+      "lead": "'{{variable}}' placeholders. No machine translation; empty EN body falls back to TR. Test queues to your own email.",
       "template": "Template",
       "subject": "Subject",
       "body": "Body",
