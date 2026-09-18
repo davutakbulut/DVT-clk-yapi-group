@@ -15,50 +15,41 @@ interface Props {
 }
 
 /**
- * Ortalanmış logo: sol menü · marka · sağ menü + dil + CTA. Menü veritabanından (önbellekli), yedeği modülde.
- * Oturum durumu (👤) istemci bileşeni olarak Faz 5'te eklenir; sabit genişlikli yer ayrılmaz çünkü henüz öğe yok.
+ * Masaüstü: logo EN BAŞTA, menü hemen yanında (veritabanı sırasıyla tek nav), sağda dil + sepet + hesap + CTA.
+ * Yer daralınca (< 1280 px) dil değiştirici ve sepet header'ın ÜSTÜNDE ince bir bara çıkar; ana satırda logo, menü
+ * (≥ 1024) ya da çekmece düğmesi (< 1024), hesap ve CTA kalır. Tek DOM: taşıma CSS grid alanlarıyla (çift render yok →
+ * çift landmark/odak durağı yok). Menü veritabanından (önbellekli), yedeği modülde.
  */
 export async function Header({ locale }: Props) {
   const [items, settings, a11y] = await Promise.all([getMenu('header', locale), getPublicSettings(), getTranslations('A11y')]);
   const siteName = pickLocale(settings.siteName, locale, { fallback: 'tr' });
   const cta = items.find((n) => n.isCta) ?? null;
-  const left = items.filter((n) => !n.isCta && n.slot !== 'right');
-  const right = items.filter((n) => !n.isCta && n.slot === 'right');
-  const brand = <BrandMark siteName={siteName} />;
+  const links = items.filter((n) => !n.isCta);
 
   return (
     <header className="site-header" data-on-dark="">
       <Container className="site-header-grid">
-        <div className="flex items-center justify-start">
-          <MobileDrawer items={items.filter((n) => !n.isCta)} cta={cta} brand={<BrandMark siteName={siteName} size="sm" />} />
-          {left.length > 0 ? (
-            <nav aria-label={a11y('mainNavigation')} className="hidden lg:block">
-              <ul className="flex items-center">
-                {left.map((node) => (
-                  <li key={node.id}>
-                    <MenuLinkView node={node} className="site-nav-link" />
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null}
+        <div className="site-header-brand">
+          <MobileDrawer items={links} cta={cta} brand={<BrandMark siteName={siteName} size="sm" />} />
+          <BrandMark siteName={siteName} />
         </div>
-        <div className="flex justify-center">{brand}</div>
-        <div className="flex items-center justify-end gap-2">
-          {right.length > 0 ? (
-            <nav aria-label={a11y('secondaryNavigation')} className="hidden lg:block">
-              <ul className="flex items-center">
-                {right.map((node) => (
-                  <li key={node.id}>
-                    <MenuLinkView node={node} className="site-nav-link" />
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null}
-          {/* Her kırılımda header'da: mobilde çekmece olmayabilir (K-50), dil değiştirici yine erişilebilir olmalı */}
+        {links.length > 0 ? (
+          <nav aria-label={a11y('mainNavigation')} className="site-header-nav">
+            <ul className="flex items-center">
+              {links.map((node) => (
+                <li key={node.id}>
+                  <MenuLinkView node={node} className="site-nav-link" />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
+        {/* < 1280: üst bar · ≥ 1280: ana satırın sağı. Her kırılımda erişilebilir (K-50: çekmece olmayabilir). */}
+        <div className="site-header-utils">
           <LanguageSwitcher />
           <BasketLink />
+        </div>
+        <div className="site-header-actions">
           <AccountMenu />
           {cta ? <MenuLinkView node={cta} className="btn btn-primary hidden sm:inline-flex" /> : null}
         </div>

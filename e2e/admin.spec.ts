@@ -55,13 +55,14 @@ test.describe('yönetim paneli', () => {
     await expect(page).toHaveURL(/\/tr\/giris/);
   });
 
-  test('menüler: 3 menü listelenir, header öğeleri route uyarısıyla görünür', async ({ page }) => {
+  test('menüler: 3 menü listelenir, header öğeleri görünür; route uyarısı kalmadı', async ({ page }) => {
     await login(page, '/admin/menus');
     await expect(page.getByRole('link', { name: /Üst menü/ })).toBeVisible();
     await page.getByRole('link', { name: /Üst menü/ }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Üst menü');
     await expect(page.locator('main').getByText('Hizmetler', { exact: true }).first()).toBeVisible();
-    await expect(page.getByText('route yok').first()).toBeVisible();
+    // Faz 26'da /configurator route'u geldi → tohumlanan header öğelerinin hepsinin route'u var (K-50 uyarısı boş)
+    await expect(page.getByText('route yok')).toHaveCount(0);
     await expect(page.getByRole('heading', { name: 'Yeni öğe' })).toBeVisible();
   });
 

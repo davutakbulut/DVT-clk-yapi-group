@@ -17,7 +17,8 @@
     "switching": "Switching language…"
   },
   "Home": {
-    "underConstruction": "Under construction"
+    "underConstruction": "Under construction",
+    "scrollHint": "Scroll"
   },
   "Errors": {
     "notFoundTitle": "Page not found",

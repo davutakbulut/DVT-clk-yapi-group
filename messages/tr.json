@@ -17,7 +17,8 @@
     "switching": "Dil değiştiriliyor…"
   },
   "Home": {
-    "underConstruction": "Yapım aşamasında"
+    "underConstruction": "Yapım aşamasında",
+    "scrollHint": "Kaydırın"
   },
   "Errors": {
     "notFoundTitle": "Sayfa bulunamadı",

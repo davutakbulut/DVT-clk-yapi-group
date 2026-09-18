@@ -361,6 +361,11 @@ Supabase'in günlük anlık görüntüsüne ek olarak `scripts/backup-export.mjs
 **Neden:** Ana sayfa JS'i %58 küçüldü; modül sınırı kuralı (yalnız `index.ts`) korunurken bedeli sıfırlandı.
 **Bilinen bedeli:** Yan etkiye dayanan bir modül (kayıt/polyfill) eklenirse bayrağın dışına alınmalı; şu an yalnız CSS böyle.
 
+### K-71 · Hero videosu betikle üretilir; header'da logo başta, dar ekranda dil + sepet üst barda
+Hero videosu panelden ham yüklenmez: `scripts/hero-video-build.mjs` kaynağı `-g 1` ile (her kare keyframe) iki çözünürlükte kodlar, posteri ilk kareden üretir ve aktif hero kaydına bağlar. Header ortalanmış logodan "logo + menü solda, araçlar sağda" düzenine geçti; 1280 px altında dil değiştirici ve sepet ana satırdan çıkıp üstte ince bir bara taşınır.
+**Neden:** Normal GOP'lu videoda `currentTime` scrub takılır (03-RESPONSIVE-ANIMATION); panelden yüklenen ham dosya bu garantiyi vermez. Header'da 7 menü öğesi + logo + dil + sepet + hesap + CTA 1024–1280 arasında sıkışıyordu; öğeleri gizlemek yerine ikinci satıra almak her kırılımda erişilebilir tutar (K-50).
+**Bilinen bedeli:** Video değişince betik yeniden çalıştırılır (ffmpeg gerekir; `FFMPEG_PATH`). < 1280 px'te header 104 px (üst bar 40 + satır 64). `-g 1` dosyayı ~2,5 kat büyütür (2,6 → 6,4 MB); `reduced-motion`/`saveData`'da video hiç yüklenmez.
+
 ---
 
 ## Değiştirilen Kararlar

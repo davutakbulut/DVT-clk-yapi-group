@@ -166,12 +166,75 @@
     color: var(--color-text-inverse);
   }
 
+  /* Logo başta, menü yanında. < 1280: dil + sepet üst barda (satır 1), ana satır altında. ≥ 1280: tek satır. */
   .site-header-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: var(--topbar-h) var(--header-row-h);
+    grid-template-areas:
+      'utils utils utils'
+      'brand nav actions';
     align-items: center;
-    min-height: var(--header-h);
-    gap: var(--space-4);
+    column-gap: var(--space-6);
+  }
+  .site-header-brand {
+    grid-area: brand;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .site-header-nav {
+    grid-area: nav;
+    display: none;
+    min-width: 0;
+  }
+  .site-header-utils {
+    grid-area: utils;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    height: var(--topbar-h);
+    font-size: var(--fs-xs);
+  }
+  .site-header-actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+  /* Üst bar şeridi: tam genişlik (Container dışına taşar), ince ayırıcı */
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: var(--topbar-h);
+    background: rgb(15 19 21 / 0.35);
+    border-bottom: 1px solid var(--color-border-dark);
+    pointer-events: none;
+  }
+  .site-header-grid {
+    position: relative;
+  }
+  @media (min-width: 1024px) {
+    .site-header-nav {
+      display: block;
+    }
+  }
+  @media (min-width: 1280px) {
+    .site-header-grid {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-rows: var(--header-row-h);
+      grid-template-areas: 'brand nav utils actions';
+    }
+    .site-header-utils {
+      height: auto;
+      font-size: inherit;
+    }
+    .site-header::before {
+      display: none;
+    }
   }
 
   .site-nav-link {
@@ -416,13 +479,58 @@
     z-index: 1;
     min-height: 100dvh;
     display: grid;
+    /* minmax(0,1fr): uzun kelime (konstrüksiyon) sütunu genişletip metni ekran dışına taşırmasın */
+    grid-template-columns: minmax(0, 1fr);
     align-content: end;
     gap: var(--space-6);
     padding-top: calc(var(--header-h) + var(--space-8));
     padding-bottom: clamp(var(--space-12), 9vh, var(--space-24));
   }
+  /* Scrub: sahne ve kopya aynı ızgara hücresinde; kopya sticky → başlık/CTA ilk boyamada yerinde ve 300dvh boyunca
+     videonun üstünde kalır (03-RESPONSIVE-ANIMATION "başlık, CTA, poster zaten yerinde"). pin YOK: saf CSS sticky. */
+  .hero:has(> .hero-scrub) {
+    display: grid;
+  }
+  .hero:has(> .hero-scrub) > .hero-scrub,
+  .hero:has(> .hero-scrub) > .hero-copy {
+    grid-area: 1 / 1;
+  }
   .hero-scrub + .hero-copy {
-    margin-top: -100dvh;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100dvh;
+    min-height: 0;
+    /* son %25'te kopya hafifçe yükselip solar → sonraki bölüme geçiş; yalnız transform + opacity */
+    opacity: calc(1 - max(0, (var(--hero-progress, 0) - 0.75) * 4));
+    transform: translateY(calc(max(0, (var(--hero-progress, 0) - 0.75)) * -120px));
+  }
+  .hero-scroll-cue {
+    display: none;
+  }
+  .hero-scrub + .hero-copy .hero-scroll-cue {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+  }
+  .hero-scroll-bar {
+    position: relative;
+    width: min(220px, 40vw);
+    height: 1px;
+    background: rgb(247 246 244 / 0.25);
+  }
+  .hero-scroll-bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent-on-dark);
+    transform-origin: left;
+    transform: scaleX(var(--hero-progress, 0));
   }
   .hero-kicker {
     display: flex;
@@ -443,7 +551,9 @@
   .hero-title {
     max-width: 18ch;
     color: var(--color-text-inverse);
-    font-size: clamp(2.5rem, 1.4rem + 5.6vw, 5.25rem);
+    /* 375 px'te en uzun kelime satıra sığar (≈31 px); masaüstü tavanı aynı */
+    font-size: clamp(1.75rem, 0.5rem + 6.2vw, 5.25rem);
+    overflow-wrap: anywhere;
     line-height: 1.02;
     letter-spacing: -0.02em;
   }

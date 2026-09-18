@@ -44,7 +44,10 @@
     --gutter: clamp(16px, 8px + 2vw, 28px);
     --content-max: 1180px;
     --prose-max: 68ch;
-    --header-h: 72px;
+    /* Header: ana satır + (< 1280 px) dil/sepet üst barı. --header-h TOPLAM yüksekliktir (scroll-padding, hero dolgusu). */
+    --header-row-h: 64px;
+    --topbar-h: 40px;
+    --header-h: calc(var(--header-row-h) + var(--topbar-h));
 
     /* Radius — keskin, endüstriyel */
     --radius-0: 0;
@@ -62,5 +65,12 @@
     --dur: 250ms;
     --dur-slow: 400ms;
     --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  /* ≥ 1280 px: dil + sepet ana satıra iner, üst bar kalkar */
+  @media (min-width: 1280px) {
+    :root {
+      --topbar-h: 0px;
+      --header-row-h: 72px;
+    }
   }
 }

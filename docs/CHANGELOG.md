@@ -7,6 +7,14 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Düzeltildi — Scroll video hero gerçekten devrede · header yerleşimi
+- **Hero:** scrub bileşeni Faz 6'dan beri koddaydı ama aktif `hero_media` kaydına video hiç bağlanmamıştı → site desenli yedek hero'yu gösteriyordu. `scripts/hero-video-build.mjs` (ffmpeg): masaüstü 1280p **`-g 1`** (6,4 MB), mobil/tablet 854p `-g 1` (1,9 MB), posterler = ilk kare (WebP) → Storage + `media_library` + aktif hero kaydı
+- `HeroVideo`: tablet (≥ 768) düşük çözünürlüklü kaynakla scrub, telefon otomatik döngü, `matchMedia` dinleyicileri, önceki seek bitmeden yenisi yok, seek gecikmesi ölçümü → zayıf cihazda döngüye düşüş, `--hero-progress`
+- Başlık/CTA artık scrub boyunca videonun üstünde sticky (önceden 300dvh'nin en altındaydı, ilk ekranda başlık yoktu); son %25'te solup yükselir; kaydırma ipucu + ilerleme çizgisi (`Home.scrollHint`)
+- Mobil hero taşması: uzun kelime ızgara sütununu genişletiyordu → `minmax(0,1fr)` + başlık ölçeği
+- **Header:** logo en başta, menü yanında tek nav (veritabanı sırası); sağda dil + sepet + hesap + CTA. < 1280 px'te dil ve sepet header'ın üstünde ince bara çıkar (tek DOM, CSS grid alanları); `--header-h` toplam yükseklik (`--header-row-h` + `--topbar-h`)
+- `e2e/admin.spec.ts`: "route yok" beklentisi Faz 26'dan beri eskiydi (tüm header öğelerinin route'u var)
+
 ### Eklendi — Faz 31 · Erişilebilirlik · performans · yedek tatbikatı
 - `e2e/accessibility-audit.spec.ts` (38 sayfa axe + konfigüratör klavye) · konfigüratör kontrast düzeltmeleri (`globals.css`, `TakeoffPanel`, `SavePanel`)
 - `package.json` `sideEffects` (istemci paketinden supabase-js düştü) · `Scene` demand frameloop/dpr/gölge/segment · `Configurator` boş anda sahne

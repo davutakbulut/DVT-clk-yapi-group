@@ -65,6 +65,13 @@ export async function HeroSection({ locale, siteName }: Props) {
             <Button href={ctaPath as never}>{ctaLabel}</Button>
           </div>
         ) : null}
+        {/* Visible in scrub mode only (CSS): scroll cue + progress line driven by --hero-progress, written by HeroVideo */}
+        {hasVideo ? (
+          <p className="hero-scroll-cue" aria-hidden="true">
+            <span>{t('scrollHint')}</span>
+            <span className="hero-scroll-bar" />
+          </p>
+        ) : null}
       </div>
     </section>
   );
