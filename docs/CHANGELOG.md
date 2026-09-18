@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — başlangıç içeriği (yasal sayfalar · SSS · blog)
+- `supabase/migrations/0041_content_legal_faq_blog.sql`: 4 yasal sayfa (gizlilik, çerez, KVKK aydınlatma, kullanım koşulları) sitenin gerçekte yaptığı veri işlemeye göre yazıldı ve **TR** yayınlandı (EN: Kural 7 gereği insan onayı bekler) · 11 genel SSS · 3 bilgilendirici blog yazısı (kategori başına bir). Yeniden çalıştırılabilir; `supabase/tests/content-seed.test.ts`
+- Ticari unvan/adres uydurulmadı (İletişim sayfasına atıf) — **hukukçu gözden geçirmeli**. Proje, referans, belge, ekip, yorum, fiyat ve ürün verisi EKLENMEDİ (CLAUDE.md "asla")
+- Yasal sayfalar `RouteAlternates` kaydeder: EN yayında değilken dil değiştirici ana sayfaya gider; `e2e/seo.spec.ts` yeni duruma göre güncellendi
+
 ### Eklendi — tek kullanımlık şifre belirleme bağlantısı
 - `scripts/admin-recovery-link.mjs`: hesap için tek kullanımlık bağlantıyı yalnız terminale yazar (şifre hiçbir betikten/sohbetten geçmez) · `/auth/callback` `token_hash` doğrulaması (`verifyOtp`; recovery/invite/email/signup) — ilk kullanım oturum açar, ikinci kullanım ve geçersiz token `/tr/giris?error=link`
 

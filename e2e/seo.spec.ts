@@ -10,7 +10,9 @@ test.describe('SEO temeli', () => {
     expect(xml).toContain('hreflang="x-default"');
     expect(xml).toContain('/tr/hizmetler');
     expect(xml).toContain('/en/services');
-    expect(xml).not.toContain('/gizlilik-politikasi');
+    // 0041: yasal sayfalar yalnız TR yayında → TR adresi var, EN adresi yok (K-08: yayınlanmamış dil yazılmaz)
+    expect(xml).toContain('/tr/gizlilik-politikasi');
+    expect(xml).not.toContain('/en/privacy-policy');
   });
 
   test('robots.txt: yayın bayrağı kapalıyken tümü engelli (önizleme güvenliği)', async ({ request }) => {
@@ -53,9 +55,12 @@ test.describe('SEO temeli', () => {
     await expect(page.getByRole('dialog', { name: /Çerez/ })).toHaveCount(0);
   });
 
-  test('taslak yasal sayfa 404; HTML site haritası açılır', async ({ page }) => {
+  test('yasal sayfa: TR yayında 200, yayınlanmamış EN 404; HTML site haritası açılır', async ({ page }) => {
     const res = await page.goto('/tr/gizlilik-politikasi');
-    expect(res?.status()).toBe(404);
+    expect(res?.status()).toBe(200);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Gizlilik Politikası');
+    const en = await page.goto('/en/privacy-policy');
+    expect(en?.status()).toBe(404);
     const map = await page.goto('/tr/site-haritasi');
     expect(map?.status()).toBe(200);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Site haritası');

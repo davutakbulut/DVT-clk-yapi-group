@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/alternates';
+import { RouteAlternates } from '@/i18n/RouteAlternates';
 import type { Locale } from '@/i18n/routing';
 import { getLegalPage, LegalPage } from '@/modules/static-pages';
 
@@ -22,7 +23,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
-  const page = await getLegalPage(KEY, locale);
+  const [page, tr, en] = await Promise.all([getLegalPage(KEY, locale), getLegalPage(KEY, 'tr'), getLegalPage(KEY, 'en')]);
   if (!page) notFound();
-  return <LegalPage title={page.title} body={page.body} updatedAt={page.updatedAt} />;
+  // Karşı dilde yayında değilse dil değiştirici 404'e değil ana sayfaya gider (yasal metinde otomatik çeviri kapalı, Kural 7)
+  return (
+    <RouteAlternates value={{ hrefs: { tr: tr ? '/data-protection' : null, en: en ? '/data-protection' : null }, fallback: '/' }}>
+      <LegalPage title={page.title} body={page.body} updatedAt={page.updatedAt} />
+    </RouteAlternates>
+  );
 }
