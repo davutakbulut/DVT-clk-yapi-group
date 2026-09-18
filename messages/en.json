@@ -1389,6 +1389,29 @@
         "wall_panel": "Wall/gable panel",
         "bolt": "Bolts"
       }
+    },
+    "navGroups": {
+      "overview": "Overview",
+      "content": "Content",
+      "catalog": "Catalog & Pricing",
+      "corporate": "Company",
+      "crm": "Leads & Sales",
+      "configurator": "Configurator",
+      "analytics": "Analytics",
+      "site": "Site & SEO",
+      "settings": "Settings",
+      "system": "System"
+    },
+    "navFilter": "Search menu",
+    "navFilterEmpty": "No matching page",
+    "roleLabel": "Role",
+    "roles": {
+      "super_admin": "Super admin",
+      "admin": "Admin",
+      "editor": "Editor",
+      "sales": "Sales",
+      "viewer": "Viewer",
+      "member": "Member"
     }
   },
   "Services": {

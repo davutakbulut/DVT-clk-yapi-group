@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — panel çatısı · font yükleme
+- **Panel kenar çubuğu:** 54 bağlantı iş akışına göre 10 bölüme ayrıldı (Genel · İçerik · Katalog ve Fiyat · Kurumsal · Talep ve Satış · Konfigüratör · Analitik · Site ve SEO · Ayarlar · Sistem); bölümler daraltılır (seçim tarayıcıda hatırlanır, bulunulan bölüm hep açık), menüde arama, bölüm ikonları ve sayaçları, en uzun eşleşen adres işaretlenir; koyu marka zemini, mobilde çekmece + arka plan perdesi
+- **Panel üst şeridi:** yapışkan, bulanık zemin; konum kırıntısı (bölüm / sayfa), bildirim zili, "Siteyi gör" (yeni sekme), kullanıcı rozeti (baş harfler · ad · rol), çıkış
+- **Fontlar:** `swap` → `block` (yedek fonttan marka fontuna görünür geçiş yok); `SiteLoader` fontları Türkçe harfli örnekle açıkça yükleyip öyle kapanır
+- `e2e/chrome.spec.ts`: WhatsApp testi veriyle uyumlu (numara yoksa buton yok; varsa panel + anlamlı hazır mesaj)
+
 ### Düzeltildi — panel konsol hataları
 - WhatsApp: kayıtlı mesaj şablonu anlamsız kısaysa (ör. yanlışlıkla `/`) yok sayılıp varsayılan mesaj kullanılır; form 10 karakterden kısa şablonu kaydetmez ve alan altında açıklama gösterir
 - `components/ui/input`: kayıt sonrası `defaultValue` değişince alan yeniden kurulur → Base UI "default value changed" uyarısı biter, kaydedilen değer ekranda güncel görünür (paneldeki tüm formlar)

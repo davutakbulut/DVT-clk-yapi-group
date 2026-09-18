@@ -367,7 +367,7 @@ Hero videosu panelden ham yüklenmez: `scripts/hero-video-build.mjs` kaynağı `
 **Bilinen bedeli:** Video değişince betik yeniden çalıştırılır (ffmpeg gerekir; `FFMPEG_PATH`). < 1280 px'te header 104 px (üst bar 40 + satır 64). `-g 1` dosyayı ~2,5 kat büyütür (2,6 → 6,4 MB); `reduced-motion`/`saveData`'da video hiç yüklenmez.
 
 ### K-72 · Tipografi: Archivo + Geist + Geist Mono, `display: swap`
-Başlık Archivo (değişken; genişlik ekseni %116 ile geniş kesim), gövde Geist, teknik etiketler Geist Mono. Fontlar `swap` ile yüklenir.
+Başlık Archivo (değişken; genişlik ekseni %116 ile geniş kesim), gövde Geist, teknik etiketler Geist Mono. Fontlar `block` ile yüklenir (önce `swap` denendi; yedekten marka fontuna görünür geçiş ürün sahibince istenmedi) ve ilk girişte yükleyici fontları açıkça yükler.
 **Neden:** Google alt kümeleri ayrı dosyalardır; Türkçe'ye özgü harfler `latin-ext` dosyasındadır. `optional` ile bu dosya ilk ~100 ms'de yetişmezse o sayfa görünümünde `ş ğ İ ı` yedek fontla, geri kalan harfler marka fontuyla çiziliyordu. Syne'ın sedilli harf çizimi de zayıftı. Üç yeni font Türkçe glifleri tam ve tutarlı içerir; değişken oldukları için ağırlık başına dosya yoktur.
 **Bilinen bedeli:** `swap` yavaş bağlantıda kısa bir yedek-font anı (FOUT) gösterir; next/font'un metrik uyumlu yedeği kaymayı (CLS) önler. Laboratuvar LCP'si metin boyamasına bağlı sayfalarda bir miktar gecikebilir. Önceki marka fontu kararı (01-DESIGN-SYSTEM) bu kararla değişti.
 

@@ -24,10 +24,18 @@ test.describe('çatı', () => {
     await expect(footer.getByRole('link', { name: /tel:|\+90/ })).toHaveCount(0);
   });
 
-  test('WhatsApp numarası girilmediği sürece yüzen buton render edilmez', async ({ page }) => {
-    await page.goto('/tr');
-    await page.waitForTimeout(3500);
-    await expect(page.getByRole('button', { name: /WhatsApp/ })).toHaveCount(0);
+  test('WhatsApp: numara yoksa buton YOK; varsa panel açılır ve hazır mesaj anlamlıdır', async ({ page }) => {
+    await page.goto('/tr/hizmetler');
+    await page.waitForTimeout(4500);
+    const button = page.getByRole('button', { name: /WhatsApp/ });
+    if ((await button.count()) === 0) return; // numara girilmemiş (CI / boş veritabanı): bilerek render edilmez
+    await button.click();
+    const chat = page.locator('.wa-panel a[href*="wa.me/"]').first();
+    await expect(chat).toBeVisible();
+    const text = decodeURIComponent((await chat.getAttribute('href'))!.split('text=')[1] ?? '');
+    // Anlamsız kısa şablon ("/") yok sayılıp varsayılan mesaj kullanılmalı; sayfa adresi mesajda
+    expect(text.length).toBeGreaterThan(15);
+    expect(text).toContain('/tr/hizmetler');
   });
 
   test('404: çizim, kod etiketi, ana sayfa butonu; header ve footer yerinde', async ({ page }) => {

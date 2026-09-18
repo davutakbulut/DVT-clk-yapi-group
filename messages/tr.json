@@ -1389,6 +1389,29 @@
         "wall_panel": "Duvar/alın paneli",
         "bolt": "Civata"
       }
+    },
+    "navGroups": {
+      "overview": "Genel",
+      "content": "İçerik",
+      "catalog": "Katalog ve Fiyat",
+      "corporate": "Kurumsal",
+      "crm": "Talep ve Satış",
+      "configurator": "Konfigüratör",
+      "analytics": "Analitik",
+      "site": "Site ve SEO",
+      "settings": "Ayarlar",
+      "system": "Sistem"
+    },
+    "navFilter": "Menüde ara",
+    "navFilterEmpty": "Eşleşen sayfa yok",
+    "roleLabel": "Rol",
+    "roles": {
+      "super_admin": "Süper yönetici",
+      "admin": "Yönetici",
+      "editor": "Editör",
+      "sales": "Satış",
+      "viewer": "İzleyici",
+      "member": "Üye"
     }
   },
   "Services": {
