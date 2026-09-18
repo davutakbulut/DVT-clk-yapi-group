@@ -701,7 +701,13 @@
       "llms": "AI özeti",
       "orphans": "Öksüz sayfa raporu (K-38)",
       "orphansLead": "Hiçbir menüde iç bağlantısı olmayan sabit sayfalar. Boş olmalı; yeni sayfa açınca menüye ekleyin.",
-      "noOrphans": "Öksüz sayfa yok."
+      "noOrphans": "Öksüz sayfa yok.",
+      "indexNowLead": "Sitemap'te değişen URL'ler saatte bir Bing/Yandex ortak ucuna bildirilir (Google desteklemez; o sitemap'i okur). Anahtar Vercel'de INDEXNOW_KEY; yalnız üretimde ve site indekslenebilirken gönderilir.",
+      "indexNowConfigured": "Anahtar tanımlı",
+      "indexNowMissing": "INDEXNOW_KEY tanımlı değil — gönderim kapalı",
+      "indexNowLast": "Son koşu {when} ({status})",
+      "indexNowRun": "Şimdi gönder",
+      "feeds": "Beslemeler"
     },
     "cookieSettings": {
       "title": "Çerez Bandı",

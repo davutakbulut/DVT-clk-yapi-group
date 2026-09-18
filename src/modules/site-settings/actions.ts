@@ -135,3 +135,16 @@ export async function saveModules(_prev: ActionState, formData: FormData): Promi
   }
   return result;
 }
+
+// ── Faz 30 · IndexNow elle tetikleme (panelde admin oturumu; cron'da service-role — K-56 deseni)
+import { submitIndexNow } from '@/core/jobs/indexNow';
+
+export async function triggerIndexNow(): Promise<void> {
+  const gate = await requireRole(MANAGERS);
+  if (!gate.ok) return;
+  const client = await createServerClient();
+  if (!client.ok) return;
+  const result = await submitIndexNow(client.data);
+  if (!result.ok) logger.warn('IndexNow gonderimi basarisiz', { module: MODULE, code: result.error.code, message: result.error.message });
+  revalidatePath('/admin/settings/seo');
+}

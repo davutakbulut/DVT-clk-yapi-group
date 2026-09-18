@@ -7,6 +7,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 30 · AI görünürlük · IndexNow · RSS
+- `core/jobs/indexNow` (2 test) · `app/api/cron/indexnow` · `app/api/indexnow-key` · `app/[locale]/feed.xml` · `i18n/alternates` RSS türü · `llms.txt` genişletme · `site-settings` `data/indexNowRepository` + `triggerIndexNow` · SEO ayarları bölümü · `vercel.json` cron; mesajlar; `e2e/seo-feeds.spec.ts`
+
 ### Eklendi — Faz 29 · Konfigüratör admin + satışa dönüştür
 - `configurator` modülü: `data/adminConfigurationsRepository` · `RulesForm` · `actions` (`saveRules`, `convertConfigurationToSale`, `archiveConfiguration`); route'lar `app/admin/configurator` (liste · `[id]` · `rules`); talep detayı bağlantısı; nav; mesajlar `Admin.configurations`, `Admin.configuratorRules`
 - `supabase/migrations/0040_configuration_to_sale.sql` (`create_sale_from_configuration`); `e2e/configurator-admin.spec.ts`; cleanup sıralaması

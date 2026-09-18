@@ -16,5 +16,6 @@ export function buildAlternates(current: Locale, hrefs: Readonly<Record<Locale, 
   if (fallback !== null) languages['x-default'] = getPathname({ href: fallback, locale: routing.defaultLocale });
 
   const self = hrefs[current];
-  return { canonical: self === null ? undefined : getPathname({ href: self, locale: current }), languages };
+  // RSS otomatik keşfi (Faz 30): her sayfada dilin beslemesi
+  return { canonical: self === null ? undefined : getPathname({ href: self, locale: current }), languages, types: { 'application/rss+xml': `/${current}/feed.xml` } };
 }

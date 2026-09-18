@@ -701,7 +701,13 @@
       "llms": "AI summary",
       "orphans": "Orphan page report (K-38)",
       "orphansLead": "Static pages with no internal link in any menu. Should be empty; add new pages to a menu.",
-      "noOrphans": "No orphan pages."
+      "noOrphans": "No orphan pages.",
+      "indexNowLead": "URLs changed in the sitemap are submitted hourly to the shared Bing/Yandex endpoint (Google does not support it; it reads the sitemap). The key lives in Vercel as INDEXNOW_KEY; submissions only in production while the site is indexable.",
+      "indexNowConfigured": "Key configured",
+      "indexNowMissing": "INDEXNOW_KEY is not set — submissions are off",
+      "indexNowLast": "Last run {when} ({status})",
+      "indexNowRun": "Submit now",
+      "feeds": "Feeds"
     },
     "cookieSettings": {
       "title": "Cookie Banner",

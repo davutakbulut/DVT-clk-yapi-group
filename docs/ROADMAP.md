@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 30 — AI görünürlük · IndexNow · RSS ⏳ (sırada) · Faz 1–29 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 31 — Erişilebilirlik denetimi · performans · yedek tatbikatı ⏳ (sırada) · Faz 1–30 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -301,7 +301,12 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v2.0 — İleri Seviye
 
-- [ ] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel
+- [x] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel ✅
+  - [x] RSS 2.0 `/{locale}/feed.xml` (dil başına yayındaki son 50 yazı; `atom:link self`; 30 dk önbellek) · `buildAlternates` her sayfaya `application/rss+xml` otomatik keşfi · `llms.txt` genişletildi (çözümler, ürünler, projeler, beslemeler)
+  - [x] IndexNow: `core/jobs/indexNow` (`parseSitemap`/`selectChanged` 2 test; sitemap'teki `lastmod` > son başarılı koşu → `api.indexnow.org` tek POST; ilk koşuda tümü; yalnız üretim + `SITE_INDEXABLE`; heartbeat `indexnow`) · `/api/cron/indexnow` (saatte bir, `vercel.json`) · `/api/indexnow-key` (keyLocation) · SEO ayarlarında durum + "Şimdi gönder" (`triggerIndexNow`, admin oturumu K-56 deseni)
+  - [x] Zaten vardı: Search Console/Bing/Yandex doğrulama (`seo.verification`, Faz 12) · GA4/Ads/Pixel (`analytics.config`, onaya bağlı, Faz 23) · robots AI botlarına açık · `llms.txt`
+  - [x] E2E `seo-feeds.spec.ts` (feed TR/EN 200 + 404, blog RSS link, llms.txt, cron 401, anahtar ucu, panel bölümü)
+  - [ ] *Ürün sahibi:* Vercel'de `INDEXNOW_KEY` (8–128 karakter) · Search Console'a sitemap ve RSS gönderimi · GA4/Ads/Pixel kimlikleri
 - [ ] **Faz 31** — Erişilebilirlik denetimi · performans ince ayar · **yedek geri yükleme tatbikatı**
 
 ---

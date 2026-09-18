@@ -346,6 +346,11 @@ Konfigürasyon çıktısı için PDF kütüphanesi (jsPDF, react-pdf ~1 MB) ekle
 **Neden:** Bundle boyutu ve bakım; fiyat canlı olmalı (RSC turu olmadan). K-29 kapısı "istemcide gizle" değil "sunucudan gönderme" ile sağlanır.
 **Bilinen bedeli:** Yazdırma çıktısının görünümü tarayıcıya bağlıdır (antet/altbilgi). Üye, birim fiyatları ağ sekmesinden görebilir — üyeye zaten gösterilen bilgidir.
 
+### K-68 · IndexNow sitemap farkından; RSS yalnız blog; üçüncü parti "ping" yok
+IndexNow gönderimi içerik eylemlerine değil, saatlik cron'a bağlıdır: iş `sitemap.xml`'i okur, `lastmod`'u son başarılı koşudan yeni olan URL'leri tek istekle gönderir. Modül eylemleri (yayınla/güncelle) IndexNow'u bilmez. RSS yalnız blog için üretilir (ürün/proje beslemesi yok); Google için ek ping yapılmaz (kaldırıldı; sitemap yeter).
+**Neden:** Sitemap zaten "yayındaki tüm URL'ler + son değişiklik"in tek kaynağı; her modüle bildirim eklemek (K-07/K-08 kuralları, dil bazlı yayın) tekrar ve hata üretirdi. Saatlik gecikme kurumsal site için kabul edilebilir.
+**Bilinen bedeli:** `lastmod`'suz URL'ler (statik sayfalar) yalnız ilk koşuda gönderilir; anahtar yoksa ya da site indekslenebilir değilse iş sessizce `not_configured` döner (heartbeat'e yazılmaz, canlılık uyarısı üretmez).
+
 ---
 
 ## Değiştirilen Kararlar
