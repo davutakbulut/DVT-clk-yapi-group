@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -28,6 +28,10 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'menus', href: '/admin/menus', roles: ['super_admin', 'admin'] },
   { key: 'settings', href: '/admin/settings', roles: ['super_admin', 'admin'] },
   { key: 'whatsapp', href: '/admin/settings/whatsapp', roles: ['super_admin', 'admin'] },
+  { key: 'seoSettings', href: '/admin/settings/seo', roles: ['super_admin', 'admin'] },
+  { key: 'cookieSettings', href: '/admin/settings/cookies', roles: ['super_admin', 'admin'] },
+  { key: 'maintenance', href: '/admin/settings/maintenance', roles: ['super_admin', 'admin'] },
+  { key: 'legalPages', href: '/admin/pages', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'errors', href: '/admin/pages/errors', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'media', href: '/admin/media', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'users', href: '/admin/users', roles: ['super_admin', 'admin'] },

@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 11 · Kurumsal
+- `src/modules/corporate` — site: `TeamGrid` · `ClientLogos` · `CertificatesList` · `JobList` · `JobDetail` · `ApplicationForm` · `FaqList` · `CorporateLinks`; admin: `TeamMemberForm` · `ClientForm` · `CertificateForm` · `JobPostingForm` · `ApplicationStatusForm` · `FaqForm`; `actions` (ekip/referans/belge/ilan/SSS CRUD + sıralama, başvuru durumu, ziyaretçi başvurusu + CV yükleme)
+- Route'lar `/about` · `/team` · `/references` · `/certificates` · `/careers` · `/careers/[slug]` · `/faq`; `app/admin/{team,references,certificates,careers,careers/applications,faq}`
+- `supabase/migrations/0021_corporate.sql` · `supabase/tests/corporate.test.ts` (3); `AboutSection` `headingLevel` desteği; `globals.css` `.logo-grid`
+- Mesajlar `Corporate`, `Admin.corporate.*`; `e2e/corporate.spec.ts`; `scripts/e2e-cleanup.mjs` ilan ve başvuruları da temizler
+
 ### Eklendi — Faz 10 · Talep + Mail
 - `src/modules/leads` — site: `LeadForm` · `LeadFormSection` · `ContactInfo`; admin: `LeadStatusForm` · `LeadNoteForm` · `LeadReplyForm` · `QuoteFormOptionsForm` · `MailTemplateForm`; `domain/leadSchema` (2 test); `actions` (`submitLead` · `updateLead` · `addLeadNote` · `replyLead` · `saveQuoteFormOptions` · `saveMailTemplate` · `sendTestMail`)
 - `src/core/mail` (`renderMail` · `sendWithFallback` Resend/SMTP) · `src/core/jobs/mailQueue` · `src/core/db/createServiceClient` (**K-56**) · `src/core/rate-limit` · `app/api/cron/mail` · `vercel.json`

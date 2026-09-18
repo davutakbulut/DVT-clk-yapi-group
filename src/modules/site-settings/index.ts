@@ -2,7 +2,7 @@ import { logger } from '@/core/observability/logger';
 import { getCachedPublicSettings } from './data/settingsRepository';
 import { DEFAULT_SETTINGS, type PublicSettings } from './domain/settings';
 
-export type { PublicSettings } from './domain/settings';
+export type { CookieBannerText, PublicSettings } from './domain/settings';
 
 /** Asla fırlatmaz: veri gelmezse loglar ve varsayılanı döner — header/footer her koşulda render edilir. */
 export async function getPublicSettings(): Promise<PublicSettings> {
@@ -12,3 +12,4 @@ export async function getPublicSettings(): Promise<PublicSettings> {
   return DEFAULT_SETTINGS;
 }
 export { SettingsForm } from './components/admin/SettingsForm';
+export { CookieBannerForm, MaintenanceForm, SeoSettingsForm } from './components/admin/ExtraSettingsForms';

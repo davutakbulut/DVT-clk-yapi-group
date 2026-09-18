@@ -134,7 +134,11 @@
       "certificates": "Belgeler",
       "careers": "Kariyer İlanları",
       "applications": "İş Başvuruları",
-      "faq": "SSS"
+      "faq": "SSS",
+      "legalPages": "Yasal Sayfalar",
+      "seoSettings": "SEO Ayarları",
+      "cookieSettings": "Çerez Bandı",
+      "maintenance": "Bakım Modu"
     },
     "common": {
       "save": "Kaydet",
@@ -639,6 +643,42 @@
         "entity": "Bağlı varlık",
         "general": "Genel (SSS sayfası)"
       }
+    },
+    "legalPages": {
+      "title": "Yasal Sayfalar",
+      "lead": "Gizlilik, çerez, KVKK aydınlatma ve kullanım koşulları. Otomatik çeviri KAPALI (Kural 7); metinler hukukçu onayıyla girilir. Taslak sayfa 404 verir.",
+      "body": "Metin (Markdown)",
+      "pageTitle": "Başlık",
+      "translationDisabled": "Otomatik çeviri kapalı (yasal metin)",
+      "edit": "Düzenle"
+    },
+    "seoSettings": {
+      "title": "SEO Ayarları",
+      "lead": "Varsayılan paylaşım görseli ve arama motoru doğrulama kodları. Varsayılan meta açıklama Site Ayarları'nda.",
+      "ogImage": "Varsayılan OG görseli",
+      "google": "Google Search Console doğrulama",
+      "bing": "Bing Webmaster doğrulama",
+      "yandex": "Yandex doğrulama",
+      "indexable": "İndekslenebilirlik",
+      "indexableOn": "Site indekslenebilir (VERCEL_ENV=production ve SITE_INDEXABLE=true)",
+      "indexableOff": "Site noindex: yayın bayrağı kapalı ya da önizleme ortamı.",
+      "sitemap": "Sitemap",
+      "llms": "AI özeti"
+    },
+    "cookieSettings": {
+      "title": "Çerez Bandı",
+      "lead": "Analitik ve pazarlama scriptleri yalnız onayla yüklenir (Faz 23). Metinler TR zorunlu, EN tam doldurulursa yayınlanır.",
+      "title_": "Başlık",
+      "body": "Metin",
+      "accept": "Kabul düğmesi",
+      "reject": "Yalnız zorunlu düğmesi",
+      "settings": "Ayarlar bağlantısı"
+    },
+    "maintenanceSettings": {
+      "title": "Bakım Modu",
+      "lead": "Açıkken tüm ön yüz bakım sayfasını gösterir; panel çalışmaya devam eder. Başlık ve gövde Hata Sayfaları › maintenance kaydından gelir.",
+      "enabled": "Bakım modu açık",
+      "message": "Ek mesaj (isteğe bağlı)"
     }
   },
   "Services": {
@@ -831,5 +871,29 @@
       "notConfigured": "Başvuru şu an alınamıyor.",
       "unexpected": "Beklenmeyen bir hata oluştu."
     }
+  },
+  "Legal": {
+    "home": "Ana sayfa",
+    "updated": "Son güncelleme",
+    "sitemapTitle": "Site haritası",
+    "sitemapLead": "Sitedeki tüm yayınlanmış sayfalar.",
+    "pages": "Sayfalar",
+    "services": "Hizmetler",
+    "projects": "Projeler",
+    "blog": "Blog",
+    "careers": "Kariyer",
+    "legal": "Yasal"
+  },
+  "Consent": {
+    "ariaLabel": "Çerez tercihleri",
+    "analytics": "Analitik çerezler",
+    "marketing": "Pazarlama çerezleri",
+    "necessary": "Zorunlu çerezler (her zaman açık)",
+    "save": "Tercihleri kaydet",
+    "policy": "Çerez politikası"
+  },
+  "Maintenance": {
+    "title": "Tadilat halindeyiz",
+    "body": "Site kısa süreliğine bakımda. Lütfen daha sonra yeniden deneyin."
   }
 }

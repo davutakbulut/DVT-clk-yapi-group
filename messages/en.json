@@ -134,7 +134,11 @@
       "certificates": "Certificates",
       "careers": "Job Postings",
       "applications": "Applications",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "legalPages": "Legal Pages",
+      "seoSettings": "SEO Settings",
+      "cookieSettings": "Cookie Banner",
+      "maintenance": "Maintenance Mode"
     },
     "common": {
       "save": "Save",
@@ -639,6 +643,42 @@
         "entity": "Linked entity",
         "general": "General (FAQ page)"
       }
+    },
+    "legalPages": {
+      "title": "Legal Pages",
+      "lead": "Privacy, cookies, data protection and terms. Machine translation is OFF (Rule 7); texts are entered after legal review. Draft pages return 404.",
+      "body": "Body (Markdown)",
+      "pageTitle": "Title",
+      "translationDisabled": "Machine translation disabled (legal text)",
+      "edit": "Edit"
+    },
+    "seoSettings": {
+      "title": "SEO Settings",
+      "lead": "Default share image and search engine verification codes. Default meta description lives in Site Settings.",
+      "ogImage": "Default OG image",
+      "google": "Google Search Console verification",
+      "bing": "Bing Webmaster verification",
+      "yandex": "Yandex verification",
+      "indexable": "Indexability",
+      "indexableOn": "Site is indexable (VERCEL_ENV=production and SITE_INDEXABLE=true)",
+      "indexableOff": "Site is noindex: launch flag off or preview environment.",
+      "sitemap": "Sitemap",
+      "llms": "AI summary"
+    },
+    "cookieSettings": {
+      "title": "Cookie Banner",
+      "lead": "Analytics and marketing scripts load only with consent (Phase 23). TR required; EN published only when complete.",
+      "title_": "Title",
+      "body": "Body",
+      "accept": "Accept button",
+      "reject": "Essential-only button",
+      "settings": "Settings link"
+    },
+    "maintenanceSettings": {
+      "title": "Maintenance Mode",
+      "lead": "When on, the public site shows the maintenance page; the admin panel keeps working. Title and body come from Error Pages › maintenance.",
+      "enabled": "Maintenance mode on",
+      "message": "Extra message (optional)"
     }
   },
   "Services": {
@@ -831,5 +871,29 @@
       "notConfigured": "Applications are unavailable right now.",
       "unexpected": "An unexpected error occurred."
     }
+  },
+  "Legal": {
+    "home": "Home",
+    "updated": "Last updated",
+    "sitemapTitle": "Sitemap",
+    "sitemapLead": "All published pages on this site.",
+    "pages": "Pages",
+    "services": "Services",
+    "projects": "Projects",
+    "blog": "Blog",
+    "careers": "Careers",
+    "legal": "Legal"
+  },
+  "Consent": {
+    "ariaLabel": "Cookie preferences",
+    "analytics": "Analytics cookies",
+    "marketing": "Marketing cookies",
+    "necessary": "Essential cookies (always on)",
+    "save": "Save preferences",
+    "policy": "Cookie policy"
+  },
+  "Maintenance": {
+    "title": "We are under renovation",
+    "body": "The site is briefly down for maintenance. Please try again later."
   }
 }

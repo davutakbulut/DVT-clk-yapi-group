@@ -22,7 +22,19 @@ const schema = z.object({
   'contact.working_hours': localized,
   'social.links': z.array(z.object({ platform: z.string().min(1), url: z.string().url() })).catch([]),
   'seo.default_description': localized,
+  'seo.default_og_media_id': text,
+  'seo.verification': z.object({ google: z.string().optional(), bing: z.string().optional(), yandex: z.string().optional() }).catch({}),
+  'cookie_banner': z.record(z.string(), z.object({ title: z.string(), body: z.string(), accept: z.string(), reject: z.string(), settings: z.string() })).nullable().catch(null),
+  'maintenance': z.object({ enabled: z.boolean().catch(false), message: z.record(z.string(), z.string()).catch({}) }).catch({ enabled: false, message: {} }),
 });
+
+export interface CookieBannerText {
+  readonly title: string;
+  readonly body: string;
+  readonly accept: string;
+  readonly reject: string;
+  readonly settings: string;
+}
 
 export interface PublicSettings {
   readonly siteName: LocalizedText;
@@ -38,6 +50,10 @@ export interface PublicSettings {
   };
   readonly socialLinks: readonly { readonly platform: string; readonly url: string }[];
   readonly seoDescription: LocalizedText | null;
+  readonly seoOgMediaId: string | null;
+  readonly seoVerification: { readonly google?: string; readonly bing?: string; readonly yandex?: string };
+  readonly cookieBanner: Readonly<Record<string, CookieBannerText>> | null;
+  readonly maintenance: { readonly enabled: boolean; readonly message: LocalizedText };
 }
 
 // Veritabanı ulaşılamazsa bile site ayakta kalır (03-ERROR-ISOLATION Katman 2). Yer tutucu iletişim bilgisi YOK.
@@ -49,6 +65,10 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   contact: { phone: null, email: null, address: null, mapUrl: null, workingHours: null },
   socialLinks: [],
   seoDescription: null,
+  seoOgMediaId: null,
+  seoVerification: {},
+  cookieBanner: null,
+  maintenance: { enabled: false, message: {} },
 };
 
 export function parseSettings(rows: readonly { readonly key: string; readonly value: unknown }[]): PublicSettings {
@@ -68,5 +88,9 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     },
     socialLinks: s['social.links'],
     seoDescription: s['seo.default_description'],
+    seoOgMediaId: s['seo.default_og_media_id'],
+    seoVerification: s['seo.verification'],
+    cookieBanner: s['cookie_banner'],
+    maintenance: s['maintenance'],
   };
 }

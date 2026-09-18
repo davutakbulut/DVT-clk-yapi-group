@@ -9,7 +9,7 @@ import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedAbout } from '../../data/homeRepository';
 
 /** Hakkımızda: metin + görsel + istatistikler (01-PUBLIC-PAGES). O dilde yayında değilse (K-07/K-08) bölüm hiç render edilmez. */
-export async function AboutSection({ locale, index = '01' }: { readonly locale: string; readonly index?: string }) {
+export async function AboutSection({ locale, index = '01', headingLevel = 'h2' }: { readonly locale: string; readonly index?: string; readonly headingLevel?: 'h1' | 'h2' }) {
   const [result, env] = await Promise.all([getCachedAbout(), readSupabasePublicEnv()]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'home', code: result.error.code });
@@ -35,7 +35,7 @@ export async function AboutSection({ locale, index = '01' }: { readonly locale: 
     <Container as="section" className="about grid gap-12 py-[var(--section-y)]" id="hakkimizda" aria-labelledby="about-title">
       <div className={`grid gap-10 ${image ? 'lg:grid-cols-[7fr_5fr] lg:items-start' : ''}`}>
         <div className="grid gap-8">
-          <SectionHeading index={index} kicker={pickLocale(about.eyebrow, locale)} title={<span id="about-title">{title}</span>} />
+          <SectionHeading as={headingLevel} index={index || undefined} kicker={pickLocale(about.eyebrow, locale)} title={<span id="about-title">{title}</span>} />
           {body ? <div className="prose-site" dangerouslySetInnerHTML={{ __html: renderMarkdown(body) }} /> : null}
         </div>
         {image ? (

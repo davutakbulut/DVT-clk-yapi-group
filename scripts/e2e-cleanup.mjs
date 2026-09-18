@@ -20,6 +20,7 @@ for (const [table, prefix] of [
   ['projects', 'e2e-proje-'],
   ['services', 'e2e-hizmet-'],
   ['blog_posts', 'e2e-yazi-'],
+  ['job_postings', 'e2e-ilan-'],
 ]) {
   const { data } = await client.from(table).select('id, slug').like('slug->>tr', `${prefix}%`);
   for (const row of data ?? []) {
@@ -32,6 +33,13 @@ for (const [table, prefix] of [
   for (const row of data ?? []) {
     const { error: e } = await client.from('leads').delete().eq('id', row.id);
     console.log('leads', row.full_name, e ? `HATA ${e.message}` : 'silindi');
+  }
+}
+{
+  const { data } = await client.from('job_applications').select('id, email').like('email', 'e2e-%');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('job_applications').delete().eq('id', row.id);
+    console.log('job_applications', row.email, e ? `HATA ${e.message}` : 'silindi');
   }
 }
 await client.auth.signOut({ scope: 'local' });

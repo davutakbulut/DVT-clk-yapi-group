@@ -41,6 +41,12 @@ export const routing = defineRouting({
     '/careers': { tr: '/kariyer', en: '/careers' },
     '/careers/[slug]': { tr: '/kariyer/[slug]', en: '/careers/[slug]' },
     '/faq': { tr: '/sss', en: '/faq' },
+    // Faz 12 · yasal + site haritası
+    '/privacy-policy': { tr: '/gizlilik-politikasi', en: '/privacy-policy' },
+    '/cookie-policy': { tr: '/cerez-politikasi', en: '/cookie-policy' },
+    '/data-protection': { tr: '/kvkk-aydinlatma-metni', en: '/data-protection' },
+    '/terms-of-use': { tr: '/kullanim-kosullari', en: '/terms-of-use' },
+    '/sitemap': { tr: '/site-haritasi', en: '/sitemap' },
   },
 });
 

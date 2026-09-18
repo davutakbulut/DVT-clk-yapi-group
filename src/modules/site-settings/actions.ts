@@ -74,3 +74,51 @@ export async function saveSettings(_prev: ActionState, formData: FormData): Prom
   revalidateTag(CACHE_TAGS.siteSettings);
   return DONE;
 }
+
+async function writeSettings(values: Record<string, unknown>): Promise<ActionState> {
+  const gate = await requireRole(MANAGERS);
+  if (!gate.ok) return failed('forbidden');
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  for (const [key, value] of Object.entries(values)) {
+    const { error } = await client.data.from('site_settings').update({ value: value as never, updated_by: gate.data.id }).eq('key', key);
+    if (error) {
+      logger.error('Ayar kaydedilemedi', { module: MODULE, key, code: error.code });
+      return failed(error.code === '42501' ? 'forbidden' : 'unexpected');
+    }
+  }
+  revalidateTag(CACHE_TAGS.siteSettings);
+  return DONE;
+}
+
+const code = z.string().trim().max(200).optional().or(z.literal(''));
+
+/** /admin/settings/seo — varsayılan OG görseli + arama motoru doğrulama kodları. */
+export async function saveSeoSettings(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = z.object({ ogMediaId: z.string().uuid().optional().or(z.literal('')), google: code, bing: code, yandex: code }).safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return failed('validation', Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation'])));
+  const v = parsed.data;
+  return writeSettings({ 'seo.default_og_media_id': v.ogMediaId || '', 'seo.verification': { ...(v.google ? { google: v.google } : {}), ...(v.bing ? { bing: v.bing } : {}), ...(v.yandex ? { yandex: v.yandex } : {}) } });
+}
+
+/** /admin/settings/cookies — çerez bandı metinleri (TR zorunlu, EN isteğe bağlı). */
+export async function saveCookieBanner(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const field = z.string().trim().min(1).max(500);
+  const optionalField = z.string().trim().max(500).optional().or(z.literal(''));
+  const parsed = z
+    .object({ titleTr: field, bodyTr: field, acceptTr: field, rejectTr: field, settingsTr: field, titleEn: optionalField, bodyEn: optionalField, acceptEn: optionalField, rejectEn: optionalField, settingsEn: optionalField })
+    .safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return failed('validation', Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation'])));
+  const v = parsed.data;
+  const value: Record<string, unknown> = { tr: { title: v.titleTr, body: v.bodyTr, accept: v.acceptTr, reject: v.rejectTr, settings: v.settingsTr } };
+  if (v.titleEn && v.bodyEn && v.acceptEn && v.rejectEn && v.settingsEn) value['en'] = { title: v.titleEn, body: v.bodyEn, accept: v.acceptEn, reject: v.rejectEn, settings: v.settingsEn };
+  return writeSettings({ cookie_banner: value });
+}
+
+/** /admin/settings/maintenance — bakım modu; metin static_pages.maintenance'tan, buradaki ek mesaj isteğe bağlı. */
+export async function saveMaintenance(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const parsed = z.object({ enabled: z.boolean(), messageTr: optional, messageEn: optional }).safeParse({ ...Object.fromEntries(formData), enabled: formData.get('enabled') === 'on' });
+  if (!parsed.success) return failed('validation');
+  const v = parsed.data;
+  return writeSettings({ maintenance: { enabled: v.enabled, message: localized(v.messageTr, v.messageEn) } });
+}

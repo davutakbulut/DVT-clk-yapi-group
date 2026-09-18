@@ -15,6 +15,10 @@ const PORT = 3200;
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
+  // 3 kırılım × büyüyen admin akışları: 2 çalışan + 60 sn, yük altındaki zaman aşımlarını (Faz 11) önler
+  workers: process.env.CI ? 1 : 2,
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',

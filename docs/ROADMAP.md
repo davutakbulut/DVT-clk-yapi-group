@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 11 — Kurumsal sayfalar ⏳ (sırada) · Faz 1–10 `feat/faz-02-database` dalında
+**Şu an:** Faz 12 — SEO temeli + YAYIN ⏳ (sırada) · Faz 1–11 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 10 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 11 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -138,7 +138,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Footer "Hizmetler" sütunu yayındaki hizmetlerle otomatik dolar (uzun kuyruk iç bağlantı); dil değiştirici `RouteAlternates` ile karşı slug'a gider
   - [x] Admin `/admin/services`: liste (durum rozeti, öne çıkan, ↑↓ tek RPC, sil) · `/new` · `/[id]` — `ServiceForm`: içerik, süreç adımları (satır | satır), ikon, kapak, galeri (çoklu seçim), SEO alanları, yayın (slug TR otomatik / EN elle, K-08 onay)
   - [x] Testler: `processSteps` 3 · DB 5 (RPC dil süzgeci, SSS sızmaz, reorder RLS + izinsiz tablo, slug_history) · E2E `services.spec.ts` (liste axe, detay JSON-LD/hreflang/dil düğmesi, 404'ler, öksüz sayfa yok, admin oluştur→düzenle→sil)
-  - [ ] *Sonraki:* SSS admin ekranı (`/admin/faq`, Faz 11) · `content_links` küratörlü ilgili içerik (Faz 9) · liste ekranında TanStack Table (kayıt sayısı büyüyünce)
+  - [x] SSS admin ekranı (`/admin/faq`) ✅ Faz 11 · [ ] `content_links` küratörlü ilgili içerik · liste ekranında TanStack Table (kayıt sayısı büyüyünce)
 - [x] **Faz 08** — Projeler (ön yüz + admin) ✅ 2026-09-18
   - [x] Route'lar: `/projeler` · `/projeler/kategori/[slug]` · `/projeler/[slug]` (EN `/projects/…`); kategori süzgeci bağlantı çipleriyle (JS'siz), kategori sayfasının hreflang'i aynı id'nin karşı dildeki slug'ından
   - [x] Detay: `get_project_by_slug` (0011) → künye (yalnız dolu alanlar: konum, işveren, m², ton, tarihler), kapak, Markdown gövde, galeri, kullanılan hizmetler, aynı kategoriden 3, önceki/sonraki, CTA; JSON-LD `Article` + `BreadcrumbList`
@@ -162,7 +162,12 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] E2E `leads.spec.ts` (iletişim/teklif axe, hero CTA, cron 401, ziyaretçi talep → admin not + cevap kuyruğa, şablon sayfaları); `scripts/e2e-cleanup.mjs` talepleri de temizler
   - [ ] *Ürün sahibi:* Resend domain doğrulaması + SPF/DKIM/DMARC (07-MAIL, DNS engelleyicisi) · Vercel'de `CRON_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, `SUPABASE_SECRET_KEY` · Upstash (isteğe bağlı)
   - [ ] *Faz 18:* panelde bildirim zili (Realtime/yoklama) · *Faz 14:* teklif sepeti kalemleri (`lead_items`) · *Faz 21:* dosya ekleri
-- [ ] **Faz 11** — Kurumsal sayfalar (ekip, referanslar, belgeler, kariyer)
+- [x] **Faz 11** — Kurumsal sayfalar (ekip, referanslar, belgeler, kariyer, SSS) ✅ 2026-09-18
+  - [x] Route'lar `/hakkimizda` (about_content tam sayfa + yönlendirme kartları) · `/ekibimiz` · `/referanslarimiz` (logo ızgarası) · `/belgelerimiz` (görsel + PDF) · `/kariyer` · `/kariyer/[slug]` (JobPosting JSON-LD yalnız açık ilanda, K-15 308, dil değiştirici) · `/sss` (FAQPage JSON-LD); footer "Kurumsal" sütunu tamamen bağlandı
+  - [x] İş başvurusu: `0021_corporate.sql` — `submit_job_application` (security definer: başvuru + aday/İK maili + admin bildirimi), ziyaretçi CV yüklemesi için dar Storage INSERT politikası (`private-documents/cv/<uuid>.<pdf|doc|docx>`, okuma staff), 2 şablon — 3 DB testi; sihirli bayt + 5 MB, IP başına 3/saat, KVKK onayı (`consent_kvkk_at`, 365 gün saklama)
+  - [x] Admin `/admin/team` · `/admin/references` · `/admin/certificates` · `/admin/careers` (+ `/applications`: durum, iç not, 10 dk imzalı CV bağlantısı) · `/admin/faq` (genel ya da hizmet/ürün/proje/çözüm bağlı, K-08 yayın) — hepsi `ContentTable`/satır içi formlarla, ↑↓ tek RPC
+  - [x] E2E `corporate.spec.ts` (6 sayfa axe + BreadcrumbList, footer bağlantıları, ilan → JobPosting → başvuru → İK listesi → sil)
+  - [ ] *Faz 12:* KVKK Aydınlatma Metni sayfası — form onay metinleri ona bağlanacak · *Faz 18:* CV saklama süresi dolunca purge cron'u (`purge_expired_job_applications` + Storage silme)
 - [ ] **Faz 12** — SEO temeli + **YAYIN** 🚀 *(yayın öncesi tam denetim)*
 
 ## v1.1 — Katalog & İçerik
