@@ -20,3 +20,19 @@ describe('markdown › güvenli render', () => {
     expect(readingMinutes('')).toBe(1);
   });
 });
+
+describe('markdown tabloları (GFM)', () => {
+  it('başlık + ayırıcı + satırlar → kaydırılabilir data-table; hizalama ve satır başlığı', () => {
+    const html = renderMarkdown('| Sistem | Ağırlık | Not |\n|---|---:|:--:|\n| Kutu profil | 2,31 | **hafif** |\n| Hafif çelik | 1,10 | - |');
+    expect(html).toContain('<div class="table-scroll"><table class="data-table">');
+    expect(html).toContain('<th scope="col">Sistem</th>');
+    expect(html).toContain('<th scope="col" style="text-align:right">Ağırlık</th>');
+    expect(html).toContain('<th scope="row">Kutu profil</th>');
+    expect(html).toContain('<td style="text-align:right">2,31</td>');
+    expect(html).toContain('<strong>hafif</strong>');
+  });
+  it('ayırıcı satırı yoksa tablo sayılmaz; HTML kaçırılır', () => {
+    expect(renderMarkdown('| tek satır |')).toBe('<p>| tek satır |</p>');
+    expect(renderMarkdown('| a |\n|---|\n| <script> |')).toContain('&lt;script&gt;');
+  });
+});

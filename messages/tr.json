@@ -1633,7 +1633,7 @@
   },
   "Products": {
     "title": "Ürünler",
-    "lead": "Çelik yapı sistemleri için profil, panel ve bağlantı ürünleri. Fiyat için teklif isteyin.",
+    "lead": "Ticari ve konut projeleri için kutu profil karkas, alçıpan bölme, hafif çelik ve körkasa sistemleri. Fiyat için teklif isteyin ya da WhatsApp'tan yazın.",
     "kicker": "Ürün kataloğu",
     "allCategories": "Tümü",
     "empty": "Bu kategoride henüz yayında ürün yok.",
@@ -1665,7 +1665,13 @@
     "quoteLead": "Ölçü, adet ve teslim bilgisini yazın; birim fiyat ve termin teklifi hazırlayalım.",
     "quoteButton": "Teklif iste",
     "noPrice": "Fiyatlar proje bazında teklifle verilir.",
-    "unitDefault": "adet"
+    "unitDefault": "adet",
+    "featured": "Öne çıkan",
+    "sizes": "{count} ölçü",
+    "waAsk": "WhatsApp ile stok ve sipariş sor",
+    "waAskSize": "WhatsApp'tan sor",
+    "waProduct": "Merhaba, {name} için stok ve sipariş bilgisi almak istiyorum. ({url})",
+    "waVariant": "Merhaba, {name} · {size} için stok, fiyat ve termin bilgisi almak istiyorum. ({url})"
   },
   "Basket": {
     "title": "Teklif sepeti",

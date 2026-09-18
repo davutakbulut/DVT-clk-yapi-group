@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useId, useState } from 'react';
 import { usePathname } from '@/i18n/navigation';
+import { whatsappHref } from '../../domain/waLink';
 
 export interface WhatsAppWidgetProps {
   readonly phone: string;
@@ -59,7 +60,7 @@ export function WhatsAppWidget({ phone, displayName, greeting, replyTime, messag
   // Kayıtlı şablon anlamsız kısaysa (ör. yanlışlıkla "/") yok sayılır → varsayılan mesaj
   const template = messageTemplate && messageTemplate.trim().length >= 10 ? messageTemplate : null;
   const message = (template ?? t('defaultMessage', { url: '{{url}}' })).replaceAll('{{url}}', url);
-  const chatHref = `https://wa.me/${phone.slice(1)}?text=${encodeURIComponent(message)}`;
+  const chatHref = whatsappHref(phone, message);
 
   async function copy() {
     try {

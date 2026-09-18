@@ -380,6 +380,11 @@ K-08 EN yayını için insan onayı ister. Ürün sahibi 2026-09-18'de İngilizc
 **Neden:** Ürün sahibi, video ve görseller hazır olmadan sitenin açılmasını istemedi; scrub'ın takılmadan çalışması için videonun tamamının bellekte olması zaten en sağlam yoldur. 03-RESPONSIVE-ANIMATION'daki "loader yok" kararı bu kararla değişti.
 **Bedeli ve sınırları:** Gerçek kullanıcıda ilk anlamlı boyama gecikir. Bunu sınırlamak için katman varsayılan gizlidir ve yalnız satır içi betik `html.clk-loading` eklerse görünür (JS yoksa çıkmaz); `navigator.webdriver` olan ortamlarda (E2E, Lighthouse, otomasyon) kapalıdır; sayfa katmanın altında tam render edildiği için arama motorları içeriği görür; React çalışmazsa CSS animasyonu 9. saniyede katmanı kaldırır. `<html>` sınıfı hidrasyondan önce eklendiği için `suppressHydrationWarning` kullanılır.
 
+### K-75 · Ürün kataloğu firmanın kendi işinden türetilir; standart tablo değeri uydurma sayılmaz
+Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört ürün hattıyla kuruldu (kutu profil karkas, alçıpan karkası, hafif çelik, körkasa). Genel bir çelik profil listesi (IPE/HEA/HEB…) eklenmedi: firmanın bunları sattığına dair bir veri yoktu. Açıklamalar sistemi ve tipik uygulamayı anlatır, karşılaştırmalar nitelikseldir. Ölçü tablolarındaki kg/m değerleri TS EN 10219 kutu profillerin kesit alanından türeyen standart değerlerdir (DB testi 40×40×2 = 2,31'i doğrular).
+**Neden:** "Asla uydurma" kuralı (CLAUDE.md) ürün gamını da kapsar; görseller elimizdeki tek doğrulanabilir kaynaktı. Yayımlanmış standart değeri firma iddiası değildir.
+**Kapsam dışı:** fiyat, stok miktarı, üretim kapasitesi, teslim süresi, referans — bunlar WhatsApp/teklif akışında insanla konuşulur. Stok kodları (`KP-…`, `KK-…`) iç adlandırmadır; ürün sahibi değiştirebilir.
+
 ---
 
 ## Değiştirilen Kararlar

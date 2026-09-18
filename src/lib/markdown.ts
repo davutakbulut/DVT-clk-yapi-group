@@ -53,6 +53,7 @@ export function renderMarkdown(source: string): string {
   const html: string[] = [];
   let paragraph: string[] = [];
   let list: { type: 'ul' | 'ol'; items: string[] } | null = null;
+  let table: string[] = [];
 
   const flushParagraph = () => {
     if (paragraph.length) html.push(`<p>${inline(paragraph.join(' '))}</p>`);
@@ -63,8 +64,33 @@ export function renderMarkdown(source: string): string {
     list = null;
   };
 
+  // GFM tablo: | a | b | satırları; 2. satır ayırıcı (|---|:--:|---:|). Karşılaştırma tabloları için (ürün/rehber gövdeleri).
+  const cells = (row: string) => row.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim());
+  const flushTable = () => {
+    if (table.length === 0) return;
+    const rows = table;
+    table = [];
+    const isSep = (r: string) => cells(r).every((c) => /^:?-{2,}:?$/.test(c));
+    if (rows.length < 2 || !isSep(rows[1]!)) {
+      html.push(`<p>${inline(rows.join(' '))}</p>`);
+      return;
+    }
+    const align = cells(rows[1]!).map((c) => (c.startsWith(':') && c.endsWith(':') ? 'center' : c.endsWith(':') ? 'right' : ''));
+    const attr = (i: number) => (align[i] ? ` style="text-align:${align[i]}"` : '');
+    const head = cells(rows[0]!).map((c, i) => `<th scope="col"${attr(i)}>${inline(c)}</th>`).join('');
+    const body = rows.slice(2).map((r) => `<tr>${cells(r).map((c, i) => (i === 0 ? `<th scope="row"${attr(i)}>${inline(c)}</th>` : `<td${attr(i)}>${inline(c)}</td>`)).join('')}</tr>`).join('');
+    html.push(`<div class="table-scroll"><table class="data-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`);
+  };
+
   for (const raw of lines) {
     const line = raw.trimEnd();
+    if (line.trimStart().startsWith('|')) {
+      flushParagraph();
+      flushList();
+      table.push(line);
+      continue;
+    }
+    flushTable();
     const heading = HEADING.exec(line);
     const ul = /^[-*]\s+(.+)$/.exec(line);
     const ol = /^\d+[.)]\s+(.+)$/.exec(line);
@@ -100,6 +126,7 @@ export function renderMarkdown(source: string): string {
   }
   flushParagraph();
   flushList();
+  flushTable();
   return html.join('\n');
 }
 

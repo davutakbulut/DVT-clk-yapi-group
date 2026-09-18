@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — ürün kataloğu · WhatsApp ile stok/sipariş sorusu · Markdown tabloları
+- `supabase/migrations/0043_product_catalog_seed.sql`: firmanın KENDİ iş fotoğraflarındaki dört ürün hattı — Kutu Profil Karkas · Alçıpan Bölme Duvar ve Asma Tavan Karkası · Hafif Çelik Yapı Sistemi · Çelik Körkasa; 3 kategori, TR+EN ayrıntılı açıklama, karşılaştırma tabloları, 18 teknik özellik, 19 ölçü satırı (TS EN 10219 standart kg/m), kapak + galeri kendi görsellerinden. Fiyat, stok miktarı, kapasite YOK
+- `modules/whatsapp`: `WhatsAppInquiry` (sayfa içi büyük düğme + tablo satırı bağlantısı; WhatsApp kapalıysa render edilmez) · `domain/waLink`; ürün detayında "WhatsApp ile stok ve sipariş sor" + her ölçü satırında "WhatsApp'tan sor" (hazır mesajda ürün, ölçü, sayfa adresi)
+- `lib/markdown`: GFM tablo desteği (hizalama, satır başlığı, yatay kaydırma, HTML kaçırma; 2 test) · ürün kartında rozetler (öne çıkan · N ölçü)
+
 ### Değişti — panel çatısı · font yükleme · WhatsApp paneli
 - **WhatsApp paneli yeniden tasarlandı:** degrade başlık (baş harf avatarı, çevrimiçi rozeti, yanıt süresi), karşılama balonu, iletişim kartı (telefon + kopyala; Site Ayarları'nda doluysa e-posta, adres, çalışma saati), büyük yeşil CTA, ikincil düğmeler; kapalıyken koyu etiket + nabız halkalı düğme (nabız `::before`'da → düğme kutusu sabit), açıkken kapat düğmesi
 - **Panel kenar çubuğu:** 54 bağlantı iş akışına göre 10 bölüme ayrıldı (Genel · İçerik · Katalog ve Fiyat · Kurumsal · Talep ve Satış · Konfigüratör · Analitik · Site ve SEO · Ayarlar · Sistem); bölümler daraltılır (seçim tarayıcıda hatırlanır, bulunulan bölüm hep açık), menüde arama, bölüm ikonları ve sayaçları, en uzun eşleşen adres işaretlenir; koyu marka zemini, mobilde çekmece + arka plan perdesi

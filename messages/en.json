@@ -1633,7 +1633,7 @@
   },
   "Products": {
     "title": "Products",
-    "lead": "Profiles, panels and connection products for steel structures. Request a quote for pricing.",
+    "lead": "Box-section framing, drywall partitions, light gauge steel and steel sub-frames for commercial and residential projects. Request a quote or message us on WhatsApp.",
     "kicker": "Product catalogue",
     "allCategories": "All",
     "empty": "No published products in this category yet.",
@@ -1665,7 +1665,13 @@
     "quoteLead": "Tell us size, quantity and delivery details; we will prepare unit pricing and lead time.",
     "quoteButton": "Request a quote",
     "noPrice": "Pricing is quoted per project.",
-    "unitDefault": "pcs"
+    "unitDefault": "pcs",
+    "featured": "Featured",
+    "sizes": "{count} sizes",
+    "waAsk": "Ask stock and order via WhatsApp",
+    "waAskSize": "Ask on WhatsApp",
+    "waProduct": "Hello, I would like stock and ordering information for {name}. ({url})",
+    "waVariant": "Hello, I would like stock, price and lead-time information for {name} · {size}. ({url})"
   },
   "Basket": {
     "title": "Quote basket",

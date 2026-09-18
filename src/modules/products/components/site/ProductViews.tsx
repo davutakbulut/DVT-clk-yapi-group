@@ -1,17 +1,24 @@
 import type { ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 import { getFormatter, getTranslations } from 'next-intl/server';
+import { getSiteUrl } from '@/core/config/site';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
-import { Link } from '@/i18n/navigation';
+import { getPathname, Link } from '@/i18n/navigation';
+import type { Locale } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { AddToBasket } from '@/modules/quote-basket';
+import { WhatsAppInquiry } from '@/modules/whatsapp';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedProductCategories, getCachedProductList, type ProductCardData, type ProductDetailData } from '../../data/productsRepository';
 
 export function ProductCard({ product, locale, supabaseUrl, headingLevel: Heading = 'h3' }: { readonly product: ProductCardData; readonly locale: string; readonly supabaseUrl: string | null; readonly headingLevel?: 'h2' | 'h3' }) {
+  const t = useTranslations('Products');
+  const featuredLabel = t('featured');
+  const sizesLabel = t('sizes', { count: product.variantCount });
   const cover = product.cover && supabaseUrl ? product.cover : null;
   return (
     <article className="card">
@@ -28,6 +35,12 @@ export function ProductCard({ product, locale, supabaseUrl, headingLevel: Headin
           {product.category ? <p className="label-mono text-[var(--color-accent-text)]">{product.category.name}</p> : null}
           <Heading className="card-title">{product.name}</Heading>
           {product.shortDescription ? <p className="card-excerpt">{product.shortDescription}</p> : null}
+          {product.variantCount > 0 || product.isFeatured ? (
+            <p className="card-meta">
+              {product.isFeatured ? <span className="card-chip card-chip-accent">{featuredLabel}</span> : null}
+              {product.variantCount > 0 ? <span className="card-chip">{sizesLabel}</span> : null}
+            </p>
+          ) : null}
         </div>
       </Link>
     </article>
@@ -96,6 +109,8 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
   const groups = new Map<string, typeof product.specs>();
   for (const s of product.specs) groups.set(s.group, [...(groups.get(s.group) ?? []), s]);
   const num = (v: number | null) => (v === null ? '—' : format.number(v));
+  // WhatsApp hazır mesajında tam sayfa adresi (müşteri temsilcisi hangi üründen yazıldığını görür)
+  const pageUrl = `${getSiteUrl().origin}${getPathname({ href: { pathname: '/products/[slug]', params: { slug: product.slug } }, locale: locale as Locale })}`;
   const hasDim = (k: 'widthMm' | 'heightMm' | 'thicknessMm' | 'lengthMm' | 'kgPerM' | 'stockCode') => product.variants.some((v) => v[k] !== null && v[k] !== '');
 
   return (
@@ -163,6 +178,8 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
             </p>
           ) : null}
           <AddToBasket productId={product.id} slug={product.slug} name={product.name} variants={product.variants.map((v) => ({ id: v.id, label: v.sizeLabel, stockCode: v.stockCode }))} unit={t('unitDefault')} />
+          {/* Stok / sipariş sorusu doğrudan WhatsApp'tan: ürün adı + sayfa adresi hazır mesajda. WhatsApp kapalıysa render edilmez. */}
+          <WhatsAppInquiry message={t('waProduct', { name: product.name, url: pageUrl })} label={t('waAsk')} />
           <div className="grid justify-items-start gap-3 border-t border-[var(--color-border)] pt-6">
             <h2 className="text-[length:var(--fs-h3)]">{t('quoteTitle')}</h2>
             <p className="text-[var(--color-text-muted)]">{t('quoteLead')}</p>
@@ -213,6 +230,9 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
                   {hasDim('lengthMm') ? <th scope="col">{t('length')} (mm)</th> : null}
                   {hasDim('kgPerM') ? <th scope="col">{t('kgPerM')}</th> : null}
                   {hasDim('stockCode') ? <th scope="col">{t('stockCode')}</th> : null}
+                  <th scope="col">
+                    <span className="sr-only">{t('waAskSize')}</span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -225,6 +245,9 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
                     {hasDim('lengthMm') ? <td>{num(v.lengthMm)}</td> : null}
                     {hasDim('kgPerM') ? <td>{num(v.kgPerM)}</td> : null}
                     {hasDim('stockCode') ? <td className="font-mono text-[length:var(--fs-sm)]">{v.stockCode ?? '—'}</td> : null}
+                    <td className="text-right">
+                      <WhatsAppInquiry variant="link" message={t('waVariant', { name: product.name, size: v.sizeLabel, url: pageUrl })} label={t('waAskSize')} />
+                    </td>
                   </tr>
                 ))}
               </tbody>

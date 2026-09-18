@@ -23,6 +23,8 @@ export interface ProductCardData {
   readonly isFeatured: boolean;
   readonly cover: MediaAsset | null;
   readonly category: { readonly id: string; readonly slug: string; readonly name: string } | null;
+  /** Aktif ölçü/varyant sayısı (kartta "N ölçü" rozeti). */
+  readonly variantCount: number;
 }
 
 export interface ProductVariant {
@@ -81,14 +83,14 @@ async function fetchCategories(locale: string): Promise<Result<ProductCategoryRe
   return ok(out);
 }
 
-type ListRow = { id: string; slug: unknown; name: unknown; short_description: unknown; is_featured: boolean; status: string; published_locales: string[]; published_at: string | null; cover: MediaRow | null; category: { id: string; slug: unknown; name: unknown; is_active: boolean } | null };
+type ListRow = { id: string; slug: unknown; name: unknown; short_description: unknown; is_featured: boolean; status: string; published_locales: string[]; published_at: string | null; cover: MediaRow | null; category: { id: string; slug: unknown; name: unknown; is_active: boolean } | null; variants: { is_active: boolean }[] | null };
 
 async function fetchProductList(locale: string): Promise<Result<ProductCardData[]>> {
   const client = createPublicClient();
   if (!client.ok) return client;
   const { data, error } = await client.data
     .from('products')
-    .select(`id, slug, name, short_description, is_featured, status, published_locales, published_at, cover:media_library!products_cover_image_id_fkey(${MEDIA_SELECT}), category:product_categories(id, slug, name, is_active)`)
+    .select(`id, slug, name, short_description, is_featured, status, published_locales, published_at, cover:media_library!products_cover_image_id_fkey(${MEDIA_SELECT}), category:product_categories(id, slug, name, is_active), variants:product_variants(is_active)`)
     .eq('status', 'published')
     .contains('published_locales', [locale])
     .order('sort_order', { ascending: true, nullsFirst: false });
@@ -101,7 +103,7 @@ async function fetchProductList(locale: string): Promise<Result<ProductCardData[
     if (!slug || !name) continue;
     const cSlug = row.category?.is_active ? slugFor(row.category.slug, locale) : null;
     const cName = row.category ? pickLocale(lt(row.category.name), locale) : '';
-    items.push({ id: row.id, slug, name, shortDescription: pickLocale(lt(row.short_description), locale), isFeatured: row.is_featured, cover: rowMedia(row.cover), category: row.category && cSlug && cName ? { id: row.category.id, slug: cSlug, name: cName } : null });
+    items.push({ id: row.id, slug, name, shortDescription: pickLocale(lt(row.short_description), locale), isFeatured: row.is_featured, cover: rowMedia(row.cover), category: row.category && cSlug && cName ? { id: row.category.id, slug: cSlug, name: cName } : null, variantCount: (row.variants ?? []).filter((v) => v.is_active).length });
   }
   return ok(items);
 }
