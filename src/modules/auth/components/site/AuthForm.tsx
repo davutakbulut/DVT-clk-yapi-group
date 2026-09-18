@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useActionState, type ReactNode } from 'react';
+import { useActionState, useEffect, type ReactNode } from 'react';
 import { INITIAL_STATE, type AuthFormState } from '../../domain/schemas';
 
 type Action = (prev: AuthFormState, formData: FormData) => Promise<AuthFormState>;
@@ -30,6 +30,12 @@ export function AuthForm({ action, fields, submitLabel, doneMessage, hidden = {}
   const t = useTranslations('Auth');
   const [state, formAction, pending] = useActionState(action, INITIAL_STATE);
 
+  // Tam sayfa yönlendirme: yeni oturum çerezi bir sonraki isteğe kesin taşınır (router.push RSC fetch'i yarışabilir).
+  useEffect(() => {
+    if (state.redirectTo) window.location.assign(state.redirectTo);
+  }, [state.redirectTo]);
+
+  if (state.redirectTo) return <p role="status">…</p>;
   if (state.done && doneMessage) {
     return (
       <p role="status" className="border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-[var(--color-text-muted)]">

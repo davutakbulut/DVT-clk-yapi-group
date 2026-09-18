@@ -3,7 +3,8 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/alternates';
 import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { AuthForm, requestPasswordReset } from '@/modules/auth';
+import { AuthForm } from '@/modules/auth';
+import { requestPasswordReset } from '@/modules/auth/actions';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 

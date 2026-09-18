@@ -5,7 +5,8 @@ import { getCurrentUser, safeReturnUrl } from '@/core/auth';
 import { buildAlternates } from '@/i18n/alternates';
 import { Link, getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { AuthForm, signIn } from '@/modules/auth';
+import { AuthForm } from '@/modules/auth';
+import { signIn } from '@/modules/auth/actions';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 

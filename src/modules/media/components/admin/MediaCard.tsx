@@ -4,17 +4,20 @@ import { useTranslations } from 'next-intl';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { publicStorageUrl } from '@/core/storage';
 import { IDLE } from '@/lib/formState';
 import { deleteMedia, updateMediaAlt } from '../../actions';
 import type { MediaRow } from '../../data/mediaRepository';
 
 interface Props {
   readonly item: MediaRow;
-  readonly publicUrl: (path: string) => string;
+  /** Sunucudan istemciye fonksiyon geçmez (RSC serileştirme); URL tabanı string gelir, URL burada kurulur. */
+  readonly supabaseUrl: string;
 }
 
-export function MediaCard({ item, publicUrl }: Props) {
+export function MediaCard({ item, supabaseUrl }: Props) {
   const t = useTranslations('Admin');
+  const publicUrl = (path: string) => publicStorageUrl(supabaseUrl, { bucket: item.storage_bucket, path });
   const [state, action, pending] = useActionState(updateMediaAlt, IDLE);
   const isImage = item.mime_type.startsWith('image/');
   const thumb = publicUrl(item.variants['w480'] ?? item.storage_path);

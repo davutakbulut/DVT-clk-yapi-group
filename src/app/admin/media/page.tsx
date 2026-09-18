@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
-import { publicStorageUrl } from '@/core/storage';
 import { MediaCard, UploadForm } from '@/modules/media';
 import { listMedia } from '@/modules/media/server';
 
@@ -11,7 +10,6 @@ export default async function AdminMediaPage({ searchParams }: { readonly search
   if (!gate.ok) return <p role="alert">{t('errors.forbidden')}</p>;
   const [media, env] = [await listMedia(folder ?? null), readSupabasePublicEnv()];
   if (!media.ok || !env.ok) return <p role="alert">{t('errors.unexpected')}</p>;
-  const url = (path: string) => publicStorageUrl(env.data.url, { bucket: 'media', path });
 
   return (
     <div className="grid gap-6">
@@ -36,7 +34,7 @@ export default async function AdminMediaPage({ searchParams }: { readonly search
       ) : (
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
           {media.data.items.map((item) => (
-            <MediaCard key={item.id} item={item} publicUrl={url} />
+            <MediaCard key={item.id} item={item} supabaseUrl={env.data.url} />
           ))}
         </ul>
       )}

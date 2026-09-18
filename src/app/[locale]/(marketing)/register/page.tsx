@@ -5,7 +5,8 @@ import { getCurrentUser } from '@/core/auth';
 import { buildAlternates } from '@/i18n/alternates';
 import { Link, getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { AuthForm, signUp } from '@/modules/auth';
+import { AuthForm } from '@/modules/auth';
+import { signUp } from '@/modules/auth/actions';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 

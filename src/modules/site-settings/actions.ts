@@ -32,11 +32,13 @@ const schema = z.object({
   seoEn: optional,
 });
 
+// value jsonb NOT NULL: JS null SQL NULL'a döner (23502). Boş değer JSON'da '' / {} / [] olarak yazılır;
+// okuma şeması (domain/settings.ts) bunları null'a indirger.
 const localized = (tr?: string, en?: string) => {
   const out: Record<string, string> = {};
   if (tr) out['tr'] = tr;
   if (en) out['en'] = en;
-  return Object.keys(out).length ? out : null;
+  return out;
 };
 
 export async function saveSettings(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -49,14 +51,14 @@ export async function saveSettings(_prev: ActionState, formData: FormData): Prom
   if (!client.ok) return failed('notConfigured');
 
   const values: Record<string, unknown> = {
-    'site.name': localized(v.siteNameTr, v.siteNameEn) ?? { tr: v.siteNameTr },
+    'site.name': localized(v.siteNameTr, v.siteNameEn),
     'site.tagline': localized(v.taglineTr, v.taglineEn),
-    'site.logo_media_id': v.logoMediaId || null,
-    'site.logo_dark_media_id': v.logoDarkMediaId || null,
-    'contact.phone': v.phone || null,
-    'contact.email': v.email || null,
+    'site.logo_media_id': v.logoMediaId || '',
+    'site.logo_dark_media_id': v.logoDarkMediaId || '',
+    'contact.phone': v.phone || '',
+    'contact.email': v.email || '',
     'contact.address': localized(v.addressTr, v.addressEn),
-    'contact.map_url': v.mapUrl || null,
+    'contact.map_url': v.mapUrl || '',
     'contact.working_hours': localized(v.hoursTr, v.hoursEn),
     'social.links': parseSocialLines(v.social ?? ''),
     'seo.default_description': localized(v.seoTr, v.seoEn),

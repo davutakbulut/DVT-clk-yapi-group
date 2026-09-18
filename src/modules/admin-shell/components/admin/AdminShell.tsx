@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useState, type ReactNode } from 'react';
 import type { CurrentUser } from '@/core/auth';
 import { Button } from '@/components/ui/button';
-import { signOut } from '@/modules/auth';
+import { signOut } from '@/modules/auth/actions';
 import type { AdminNavItem } from '../../nav';
 
 interface Props {

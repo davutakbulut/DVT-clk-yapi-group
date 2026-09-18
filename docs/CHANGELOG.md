@@ -17,7 +17,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - `0015_admin_helpers.sql` — `reorder_menu_items(uuid[])` · `admin_dashboard_counts()` (invoker, RLS)
 - `scripts/create-e2e-user.mjs` · `e2e/admin.spec.ts` · Playwright `.env.local` E2E_* yükleyicisi
 - Mesajlar: `Auth`, `Admin` ad alanları (TR/EN)
-- **K-51** — davet service-role'süz (OTP bağlantısı) ve modül `server.ts` sözleşmesi
+- **K-51** — davet service-role'süz (OTP bağlantısı); modül API'si `index.ts` + `server.ts` + `actions.ts`
+- **K-52** — tarayıcıda Supabase istemcisi yok; `app/api/me` oturum özeti; giriş tam sayfa yönlendirmeyle
+- `src/instrumentation.ts` — `onRequestError`: üretimde gizlenen sunucu hatalarının yığını tek noktadan loglanır (Katman 6)
 
 ### Düzeltildi — Faz 5
 - `scripts/scan-static-data.mjs` shadcn üretimi bileşenleri (`components/ui/`) atlar

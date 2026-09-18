@@ -26,6 +26,8 @@ export interface AuthFormState {
   readonly error?: AuthErrorKey;
   readonly fieldErrors?: Readonly<Record<string, AuthErrorKey>>;
   readonly done?: boolean;
+  /** Başarılı girişte gidilecek site içi yol (safeReturnUrl'den geçmiş). */
+  readonly redirectTo?: string;
 }
 
 export const INITIAL_STATE: AuthFormState = { ok: false };

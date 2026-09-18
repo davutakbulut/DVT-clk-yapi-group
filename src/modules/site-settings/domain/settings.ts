@@ -1,7 +1,12 @@
 import { z } from 'zod';
 import { type LocalizedText } from '@/lib/localized';
 
-const localized = z.record(z.string(), z.string()).nullable().catch(null);
+// Boş nesne {} de 'yok' sayılır (panel boş alanı {} yazar; jsonb NOT NULL).
+const localized = z
+  .record(z.string(), z.string())
+  .transform((v) => (Object.values(v).some((s) => s.trim() !== '') ? v : null))
+  .nullable()
+  .catch(null);
 const text = z.string().min(1).nullable().catch(null);
 
 /** 0012 referans verisindeki anahtarlar. Bilinmeyen/bozuk değer alanı null'a düşürür, sayfayı düşürmez. */

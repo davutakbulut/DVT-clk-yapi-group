@@ -262,9 +262,14 @@ Görseller yükleme anında (Faz 3'te betikle, Faz 5'ten sonra admin yükleyicis
 **Bilinen bedeli:** Faz 4 sonunda header'da yalnız marka, dil değiştirici ve (kapalı) CTA görünür; menü Faz 7–11 boyunca dolar. Süzme `buildMenuTree` içinde tek yerdedir ve testle kilitlidir.
 
 ### K-51 · Panelde service-role yok: davet OTP bağlantısıyla; modül API'si `index.ts` + `server.ts`
-Kullanıcı daveti `auth.admin.inviteUserByEmail` (service-role) yerine `signInWithOtp({ shouldCreateUser: true })` ile yapılır: kişi e-postadaki bağlantıyla girer, profili `member` olarak oluşur, rolü super_admin panelden atar. Modüllerin dış API'si ikiye ayrılır: `index.ts` istemci bileşenlerine de inebilen ihracatlar (bileşenler, Server Action'lar, saf yardımcılar), `server.ts` yalnız sunucuda çalışan veri katmanı (`next/headers`).
+Kullanıcı daveti `auth.admin.inviteUserByEmail` (service-role) yerine `signInWithOtp({ shouldCreateUser: true })` ile yapılır: kişi e-postadaki bağlantıyla girer, profili `member` olarak oluşur, rolü super_admin panelden atar. Modüllerin dış API'si üçe ayrılır: `index.ts` istemci bileşenlerine de inebilen ihracatlar (bileşenler, saf yardımcılar), `server.ts` yalnız sunucuda çalışan veri katmanı (`next/headers`), `actions.ts` Server Action'lar (doğrudan içe aktarılır; barrel üzerinden yeniden dışa aktarım üretim paketinde referansı düşürüyor — Faz 5'te E2E yakaladı).
 **Neden:** Kural 4 service-role anahtarını istekle erişilebilen hiçbir yerde istemiyor; davet için de istisna açılmadı. `index.ts`'e sunucu-yalnız kod girince istemci bileşeni (`error.tsx`) onu içe aktardığında derleme kırıldı; iki giriş noktası sınırı ESLint'te görünür kılar.
 **Bilinen bedeli:** Davetli kişi ilk girişte `member`dır; rol ataması ikinci adımdır (panelde tek tıkla). İki giriş dosyası: yeni modül iskeleti ikisini de açar.
+
+### K-52 · Tarayıcıda Supabase istemcisi yok; oturum özeti `/api/me`
+İstemci bileşenleri oturum durumunu `@supabase/ssr` tarayıcı istemcisiyle değil, çerezli `/api/me` uç noktasından (ad + personel mi) okur. Giriş action'ı `redirect()` yerine `redirectTo` döner; form tam sayfa yönlendirmesi yapar.
+**Neden:** Tek oturum yöneticisi sunucudur (middleware yeniler, Server Action yazar). Tarayıcıda ikinci bir istemci aynı çerezi yönetmeye kalkınca yarış ve hata ayıklama yüzeyi büyür; anon anahtarla istemciden veri çekmek de "veri sunucuda" kuralını (K-46) gevşetirdi. Action içi 303 yönlendirmesi + RSC gezinmesinde Set-Cookie'nin uygulanma sırası tarayıcıya bağlı; tam sayfa yönlendirme kesin.
+**Bilinen bedeli:** Header'da hesap durumu bir ek `fetch` ile gelir (private, no-store); `pageshow` ile tazelenir. Realtime gibi istemci-tarafı abonelikler gerektiğinde (Faz 10 bildirimler) ayrı, salt-okunur bir istemci kararı verilir.
 
 ---
 

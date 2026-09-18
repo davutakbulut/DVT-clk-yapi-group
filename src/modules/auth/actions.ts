@@ -29,9 +29,12 @@ export async function signIn(_prev: AuthFormState, formData: FormData): Promise<
     return { ok: false, error: mapAuthError(error.message, error.status) };
   }
   // Üye → hesabım; personel → panel. next= varsa ve güvenliyse o kazanır.
+  // redirect() DEĞİL: action içindeki 303 yönlendirmesinde Set-Cookie tarayıcıya bazen işlenmeden RSC gezinmesi başlıyor
+  // (E2E yakaladı). Çerez bu 200 yanıtla yazılır; istemci tam sayfa yönlendirmesi yapar, JS'siz durumda giriş sayfası
+  // oturumu görüp kendisi yönlendirir.
   const user = await getCurrentUser();
   const fallback = user?.isStaff ? '/admin' : await localePath('/account');
-  redirect(safeReturnUrl(parsed.data.next, fallback));
+  return { ok: true, done: true, redirectTo: safeReturnUrl(parsed.data.next, fallback) };
 }
 
 export async function signUp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
@@ -106,6 +109,8 @@ export async function updateProfile(_prev: AuthFormState, formData: FormData): P
 
 export async function signOut(): Promise<void> {
   const client = await createServerClient();
-  if (client.ok) await client.data.auth.signOut();
+  // scope 'local': yalnız bu cihazın oturumu kapanır. Varsayılan 'global' kullanıcının TÜM oturumlarını iptal ediyor —
+  // paralel E2E işçileri aynı hesapla çalışırken birbirini düşürdü; gerçek kullanıcı için de beklenen davranış bu.
+  if (client.ok) await client.data.auth.signOut({ scope: 'local' });
   redirect(await localePath('/'));
 }

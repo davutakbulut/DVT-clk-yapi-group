@@ -23,4 +23,15 @@ describe('site-settings › parseSettings', () => {
     expect(settings.socialLinks).toEqual([]);
     expect(settings.siteName).toEqual(DEFAULT_SETTINGS.siteName);
   });
+
+  it('boş nesne / boş dize "yok" sayılır (panel boş alanı böyle yazar)', () => {
+    const settings = parseSettings([
+      { key: 'site.tagline', value: {} },
+      { key: 'contact.phone', value: '' },
+      { key: 'contact.address', value: { tr: '  ' } },
+    ]);
+    expect(settings.tagline).toBeNull();
+    expect(settings.contact.phone).toBeNull();
+    expect(settings.contact.address).toBeNull();
+  });
 });

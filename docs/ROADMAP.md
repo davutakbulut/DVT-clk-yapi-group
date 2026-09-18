@@ -107,13 +107,14 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `core/db/createServerClient` (çerezli, RLS'li) · `createBrowserClient` (yalnız oturum durumu) · service-role istek yolunda YOK
   - [x] Middleware: oturumsuz `/admin` ve üye alanı → `/tr/giris?next=…` (yalnız deneyim; 4 yeni test)
   - [x] Üyelik ekranları: giriş · kayıt · şifremi unuttum · şifre yenile · hesabım (TR/EN route'ları, Server Action + `useActionState`, JS'siz çalışır) · `/auth/callback` PKCE
-  - [x] Header hesap menüsü (istemci; ISR'ı bozmaz): misafir → Giriş, üye → Hesabım / Yönetim Paneli / Çıkış
+  - [x] Header hesap menüsü (istemci, `/api/me`'den; ISR'ı bozmaz, K-52): misafir → Giriş, üye → Hesabım / Yönetim Paneli / Çıkış
   - [x] `/admin` çatısı: `data-surface="admin"` + shadcn (yalnız admin, değişkenler `theme.admin.css`'te kapsamlı) · sol menü + mobil menü · rol süzgeçli kayıt listesi · 403 içeriği · noindex meta
   - [x] Dashboard: `admin_dashboard_counts` RPC (0015, invoker) · son hatalar · hızlı erişim
   - [x] **Faz 4 admin karşılıkları kapandı:** `/admin/menus` (öğe CRUD, üst/alt, sol/sağ, CTA, dil, `reorder_menu_items` tek RPC) · `/admin/settings` · `/admin/settings/whatsapp` · `/admin/pages/errors` (K-08 onay kutusu)
   - [x] `/admin/media`: yükleme (sihirli bayt + MIME uyumu + 25 MB, sharp ile aynı WebP boru hattı, kullanıcının oturumuyla Storage'a) · alt metni TR/EN · sil (varyantlarla) · klasör süzgeci
   - [x] `/admin/users`: liste · rol/aktiflik (yalnız super_admin; son super_admin korunur) · davet = OTP giriş bağlantısı (service-role'süz, K-51)
-  - [x] Modül public API'si ikiye ayrıldı: `index.ts` (istemciye inebilir) + `server.ts` (yalnız sunucu) — ESLint sınırı ikisini de tanır
+  - [x] Modül public API'si üçe ayrıldı: `index.ts` (istemciye inebilir) + `server.ts` (yalnız sunucu) + `actions.ts` (Server Action, doğrudan) — ESLint sınırı üçünü de tanır (K-51)
+  - [x] `src/instrumentation.ts` — üretim hata yığınları loglanır; Faz 5'te iki üretim-yalnız hatayı bu yakaladı (RSC'ye fonksiyon prop, barrel action)
   - [x] `scripts/create-e2e-user.mjs`: ayrı E2E admin hesabı, rastgele şifre yalnız `.env.local`'da
   - [x] Testler: 188 birim/DB · `e2e/admin.spec.ts` (kapı, açık yönlendirme, panel ekranları, axe) — hesap yoksa atlanır
   - [ ] *Ürün sahibi:* Supabase Dashboard › Auth › URL Configuration: Site URL + Redirect `…/auth/callback` (davet/şifre bağlantıları için) · davet e-postasını onaylayıp şifre belirle

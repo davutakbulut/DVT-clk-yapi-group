@@ -1,49 +1,45 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import NextLink from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { isAppRole, isStaffRole } from '@/core/auth/roles';
-import { getBrowserClient } from '@/core/db/createBrowserClient';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { signOut } from '../../actions';
 
 type State = { readonly status: 'loading' } | { readonly status: 'guest' } | { readonly status: 'user'; readonly isStaff: boolean; readonly name: string };
 
 /**
  * Header'daki hesap düğmesi. İstemci bileşeni: sunucuda render edilseydi ya layout dinamikleşir (ISR ölür) ya da bir
- * kullanıcının durumu herkese önbelleklenirdi (01-PUBLIC-PAGES). Sabit genişlikli iskelet → düzen kayması yok.
+ * kullanıcının durumu herkese önbelleklenirdi (01-PUBLIC-PAGES). Oturum özeti /api/me'den gelir; tarayıcıda Supabase
+ * istemcisi çalışmaz (K-52). Sabit genişlikli iskelet → düzen kayması yok.
  */
 export function AccountMenu() {
   const t = useTranslations('Auth');
+  const pathname = usePathname();
   const [state, setState] = useState<State>({ status: 'loading' });
 
+  // Yol değişince yeniden okunur: giriş/çıkış sonrası RSC yönlendirmesi layout'u (ve bu bileşeni) mount bırakır;
+  // yalnız mount'ta okunsaydı header eski durumu gösterirdi (E2E yakaladı).
   useEffect(() => {
-    const client = getBrowserClient();
-    if (!client) {
-      setState({ status: 'guest' });
-      return;
-    }
     let cancelled = false;
     async function load() {
-      const { data } = await client!.auth.getUser();
-      if (cancelled) return;
-      if (!data.user) {
-        setState({ status: 'guest' });
-        return;
+      try {
+        // Zaman damgası: Chromium, no-store'a rağmen önceki belgenin yanıtını bellek önbelleğinden verebiliyor (E2E yakaladı)
+        const res = await fetch(`/api/me?t=${Date.now()}`, { credentials: 'same-origin', cache: 'no-store' });
+        const data = (await res.json()) as { user: { name: string; isStaff: boolean } | null };
+        if (!cancelled) setState(data.user ? { status: 'user', isStaff: data.user.isStaff, name: data.user.name } : { status: 'guest' });
+      } catch {
+        if (!cancelled) setState({ status: 'guest' });
       }
-      const { data: profile } = await client!.from('profiles').select('role, full_name').eq('id', data.user.id).maybeSingle();
-      if (cancelled) return;
-      const role = profile?.role;
-      setState({ status: 'user', isStaff: isAppRole(role) ? isStaffRole(role) : false, name: profile?.full_name ?? data.user.email ?? '' });
     }
     void load();
-    const { data: sub } = client.auth.onAuthStateChange(() => void load());
+    const onShow = () => void load();
+    window.addEventListener('pageshow', onShow);
     return () => {
       cancelled = true;
-      sub.subscription.unsubscribe();
+      window.removeEventListener('pageshow', onShow);
     };
-  }, []);
+  }, [pathname]);
 
   if (state.status === 'loading') return <span aria-hidden="true" className="inline-block h-11 w-11" />;
   if (state.status === 'guest') {

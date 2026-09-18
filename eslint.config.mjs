@@ -33,12 +33,14 @@ const eslintConfig = [
       'boundaries/include': ['src/**/*'],
       'boundaries/elements': [
         { type: 'app', pattern: 'src/app/**', mode: 'full' },
-        { type: 'middleware', pattern: 'src/middleware.ts', mode: 'full' },
+        { type: 'middleware', pattern: ['src/middleware.ts', 'src/instrumentation.ts'], mode: 'full' },
         // modül içi alt katmanlar: capture ile modül adı yakalanır → "kendi modülüm" ayrımı yapılabilir
         { type: 'module-site', pattern: 'src/modules/*/components/site/**', mode: 'full', capture: ['module'] },
         { type: 'module-admin', pattern: 'src/modules/*/components/admin/**', mode: 'full', capture: ['module'] },
         // index.ts: istemciye de inebilen public API · server.ts: yalnız sunucu (next/headers, cookies) public API
-        { type: 'module-entry', pattern: ['src/modules/*/index.ts', 'src/modules/*/server.ts'], mode: 'full', capture: ['module'] },
+        // actions.ts: 'use server' dosyası DOĞRUDAN içe aktarılır — barrel üzerinden yeniden dışa aktarım üretim paketinde
+        // referansı düşürüyor ("Functions cannot be passed directly to Client Components"), K-51.
+        { type: 'module-entry', pattern: ['src/modules/*/index.ts', 'src/modules/*/server.ts', 'src/modules/*/actions.ts'], mode: 'full', capture: ['module'] },
         { type: 'module', pattern: 'src/modules/*/**', mode: 'full', capture: ['module'] },
         { type: 'core', pattern: 'src/core/**', mode: 'full' },
         { type: 'i18n', pattern: 'src/i18n/**', mode: 'full' },

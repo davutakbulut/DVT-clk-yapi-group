@@ -7,10 +7,13 @@ const hasAccount = Boolean(EMAIL && PASSWORD);
 
 async function login(page: Page, next = '/admin') {
   await page.goto(`/tr/giris?next=${encodeURIComponent(next)}`);
+  await page.waitForLoadState('networkidle'); // hidrasyon: JS'siz gönderim useActionState durumunu taşımaz
   await page.getByLabel('E-posta').fill(EMAIL!);
   await page.getByLabel('Şifre', { exact: true }).fill(PASSWORD!);
   await page.getByRole('button', { name: 'Giriş yap' }).click();
-  await page.waitForURL(`**${next}`);
+  // Glob DEĞİL: '**/admin' kalıbı '/tr/giris?next=/admin' ile de eşleşip erken dönüyordu. Yol + sorgu birebir beklenir.
+  await page.waitForURL((url) => `${url.pathname}${url.search}` === next);
+  await page.waitForLoadState('networkidle'); // tam sayfa yönlendirme sonrası hidrasyon
 }
 
 test.describe('üyelik ve panel kapısı', () => {
@@ -21,7 +24,8 @@ test.describe('üyelik ve panel kapısı', () => {
     await page.getByLabel('E-posta').fill('yok@example.com');
     await page.getByLabel('Şifre', { exact: true }).fill('yanlis-sifre-123');
     await page.getByRole('button', { name: 'Giriş yap' }).click();
-    await expect(page.getByRole('alert')).toContainText(/E-posta veya şifre hatalı|Üyelik hizmeti şu an kullanılamıyor/);
+    // Next'in route announcer'ı da role=alert taşır → formun kendi uyarısı hedeflenir
+    await expect(page.locator('form [role="alert"]')).toContainText(/E-posta veya şifre hatalı|Üyelik hizmeti şu an kullanılamıyor/);
   });
 
   test('açık yönlendirme: next=//evil giriş sonrası dışarı çıkarmaz', async ({ page }) => {
@@ -65,6 +69,7 @@ test.describe('yönetim paneli', () => {
     await login(page, '/admin/settings');
     const name = page.getByLabel('Site adı (TR)');
     await expect(name).toHaveValue(/CLK/);
+    await page.waitForLoadState('networkidle');
     await page.getByRole('button', { name: 'Kaydet' }).click();
     await expect(page.getByRole('status')).toHaveText('Kaydedildi');
   });
@@ -72,9 +77,9 @@ test.describe('yönetim paneli', () => {
   test('medya kütüphanesi: Faz 3 dosyaları listelenir, klasör süzgeci çalışır', async ({ page }) => {
     await login(page, '/admin/media');
     await expect(page.getByText(/\d+ dosya/)).toBeVisible();
-    await page.getByRole('link', { name: 'videos' }).click();
+    await page.getByRole('navigation', { name: 'Klasör süz' }).getByRole('link', { name: 'videos', exact: true }).click();
     await expect(page).toHaveURL(/folder=videos/);
-    await expect(page.getByText('4 dosya')).toBeVisible();
+    await expect(page.getByText('4 dosya')).toBeVisible({ timeout: 10_000 });
   });
 
   test('üyeler: tablo görünür; admin (super_admin değil) rol değiştiremez', async ({ page }) => {
@@ -87,7 +92,9 @@ test.describe('yönetim paneli', () => {
   test('hesabım: profil sayfası açılır, header hesap menüsü yönetim paneline bağlanır', async ({ page }) => {
     await login(page, '/tr/hesabim');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hesabım');
-    await page.getByRole('banner').getByLabel('Hesap menüsü').click();
+    const summary = page.getByRole('banner').locator('summary[aria-label="Hesap menüsü"]');
+    await expect(summary).toBeVisible({ timeout: 10_000 }); // istemci oturumu okur (getUser + profil)
+    await summary.click();
     await expect(page.getByRole('menuitem', { name: 'Yönetim Paneli' })).toHaveAttribute('href', '/admin');
   });
 });
