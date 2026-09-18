@@ -19,6 +19,7 @@ export const CACHE_TAGS = {
   translations: 'ui_translations',
   redirects: 'redirects',
   configurator: 'configurator_rules',
+  fieldVideos: 'field_videos',
 } as const;
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS];

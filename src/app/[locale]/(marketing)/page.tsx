@@ -8,6 +8,7 @@ import { BlogSection } from '@/modules/blog';
 import { AboutSection, HeroSection } from '@/modules/home';
 import { ProjectsSection } from '@/modules/projects';
 import { ServicesSection } from '@/modules/services';
+import { FieldVideosSection } from '@/modules/field-videos';
 import { TestimonialsSection } from '@/modules/testimonials';
 import { getPublicSettings, isModuleEnabled } from '@/modules/site-settings';
 
@@ -53,6 +54,10 @@ export default async function HomePage({ params }: Props) {
           <BlogSection locale={locale} index="04" />
         </ModuleBoundary>
       ) : null}
+      {/* Sahadan videolar: kayıt yoksa bölüm hiç çizilmez */}
+      <ModuleBoundary module="field-videos/home">
+        <FieldVideosSection locale={locale} />
+      </ModuleBoundary>
       {on('testimonials') ? (
         <ModuleBoundary module="testimonials/home">
           <TestimonialsSection locale={locale} index="05" />

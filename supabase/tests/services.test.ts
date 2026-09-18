@@ -7,7 +7,7 @@ describe('0017 · hizmetler', () => {
   let db: PGlite;
   let users: TestUsers;
   beforeAll(async () => {
-    db = await createTestDb();
+    db = await createTestDb({ content: false });
     users = await seedUsers(db);
   });
   afterAll(() => db.close());

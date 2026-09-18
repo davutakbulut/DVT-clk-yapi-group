@@ -6,7 +6,7 @@ let db: PGlite;
 let users: TestUsers;
 
 beforeAll(async () => {
-  db = await createTestDb();
+  db = await createTestDb({ content: false });
   users = await seedUsers(db);
   await db.exec(`
     insert into public.projects (slug, title, status, published_locales, published_at) values

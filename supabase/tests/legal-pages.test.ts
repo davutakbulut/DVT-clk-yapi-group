@@ -6,7 +6,7 @@ import { anon, as, createTestDb } from './helpers/db';
 describe('0022 · yasal sayfalar', () => {
   let db: PGlite;
   beforeAll(async () => {
-    db = await createTestDb();
+    db = await createTestDb({ content: false });
   });
   afterAll(() => db.close());
 

@@ -169,7 +169,8 @@
       "vitals": "Slow Pages",
       "steelProfiles": "Steel Profiles",
       "configurations": "Configurator Submissions",
-      "configuratorRules": "Configurator Rules"
+      "configuratorRules": "Configurator Rules",
+      "fieldVideos": "Field Videos"
     },
     "common": {
       "save": "Save",
@@ -1414,6 +1415,30 @@
       "sales": "Sales",
       "viewer": "Viewer",
       "member": "Member"
+    },
+    "fieldVideos": {
+      "title": "Field Videos",
+      "lead": "The vertical video strip on the home page. Source: a YouTube link or a video uploaded to the media library. With no records the section is not shown at all.",
+      "new": "New video",
+      "count": "{count} videos",
+      "empty": "No videos yet.",
+      "titleTr": "Title (TR)",
+      "titleEn": "Title (EN)",
+      "captionTr": "Short caption / quote (TR)",
+      "captionEn": "Short caption / quote (EN)",
+      "source": "Source",
+      "sourceYoutube": "YouTube link",
+      "sourceUpload": "Uploaded video",
+      "youtubeUrl": "YouTube link",
+      "youtubeHint": "watch, youtu.be, shorts and embed links are accepted. Vertical (Shorts) videos look best.",
+      "video": "Video file",
+      "videoHint": "Upload the file on the Media page first, then pick it here. Vertical 9:16 MP4 (H.264) recommended.",
+      "uploadLink": "Open media library",
+      "poster": "Cover image (optional)",
+      "posterHint": "If empty, the YouTube thumbnail or the first frame of the uploaded video is used.",
+      "active": "Published",
+      "inactive": "inactive",
+      "sortOrder": "Order"
     }
   },
   "Services": {
@@ -1936,5 +1961,18 @@
       "empty": "No saved configurations yet.",
       "start": "Open the configurator"
     }
+  },
+  "FieldVideos": {
+    "titleLead": "Videos",
+    "titleAccent": "from the Field",
+    "lead": "Short clips from our sites and erection work.",
+    "play": "Play video: {title}",
+    "close": "Close video",
+    "prev": "Previous video",
+    "next": "Next video",
+    "dotsLabel": "Choose video",
+    "goTo": "Video {index}",
+    "carouselLabel": "Videos from the field",
+    "frameTitle": "{title} · video"
   }
 }

@@ -1776,6 +1776,121 @@
     .testimonial { transition: none; }
   }
 
+  /* ── Sahadan videolar (K-76): dikey 9:16 kartlar; masaüstünde şerit + sağ altta oklar, mobilde orta-kart (komşular eğik) */
+  .fv-section > .container-x { grid-template-columns: minmax(0, 1fr); }
+  .fv-accent { color: #a87a1f; }
+  .fv { display: grid; gap: var(--space-5); min-width: 0; --fv-w: clamp(220px, 21vw, 290px); }
+  .fv-track {
+    display: flex;
+    gap: var(--space-5);
+    margin: 0;
+    padding: var(--space-3) var(--space-1) var(--space-4);
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .fv-track::-webkit-scrollbar { display: none; }
+  .fv-item {
+    flex: 0 0 var(--fv-w);
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    scroll-snap-align: center;
+    min-width: 0;
+    transition: transform 0.45s var(--ease-out), opacity 0.45s var(--ease-out);
+  }
+  .fv-card {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--color-surface-dark);
+    box-shadow: 0 14px 34px rgb(15 19 21 / 0.18);
+  }
+  .fv-media,
+  .fv-poster,
+  .fv-poster img,
+  .fv-poster video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .fv-poster { padding: 0; background: transparent; color: #fff; cursor: pointer; }
+  .fv-poster img,
+  .fv-poster video { object-fit: cover; transition: transform 0.6s var(--ease-out); }
+  .fv-poster:hover img,
+  .fv-poster:hover video { transform: scale(1.04); }
+  .fv-poster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(15 19 21 / 0.05) 35%, rgb(15 19 21 / 0.82) 100%);
+  }
+  .fv-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+    padding-left: 3px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.94);
+    color: #8a6417;
+    box-shadow: 0 8px 22px rgb(0 0 0 / 0.3);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .fv-poster:hover .fv-play { transform: scale(1.08); }
+  .fv-caption {
+    position: absolute;
+    inset: auto var(--space-4) var(--space-4);
+    z-index: 1;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: left;
+    text-wrap: balance;
+  }
+  .fv-title { margin: 0; font-weight: 700; font-size: var(--fs-sm); text-align: center; }
+  .fv-controls { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-2); }
+  .fv-dots { display: none; align-items: center; justify-content: center; gap: var(--space-1); }
+  .fv-arrow {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background: var(--color-bg);
+    color: #8a6417;
+    transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
+  }
+  .fv-arrow:hover:not(:disabled) { transform: scale(1.06); border-color: #c9a35a; }
+  .fv-arrow:disabled { opacity: 0.4; cursor: default; }
+  @media (max-width: 767px) {
+    .fv { --fv-w: 62vw; }
+    .fv-track { gap: var(--space-3); padding-inline: calc(50% - var(--fv-w) / 2); padding-block: var(--space-5); }
+    .fv-item:not([data-active]) { opacity: 0.55; }
+    .fv-item[data-side='left'] { transform: scale(0.88) rotate(-5deg); }
+    .fv-item[data-side='right'] { transform: scale(0.88) rotate(5deg); }
+    .fv-item:not([data-active]) .fv-title { visibility: hidden; }
+    .fv-controls { justify-content: center; gap: var(--space-4); }
+    .fv-dots { display: flex; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fv-item,
+    .fv-poster img,
+    .fv-poster video,
+    .fv-play { transition: none; }
+  }
+
   /* ── Çözüm avantajları (K-26) */
   .advantage-grid {
     display: grid;

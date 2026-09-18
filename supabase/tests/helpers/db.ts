@@ -12,11 +12,20 @@ export function migrationFiles(): string[] {
   return readdirSync(MIGRATIONS_DIR).filter((name) => name.endsWith('.sql')).sort();
 }
 
-/** Boş PGlite + Supabase şimi + sıradaki TÜM migration'lar — `supabase db reset`in Docker'sız karşılığı. */
-export async function createTestDb(): Promise<PGlite> {
+/** Yalnız İÇERİK yazan migration'lar (DDL içermez — conventions.test bunu doğrular): başlangıç içeriği, İngilizce yayın, ürün kataloğu. */
+export const CONTENT_MIGRATIONS: readonly string[] = ['0041_content_legal_faq_blog.sql', '0042_english_content.sql', '0043_product_catalog_seed.sql'];
+
+/**
+ * Boş PGlite + Supabase şimi + sıradaki TÜM migration'lar — `supabase db reset`in Docker'sız karşılığı.
+ * `content: false` → şema güncel kalır ama içerik migration'ları atlanır: bir tablonun KURALLARINI (K-08 onaysız EN, taslak sızmaz,
+ * sıralama) sınayan testler, sonradan eklenen içerikten bağımsız, bilinen bir başlangıç durumuna ihtiyaç duyar.
+ * İçeriğin kendisi content-seed.test.ts'te sınanır.
+ */
+export async function createTestDb(options: { readonly content?: boolean } = {}): Promise<PGlite> {
   const db = new PGlite();
   await db.exec(readFileSync(join(__dirname, 'supabase-shim.sql'), 'utf8'));
   for (const file of migrationFiles()) {
+    if (options.content === false && CONTENT_MIGRATIONS.includes(file)) continue;
     try {
       await db.exec(readFileSync(join(MIGRATIONS_DIR, file), 'utf8'));
     } catch (cause) {

@@ -169,7 +169,8 @@
       "vitals": "Yavaş Sayfalar",
       "steelProfiles": "Çelik Profiller",
       "configurations": "Konfigüratör Gönderimleri",
-      "configuratorRules": "Konfigüratör Kuralları"
+      "configuratorRules": "Konfigüratör Kuralları",
+      "fieldVideos": "Sahadan Videolar"
     },
     "common": {
       "save": "Kaydet",
@@ -1414,6 +1415,30 @@
       "sales": "Satış",
       "viewer": "İzleyici",
       "member": "Üye"
+    },
+    "fieldVideos": {
+      "title": "Sahadan Videolar",
+      "lead": "Ana sayfadaki dikey video şeridi. Kaynak: YouTube bağlantısı ya da medya kütüphanesine yüklediğiniz video. Kayıt yoksa bölüm sitede hiç görünmez.",
+      "new": "Yeni video",
+      "count": "{count} video",
+      "empty": "Henüz video eklenmedi.",
+      "titleTr": "Başlık (TR)",
+      "titleEn": "Başlık (EN)",
+      "captionTr": "Kısa açıklama / alıntı (TR)",
+      "captionEn": "Kısa açıklama / alıntı (EN)",
+      "source": "Kaynak",
+      "sourceYoutube": "YouTube bağlantısı",
+      "sourceUpload": "Yüklenmiş video",
+      "youtubeUrl": "YouTube bağlantısı",
+      "youtubeHint": "watch, youtu.be, shorts ve embed bağlantıları kabul edilir. Dikey (Shorts) videolar en iyi görünür.",
+      "video": "Video dosyası",
+      "videoHint": "Dosyayı önce Medya sayfasından yükleyin; burada listeden seçin. Dikey 9:16, MP4 (H.264) önerilir.",
+      "uploadLink": "Medya kütüphanesine git",
+      "poster": "Kapak görseli (isteğe bağlı)",
+      "posterHint": "Boş bırakılırsa YouTube'da küçük resim, yüklenen videoda ilk kare kullanılır.",
+      "active": "Yayında",
+      "inactive": "pasif",
+      "sortOrder": "Sıra"
     }
   },
   "Services": {
@@ -1936,5 +1961,18 @@
       "empty": "Henüz kayıt yok.",
       "start": "Konfigüratörü aç"
     }
+  },
+  "FieldVideos": {
+    "titleLead": "Sahadan",
+    "titleAccent": "Videolar",
+    "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",
+    "play": "{title} videosunu oynat",
+    "close": "Videoyu kapat",
+    "prev": "Önceki video",
+    "next": "Sonraki video",
+    "dotsLabel": "Video seç",
+    "goTo": "{index}. video",
+    "carouselLabel": "Sahadan videolar",
+    "frameTitle": "{title} · video"
   }
 }

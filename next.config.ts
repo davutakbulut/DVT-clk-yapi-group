@@ -26,7 +26,7 @@ const SECURITY = [
       "img-src 'self' data: blob: https:",
       "media-src 'self' blob: https://*.supabase.co",
       "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://places.googleapis.com",
-      "frame-src https://www.google.com https://maps.google.com https://www.youtube.com",
+      "frame-src https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com",
       "frame-ancestors 'none'",
       'report-uri /api/csp-report',
     ].join('; '),

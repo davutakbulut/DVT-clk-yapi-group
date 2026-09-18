@@ -7,7 +7,7 @@ describe('0023 · ürün kataloğu', () => {
   let db: PGlite;
   let productId: string;
   beforeAll(async () => {
-    db = await createTestDb();
+    db = await createTestDb({ content: false });
     const cat = (await db.query<{ id: string }>(`insert into public.product_categories (slug, name) values ('{"tr": "kutu-profil", "en": "box-profile"}', '{"tr": "Kutu Profil", "en": "Box Profile"}') returning id`)).rows[0]!.id;
     const svc = (await db.query<{ id: string }>(`select id from public.services where slug->>'tr' = 'endustriyel-tesis-ve-depo'`)).rows[0]!.id;
     productId = (await db.query<{ id: string }>(`insert into public.products (slug, name, category_id, service_id) values ('{"tr": "kare-kutu-profil", "en": "square-box-profile"}', '{"tr": "Kare Kutu Profil", "en": "Square Box Profile"}', $1, $2) returning id`, [cat, svc])).rows[0]!.id;

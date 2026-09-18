@@ -6,7 +6,7 @@ export const ADMIN_NAV_GROUPS = ['overview', 'content', 'catalog', 'corporate', 
 export type AdminNavGroup = (typeof ADMIN_NAV_GROUPS)[number];
 
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'fieldVideos' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   /** Kenar çubuğu bölümü (ADMIN_NAV_GROUPS sırasıyla gösterilir). */
   readonly group: AdminNavGroup;
@@ -24,6 +24,7 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'blog', href: '/admin/blog', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blogTaxonomy', href: '/admin/blog/taxonomy', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'comments', href: '/admin/blog/comments', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'fieldVideos', href: '/admin/field-videos', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'testimonials', href: '/admin/testimonials', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'faq', href: '/admin/faq', group: 'content', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'media', href: '/admin/media', group: 'content', roles: ['super_admin', 'admin', 'editor'] },

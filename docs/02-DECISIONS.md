@@ -387,6 +387,11 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 
 ---
 
+### K-76 · Sahadan videolar: tıklanınca yüklenen, çerezsiz gömme; kaynak YouTube ya da kendi dosyamız
+**Karar:** Ana sayfadaki video şeridi `field_videos` tablosundan gelir. Kaynak ya YouTube kimliği ya da medya kütüphanesindeki video dosyasıdır (CHECK ile tutarlı). Kart ilk yüklemede yalnız kapak görselidir; iframe/`<video>` kullanıcı tıklayınca oluşturulur ve YouTube `youtube-nocookie.com` alan adından gömülür.
+**Neden:** YouTube gömmesi ~1 MB betik ve üçüncü taraf çerezi getirir → ilk yüklemede LCP/INP'yi ve çerez onayı yükümlülüğünü etkiler. Tıklayınca yükleme ikisini de ortadan kaldırır. Kendi dosyamız seçeneği, YouTube'a koymak istenmeyen saha görüntüleri içindir (Storage, dikey MP4).
+**Sonuç:** Tohum veri yok; kayıt yoksa bölüm çizilmez. Panelde İçerik grubunda ayrı sayfa. Büyük dosyalar için öneri YouTube (Storage kotası ve bant genişliği).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

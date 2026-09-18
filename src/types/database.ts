@@ -1415,6 +1415,63 @@ export type Database = {
         }
         Relationships: []
       }
+      field_videos: {
+        Row: {
+          caption: Json
+          created_at: string
+          id: string
+          is_active: boolean
+          poster_id: string | null
+          sort_order: number | null
+          source: string
+          title: Json
+          updated_at: string
+          video_id: string | null
+          youtube_id: string | null
+        }
+        Insert: {
+          caption?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          poster_id?: string | null
+          sort_order?: number | null
+          source: string
+          title: Json
+          updated_at?: string
+          video_id?: string | null
+          youtube_id?: string | null
+        }
+        Update: {
+          caption?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          poster_id?: string | null
+          sort_order?: number | null
+          source?: string
+          title?: Json
+          updated_at?: string
+          video_id?: string | null
+          youtube_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "field_videos_poster_id_fkey"
+            columns: ["poster_id"]
+            isOneToOne: false
+            referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_videos_video_id_fkey"
+            columns: ["video_id"]
+            isOneToOne: false
+            referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       form_analytics: {
         Row: {
           abandon_count: number

@@ -327,5 +327,6 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |
+| Saha videoları (YouTube bağlantısı ya da dosya) | ana sayfa | ⏳ ürün sahibi `/admin/field-videos` — kayıt yokken bölüm görünmez |
 | Supabase Pro plana geçiş | **12** | ⏳ *yayın öncesi zorunlu* |
 | Hukukçu onayı (KVKK metinleri) | 12 | ⏳ *sayfalar ve panel hazır (taslak)* |

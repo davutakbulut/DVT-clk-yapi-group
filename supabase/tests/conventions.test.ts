@@ -1,6 +1,8 @@
 import type { PGlite } from '@electric-sql/pglite';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { createTestDb } from './helpers/db';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { CONTENT_MIGRATIONS, createTestDb } from './helpers/db';
 
 let db: PGlite;
 beforeAll(async () => { db = await createTestDb(); }, 120_000);
@@ -20,7 +22,7 @@ const NO_UPDATED_AT = [
 // anonime açan migration bu testi kırar → açmak bilinçli bir karar olmak zorunda kalır.
 const ANON_READABLE = [
   'about_content', 'blog_categories', 'blog_post_tags', 'blog_posts', 'blog_tags', 'certificates', 'clients', 'configurator_rules',
-  'content_links', 'faqs', 'hero_media', 'job_postings', 'media_library', 'menu_items', 'menus', 'panel_types', 'price_guide_rows',
+  'content_links', 'faqs', 'field_videos', 'hero_media', 'job_postings', 'media_library', 'menu_items', 'menus', 'panel_types', 'price_guide_rows',
   'price_guides', 'product_categories', 'product_documents', 'product_images', 'product_specs', 'product_variants', 'products',
   'project_categories', 'project_category_relations', 'project_images', 'projects', 'redirects', 'service_images',
   'service_projects', 'services', 'site_settings', 'slug_history', 'solutions', 'static_pages', 'steel_profiles', 'team_members',
@@ -103,9 +105,18 @@ describe('şema sözleşmeleri', () => {
     expect(await names(`select extname as name from pg_extension where extname <> 'plpgsql'`)).toEqual([]);
   });
 
+  // createTestDb({ content: false }) bu dosyaları atlar → şema değiştirirlerse atlayan testler eksik şemayla koşardı
+  it("içerik migration'ları DDL içermez (yalnız veri yazar)", () => {
+    for (const file of CONTENT_MIGRATIONS) {
+      const sql = readFileSync(join(__dirname, '..', 'migrations', file), 'utf8');
+      expect(sql, file).not.toMatch(/^\s*(create|alter|drop)\s/im);
+    }
+  });
+
+  // K-75: ürün kataloğu firmanın kendi işinden türetilir (0043) → 'products' bu listede değil.
   // K-55: hizmet/hero/hakkımızda gibi TANIMLAYICI başlangıç metinleri seed edilir (sayısal iddia yok); yorum, proje, ekip, sertifika, fiyat ASLA.
   it('referans verisinde uydurma içerik yok: gerçek-veri tabloları BOŞ başlar', async () => {
-    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'steel_profiles', 'products', 'customers']) {
+    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'steel_profiles', 'customers', 'field_videos']) {
       const { rows } = await db.query<{ n: number }>(`select count(*)::int n from public.${table}`);
       expect(rows[0]!.n, table).toBe(0);
     }

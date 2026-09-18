@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Sahadan Videolar (ana sayfa + panel)
+- **Ana sayfa:** "Sahadan Videolar" bölümü — dikey 9:16 kartlar, oynat düğmesi, kart üstünde kısa alıntı, altında başlık. Masaüstünde şerit + sağ altta oklar; mobilde orta-kart (komşular eğik ve soluk), oklar + hap nokta. Video **yalnız tıklanınca** yüklenir: YouTube `youtube-nocookie.com` üzerinden gömülür, yüklenmiş dosya `<video>` ile oynar. Kayıt yoksa bölüm hiç çizilmez (uydurma içerik yok, tohum yok)
+- **Panel:** İçerik → **Sahadan Videolar** (`/admin/field-videos`): kaynak seçimi (YouTube bağlantısı — watch/youtu.be/shorts/embed — ya da medya kütüphanesinden video), kapak görseli, TR/EN başlık ve alıntı, sıra, yayında. Roller: super_admin/admin/editor yazar, viewer okur
+- **Veritabanı:** `0044_field_videos.sql` — kaynak tutarlılığı CHECK, RLS (anonim yalnız yayındaki), denetim izi; CSP `frame-src`'ye `youtube-nocookie.com`
+- **Testler:** `youtube.test.ts` (bağlantı ayrıştırma), `supabase/tests/field-videos.test.ts` (CHECK + RLS), `e2e/field-videos.spec.ts` (ekle → ana sayfada kart → axe → tıklayınca çerezsiz iframe → sil; 3 kırılım)
+
 ### Değişti — ana sayfa yorumlar alanı · eksik tokenlar · hero blob
 - **Yorumlar (ana sayfa + detaylar):** orta-kart carousel — puan hapı ve ortalı başlık, vurgulu orta kart (çerçeve + gölge), soluk ve kenarlardan kırpık yan kartlar, yüzen yuvarlak oklar, hap biçimli aktif nokta, kaynak/doğrulama rozetleri, tarih. Yan kartlar `inert` + `aria-hidden` (soluk metin okunmak zorunda değil), şerit klavyeyle odaklanır; `reviews.spec` bölümü yorum VARKEN axe ile denetler. Yayında yorum yoksa bölüm hâlâ hiç çizilmez (sahte yorum yok)
 - **Tanımsız CSS tokenları:** `--space-5`, `--space-10`, `--fs-h4` hiç tanımlı değildi (iç boşluk 0'a düşüyordu) → eklendi; `src/lib/__tests__/cssTokens.test.ts` yedeksiz kullanılan her `var(--x)`'in tanımlı olduğunu doğrular

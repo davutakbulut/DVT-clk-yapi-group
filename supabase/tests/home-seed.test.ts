@@ -8,7 +8,7 @@ import { as, createTestDb } from './helpers/db';
 describe('0016 · ana sayfa içeriği', () => {
   let db: PGlite;
   beforeAll(async () => {
-    db = await createTestDb();
+    db = await createTestDb({ content: false });
   });
   afterAll(() => db.close());
 

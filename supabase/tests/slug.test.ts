@@ -4,7 +4,7 @@ import { isValidSlug, slugify } from '../../src/lib/slugify';
 import { anon, as, createTestDb } from './helpers/db';
 
 let db: PGlite;
-beforeAll(async () => { db = await createTestDb(); }, 120_000);
+beforeAll(async () => { db = await createTestDb({ content: false }); }, 120_000);
 afterAll(async () => { await db.close(); });
 
 const insertProject = (slug: object, extra = '') => db.query(`insert into public.projects (slug, title ${extra ? ', ' + extra.split('=')[0] : ''}) values ($1, '{"tr":"Başlık","en":"Title"}' ${extra ? ', ' + extra.split('=')[1] : ''}) returning id`, [JSON.stringify(slug)]);

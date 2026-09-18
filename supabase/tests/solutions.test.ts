@@ -7,7 +7,7 @@ describe('0025 · çözüm sayfaları', () => {
   let db: PGlite;
   let seedId: string;
   beforeAll(async () => {
-    db = await createTestDb();
+    db = await createTestDb({ content: false });
     seedId = (await db.query<{ id: string }>(`select id from public.solutions where slug->>'tr' = 'dar-parselde-hizli-yeniden-yapim'`)).rows[0]!.id;
   });
   afterAll(() => db.close());
