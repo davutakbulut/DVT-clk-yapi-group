@@ -11,3 +11,11 @@ it('0041 uygulanır: 4 yasal sayfa yayında, 11 SSS, 3 yazı; ikinci koşu çoğ
   expect(await q('select count(*)::int n from public.faqs')).toBe(11);
   expect(await q('select count(*)::int n from public.blog_posts')).toBe(3);
 }, 120000);
+
+it('0042: EN yayında — hizmetler, çözüm, SSS, blog; yasal sayfalar EN DEĞİL', async () => {
+  const db = await createTestDb();
+  const q = async (s: string) => (await db.query<{ n: number }>(s)).rows[0]!.n;
+  expect(await q("select count(*)::int n from public.faqs where 'en' = any(published_locales) and length(answer->>'en') > 40")).toBe(11);
+  expect(await q("select count(*)::int n from public.blog_posts where 'en' = any(published_locales) and slug->>'en' is not null and length(body->>'en') > 1000")).toBe(3);
+  expect(await q("select count(*)::int n from public.static_pages where kind = 'legal' and 'en' = any(published_locales)")).toBe(0);
+}, 120000);

@@ -366,6 +366,15 @@ Hero videosu panelden ham yüklenmez: `scripts/hero-video-build.mjs` kaynağı `
 **Neden:** Normal GOP'lu videoda `currentTime` scrub takılır (03-RESPONSIVE-ANIMATION); panelden yüklenen ham dosya bu garantiyi vermez. Header'da 7 menü öğesi + logo + dil + sepet + hesap + CTA 1024–1280 arasında sıkışıyordu; öğeleri gizlemek yerine ikinci satıra almak her kırılımda erişilebilir tutar (K-50).
 **Bilinen bedeli:** Video değişince betik yeniden çalıştırılır (ffmpeg gerekir; `FFMPEG_PATH`). < 1280 px'te header 104 px (üst bar 40 + satır 64). `-g 1` dosyayı ~2,5 kat büyütür (2,6 → 6,4 MB); `reduced-motion`/`saveData`'da video hiç yüklenmez.
 
+### K-72 · Tipografi: Archivo + Geist + Geist Mono, `display: swap`
+Başlık Archivo (değişken; genişlik ekseni %116 ile geniş kesim), gövde Geist, teknik etiketler Geist Mono. Fontlar `swap` ile yüklenir.
+**Neden:** Google alt kümeleri ayrı dosyalardır; Türkçe'ye özgü harfler `latin-ext` dosyasındadır. `optional` ile bu dosya ilk ~100 ms'de yetişmezse o sayfa görünümünde `ş ğ İ ı` yedek fontla, geri kalan harfler marka fontuyla çiziliyordu. Syne'ın sedilli harf çizimi de zayıftı. Üç yeni font Türkçe glifleri tam ve tutarlı içerir; değişken oldukları için ağırlık başına dosya yoktur.
+**Bilinen bedeli:** `swap` yavaş bağlantıda kısa bir yedek-font anı (FOUT) gösterir; next/font'un metrik uyumlu yedeği kaymayı (CLS) önler. Laboratuvar LCP'si metin boyamasına bağlı sayfalarda bir miktar gecikebilir. Önceki marka fontu kararı (01-DESIGN-SYSTEM) bu kararla değişti.
+
+### K-73 · İngilizce yayın: ürün sahibinin açık talimatı onay sayılır, meta'da işaretlenir
+K-08 EN yayını için insan onayı ister. Ürün sahibi 2026-09-18'de İngilizce sitenin tamamlanmasını istedi; mevcut makine taslakları gözden geçirilip `translation_meta.en = {machine: true, reviewed: true, approved_via: "urun-sahibi-talimati-2026-09-18"}` ile yayınlandı. `reviewed_by` boştur; panelde bir dil uzmanı onayladığında dolar.
+**Kapsam dışı:** yasal sayfalar ve mail şablonları (K-08 listesi) — hukuki sorumluluk taşır, İngilizcesi insan eliyle girilir.
+
 ---
 
 ## Değiştirilen Kararlar

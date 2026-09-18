@@ -69,6 +69,9 @@ test.describe('kariyer yönetimi', () => {
     await expect(vp.getByRole('heading', { level: 1 })).toHaveText(name);
     expect((await vp.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('"@type":"JobPosting"');
     await vp.waitForLoadState('networkidle');
+    // Mobilde çerez bandı formun onay kutusunu örtebilir → önce kapat
+    const onlyNecessary = vp.getByRole('button', { name: 'Yalnız zorunlu' });
+    if (await onlyNecessary.isVisible().catch(() => false)) await onlyNecessary.click();
     await vp.getByLabel('Ad Soyad').fill('E2E Aday');
     await vp.getByLabel('E-posta').fill('e2e-aday@example.com');
     await vp.getByLabel(/KVKK/).check();

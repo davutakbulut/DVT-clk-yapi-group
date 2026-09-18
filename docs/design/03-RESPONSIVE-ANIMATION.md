@@ -20,7 +20,7 @@ Projenin en riskli görsel parçası. Planlanmadan yazılırsa mobilde kırılı
 | Bölüm | Mobil (<768) | Tablet (768–1023) | Masaüstü (1024+) |
 |---|---|---|---|
 | **Header** | Üst bar (dil + sepet) · hamburger + logo · hesap | Üst bar · hamburger + logo · hesap + CTA | Logo başta · menü yanında · sağda dil + sepet + hesap + CTA (< 1280: dil + sepet üst barda) — K-71 |
-| **Video Hero** | `100dvh` · **scrub yok, otomatik oynatma** | scrub, düşük çözünürlük (854p `-g 1`) | Tam scrub (1280p `-g 1`) · CSS sticky sahne, 300dvh |
+| **Video Hero** | scrub (dikey 912×1080 `-g 1`, 220dvh, CSS sticky — pin yok); cihaz kaldırmazsa otomatik döngü | scrub, düşük çözünürlük (854p `-g 1`) | Tam scrub (1280p `-g 1`) · CSS sticky sahne, 300dvh |
 | Hakkımızda | Tek sütun, görsel üstte | 2 sütun | 2 sütun + kayan sayaçlar |
 | Hizmetler | Dikey kart yığını | 2'li ızgara | Yatay carousel (pin + scrub) |
 | Projeler / Ürünler | 1 sütun | 2 sütun | 3 sütun, hover zoom |

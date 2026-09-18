@@ -32,10 +32,17 @@
   h2,
   h3 {
     font-family: var(--font-heading, ui-sans-serif), system-ui, sans-serif;
+    font-stretch: 116%;
     font-weight: 800;
+    /* Archivo değişken genişlik ekseni: geniş kesim (K-72). Eksen yoksa (yedek font) yok sayılır. */
+    font-stretch: 116%;
     line-height: var(--lh-heading);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     text-wrap: balance;
+  }
+
+  [class*='font-[family-name:var(--font-heading)]'] {
+    font-stretch: 116%;
   }
 
   h1 {
@@ -288,6 +295,7 @@
     display: block;
     padding: var(--space-3) 0;
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
     font-size: 1.25rem;
     color: var(--color-text-inverse);
@@ -306,6 +314,7 @@
   .site-footer-heading {
     color: var(--color-text-inverse);
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
     font-size: var(--fs-sm);
     letter-spacing: 0.08em;
@@ -411,7 +420,14 @@
     inset: 0;
   }
   .hero-scrub {
-    height: 300dvh;
+    /* Telefonda başparmakla 3 ekran kaydırmak uzun → 220dvh; tablet ve üstü 300dvh. pin YOK: CSS sticky (adres çubuğu
+       yüksekliği değişse de ilerleme her karede sarmalayıcının konumundan yeniden hesaplanır). */
+    height: 220dvh;
+  }
+  @media (min-width: 768px) {
+    .hero-scrub {
+      height: 300dvh;
+    }
   }
   .hero-stage {
     position: sticky;
@@ -615,6 +631,7 @@
   }
   .prose-site h4 {
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
   }
   .prose-site strong {
@@ -676,6 +693,7 @@
   }
   .stat-num {
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 800;
     font-size: clamp(2rem, 1.4rem + 2.2vw, 2.75rem);
     line-height: 1;
@@ -760,6 +778,7 @@
   }
   .card-title {
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
     font-size: 1.25rem;
     line-height: 1.2;
@@ -814,6 +833,7 @@
   }
   .step-index {
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 800;
     font-size: 1.5rem;
     line-height: 1;
@@ -916,6 +936,7 @@
   }
   .fact dd {
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
     font-size: 1.125rem;
     margin-top: var(--space-1);
@@ -1041,6 +1062,7 @@
     text-align: left;
     padding: var(--space-2) 0;
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-stretch: 116%;
     font-weight: 700;
     color: var(--color-text);
   }

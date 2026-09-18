@@ -26,7 +26,7 @@ test.describe('hizmetler', () => {
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });
 
-  test('detay: başlık, süreç adımları, Service JSON-LD, yalnız TR hreflang; EN URL 404 (K-08); bilinmeyen slug 404', async ({ page }) => {
+  test('detay: başlık, süreç adımları, Service JSON-LD, TR+EN hreflang; EN kendi slug\'ıyla açılır, TR slug\'ı EN\'de 404 (K-09); bilinmeyen slug 404', async ({ page }) => {
     const list = await page.goto('/tr/hizmetler');
     expect(list?.status()).toBe(200);
     const first = page.locator('.card-link').first();
@@ -40,12 +40,18 @@ test.describe('hizmetler', () => {
     expect(ld).toContain('"@type":"Service"');
     expect(ld).toContain('"inLanguage":"tr"');
     await expect(page.locator('link[rel="alternate"][hreflang="tr"]')).toHaveCount(1);
-    await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveCount(0);
-    // Dil değiştirici: EN karşılığı yok → RouteAlternates fallback ile EN hizmet listesine gider (404'e değil)
-    await expect(page.getByRole('group', { name: 'Dil seçimi' }).getByRole('link', { name: 'English' })).toHaveAttribute('href', '/en/services');
+    // 0042: EN yayında → hreflang en var; dil değiştirici EN slug'ına gider (slug otomatik çevrilmez, K-09)
+    await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveCount(1);
+    const enLink = page.getByRole('group', { name: 'Dil seçimi' }).getByRole('link', { name: 'English' });
+    await expect(enLink).toHaveAttribute('href', /^\/en\/services\/[a-z0-9-]+$/);
+    const enHref = await enLink.getAttribute('href');
     const slug = href!.split('/').pop()!;
-    const en = await page.goto(`/en/services/${slug}`);
-    expect(en?.status()).toBe(404);
+    expect(enHref).not.toContain(slug);
+    const wrong = await page.goto(`/en/services/${slug}`);
+    expect(wrong?.status()).toBe(404);
+    const en = await page.goto(enHref!);
+    expect(en?.status()).toBe(200);
+    expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('"inLanguage":"en"');
     const missing = await page.goto('/tr/hizmetler/boyle-bir-hizmet-yok');
     expect(missing?.status()).toBe(404);
     await expect(page.getByText('Hata 404')).toBeVisible();

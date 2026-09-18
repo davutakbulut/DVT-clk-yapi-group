@@ -21,7 +21,7 @@ Aracın önerdiği "safety orange" ikinci vurgu **reddedildi**: marka tek vurgu 
 
 ## Tipografi
 
-- Başlık **Syne 700/800** (display `clamp(2.5rem … 5.25rem)`, `letter-spacing -0.02em`, `line-height 1.02`) · gövde **IBM Plex Sans** 400/500/600 · mono **IBM Plex Mono** yalnız teknik etiket (kicker, tarih, birim).
+- Başlık **Archivo 800, font-stretch %116** (K-72; eski: Syne) (display `clamp(2.5rem … 5.25rem)`, `letter-spacing -0.02em`, `line-height 1.02`) · gövde **Geist** · mono **Geist Mono** yalnız teknik etiket (kicker, tarih, birim).
 - Aracın "Plus Jakarta Sans" önerisi reddedildi (markanın fontu var). `latin-ext` zorunlu.
 - Satır uzunluğu ≤ 68ch (`--prose-max`), gövde 16 px, satır 1.6.
 

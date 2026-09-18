@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — tipografi · mobil scrub · İngilizce içerik
+- **Fontlar (K-72):** Syne + IBM Plex → **Archivo** (başlık, `wdth` ekseni %116) + **Geist** (gövde) + **Geist Mono** (etiket). `display: optional` → `swap`: Türkçe harflerin bulunduğu `latin-ext` alt kümesi geç gelince sayfa boyunca yedek fontla çiziliyordu (karışık "inşa"); artık her zaman yerine oturur
+- **Mobil hero:** telefonda da kaydırmayla kare kare (dikey 912×1080 `-g 1`, 5,3 MB; 220dvh); iOS için oynat-duraklat ile kod çözücü uyandırma; dosya yüklenemezse poster kalır
+- **İngilizce (0042):** hizmetler, çözüm ve hakkımızda EN yayında; 11 SSS + 3 blog yazısı İngilizce eklendi; varsayılan meta açıklama TR/EN. Yasal sayfalar ve mail şablonları kapsam dışı (K-08). Tarama: 36 EN sayfa 200, Türkçe sızıntı yok
+- Testler: `home`/`services`/`seo` EN yayınına göre güncellendi; kariyer başvurusunda çerez bandı kapatılır
+
 ### Eklendi — paylaşım tüneli · mobil hero kalitesi
 - `scripts/share-tunnel.sh` (`start` · `rebuild` · `status` · `stop`): üretim derlemesi (`.next-share`, port 3400) + Cloudflare hızlı tüneli; adres tünel işlemi yaşadıkça sabit, `rebuild` adresi değiştirmeden siteyi günceller; `caffeinate` ile Mac uyumaz; `noindex` açık. `next.config` `NEXT_DIST_DIR`
 - Mobil hero: yatay 854×480 `-g 1` dosya dikey ekranda bulanıktı → telefon için dikey kırpım + lanczos 912×1080 + hafif keskinleştirme, normal GOP (3 MB); tablet masaüstü `-g 1` dosyasıyla scrub eder; kullanılmayan hero dosyaları Storage'dan kaldırıldı

@@ -13,7 +13,7 @@ test.describe('çatı', () => {
       await document.fonts.ready;
       return getComputedStyle(document.querySelector('h1')!).fontFamily;
     });
-    expect(fonts).toMatch(/Syne/);
+    expect(fonts).toMatch(/Archivo/);
   });
 
   test('footer: contentinfo, telif satırı bu yılı içerir, yer tutucu iletişim bilgisi YOK', async ({ page }) => {

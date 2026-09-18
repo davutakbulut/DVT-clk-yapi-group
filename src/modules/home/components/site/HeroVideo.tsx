@@ -19,8 +19,8 @@ type Mode = 'poster' | 'scrub' | 'loop';
 
 /**
  * Scroll video hero (03-RESPONSIVE-ANIMATION): kaydırdıkça video KARE KARE ilerler (`currentTime` scrub; kaynak `-g 1`
- * ile kodlanır → her kare keyframe, seek takılmaz). Tablet ve masaüstü (≥768): scrub; telefon: scrub yok, dikey kırpılmış
- * yüksek çözünürlüklü kaynakla otomatik döngü; `reduced-motion`/`saveData`: yalnız poster (video hiç yüklenmez).
+ * ile kodlanır → her kare keyframe, seek takılmaz). Her kırılımda scrub: tablet ve masaüstü yatay kaynak, telefon dikey
+ * kırpılmış yüksek çözünürlüklü kaynak; `reduced-motion`/`saveData`: yalnız poster (video hiç yüklenmez).
  * Poster her zaman ilk boyanır (LCP), video hazır olunca üstüne oturur. GSAP/ScrollTrigger pin YOK: CSS sticky + tek rAF.
  * iOS/zayıf cihaz: seek gecikmesi ölçülür, eşik aşılırsa otomatik döngüye düşülür. İlerleme `--hero-progress` olarak
  * bölüme yazılır (kopya solması + ilerleme çizgisi CSS'te).
@@ -40,7 +40,7 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     const decide = () => {
       setWide(tabletUp.matches);
       if (reduced.matches || saveData) setMode('poster');
-      else setMode(tabletUp.matches ? 'scrub' : 'loop');
+      else setMode('scrub'); // telefon dahil her kırılımda scrub; cihaz kaldırmazsa aşağıda döngüye düşülür
     };
     decide();
     // matchMedia dinleyicisi: kırılım/yön değişince mod yeniden seçilir (elle innerWidth kontrolü yok)
@@ -61,7 +61,12 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
       void video.play().catch(() => setMode('poster'));
       return;
     }
-    video.pause();
+    // iOS Safari: duraklatılmış video kare çözmeye başlamaz → `currentTime` seek'i boş kalır. Sessiz + playsInline olduğu için
+    // kısa bir oynat-duraklat çağrısı kod çözücüyü uyandırır; reddedilirse (düşük güç modu) poster kalır, scrub yine denenir.
+    void video
+      .play()
+      .then(() => video.pause())
+      .catch(() => undefined);
     // Scrub: kaydırma ilerlemesi (0..1) → currentTime. rAF'ta yumuşatılır; önceki seek bitmeden yenisi verilmez.
     let target = 0;
     let current = 0;
@@ -110,7 +115,7 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     };
   }, [mode, wide]);
 
-  // Tablet ve üstü: -g 1 yatay kaynakla scrub; telefon: dikey kırpılmış, yüksek çözünürlüklü döngü kaynağı
+  // Tablet ve üstü: -g 1 yatay kaynak; telefon: -g 1 dikey kırpılmış yüksek çözünürlüklü kaynak
   const source = (wide ? desktop : mobile) ?? desktop ?? mobile;
   const poster = source?.poster ?? desktop?.poster ?? mobile?.poster ?? null;
 
@@ -131,7 +136,11 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
             preload="auto"
             aria-hidden="true"
             onLoadedData={() => setReady(true)}
-            onError={() => setMode('poster')}
+            onError={() => {
+              // Dosya yüklenemedi (ör. önbellekteki eski adres): poster kalır, boş/siyah sahne gösterilmez
+              setReady(false);
+              setMode('poster');
+            }}
             className={`hero-media ${ready ? '' : 'hero-media-hidden'}`}
           />
         ) : null}
