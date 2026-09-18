@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 3 — Medya migrasyonu ⏳ (sırada) · Faz 1–2 PR'da
+**Şu an:** Faz 3 — Medya migrasyonu 🔨 (kod hazır · uzak projeye yükleme bekliyor) · Faz 1–2 PR'da
 
 ---
 
@@ -19,7 +19,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
-| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–2 ✅ · Faz 3 sırada |
+| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–2 ✅ · Faz 3 kod hazır |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
@@ -70,7 +70,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `npm run db:push` hedef projeyi izin listesinden doğrulamadan çalışmaz (`scripts/db-push.mjs`)
   - [ ] *Ürün sahibi:* `.env.local` › `SUPABASE_SECRET_KEY` → `create-super-admin.mjs`
   - [ ] *Ürün sahibi:* yanlış projeye (başka uygulama) uygulanan `0001`–`0002`'nin temizliği — betik hazır, karar bekliyor
-- [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage)
+- [ ] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage) 🔨 2026-09-18
+  - [x] `0013_storage_buckets.sql` — `media` (herkese açık) + `private-documents` (staff) bucket'ları ve `storage.objects` politikaları; PGlite'ta koruma bloğuyla atlanır
+  - [x] **K-49** boru hattı: `scripts/media-migrate.mjs` — sharp ile WebP (480/960/1440 varyant + ≤1920 tam boy + 16 px blur), içerik hash'inden kararlı id, yeniden çalıştırılabilir upsert
+  - [x] Video: olduğu gibi yüklenir; mp4 süre/boyut kutu yapısından okunur (ffmpeg yok)
+  - [x] `src/core/storage` — `publicStorageUrl` · `mediaSrcSet` · `mediaAlt` (3 test) · saf boru hattı parçaları 5 testle kilitli
+  - [x] `npm run media:report` — tarayıcıda galeri: klasör, varyant, boyut, alt metni
+  - [x] Deneme koşusu: 162 görsel + 4 video, 0 yinelenen, 0 hata · görseller 41,7 → 35,2 MB tam boy + 39,1 MB varyant
+  - [ ] *Ürün sahibi:* `npm run db:push` onayı (0013) → `npm run media:migrate` → `npm run media:report`
+  - [ ] *Faz 6'ya devredildi:* video poster kareleri ve mobil/masaüstü ayrı encode (ffmpeg gerektirir)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*
 - [ ] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp
 

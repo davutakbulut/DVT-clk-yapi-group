@@ -250,6 +250,12 @@ Tekrarlayan DDL (`updated_at` tetikleyicisi, slug indeksleri, yayın kolonları,
 **Neden:** 83 tabloda elle tekrar, bir tabloda `with check`'in ya da EN slug indeksinin unutulmasını garanti eder. Açık yetki ise çift kemerdir: Supabase yeni tabloyu varsayılan olarak API rollerine tam yetkili açar; RLS tek savunma olmamalı.
 **Bilinen bedeli:** Kolonların bir kısmı `create table` içinde görünmez (`call app_private.publishable(…)` ile gelir). Karşılığı: `npm run db:report` katalogdan tam görünümü üretir.
 
+### K-49 · Medya boru hattı: build dışı betikle WebP varyantları, Storage'da düz dosya
+Görseller yükleme anında (Faz 3'te betikle, Faz 5'ten sonra admin yükleyicisiyle) **sharp** ile WebP'ye çevrilir: 480/960/1440 px varyantlar + en çok 1920 px tam boy + 16 px blur yer tutucu (`blur_data_url`). Yollar `media_library.variants` JSONB'de tutulur; ön yüz `core/storage.mediaSrcSet` ile `srcset` kurar. Kayıt id'si içerik hash'inden türetilir; betik yeniden koşunca aynı dosya aynı kaydı günceller.
+**Neden:** Supabase görsel dönüştürme API'si Pro plana bağlı ve istek başına ücretli; `next/image` optimizasyonu ise Vercel'de kaynak görsel başına kota tüketir ve ilk isteği yavaşlatır. Dönüşümü bir kez yapıp CDN'e düz dosya koymak hem ücretsiz planda çalışır hem MSSQL/başka depolamaya taşınırken (K-02) hiçbir platform özelliğine bağımlı değildir.
+**Bilinen bedeli:** Yeni bir kırılım genişliği gerekirse tüm görseller yeniden işlenir (betik zaten yeniden çalıştırılabilir). Depolama ~2× (tam boy + varyantlar); 166 dosya için ~105 MB, ücretsiz planın 1 GB sınırının çok altında.
+**Kapsam dışı:** Video kodlama — ffmpeg geliştirme makinesinde yok; poster kareleri ve mobil/masaüstü ayrı encode Faz 6'da (hero) ele alınır. Kaynak dosyalar `assets/` altında git dışı arşiv olarak kalır.
+
 ---
 
 ## Değiştirilen Kararlar

@@ -43,7 +43,7 @@ Geçersizleştirme hem admin server action'ından hem Supabase webhook'undan tet
 ## Görsel
 
 - `next/image` · AVIF → WebP → JPEG sırası · responsive `srcset` · blur placeholder
-- **162 görsel Faz 3'te WebP'ye çevrilip birden fazla boyutta üretilir** — kaynak dosyalar 1–3 MB, sıkıştırılmadan kullanılırsa LCP mahvolur
+- **162 görsel Faz 3'te WebP'ye çevrildi** (K-49): 480/960/1440 px varyant + ≤1920 px tam boy + blur yer tutucu, `media_library.variants` → `core/storage.mediaSrcSet`. Kaynaklar sıkıştırılmadan kullanılsaydı LCP mahvolurdu
 - Katlama üstündeki görsellerde `priority`, altındakiler lazy
 - Her görselin genişlik/yükseklik oranı sabit → **CLS sıfır**
 - Vercel'in görsel optimizasyon kotasına bağımlılık yok — boyutlar build zamanında hazır

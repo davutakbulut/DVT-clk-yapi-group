@@ -7,6 +7,16 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 3 · Medya migrasyonu
+- `supabase/migrations/0013_storage_buckets.sql` — `media` (public, 50 MB, görsel/video/pdf) ve `private-documents` (staff) bucket'ları + `storage.objects` RLS politikaları; `storage` şeması yoksa (PGlite) kendini atlar
+- `scripts/media-migrate.mjs` (`npm run media:migrate`) — `assets/` → WebP varyantları (480/960/1440 + ≤1920 tam boy + blur yer tutucu) → Storage → `media_library` upsert; `--dry-run` ve `--only <klasör>` seçenekleri; manifest `supabase/.temp/media-manifest.json`
+- `scripts/lib/media-pipeline.mjs` — saf parçalar (slug yolları, varyant planı, hash → uuid, mp4 üst verisi) · 5 test (`scripts/__tests__`)
+- `scripts/generate-media-report.mjs` (`npm run media:report`) — anonim anahtarla `media_library` galerisi (HTML)
+- `src/core/storage/` — `publicStorageUrl` · `mediaSrcSet` · `mediaAlt` · `MediaAsset` tipi (K-02 soyutlaması) · 3 test
+- devDependency: `sharp`
+- **K-49** — medya boru hattı kararı (`docs/02-DECISIONS.md`)
+
+
 ### Eklendi — Faz 2 · Veritabanı
 - **K-47 Docker'sız akış:** migration'lar elle yazılır, PGlite (süreç içi Postgres) üzerinde Vitest ile test edilir, sonra uzak projeye `db push` edilir
 - `supabase/migrations/0001–0012` — 83 tablo + 4 görünüm, 171 RLS politikası, tamamı uzantısız

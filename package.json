@@ -21,7 +21,9 @@
     "db:push": "node scripts/db-push.mjs",
     "db:status": "supabase migration list",
     "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
-    "db:report": "node scripts/generate-schema-report.mjs"
+    "db:report": "node scripts/generate-schema-report.mjs",
+    "media:migrate": "node --env-file=.env.local scripts/media-migrate.mjs",
+    "media:report": "node --env-file=.env.local scripts/generate-media-report.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -45,6 +47,7 @@
     "eslint-config-next": "15.5.25",
     "eslint-plugin-boundaries": "^5",
     "madge": "^8",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4",
     "typescript": "^5.9.3",
     "vitest": "^3"

@@ -38,6 +38,15 @@ npm run db:types                                       # src/types/database.ts �
 
 `supabase init` yapılmış durumda (`supabase/config.toml` repoda).
 
+### Storage bucket'ları (0013)
+
+| Bucket | Erişim | İçerik |
+|---|---|---|
+| `media` | herkese açık okuma · yazma super_admin/admin/editor | site görselleri (WebP + varyantlar), videolar, açık PDF'ler |
+| `private-documents` | yalnız staff (sales dahil) | teklif ekleri, CV'ler |
+
+Politikalar `storage.objects` üzerinde RLS'tir; PGlite'ta `storage` şeması olmadığından **yalnız uzak projede** geçerlidir. Kaynak medya `assets/` (git dışı) → `npm run media:migrate` → `npm run media:report` (galeri HTML).
+
 ### ⚠️ Bağlantı portu
 
 | Port | Kullanım |
