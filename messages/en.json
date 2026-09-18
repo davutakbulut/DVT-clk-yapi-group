@@ -5,7 +5,8 @@
   },
   "A11y": {
     "skipToContent": "Skip to content",
-    "mainNavigation": "Main navigation"
+    "mainNavigation": "Main navigation",
+    "secondaryNavigation": "Secondary navigation"
   },
   "LanguageSwitcher": {
     "label": "Language",
@@ -24,6 +25,35 @@
     "serverErrorTitle": "Something went wrong",
     "serverErrorBody": "The problem is on our side. Please try again shortly.",
     "retry": "Try again",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "popularPages": "Popular pages",
+    "notFoundCode": "Error 404",
+    "serverErrorCode": "Error 500"
+  },
+  "Nav": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": "Menu",
+    "home": "Home"
+  },
+  "Footer": {
+    "contactHeading": "Contact",
+    "followUs": "Follow us",
+    "copyright": "© {year} {siteName}. All rights reserved.",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "workingHours": "Working hours"
+  },
+  "WhatsApp": {
+    "open": "Chat on WhatsApp",
+    "close": "Close",
+    "online": "Online",
+    "start": "Start a WhatsApp chat",
+    "call": "Call now",
+    "copy": "Copy number",
+    "copied": "Copied",
+    "defaultMessage": "Hello, I would like to get information. ({url})",
+    "panelLabel": "WhatsApp contact"
   }
 }

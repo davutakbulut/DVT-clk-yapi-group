@@ -7,6 +7,22 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 4 · Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp
+- Tipografi: `src/ui/fonts.ts` — Syne / IBM Plex Sans / IBM Plex Mono, `next/font` self-host, `latin-ext`; akışkan ölçek ve tam semantik token seti (`tokens.primitive.css`, `theme.site.css`)
+- `src/ui`: `Button` · `Container` · `SectionHeading` · `BrandMark` · `MenuSuggestions`; `globals.css` bileşen katmanı (header ızgarası, çekmece, footer, WhatsApp, çizgi animasyonu)
+- `src/core/cache` (`cached`, `CACHE_TAGS`) · `src/core/db/createPublicClient.ts` · `src/lib/localized.ts` (`pickLocale`)
+- `src/modules/navigation` — `Header`, `Footer`, `getMenu`; menü ağacı saf fonksiyonla kurulur, route'u olmayan iç bağlantı düşer (**K-50**)
+- `src/modules/site-settings` — herkese açık ayarlar tipli ve varsayılanlı
+- `src/modules/whatsapp` — yüzen WhatsApp (kapalıyken render yok)
+- `src/modules/static-pages` — `ErrorPage` + `getErrorPage`; 404 (marketing ve dilli kök) ve 500 sayfaları yeniden yazıldı
+- `supabase/migrations/0014_navigation_seed.sql` — menü yapısı + `menu_items` sıralama kapsamı düzeltmesi
+- Testler: `buildMenuTree` (4) · `parseSettings` (2) · `navigation-seed` (3 DB) · `e2e/chrome.spec.ts` (5)
+- Dokümanlar: K-50, 01-DESIGN-SYSTEM kontrast ölçümü, 01-PUBLIC-PAGES header ızgarası
+
+### Düzeltildi — Faz 4
+- `menu_items_sort_order_uq` yalnız `parent_id` ile kapsamlıydı: farklı menülerin kök öğeleri çakışıyordu (0014 düzeltir, PGlite testi yakaladı)
+
+
 ### Eklendi — Faz 3 · Medya migrasyonu
 - `supabase/migrations/0013_storage_buckets.sql` — `media` (public, 50 MB, görsel/video/pdf) ve `private-documents` (staff) bucket'ları + `storage.objects` RLS politikaları; `storage` şeması yoksa (PGlite) kendini atlar
 - `scripts/media-migrate.mjs` (`npm run media:migrate`) — `assets/` → WebP varyantları (480/960/1440 + ≤1920 tam boy + blur yer tutucu) → Storage → `media_library` upsert; `--dry-run` ve `--only <klasör>` seçenekleri; manifest `supabase/.temp/media-manifest.json`

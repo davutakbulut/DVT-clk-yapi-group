@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
+import { Container } from '@/ui/Container';
+import { SectionHeading } from '@/ui/SectionHeading';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -19,9 +21,8 @@ export default async function HomePage({ params }: Props) {
   const [meta, home] = await Promise.all([getTranslations('Meta'), getTranslations('Home')]);
 
   return (
-    <section className="mx-auto grid max-w-[var(--content-max)] gap-3 px-[var(--gutter)] py-[var(--section-y)]">
-      <h1 className="text-4xl font-semibold tracking-tight">{meta('siteName')}</h1>
-      <p className="text-[var(--color-text-muted)]">{home('underConstruction')}</p>
-    </section>
+    <Container as="section" className="py-[var(--section-y)]">
+      <SectionHeading as="h1" title={meta('siteName')} lead={home('underConstruction')} />
+    </Container>
   );
 }

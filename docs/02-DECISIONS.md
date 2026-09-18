@@ -256,6 +256,11 @@ Görseller yükleme anında (Faz 3'te betikle, Faz 5'ten sonra admin yükleyicis
 **Bilinen bedeli:** Yeni bir kırılım genişliği gerekirse tüm görseller yeniden işlenir (betik zaten yeniden çalıştırılabilir). Depolama ~2× (tam boy + varyantlar); 166 dosya için ~105 MB, ücretsiz planın 1 GB sınırının çok altında.
 **Kapsam dışı:** Video kodlama — ffmpeg geliştirme makinesinde yok; poster kareleri ve mobil/masaüstü ayrı encode Faz 6'da (hero) ele alınır. Kaynak dosyalar `assets/` altında git dışı arşiv olarak kalır.
 
+### K-50 · Menü öğesi, route'u olmadan gösterilmez
+`menu_items.internal_path` yalnız `src/i18n/routing.ts` içindeki `pathnames` anahtarlarından biriyse render edilir; aksi hâlde öğe (ve boş kalan üst başlığı) sessizce düşer. Menü yapısı (0014) baştan tam yazılır; her faz kendi route'unu ekleyince ilgili bağlantı kendiliğinden görünür.
+**Neden:** Sayfası olmayan bağlantı ölü bağlantıdır (404) — "öksüz sayfa yok" kuralının tersi. Menüyü faz faz seed etmek ise panelden yapılmış düzenlemeyle çakışır; yapıyı bir kez yazıp süzmek iki sorunu da çözer.
+**Bilinen bedeli:** Faz 4 sonunda header'da yalnız marka, dil değiştirici ve (kapalı) CTA görünür; menü Faz 7–11 boyunca dolar. Süzme `buildMenuTree` içinde tek yerdedir ve testle kilitlidir.
+
 ---
 
 ## Değiştirilen Kararlar

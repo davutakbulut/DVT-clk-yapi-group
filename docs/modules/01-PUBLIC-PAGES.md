@@ -48,11 +48,11 @@ Hizmetler▾ Ürünler▾ Projeler▾ Konfigüratör │ LOGO │ Blog Hakkımı
 - Mobil: logo ortada sabit, sol hamburger → drawer (akordeon), sağda Teklif Al
 - Giriş varsa 👤 → Profilim / Tekliflerim / Konfigürasyonlarım / Yönetim Paneli / Çıkış
 
-**Ortalanmış logo:** `grid-template-columns: var(--nav-edge) 1fr var(--nav-edge)` — `auto 1fr auto` piksel hassasiyetinde ortalamaz.
+**Ortalanmış logo:** `grid-template-columns: minmax(0,1fr) auto minmax(0,1fr)` — iki kenar sütunu eşit olduğu için logo piksel hassasiyetinde ortada; `auto 1fr auto` ortalamaz. (Faz 4'te sabit `--nav-edge` yerine eşit `1fr` seçildi: menü genişliği fazdan faza değişiyor.)
 
 **Oturum durumu istemci bileşeninde.** Sunucuda render edilirse ya tüm layout dinamikleşir (ISR ölür) ya da bir kullanıcının durumu herkese önbelleklenir. Sabit genişlikli iskeletle düzen kayması önlenir.
 
-**Menü verisi `unstable_cache` + etiket ile önbellekte** — önbellek isabetinde sıfır sorgu. Yedek: RPC hata verirse koda gömülü asgari menü render edilir; site navigasyonsuz kalmaz.
+**Menü verisi `unstable_cache` + etiket ile önbellekte** — önbellek isabetinde sıfır sorgu. Yedek: sorgu hata verirse marka + dil değiştirici yine render edilir; site çatısız kalmaz. **K-50:** route'u henüz olmayan menü öğesi gösterilmez.
 
 ## Footer
 

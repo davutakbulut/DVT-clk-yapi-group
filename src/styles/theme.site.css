@@ -3,14 +3,39 @@
   [data-surface='site'] {
     --color-bg: var(--paper);
     --color-surface: #fff;
+    --color-surface-raised: #fff;
+    --color-surface-dark: var(--charcoal);
+    --color-surface-darker: var(--bar-dark);
     --color-text: var(--ink);
     --color-text-muted: var(--steel);
     --color-text-subtle: var(--steel-light);
     --color-text-inverse: var(--paper);
+    --color-text-inverse-muted: #c7cdd1; /* antrasit üzerinde 9.05:1 */
+    --color-text-inverse-subtle: #9aa5ac; /* antrasit üzerinde 5.78:1 */
     --color-accent: var(--turq);
+    --color-accent-hover: var(--turq-light);
     --color-accent-text: var(--turq-deep); /* --turq gövde metninde KULLANILMAZ: 3.87:1 */
+    --color-accent-on-dark: var(--turq-light); /* antrasit üzerinde 5.98:1 */
     --color-border: var(--line-light);
     --color-border-strong: var(--steel);
+    --color-border-dark: var(--line);
     --color-focus: var(--charcoal);
+    --color-focus-on-dark: var(--turq-light);
+    --color-success: #2f7a4f;
+    --color-warning: #9a6b00;
+    --color-danger: #b3261e;
+    --color-info: var(--turq-deep);
+  }
+
+  /* Koyu yüzey (header, footer, çekmece): metin tokenları ters çevrilir → ui/ bileşenleri (dil değiştirici, buton)
+     hangi zeminde olduklarını bilmeden AA kontrastı korur. axe: çelik grisi antrasit üzerinde 1.52:1 idi. */
+  [data-surface='site'] [data-on-dark] {
+    --color-text: var(--color-text-inverse);
+    --color-text-muted: var(--color-text-inverse-muted);
+    --color-text-subtle: var(--color-text-inverse-subtle);
+    --color-accent-text: var(--color-accent-on-dark);
+    --color-border: var(--color-border-dark);
+    --color-border-strong: var(--color-text-inverse-muted);
+    --color-focus: var(--color-focus-on-dark);
   }
 }

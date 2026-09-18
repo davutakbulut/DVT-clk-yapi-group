@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 4 — Tasarım sistemi ⏳ (sırada) · Faz 1–3 PR'da
+**Şu an:** Faz 5 — Auth + Admin çatısı ⏳ (sırada) · Faz 1–4 PR'da
 
 ---
 
@@ -19,7 +19,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
-| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | 🔨 Faz 0–3 ✅ · Faz 4 sırada |
+| **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
@@ -82,7 +82,22 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Anonim anahtarla doğrulandı: `media` listelenir + CDN `max-age=31536000`, `private-documents` boş döner, her iki bucket'a yazma RLS'e takılır
   - [ ] *Faz 6'ya devredildi:* video poster kareleri ve mobil/masaüstü ayrı encode (ffmpeg gerektirir)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*
-- [ ] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp
+- [x] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp ✅ 2026-09-18
+  - [x] Tipografi: Syne · IBM Plex Sans · IBM Plex Mono, `next/font` ile self-host, **`latin-ext`** (Türkçe glifler) · akışkan ölçek tokenları
+  - [x] Semantik tokenlar tamamlandı; `--turq-deep` ölçüldü: kâğıt üzerinde **5.21:1** (AA ✓) · birincil buton turq-deep zemin + kâğıt metin
+  - [x] `src/ui`: `Button` (primary/ghost, Link ya da button) · `Container` · `SectionHeading` (numaralı kicker) · `BrandMark` (logo gelene kadar kademe ikonu)
+  - [x] `core/cache` (`cached` + etiket sözlüğü) · `core/db/createPublicClient` (çerezsiz anonim istemci, önbellek içinde güvenli)
+  - [x] `modules/navigation`: menü veritabanından (`menus` + `menu_items`), `unstable_cache` + `menus` etiketi · saf `buildMenuTree` (4 test) · **K-50:** route'u olmayan öğe gösterilmez
+  - [x] Header: ortalanmış marka (`1fr · auto · 1fr`), sol/sağ yuvalar, CTA, dil değiştirici, mobil `<dialog>` çekmecesi (odak tuzağı + Esc tarayıcıdan)
+  - [x] Footer: menü sütunları + iletişim (yalnız dolu alanlar; **yer tutucu yok**) + yasal bar + telif
+  - [x] `modules/site-settings`: `site_settings` → tipli `PublicSettings` (zod, bozuk değer alanı düşürür; 2 test)
+  - [x] `modules/whatsapp`: yüzen buton + panel + sayfa bağlamlı `wa.me` mesajı; `is_enabled=false` (numara yok) → hiç render edilmez
+  - [x] `modules/static-pages`: 404 başlığı/gövdesi admin'den (`static_pages.error-404`, K-08 dil süzgeci) · SVG çizgi animasyonu (404: eksik kolon · 500: ayrılan kiriş) · `prefers-reduced-motion`
+  - [x] `0014_navigation_seed.sql`: header 8 · footer 3 sütun/13 · yasal 5 öğe (yalnız menü boşsa) + **şema düzeltmesi:** `menu_items` sıralama tekilliği `(menu_id, parent_id)` kapsamına alındı
+  - [x] Testler: 3 DB testi (0014) · 9 birim · E2E `chrome.spec.ts` (header/footer/404/WhatsApp/mobil çekmece) · 404 başlığı DB ya da nötr metin kabul eder (CI'da Supabase yok)
+  - [ ] *Faz 5:* menü/ayar/hata metni admin ekranları (ön yüz ↔ admin matrisi orada kapanır) · header 👤 oturum bileşeni
+  - [ ] *Faz 6:* header video üstünde şeffaf başlayıp scroll'da koyulaşma (hero gelince)
+  - [ ] *Faz 7:* footer hizmet listesi `entity` bağlantılarıyla
 
 ## v1.0 — Yayına Hazır Site
 

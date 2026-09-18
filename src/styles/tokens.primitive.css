@@ -9,11 +9,24 @@
     --steel: #3a4750;
     --steel-light: #5c6b75;
     --turq: #5c7fa3;
-    --turq-deep: #4a6a8c; /* kesin değer Faz 4'te ölçülecek (hedef ≥ 4.5:1) */
+    --turq-deep: #4a6a8c; /* Faz 4'te ölçüldü: kâğıt üzerinde 5.21:1, beyazda 5.63:1 → AA metin için uygun */
     --turq-light: #8fa9c4;
     --paper: #f7f6f4;
     --line: #2b3a4e;
     --line-light: #d8d3c8;
+    --wa-green: #25d366; /* WhatsApp marka rengi — yalnız yüzen buton zemini */
+
+    /* Tipografi — akışkan ölçek, 360→1920 px arası sıçramasız */
+    --fs-display: clamp(2.25rem, 1.2rem + 5.2vw, 4.5rem);
+    --fs-h2: clamp(1.75rem, 1.1rem + 2.8vw, 2.75rem);
+    --fs-h3: clamp(1.25rem, 1rem + 1.2vw, 1.75rem);
+    --fs-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    --fs-body: 1rem;
+    --fs-sm: 0.875rem;
+    --fs-xs: 0.8125rem;
+    --lh-heading: 1.1;
+    --lh-body: 1.6;
+    --tracking-label: 0.16em;
 
     /* Aralık — 4 tabanlı */
     --space-1: 4px;
@@ -31,12 +44,18 @@
     --gutter: clamp(16px, 8px + 2vw, 28px);
     --content-max: 1180px;
     --prose-max: 68ch;
+    --header-h: 72px;
 
     /* Radius — keskin, endüstriyel */
     --radius-0: 0;
     --radius-1: 2px;
     --radius-2: 4px;
     --radius-full: 9999px;
+
+    /* Gölge — çizgi ağırlıklı tasarımda az kullanılır */
+    --shadow-1: 0 1px 2px rgb(15 19 21 / 0.08);
+    --shadow-2: 0 6px 20px rgb(15 19 21 / 0.12);
+    --shadow-3: 0 18px 48px rgb(15 19 21 / 0.22);
 
     /* Hareket */
     --dur-fast: 150ms;

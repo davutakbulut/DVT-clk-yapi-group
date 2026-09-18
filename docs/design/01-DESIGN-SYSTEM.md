@@ -13,7 +13,7 @@ Marka kimliği `_archive/prototypes/homepage-v3-clk-rebrand.html` prototipinden 
 --steel       #3A4750   ikincil metin
 --steel-light #5C6B75   üçüncül metin, ipucu
 --turq        #5C7FA3   marka vurgu rengi
---turq-deep   #4A6A8C   ← metin için koyulaştırılmış varyant
+--turq-deep   #4A6A8C   ← metin için koyulaştırılmış varyant (kâğıtta 5.21:1 ✅)
 --turq-light  #8FA9C4   koyu zeminde vurgu
 --paper       #F7F6F4   ana zemin
 --line        #2B3A4E   koyu zeminde çizgi
@@ -30,7 +30,7 @@ Marka kimliği `_archive/prototypes/homepage-v3-clk-rebrand.html` prototipinden 
 | Büyük metin (≥ 24px veya ≥ 19px bold) | 3:1 | ✅ Geçer |
 | İkon, çizgi, buton zemini | 3:1 | ✅ Geçer |
 
-**Kural:** Turkuaz gövde metninde ve küçük etiketlerde **kullanılamaz**. Metin gerektiğinde `--turq-deep` kullanılır; kesin değeri Faz 4'te ölçülerek doğrulanacak (hedef ≥ 4.5:1).
+**Kural:** Turkuaz gövde metninde ve küçük etiketlerde **kullanılamaz**. Metin gerektiğinde `--turq-deep` (#4A6A8C) kullanılır — Faz 4'te ölçüldü: kâğıt üzerinde **5.21:1**, beyazda 5.63:1 ✅. Not: `--ink` metin `--turq` zeminde 4.46:1 (kıl payı altında) → birincil buton `--turq-deep` zemin + `--paper` metin (5.21:1); turkuaz zemin yalnız hover ve büyük metinde.
 
 **Neden önemli:** WCAG AA uyumu yasal bir gereklilik değil ama erişilebilirlik denetiminde (axe) hata olarak çıkar ve gerçek kullanıcıları etkiler — düşük kontrastlı metni yaşlı kullanıcılar ve parlak ışıkta telefon bakanlar okuyamaz.
 

@@ -34,7 +34,8 @@ test.describe('404', () => {
 
     expect(response?.status()).toBe(404);
     await expect(page.locator('html')).toHaveAttribute('lang', 'tr');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sayfa bulunamadı');
+    // Başlık admin'den (static_pages.error-404); build ortamında veritabanı yoksa messages'taki nötr metin
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^(Bu kat henüz inşa edilmedi|Sayfa bulunamadı)$/);
     await expect(page.getByRole('banner')).toBeVisible();
   });
 
@@ -57,6 +58,7 @@ test.describe('404', () => {
 
     expect(response?.status()).toBe(404);
     expect(await page.locator('html').count()).toBe(1);
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Sayfa bulunamadı');
+    // Başlık admin'den (static_pages.error-404); build ortamında veritabanı yoksa messages'taki nötr metin
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/^(Bu kat henüz inşa edilmedi|Sayfa bulunamadı)$/);
   });
 });

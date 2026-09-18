@@ -10,6 +10,7 @@
   html {
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--header-h);
   }
 
   body {
@@ -17,14 +18,41 @@
     min-height: 100dvh;
     background: var(--color-bg);
     color: var(--color-text);
-    font-family: ui-sans-serif, system-ui, sans-serif; /* marka fontları Faz 4 */
-    line-height: 1.6;
+    font-family: var(--font-body, ui-sans-serif), system-ui, sans-serif;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading, ui-sans-serif), system-ui, sans-serif;
+    font-weight: 800;
+    line-height: var(--lh-heading);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--fs-display);
+  }
+  h2 {
+    font-size: var(--fs-h2);
+  }
+  h3 {
+    font-size: var(--fs-h3);
   }
 
   /* Odak halkası her zaman görünür (Bitti Tanımı) */
   :focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 3px;
+  }
+
+  [data-on-dark] :focus-visible,
+  [data-on-dark]:focus-visible {
+    outline-color: var(--color-focus-on-dark);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -53,5 +81,244 @@
 
   .skip-link:focus-visible {
     transform: none;
+  }
+
+  .container-x {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .label-mono {
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  /* ── Buton — ön yüze özel, admin'le paylaşılmaz (02-STYLE-ISOLATION) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px; /* dokunma hedefi */
+    padding: 0 var(--space-6);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    line-height: 1;
+    border: 1px solid transparent;
+    border-radius: var(--radius-0);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .btn-primary {
+    background: var(--color-accent-text); /* turq-deep: kâğıt metniyle 5.21:1 */
+    color: var(--color-text-inverse);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-text);
+  }
+
+  .btn-ghost {
+    border-color: var(--color-border-strong);
+    color: var(--color-text);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-text);
+  }
+
+  [data-on-dark] .btn-ghost {
+    border-color: var(--color-border-dark);
+    color: var(--color-text-inverse);
+  }
+  [data-on-dark] .btn-ghost:hover {
+    border-color: var(--color-accent-on-dark);
+  }
+
+  /* ── Header: ortalanmış logo. İki kenar sütunu EŞİT (1fr · auto · 1fr) → logo piksel hassasiyetinde ortada. */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--color-surface-dark) 94%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--color-border-dark);
+    color: var(--color-text-inverse);
+  }
+
+  .site-header-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    min-height: var(--header-h);
+    gap: var(--space-4);
+  }
+
+  .site-nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--space-3);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--color-text-inverse-muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .site-nav-link:hover,
+  .site-nav-link[aria-current='page'] {
+    color: var(--color-accent-on-dark);
+  }
+
+  /* ── Mobil çekmece: yerel <dialog> → odak tuzağı ve Esc tarayıcıdan gelir */
+  .site-drawer {
+    position: fixed;
+    inset: 0;
+    width: min(100vw, 22rem);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+    box-shadow: var(--shadow-3);
+    transform: translateX(-100%);
+    transition:
+      transform var(--dur) var(--ease-out),
+      overlay var(--dur) allow-discrete,
+      display var(--dur) allow-discrete;
+  }
+  .site-drawer[open] {
+    transform: none;
+  }
+  @starting-style {
+    .site-drawer[open] {
+      transform: translateX(-100%);
+    }
+  }
+  .site-drawer::backdrop {
+    background: rgb(15 19 21 / 0.6);
+  }
+
+  .site-drawer-link {
+    display: block;
+    padding: var(--space-3) 0;
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-text-inverse);
+    border-bottom: 1px solid var(--color-border-dark);
+  }
+
+  /* ── Footer */
+  .site-footer {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse-muted);
+    border-top: 4px solid var(--color-accent);
+  }
+  .site-footer a:hover {
+    color: var(--color-accent-on-dark);
+  }
+  .site-footer-heading {
+    color: var(--color-text-inverse);
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Yüzen WhatsApp */
+  .wa-fab {
+    position: fixed;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    animation: wa-in var(--dur-slow) var(--ease-out) both;
+  }
+  @keyframes wa-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  .wa-fab-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--wa-green);
+    color: var(--ink);
+    box-shadow: var(--shadow-2);
+  }
+  .wa-fab-label {
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--color-surface-darker);
+    color: var(--color-text-inverse);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    box-shadow: var(--shadow-1);
+  }
+  .wa-panel {
+    position: fixed;
+    right: var(--space-4);
+    bottom: calc(56px + var(--space-8));
+    z-index: 60;
+    width: min(calc(100vw - 2 * var(--space-4)), 22rem);
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-3);
+  }
+
+  /* ── Hata sayfası SVG çizgi animasyonu */
+  .draw-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.6s var(--ease-out) forwards;
+  }
+  .draw-line[data-delay='1'] {
+    animation-delay: 0.3s;
+  }
+  .draw-line[data-delay='2'] {
+    animation-delay: 0.6s;
+  }
+  .draw-line[data-delay='3'] {
+    animation-delay: 0.9s;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .beam-split {
+    animation: beam-split 2.4s var(--ease-out) infinite alternate;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .beam-split[data-dir='left'] {
+    --beam-x: -6px;
+  }
+  .beam-split[data-dir='right'] {
+    --beam-x: 6px;
+  }
+  @keyframes beam-split {
+    to {
+      transform: translateX(var(--beam-x, 0));
+    }
   }
 }

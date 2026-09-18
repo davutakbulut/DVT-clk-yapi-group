@@ -5,7 +5,8 @@
   },
   "A11y": {
     "skipToContent": "İçeriğe geç",
-    "mainNavigation": "Ana gezinme"
+    "mainNavigation": "Ana gezinme",
+    "secondaryNavigation": "İkincil gezinme"
   },
   "LanguageSwitcher": {
     "label": "Dil seçimi",
@@ -24,6 +25,35 @@
     "serverErrorTitle": "Bir hata oluştu",
     "serverErrorBody": "Sorun bizde. Birazdan yeniden deneyin.",
     "retry": "Yeniden dene",
-    "backHome": "Ana sayfaya dön"
+    "backHome": "Ana sayfaya dön",
+    "popularPages": "Popüler sayfalar",
+    "notFoundCode": "Hata 404",
+    "serverErrorCode": "Hata 500"
+  },
+  "Nav": {
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat",
+    "menu": "Menü",
+    "home": "Ana sayfa"
+  },
+  "Footer": {
+    "contactHeading": "İletişim",
+    "followUs": "Bizi takip edin",
+    "copyright": "© {year} {siteName}. Tüm hakları saklıdır.",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "address": "Adres",
+    "workingHours": "Çalışma saatleri"
+  },
+  "WhatsApp": {
+    "open": "WhatsApp ile yazın",
+    "close": "Kapat",
+    "online": "Çevrimiçi",
+    "start": "WhatsApp ile Sohbete Başla",
+    "call": "Hemen Ara",
+    "copy": "No Kopyala",
+    "copied": "Kopyalandı",
+    "defaultMessage": "Merhaba, bilgi almak istiyorum. ({url})",
+    "panelLabel": "WhatsApp iletişim"
   }
 }
