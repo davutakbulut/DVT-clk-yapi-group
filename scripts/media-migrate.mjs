@@ -4,6 +4,7 @@
 //   node --env-file=.env.local scripts/media-migrate.mjs [--dry-run] [--only <klasör>] [--skip-existing]
 //
 // --skip-existing: media_library'de kaydı olan dosyaları atlar (kesilen koşuyu tamamlamak için).
+// --refresh-alt  : atlanan kayıtların alt/folder alanlarını yeniden yazar (yükleme yok).
 //
 // - Yeniden çalıştırılabilir: kayıt anahtarı (bucket, path) ve id içerik hash'inden türetilir (upsert).
 // - Görsel → WebP: 480/960/1440 varyant + en çok 1920 px "tam" boy + 16 px blur yer tutucu.
@@ -27,6 +28,7 @@ const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null;
 const skipExisting = args.includes('--skip-existing');
+const refreshAlt = args.includes('--refresh-alt');
 const UPLOAD_ATTEMPTS = 3;
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -150,6 +152,10 @@ async function worker() {
       }
       seen.set(hash, relative(ROOT, file));
       if (existingIds.has(uuidFromHash(hash))) {
+        if (refreshAlt) {
+          const { error } = await supabase.from('media_library').update({ alt: altFor(folder), folder: folderSlug(folder) }).eq('id', uuidFromHash(hash));
+          if (error) throw new Error(`alt güncellenemedi: ${error.message}`);
+        }
         results.push({ kind: 'skipped', source: relative(ROOT, file) });
         continue;
       }

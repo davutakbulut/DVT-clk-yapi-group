@@ -32,6 +32,7 @@ describe('medya boru hattı — saf parçalar', () => {
     expect(mimeFor('x.webm')).toBe('video/webm');
     expect(altFor('KÖRKASA')).toEqual({ tr: 'Körkasa' });
     expect(altFor('bilinmeyen')).toEqual({});
+    expect(altFor('ÇELİK KONSTRÜKSİYON'.normalize('NFD'))).toEqual({ tr: 'Çelik konstrüksiyon' }); // macOS NFD
   });
 
   it('mp4: moov/mvhd/tkhd kutularından süre ve boyut okunur', () => {

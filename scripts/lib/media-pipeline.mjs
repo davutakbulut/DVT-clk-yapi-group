@@ -69,7 +69,8 @@ export function mimeFor(fileName) {
 }
 
 export function altFor(folder) {
-  const label = FOLDER_LABELS[folder];
+  // macOS readdir klasör adını NFD (ayrışık) döndürür: "İ" = I + U+0307. Tablo NFC ile yazıldı.
+  const label = FOLDER_LABELS[folder.normalize('NFC')];
   return label ? { tr: label } : {};
 }
 
