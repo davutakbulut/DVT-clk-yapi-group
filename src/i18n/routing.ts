@@ -21,6 +21,10 @@ export const routing = defineRouting({
     // Faz 7 · hizmetler
     '/services': { tr: '/hizmetler', en: '/services' },
     '/services/[slug]': { tr: '/hizmetler/[slug]', en: '/services/[slug]' },
+    // Faz 8 · projeler
+    '/projects': { tr: '/projeler', en: '/projects' },
+    '/projects/[slug]': { tr: '/projeler/[slug]', en: '/projects/[slug]' },
+    '/projects/category/[slug]': { tr: '/projeler/kategori/[slug]', en: '/projects/category/[slug]' },
   },
 });
 

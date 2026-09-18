@@ -761,6 +761,48 @@
     padding-bottom: var(--space-4);
   }
 
+  /* ── Kategori çipleri (JS'siz süzgeç: bağlantı) ve künye */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border-strong);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    color: var(--color-text);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+  .chip:hover {
+    border-color: var(--color-text);
+  }
+  .chip[aria-current='page'] {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-text-inverse);
+  }
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, max-content));
+    gap: var(--space-6) var(--space-8);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-dark);
+  }
+  .fact dd {
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-top: var(--space-1);
+    font-variant-numeric: tabular-nums;
+  }
+
   /* ── CTA bandı */
   .cta-band {
     background: var(--color-surface-dark);

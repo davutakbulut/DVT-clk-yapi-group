@@ -120,7 +120,9 @@
       "media": "Medya Kütüphanesi",
       "users": "Üyeler ve Roller",
       "home": "Ana Sayfa",
-      "services": "Hizmetler"
+      "services": "Hizmetler",
+      "projects": "Projeler",
+      "projectCategories": "Proje Kategorileri"
     },
     "common": {
       "save": "Kaydet",
@@ -294,7 +296,9 @@
       "back": "Listeye dön",
       "order": "Sıra",
       "featured": "Öne çıkan",
-      "untitled": "(başlıksız)"
+      "untitled": "(başlıksız)",
+      "name": "Ad",
+      "slug": "Slug"
     },
     "pages": {
       "home": "Ana Sayfa",
@@ -342,6 +346,45 @@
       "ogImage": "Paylaşım görseli (OG)",
       "canonical": "Canonical URL (boş bırakın)",
       "noindex": "Arama motorlarından gizle (noindex)"
+    },
+    "projects": {
+      "title": "Projeler",
+      "lead": "Referans projeler: konum, alan, tonaj, tarih, galeri, kategori ve hizmet bağlantısı. Uydurma proje YAZILMAZ; gerçek iş bilgisi girilir.",
+      "new": "Yeni proje",
+      "count": "{count} proje",
+      "content": "İçerik",
+      "excerpt": "Özet",
+      "body": "Metin (Markdown)",
+      "location": "Konum",
+      "facts": "Künye",
+      "clientName": "İşveren (isteğe bağlı, görünür)",
+      "areaM2": "Alan (m²)",
+      "tonnage": "Tonaj (ton)",
+      "startedOn": "Başlangıç tarihi",
+      "completedOn": "Tamamlanma tarihi",
+      "media": "Medya",
+      "cover": "Kapak görseli",
+      "gallery": "Galeri",
+      "galleryHint": "Çoklu seçim için Ctrl/Cmd basılı tutun; sıra liste sırasıdır.",
+      "relations": "Bağlantılar",
+      "categories": "Kategoriler",
+      "services": "Kullanılan hizmetler",
+      "seo": "SEO",
+      "seoTitle": "SEO başlığı",
+      "seoDescription": "Meta açıklama",
+      "focusKeyword": "Odak anahtar kelime",
+      "ogImage": "Paylaşım görseli (OG)",
+      "canonical": "Canonical URL (boş bırakın)",
+      "noindex": "Arama motorlarından gizle (noindex)",
+      "completedCol": "Tamamlanma"
+    },
+    "projectCategories": {
+      "title": "Proje Kategorileri",
+      "lead": "Kategori sayfaları /projeler/kategori/[slug]. Pasif kategori sitede görünmez.",
+      "new": "Yeni kategori",
+      "name": "Ad",
+      "description": "Açıklama",
+      "active": "Aktif"
     }
   },
   "Services": {
@@ -360,5 +403,33 @@
     "ctaTitle": "Projeniz için teklif alın",
     "ctaLead": "Parselinizi ve hedef sürenizi anlatın; size özel süre planı ve teklif hazırlayalım.",
     "ctaButton": "Teklif alın"
+  },
+  "Projects": {
+    "title": "Projelerimiz",
+    "lead": "Tamamladığımız çelik konstrüksiyon işlerinden seçkiler.",
+    "kicker": "Projeler",
+    "homeTitle": "Son projeler",
+    "all": "Tüm projeler",
+    "allCategories": "Tümü",
+    "empty": "Bu kategoride henüz yayında proje yok.",
+    "home": "Ana sayfa",
+    "breadcrumb": "Sayfa yolu",
+    "category": "Kategori",
+    "location": "Konum",
+    "client": "İşveren",
+    "area": "Alan",
+    "tonnage": "Tonaj",
+    "started": "Başlangıç",
+    "completed": "Tamamlanma",
+    "services": "Kullanılan hizmetler",
+    "gallery": "Galeri",
+    "related": "Aynı kategoriden projeler",
+    "prev": "Önceki proje",
+    "next": "Sonraki proje",
+    "ctaTitle": "Benzer bir proje mi planlıyorsunuz?",
+    "ctaLead": "Parselinizi ve hedef sürenizi anlatın; size özel süre planı ve teklif hazırlayalım.",
+    "ctaButton": "Teklif alın",
+    "m2": "m²",
+    "ton": "ton"
   }
 }

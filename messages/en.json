@@ -120,7 +120,9 @@
       "media": "Media Library",
       "users": "Users & Roles",
       "home": "Home Page",
-      "services": "Services"
+      "services": "Services",
+      "projects": "Projects",
+      "projectCategories": "Project Categories"
     },
     "common": {
       "save": "Save",
@@ -294,7 +296,9 @@
       "back": "Back to list",
       "order": "Order",
       "featured": "Featured",
-      "untitled": "(untitled)"
+      "untitled": "(untitled)",
+      "name": "Name",
+      "slug": "Slug"
     },
     "pages": {
       "home": "Home Page",
@@ -342,6 +346,45 @@
       "ogImage": "Share image (OG)",
       "canonical": "Canonical URL (leave empty)",
       "noindex": "Hide from search engines (noindex)"
+    },
+    "projects": {
+      "title": "Projects",
+      "lead": "Reference projects: location, area, tonnage, dates, gallery, categories and services. Never invent projects; enter real work only.",
+      "new": "New project",
+      "count": "{count} projects",
+      "content": "Content",
+      "excerpt": "Excerpt",
+      "body": "Body (Markdown)",
+      "location": "Location",
+      "facts": "Facts",
+      "clientName": "Client (optional, public)",
+      "areaM2": "Area (m²)",
+      "tonnage": "Tonnage (t)",
+      "startedOn": "Start date",
+      "completedOn": "Completion date",
+      "media": "Media",
+      "cover": "Cover image",
+      "gallery": "Gallery",
+      "galleryHint": "Hold Ctrl/Cmd for multiple; order follows the list.",
+      "relations": "Relations",
+      "categories": "Categories",
+      "services": "Services used",
+      "seo": "SEO",
+      "seoTitle": "SEO title",
+      "seoDescription": "Meta description",
+      "focusKeyword": "Focus keyword",
+      "ogImage": "Share image (OG)",
+      "canonical": "Canonical URL (leave empty)",
+      "noindex": "Hide from search engines (noindex)",
+      "completedCol": "Completed"
+    },
+    "projectCategories": {
+      "title": "Project Categories",
+      "lead": "Category pages at /projects/category/[slug]. Inactive categories are hidden on the site.",
+      "new": "New category",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active"
     }
   },
   "Services": {
@@ -360,5 +403,33 @@
     "ctaTitle": "Get a quote for your project",
     "ctaLead": "Tell us about your plot and target schedule; we will prepare a tailored timeline and quote.",
     "ctaButton": "Get a quote"
+  },
+  "Projects": {
+    "title": "Our Projects",
+    "lead": "Selected steel construction work we have delivered.",
+    "kicker": "Projects",
+    "homeTitle": "Recent projects",
+    "all": "All projects",
+    "allCategories": "All",
+    "empty": "No published projects in this category yet.",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "category": "Category",
+    "location": "Location",
+    "client": "Client",
+    "area": "Area",
+    "tonnage": "Tonnage",
+    "started": "Started",
+    "completed": "Completed",
+    "services": "Services used",
+    "gallery": "Gallery",
+    "related": "More from this category",
+    "prev": "Previous project",
+    "next": "Next project",
+    "ctaTitle": "Planning a similar project?",
+    "ctaLead": "Tell us about your plot and target schedule; we will prepare a tailored timeline and quote.",
+    "ctaButton": "Get a quote",
+    "m2": "m²",
+    "ton": "t"
   }
 }

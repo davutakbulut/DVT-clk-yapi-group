@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 8 — Projeler ⏳ (sırada) · Faz 1–7 `feat/faz-02-database` dalında
+**Şu an:** Faz 9 — Blog ⏳ (sırada) · Faz 1–8 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 7 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 8 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -139,7 +139,13 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Admin `/admin/services`: liste (durum rozeti, öne çıkan, ↑↓ tek RPC, sil) · `/new` · `/[id]` — `ServiceForm`: içerik, süreç adımları (satır | satır), ikon, kapak, galeri (çoklu seçim), SEO alanları, yayın (slug TR otomatik / EN elle, K-08 onay)
   - [x] Testler: `processSteps` 3 · DB 5 (RPC dil süzgeci, SSS sızmaz, reorder RLS + izinsiz tablo, slug_history) · E2E `services.spec.ts` (liste axe, detay JSON-LD/hreflang/dil düğmesi, 404'ler, öksüz sayfa yok, admin oluştur→düzenle→sil)
   - [ ] *Sonraki:* SSS admin ekranı (`/admin/faq`, Faz 11) · `content_links` küratörlü ilgili içerik (Faz 9) · liste ekranında TanStack Table (kayıt sayısı büyüyünce)
-- [ ] **Faz 08** — Projeler (ön yüz + admin)
+- [x] **Faz 08** — Projeler (ön yüz + admin) ✅ 2026-09-18
+  - [x] Route'lar: `/projeler` · `/projeler/kategori/[slug]` · `/projeler/[slug]` (EN `/projects/…`); kategori süzgeci bağlantı çipleriyle (JS'siz), kategori sayfasının hreflang'i aynı id'nin karşı dildeki slug'ından
+  - [x] Detay: `get_project_by_slug` (0011) → künye (yalnız dolu alanlar: konum, işveren, m², ton, tarihler), kapak, Markdown gövde, galeri, kullanılan hizmetler, aynı kategoriden 3, önceki/sonraki, CTA; JSON-LD `Article` + `BreadcrumbList`
+  - [x] `0018_project_categories_seed.sql`: 4 kategori (taksonomi, K-55) — projeler BOŞ başlar; 3 DB testi (taslak projenin ilişkisi/görseli sızmaz, RPC kategori+hizmet döner, reorder)
+  - [x] Admin `/admin/projects` (liste `ContentTable` — admin-shell'de ortak: ad · slug · ek sütun · durum · ↑↓ · sil) · `/new` · `/[id]` (`ProjectForm`: içerik, künye, medya/galeri, kategori ve hizmet onay kutuları, SEO, yayın) · `/admin/project-categories` (satır içi CRUD + sıralama)
+  - [x] Ana sayfa 03 proje galerisi (proje varsa); E2E `projects.spec.ts` (liste axe, kategori sayfası + 404, admin oluştur→yayınla→sitede künye/JSON-LD/hizmet bağlantısı→sil→404)
+  - [ ] *Faz 17:* proje detayında ilgili yorumlar · *Faz 19–20:* `client_id`/`sale_id` bağlantısı (tamamlanan satış → referans proje)
 - [ ] **Faz 09** — Blog (ön yüz + admin + canlı SEO paneli)
 - [ ] **Faz 10** — Talep + Mail *(kuyruk + canlılık denetimi testi)*
 - [ ] **Faz 11** — Kurumsal sayfalar (ekip, referanslar, belgeler, kariyer)

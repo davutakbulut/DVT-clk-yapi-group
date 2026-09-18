@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 8 · Projeler
+- `src/modules/projects` — site: `ProjectsList` (kategori çipleri) · `ProjectDetail` (künye, galeri, hizmetler, ilgili, önceki/sonraki) · `ProjectsSection` · `ProjectCard`; admin: `ProjectForm` · `CategoryForm`; `actions` (proje/kategori kaydet-sil-sırala)
+- Route'lar `/projects` · `/projects/[slug]` · `/projects/category/[slug]`; `app/admin/projects` · `app/admin/project-categories`
+- `src/modules/admin-shell/ContentTable` — içerik listeleri için ortak tablo
+- `supabase/migrations/0018_project_categories_seed.sql` · `supabase/tests/projects.test.ts` (3)
+- `globals.css` — `.chips` · `.chip` · `.facts`; mesajlar `Projects`, `Admin.projects`, `Admin.projectCategories`; `e2e/projects.spec.ts`
+
 ### Eklendi — Faz 7 · Hizmetler
 - `src/modules/services` — site: `ServicesList` · `ServiceDetail` · `ServicesSection` · `ServiceCard` · `ServiceIcon`; admin: `ServicesTable` · `ServiceForm`; `actions` (`saveService` · `deleteService` · `moveService`); `domain/processSteps` (3 test)
 - Route'lar `/services` · `/services/[slug]` (TR `/hizmetler/…`); `app/admin/services` (liste · new · [id]); `ADMIN_NAV` › services
