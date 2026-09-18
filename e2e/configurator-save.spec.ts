@@ -1,8 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openConfiguratorPanel } from './support/configuratorPanel';
 
 const EMAIL = process.env['E2E_ADMIN_EMAIL'];
 const PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
 const hasAccount = Boolean(EMAIL && PASSWORD);
+
 
 async function dismissCookies(page: Page) {
   const btn = page.getByRole('button', { name: 'Yalnız zorunlu' });
@@ -16,6 +18,7 @@ test.describe('konfigüratör kaydet/paylaş', () => {
     const stamp = Date.now();
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
     await dismissCookies(page);
+    await openConfiguratorPanel(page);
     await expect(page.getByTestId('price-gate')).toContainText('üye');
     const form = page.getByTestId('save-form');
     await form.getByLabel('Kayıt adı (isteğe bağlı)').fill(`E2E Konfig ${stamp}`);

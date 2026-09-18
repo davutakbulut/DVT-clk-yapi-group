@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { openConfiguratorPanel } from './support/configuratorPanel';
 
 const EMAIL = process.env['E2E_ADMIN_EMAIL'];
 const PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
@@ -53,6 +54,7 @@ test.describe('axe · panel', () => {
 test.describe('klavye · konfigüratör', () => {
   test('kayar çubuklar ve anahtarlar Tab ile ulaşılır, ok tuşu değeri değiştirir', async ({ page }) => {
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
+    await openConfiguratorPanel(page); // mobil/tablet: ayrıntılar sağdan açılan panelde (K-81)
     const width = page.getByRole('slider', { name: 'En (açıklık)' });
     await width.focus();
     await expect(width).toBeFocused();

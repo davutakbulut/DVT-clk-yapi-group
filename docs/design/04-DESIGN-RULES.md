@@ -83,6 +83,11 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - `100dvh` (asla `100vh`), mobilde ScrollTrigger `pin` yok, dokunma hedefi ≥ 24×24 (tercihen 44).
 - Her yeni bölüm `e2e/mobile-overflow.spec.ts` ve axe denetiminden geçer.
 
+## 8a. Araç sayfaları (konfigüratör)
+
+- Asıl içerik (3D tuval) mobilde ekranı kaplar; ayar/ayrıntı **sağdan açılan panelde** (en çok %86 genişlik, karartma, Esc/dışarı dokunma/✕ kapatır, kapalıyken `inert`). Tuval üstünde tek satır özet + paneli açan düğme.
+- Geri bağlantısı bir üst düzeye gider (konfigüratör → seçim sayfası → ana sayfa), doğrudan ana sayfaya değil.
+
 ## 9. Yönetim paneli
 
 - Panel ayrı tema (`theme.admin.css`, shadcn tokenları); site kuralları 1–5 panele uygulanmaz.

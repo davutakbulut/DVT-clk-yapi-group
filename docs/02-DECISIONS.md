@@ -413,6 +413,10 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Not:** Ürün sahibinin gönderdiği `Çelik Konstrüksiyon- konfigurator_v4.html`, arşivdeki `configurator-v4.html` ile bayt bayt aynıdır — yani zaten yayındaki hol konfigüratörüdür; ayrı bir tür olarak eklenmedi.
 **Yeni tür eklemek:** route + `Configurator.types.<key>` mesajları + seçim sayfasındaki `TYPES` dizisine bir satır.
 
+### K-81 · Konfigüratör mobilde: tuval tam ekran, ayrıntılar sağdan açılan panelde; geri bağlantısı seçim sayfasına
+**Karar:** <1024px'te ölçüler/istatistik/metraj/kayıt paneli sayfanın üstünde uzun bir sütun olmak yerine sağdan açılan panele taşındı (`ConfiguratorFrame`, iki konfigüratör ortak kullanır). Tuval ekranı kaplar; üstünde kısa özet ("18 × 53 m · 954 m²") ve "Ölçüler ve metraj" düğmesi durur. Panel kapalıyken `inert` + görünmez; Esc, dışarı dokunma ve ✕ kapatır, odak düğmeye döner. Panel genişliği en çok %86 → modelin bir şeridi görünür kalır. Üst çubuktaki geri bağlantısı konfigüratörün içindeyken `/konfigurator` (seçim), seçim sayfasındayken ana sayfaya gider.
+**Neden:** Mobilde kullanıcı 3D modeli görmek için uzun formu kaydırmak zorundaydı; model konfigüratörün asıl içeriği.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

@@ -2038,9 +2038,14 @@
       "raftNoteExtra": "{floors} floors: raft thickness {base} cm + {extra} cm = {total} cm.",
       "prototypeNote": "Columns are spaced evenly across width and length, at most {spacing} m apart.",
       "quote": "Get a quote for this building",
-      "canvasLabel": "3D model of a {width} × {length} m steel building with {floors} floors"
+      "canvasLabel": "3D model of a {width} × {length} m steel building with {floors} floors",
+      "summary": "{width} × {length} m · {floors} floors · {area} m²"
     },
-    "allTypes": "All configurators"
+    "panel": {
+      "open": "Dimensions & take-off",
+      "close": "Close panel"
+    },
+    "backToTypes": "Configurators"
   },
   "FieldVideos": {
     "lead": "Short clips from our sites and erection work.",

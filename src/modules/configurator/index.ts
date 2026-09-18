@@ -13,3 +13,4 @@ export { RulesForm } from './components/admin/RulesForm';
 export { MultiStoreyConfigurator } from './components/site/MultiStoreyConfigurator';
 export { MultiStoreyRulesForm } from './components/admin/MultiStoreyRulesForm';
 export { parseMultiStorey, buildMultiStorey, DEFAULT_MULTI_STOREY_RULES, type MultiStoreyParams, type MultiStoreyRules } from './domain/multiStorey';
+export { ConfiguratorBackLink } from './components/site/ConfiguratorBackLink';

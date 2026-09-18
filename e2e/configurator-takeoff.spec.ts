@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { openConfiguratorPanel } from './support/configuratorPanel';
 
 const EMAIL = process.env['E2E_ADMIN_EMAIL'];
 const PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
@@ -18,6 +19,8 @@ async function login(page: Page, next: string) {
 test.describe('metraj', () => {
   test('metraj tablosu: kolon 16 adet · 96 m; profil eksikse uyarı ya da tonaj', async ({ page }) => {
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
+    // Mobil/tablet: ayrıntılar sağdan açılan panelde (K-81)
+    await openConfiguratorPanel(page);
     const takeoff = page.getByTestId('takeoff');
     await expect(takeoff.getByRole('heading', { name: 'Metraj' })).toBeVisible();
     const columnRow = takeoff.getByRole('row').filter({ has: page.getByRole('rowheader', { name: 'Kolon', exact: true }) });

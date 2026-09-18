@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — konfigüratör mobil yerleşimi + geri bağlantısı (K-81)
+- **Mobil/tablet:** 3D tuval tam ekran; ölçüler, istatistikler, metraj, fiyat ve kayıt **sağdan açılan panelde** ("Ölçüler ve metraj" düğmesi, Esc/dışarı dokunma/✕ kapatır, kapalıyken `inert`); tuval üstünde kısa özet. İki konfigüratör ortak `ConfiguratorFrame` kullanır
+- **Geri bağlantısı:** konfigüratörün içinde "← Konfigüratörler" (seçim sayfası); seçim sayfasında "← Ana sayfa"
+
 ### Eklendi — konfigüratör seçim sayfası + çok katlı çelik yapı konfigüratörü (K-80)
 - **`/konfigurator`:** artık doğrudan 3D açmaz; "Hangi yapıyı tasarlamak istiyorsunuz?" — iki tür kartı. Eski `?w=&l=…` bağlantıları `/konfigurator/hol`'e yönlenir
 - **`/konfigurator/hol`:** mevcut çelik hol konfigüratörü (taşındı; kayıt, fiyat, metraj aynı)

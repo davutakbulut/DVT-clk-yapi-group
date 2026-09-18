@@ -2038,9 +2038,14 @@
       "raftNoteExtra": "{floors} kat: radye kalınlığı {base} cm + {extra} cm = {total} cm.",
       "prototypeNote": "Kolon aralıkları en ve boya eşit dağıtılır, en fazla {spacing} m olur.",
       "quote": "Bu yapı için teklif al",
-      "canvasLabel": "{width} × {length} m, {floors} katlı çelik yapının üç boyutlu modeli"
+      "canvasLabel": "{width} × {length} m, {floors} katlı çelik yapının üç boyutlu modeli",
+      "summary": "{width} × {length} m · {floors} kat · {area} m²"
     },
-    "allTypes": "Tüm konfigüratörler"
+    "panel": {
+      "open": "Ölçüler ve metraj",
+      "close": "Paneli kapat"
+    },
+    "backToTypes": "Konfigüratörler"
   },
   "FieldVideos": {
     "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",

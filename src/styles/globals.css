@@ -1561,13 +1561,32 @@
   .configurator-shell { --color-text-muted: rgba(255, 255, 255, 0.78); --color-text-subtle: rgba(255, 255, 255, 0.72); --color-text-inverse-subtle: rgba(255, 255, 255, 0.78); }
   .configurator-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) var(--space-5); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .configurator-main { display: grid; min-height: 0; }
-  .configurator { display: grid; grid-template-rows: auto minmax(360px, 60dvh); min-height: 0; }
-  @media (min-width: 1024px) { .configurator { grid-template-columns: 360px 1fr; grid-template-rows: none; height: calc(100dvh - 57px); } }
+  /* Yerleşim (ConfiguratorFrame): ≥1024px panel + tuval yan yana; altında tuval tam ekran, ayrıntılar sağdan açılan panelde */
+  .configurator { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); height: calc(100dvh - 57px); min-height: 420px; }
+  @media (min-width: 1024px) { .configurator { grid-template-columns: 360px minmax(0, 1fr); } }
+  .configurator-overlay, .configurator-panel-close, .configurator-backdrop { display: none; }
+  @media (max-width: 1023px) {
+    .configurator-panel {
+      position: fixed; inset: 0 0 0 auto; z-index: 60; width: min(86vw, 420px); height: 100dvh;
+      background: var(--color-surface-dark); border-left: 1px solid rgba(255, 255, 255, 0.12); border-right: 0;
+      box-shadow: -24px 0 48px rgb(0 0 0 / 0.45); overscroll-behavior: contain;
+      transform: translateX(100%); visibility: hidden;
+      transition: transform var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+    }
+    .configurator[data-panel-open] .configurator-panel { transform: none; visibility: visible; transition: transform var(--dur) var(--ease-out), visibility 0s; }
+    .configurator-backdrop { display: block; position: fixed; inset: 0; z-index: 59; border: 0; background: rgb(8 12 16 / 0.6); }
+    .configurator-panel-close { display: inline-grid; place-items: center; justify-self: end; width: 44px; height: 44px; margin: calc(var(--space-2) * -1) calc(var(--space-2) * -1) calc(var(--space-4) * -1) 0; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-full); background: transparent; color: inherit; }
+    .configurator-overlay { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); position: absolute; inset: var(--space-3) var(--space-3) auto; z-index: 2; pointer-events: none; }
+    .configurator-overlay > * { pointer-events: auto; }
+    .configurator-summary { margin: 0; padding: 8px 10px; border: 1px solid rgba(255, 255, 255, 0.14); background: rgb(16 24 32 / 0.78); font-family: var(--font-mono, monospace); font-size: var(--fs-xs); }
+    .configurator-panel-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--color-accent-on-dark); border-radius: var(--radius-2); background: var(--color-accent-on-dark); color: var(--ink); font-weight: 600; font-size: var(--fs-sm); box-shadow: 0 8px 20px rgb(0 0 0 / 0.35); }
+  }
+  @media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .configurator-panel { transition: none; } }
   .configurator-panel { display: grid; align-content: start; gap: var(--space-4); padding: var(--space-5); overflow-y: auto; border-right: 1px solid rgba(255, 255, 255, 0.08); }
   .configurator-field { display: grid; gap: var(--space-1); font-size: var(--fs-sm); }
   .configurator-field input[type='range'] { width: 100%; accent-color: var(--color-accent-on-dark); }
   .configurator-stats { display: grid; gap: var(--space-1); font-size: var(--fs-sm); border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: var(--space-3); }
-  .configurator-canvas { position: relative; min-height: 360px; }
+  .configurator-canvas { position: relative; min-height: 0; }
   .configurator-canvas canvas { display: block; width: 100%; height: 100%; }
   .configurator-canvas-loading { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, #1C2126, #1C2126 12px, #222830 12px, #222830 24px); }
   .configurator-table { width: 100%; border-collapse: collapse; font-size: var(--fs-xs); }

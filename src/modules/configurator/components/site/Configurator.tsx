@@ -8,11 +8,15 @@ import type { ProfileKey } from '../../domain/structure';
 import { buildStructure } from '../../domain/structure';
 import type { PriceTable } from '../../domain/pricing';
 import type { PanelWeights, WeightTable } from '../../domain/takeoff';
+import { ConfiguratorFrame } from './ConfiguratorFrame';
 import { PricePanel } from './PricePanel';
 import { SavePanel } from './SavePanel';
 import { TakeoffPanel } from './TakeoffPanel';
 
-const Scene = dynamic(() => import('./Scene'), { ssr: false, loading: () => <div className="configurator-canvas-loading" aria-hidden="true" /> });
+const Scene = dynamic(() => import('./Scene'), {
+  ssr: false,
+  loading: () => <div className="configurator-canvas-loading" aria-hidden="true" />,
+});
 
 const DRAFT_KEY = 'clk_configurator_draft';
 
@@ -30,7 +34,13 @@ interface Props {
   readonly priceTable?: PriceTable | null;
   readonly member?: boolean;
   readonly nextPath?: string;
-  readonly existing?: { readonly id: string; readonly token: string; readonly refCode: string; readonly name: string; readonly version: number } | null;
+  readonly existing?: {
+    readonly id: string;
+    readonly token: string;
+    readonly refCode: string;
+    readonly name: string;
+    readonly version: number;
+  } | null;
 }
 
 /**
@@ -45,7 +55,9 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
   // 3D sahne ilk boyamadan sonra, boş anda yüklenir (Faz 31: three.js ayrıştırması LCP/TBT penceresinin dışına)
   const [sceneReady, setSceneReady] = useState(false);
   useEffect(() => {
-    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    };
     if (w.requestIdleCallback) w.requestIdleCallback(() => setSceneReady(true), { timeout: 1500 });
     else window.setTimeout(() => setSceneReady(true), 300);
   }, []);
@@ -87,7 +99,11 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
       <input id={`cfg-${key}`} type="range" min={range.min} max={range.max} step={range.step} value={params[key]} onChange={(e) => update({ [key]: Number(e.target.value) } as Partial<Params>)} aria-label={t(`params.${key}`)} />
     </label>
   );
-  const ridgeRange = { min: params.eave + limits.ridge_extra.min, max: params.eave + limits.ridge_extra.max, step: limits.ridge_extra.step };
+  const ridgeRange = {
+    min: params.eave + limits.ridge_extra.min,
+    max: params.eave + limits.ridge_extra.max,
+    step: limits.ridge_extra.step,
+  };
   const share = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
@@ -99,53 +115,58 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
   };
 
   return (
-    <div className="configurator">
-      <aside className="configurator-panel" aria-label={t('panelLabel')}>
-        <h2 className="text-[length:var(--fs-h4)]">{t('params.title')}</h2>
-        {slider('width', limits.width)}
-        {slider('length', limits.length)}
-        {slider('eave', limits.eave)}
-        {slider('ridge', ridgeRange)}
-        {slider('bay', limits.bay)}
-        <fieldset className="grid gap-2 text-[length:var(--fs-sm)]">
-          <legend className="font-medium">{t('params.visual')}</legend>
-          {(['purlins', 'door', 'panels'] as const).map((k) => (
-            <label key={k} className="flex items-center gap-2">
-              <input type="checkbox" checked={params[k]} onChange={(e) => update({ [k]: e.target.checked } as Partial<Params>)} /> {t(`params.${k}`)}
-            </label>
-          ))}
-        </fieldset>
-        <dl className="configurator-stats" aria-live="polite">
-          {[
-            [t('stats.footprint'), `${format.number(structure.footprint)} m²`],
-            [t('stats.bays'), `${structure.bays} (~${format.number(structure.baySpacing, { maximumFractionDigits: 1 })} m)`],
-            [t('stats.columns'), String(structure.axes.length * 2)],
-            [t('stats.windColumns'), String(structure.windColumnsPerGable)],
-            [t('stats.system'), structure.system === 'truss' ? t('stats.truss', { threshold: trussThresholdM }) : t('stats.portal', { threshold: trussThresholdM })],
-            ...(structure.door ? [[t('stats.door'), `${format.number(structure.door.x2 - structure.door.x1, { maximumFractionDigits: 2 })} × ${format.number(structure.door.h, { maximumFractionDigits: 2 })} m`]] : []),
-          ].map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-3">
-              <dt className="text-[var(--color-text-muted)]">{k}</dt>
-              <dd className="font-mono tabular-nums" data-testid={k === t('stats.footprint') ? 'footprint' : undefined}>
-                {v}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <button type="button" className="btn btn-ghost" onClick={share}>
-          {copied ? t('copied') : t('share')}
-        </button>
-        <TakeoffPanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} />
-        <PricePanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} priceTable={priceTable} nextPath={nextPath} />
-        <SavePanel params={params} member={member} existing={existing} />
-        <p className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]" role="note">
-          {disclaimer}
-        </p>
-      </aside>
-      <div className="configurator-canvas" role="img" aria-label={t('canvasLabel', { width: params.width, length: params.length })}>
-        {sceneReady ? <Scene structure={structure} profileMap={profileMap} /> : <div className="configurator-canvas-loading" aria-hidden="true" />}
-      </div>
-    </div>
+    <ConfiguratorFrame
+      canvasLabel={t('canvasLabel', {
+        width: params.width,
+        length: params.length,
+      })}
+      summary={`${format.number(params.width)} × ${format.number(params.length)} m · ${format.number(structure.footprint)} m²`}
+      canvas={sceneReady ? <Scene structure={structure} profileMap={profileMap} /> : <div className="configurator-canvas-loading" aria-hidden="true" />}
+      panel={
+        <>
+          <h2 className="text-[length:var(--fs-h4)]">{t('params.title')}</h2>
+          {slider('width', limits.width)}
+          {slider('length', limits.length)}
+          {slider('eave', limits.eave)}
+          {slider('ridge', ridgeRange)}
+          {slider('bay', limits.bay)}
+          <fieldset className="grid gap-2 text-[length:var(--fs-sm)]">
+            <legend className="font-medium">{t('params.visual')}</legend>
+            {(['purlins', 'door', 'panels'] as const).map((k) => (
+              <label key={k} className="flex items-center gap-2">
+                <input type="checkbox" checked={params[k]} onChange={(e) => update({ [k]: e.target.checked } as Partial<Params>)} /> {t(`params.${k}`)}
+              </label>
+            ))}
+          </fieldset>
+          <dl className="configurator-stats" aria-live="polite">
+            {[
+              [t('stats.footprint'), `${format.number(structure.footprint)} m²`],
+              [t('stats.bays'), `${structure.bays} (~${format.number(structure.baySpacing, { maximumFractionDigits: 1 })} m)`],
+              [t('stats.columns'), String(structure.axes.length * 2)],
+              [t('stats.windColumns'), String(structure.windColumnsPerGable)],
+              [t('stats.system'), structure.system === 'truss' ? t('stats.truss', { threshold: trussThresholdM }) : t('stats.portal', { threshold: trussThresholdM })],
+              ...(structure.door ? [[t('stats.door'), `${format.number(structure.door.x2 - structure.door.x1, { maximumFractionDigits: 2 })} × ${format.number(structure.door.h, { maximumFractionDigits: 2 })} m`]] : []),
+            ].map(([k, v]) => (
+              <div key={k} className="flex justify-between gap-3">
+                <dt className="text-[var(--color-text-muted)]">{k}</dt>
+                <dd className="font-mono tabular-nums" data-testid={k === t('stats.footprint') ? 'footprint' : undefined}>
+                  {v}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <button type="button" className="btn btn-ghost" onClick={share}>
+            {copied ? t('copied') : t('share')}
+          </button>
+          <TakeoffPanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} />
+          <PricePanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} priceTable={priceTable} nextPath={nextPath} />
+          <SavePanel params={params} member={member} existing={existing} />
+          <p className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]" role="note">
+            {disclaimer}
+          </p>
+        </>
+      }
+    />
   );
 }
 

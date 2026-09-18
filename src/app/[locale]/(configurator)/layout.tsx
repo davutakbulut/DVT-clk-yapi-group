@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/navigation';
+import { ConfiguratorBackLink } from '@/modules/configurator';
 import { moduleEnabled } from '@/modules/site-settings';
 import { notFound } from 'next/navigation';
 
@@ -17,12 +17,8 @@ export default async function ConfiguratorLayout({ children }: { readonly childr
         {t('skip')}
       </a>
       <header className="configurator-bar">
-        <Link href="/" className="font-[family-name:var(--font-heading)] font-bold tracking-tight">
-          ← {t('backHome')}
-        </Link>
-        <Link href="/configurator" className="label-mono text-[var(--color-text-inverse-subtle)] underline-offset-4 hover:underline">
-          {t('allTypes')}
-        </Link>
+        <ConfiguratorBackLink />
+        <span className="label-mono text-[var(--color-text-inverse-subtle)]">{t('title')}</span>
       </header>
       <main id="main-content" tabIndex={-1} className="configurator-main">
         {children}
