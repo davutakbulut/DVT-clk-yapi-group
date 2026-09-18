@@ -1,8 +1,16 @@
 import { logger } from '@/core/observability/logger';
 import { routing } from '@/i18n/routing';
+import { hiddenMenuPaths } from '@/modules/site-settings';
 import { getCachedMenus } from '../data/menuRepository';
 import { buildMenuTree } from '../domain/buildMenuTree';
 import type { MenuItemRow, MenuKey, MenuNode } from '../domain/types';
+
+/** Kill switch (K-43): kapalı modülün iç bağlantısı menüde görünmez (sayfası zaten 404). Alt öğeler de süzülür. */
+function withoutHidden(nodes: readonly MenuNode[], hidden: ReadonlySet<string>): MenuNode[] {
+  return nodes
+    .filter((n) => !(n.link.kind === 'internal' && hidden.has(n.link.pathname)))
+    .map((n) => (n.children.length > 0 ? { ...n, children: withoutHidden(n.children, hidden) } : n));
+}
 
 const KNOWN_PATHNAMES: ReadonlySet<string> = new Set(Object.keys(routing.pathnames));
 
@@ -17,10 +25,10 @@ const FALLBACK_ROWS: Readonly<Record<MenuKey, readonly MenuItemRow[]>> = {
 };
 
 export async function getMenu(key: MenuKey, locale: string): Promise<MenuNode[]> {
-  const result = await getCachedMenus();
+  const [result, hidden] = await Promise.all([getCachedMenus(), hiddenMenuPaths()]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'navigation', code: result.error.code, menu: key });
-    return buildMenuTree(FALLBACK_ROWS[key], { locale, knownPathnames: KNOWN_PATHNAMES });
+    return withoutHidden(buildMenuTree(FALLBACK_ROWS[key], { locale, knownPathnames: KNOWN_PATHNAMES }), hidden);
   }
-  return buildMenuTree(result.data[key], { locale, knownPathnames: KNOWN_PATHNAMES });
+  return withoutHidden(buildMenuTree(result.data[key], { locale, knownPathnames: KNOWN_PATHNAMES }), hidden);
 }

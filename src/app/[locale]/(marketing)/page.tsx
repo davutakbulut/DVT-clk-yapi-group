@@ -9,7 +9,7 @@ import { AboutSection, HeroSection } from '@/modules/home';
 import { ProjectsSection } from '@/modules/projects';
 import { ServicesSection } from '@/modules/services';
 import { TestimonialsSection } from '@/modules/testimonials';
-import { getPublicSettings } from '@/modules/site-settings';
+import { getPublicSettings, isModuleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -28,6 +28,7 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale as Locale);
   const settings = await getPublicSettings();
   const siteName = pickLocale(settings.siteName, locale, { fallback: 'tr' });
+  const on = (key: Parameters<typeof isModuleEnabled>[1]) => isModuleEnabled(settings.modules, key); // K-43 kill switch
 
   return (
     <>
@@ -37,18 +38,26 @@ export default async function HomePage({ params }: Props) {
       <ModuleBoundary module="home/about">
         <AboutSection locale={locale} index="01" />
       </ModuleBoundary>
-      <ModuleBoundary module="services/home">
-        <ServicesSection locale={locale} index="02" />
-      </ModuleBoundary>
-      <ModuleBoundary module="projects/home">
-        <ProjectsSection locale={locale} index="03" />
-      </ModuleBoundary>
-      <ModuleBoundary module="blog/home">
-        <BlogSection locale={locale} index="04" />
-      </ModuleBoundary>
-      <ModuleBoundary module="testimonials/home">
-        <TestimonialsSection locale={locale} index="05" />
-      </ModuleBoundary>
+      {on('services') ? (
+        <ModuleBoundary module="services/home">
+          <ServicesSection locale={locale} index="02" />
+        </ModuleBoundary>
+      ) : null}
+      {on('projects') ? (
+        <ModuleBoundary module="projects/home">
+          <ProjectsSection locale={locale} index="03" />
+        </ModuleBoundary>
+      ) : null}
+      {on('blog') ? (
+        <ModuleBoundary module="blog/home">
+          <BlogSection locale={locale} index="04" />
+        </ModuleBoundary>
+      ) : null}
+      {on('testimonials') ? (
+        <ModuleBoundary module="testimonials/home">
+          <TestimonialsSection locale={locale} index="05" />
+        </ModuleBoundary>
+      ) : null}
     </>
   );
 }

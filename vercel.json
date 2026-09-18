@@ -1,6 +1,9 @@
 {
   "crons": [
     { "path": "/api/cron/mail", "schedule": "* * * * *" },
-    { "path": "/api/cron/reviews", "schedule": "0 3 * * *" }
+    { "path": "/api/cron/reviews", "schedule": "0 3 * * *" },
+    { "path": "/api/cron/purge", "schedule": "30 3 * * *" },
+    { "path": "/api/cron/rates", "schedule": "0 13 * * 1-5" },
+    { "path": "/api/cron/reminders", "schedule": "0 5 * * *" }
   ]
 }

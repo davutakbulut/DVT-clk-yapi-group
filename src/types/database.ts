@@ -1337,6 +1337,39 @@ export type Database = {
           },
         ]
       }
+      exchange_rates: {
+        Row: {
+          created_at: string
+          currency: string
+          fetched_at: string
+          id: string
+          rate: number
+          rate_date: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          currency: string
+          fetched_at?: string
+          id?: string
+          rate: number
+          rate_date: string
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          currency?: string
+          fetched_at?: string
+          id?: string
+          rate?: number
+          rate_date?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       faqs: {
         Row: {
           answer: Json
@@ -3995,7 +4028,7 @@ export type Database = {
           notes: string | null
           project_id: string | null
           sale_date: string
-          sale_no: string
+          sale_no: string | null
           status: string
           subtotal: number
           total_cost: number | null
@@ -4025,7 +4058,7 @@ export type Database = {
           notes?: string | null
           project_id?: string | null
           sale_date?: string
-          sale_no: string
+          sale_no?: string | null
           status?: string
           subtotal?: number
           total_cost?: number | null
@@ -4055,7 +4088,7 @@ export type Database = {
           notes?: string | null
           project_id?: string | null
           sale_date?: string
-          sale_no?: string
+          sale_no?: string | null
           status?: string
           subtotal?: number
           total_cost?: number | null
@@ -5208,6 +5241,12 @@ export type Database = {
     }
     Functions: {
       admin_dashboard_counts: { Args: never; Returns: Json }
+      anonymize_customer: { Args: { p_id: string }; Returns: undefined }
+      create_customer_from_lead: {
+        Args: { p_lead_id: string }
+        Returns: string
+      }
+      create_sale_from_lead: { Args: { p_lead_id: string }; Returns: string }
       enqueue_test_email: {
         Args: { p_locale: string; p_template_key: string }
         Returns: string
@@ -5238,6 +5277,15 @@ export type Database = {
         Returns: Json
       }
       mark_notifications_read: { Args: { p_ids: string[] }; Returns: number }
+      purge_expired_job_applications: {
+        Args: never
+        Returns: {
+          cv_bucket: string
+          cv_path: string
+        }[]
+      }
+      recalc_sale_payments: { Args: { p_sale_id: string }; Returns: undefined }
+      record_redirect_hit: { Args: { p_path: string }; Returns: undefined }
       reorder_content: {
         Args: { p_ids: string[]; p_table: string }
         Returns: number

@@ -6,9 +6,10 @@ import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
 import { ContactInfo, LeadFormSection } from '@/modules/leads';
-import { getPublicSettings } from '@/modules/site-settings';
+import { getPublicSettings, moduleEnabled } from '@/modules/site-settings';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
+import { notFound } from 'next/navigation';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('leads'))) notFound(); // K-43 kill switch
   const [t, settings] = await Promise.all([getTranslations('Contact'), getPublicSettings()]);
   const business = localBusinessJsonLd({
     name: pickLocale(settings.siteName, locale, { fallback: 'tr' }),

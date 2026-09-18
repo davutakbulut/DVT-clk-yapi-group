@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { requireRole } from '@/core/auth';
 import { CACHE_TAGS } from '@/core/cache/tags';
@@ -121,4 +121,17 @@ export async function saveMaintenance(_prev: ActionState, formData: FormData): P
   if (!parsed.success) return failed('validation');
   const v = parsed.data;
   return writeSettings({ maintenance: { enabled: v.enabled, message: localized(v.messageTr, v.messageEn) } });
+}
+
+/** /admin/settings/modules — kill switch (K-43): işaretli = açık. Yalnız false yazılır; eksik anahtar açık sayılır. */
+export async function saveModules(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const keys = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent'] as const;
+  const value: Record<string, boolean> = {};
+  for (const key of keys) if (formData.get(`m_${key}`) !== 'on') value[key] = false;
+  const result = await writeSettings({ 'modules.enabled': value });
+  if (result.ok) {
+    revalidateTag(CACHE_TAGS.menus);
+    revalidatePath('/', 'layout');
+  }
+  return result;
 }

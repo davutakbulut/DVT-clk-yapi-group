@@ -26,7 +26,31 @@ const schema = z.object({
   'seo.verification': z.object({ google: z.string().optional(), bing: z.string().optional(), yandex: z.string().optional() }).catch({}),
   'cookie_banner': z.record(z.string(), z.object({ title: z.string(), body: z.string(), accept: z.string(), reject: z.string(), settings: z.string() })).nullable().catch(null),
   'maintenance': z.object({ enabled: z.boolean().catch(false), message: z.record(z.string(), z.string()).catch({}) }).catch({ enabled: false, message: {} }),
+  'modules.enabled': z.record(z.string(), z.boolean()).catch({}),
 });
+
+/** Kill switch anahtarları (K-43/K-61). Listede olmayan ya da bayrağı yazılmamış modül AÇIK sayılır. */
+export const MODULE_KEYS = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent'] as const;
+export type ModuleKey = (typeof MODULE_KEYS)[number];
+
+/** Menü bağlantısı → modül: kapalı modülün iç bağlantısı header/footer'da gizlenir. */
+export const MODULE_BY_PATH: Readonly<Record<string, ModuleKey>> = {
+  '/services': 'services',
+  '/projects': 'projects',
+  '/blog': 'blog',
+  '/products': 'products',
+  '/solutions': 'solutions',
+  '/pricing': 'pricing',
+  '/reviews': 'testimonials',
+  '/careers': 'careers',
+  '/contact': 'leads',
+  '/get-quote': 'leads',
+  '/quote-basket': 'quoteBasket',
+};
+
+export function isModuleEnabled(modules: Readonly<Record<string, boolean>>, key: ModuleKey): boolean {
+  return modules[key] !== false;
+}
 
 export interface CookieBannerText {
   readonly title: string;
@@ -54,6 +78,8 @@ export interface PublicSettings {
   readonly seoVerification: { readonly google?: string; readonly bing?: string; readonly yandex?: string };
   readonly cookieBanner: Readonly<Record<string, CookieBannerText>> | null;
   readonly maintenance: { readonly enabled: boolean; readonly message: LocalizedText };
+  /** Kill switch (K-43): yalnız kapatılanlar false olarak bulunur. */
+  readonly modules: Readonly<Record<string, boolean>>;
 }
 
 // Veritabanı ulaşılamazsa bile site ayakta kalır (03-ERROR-ISOLATION Katman 2). Yer tutucu iletişim bilgisi YOK.
@@ -69,6 +95,7 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   seoVerification: {},
   cookieBanner: null,
   maintenance: { enabled: false, message: {} },
+  modules: {},
 };
 
 export function parseSettings(rows: readonly { readonly key: string; readonly value: unknown }[]): PublicSettings {
@@ -92,5 +119,6 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     seoVerification: s['seo.verification'],
     cookieBanner: s['cookie_banner'],
     maintenance: s['maintenance'],
+    modules: s['modules.enabled'],
   };
 }

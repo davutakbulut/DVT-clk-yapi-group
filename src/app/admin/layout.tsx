@@ -7,6 +7,7 @@ import type { ReactNode } from 'react';
 import { getCurrentUser } from '@/core/auth';
 import { fontClassNames } from '@/ui/fonts';
 import { ADMIN_NAV, AdminShell } from '@/modules/admin-shell';
+import { NotificationBell } from '@/modules/notifications';
 import '@/styles/globals.css';
 
 // K-36: dört katmanın üçüncüsü (başlık next.config'de, robots.txt'de Disallow, sitemap'te yok).
@@ -29,7 +30,7 @@ export default async function AdminLayout({ children }: { readonly children: Rea
       <body>
         <NextIntlClientProvider locale="tr" messages={messages}>
           {user.isStaff ? (
-            <AdminShell user={user} nav={ADMIN_NAV}>
+            <AdminShell user={user} nav={ADMIN_NAV} headerExtra={<NotificationBell initialUnread={0} />}>
               {children}
             </AdminShell>
           ) : (

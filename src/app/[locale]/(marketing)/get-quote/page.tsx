@@ -7,6 +7,8 @@ import type { Locale } from '@/i18n/routing';
 import { ContactInfo, LeadFormSection } from '@/modules/leads';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
+import { moduleEnabled } from '@/modules/site-settings';
+import { notFound } from 'next/navigation';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function QuotePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('leads'))) notFound(); // K-43 kill switch
   const t = await getTranslations('Quote');
   return (
     <>

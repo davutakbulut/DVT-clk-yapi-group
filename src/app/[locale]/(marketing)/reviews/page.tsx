@@ -6,6 +6,8 @@ import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { getCachedServiceList } from '@/modules/services';
 import { ReviewsPage } from '@/modules/testimonials';
+import { moduleEnabled } from '@/modules/site-settings';
+import { notFound } from 'next/navigation';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -21,6 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ReviewsRoute({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('testimonials'))) notFound(); // K-43 kill switch
   const [t, services] = await Promise.all([getTranslations('Testimonials'), getCachedServiceList(locale)]);
   const choices = services.ok ? services.data.map((s) => ({ id: s.id, label: s.title })) : [];
   return (

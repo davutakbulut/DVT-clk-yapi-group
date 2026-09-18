@@ -311,6 +311,16 @@ Carousel Embla yerine CSS `scroll-snap` + küçük bir istemci bileşeniyle yap�
 **Neden:** Embla ~8 KB gzip ve ayrı bir bağımlılık; istenen davranışların tamamı yerel kaydırmayla karşılanıyor ve erişilebilirlik (klavye, dokunma) tarayıcıdan gelir. Google yorumu herkese açık olsa da sitede hangi yorumların öne çıkacağı editoryal karardır (K-08 ile tutarlı); spam ya da alakasız yorumlar otomatik yayınlanmaz. Şema kapsamı 02-SEO'nun Google politikası notudur.
 **Bilinen bedeli:** Sonsuz döngü (loop) yok — son karttan ilke "atlar". Google en çok 5 yorum döndürür; tam arşiv istenirse üçüncü taraf toplayıcı gerekir. Proje/ürün sayfalarında yorum bölümü slotu hazır, JSON-LD hizmetle başladı.
 
+### K-61 · Kill switch bayrağı herkese açık; elle yönlendirmeler middleware'de bellekten
+`modules.enabled` `is_public=true` olur: kapalı modülün route'u `notFound()` verir, menü bağlantısı `getMenu` içinde süzülür, ana sayfa bölümü render edilmez — üçü de aynı anonim okumaya dayanır. Elle yönlendirmeler (`redirects`) middleware'de uygulanır: liste `/api/redirects`'ten (etiketli önbellek, admin kaydedince düşer) 60 sn'de bir çekilip instance belleğinde tutulur; yalnız eşleşen isteklerde 301…410 döner ve isabet arka planda (`record_redirect_hit`, security definer) sayılır.
+**Neden:** Bayrak gizli kalsaydı her sayfa sunucu oturumuyla okumak zorunda kalır ya da RPC gerekirdi; bayrağın kendisi sır değildir (sayfa zaten 404). Yönlendirme için her isteğe veritabanı yolculuğu eklemek CVE-2025-29927 sonrası "middleware ince kalsın" ilkesiyle çelişir; 60 sn'lik bellek listesi bunu sıfıra indirir. `next.config` redirects derleme zamanlıdır, editörün anında kaydetmesine izin vermez.
+**Bilinen bedeli:** Yeni yönlendirme en geç 60 sn içinde (instance başına) etkinleşir; çok instance'lı Vercel'de her instance kendi saatini tutar. `record_redirect_hit` anonim çağrılabilir — yalnız sayaç artar, kötüye kullanım en fazla sayacı şişirir.
+
+### K-62 · Para hesabı kuruş tamsayısıyla; durumlar türetilir; rol-duyarlı yazma
+Satış, fatura ve tahsilat tutarları TypeScript'te kayan nokta yerine kuruş tamsayısı (kur çarpımında BigInt) ve yarım-yukarı yuvarlamayla hesaplanır — 0007'nin CHECK kısıtlarıyla (round(…, 2)) birebir. Hakediş ve fatura durumları tahsilatlardan `recalc_sale_payments` ile türetilir; "vadesi geçti" saklanmaz, `due_date < today` ile okunur. Satış kaydında admin temel tablolara (maliyet dahil), `sales` rolü maliyetsiz görünümlere yazar; gider tablosu sales için hiç yüklenmez.
+**Neden:** 0,1 + 0,2 ≠ 0,3: kayan nokta ile hesaplanan toplam CHECK'e takılır ve satış kaydedilemez; kuruş tamsayısı deterministiktir. Türetilen durum, gece çalışan bir "vade kontrol" cron'una bağımlılığı kaldırır (cron dursa bile ekran doğru). Rol-duyarlı yazma K-33'ün "arayüzde gizlemek yetmez" ilkesinin uygulamasıdır: sales rolü maliyet kolonunu göremediği gibi yazamaz da (guard tetikleyicisi).
+**Bilinen bedeli:** İki yol (tablo/görünüm) iki kod dalı demektir; test dosyaları her ikisini de sürer. Tevkifat oranı ve KDV hesabının vergi mevzuatına uygunluğu ürün sahibinin muhasebesince doğrulanır (K-31) — yazılım hesabı doğru yapar, oranı seçmez.
+
 ---
 
 ## Değiştirilen Kararlar

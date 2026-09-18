@@ -7,6 +7,7 @@ import type { AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedBlogTags, getCachedPostList, PostsList } from '@/modules/blog';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogTagPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('blog'))) notFound(); // K-43 kill switch
   const tag = await find(locale, slug);
   if (!tag) notFound();
   const t = await getTranslations('Blog');

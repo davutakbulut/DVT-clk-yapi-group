@@ -76,7 +76,8 @@ const eslintConfig = [
 
             // core → modules ❌
             { from: 'core', allow: ['core', 'i18n', 'lib', 'types'] },
-            { from: 'i18n', allow: ['i18n', 'lib', 'types'] },
+            // i18n/request.ts etiket override'larını core/i18n'den okur (K-40 istisnası); modül girişine yine kapalı
+            { from: 'i18n', allow: ['i18n', 'core', 'lib', 'types'] },
             { from: 'ui-site', allow: ['ui-site', 'i18n', 'core', 'lib', 'types'] },
             { from: 'ui-admin', allow: ['ui-admin', 'lib', 'types'] },
             { from: 'lib', allow: ['lib', 'types'] },

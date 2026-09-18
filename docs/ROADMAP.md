@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 18 — Sistem yönetimi ⏳ (sırada) · Faz 1–17 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 23 — İzleyici altyapısı ⏳ (sırada) · Faz 1–22 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -22,7 +22,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ✅ Faz 5–12 kod tamam · yayın ürün sahibinde |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ✅ Faz 17 |
-| **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
+| **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ✅ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
 | **v1.4 Konfigüratör** | 26–29 | 3D araç, metraj, fiyat, teklif | ⏳ |
 | **v2.0 İleri Seviye** | 30–31 | AI görünürlük, reklam takibi, ince ayar | ⏳ |
@@ -215,11 +215,41 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v1.2 — Ticari Yönetim
 
-- [ ] **Faz 18** — Sistem yönetimi (kullanıcı/rol, menü, ayarlar, kill switch, bildirimler)
-- [ ] **Faz 19** — Müşteri (CRM)
-- [ ] **Faz 20** — Satış & Maliyet
-- [ ] **Faz 21** — Fatura & Tahsilat *(tevkifat hesabı elle doğrulanır)*
-- [ ] **Faz 22** — Raporlama (9 rapor)
+- [x] **Faz 18** — Sistem yönetimi ✅ 2026-09-18 (kullanıcı/rol ve menü Faz 5'te)
+  - [x] **Kill switch** (K-43/K-61) `/admin/settings/modules`: 12 modül bayrağı; kapalı modülün sayfası `notFound()` (22 route), menü bağlantısı gizli (`getMenu` süzer), ana sayfa bölümü yok; bayrak anonime açık (`0028`)
+  - [x] **Arayüz etiketleri** `/admin/translations` (K-40 istisnası): mesaj dosyası varsayılan + `ui_translations` override (arama, yalnız değiştirilenler, varsayılana dön) → `i18n/request.ts` `applyOverrides`; `/glossary` CRUD; `/missing` (yayında EN yok / onaysız — K-08)
+  - [x] **Yönlendirmeler** `/admin/redirects` (301/302/307/308/410, isabet sayacı, `slug_history` salt-okunur) → `core/middleware/redirects` (K-61: `/api/redirects` listesi 60 sn bellekte, eşleşince yönlendirir, isabet arka planda `record_redirect_hit`)
+  - [x] **Bildirimler**: zil (`NotificationBell`, 60 sn yoklama, okundu RPC) + `/admin/notifications`; `/api/admin/notifications` (oturum + RLS)
+  - [x] **Denetim kaydı** `/admin/audit` (yalnız-ekleme; değişen alan farkı; tablo süzgeci) · **öksüz sayfa raporu** `/admin/settings/seo` (K-38)
+  - [x] KVKK purge: `public.purge_expired_job_applications()` (service-role) → `core/jobs/purgeApplications` (Storage'dan CV siler) → `/api/cron/purge` günlük
+  - [x] `0028_system.sql` + `system.test.ts` (4 DB testi); E2E `system.spec.ts` (API'ler, yönlendirme 308 + isabet, etiket override sitede, kill switch 404/menü, zil, denetim)
+  - [ ] *Faz 23:* bildirim tercihleri (e-posta özeti) · *Faz 25:* hata modülleri → kill switch önerisi
+- [x] **Faz 19** — Müşteri (CRM) ✅ 2026-09-18
+  - [x] `src/modules/customers` — `CustomerForm` (tip · kimlik/vergi · iletişim · yetkili · notlar · kaynak · üye bağlantısı; anonim kayıt salt-okunur) · `ConvertLeadButton` · `domain/customerSchema` (VKN 10 / TCKN 11) · `actions` (kaydet, sil [yalnız talepsiz], anonimleştir, talepten dönüştür)
+  - [x] Route'lar `/admin/customers` (arama ad/ünvan/e-posta/telefon/VKN, tip, aktiflik — GET formu) · `/new` · `/[id]` (bağlı talepler, tehlikeli işlemler); talep detayında "Müşteriye dönüştür" / "Müşteri kartını aç"; panel sayacı "Aktif müşteri"; nav (viewer okur, sales yazar)
+  - [x] `0029_customers.sql` — `create_customer_from_lead` (invoker; alanlar dolar, talep bağlanır, tekrar → aynı id) · `anonymize_customer` (K-34: kişisel alanlar boş, ünvan/VKN kalır, bağlı talepler maskelenir; yalnız admin) · dashboard sayacı — 4 DB testi
+  - [x] E2E `customers.spec.ts` (oluştur → ara → düzenle → sil; ziyaretçi talebi → dönüştür → bağlı talep → anonimleştir)
+  - [ ] *Faz 20:* müşteri kartında satışlar · *Faz 22:* müşteri kârlılığı · Excel dışa aktarma sonraki fazda
+- [x] **Faz 20** — Satış & Maliyet ✅ 2026-09-18
+  - [x] `src/modules/sales` — `SaleForm` (05-SALES-FINANCE giriş ekranı: müşteri · tarih · durum · talep/proje · kalemler [satır: açıklama | miktar | birim | fiyat | maliyet 🔒] · ek giderler 🔒 · iskonto/KDV · **canlı özet** aynı saf hesapla · kâr/marj 🔴🟡🟢 🔒) · `SalesForCustomer` · `ConvertLeadToSaleButton` · `ProjectFromSaleButton`; `domain/saleMath` (kuruş tamsayısı, BigInt kur çarpımı, 0007 CHECK'leriyle birebir — 2 test) · `domain/saleLines` (TR/EN sayı biçimi — 2 test)
+  - [x] **K-33 uygulaması:** admin temel tablolara (maliyet dahil), sales rolü maliyetsiz görünümlere yazar/okur; giderler sales için hiç yüklenmez; liste/detay marj sütunu yalnız admin
+  - [x] Route'lar `/admin/sales` (durum süzgeci) · `/new?customer=` · `/[id]` (bağlantılar, referans projesi aç, sil); talep detayında "Satışa dönüştür" (RPC: müşteri açılır, taslak satış + talep kalemleri, talep won); müşteri kartında satışlar
+  - [x] **K-32 kur:** `exchange_rates` tablosu + `core/jobs/tcmb` (XML ayrıştırma, 2 test) + `core/jobs/exchangeRates` + `/api/cron/rates` (hafta içi 13:00 UTC); formda son kur "X tarihli" notu, elle değişince kaynak manuel; TCMB düşse de işlem durmaz
+  - [x] `0030_sales.sql` + `0031_sales_trusted.sql` — 3 DB testi (kur RLS, talep → satış, K-33 görünüm/guard/CHECK)
+  - [x] E2E `sales.spec.ts` (cron 401; müşteri → satış → canlı özet 12.000 ₺ / %25 → liste → müşteri kartı → sil)
+  - [ ] *Faz 21:* fatura + tahsilat · *Faz 22:* raporlar · *Faz 29:* konfigüratör metrajı → satış kalemi
+- [x] **Faz 21** — Fatura & Tahsilat ✅ 2026-09-18 *(tevkifat hesabı: ürün sahibi/muhasebe elle doğrular — K-31)*
+  - [x] `src/modules/finance` — `InvoiceForm` (e-Fatura/e-Arşiv/proforma; matrah satıştan; KDV + **tevkifat 2/10…10/10** canlı; kesildi → numara + tarih zorunlu, proforma PRF-YYYY-NNNN otomatik) · `ScheduleForm` (hakediş satırları "açıklama | oran% | tutar | vade", oran → tahsil edilecek üzerinden) · `PaymentForm` (K-32: kur + ₺ karşılığı); `domain/invoiceMath` (kuruş, yarım yukarı, yaşlandırma kovaları — 3 test)
+  - [x] Route'lar `/admin/sales/[id]/finance` (özet: tahsil edilecek / edilen / kalan; faturalar; plan [vadesi geçen kırmızı]; tahsilatlar) · `/admin/invoices` (durum süzgeci + vadesi geçen + tahsilat takvimi); panel: "Vadesi geçen hakediş" ve "Onay bekleyen yorum" sayaçları + kırmızı uyarı kartı
+  - [x] `0034_finance.sql` — proforma numarası tetikleyicisi · `recalc_sale_payments` (tahsilat → hakediş/fatura durumu türetilir; "vadesi geçti" saklanmaz) · `payment.reminder` şablonu · heartbeat · dashboard sayaçları — 3 DB testi
+  - [x] `core/jobs/paymentReminders` + `/api/cron/reminders` (günde bir: vadesi ≤ 3 gün / geçmiş → sorumluya mail kuyruğu + bildirim, 7 günde bir yineler)
+  - [x] E2E `finance.spec.ts` (cron 401; satış → e-Fatura 4/10 = 11.200 ₺ → plan %50/%50 → tahsilat 5.600 → hakediş "tahsil edildi", fatura "kısmi" → /admin/invoices → temizlik)
+  - [ ] *Ürün sahibi:* e-Fatura entegratörü (GİB) bağlantısı kapsam dışı — numara elle girilir · *Faz 22:* alacak yaşlandırma ve tahsilat takvimi raporları
+- [x] **Faz 22** — Raporlama (9 rapor) ✅ 2026-09-18
+  - [x] `src/modules/reports` — `domain/aggregate` (saf: aylık ciro + önceki dönem karşılaştırması, kârlılık, hizmet bazlı, müşteri bazlı, fatura durumu, alacak yaşlandırma 0-30/31-60/61-90/90+, tahsilat takvimi, dönüşüm hunisi, maliyet dağılımı, CSV — 3 test) · `data/reportsRepository` (rol-duyarlı, K-33) · `ReportSections` (bağımlılıksız CSS çubuklar)
+  - [x] `/admin/reports?from&to` (satış tarihine göre; maliyet/kâr/maliyet dağılımı yalnız admin 🔒) · `/admin/reports/export?report=` (CSV, UTF-8 BOM + noktalı virgül → Excel; oturum zorunlu, maliyet raporları admin) · yazdır/PDF tarayıcıdan (`print:hidden`)
+  - [x] E2E `reports.spec.ts` (oturumsuz export 401; 9 bölüm; süzgeç; CSV indirme)
+  - [ ] *Sonraki:* grafik kütüphanesi (isteğe bağlı), kur farkı kâr/zarar raporu (K-32 verisi hazır), dönemsel e-posta özeti (Faz 23 bildirim tercihleri)
 
 ## v1.3 — Ölçüm
 

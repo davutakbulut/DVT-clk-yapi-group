@@ -8,6 +8,7 @@ import type { AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedProjectCategories, ProjectsList } from '@/modules/projects';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectCategoryPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('projects'))) notFound(); // K-43 kill switch
   const category = await findCategory(locale, slug);
   if (!category) notFound();
   const t = await getTranslations('Projects');

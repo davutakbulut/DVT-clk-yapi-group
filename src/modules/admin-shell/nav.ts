@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -18,6 +18,15 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'pricing', href: '/admin/pricing', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'materialPrices', href: '/admin/pricing/materials', roles: ['super_admin', 'admin'] },
   { key: 'testimonials', href: '/admin/testimonials', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'notifications', href: '/admin/notifications' },
+  { key: 'customers', href: '/admin/customers', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
+  { key: 'sales', href: '/admin/sales', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
+  { key: 'invoices', href: '/admin/invoices', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
+  { key: 'reports', href: '/admin/reports', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
+  { key: 'translations', href: '/admin/translations', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'redirects', href: '/admin/redirects', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'modules', href: '/admin/settings/modules', roles: ['super_admin', 'admin'] },
+  { key: 'audit', href: '/admin/audit', roles: ['super_admin', 'admin'] },
   { key: 'productCategories', href: '/admin/product-categories', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blog', href: '/admin/blog', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blogTaxonomy', href: '/admin/blog/taxonomy', roles: ['super_admin', 'admin', 'editor'] },

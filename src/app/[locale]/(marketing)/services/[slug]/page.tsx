@@ -12,6 +12,7 @@ import { routing, type Locale } from '@/i18n/routing';
 import { getCachedServiceBySlug, getCachedServiceSlugs, resolveOldServiceSlug, ServiceDetail, type ServiceDetailData } from '@/modules/services';
 import { SolutionsForService } from '@/modules/solutions';
 import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -52,6 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ServicePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('services'))) notFound(); // K-43 kill switch
   const service = await load(locale, slug);
   if (!service) {
     // K-15: eski slug → 308 kalıcı yönlendirme; yoksa dilli 404.

@@ -10,6 +10,7 @@ import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedPostBySlug, getCachedPostList, getCachedPostSlugs, PostDetail, resolveOldPostSlug, type PostDetailData } from '@/modules/blog';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -49,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPostPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('blog'))) notFound(); // K-43 kill switch
   const post = await load(locale, slug);
   if (!post) {
     const fresh = await resolveOldPostSlug(locale, slug);

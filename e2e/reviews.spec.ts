@@ -37,13 +37,15 @@ test.describe('müşteri yorumları', () => {
       const vp = await visitor.newPage();
       await vp.goto('/tr/yorumlar');
       await vp.waitForLoadState('networkidle');
+      // Mobilde çerez bandı gönder düğmesinin üstüne binebilir → önce kapat
+      await vp.getByRole('button', { name: 'Yalnız zorunlu' }).click({ timeout: 3000 }).catch(() => undefined);
       await vp.getByLabel('Ad Soyad').fill(visitorName);
       await vp.getByLabel('Firma (isteğe bağlı)').fill('E2E A.Ş.');
       await vp.getByLabel('4 ★').check();
       await vp.getByLabel('Yorumunuz').fill(`Montaj ekibi planlanan tarihte geldi ve işi temiz bıraktı. ${stamp}`);
       await vp.getByLabel(/KVKK/).check();
       await vp.getByRole('button', { name: 'Yorumu gönder' }).click();
-      await expect(vp.locator('#main-content').getByRole('status')).toContainText('Teşekkürler');
+      await expect(vp.locator('#main-content').getByRole('status')).toContainText('Teşekkürler', { timeout: 20_000 });
       await visitor.close();
 
       await login(page, '/admin/testimonials?status=pending');

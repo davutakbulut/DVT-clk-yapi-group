@@ -11,6 +11,7 @@ import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedPriceGuideBySlug, getCachedPriceGuideSlugs, PriceGuideDetail, resolveOldPriceGuideSlug, type PriceGuideDetailData } from '@/modules/pricing';
 import { getCachedWhatsAppConfig } from '@/modules/whatsapp';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PriceGuidePage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('pricing'))) notFound(); // K-43 kill switch
   const guide = await load(locale, slug);
   if (!guide) {
     const fresh = await resolveOldPriceGuideSlug(locale, slug);

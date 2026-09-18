@@ -12,11 +12,13 @@ import type { AdminNavItem } from '../../nav';
 interface Props {
   readonly user: CurrentUser;
   readonly nav: readonly AdminNavItem[];
+  /** Başlık çubuğuna ek (ör. bildirim zili) — layout verir, modül sınırı korunur. */
+  readonly headerExtra?: ReactNode;
   readonly children: ReactNode;
 }
 
 /** Panel çatısı: sol menü (mobilde açılır), üst şerit, içerik. Tüm metin Admin.* mesajlarından. */
-export function AdminShell({ user, nav, children }: Props) {
+export function AdminShell({ user, nav, headerExtra, children }: Props) {
   const t = useTranslations('Admin');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -59,6 +61,7 @@ export function AdminShell({ user, nav, children }: Props) {
             {t('signedInAs')}: {user.fullName || user.email} · {user.role}
           </span>
           <span className="ml-auto flex items-center gap-2">
+            {headerExtra}
             <NextLink href="/tr" className="text-sm underline underline-offset-4">
               {t('viewSite')}
             </NextLink>

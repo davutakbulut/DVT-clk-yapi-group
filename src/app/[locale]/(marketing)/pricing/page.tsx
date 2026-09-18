@@ -5,6 +5,8 @@ import { breadcrumbList, JsonLd } from '@/core/seo';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { PricingList } from '@/modules/pricing';
+import { moduleEnabled } from '@/modules/site-settings';
+import { notFound } from 'next/navigation';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -19,6 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function PricingPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('pricing'))) notFound(); // K-43 kill switch
   const t = await getTranslations('Pricing');
   return (
     <>

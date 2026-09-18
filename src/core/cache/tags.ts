@@ -17,6 +17,7 @@ export const CACHE_TAGS = {
   corporate: 'corporate',
   faqs: 'faqs',
   translations: 'ui_translations',
+  redirects: 'redirects',
 } as const;
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS];

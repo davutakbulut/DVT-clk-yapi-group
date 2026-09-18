@@ -60,3 +60,32 @@ await client.auth.signOut({ scope: 'local' });
     console.log('testimonials', row.author_name, e ? `HATA ${e.message}` : 'silindi');
   }
 }
+for (const [table, col, pattern] of [
+  ['redirects', 'source_path', '/e2e-%'],
+  ['ui_translations', 'value', 'E2E %'],
+  ['translation_glossary', 'term_tr', 'E2E %'],
+]) {
+  const { data } = await client.from(table).select(`id, ${col}`).like(col, pattern);
+  for (const row of data ?? []) {
+    const { error: e } = await client.from(table).delete().eq('id', row.id);
+    console.log(table, row[col], e ? `HATA ${e.message}` : 'silindi');
+  }
+}
+{
+  const { data } = await client.from('customers').select('id, company_title, full_name').or('company_title.like.E2E %,full_name.like.E2E %');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('customers').delete().eq('id', row.id);
+    console.log('customers', row.company_title ?? row.full_name, e ? `HATA ${e.message}` : 'silindi');
+  }
+}
+{
+  const { data } = await client.from('sales').select('id, sale_no, notes').like('notes', 'E2E %');
+  for (const row of data ?? []) {
+    // Fatura/tahsilat restrict → önce alt kayıtlar
+    await client.from('payments').delete().eq('sale_id', row.id);
+    await client.from('invoices').delete().eq('sale_id', row.id);
+    await client.from('payment_schedules').delete().eq('sale_id', row.id);
+    const { error: e } = await client.from('sales').delete().eq('id', row.id);
+    console.log('sales', row.sale_no, e ? `HATA ${e.message}` : 'silindi');
+  }
+}

@@ -7,6 +7,8 @@ import { getCachedQuoteFormOptions } from '@/modules/leads';
 import { BasketPage } from '@/modules/quote-basket';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
+import { moduleEnabled } from '@/modules/site-settings';
+import { notFound } from 'next/navigation';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -22,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function QuoteBasketPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('quoteBasket'))) notFound(); // K-43 kill switch
   const [t, options] = await Promise.all([getTranslations('Basket'), getCachedQuoteFormOptions()]);
   return (
     <Container as="section" className="grid gap-10 py-[var(--section-y)]">

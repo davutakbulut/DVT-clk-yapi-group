@@ -7,6 +7,37 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 22 · Raporlama
+- `src/modules/reports` — `domain/aggregate` (3 test) · `data/reportsRepository` · `ReportSections`; route'lar `app/admin/reports` (+ `export` CSV); nav; mesajlar `Admin.reports`; `e2e/reports.spec.ts`
+
+### Eklendi — Faz 21 · Fatura & Tahsilat
+- `src/modules/finance` — `InvoiceForm` · `ScheduleForm` · `PaymentForm`; `domain/invoiceMath` (3 test); `actions` (fatura, plan, tahsilat; yalnız admin); `data/adminFinanceRepository`
+- Route'lar `app/admin/sales/[id]/finance` · `app/admin/invoices`; panel sayaçları/uyarı kartı; satış detayında bağlantı; nav; `core/jobs/paymentReminders` + `/api/cron/reminders`
+- `supabase/migrations/0034_finance.sql` · `supabase/tests/finance.test.ts` (3); mesajlar `Admin.finance`; `e2e/finance.spec.ts`; cleanup betiği fatura/tahsilat/plan alt kayıtlarını da temizler
+
+### Eklendi — Faz 20 · Satış & Maliyet
+- `src/modules/sales` — `SaleForm` · `SalesForCustomer` · `ConvertLeadToSaleButton` · `ProjectFromSaleButton`; `domain/saleMath` · `domain/saleLines` (4 test); `actions` (kaydet [rol-duyarlı: temel tablo / görünüm], sil, talepten dönüştür, projeye dönüştür); `data/adminSalesRepository`
+- `core/jobs/tcmb` (2 test) · `core/jobs/exchangeRates` · `/api/cron/rates` (`vercel.json`); route'lar `app/admin/sales` (liste · new · [id]); talep ve müşteri detayı bağlantıları; nav
+- `supabase/migrations/0030_sales.sql` (`exchange_rates`, `create_sale_from_lead`) · `0031_sales_trusted.sql` · `supabase/tests/sales.test.ts` (3); mesajlar `Admin.sales`; `e2e/sales.spec.ts`; cleanup betiği E2E satışlarını temizler
+
+### Eklendi — Faz 19 · Müşteri (CRM)
+- `src/modules/customers` — `CustomerForm` · `ConvertLeadButton` · `domain/customerSchema` · `actions` · `data/adminCustomersRepository`; route'lar `app/admin/customers` (liste · new · [id]); talep detayında dönüştür/aç bağlantısı; panel "Aktif müşteri" kartı
+- `supabase/migrations/0029_customers.sql` (`create_customer_from_lead`, `anonymize_customer`, `admin_dashboard_counts` customers) · `supabase/tests/customers.test.ts` (4); mesajlar `Admin.customers`; `e2e/customers.spec.ts`; cleanup betiği E2E müşterilerini temizler
+
+### Düzeltildi
+- Denetim kaydı sorgusu `profiles.email` (olmayan kolon) istiyordu → yalnız ad
+
+### Eklendi — Faz 18 · Sistem yönetimi
+- Kill switch: `site-settings` `modules` alanı, `MODULE_KEYS`/`MODULE_BY_PATH`/`isModuleEnabled`/`moduleEnabled`/`hiddenMenuPaths`, `ModulesForm` + `saveModules`, `/admin/settings/modules`; 22 marketing route'unda kapı, `getMenu` süzgeci, ana sayfa bölümleri
+- `src/modules/translations` (override tablosu, sözlük, eksikler) + `/admin/translations{,/glossary,/missing}`; `i18n/request.ts` `applyOverrides`
+- `src/modules/redirects` + `/admin/redirects` + `/api/redirects{,/hit}` + `core/middleware/redirects` (middleware'e bağlı)
+- `src/modules/notifications` (`NotificationBell`, `NotificationList`, okundu RPC) + `/admin/notifications` + `/api/admin/notifications`; `AdminShell` `headerExtra`
+- `src/modules/audit` + `/admin/audit`; `navigation` `orphanRoutes` → SEO ayarları sayfasında öksüz rapor
+- `core/jobs/purgeApplications` + `/api/cron/purge` (`vercel.json` 03:30); `0028_system.sql` · `system.test.ts` (4); `e2e/system.spec.ts`; cleanup betiği yönlendirme/etiket/sözlük E2E kayıtlarını temizler
+
+### Değişti
+- `modules.enabled` ayarı herkese açık (K-61); `rls-content.test.ts` beklentisi güncellendi
+
 ### Eklendi — Faz 17 · Müşteri yorumları + Google Places
 - `src/modules/testimonials` — `TestimonialsSection` · `TestimonialsCarousel` · `TestimonialsFor` · `RatingBadge` · `ReviewsPage` · `ReviewForm` · `TestimonialForm` · `GoogleSyncPanel`; `domain/testimonials` (2 test); `actions` (ziyaretçi RPC, elle yorum, durum, sıralama, Place ID, şimdi eşitle)
 - `src/core/jobs/googleReviews` (2 test) · `src/core/jobs/reviewSync`; route `/api/cron/reviews` (`vercel.json` 03:00); `/reviews` (tr `/yorumlar`); `app/admin/testimonials`; ana sayfa 05. bölüm; hizmet detayında yorumlar + Review/AggregateRating JSON-LD; `ProjectDetail`/`ProductDetail` `extra` slotu

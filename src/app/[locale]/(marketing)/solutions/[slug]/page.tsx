@@ -10,6 +10,7 @@ import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedSolutionBySlug, getCachedSolutionSlugs, resolveOldSolutionSlug, SolutionDetail, type SolutionDetailData } from '@/modules/solutions';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SolutionPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('solutions'))) notFound(); // K-43 kill switch
   const solution = await load(locale, slug);
   if (!solution) {
     // K-15: eski slug → 308; yoksa dilli 404.

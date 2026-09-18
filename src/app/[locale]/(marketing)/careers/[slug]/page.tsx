@@ -8,6 +8,7 @@ import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedJobPostingBySlug, getCachedJobSlugs, JobDetail, resolveOldJobSlug, type JobPostingData } from '@/modules/corporate';
+import { moduleEnabled } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -40,6 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function JobPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await moduleEnabled('careers'))) notFound(); // K-43 kill switch
   const job = await load(locale, slug);
   if (!job) {
     const fresh = await resolveOldJobSlug(locale, slug);

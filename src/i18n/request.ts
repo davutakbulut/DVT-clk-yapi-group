@@ -1,5 +1,6 @@
 import { hasLocale } from 'next-intl';
 import { getRequestConfig } from 'next-intl/server';
+import { applyOverrides, getCachedUiOverrides } from '@/core/i18n/uiOverrides';
 import { routing } from './routing';
 
 export default getRequestConfig(async ({ requestLocale }) => {
@@ -8,8 +9,18 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    // Faz 18'de ui_translations tablosundaki override'lar bu nesnenin üstüne bindirilecek.
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    // K-40 istisnası: mesaj dosyası varsayılan, ui_translations override'ları üstüne biner (etiket 'ui_translations', admin düşürür).
+    messages: applyOverrides((await import(`../../messages/${locale}.json`)).default, await overridesFor(locale)),
     timeZone: 'Europe/Istanbul',
   };
 });
+
+/** Asla fırlatmaz: veritabanı yoksa varsayılan mesajlar. */
+async function overridesFor(locale: string) {
+  try {
+    const result = await getCachedUiOverrides(locale);
+    return result.ok ? result.data : [];
+  } catch {
+    return [];
+  }
+}
