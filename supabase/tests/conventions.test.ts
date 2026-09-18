@@ -103,8 +103,9 @@ describe('şema sözleşmeleri', () => {
     expect(await names(`select extname as name from pg_extension where extname <> 'plpgsql'`)).toEqual([]);
   });
 
+  // K-55: hizmet/hero/hakkımızda gibi TANIMLAYICI başlangıç metinleri seed edilir (sayısal iddia yok); yorum, proje, ekip, sertifika, fiyat ASLA.
   it('referans verisinde uydurma içerik yok: gerçek-veri tabloları BOŞ başlar', async () => {
-    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'steel_profiles', 'products', 'services', 'customers']) {
+    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'steel_profiles', 'products', 'customers']) {
       const { rows } = await db.query<{ n: number }>(`select count(*)::int n from public.${table}`);
       expect(rows[0]!.n, table).toBe(0);
     }

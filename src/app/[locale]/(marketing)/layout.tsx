@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 import { ModuleBoundary } from '@/core/errors';
+import { RouteAlternatesProvider } from '@/i18n/RouteAlternates';
 import type { Locale } from '@/i18n/routing';
 import { Footer, Header } from '@/modules/navigation';
 import { WhatsAppButton } from '@/modules/whatsapp';
@@ -17,7 +18,7 @@ export default async function MarketingLayout({ children, params }: Props) {
   const a11y = await getTranslations('A11y');
 
   return (
-    <>
+    <RouteAlternatesProvider>
       <a href="#main-content" className="skip-link">
         {a11y('skipToContent')}
       </a>
@@ -33,6 +34,6 @@ export default async function MarketingLayout({ children, params }: Props) {
       <ModuleBoundary module="whatsapp">
         <WhatsAppButton locale={locale} />
       </ModuleBoundary>
-    </>
+    </RouteAlternatesProvider>
   );
 }

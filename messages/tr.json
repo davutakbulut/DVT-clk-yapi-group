@@ -119,7 +119,8 @@
       "errors": "Hata Sayfaları",
       "media": "Medya Kütüphanesi",
       "users": "Üyeler ve Roller",
-      "home": "Ana Sayfa"
+      "home": "Ana Sayfa",
+      "services": "Hizmetler"
     },
     "common": {
       "save": "Kaydet",
@@ -316,6 +317,48 @@
       "body": "Metin (Markdown)",
       "image": "Görsel",
       "stats": "İstatistikler (satır başına: değer | etiket TR | etiket EN)"
+    },
+    "services": {
+      "title": "Hizmetler",
+      "lead": "Sitede görünen hizmet listesi ve detay sayfaları. Sıra ↑↓ ile; İngilizce yalnız insan onayıyla yayına girer (K-08).",
+      "new": "Yeni hizmet",
+      "count": "{count} hizmet",
+      "name": "Hizmet adı",
+      "slug": "Slug",
+      "content": "İçerik",
+      "excerpt": "Özet (kartta ve meta açıklamada)",
+      "body": "Metin (Markdown)",
+      "steps": "Süreç adımları",
+      "stepsHint": "Satır başına bir adım: başlık | açıklama. TR ve EN satırları sırayla eşleşir.",
+      "media": "Medya",
+      "icon": "İkon",
+      "cover": "Kapak görseli",
+      "gallery": "Galeri",
+      "galleryHint": "Çoklu seçim için Ctrl/Cmd basılı tutun; sıra liste sırasıdır.",
+      "seo": "SEO",
+      "seoTitle": "SEO başlığı (boşsa hizmet adı)",
+      "seoDescription": "Meta açıklama (boşsa özet)",
+      "focusKeyword": "Odak anahtar kelime",
+      "ogImage": "Paylaşım görseli (OG)",
+      "canonical": "Canonical URL (boş bırakın)",
+      "noindex": "Arama motorlarından gizle (noindex)"
     }
+  },
+  "Services": {
+    "title": "Hizmetlerimiz",
+    "lead": "Projeden montaja, çelik konstrüksiyonun her aşaması.",
+    "kicker": "Hizmetler",
+    "homeTitle": "Neler yapıyoruz",
+    "all": "Tüm hizmetler",
+    "empty": "Henüz yayında hizmet yok.",
+    "home": "Ana sayfa",
+    "breadcrumb": "Sayfa yolu",
+    "process": "Nasıl ilerliyoruz",
+    "gallery": "Galeri",
+    "relatedProjects": "Bu hizmetle yapılan projeler",
+    "faq": "Sık sorulan sorular",
+    "ctaTitle": "Projeniz için teklif alın",
+    "ctaLead": "Parselinizi ve hedef sürenizi anlatın; size özel süre planı ve teklif hazırlayalım.",
+    "ctaButton": "Teklif alın"
   }
 }

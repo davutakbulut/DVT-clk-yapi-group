@@ -5,6 +5,7 @@ import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
 import { AboutSection, HeroSection } from '@/modules/home';
+import { ServicesSection } from '@/modules/services';
 import { getPublicSettings } from '@/modules/site-settings';
 
 interface Props {
@@ -32,6 +33,9 @@ export default async function HomePage({ params }: Props) {
       </ModuleBoundary>
       <ModuleBoundary module="home/about">
         <AboutSection locale={locale} index="01" />
+      </ModuleBoundary>
+      <ModuleBoundary module="services/home">
+        <ServicesSection locale={locale} index="02" />
       </ModuleBoundary>
     </>
   );

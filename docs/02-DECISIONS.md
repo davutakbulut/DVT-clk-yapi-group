@@ -281,6 +281,11 @@ Kullanıcı daveti `auth.admin.inviteUserByEmail` (service-role) yerine `signInW
 **Neden:** Faz 6'da ürün sahibi tasarımı yetersiz buldu; sorun ön yüzün boş olması (yalnız "Yapım aşamasında") kadar tasarım kararlarının yazılı olmamasıydı. Araç önerilerinden markayla çelişenler (ikinci vurgu rengi "safety orange", Plus Jakarta Sans) açıkça reddedildi; marka prototipi kazanır.
 **Bilinen bedeli:** Skill metinleri üst kaynaktan kopya; güncellemesi elle. Tam veri tabanlı arama için `/plugin install ui-ux-pro-max@ui-ux-pro-max-skill` gerekir.
 
+### K-55 · Başlangıç içeriği: tanımlayıcı metin seed edilir, iddia edilmez
+Hero, hakkımızda ve hizmet açıklamaları gibi **tanımlayıcı** metinler migration'la başlangıç içeriği olarak yazılır (yalnız tablo boşsa, yalnız TR yayında, EN makine taslağı onaysız). Müşteri yorumu, proje, ekip üyesi, sertifika, fiyat gibi **iddia** taşıyan veriler boş başlar; sayısal istatistik seed edilmez.
+**Neden:** Boş bir site tasarım kalitesini görünmez kılar (Faz 6'da ürün sahibi "tasarım rezalet" dedi — sayfa yalnız "Yapım aşamasında" idi). Hizmet açıklaması firmanın ne yaptığını anlatır, doğrulanması gereken bir olgu öne sürmez; prototipteki brief de aynı metinleri içerir. Yorum/proje/sertifika ise gerçek dünyada karşılığı olmayan bir iddiaya dönüşür.
+**Bilinen bedeli:** `conventions.test.ts` "boş başlar" listesinden `services` çıkarıldı; ürün sahibi hizmet metinlerini panelden gözden geçirmeli (yayından kaldırabilir).
+
 ---
 
 ## Değiştirilen Kararlar

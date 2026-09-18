@@ -109,15 +109,16 @@ describe('K-15 · slug geçmişi → 308', () => {
 describe('sürükle-bırak sıralama', () => {
   it('yeni kayıt sona eklenir; iki kaydın sırası TEK transaction da takas edilir (ertelenebilir unique)', async () => {
     await db.exec(`insert into public.services (slug, title) values ('{"tr":"hizmet-a"}', '{"tr":"A"}'), ('{"tr":"hizmet-b"}', '{"tr":"B"}')`);
+    // 0017 başlangıç hizmetleri de tabloda: yeni kayıtlar onların ARKASINA ardışık eklenir.
     const before = (await db.query<{ s: string; o: number }>(`select slug->>'tr' as s, sort_order as o from public.services order by sort_order`)).rows;
-    expect(before.map((r) => r.o)).toEqual([1, 2]);
+    expect(before.slice(-2).map((r) => [r.s, r.o])).toEqual([['hizmet-a', before.length - 1], ['hizmet-b', before.length]]);
 
     await db.transaction(async (tx) => {
-      await tx.exec(`update public.services set sort_order = 2 where slug->>'tr' = 'hizmet-a'`);   // ara durumda ÇAKIŞIR — commit'e kadar ertelenir
-      await tx.exec(`update public.services set sort_order = 1 where slug->>'tr' = 'hizmet-b'`);
+      await tx.exec(`update public.services set sort_order = ${before.length} where slug->>'tr' = 'hizmet-a'`); // ara durumda ÇAKIŞIR — commit'e kadar ertelenir
+      await tx.exec(`update public.services set sort_order = ${before.length - 1} where slug->>'tr' = 'hizmet-b'`);
     });
     const after = (await db.query<{ s: string }>(`select slug->>'tr' as s from public.services order by sort_order`)).rows.map((r) => r.s);
-    expect(after).toEqual(['hizmet-b', 'hizmet-a']);
+    expect(after.slice(-2)).toEqual(['hizmet-b', 'hizmet-a']);
   });
 
   it('kapsamlı sıra: her ürünün görselleri kendi içinde 1 den başlar', async () => {

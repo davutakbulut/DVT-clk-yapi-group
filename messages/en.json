@@ -119,7 +119,8 @@
       "errors": "Error Pages",
       "media": "Media Library",
       "users": "Users & Roles",
-      "home": "Home Page"
+      "home": "Home Page",
+      "services": "Services"
     },
     "common": {
       "save": "Save",
@@ -316,6 +317,48 @@
       "body": "Body (Markdown)",
       "image": "Image",
       "stats": "Stats (one per line: value | label TR | label EN)"
+    },
+    "services": {
+      "title": "Services",
+      "lead": "Service list and detail pages shown on the site. Order with ↑↓; English is published only after human review (K-08).",
+      "new": "New service",
+      "count": "{count} services",
+      "name": "Service name",
+      "slug": "Slug",
+      "content": "Content",
+      "excerpt": "Excerpt (card and meta description)",
+      "body": "Body (Markdown)",
+      "steps": "Process steps",
+      "stepsHint": "One step per line: title | description. TR and EN lines pair by order.",
+      "media": "Media",
+      "icon": "Icon",
+      "cover": "Cover image",
+      "gallery": "Gallery",
+      "galleryHint": "Hold Ctrl/Cmd for multiple; order follows the list.",
+      "seo": "SEO",
+      "seoTitle": "SEO title (defaults to name)",
+      "seoDescription": "Meta description (defaults to excerpt)",
+      "focusKeyword": "Focus keyword",
+      "ogImage": "Share image (OG)",
+      "canonical": "Canonical URL (leave empty)",
+      "noindex": "Hide from search engines (noindex)"
     }
+  },
+  "Services": {
+    "title": "Our Services",
+    "lead": "Every stage of steel construction, from design to assembly.",
+    "kicker": "Services",
+    "homeTitle": "What we do",
+    "all": "All services",
+    "empty": "No services published yet.",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "process": "How we work",
+    "gallery": "Gallery",
+    "relatedProjects": "Projects delivered with this service",
+    "faq": "Frequently asked questions",
+    "ctaTitle": "Get a quote for your project",
+    "ctaLead": "Tell us about your plot and target schedule; we will prepare a tailored timeline and quote.",
+    "ctaButton": "Get a quote"
   }
 }

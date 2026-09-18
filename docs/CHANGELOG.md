@@ -7,6 +7,19 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 7 · Hizmetler
+- `src/modules/services` — site: `ServicesList` · `ServiceDetail` · `ServicesSection` · `ServiceCard` · `ServiceIcon`; admin: `ServicesTable` · `ServiceForm`; `actions` (`saveService` · `deleteService` · `moveService`); `domain/processSteps` (3 test)
+- Route'lar `/services` · `/services/[slug]` (TR `/hizmetler/…`); `app/admin/services` (liste · new · [id]); `ADMIN_NAV` › services
+- `src/core/seo` — `JsonLd` · `breadcrumbList` · `absoluteUrl` · `organizationId`
+- `supabase/migrations/0017_services.sql` — `get_service_by_slug` · `reorder_content` · başlangıç hizmetleri (**K-55**); `supabase/tests/services.test.ts` (5)
+- Footer: yayındaki hizmetler "Hizmetler" sütununa otomatik eklenir; ana sayfaya `ServicesSection`
+- `globals.css` — `.card-grid` · `.card` · `.page-head` · `.steps` · `.gallery-grid` · `.faq-item` · `.cta-band` · `.section-dark`
+- Mesajlar: `Services`, `Admin.services`; `e2e/services.spec.ts`
+
+### Değiştirildi — Faz 7
+- `supabase/tests/conventions.test.ts` — `services` boş-başlar listesinden çıkarıldı (K-55); `slug.test.ts` sıralama testi başlangıç satırlarına göreli
+- `src/types/database.ts` yeniden üretildi (0017 RPC'leri)
+
 ### Eklendi — Faz 6 · Ana sayfa (hero + hakkımızda) ve ortak içerik altyapısı
 - `src/modules/home` — `HeroSection` · `HeroVideo` (scroll-scrub masaüstü / loop mobil / poster; reduced-motion ve saveData'da poster) · `HeroOverlay` · `AboutSection`; admin `HeroForm` · `AboutForm`; `/admin/pages/home`; `domain/stats` (3 test)
 - `src/core/content` — yayın yardımcıları (`isVisibleIn`, `alternatesFromRow`, `publishedSlugs`, `publishColumns`, `slugMap`, `dbErrorKey`); `src/lib/localized.localized()`

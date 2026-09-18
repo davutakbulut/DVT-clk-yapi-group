@@ -18,6 +18,9 @@ export const routing = defineRouting({
     '/forgot-password': { tr: '/sifremi-unuttum', en: '/forgot-password' },
     '/reset-password': { tr: '/sifre-yenile', en: '/reset-password' },
     '/account': { tr: '/hesabim', en: '/account' },
+    // Faz 7 · hizmetler
+    '/services': { tr: '/hizmetler', en: '/services' },
+    '/services/[slug]': { tr: '/hizmetler/[slug]', en: '/services/[slug]' },
   },
 });
 

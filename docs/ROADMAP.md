@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 7 — Hizmetler ⏳ (sırada) · Faz 1–6 `feat/faz-02-database` dalında
+**Şu an:** Faz 8 — Projeler ⏳ (sırada) · Faz 1–7 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 6 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 7 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -98,7 +98,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Lighthouse (üretim build, 3 koşu): performans **92–96** · erişilebilirlik **100** · en iyi uygulamalar **100** · CLS 0 · 394 KB. LCP laboratuvarda 2,7 sn (uyarı eşiği 2,0): metin LCP'si ön yüklenen marka fontuna bağlı; `display: optional` + ağırlık kırpma 3,7 → 2,7 sn getirdi. Yerel alt-kümeleme (`next/font/local` + pyftsubset) Faz 31'e not edildi
   - [ ] *Faz 5:* menü/ayar/hata metni admin ekranları (ön yüz ↔ admin matrisi orada kapanır) · header 👤 oturum bileşeni
   - [x] *Faz 6:* header video üstünde şeffaf başlayıp scroll'da koyulaşma ✅
-  - [ ] *Faz 7:* footer hizmet listesi `entity` bağlantılarıyla
+  - [x] *Faz 7:* footer hizmet listesi (yayındaki hizmetler otomatik) ✅
 
 ## v1.0 — Yayına Hazır Site
 
@@ -130,7 +130,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Testler: 201 birim/DB · E2E `home.spec.ts` (hero tek h1, header sabit/koyulaşma, axe, K-08 EN görünmez, admin form kaydet)
   - [ ] *Ürün sahibi:* hero videosu + poster kareleri medya kütüphanesine yüklenip `/admin/pages/home`'dan seçilecek (ffmpeg yok, poster ayrı yüklenir) · iOS Safari'de scrub/loop gözle kontrol
   - [ ] *Faz 10:* hero CTA `/get-quote` route'u gelince buton kendiliğinden görünür
-- [ ] **Faz 07** — Hizmetler (ön yüz + admin)
+- [x] **Faz 07** — Hizmetler (ön yüz + admin) ✅ 2026-09-18
+  - [x] Route'lar: `/hizmetler` · `/hizmetler/[slug]` (EN `/services/…`) — `generateStaticParams` yayındaki slug'larla (K-46), eski slug → 308 (K-15), bilinmeyen → dilli 404, EN onaysız → 404 (K-08)
+  - [x] `0017_services.sql`: `get_service_by_slug` RPC (0011 şablonu: alternates, cover, images, ilgili projeler, SSS — hepsi dil süzgeçli) · `reorder_content(p_table, p_ids)` izinli tablo listesiyle · 4 başlangıç hizmeti (**K-55**, yalnız TR yayında)
+  - [x] `src/modules/services`: `ServicesList` · `ServiceDetail` (başlık bandı + kapak, Markdown gövde, numaralı süreç adımları, galeri, ilgili projeler, SSS `<details>`, teklif CTA route gelince) · `ServicesSection` (ana sayfa 02, koyu bant) · `ServiceCard` (1px ızgara, gölge yok) · `ServiceIcon` (lucide, emoji yok)
+  - [x] SEO: `core/seo` — `JsonLd` (`<` kaçırılır), `breadcrumbList`, `organizationId`; hizmet sayfasında `Service` + `BreadcrumbList`, `inLanguage`, hreflang yalnız yayındaki dile, OG görseli, `noindex`/canonical override
+  - [x] Footer "Hizmetler" sütunu yayındaki hizmetlerle otomatik dolar (uzun kuyruk iç bağlantı); dil değiştirici `RouteAlternates` ile karşı slug'a gider
+  - [x] Admin `/admin/services`: liste (durum rozeti, öne çıkan, ↑↓ tek RPC, sil) · `/new` · `/[id]` — `ServiceForm`: içerik, süreç adımları (satır | satır), ikon, kapak, galeri (çoklu seçim), SEO alanları, yayın (slug TR otomatik / EN elle, K-08 onay)
+  - [x] Testler: `processSteps` 3 · DB 5 (RPC dil süzgeci, SSS sızmaz, reorder RLS + izinsiz tablo, slug_history) · E2E `services.spec.ts` (liste axe, detay JSON-LD/hreflang/dil düğmesi, 404'ler, öksüz sayfa yok, admin oluştur→düzenle→sil)
+  - [ ] *Sonraki:* SSS admin ekranı (`/admin/faq`, Faz 11) · `content_links` küratörlü ilgili içerik (Faz 9) · liste ekranında TanStack Table (kayıt sayısı büyüyünce)
 - [ ] **Faz 08** — Projeler (ön yüz + admin)
 - [ ] **Faz 09** — Blog (ön yüz + admin + canlı SEO paneli)
 - [ ] **Faz 10** — Talep + Mail *(kuyruk + canlılık denetimi testi)*

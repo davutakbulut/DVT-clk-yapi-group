@@ -5207,7 +5207,15 @@ export type Database = {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
       }
+      get_service_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
       mark_notifications_read: { Args: { p_ids: string[] }; Returns: number }
+      reorder_content: {
+        Args: { p_ids: string[]; p_table: string }
+        Returns: number
+      }
       reorder_menu_items: { Args: { p_ids: string[] }; Returns: number }
       resolve_old_slug: {
         Args: { p_entity_type: string; p_locale: string; p_old_slug: string }

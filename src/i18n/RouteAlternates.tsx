@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, useState, type ReactNode } from 'react';
 import type { AppHref } from './navigation';
 import type { Locale } from './routing';
 
@@ -14,13 +14,37 @@ export interface RouteAlternatesValue {
   readonly fallback: AppHref | null;
 }
 
-const RouteAlternatesContext = createContext<RouteAlternatesValue | null>(null);
-
-export function RouteAlternates({ value, children }: { readonly value: RouteAlternatesValue; readonly children: ReactNode }) {
-  return <RouteAlternatesContext.Provider value={value}>{children}</RouteAlternatesContext.Provider>;
+interface Store {
+  readonly value: RouteAlternatesValue | null;
+  readonly set: (value: RouteAlternatesValue | null) => void;
 }
 
-/** Sağlayıcı yoksa null: sayfa sabit segmentlidir, next-intl yolu kendisi çevirir. */
+const RouteAlternatesContext = createContext<Store | null>(null);
+
+/**
+ * Layout'ta (header'ın üstünde) durur. Sayfa, `RouteAlternates` ile değeri buraya yazar: header sayfanın
+ * altında değil üstünde olduğu için context aşağıdan yukarı taşınamaz; kayıt hidrasyon sonrası `useLayoutEffect`
+ * ile yapılır (boyamadan önce). JS'siz: değiştirici sabit segmentli davranır → çevrilmemiş dilde 404 sayfası açılır.
+ */
+export function RouteAlternatesProvider({ children }: { readonly children: ReactNode }) {
+  const [value, set] = useState<RouteAlternatesValue | null>(null);
+  const store = useMemo<Store>(() => ({ value, set }), [value]);
+  return <RouteAlternatesContext.Provider value={store}>{children}</RouteAlternatesContext.Provider>;
+}
+
+/** Detay sayfası kökünde: değeri sağlayıcıya kaydeder, ayrılınca temizler. */
+export function RouteAlternates({ value, children }: { readonly value: RouteAlternatesValue; readonly children: ReactNode }) {
+  const store = useContext(RouteAlternatesContext);
+  const key = JSON.stringify(value);
+  useLayoutEffect(() => {
+    store?.set(JSON.parse(key) as RouteAlternatesValue);
+    return () => store?.set(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- değer serileştirilmiş anahtarla izlenir
+  }, [store?.set, key]);
+  return <>{children}</>;
+}
+
+/** Kayıtlı değer yoksa null: sayfa sabit segmentlidir, next-intl yolu kendisi çevirir. */
 export function useRouteAlternates(): RouteAlternatesValue | null {
-  return useContext(RouteAlternatesContext);
+  return useContext(RouteAlternatesContext)?.value ?? null;
 }

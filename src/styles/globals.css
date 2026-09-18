@@ -568,6 +568,205 @@
     font-size: var(--fs-sm);
     color: var(--color-text-muted);
   }
+
+  /* ── Kart ızgarası (Faz 7): 1px çizgi ağı, gölge/yuvarlak köşe yok; hover yalnız çizgi rengi (MASTER) */
+  .section-dark {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .card-grid-dark {
+    background: var(--color-border-dark);
+    border-color: var(--color-border-dark);
+  }
+  .card {
+    display: grid;
+    height: 100%;
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+  .card-grid-dark .card {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+  }
+  .card-link {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
+    outline-offset: -3px;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+  .card-link:hover {
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  }
+  .card-media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-surface-dark);
+  }
+  .card-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-slow) var(--ease-out);
+  }
+  .card-link:hover .card-media img {
+    transform: scale(1.03);
+  }
+  .card-media-icon {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: var(--color-accent-on-dark);
+    background:
+      linear-gradient(90deg, rgb(247 246 244 / 0.06) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(0deg, rgb(247 246 244 / 0.06) 1px, transparent 1px) 0 0 / 32px 32px,
+      var(--color-surface-dark);
+  }
+  .card-body {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding: var(--space-6);
+  }
+  .card-title {
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    color: inherit;
+  }
+  .card-excerpt {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Detay sayfası başlık bandı + kapak */
+  .page-head {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+  }
+  .page-head-cover {
+    max-height: 60dvh;
+    overflow: hidden;
+    border-top: 4px solid var(--color-accent);
+  }
+  .page-head-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 60dvh;
+    object-fit: cover;
+  }
+
+  /* ── Süreç adımları: gerçek sıra → numaralı */
+  .steps {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+  .steps-title {
+    font-size: var(--fs-h3);
+  }
+  .steps-list {
+    display: grid;
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    align-items: start;
+  }
+  .step-index {
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-accent-text);
+    padding-top: 2px;
+  }
+  .step-title {
+    font-family: var(--font-body, ui-sans-serif), sans-serif;
+    font-weight: 600;
+    font-size: var(--fs-body);
+    line-height: 1.4;
+  }
+  .step-desc {
+    margin-top: var(--space-1);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
+
+  /* ── Galeri */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .gallery-grid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  /* ── SSS: yerel <details> */
+  .faq-list {
+    display: grid;
+    border-top: 1px solid var(--color-border);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .faq-item summary {
+    cursor: pointer;
+    padding: var(--space-4) 0;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary::after {
+    content: '+';
+    font-family: var(--font-mono, ui-monospace), monospace;
+    color: var(--color-accent-text);
+  }
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+  .faq-item > div {
+    padding-bottom: var(--space-4);
+  }
+
+  /* ── CTA bandı */
+  .cta-band {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+    border-top: 4px solid var(--color-accent);
+  }
 }
 
 /* shadcn (YALNIZ admin — 02-STYLE-ISOLATION). Değerler theme.admin.css içinde [data-surface='admin'] altında;

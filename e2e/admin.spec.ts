@@ -60,7 +60,7 @@ test.describe('yönetim paneli', () => {
     await expect(page.getByRole('link', { name: /Üst menü/ })).toBeVisible();
     await page.getByRole('link', { name: /Üst menü/ }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Üst menü');
-    await expect(page.getByText('Hizmetler', { exact: true }).first()).toBeVisible();
+    await expect(page.locator('main').getByText('Hizmetler', { exact: true }).first()).toBeVisible();
     await expect(page.getByText('route yok').first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Yeni öğe' })).toBeVisible();
   });

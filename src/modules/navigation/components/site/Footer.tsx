@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
+import { getCachedServiceList } from '@/modules/services';
 import { getPublicSettings } from '@/modules/site-settings';
 import { pickLocale } from '@/lib/localized';
+import { Link } from '@/i18n/navigation';
 import { BrandMark } from '@/ui/BrandMark';
 import { Container } from '@/ui/Container';
 import { getMenu } from '../../services/getMenu';
@@ -12,7 +14,9 @@ interface Props {
 
 /** 4 sütun (menü + iletişim) + yasal alt bar. Değeri olmayan iletişim satırı hiç render edilmez — yer tutucu YOK. */
 export async function Footer({ locale }: Props) {
-  const [columns, legal, settings, t] = await Promise.all([getMenu('footer_primary', locale), getMenu('footer_legal', locale), getPublicSettings(), getTranslations('Footer')]);
+  const [columns, legal, settings, t, services] = await Promise.all([getMenu('footer_primary', locale), getMenu('footer_legal', locale), getPublicSettings(), getTranslations('Footer'), getCachedServiceList(locale)]);
+  // 01-PUBLIC-PAGES › Footer: hizmet listesi tam olarak burada (uzun kuyruk iç bağlantı). "Tüm Hizmetler" bağlantısını taşıyan sütuna eklenir.
+  const serviceLinks = services.ok ? services.data : [];
   const siteName = pickLocale(settings.siteName, locale, { fallback: 'tr' });
   const tagline = pickLocale(settings.tagline, locale);
   const { contact } = settings;
@@ -44,6 +48,13 @@ export async function Footer({ locale }: Props) {
             <nav key={column.id} aria-label={column.label} className="grid content-start gap-3">
               <h2 className="site-footer-heading">{column.label}</h2>
               <ul className="grid gap-2 text-[length:var(--fs-sm)]">
+                {column.children.some((c) => c.link.kind === 'internal' && c.link.pathname === '/services')
+                  ? serviceLinks.map((service) => (
+                      <li key={service.id}>
+                        <Link href={{ pathname: '/services/[slug]', params: { slug: service.slug } }}>{service.title}</Link>
+                      </li>
+                    ))
+                  : null}
                 {column.children.map((child) => (
                   <li key={child.id}>
                     <MenuLinkView node={child} />
