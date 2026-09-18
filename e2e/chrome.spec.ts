@@ -29,6 +29,9 @@ test.describe('çatı', () => {
     await page.waitForTimeout(4500);
     const button = page.getByRole('button', { name: /WhatsApp/ });
     if ((await button.count()) === 0) return; // numara girilmemiş (CI / boş veritabanı): bilerek render edilmez
+    // Çerez bandı alt köşeyi örtebilir → önce kapat
+    const onlyNecessary = page.getByRole('button', { name: 'Yalnız zorunlu' });
+    if (await onlyNecessary.isVisible().catch(() => false)) await onlyNecessary.click();
     await button.click();
     const chat = page.locator('.wa-panel a[href*="wa.me/"]').first();
     await expect(chat).toBeVisible();

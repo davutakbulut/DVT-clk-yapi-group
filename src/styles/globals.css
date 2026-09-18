@@ -321,15 +321,16 @@
     text-transform: uppercase;
   }
 
-  /* ── Yüzen WhatsApp */
+  /* ── Yüzen WhatsApp: kapalıyken koyu etiket + nabız halkalı yeşil düğme; açıkken kart panel (degrade başlık, karşılama
+     balonu, iletişim kartı, büyük CTA). Nabız düğmenin KENDİSİNDE değil ::before halkasında → düğme kutusu sabit kalır. */
   .wa-fab {
     position: fixed;
-    right: var(--space-4);
-    bottom: var(--space-4);
-    z-index: 60;
+    right: max(var(--space-4), env(safe-area-inset-right));
+    bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    z-index: 70;
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--space-3);
     animation: wa-in var(--dur-slow) var(--ease-out) both;
   }
   @keyframes wa-in {
@@ -339,35 +340,305 @@
     }
   }
   .wa-fab-button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 58px;
+    height: 58px;
     border-radius: var(--radius-full);
-    background: var(--wa-green);
-    color: var(--ink);
-    box-shadow: var(--shadow-2);
+    background: #25b365;
+    color: #fff;
+    box-shadow: 0 10px 28px rgb(37 179 101 / 0.35), 0 2px 6px rgb(0 0 0 / 0.18);
+    transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  .wa-fab-button:hover {
+    transform: scale(1.05);
+  }
+  .wa-fab-button::before {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: inherit;
+    background: rgb(37 179 101 / 0.16);
+    z-index: -1;
+    animation: wa-pulse 2.4s ease-out infinite;
+  }
+  .wa-fab-button::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #9af0c0;
+    border: 2px solid #25b365;
+  }
+  .wa-fab[data-open] .wa-fab-button {
+    background: var(--ink);
+    box-shadow: 0 0 0 2px var(--turq), var(--shadow-2);
+  }
+  .wa-fab[data-open] .wa-fab-button::before,
+  .wa-fab[data-open] .wa-fab-button::after {
+    display: none;
+  }
+  @keyframes wa-pulse {
+    0% {
+      transform: scale(0.75);
+      opacity: 0.9;
+    }
+    70%,
+    100% {
+      transform: scale(1.15);
+      opacity: 0;
+    }
   }
   .wa-fab-label {
-    padding: var(--space-2) var(--space-3);
+    align-items: center;
+    gap: var(--space-2);
+    padding: 10px 16px;
     border-radius: var(--radius-full);
-    background: var(--color-surface-darker);
-    color: var(--color-text-inverse);
-    font-size: var(--fs-xs);
-    font-weight: 500;
-    box-shadow: var(--shadow-1);
+    background: var(--ink);
+    color: #fff;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.22);
+    white-space: nowrap;
+  }
+  .wa-dot {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4ade80;
+    border: 2px solid #2f6f5e;
+  }
+  .wa-dot-inline {
+    position: static;
+    width: 9px;
+    height: 9px;
+    border: 0;
+    background: #4f9d6f;
+    flex: none;
   }
   .wa-panel {
     position: fixed;
-    right: var(--space-4);
-    bottom: calc(56px + var(--space-8));
-    z-index: 60;
-    width: min(calc(100vw - 2 * var(--space-4)), 22rem);
-    background: var(--color-surface);
-    color: var(--color-text);
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-3);
+    right: max(var(--space-4), env(safe-area-inset-right));
+    bottom: calc(58px + var(--space-8));
+    z-index: 70;
+    width: min(calc(100vw - 2 * var(--space-4)), 24rem);
+    max-height: calc(100dvh - 58px - var(--space-12));
+    overflow-y: auto;
+    border-radius: 22px;
+    background: #fcfcfc;
+    color: #16120f;
+    box-shadow: 0 24px 60px rgb(15 19 21 / 0.28), 0 2px 8px rgb(15 19 21 / 0.12);
+    animation: wa-in var(--dur) var(--ease-out) both;
+  }
+  .wa-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 18px 18px 16px;
+    border-radius: 22px 22px 0 0;
+    background: linear-gradient(120deg, #255c50 0%, #3f8f7c 100%);
+    color: #fff;
+  }
+  .wa-avatar {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.2);
+    border: 1px solid rgb(255 255 255 / 0.35);
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .wa-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+  .wa-badge {
+    flex: none;
+    padding: 1px 8px;
+    border-radius: var(--radius-full);
+    background: rgb(154 240 192 / 0.25);
+    color: #c9f7dd;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .wa-reply {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+    font-size: 13px;
+    color: rgb(255 255 255 / 0.85);
+  }
+  .wa-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin-right: -8px;
+    border-radius: 50%;
+    color: #fff;
+  }
+  .wa-close:hover {
+    background: rgb(255 255 255 / 0.14);
+  }
+  .wa-body {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+  }
+  .wa-bubble,
+  .wa-card {
+    border: 1px solid #ececec;
+    border-radius: 16px;
+    background: #fff;
+  }
+  .wa-bubble {
+    padding: 14px 16px 10px;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .wa-bubble-meta {
+    margin-top: 6px;
+    text-align: right;
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: 11px;
+    color: #6b7280; /* beyaz üzerinde 4.83:1 */
+  }
+  .wa-card li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    min-width: 0;
+    color: #2b3440;
+  }
+  .wa-card li + li {
+    border-top: 1px solid #f0f0f0;
+  }
+  .wa-ic {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+  .wa-ic-phone {
+    background: #e9f8ef;
+    color: #25735a;
+  }
+  .wa-ic-mail {
+    background: #eaf0fe;
+    color: #2d55c9;
+  }
+  .wa-ic-pin {
+    background: #fdecec;
+    color: #b4233a;
+  }
+  .wa-phone {
+    flex: 1;
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    color: #16120f;
+  }
+  .wa-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin: -6px -8px -6px 0;
+    border-radius: 10px;
+    color: #4b5563;
+  }
+  .wa-copy:hover {
+    background: #f3f4f6;
+  }
+  .wa-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    border-radius: var(--radius-full);
+    background: #1e8a4c; /* beyaz metinle 4.56:1 */
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 8px 20px rgb(30 138 76 / 0.3);
+    transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+  }
+  .wa-cta:hover {
+    background: #187a42;
+    transform: translateY(-1px);
+  }
+  .wa-alt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    border: 1px solid #e6e6e6;
+    border-radius: var(--radius-full);
+    background: #fff;
+    color: #16120f;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .wa-alt:hover {
+    background: #f6f6f6;
+  }
+  .wa-alt svg {
+    color: #e0664a;
+  }
+  .wa-alt:last-child svg {
+    color: #6b7280;
+  }
+  .wa-foot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid #efefef;
+    border-radius: 0 0 22px 22px;
+    background: #f7f7f7;
+    font-size: 12.5px;
+    color: #4b5563;
+  }
+  .wa-foot svg {
+    color: #25735a;
+  }
+  .wa-panel :focus-visible,
+  .wa-fab-button:focus-visible {
+    outline: 2px solid var(--turq-deep);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wa-fab-button::before {
+      animation: none;
+      opacity: 0.6;
+    }
   }
 
   /* ── Hata sayfası SVG çizgi animasyonu */

@@ -56,7 +56,9 @@
     "copy": "No Kopyala",
     "copied": "Kopyalandı",
     "defaultMessage": "Merhaba, bilgi almak istiyorum. ({url})",
-    "panelLabel": "WhatsApp iletişim"
+    "panelLabel": "WhatsApp iletişim",
+    "label": "WhatsApp Destek ({phone})",
+    "live": "Bugün • Canlı"
   },
   "Auth": {
     "login": "Giriş yap",

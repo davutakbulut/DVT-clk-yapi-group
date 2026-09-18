@@ -56,7 +56,9 @@
     "copy": "Copy number",
     "copied": "Copied",
     "defaultMessage": "Hello, I would like to get information. ({url})",
-    "panelLabel": "WhatsApp contact"
+    "panelLabel": "WhatsApp contact",
+    "label": "WhatsApp Support ({phone})",
+    "live": "Today • Live"
   },
   "Auth": {
     "login": "Sign in",

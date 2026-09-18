@@ -7,7 +7,8 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
-### Değişti — panel çatısı · font yükleme
+### Değişti — panel çatısı · font yükleme · WhatsApp paneli
+- **WhatsApp paneli yeniden tasarlandı:** degrade başlık (baş harf avatarı, çevrimiçi rozeti, yanıt süresi), karşılama balonu, iletişim kartı (telefon + kopyala; Site Ayarları'nda doluysa e-posta, adres, çalışma saati), büyük yeşil CTA, ikincil düğmeler; kapalıyken koyu etiket + nabız halkalı düğme (nabız `::before`'da → düğme kutusu sabit), açıkken kapat düğmesi
 - **Panel kenar çubuğu:** 54 bağlantı iş akışına göre 10 bölüme ayrıldı (Genel · İçerik · Katalog ve Fiyat · Kurumsal · Talep ve Satış · Konfigüratör · Analitik · Site ve SEO · Ayarlar · Sistem); bölümler daraltılır (seçim tarayıcıda hatırlanır, bulunulan bölüm hep açık), menüde arama, bölüm ikonları ve sayaçları, en uzun eşleşen adres işaretlenir; koyu marka zemini, mobilde çekmece + arka plan perdesi
 - **Panel üst şeridi:** yapışkan, bulanık zemin; konum kırıntısı (bölüm / sayfa), bildirim zili, "Siteyi gör" (yeni sekme), kullanıcı rozeti (baş harfler · ad · rol), çıkış
 - **Fontlar:** `swap` → `block` (yedek fonttan marka fontuna görünür geçiş yok); `SiteLoader` fontları Türkçe harfli örnekle açıkça yükleyip öyle kapanır

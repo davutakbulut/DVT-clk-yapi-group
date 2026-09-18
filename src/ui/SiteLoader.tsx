@@ -53,7 +53,7 @@ export function SiteLoader({ label, siteName }: Props) {
     // yazılar font değiştirirdi. Örnek metin Türkçe harf içerir → `latin-ext` alt kümesi de iner (K-72).
     const css = getComputedStyle(html);
     const family = (name: string) => css.getPropertyValue(name).trim();
-    const sample = 'Aaçğıİöşü0';
+    const sample = 'Aaçğıİöşü0'; // static-ok: içerik değil; latin-ext alt kümesini yükletmek için glif örneği
     const wanted = [`800 16px ${family('--font-heading')}`, `400 16px ${family('--font-body')}`, `500 16px ${family('--font-body')}`, `600 16px ${family('--font-body')}`, `400 16px ${family('--font-mono')}`];
     void Promise.allSettled(wanted.map((f) => document.fonts.load(f, sample)))
       .then(() => document.fonts.ready)
