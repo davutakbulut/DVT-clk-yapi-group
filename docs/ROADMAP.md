@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 23 — İzleyici altyapısı ⏳ (sırada) · Faz 1–22 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 24 — Sıcaklık haritası + huni + form analizi ⏳ (sırada) · Faz 1–23 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -253,7 +253,12 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v1.3 — Ölçüm
 
-- [ ] **Faz 23** — İzleyici altyapısı + çerez onayı
+- [x] **Faz 23** — İzleyici altyapısı + çerez onayı ✅ 2026-09-18 (çerez bandı Faz 12'de)
+  - [x] `src/modules/analytics` — `Tracker` (istemci, ~4 KB: onay yoksa hiç başlamaz; tık [sayfa yüksekliğine göre %], öfke/ölü tık, scroll eşiği, dikkat [section görünürlüğü], form odak/terk [içerik ASLA yok], Web Vitals PerformanceObserver; 10 sn'de bir / `pagehide`'da `sendBeacon` tek paket) · `ThirdPartyScripts` (K-39: GA4 analitik onayıyla, Ads + Meta Pixel pazarlama onayıyla; onay sonradan gelirse `clk:consent`) · `domain/classify` (referrer türü [AI ayrı], cihaz, bot, UA, IP maskesi, paket şeması — 3 test) · admin `AnalyticsOverview` + `AnalyticsSettingsForm`
+  - [x] `/api/analytics/collect` (onay çerezi sunucuda da denetlenir, bot UA süzülür, hız sınırı, her zaman 204) → `ingest_analytics` security definer RPC (0035: tuzlu md5 ziyaretçi özeti, sınırlar, aynı pageview güncellenir, form sayaçları upsert); `aggregate_analytics_day` + `purge_old_analytics` → `core/jobs/analyticsNightly` + `/api/cron/analytics` (gece 02:15) — 3 DB testi
+  - [x] `/admin/analytics` (7/30/90 gün: oturum, pageview, günlük seri, sayfalar, kaynak türü, 🤖 AI kaynaklı trafik, cihaz, dil, çıkış) · `/admin/settings/analytics` (izleyici açık/kapalı, örnekleme, GA4/Ads/Pixel kimlikleri) · `site_settings` `analytics.config` (açık) + `analytics.salt` (gizli)
+  - [x] E2E `analytics.spec.ts` (onaysız 204; onaylı ziyaret → beacon → genel bakışta oturum; ayar kaydı; cron 401)
+  - [ ] *Faz 24:* sıcaklık haritası/huni/form ekranları (özet tablolar hazır) · *Faz 25:* hata + vitals ekranları (web_vitals doluyor) · *Ürün sahibi:* GA4/Ads/Pixel kimlikleri
 - [ ] **Faz 24** — Sıcaklık haritası + huni + form analizi
 - [ ] **Faz 25** — Hata takip + performans izleme
 

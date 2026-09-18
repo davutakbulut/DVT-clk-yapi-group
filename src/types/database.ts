@@ -5241,6 +5241,7 @@ export type Database = {
     }
     Functions: {
       admin_dashboard_counts: { Args: never; Returns: Json }
+      aggregate_analytics_day: { Args: { p_day: string }; Returns: Json }
       anonymize_customer: { Args: { p_id: string }; Returns: undefined }
       create_customer_from_lead: {
         Args: { p_lead_id: string }
@@ -5276,6 +5277,7 @@ export type Database = {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
       }
+      ingest_analytics: { Args: { p: Json }; Returns: Json }
       mark_notifications_read: { Args: { p_ids: string[] }; Returns: number }
       purge_expired_job_applications: {
         Args: never
@@ -5284,6 +5286,7 @@ export type Database = {
           cv_path: string
         }[]
       }
+      purge_old_analytics: { Args: { p_keep_days?: number }; Returns: number }
       recalc_sale_payments: { Args: { p_sale_id: string }; Returns: undefined }
       record_redirect_hit: { Args: { p_path: string }; Returns: undefined }
       reorder_content: {

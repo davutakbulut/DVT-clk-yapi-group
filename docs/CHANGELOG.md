@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 23 · İzleyici altyapısı
+- `src/modules/analytics` — `Tracker` · `ThirdPartyScripts` · `AnalyticsOverview` · `AnalyticsSettingsForm`; `domain/classify` (3 test); `data/ingestRepository` · `analyticsRepository`; `actions` (ayar)
+- `/api/analytics/collect` · `/api/cron/analytics` · `core/jobs/analyticsNightly`; route'lar `app/admin/analytics`, `app/admin/settings/analytics`; marketing layout izleyici + üçüncü parti scriptler (onaya bağlı); `site-settings` `analytics` alanı; nav
+- `supabase/migrations/0035_analytics_ingest.sql` · `supabase/tests/analytics.test.ts` (3); mesajlar `Admin.analytics`, `Admin.analyticsSettings`; `e2e/analytics.spec.ts`
+
 ### Eklendi — Faz 22 · Raporlama
 - `src/modules/reports` — `domain/aggregate` (3 test) · `data/reportsRepository` · `ReportSections`; route'lar `app/admin/reports` (+ `export` CSV); nav; mesajlar `Admin.reports`; `e2e/reports.spec.ts`
 

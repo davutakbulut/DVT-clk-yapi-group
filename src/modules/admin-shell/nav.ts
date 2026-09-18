@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -23,6 +23,8 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'sales', href: '/admin/sales', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
   { key: 'invoices', href: '/admin/invoices', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
   { key: 'reports', href: '/admin/reports', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
+  { key: 'analytics', href: '/admin/analytics' },
+  { key: 'analyticsSettings', href: '/admin/settings/analytics', roles: ['super_admin', 'admin'] },
   { key: 'translations', href: '/admin/translations', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'redirects', href: '/admin/redirects', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'modules', href: '/admin/settings/modules', roles: ['super_admin', 'admin'] },

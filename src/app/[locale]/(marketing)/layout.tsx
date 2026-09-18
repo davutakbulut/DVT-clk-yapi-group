@@ -7,6 +7,7 @@ import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
 import { CookieBanner } from '@/modules/consent';
 import { Footer, Header } from '@/modules/navigation';
+import { ThirdPartyScripts, Tracker } from '@/modules/analytics';
 import { BasketProvider } from '@/modules/quote-basket';
 import { getPublicSettings } from '@/modules/site-settings';
 import { getErrorPage, getLegalPage } from '@/modules/static-pages';
@@ -73,6 +74,12 @@ export default async function MarketingLayout({ children, params }: Props) {
       {cookieTexts ? (
         <ModuleBoundary module="consent">
           <CookieBanner texts={cookieTexts} policyAvailable={cookiePolicy !== null} />
+        </ModuleBoundary>
+      ) : null}
+      {settings.analytics.enabled ? (
+        <ModuleBoundary module="analytics/tracker">
+          <Tracker locale={locale} enabled sampleRate={settings.analytics.sampleRate} />
+          <ThirdPartyScripts ga4Id={settings.analytics.ga4Id} adsId={settings.analytics.adsId} metaPixelId={settings.analytics.metaPixelId} />
         </ModuleBoundary>
       ) : null}
       </BasketProvider>

@@ -321,6 +321,11 @@ Satış, fatura ve tahsilat tutarları TypeScript'te kayan nokta yerine kuruş t
 **Neden:** 0,1 + 0,2 ≠ 0,3: kayan nokta ile hesaplanan toplam CHECK'e takılır ve satış kaydedilemez; kuruş tamsayısı deterministiktir. Türetilen durum, gece çalışan bir "vade kontrol" cron'una bağımlılığı kaldırır (cron dursa bile ekran doğru). Rol-duyarlı yazma K-33'ün "arayüzde gizlemek yetmez" ilkesinin uygulamasıdır: sales rolü maliyet kolonunu göremediği gibi yazamaz da (guard tetikleyicisi).
 **Bilinen bedeli:** İki yol (tablo/görünüm) iki kod dalı demektir; test dosyaları her ikisini de sürer. Tevkifat oranı ve KDV hesabının vergi mevzuatına uygunluğu ürün sahibinin muhasebesince doğrulanır (K-31) — yazılım hesabı doğru yapar, oranı seçmez.
 
+### K-63 · İzleyici: onay iki kemerle, kimlik sunucuda tuzlanır, paket tek RPC ile
+İzleyici tarayıcıda yalnız `clk_consent.analytics=true` ise başlar; `/api/analytics/collect` aynı çerezi sunucuda yeniden okur, yoksa paketi 204 ile atar (istemci atlatılsa bile veri girmez). Ziyaretçi kimliği tarayıcıda rastgele üretilir, sunucu `md5(tuz + kimlik)` saklar; tuz `site_settings.analytics.salt` (gizli) ilk kullanımda üretilir. Paket zod ile doğrulanır, bot UA süzülür, IP maskelenir, ardından `ingest_analytics` security definer RPC'si tek işlemde yazar (K-56). Web Vitals PerformanceObserver ile kütüphanesiz ölçülür.
+**Neden:** 06-ANALYTICS "onay yoksa hiç yüklenmez" ilkesi tek başına istemciye güvenir; sunucu denetimi ikinci kemerdir. Tuzlu özet, veritabanı sızsa bile ziyaretçi kimliğinin geri döndürülememesini sağlar; tuz değişirse eski özetler eşleşmez (ziyaretçi sayımı sıfırlanır — bilinçli). `web-vitals` paketi ~2 KB ama ek bağımlılık; dört gözlemci 40 satır.
+**Bilinen bedeli:** Playwright/E2E tarayıcısı bot sayılır — testler `?e2e_track=1` ile açıkça izin alır, bu bayrak yalnız bot süzgecini gevşetir (onay yine gerekir). Attention ölçümü yalnız `main section[id]` bölümlerinde; INP yaklaşımı `event` gözlemcisinin en uzun süresidir (resmi INP algoritması değil).
+
 ---
 
 ## Değiştirilen Kararlar
