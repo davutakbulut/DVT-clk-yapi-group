@@ -3,3 +3,7 @@ export { buildStructure, computeSegments, heightAtX, slopePoint, type Structure,
 export { clampParams, parseParams, serializeParams, DEFAULT_PARAMS, DEFAULT_LIMITS, type Params, type Limits } from './domain/params';
 export { SECTIONS, DEFAULT_PROFILE_MAP, sectionFor } from './domain/profiles';
 export { getCachedRules, DEFAULT_RULES, type ConfiguratorRules } from './data/rulesRepository';
+export { computeTakeoff, type Takeoff, type TakeoffLine, type PanelLine, type WeightTable, type PanelWeights } from './domain/takeoff';
+export { getCachedWeights, type CatalogWeights } from './data/profilesRepository';
+export { TakeoffPanel } from './components/site/TakeoffPanel';
+export { SteelProfileForm } from './components/admin/SteelProfileForm';

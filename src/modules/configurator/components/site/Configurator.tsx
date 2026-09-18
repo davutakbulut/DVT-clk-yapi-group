@@ -6,6 +6,8 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { clampParams, parseParams, serializeParams, type Limits, type Params } from '../../domain/params';
 import type { ProfileKey } from '../../domain/structure';
 import { buildStructure } from '../../domain/structure';
+import type { PanelWeights, WeightTable } from '../../domain/takeoff';
+import { TakeoffPanel } from './TakeoffPanel';
 
 const Scene = dynamic(() => import('./Scene'), { ssr: false, loading: () => <div className="configurator-canvas-loading" aria-hidden="true" /> });
 
@@ -18,6 +20,9 @@ interface Props {
   readonly purlinSpacingM: number;
   readonly profileMap: Readonly<Record<ProfileKey, string>>;
   readonly disclaimer: string;
+  /** Faz 27: kg/m tablosu (steel_profiles) ve panel kg/m²; boş → ağırlıksız metraj. */
+  readonly weights?: WeightTable;
+  readonly panelWeights?: PanelWeights;
   /** Faz 27+: metraj/fiyat/kaydetme yuvası — yapı verisi ile çağrılır. */
   readonly renderExtras?: (structure: ReturnType<typeof buildStructure>) => ReactNode;
 }
@@ -26,7 +31,7 @@ interface Props {
  * Konfigüratör (04-CONFIGURATOR): 5 parametre + görsel anahtarlar; durum sorgu dizesinde (`history.replaceState`, RSC turu yok);
  * localStorage taslağı; istatistikler anında. 3D sahne dinamik import (SSR yok, K-24). Metraj Faz 27, fiyat/kayıt Faz 28.
  */
-export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM, profileMap, disclaimer, renderExtras }: Props) {
+export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM, profileMap, disclaimer, weights = {}, panelWeights = {}, renderExtras }: Props) {
   const t = useTranslations('Configurator');
   const format = useFormatter();
   const [params, setParams] = useState<Params>(initial);
@@ -115,6 +120,7 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
         <button type="button" className="btn btn-ghost" onClick={share}>
           {copied ? t('copied') : t('share')}
         </button>
+        <TakeoffPanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} />
         {renderExtras ? renderExtras(structure) : null}
         <p className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]" role="note">
           {disclaimer}

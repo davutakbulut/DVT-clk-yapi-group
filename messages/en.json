@@ -162,7 +162,8 @@
       "journeys": "User Journeys",
       "errorLogs": "Error Tracking",
       "brokenLinks": "Broken Links",
-      "vitals": "Slow Pages"
+      "vitals": "Slow Pages",
+      "steelProfiles": "Steel Profiles"
     },
     "common": {
       "save": "Save",
@@ -1293,6 +1294,29 @@
       "metric": "Metric",
       "samples": "Samples",
       "rating": "Distribution"
+    },
+    "steelProfiles": {
+      "title": "Steel Profiles",
+      "lead": "The single source of weight for take-off: the configurator computes tonnage from the kg/m entered here. Codes must match the profile map in configurator rules. Admin only.",
+      "new": "New profile",
+      "count": "{count} profiles",
+      "empty": "No profiles yet — the configurator take-off shows no weights.",
+      "code": "Code",
+      "family": "Family",
+      "kgPerM": "kg/m",
+      "usage": "Usage",
+      "active": "Active",
+      "inactive": "inactive",
+      "usages": {
+        "column": "Column",
+        "beam": "Beam",
+        "rafter": "Rafter",
+        "purlin": "Purlin",
+        "girt": "Girt",
+        "bracing": "Bracing",
+        "wind_column": "Wind column",
+        "other": "Other"
+      }
     }
   },
   "Services": {
@@ -1692,6 +1716,36 @@
       "retry": "Try again",
       "projects": "Projects",
       "quote": "Get a quote"
+    },
+    "takeoff": {
+      "title": "Take-off",
+      "element": "Element",
+      "profile": "Profile",
+      "pieces": "Pcs",
+      "length": "Length / Area",
+      "weight": "Weight",
+      "groups": {
+        "column": "Column",
+        "rafter": "Rafter",
+        "truss_chord": "Truss chord",
+        "truss_web": "Truss web",
+        "secondary": "Secondary beam",
+        "wind_column": "Wind column",
+        "purlin": "Purlin",
+        "girt": "Girt",
+        "brace_wall": "Wall bracing",
+        "brace_roof": "Roof bracing",
+        "door_frame": "Door frame"
+      },
+      "panels": {
+        "roof": "Roof panel",
+        "wall": "Wall panel",
+        "gable": "Gable panel"
+      },
+      "plates": "Plates",
+      "bolts": "Bolts",
+      "steelTotal": "Steel total",
+      "incomplete": "kg/m is not yet entered for: {codes}. Tonnage is incomplete."
     }
   }
 }

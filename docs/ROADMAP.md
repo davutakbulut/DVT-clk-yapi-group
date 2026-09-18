@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 27 — Metraj motoru ⏳ (sırada) · Faz 1–26 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 28 — Fiyat, kaydetme, teklif, PDF ⏳ (sırada) · Faz 1–27 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -280,7 +280,12 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Route grubu `app/[locale]/(configurator)` (K-23: kendi layout'u, ince üst çubuk, `error.tsx` statik yedek: projeler + teklif) · `/konfigurator` ↔ `/configurator` · kill switch anahtarı `configurator` · `configurator.disclaimer` ayarı
   - [x] `0038_configurator_rules.sql` (limits, truss_threshold_m, purlin_spacing_m, labor_factor, profile_map) · `data/rulesRepository` (bozuk/yok → varsayılan) · mesajlar `Configurator` · E2E `configurator.spec.ts` (sorgu → istatistik, klavye → URL, kırpma, EN)
   - [ ] *Ürün sahibi:* `steel_profiles` kg/m değerleri (Faz 27 metraj için zorunlu)
-- [ ] **Faz 27** — Metraj motoru *(çıktı elle doğrulanır)*
+- [x] **Faz 27** — Metraj motoru *(çıktı elle doğrulanır)* ✅
+  - [x] `domain/takeoff` — `computeTakeoff(structure, profileMap, weights, panelWeights)`: grup × profil kodu → adet, toplam boy, kg (kg/m yoksa **null**, uydurma yok K-55); paneller m² (× kg/m²); plaka/civata; eksik profil listesi; 2 test elle doğrulandı (16 kolon × 6 m × 100 = 9.600 kg; makas 163,17 m; aşık+kuşak 720+400 m; çatı 815,8 m²)
+  - [x] `data/profilesRepository` (`getCachedWeights`: aktif `steel_profiles.kg_per_m` + `panel_types.kg_per_m2`, herkese açık K-29) · `TakeoffPanel` (tablo, tonaj, "kg/m girilmedi: …" uyarısı) konfigüratör panelinde
+  - [x] Admin `/admin/configurator/profiles` — `SteelProfileForm` (kod ASCII, aile, kg/m, kullanım, aktif) · `actions` kaydet/sil (yalnız admin) · nav `steelProfiles`; mesajlar `Admin.steelProfiles`, `Configurator.takeoff`
+  - [x] E2E `configurator-takeoff.spec.ts` (tablo: kolon 16 · 96 m; profil ekle → 12.5 kg/m → sil); cleanup `E2E%` profilleri
+  - [ ] *Ürün sahibi:* gerçek profil kg/m değerleri ve panel tipleri girilir; `profile_map` kodlarıyla eşleşmeli
 - [ ] **Faz 28** — Fiyat, kaydetme, teklif, PDF
 - [ ] **Faz 29** — Konfigüratör admin + satışa dönüştür
 

@@ -336,6 +336,11 @@ Satış, fatura ve tahsilat tutarları TypeScript'te kayan nokta yerine kuruş t
 **Neden:** Vitest'te WebGL yok; geometri testleri (aks sayısı, eleman sayısı, alanlar) elle doğrulanan sayılarla saf fonksiyona yazılır. Metrajın sahneyle ayrışması "3D'de görünen ≠ fiyatlanan" hatasını yapısal olarak engeller.
 **Bilinen bedeli:** Kesit ölçü tablosu (`SECTIONS`) koddadır; yeni profil kodu eklenirse görsel için varsayılan IPE300 kesiti kullanılır (metraj etkilenmez).
 
+### K-66 · Metrajda bilinmeyen ağırlık sıfır değil "yok"tur
+`computeTakeoff` kg/m'si girilmemiş profil için ağırlığı `null` döner, tonajı yalnız bilinen satırlardan toplar ve eksik kodları listeler; arayüz "—" ve "kg/m girilmedi: …" uyarısı gösterir. Varsayılan kesit tablosu (`domain/profiles`) ağırlık taşımaz.
+**Neden:** Sıfır ya da tahmini bir kg/m, tonajı ve Faz 28 fiyatını sessizce yanlış yapar; müşteri karşısına "uydurma" sayı çıkar (CLAUDE.md "asla"). Eksikliğin görünür olması ürün sahibini kataloğu doldurmaya zorlar.
+**Bilinen bedeli:** Katalog boşken metraj "ağırlıksız" görünür; Faz 28 fiyat kutusu tonaj tamamlanmadan hesaplanmaz.
+
 ---
 
 ## Değiştirilen Kararlar

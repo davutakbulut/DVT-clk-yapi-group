@@ -162,7 +162,8 @@
       "journeys": "Kullanıcı Yolculuğu",
       "errorLogs": "Hata Takip",
       "brokenLinks": "Kırık Linkler",
-      "vitals": "Yavaş Sayfalar"
+      "vitals": "Yavaş Sayfalar",
+      "steelProfiles": "Çelik Profiller"
     },
     "common": {
       "save": "Kaydet",
@@ -1293,6 +1294,29 @@
       "metric": "Metrik",
       "samples": "Örnek",
       "rating": "Dağılım"
+    },
+    "steelProfiles": {
+      "title": "Çelik Profiller",
+      "lead": "Metrajın TEK ağırlık kaynağı: konfigüratör tonajı buradaki kg/m ile hesaplar. Kod, konfigüratör kurallarındaki profil eşlemesiyle (profile_map) eşleşmelidir. Yalnız yönetici.",
+      "new": "Yeni profil",
+      "count": "{count} profil",
+      "empty": "Henüz profil girilmedi — konfigüratör metrajı ağırlıksız görünür.",
+      "code": "Kod",
+      "family": "Aile",
+      "kgPerM": "kg/m",
+      "usage": "Kullanım",
+      "active": "Aktif",
+      "inactive": "pasif",
+      "usages": {
+        "column": "Kolon",
+        "beam": "Kiriş",
+        "rafter": "Makas",
+        "purlin": "Aşık",
+        "girt": "Kuşak",
+        "bracing": "Çapraz",
+        "wind_column": "Rüzgar kolonu",
+        "other": "Diğer"
+      }
     }
   },
   "Services": {
@@ -1692,6 +1716,36 @@
       "retry": "Yeniden dene",
       "projects": "Projeler",
       "quote": "Teklif al"
+    },
+    "takeoff": {
+      "title": "Metraj",
+      "element": "Eleman",
+      "profile": "Profil",
+      "pieces": "Adet",
+      "length": "Boy / Alan",
+      "weight": "Ağırlık",
+      "groups": {
+        "column": "Kolon",
+        "rafter": "Makas",
+        "truss_chord": "Kafes başlık",
+        "truss_web": "Kafes örgü",
+        "secondary": "İkincil kiriş",
+        "wind_column": "Rüzgar kolonu",
+        "purlin": "Aşık",
+        "girt": "Kuşak",
+        "brace_wall": "Duvar çaprazı",
+        "brace_roof": "Çatı çaprazı",
+        "door_frame": "Kapı çerçevesi"
+      },
+      "panels": {
+        "roof": "Çatı paneli",
+        "wall": "Duvar paneli",
+        "gable": "Alın paneli"
+      },
+      "plates": "Plakalar",
+      "bolts": "Civata",
+      "steelTotal": "Çelik toplamı",
+      "incomplete": "Şu profillerin kg/m değeri henüz girilmedi: {codes}. Tonaj eksiktir."
     }
   }
 }

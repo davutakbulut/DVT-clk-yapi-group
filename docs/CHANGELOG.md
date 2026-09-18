@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 27 · Metraj motoru
+- `configurator` modülü: `domain/takeoff` (2 test, elle doğrulanmış) · `data/profilesRepository` · `data/adminProfilesRepository` · `actions` (profil kaydet/sil) · `TakeoffPanel` · `SteelProfileForm`; `server.ts`
+- Route `app/admin/configurator/profiles`; nav `steelProfiles`; mesajlar; CSS `.configurator-table`; `e2e/configurator-takeoff.spec.ts`; cleanup
+
 ### Eklendi — Faz 26 · Three.js → React Three Fiber
 - `src/modules/configurator` — `domain/params` · `domain/structure` (prototip v4 saf port, 4 test) · `domain/profiles` · `data/rulesRepository` · `Scene` (R3F, dinamik) · `Configurator`
 - Route grubu `app/[locale]/(configurator)` (layout, `error.tsx` yedek, `configurator/page`); `/konfigurator`; kill switch `configurator`; `configurator.disclaimer`; CSS `.configurator-*`; mesajlar `Configurator`

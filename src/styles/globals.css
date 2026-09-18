@@ -966,6 +966,10 @@
   .configurator-canvas { position: relative; min-height: 360px; }
   .configurator-canvas canvas { display: block; width: 100%; height: 100%; }
   .configurator-canvas-loading { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, #1C2126, #1C2126 12px, #222830 12px, #222830 24px); }
+  .configurator-table { width: 100%; border-collapse: collapse; font-size: var(--fs-xs); }
+  .configurator-table th, .configurator-table td { padding: 4px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); text-align: left; vertical-align: top; }
+  .configurator-table thead th { color: var(--color-text-muted); font-weight: 500; }
+  .configurator-table tfoot th { text-align: right; }
   .configurator-shell .btn-ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--color-text-inverse); }
 
   /* ── Yorumlar: scroll-snap carousel (K-60), yıldızlar, rozet */
