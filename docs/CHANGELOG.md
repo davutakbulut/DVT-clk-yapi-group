@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 31 · Erişilebilirlik · performans · yedek tatbikatı
+- `e2e/accessibility-audit.spec.ts` (38 sayfa axe + konfigüratör klavye) · konfigüratör kontrast düzeltmeleri (`globals.css`, `TakeoffPanel`, `SavePanel`)
+- `package.json` `sideEffects` (istemci paketinden supabase-js düştü) · `Scene` demand frameloop/dpr/gölge/segment · `Configurator` boş anda sahne
+- `scripts/backup-export.mjs` · `scripts/backup-restore-drill.mjs` · `npm run backup:export|backup:drill` · `backups/` gitignore · şim `email_confirmed_at`
+
 ### Eklendi — Faz 30 · AI görünürlük · IndexNow · RSS
 - `core/jobs/indexNow` (2 test) · `app/api/cron/indexnow` · `app/api/indexnow-key` · `app/[locale]/feed.xml` · `i18n/alternates` RSS türü · `llms.txt` genişletme · `site-settings` `data/indexNowRepository` + `triggerIndexNow` · SEO ayarları bölümü · `vercel.json` cron; mesajlar; `e2e/seo-feeds.spec.ts`
 

@@ -1,4 +1,4 @@
-import { readIndexNowKey } from '@/core/jobs/indexNow';
+import { readIndexNowKey } from '@/core/jobs/indexNowParse';
 
 export const dynamic = 'force-dynamic';
 

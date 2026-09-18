@@ -78,7 +78,7 @@ export function TakeoffPanel({ structure, profileMap, weights, panelWeights }: P
         </tfoot>
       </table>
       {!takeoff.complete ? (
-        <p className="text-[length:var(--fs-xs)] text-[var(--color-warning,#E0A83A)]" role="status">
+        <p className="configurator-warning text-[length:var(--fs-xs)]" role="status">
           {t('incomplete', { codes: takeoff.missingProfiles.join(', ') })}
         </p>
       ) : null}

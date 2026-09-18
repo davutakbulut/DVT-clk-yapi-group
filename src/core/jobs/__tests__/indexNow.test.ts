@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseSitemap, selectChanged } from '../indexNow';
+import { parseSitemap, selectChanged } from '../indexNowParse';
 
 const xml = `<?xml version="1.0"?><urlset><url><loc>https://x.test/tr</loc><lastmod>2026-09-18T10:00:00.000Z</lastmod></url><url><loc>https://x.test/en</loc></url><url><loc>https://x.test/tr/blog/a</loc><lastmod>2026-09-10T00:00:00.000Z</lastmod></url></urlset>`;
 

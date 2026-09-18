@@ -62,7 +62,8 @@ function angleShape(leg: number, t: number): THREE.Shape {
   return sh;
 }
 function extrudeCentered(shape: THREE.Shape, length: number): THREE.BufferGeometry {
-  const geo = new THREE.ExtrudeGeometry(shape, { depth: Math.max(length, 0.01), bevelEnabled: false, curveSegments: 10 });
+  // Faz 31 Lighthouse: curveSegments 10 → 6 (boru/köşebent üçgen sayısı ~%40 azalır; görsel fark yok)
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: Math.max(length, 0.01), bevelEnabled: false, curveSegments: 6 });
   geo.translate(0, 0, -length / 2);
   return geo;
 }
@@ -204,10 +205,11 @@ void V;
 export default function Scene({ structure, profileMap = DEFAULT_PROFILE_MAP }: Props) {
   const target: [number, number, number] = [0, structure.params.eave / 2, 0];
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [40, 26, 40], fov: 45, near: 0.1, far: 600 }} gl={{ antialias: true }} style={{ background: '#1C2126' }}>
+    // frameloop="demand": yalnız etkileşimde çizer (OrbitControls invalidate eder) — sürekli RAF ana iş parçacığını meşgul etmez (Faz 31 TBT)
+    <Canvas shadows frameloop="demand" dpr={[1, 1.5]} camera={{ position: [40, 26, 40], fov: 45, near: 0.1, far: 600 }} gl={{ antialias: true, powerPreference: 'high-performance' }} style={{ background: '#1C2126' }}>
       <fog attach="fog" args={['#1C2126', 55, 220]} />
       <hemisphereLight args={['#F7F6F4', '#1C2126', 0.85]} />
-      <directionalLight position={[32, 48, 20]} intensity={1.15} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-near={1} shadow-camera-far={150} shadow-camera-left={-60} shadow-camera-right={60} shadow-camera-top={60} shadow-camera-bottom={-60} shadow-bias={-0.0015} />
+      <directionalLight position={[32, 48, 20]} intensity={1.15} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-near={1} shadow-camera-far={150} shadow-camera-left={-60} shadow-camera-right={60} shadow-camera-top={60} shadow-camera-bottom={-60} shadow-bias={-0.0015} />
       <directionalLight position={[-25, 15, -20]} intensity={0.3} color="#88a0b0" />
       <gridHelper args={[160, 80, '#3A4750', '#2B3138']} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>

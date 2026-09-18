@@ -80,7 +80,7 @@ export function SavePanel({ params, member, existing = null }: Props) {
         </>
       ) : null}
       {state.error ? (
-        <p className="text-[length:var(--fs-xs)] text-[var(--color-danger,#E06C6C)]" role="alert">
+        <p className="configurator-danger text-[length:var(--fs-xs)]" role="alert">
           {t(`errors.${state.error === 'rateLimited' || state.error === 'validation' || state.error === 'forbidden' ? state.error : 'unexpected'}`)}
         </p>
       ) : null}

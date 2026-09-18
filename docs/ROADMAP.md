@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 31 — Erişilebilirlik denetimi · performans · yedek tatbikatı ⏳ (sırada) · Faz 1–30 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** 🏁 **Tüm fazlar (1–31) tamamlandı** · `feat/faz-02-database` dalında, `main`'e PR bekliyor · sonraki: ürün sahibi engelleyicileri (aşağıda) ve yayın listesi (Faz 12) · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -307,7 +307,11 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Zaten vardı: Search Console/Bing/Yandex doğrulama (`seo.verification`, Faz 12) · GA4/Ads/Pixel (`analytics.config`, onaya bağlı, Faz 23) · robots AI botlarına açık · `llms.txt`
   - [x] E2E `seo-feeds.spec.ts` (feed TR/EN 200 + 404, blog RSS link, llms.txt, cron 401, anahtar ucu, panel bölümü)
   - [ ] *Ürün sahibi:* Vercel'de `INDEXNOW_KEY` (8–128 karakter) · Search Console'a sitemap ve RSS gönderimi · GA4/Ads/Pixel kimlikleri
-- [ ] **Faz 31** — Erişilebilirlik denetimi · performans ince ayar · **yedek geri yükleme tatbikatı**
+- [x] **Faz 31** — Erişilebilirlik denetimi · performans ince ayar · **yedek geri yükleme tatbikatı** ✅
+  - [x] Erişilebilirlik: `e2e/accessibility-audit.spec.ts` — 21 ön yüz sayfası (mobil + desktop) + 17 panel ekranı WCAG 2.1 AA axe ihlalsiz; konfigüratör klavye (kayar çubuk odak + ok tuşu). Bulunan ve düzeltilen: konfigüratörün koyu zemininde açık-yüzey soluk/uyarı tokenları 4.5:1'i tutmuyordu → kapsamlı beyaz tabanlı değerler (`--color-text-muted`, `.configurator-warning`, `.configurator-danger`)
+  - [x] Performans (Lighthouse mobil, yerel üretim derlemesi): `sideEffects: false` (CSS hariç) → istemci paketlerinden supabase-js düştü (barrel içe aktarımı sürüklüyordu; ana sayfa JS 626 → 259 KB gz); konfigüratör `frameloop="demand"`, dpr ≤ 1.5, gölge 1024, curveSegments 6, sahne boş anda (`requestIdleCallback`) → **perf 70 → 93, TBT 1.090 → 70 ms**; ana sayfa 84 → 89 (LCP 3,8 s: hero metni/font; CI eşiği 0,90 sınırda — bkz. 04-PERFORMANCE), blog 92, ürünler 89. SEO puanı yerelde `noindex` + canonical host farkından düşük (beklenen; CI `NEXT_PUBLIC_SITE_URL` ile kurar)
+  - [x] Yedek tatbikatı (K-69): `scripts/backup-export.mjs` (84 tablo + auth kullanıcıları → `backups/<zaman>/`, 6,2 s) · `scripts/backup-restore-drill.mjs` (boş PGlite + şim + 40 migration **1,0 s** + veri **0,4 s** = **1,5 s**; tüm tablolar birebir, örnek doğrulama) · rapor `RESTORE-REPORT.md`; `npm run backup:export` / `backup:drill`; `backups/` gitignore. Şim `auth.users.email_confirmed_at` eklendi (0039 tetikleyicisi)
+  - [ ] *Ürün sahibi:* Supabase Pro PITR açılışı ve **gerçek anlık görüntüden** geri yükleme provası (dashboard) · font alt-kümeleme (fonttools yok; isteğe bağlı) · Lighthouse CI'ı üretim URL'siyle izleme
 
 ---
 

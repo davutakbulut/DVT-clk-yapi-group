@@ -10,6 +10,7 @@ create table auth.users (
   id uuid primary key default gen_random_uuid(),
   email text unique,
   raw_user_meta_data jsonb not null default '{}',
+  email_confirmed_at timestamptz,            -- 0039: doğrulanınca devralma tetikleyicisi
   created_at timestamptz not null default now()
 );
 

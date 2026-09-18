@@ -351,6 +351,16 @@ IndexNow gönderimi içerik eylemlerine değil, saatlik cron'a bağlıdır: iş 
 **Neden:** Sitemap zaten "yayındaki tüm URL'ler + son değişiklik"in tek kaynağı; her modüle bildirim eklemek (K-07/K-08 kuralları, dil bazlı yayın) tekrar ve hata üretirdi. Saatlik gecikme kurumsal site için kabul edilebilir.
 **Bilinen bedeli:** `lastmod`'suz URL'ler (statik sayfalar) yalnız ilk koşuda gönderilir; anahtar yoksa ya da site indekslenebilir değilse iş sessizce `not_configured` döner (heartbeat'e yazılmaz, canlılık uyarısı üretmez).
 
+### K-69 · İkinci hat yedek: PostgREST ile JSON dışa aktarım + PGlite'ta geri yükleme tatbikatı
+Supabase'in günlük anlık görüntüsüne ek olarak `scripts/backup-export.mjs` tüm public tabloları ve auth kullanıcılarını JSON'a alır; `scripts/backup-restore-drill.mjs` boş bir PGlite'a şim + tüm migration'ları uygulayıp satırları tipli `insert`'lerle (jsonb/dizi/üretilmiş sütun farkındalığıyla) geri yükler, sayıları karşılaştırır ve süreyi raporlar. Tatbikat üretime dokunmaz ve Docker/pg_restore gerektirmez.
+**Neden:** "Denenmemiş yedek yedek değildir" (05-ENVIRONMENTS). Yerelde `pg_dump` yok; PGlite test altyapısı zaten şemayı sıfırdan kurabiliyor — aynı yol yedeğin bütünlüğünü de kanıtlar. İleride MSSQL'e geçişte JSON dışa aktarım taşıma girdisi olur.
+**Bilinen bedeli:** Storage nesneleri ve şifre özetleri kapsam dışı (Supabase anlık görüntüsünden döner). JSON'da SQL NULL ile jsonb `null` ayırt edilemez → not-null jsonb sütunlarda `'null'::jsonb` kabul edilir. Dışa aktarım kişisel veri içerir: `backups/` gitignore'da, şifreli diske alınır.
+
+### K-70 · `sideEffects: false` — barrel içe aktarımı istemciye sunucu kodu sürüklemesin
+`package.json`'da `sideEffects: ["*.css"]`. Modül barrel'ları (`index.ts`) hem bileşen hem önbellekli veri fonksiyonu dışa aktarır; istemci bileşeni yalnız bileşeni kullansa da webpack, yan etki varsayımıyla veri katmanını (ve supabase-js'i, 88 KB gz) istemci paketine alıyordu.
+**Neden:** Ana sayfa JS'i %58 küçüldü; modül sınırı kuralı (yalnız `index.ts`) korunurken bedeli sıfırlandı.
+**Bilinen bedeli:** Yan etkiye dayanan bir modül (kayıt/polyfill) eklenirse bayrağın dışına alınmalı; şu an yalnız CSS böyle.
+
 ---
 
 ## Değiştirilen Kararlar

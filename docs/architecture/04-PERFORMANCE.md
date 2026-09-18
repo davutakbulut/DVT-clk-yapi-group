@@ -119,3 +119,15 @@ Sunucu fonksiyon süresi < 1 s (p95)
 - **Kendi RUM'umuz** canlıda gerçek kullanıcı LCP/CLS/INP'sini toplar → `/admin/analytics` "Yavaş Sayfalar" ekranı
 
 Sentetik test (Lighthouse) ile gerçek kullanıcı verisi (RUM) birlikte kullanılır — laboratuvarda hızlı görünen bir sayfa yavaş bağlantıda yavaş olabilir.
+
+## Faz 31 ölçümü (Lighthouse mobil, yerel üretim derlemesi, tek koşu)
+
+| Sayfa | Perf | A11y | BP | LCP | TBT | JS (gz) |
+|---|---:|---:|---:|---:|---:|---:|
+| `/tr` | 89 | 100 | 100 | 3,8 s | 40 ms | 259 KB |
+| `/tr/konfigurator` | 93 | 100 | 100 | 3,2 s | 70 ms | 516 KB (three.js yalnız burada, K-24) |
+| `/tr/blog` | 92 | 100 | 100 | 3,3 s | 0 ms | 313 KB |
+
+Yapılanlar: `sideEffects: false` (K-70; ana sayfa JS 626 → 259 KB gz), konfigüratör `frameloop="demand"` + dpr ≤ 1,5 + gölge 1024 + curveSegments 6 + sahne boş anda (perf 70 → 93, TBT 1.090 → 70 ms).
+Açık: ana sayfa LCP hero metni/fonta bağlı (3,8 s lab); font alt-kümeleme (`pyftsubset`) yerelde fonttools olmadığından yapılmadı; CI eşiği 0,90 sınırda — üretim URL'sinde 3 koşu ile izlenmeli. SEO puanı yerelde `noindex` ve canonical host farkından düşük çıkar (beklenen).
+

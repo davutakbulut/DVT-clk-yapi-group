@@ -123,6 +123,8 @@ lint · typecheck · vitest · build · madge --circular · npm audit · Lightho
 ## Yedekleme
 
 - Supabase günlük yedek + PITR (Pro plan)
-- **Faz 31'de bir kez geri yükleme tatbikatı** yapılacak, süresi kayda geçecek
+- İkinci hat (K-69): `npm run backup:export` → `backups/<zaman>/` (84 tablo + auth kullanıcıları, JSON; kişisel veri — gitignore, şifreli disk)
+- **Geri yükleme tatbikatı (Faz 31, 2026-09-18):** `npm run backup:drill` — boş PGlite + şim + 40 migration **1,0 s**, veri **0,4 s**, toplam **1,5 s**; tüm tablolar birebir, örnek doğrulama (yayındaki hizmet 4, menü öğesi 29). Rapor: `backups/<zaman>/RESTORE-REPORT.md`
+- Ürün sahibi: Supabase dashboard'dan gerçek anlık görüntü geri yükleme provası (PITR, Pro plan) — süresi buraya yazılacak
 
 > "Hiç denenmemiş yedek, yedek değildir." Geri yükleme prosedürü ilk kez gerçek bir kriz anında denenmemeli.

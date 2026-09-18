@@ -60,3 +60,6 @@ cleanup-marketplace.sql
 
 # Claude — kişisel izinler (paylaşılmaz)
 .claude/settings.local.json
+
+# Yedek dışa aktarımları (kişisel veri içerir — ASLA COMMIT EDİLMEZ)
+backups/

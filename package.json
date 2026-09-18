@@ -2,6 +2,10 @@
   "name": "clk-yapi-group",
   "version": "0.5.0",
   "private": true,
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
   "engines": {
     "node": ">=22.18"
   },
@@ -24,7 +28,9 @@
     "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
     "db:report": "node scripts/generate-schema-report.mjs",
     "media:migrate": "node --env-file=.env.local scripts/media-migrate.mjs",
-    "media:report": "node --env-file=.env.local scripts/generate-media-report.mjs"
+    "media:report": "node --env-file=.env.local scripts/generate-media-report.mjs",
+    "backup:export": "node --env-file=.env.local scripts/backup-export.mjs",
+    "backup:drill": "node scripts/backup-restore-drill.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

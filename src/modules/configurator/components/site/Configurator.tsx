@@ -42,6 +42,13 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
   const format = useFormatter();
   const [params, setParams] = useState<Params>(initial);
   const [copied, setCopied] = useState(false);
+  // 3D sahne ilk boyamadan sonra, boş anda yüklenir (Faz 31: three.js ayrıştırması LCP/TBT penceresinin dışına)
+  const [sceneReady, setSceneReady] = useState(false);
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) w.requestIdleCallback(() => setSceneReady(true), { timeout: 1500 });
+    else window.setTimeout(() => setSceneReady(true), 300);
+  }, []);
   const structure = useMemo(() => buildStructure(params, { trussThresholdM, purlinSpacingM }), [params, trussThresholdM, purlinSpacingM]);
 
   // İlk yükleme: sorgu dizesi > taslak > varsayılan
@@ -136,7 +143,7 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
         </p>
       </aside>
       <div className="configurator-canvas" role="img" aria-label={t('canvasLabel', { width: params.width, length: params.length })}>
-        <Scene structure={structure} profileMap={profileMap} />
+        {sceneReady ? <Scene structure={structure} profileMap={profileMap} /> : <div className="configurator-canvas-loading" aria-hidden="true" />}
       </div>
     </div>
   );

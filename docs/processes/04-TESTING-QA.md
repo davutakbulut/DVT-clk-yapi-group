@@ -83,3 +83,9 @@ lint · typecheck · vitest · build · madge --circular · npm audit · Lightho
 ```
 
 `main` korumalı — CI geçmeden merge edilemez.
+
+## Faz 31 eklemeleri
+
+- `e2e/accessibility-audit.spec.ts`: 21 ön yüz sayfası (mobil + desktop) ve 17 panel ekranı axe (WCAG 2.1 AA) ihlalsiz; yeni sayfa eklenince `PUBLIC_PAGES`/`ADMIN_PAGES` listesine yazılır.
+- Yedek: `npm run backup:export` (üretimden JSON) → `npm run backup:drill` (PGlite'ta sıfırdan kurulum + geri yükleme + sayı doğrulama, rapor). Her büyük migration sonrası bir kez koşturulur.
+

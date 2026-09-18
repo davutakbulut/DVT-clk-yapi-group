@@ -1,5 +1,5 @@
 import { createServerClient } from '@/core/db/createServerClient';
-import { INDEXNOW_JOB_KEY, readIndexNowKey } from '@/core/jobs/indexNow';
+import { INDEXNOW_JOB_KEY, readIndexNowKey } from '@/core/jobs/indexNowParse';
 
 export interface IndexNowStatus {
   readonly configured: boolean;
