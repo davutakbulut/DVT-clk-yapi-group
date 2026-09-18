@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 29 — Konfigüratör admin + satışa dönüştür ⏳ (sırada) · Faz 1–28 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 30 — AI görünürlük · IndexNow · RSS ⏳ (sırada) · Faz 1–29 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -293,7 +293,11 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `SavePanel` (bal küpü, hız sınırı `CONFIG_RATE_LIMIT`, sunucu metrajı yeniden hesaplar) · paylaşım `/konfigurator/k/[token]` (model + yeni sürüm + fiyat anahtarı + teklif formu kaynak `configurator`) · yazdır `/konfigurator/k/[token]/yazdir` (K-67: tarayıcı PDF'i) · Hesabım "Konfigürasyonlarım"
   - [x] `leads`: kaynak `configurator`, `LeadFormSection` `hiddenFields`; E2E `configurator-save.spec.ts` (kapı → kaydet → paylaşım → yazdır → teklif TLP-; üye fiyat paneli + Hesabım)
   - [ ] *Ürün sahibi:* `price_map` kodları + `material_prices` (çelik kg/ton, panel m², civata adet) — girilmeden fiyat kutusu "hesaplanamadı" der
-- [ ] **Faz 29** — Konfigüratör admin + satışa dönüştür
+- [x] **Faz 29** — Konfigüratör admin + satışa dönüştür ✅
+  - [x] Admin `/admin/configurator` (gönderimler: sahip [üye adı / anonim e-posta], sürüm, tonaj, fiyat, durum süzgeci) · `/admin/configurator/[id]` (ölçüler, güncel sürüm metrajı, sürüm geçmişi, paylaşım/talep/satış bağlantıları, **satışa dönüştür**, arşivle) · `/admin/configurator/rules` (`RulesForm`: kafes eşiği, aşık aralığı, işçilik, limit JSON, eleman→profil [datalist + katalog uyarısı], fiyat kalemi→malzeme) · talep detayında "Konfigürasyonu aç"
+  - [x] `0040_configuration_to_sale.sql` — `create_sale_from_configuration` (yalnız talebi olan kayıt: `create_sale_from_lead` → müşteri+satış; metraj kalemleri satış kalemi kg/m²/m/adet, birim fiyat 0 satışçı doldurur; `sales.configuration_id`, durum `converted_to_sale`)
+  - [x] `data/adminConfigurationsRepository` (leads/sales iki yönlü FK → ayrı sorgular) · `actions` `saveRules` · `convertConfigurationToSale` · `archiveConfiguration`; nav `configurations`/`configuratorRules`; mesajlar
+  - [x] E2E `configurator-admin.spec.ts` (anonim kayıt + talep → liste "Talebe dönüştü" → detay → satışa dönüştür → satış kalemleri; kurallar formu kaydet/geri al); cleanup satışları talepten önce siler
 
 ## v2.0 — İleri Seviye
 

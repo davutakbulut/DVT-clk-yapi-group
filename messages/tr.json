@@ -163,7 +163,9 @@
       "errorLogs": "Hata Takip",
       "brokenLinks": "Kırık Linkler",
       "vitals": "Yavaş Sayfalar",
-      "steelProfiles": "Çelik Profiller"
+      "steelProfiles": "Çelik Profiller",
+      "configurations": "Konfigüratör Gönderimleri",
+      "configuratorRules": "Konfigüratör Kuralları"
     },
     "common": {
       "save": "Kaydet",
@@ -1316,6 +1318,67 @@
         "bracing": "Çapraz",
         "wind_column": "Rüzgar kolonu",
         "other": "Diğer"
+      }
+    },
+    "configurations": {
+      "title": "Konfigüratör Gönderimleri",
+      "lead": "Ziyaretçi ve üyelerin kaydettiği konfigürasyonlar: sürüm, tonaj, tahmini fiyat, talep ve satış bağlantıları. Talebi olan kayıt satışa dönüştürülür.",
+      "count": "{count} kayıt",
+      "ref": "Ref",
+      "name": "Ad",
+      "owner": "Sahip",
+      "version": "Sürüm",
+      "tonnage": "Tonaj",
+      "price": "Tahmini fiyat",
+      "updated": "Güncelleme",
+      "items": "Metraj (güncel sürüm)",
+      "versions": "Sürümler",
+      "links": "Bağlantılar",
+      "share": "Paylaşım sayfası",
+      "openLead": "Talebi aç",
+      "noLead": "Henüz teklif talebi yok — satışa dönüştürmek için talep gerekir (müşteri kimliği).",
+      "convertSale": "Satışa dönüştür",
+      "archive": "Arşivle",
+      "openConfiguration": "Konfigürasyonu aç",
+      "statuses": {
+        "saved": "Kayıtlı",
+        "converted_to_lead": "Talebe dönüştü",
+        "converted_to_sale": "Satışa dönüştü",
+        "archived": "Arşiv"
+      }
+    },
+    "configuratorRules": {
+      "title": "Konfigüratör Kuralları",
+      "lead": "Sistem seçimi, aşık aralığı, işçilik katsayısı, parametre sınırları, eleman → profil ve fiyat kalemi → malzeme eşlemeleri. Yalnız yönetici.",
+      "system": "Sistem ve sınırlar",
+      "trussThreshold": "Kafes eşiği (m)",
+      "trussThresholdHint": "Bu açıklığın üstünde kafes makas",
+      "purlinSpacing": "Aşık aralığı (m)",
+      "laborFactor": "İşçilik katsayısı",
+      "laborFactorHint": "Malzeme bedeli × katsayı (1 = işçilik yok)",
+      "limits": "Parametre sınırları (JSON)",
+      "limitsHint": "width, length, eave, ridge_extra, bay için min/max/step (m)",
+      "profileMap": "Eleman → profil",
+      "profileMapHint": "Kod, Çelik Profiller kataloğundaki aktif bir kodla eşleşmeli; eşleşmezse metraj o satırı ağırlıksız gösterir.",
+      "missingProfile": "Katalogda aktif değil",
+      "priceMap": "Fiyat kalemi → malzeme",
+      "priceMapHint": "Çelik: kg ya da ton birimli; paneller: m²; civata: adet. Boş bırakılan kalem fiyatlanmaz.",
+      "profileKeys": {
+        "column": "Kolon",
+        "rafter": "Makas",
+        "secondary": "İkincil kiriş",
+        "wind_column": "Rüzgar kolonu",
+        "purlin_small_bay": "Aşık (aks ≤ 5 m)",
+        "purlin_large_bay": "Aşık (aks > 5 m)",
+        "brace": "Çapraz",
+        "truss_chord": "Kafes başlık",
+        "door_frame": "Kapı çerçevesi"
+      },
+      "priceKeys": {
+        "steel": "Çelik",
+        "roof_panel": "Çatı paneli",
+        "wall_panel": "Duvar/alın paneli",
+        "bolt": "Civata"
       }
     }
   },

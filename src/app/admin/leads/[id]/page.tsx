@@ -1,3 +1,4 @@
+import NextLink from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
@@ -97,6 +98,11 @@ export default async function AdminLeadDetailPage({ params }: { readonly params:
           <div className="flex flex-wrap items-center gap-3 border-t pt-3">
             <ConvertLeadButton leadId={l.id} customerId={l.customer_id} canWrite={canWrite} />
             <ConvertLeadToSaleButton leadId={l.id} canWrite={canWrite} />
+            {l.configuration_id ? (
+              <NextLink href={`/admin/configurator/${l.configuration_id}`} className="text-sm underline underline-offset-4">
+                {t('configurations.openConfiguration')}
+              </NextLink>
+            ) : null}
           </div>
         </FormSection>
         <FormSection title={t('leads.notes')}>

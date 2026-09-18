@@ -163,7 +163,9 @@
       "errorLogs": "Error Tracking",
       "brokenLinks": "Broken Links",
       "vitals": "Slow Pages",
-      "steelProfiles": "Steel Profiles"
+      "steelProfiles": "Steel Profiles",
+      "configurations": "Configurator Submissions",
+      "configuratorRules": "Configurator Rules"
     },
     "common": {
       "save": "Save",
@@ -1316,6 +1318,67 @@
         "bracing": "Bracing",
         "wind_column": "Wind column",
         "other": "Other"
+      }
+    },
+    "configurations": {
+      "title": "Configurator Submissions",
+      "lead": "Configurations saved by visitors and members: version, tonnage, estimated price, lead and sale links. A configuration with a lead can be converted to a sale.",
+      "count": "{count} records",
+      "ref": "Ref",
+      "name": "Name",
+      "owner": "Owner",
+      "version": "Version",
+      "tonnage": "Tonnage",
+      "price": "Estimated price",
+      "updated": "Updated",
+      "items": "Take-off (current version)",
+      "versions": "Versions",
+      "links": "Links",
+      "share": "Share page",
+      "openLead": "Open lead",
+      "noLead": "No quote request yet — a lead is required to convert to a sale (customer identity).",
+      "convertSale": "Convert to sale",
+      "archive": "Archive",
+      "openConfiguration": "Open configuration",
+      "statuses": {
+        "saved": "Saved",
+        "converted_to_lead": "Converted to lead",
+        "converted_to_sale": "Converted to sale",
+        "archived": "Archived"
+      }
+    },
+    "configuratorRules": {
+      "title": "Configurator Rules",
+      "lead": "System selection, purlin spacing, labor factor, parameter limits, element → profile and price item → material maps. Admin only.",
+      "system": "System and limits",
+      "trussThreshold": "Truss threshold (m)",
+      "trussThresholdHint": "Truss above this span",
+      "purlinSpacing": "Purlin spacing (m)",
+      "laborFactor": "Labor factor",
+      "laborFactorHint": "Material cost × factor (1 = no labor)",
+      "limits": "Parameter limits (JSON)",
+      "limitsHint": "min/max/step (m) for width, length, eave, ridge_extra, bay",
+      "profileMap": "Element → profile",
+      "profileMapHint": "The code must match an active code in the Steel Profiles catalog; otherwise the take-off shows that row without weight.",
+      "missingProfile": "Not active in catalog",
+      "priceMap": "Price item → material",
+      "priceMapHint": "Steel: kg or ton unit; panels: m²; bolts: piece. An empty item is not priced.",
+      "profileKeys": {
+        "column": "Column",
+        "rafter": "Rafter",
+        "secondary": "Secondary beam",
+        "wind_column": "Wind column",
+        "purlin_small_bay": "Purlin (bay ≤ 5 m)",
+        "purlin_large_bay": "Purlin (bay > 5 m)",
+        "brace": "Bracing",
+        "truss_chord": "Truss chord",
+        "door_frame": "Door frame"
+      },
+      "priceKeys": {
+        "steel": "Steel",
+        "roof_panel": "Roof panel",
+        "wall_panel": "Wall/gable panel",
+        "bolt": "Bolts"
       }
     }
   },

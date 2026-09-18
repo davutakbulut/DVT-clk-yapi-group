@@ -5247,6 +5247,10 @@ export type Database = {
         Args: { p_lead_id: string }
         Returns: string
       }
+      create_sale_from_configuration: {
+        Args: { p_configuration_id: string }
+        Returns: string
+      }
       create_sale_from_lead: { Args: { p_lead_id: string }; Returns: string }
       enqueue_test_email: {
         Args: { p_locale: string; p_template_key: string }

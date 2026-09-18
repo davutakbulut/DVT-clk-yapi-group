@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'steelProfiles' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -17,6 +17,8 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'solutions', href: '/admin/solutions', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'pricing', href: '/admin/pricing', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'materialPrices', href: '/admin/pricing/materials', roles: ['super_admin', 'admin'] },
+  { key: 'configurations', href: '/admin/configurator', roles: ['super_admin', 'admin', 'sales', 'viewer', 'editor'] },
+  { key: 'configuratorRules', href: '/admin/configurator/rules', roles: ['super_admin', 'admin'] },
   { key: 'steelProfiles', href: '/admin/configurator/profiles', roles: ['super_admin', 'admin'] },
   { key: 'testimonials', href: '/admin/testimonials', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'notifications', href: '/admin/notifications' },

@@ -32,6 +32,18 @@ for (const [table, prefix] of [
   }
 }
 {
+  const { data: e2eLeads } = await client.from('leads').select('id').like('full_name', 'E2E %');
+  const leadIds = (e2eLeads ?? []).map((l) => l.id);
+  const { data } = await client.from('sales').select('id, sale_no, notes').or(`notes.like.E2E %${leadIds.length ? `,lead_id.in.(${leadIds.join(',')})` : ''}`);
+  for (const row of data ?? []) {
+    // Fatura/tahsilat restrict → önce alt kayıtlar
+    await client.from('payments').delete().eq('sale_id', row.id);
+    await client.from('invoices').delete().eq('sale_id', row.id);
+    await client.from('payment_schedules').delete().eq('sale_id', row.id);
+    const { error: e } = await client.from('sales').delete().eq('id', row.id);
+    console.log('sales', row.sale_no, e ? `HATA ${e.message}` : 'silindi');
+  }
+{
   const { data } = await client.from('leads').select('id, full_name').like('full_name', 'E2E %');
   for (const row of data ?? []) {
     const { error: e } = await client.from('leads').delete().eq('id', row.id);
@@ -81,16 +93,6 @@ for (const [table, col, pattern] of [
     console.log('customers', row.company_title ?? row.full_name, e ? `HATA ${e.message}` : 'silindi');
   }
 }
-{
-  const { data } = await client.from('sales').select('id, sale_no, notes').like('notes', 'E2E %');
-  for (const row of data ?? []) {
-    // Fatura/tahsilat restrict → önce alt kayıtlar
-    await client.from('payments').delete().eq('sale_id', row.id);
-    await client.from('invoices').delete().eq('sale_id', row.id);
-    await client.from('payment_schedules').delete().eq('sale_id', row.id);
-    const { error: e } = await client.from('sales').delete().eq('id', row.id);
-    console.log('sales', row.sale_no, e ? `HATA ${e.message}` : 'silindi');
-  }
 }
 {
   const { data } = await client.from('error_logs').select('id, message').or('message.like.E2E %,module.eq.e2e,path.like./tr/e2e-yok-sayfa-%');

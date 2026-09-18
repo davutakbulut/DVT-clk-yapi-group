@@ -26,6 +26,8 @@ export interface LeadDetail extends LeadRow {
   readonly service_id: string | null;
   readonly assigned_to: string | null;
   readonly customer_id: string | null;
+  /** Faz 28: konfigüratörden gelen talep. */
+  readonly configuration_id: string | null;
   readonly quoted_amount: number | null;
   readonly quoted_currency: string | null;
   readonly lost_reason: string | null;

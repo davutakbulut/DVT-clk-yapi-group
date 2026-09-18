@@ -9,3 +9,4 @@ export { TakeoffPanel } from './components/site/TakeoffPanel';
 export { SteelProfileForm } from './components/admin/SteelProfileForm';
 export { computePrice, type PriceTable, type PriceEstimate } from './domain/pricing';
 export { PrintButton } from './components/site/PrintButton';
+export { RulesForm } from './components/admin/RulesForm';

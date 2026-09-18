@@ -162,3 +162,100 @@ export async function setSharing(formData: FormData): Promise<void> {
   if (error) logger.warn('Paylasim ayari kaydedilemedi', { module: 'configurator', code: error.code });
   revalidatePath('/[locale]/(configurator)/configurator/k/[token]', 'page');
 }
+
+// ── Faz 29 · admin: kurallar, satışa dönüştür
+import { redirect } from 'next/navigation';
+import { limitsSchema } from './domain/params';
+import { DEFAULT_PROFILE_MAP } from './domain/profiles';
+import type { ProfileKey } from './domain/structure';
+
+const PROFILE_KEYS = Object.keys(DEFAULT_PROFILE_MAP) as ProfileKey[];
+const PRICE_KEYS = ['steel', 'roof_panel', 'wall_panel', 'bolt'] as const;
+const code = z.string().trim().regex(/^[A-Za-z0-9.x_-]{0,40}$/);
+const rulesSchema = z.object({
+  trussThresholdM: z.coerce.number().positive().max(200),
+  purlinSpacingM: z.coerce.number().positive().max(5),
+  laborFactor: z.coerce.number().min(1).max(10),
+  limits: z.string().max(2000),
+});
+
+/** Kurallar (configurator_rules, yalnız admin RLS): eşik, aşık aralığı, işçilik, limitler (JSON), profil ve fiyat eşlemeleri. */
+export async function saveRules(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(ADMINS);
+  if (!gate.ok) return failed('forbidden');
+  const raw = Object.fromEntries(formData);
+  const parsed = rulesSchema.safeParse({ ...raw, trussThresholdM: String(raw['trussThresholdM'] ?? '').replace(',', '.'), purlinSpacingM: String(raw['purlinSpacingM'] ?? '').replace(',', '.'), laborFactor: String(raw['laborFactor'] ?? '').replace(',', '.') });
+  if (!parsed.success) return failed('validation', issues(parsed.error));
+  let limits: unknown;
+  try {
+    limits = JSON.parse(parsed.data.limits);
+  } catch {
+    return failed('validation', { limits: 'validation' });
+  }
+  const limitsParsed = limitsSchema.safeParse(limits);
+  if (!limitsParsed.success) return failed('validation', { limits: 'validation' });
+  const profileMap: Record<string, string> = {};
+  for (const k of PROFILE_KEYS) {
+    const c = code.safeParse(raw[`profile_${k}`] ?? '');
+    if (!c.success) return failed('validation', { [`profile_${k}`]: 'validation' });
+    profileMap[k] = c.data || DEFAULT_PROFILE_MAP[k];
+  }
+  const priceMap: Record<string, string> = {};
+  for (const k of PRICE_KEYS) {
+    const c = code.safeParse(raw[`price_${k}`] ?? '');
+    if (!c.success) return failed('validation', { [`price_${k}`]: 'validation' });
+    priceMap[k] = c.data;
+  }
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  const rows = [
+    { key: 'limits', value: limitsParsed.data as unknown as Json },
+    { key: 'truss_threshold_m', value: parsed.data.trussThresholdM },
+    { key: 'purlin_spacing_m', value: parsed.data.purlinSpacingM },
+    { key: 'labor_factor', value: parsed.data.laborFactor },
+    { key: 'profile_map', value: profileMap },
+    { key: 'price_map', value: priceMap },
+  ];
+  for (const row of rows) {
+    const { error } = await client.data.from('configurator_rules').upsert({ key: row.key, value: row.value as Json }, { onConflict: 'key' });
+    if (error) {
+      logger.error('Kural kaydedilemedi', { module: 'configurator', key: row.key, code: error.code, message: error.message });
+      return failed(dbErrorKey(error.code));
+    }
+  }
+  revalidateTag(CACHE_TAGS.configurator);
+  revalidatePath('/admin/configurator/rules');
+  return DONE;
+}
+
+/** Konfigürasyon → satış (RPC, sales/admin): talebi olmalı; kalemler satış kalemi olur, fiyat satışçı girer. */
+export async function convertConfigurationToSale(formData: FormData): Promise<void> {
+  const gate = await requireRole(['super_admin', 'admin', 'sales']);
+  if (!gate.ok) return;
+  const id = z.string().uuid().safeParse(formData.get('id'));
+  if (!id.success) return;
+  const client = await createServerClient();
+  if (!client.ok) return;
+  const { data, error } = await client.data.rpc('create_sale_from_configuration', { p_configuration_id: id.data });
+  if (error || !data) {
+    logger.error('Konfigurasyon satisa donusturulemedi', { module: 'configurator', code: error?.code, message: error?.message });
+    return;
+  }
+  revalidatePath(`/admin/configurator/${id.data}`);
+  revalidatePath('/admin/configurator');
+  revalidatePath('/admin/sales');
+  redirect(`/admin/sales/${data}`);
+}
+
+export async function archiveConfiguration(formData: FormData): Promise<void> {
+  const gate = await requireRole(['super_admin', 'admin', 'sales']);
+  if (!gate.ok) return;
+  const id = z.string().uuid().safeParse(formData.get('id'));
+  if (!id.success) return;
+  const client = await createServerClient();
+  if (!client.ok) return;
+  const { error } = await client.data.from('configurations').update({ status: 'archived' }).eq('id', id.data);
+  if (error) logger.error('Konfigurasyon arsivlenemedi', { module: 'configurator', code: error.code, message: error.message });
+  revalidatePath('/admin/configurator');
+  revalidatePath(`/admin/configurator/${id.data}`);
+}

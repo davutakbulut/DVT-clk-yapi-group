@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 29 · Konfigüratör admin + satışa dönüştür
+- `configurator` modülü: `data/adminConfigurationsRepository` · `RulesForm` · `actions` (`saveRules`, `convertConfigurationToSale`, `archiveConfiguration`); route'lar `app/admin/configurator` (liste · `[id]` · `rules`); talep detayı bağlantısı; nav; mesajlar `Admin.configurations`, `Admin.configuratorRules`
+- `supabase/migrations/0040_configuration_to_sale.sql` (`create_sale_from_configuration`); `e2e/configurator-admin.spec.ts`; cleanup sıralaması
+
 ### Eklendi — Faz 28 · Fiyat, kaydetme, teklif, PDF
 - `configurator` modülü: `domain/pricing` (2 test) · `data/pricesRepository` · `data/configurationsRepository` · `actions` (`saveConfiguration`, `setSharing`) · `PricePanel` · `SavePanel` · `PrintButton` · `MyConfigurations`; `rulesRepository` `price_map`
 - Route'lar `app/[locale]/(configurator)/configurator/k/[token]` (+ `/print`); `/konfigurator/k/[token]`, `/yazdir`; Hesabım listesi; `leads` kaynak `configurator` + `configurationToken`; CSS kapı/yazdır
