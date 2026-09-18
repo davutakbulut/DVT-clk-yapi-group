@@ -35,6 +35,10 @@ export function LanguageSwitcher() {
 
   function targetFor(locale: Locale): AppHref | null {
     if (alternates) return alternates.hrefs[locale] ?? alternates.fallback;
+    // Dinamik slug'lı sayfa, alternatifler henüz kaydedilmedi (SSR / JS'siz): slug karşı dilde farklıdır ya da hiç yoktur →
+    // 404'e bağlanmak yerine bölüm listesine in ('/services/[slug]' → '/services'). Hidrasyonda tam hedefle değişir.
+    const dynamicAt = pathname.indexOf('/[');
+    if (dynamicAt !== -1 && locale !== activeLocale) return (pathname.slice(0, dynamicAt) || '/') as AppHref;
     // Sabit segmentli sayfa: şablon + mevcut parametreler yeterli, next-intl segmentleri çevirir.
     return { pathname, params } as AppHref;
   }

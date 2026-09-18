@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Düzeltildi — ölü bağlantılar · yerel sunucu kararlılığı
+- Footer yasal bağlantıları: taslak/yayınlanmamış yasal sayfalar (gizlilik, çerez, KVKK, kullanım koşulları) 404 veriyordu ama footer'da bağlıydı → `getMenu` o dilde yayında olmayan yasal yolları gizler (metin girilip yayınlanınca kendiliğinden görünür)
+- Dil değiştirici (SSR/JS'siz): slug'lı sayfada karşı dil yayında değilken 404'e bağlanıyordu → bölüm listesine iner; hidrasyonda tam hedef
+- Dev sunucusu `.next-dev` klasörüne yazar (`next.config.ts` `distDir`): E2E/üretim derlemesi `.next`'i yazarken açık dev sunucusu bozulmuyor ("Internal Server Error" = bozuk `prerender-manifest.json` idi); `tsconfig` iki tip klasörünü de içerir
+- Tarama: TR + EN ana sayfadan iki seviye, 57 sayfa → hepsi 200
+
 ### Düzeltildi — Scroll video hero gerçekten devrede · header yerleşimi
 - **Hero:** scrub bileşeni Faz 6'dan beri koddaydı ama aktif `hero_media` kaydına video hiç bağlanmamıştı → site desenli yedek hero'yu gösteriyordu. `scripts/hero-video-build.mjs` (ffmpeg): masaüstü 1280p **`-g 1`** (6,4 MB), mobil/tablet 854p `-g 1` (1,9 MB), posterler = ilk kare (WebP) → Storage + `media_library` + aktif hero kaydı
 - `HeroVideo`: tablet (≥ 768) düşük çözünürlüklü kaynakla scrub, telefon otomatik döngü, `matchMedia` dinleyicileri, önceki seek bitmeden yenisi yok, seek gecikmesi ölçümü → zayıf cihazda döngüye düşüş, `--hero-progress`

@@ -34,6 +34,8 @@ const SECURITY = [
 ];
 
 const nextConfig: NextConfig = {
+  // Dev sunucusu ayrı klasöre yazar: E2E/üretim derlemesi (.next) çalışırken dev sunucusu açık kalabilir, manifestler çakışmaz.
+  distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
   poweredByHeader: false,
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın
