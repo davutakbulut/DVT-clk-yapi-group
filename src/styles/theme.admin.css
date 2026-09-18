@@ -391,5 +391,15 @@
     color: #fff;
     background: var(--charcoal);
   }
+  /* Mobil taşma: <select> en uzun seçeneği kadar genişler (uzun medya yolları) ve ızgara öğesi min-width:auto ile sütunu,
+     sütun da belgeyi genişletir → sayfa cihazdan geniş çizilir, dokunma hedefleri kayar. Seçim kutusu kabına sığar. */
+  [data-surface='admin'] main select {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+  [data-surface='admin'] main :where(.grid) > * {
+    min-width: 0;
+  }
 }
 

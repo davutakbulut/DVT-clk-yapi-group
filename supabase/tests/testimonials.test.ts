@@ -65,4 +65,10 @@ describe('0027 · müşteri yorumları', () => {
     expect(editorWrite).toBe(0);
     expect(await as(db, anon, (tx) => count(tx, `select * from public.site_settings where key = 'reviews.google_place_id'`))).toBe(0);
   });
+
+  it('0045: örnek işareti yalnız elle yazılan kayıtta; ziyaretçi/Google kaydı örnek olamaz', async () => {
+    await db.query(`insert into public.testimonials (source, author_name, rating, body, status, is_sample) values ('manual', 'Örnek Müşteri', 5, '{"tr": "örnek"}', 'published', true)`);
+    await expect(db.query(`insert into public.testimonials (source, external_id, author_name, rating, body, is_sample) values ('google', 'places/1/reviews/s', 'G', 5, '{"tr": "x"}', true)`)).rejects.toThrow(/sample_manual_only/);
+    await expect(db.query(`update public.testimonials set is_sample = true where source = 'visitor'`)).rejects.toThrow(/sample_manual_only/);
+  });
 });

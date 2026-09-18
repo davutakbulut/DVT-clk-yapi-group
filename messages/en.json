@@ -1776,7 +1776,7 @@
   "Testimonials": {
     "title": "Customer Reviews",
     "kicker": "Reviews",
-    "homeTitle": "What Our Clients Say",
+    "homeTitle": "What our clients say",
     "lead": "All published customer reviews. Google reviews are synced regularly; visitor reviews appear after approval.",
     "empty": "No reviews published yet.",
     "all": "All reviews",
@@ -1808,7 +1808,14 @@
     "homeLead": "Experiences in our clients' own words. Google reviews are synced regularly; every review is verified before it is published.",
     "sourceGoogle": "Google review",
     "sourceVisitor": "Visitor review",
-    "sourceCustomer": "Client testimonial"
+    "sourceCustomer": "Client testimonial",
+    "invite": {
+      "lead": "Reviews come only from real customers and are published here once approved.",
+      "title": "Be the first to leave a review",
+      "body": "If you have worked with us, share your experience in a few sentences. Your review is published after moderation.",
+      "cta": "Write a review"
+    },
+    "sample": "Sample review"
   },
   "Configurator": {
     "title": "3D Configurator",
@@ -1963,8 +1970,6 @@
     }
   },
   "FieldVideos": {
-    "titleLead": "Videos",
-    "titleAccent": "from the Field",
     "lead": "Short clips from our sites and erection work.",
     "play": "Play video: {title}",
     "close": "Close video",
@@ -1973,6 +1978,8 @@
     "dotsLabel": "Choose video",
     "goTo": "Video {index}",
     "carouselLabel": "Videos from the field",
-    "frameTitle": "{title} · video"
+    "frameTitle": "{title} · video",
+    "kicker": "On site",
+    "title": "Videos from the field"
   }
 }

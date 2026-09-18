@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { reviewJsonLd, summarize } from '../domain/testimonials';
+import { realRatings, reviewJsonLd, summarize } from '../domain/testimonials';
 
 describe('testimonials domain', () => {
   it('özet: ortalama 1 ondalık, geçersiz puanlar düşer, boşsa null', () => {
@@ -15,5 +15,21 @@ describe('testimonials domain', () => {
     expect(ld[0]).toMatchObject({ '@type': 'AggregateRating', itemReviewed: { '@id': 'https://x/#service' }, ratingValue: 4, ratingCount: 12 });
     expect(ld[1]).toMatchObject({ '@type': 'Review', datePublished: '2026-01-02' });
     expect(reviewJsonLd([], { id: 'x', type: 'Product' })).toEqual([]);
+  });
+});
+
+// K-78: örnek kayıtlar gerçek yorum değildir → ortalamaya ve yapılandırılmış veriye girmez
+describe('örnek yorumlar', () => {
+  const real = { authorName: 'A', rating: 4, body: 'x', reviewedOn: null, isSample: false };
+  const sample = { authorName: 'Örnek Müşteri', rating: 5, body: 'örnek', reviewedOn: null, isSample: true };
+  it('realRatings örnekleri dışlar', () => {
+    expect(realRatings([real, sample])).toEqual([4]);
+    expect(summarize(realRatings([sample]))).toBeNull();
+  });
+  it('reviewJsonLd: yalnız örnek varsa hiç şema yok; karışıkta örnek sayılmaz', () => {
+    expect(reviewJsonLd([sample], { id: 'x#service', type: 'Service' })).toEqual([]);
+    const out = reviewJsonLd([real, sample], { id: 'x#service', type: 'Service' });
+    expect(out[0]).toMatchObject({ ratingCount: 1, ratingValue: 4 });
+    expect(JSON.stringify(out)).not.toContain('Örnek');
   });
 });

@@ -7,6 +7,18 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — tasarım kuralları, tek kalıp bölüm başlıkları, örnek yorumlar (K-78, K-79)
+- **`docs/design/04-DESIGN-RULES.md`:** kararsız kalınan noktaların kuralları (bölüm başlığı, renk, köşe/gölge, kart, carousel, buton, boş durum/örnek içerik, mobil, panel) + yeni bölüm kontrol listesi
+- **Bölüm başlıkları:** "Sahadan videolar" (05) ve "Müşteri değerlendirmeleri" (06) artık "Son yazılar" ile aynı kalıpta — numaralı kicker, sola hizalı, sağda ghost buton; altın vurgu ve 20px köşeler kaldırıldı
+- **Örnek yorumlar:** `0045` `testimonials.is_sample`; "Örnek yorum" rozeti, ortalama ve JSON-LD dışı; `scripts/sample-testimonials.mjs add|remove` (3 örnek kart eklendi)
+- **Düzeltme (mobil panel):** uzun medya yollu `<select>` sayfayı cihazdan geniş çizdiriyor, dokunma hedefleri kayıyordu → seçim kutuları kabına sığıyor; video şeridi `position: relative`
+
+### Eklendi — ana sayfada saha videoları içeriği + yorumlar davet kartı (K-77)
+- **Saha videoları içeriği:** `scripts/field-videos-build.mjs` — firmanın kendi saha fotoğraflarından 4 dikey (720×1280) derleme video + kapak üretir, Storage'a yükler, `field_videos` satırlarını yazar (yeniden çalıştırılabilir; panel metnini ezmez). `assets/videos` altındaki stok görüntüler saha videosu olarak KULLANILMADI
+- **Yorumlar:** yayında yorum yokken ana sayfa bölümü "İlk değerlendirmeyi siz yazın" davet kartıyla görünür (uydurma yorum yok); yorum gelince carousel
+- **Video şeridi:** masaüstünde 4 kart kaydırmasız sığar, şerit ortalanır; tüm kartlar sığıyorsa oklar gizlenir
+- **Test:** `field-videos.spec` — ana sayfada oynatıcı açılır, yorumlar bölümü carousel ya da davet kartı, axe + taşma denetimi
+
 ### Eklendi — Sahadan Videolar (ana sayfa + panel)
 - **Ana sayfa:** "Sahadan Videolar" bölümü — dikey 9:16 kartlar, oynat düğmesi, kart üstünde kısa alıntı, altında başlık. Masaüstünde şerit + sağ altta oklar; mobilde orta-kart (komşular eğik ve soluk), oklar + hap nokta. Video **yalnız tıklanınca** yüklenir: YouTube `youtube-nocookie.com` üzerinden gömülür, yüklenmiş dosya `<video>` ile oynar. Kayıt yoksa bölüm hiç çizilmez (uydurma içerik yok, tohum yok)
 - **Panel:** İçerik → **Sahadan Videolar** (`/admin/field-videos`): kaynak seçimi (YouTube bağlantısı — watch/youtu.be/shorts/embed — ya da medya kütüphanesinden video), kapak görseli, TR/EN başlık ve alıntı, sıra, yayında. Roller: super_admin/admin/editor yazar, viewer okur

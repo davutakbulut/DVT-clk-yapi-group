@@ -392,6 +392,21 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Neden:** YouTube gömmesi ~1 MB betik ve üçüncü taraf çerezi getirir → ilk yüklemede LCP/INP'yi ve çerez onayı yükümlülüğünü etkiler. Tıklayınca yükleme ikisini de ortadan kaldırır. Kendi dosyamız seçeneği, YouTube'a koymak istenmeyen saha görüntüleri içindir (Storage, dikey MP4).
 **Sonuç:** Tohum veri yok; kayıt yoksa bölüm çizilmez. Panelde İçerik grubunda ayrı sayfa. Büyük dosyalar için öneri YouTube (Storage kotası ve bant genişliği).
 
+### K-77 · İçerik yokken: saha videoları firmanın kendi fotoğraflarından derlenir; yorum UYDURULMAZ, davet kartı gösterilir
+**Karar:** Ürün sahibi iki bölümün ana sayfada dolu görünmesini istedi. (1) Saha videoları: elde gerçek video yoktu (`assets/videos` altındakiler stok görüntü — katedral animasyonu, bulut). `scripts/field-videos-build.mjs`, `assets/` altındaki gerçek iş fotoğraflarından dört dikey derleme video üretir (çelik ara kat, hol karkası, çatı terası, kutu profil karkas), Storage'a yükler ve `field_videos` satırlarını yazar. Başlıklar yalnız görüneni adlandırır; alıntı satırı "Saha fotoğraflarımızdan derleme" der. (2) Yorumlar: yayında yorum yokken bölüm, "İlk değerlendirmeyi siz yazın" davet kartıyla görünür; ilk gerçek yorum onaylanınca carousel'e döner.
+**Neden:** Sahte müşteri yorumu CLAUDE.md'de yasak; ayrıca yanıltıcı ticari uygulamadır (6502 sayılı Kanun, Ticari Reklam Yönetmeliği) ve Google yapılandırılmış veri kurallarına aykırıdır. Stok videoyu "şantiyemizden" diye sunmak da aynı sorunu taşır. Fotoğraf derlemesi gerçektir ve ne olduğu kartta yazar.
+**Sonuç:** Gerçek çekimler geldikçe panelden eklenir, derlemeler pasife alınır. Yer, metrekare, müşteri adı gibi doğrulanamayan bilgi yazılmadı. Veri HATASINDA bölüm hâlâ hiç çizilmez (Kural 3); davet kartı yalnız "sıfır yorum" durumudur.
+
+### K-78 · Örnek yorum: etiketli, ortalamaya ve yapılandırılmış veriye girmez
+**Karar:** Ürün sahibi yorumlar alanını içerikle görmek istedi. Uydurma müşteri adı/övgüsü yazılmadı. `testimonials.is_sample` (0045) eklendi: örnek kayıt sitede "Örnek yorum" rozetiyle görünür, metni örnek olduğunu söyler, `RatingBadge` ortalamasına ve `reviewJsonLd` çıktısına girmez. Yalnız `source = 'manual'` kayıt örnek olabilir (CHECK). Kayıtlar `scripts/sample-testimonials.mjs add|remove` ile yazılır; migration'da tohum yok.
+**Neden:** Sahte yorum yanıltıcı ticari uygulamadır ve Google'ın yorum şeması kurallarını ihlal eder; etiketli örnek ise kimseyi yanıltmaz ve tasarımın gerçek veriyle nasıl duracağını gösterir.
+**Sonuç:** Yayına çıkmadan önce `remove` çalıştırılır (ROADMAP engelleyiciler). Gerçek yorum gelince örnekler silinir.
+
+### K-79 · Tasarım kuralları dosyası; bölüm başlıkları tek kalıp
+**Karar:** Kararsız kalınan tasarım noktaları `docs/design/04-DESIGN-RULES.md`'de tutulur. İlk uygulama: "Sahadan videolar" ve "Müşteri değerlendirmeleri" bölümleri ortalanmış/iki renkli başlıktan `SectionHeading` kalıbına (numaralı kicker, sola hizalı, cümle düzeni) çekildi; altın vurgu ve 20px köşeler sistem tokenlarına (`--color-accent*`, `--radius-2`) döndürüldü.
+**Neden:** Referans görsellerden alınan renk ve köşe dili, "keskin, endüstriyel" sistemle çelişiyordu; bölümler farklı sitelerden kesilmiş gibi duruyordu.
+**Sonuç:** Referans görsel yalnız yerleşim fikri verir. Tek istisna yüzen WhatsApp penceresi.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

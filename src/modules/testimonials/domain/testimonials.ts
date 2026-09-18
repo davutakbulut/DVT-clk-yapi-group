@@ -4,6 +4,12 @@ export interface TestimonialSummary {
 }
 
 /** Toplu rozet ("4.9 / 5.0 · 127 Değerlendirme") yalnız yayındaki yorumlardan; boşsa null → rozet ve bölüm hiç render edilmez. */
+/** Rozet/ortalama için puanlar: örnek kayıtlar hariç (K-78). */
+export function realRatings(items: readonly { readonly rating: number; readonly isSample?: boolean }[]): number[] {
+  return items.filter((i) => !i.isSample).map((i) => i.rating);
+}
+
+/** Toplu rozet özeti. */
 export function summarize(ratings: readonly number[]): TestimonialSummary | null {
   const valid = ratings.filter((r) => Number.isFinite(r) && r >= 1 && r <= 5);
   if (valid.length === 0) return null;
@@ -16,9 +22,11 @@ export function summarize(ratings: readonly number[]): TestimonialSummary | null
  * `itemReviewed` sayfadaki varlığın @id'sidir; ana sayfa genel puanı ürün sayfasına taşınmaz.
  */
 export function reviewJsonLd(
-  items: readonly { readonly authorName: string; readonly rating: number; readonly body: string; readonly reviewedOn: string | null }[],
+  allItems: readonly { readonly authorName: string; readonly rating: number; readonly body: string; readonly reviewedOn: string | null; readonly isSample?: boolean }[],
   entity: { readonly id: string; readonly type: 'Service' | 'Product' | 'Project' },
 ): Record<string, unknown>[] {
+  // Örnek kayıtlar gerçek yorum değildir → yapılandırılmış veriye ASLA girmez (K-78)
+  const items = allItems.filter((i) => !i.isSample);
   const summary = summarize(items.map((i) => i.rating));
   if (!summary) return [];
   const out: Record<string, unknown>[] = [

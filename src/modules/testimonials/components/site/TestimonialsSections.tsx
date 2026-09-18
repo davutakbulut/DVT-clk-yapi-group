@@ -2,10 +2,11 @@ import { getFormatter, getTranslations } from 'next-intl/server';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
-import { Link } from '@/i18n/navigation';
+import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
+import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedTestimonials, type TestimonialData } from '../../data/testimonialsRepository';
-import { summarize } from '../../domain/testimonials';
+import { realRatings, summarize } from '../../domain/testimonials';
 import { Stars, TestimonialsCarousel, type CarouselItem } from './TestimonialsCarousel';
 
 function toCarousel(items: readonly TestimonialData[], supabaseUrl: string | null): CarouselItem[] {
@@ -17,6 +18,7 @@ function toCarousel(items: readonly TestimonialData[], supabaseUrl: string | nul
     rating: i.rating,
     body: i.body,
     isVerified: i.isVerified,
+    isSample: i.isSample,
     source: i.source,
     avatarSrc: i.avatar && supabaseUrl ? publicStorageUrl(supabaseUrl, i.avatar) : i.avatarUrl,
     reviewedOn: i.reviewedOn,
@@ -37,29 +39,49 @@ export async function RatingBadge({ ratings }: { readonly ratings: readonly numb
   );
 }
 
-/** Ana sayfa (footer'dan önce): yayında yorum yoksa bölüm HİÇ render edilmez. */
-export async function TestimonialsSection({ locale }: { readonly locale: string; readonly index?: string }) {
+/** Ana sayfa (footer'dan önce): yayında yorum varsa carousel, yoksa yorum yazmaya davet kartı (uydurma yorum yok). Veri hatasında hiç render edilmez. */
+export async function TestimonialsSection({ locale, index }: { readonly locale: string; readonly index?: string }) {
   const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readSupabasePublicEnv(), getTranslations('Testimonials')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'testimonials', code: result.error.code });
     return null;
   }
-  if (result.data.length === 0) return null;
+  // Yayında yorum yok: sahte yorum YAZILMAZ (CLAUDE.md) → bölüm dürüst bir davet kartıyla görünür; ilk gerçek yorum onaylanınca carousel'e döner
+  if (result.data.length === 0) {
+    return (
+      <section className="testimonials-section border-t border-[var(--color-border)]" aria-labelledby="testimonials-title">
+        <Container className="grid gap-8 py-[var(--section-y)]">
+          <SectionHeading index={index} kicker={t('kicker')} title={<span id="testimonials-title">{t('homeTitle')}</span>} lead={t('invite.lead')} />
+          <div className="testimonials-invite">
+            <span className="stars testimonials-invite-stars" aria-hidden="true">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <span key={i} className="star star-on">
+                  ★
+                </span>
+              ))}
+            </span>
+            <p className="testimonials-invite-title">{t('invite.title')}</p>
+            <p className="text-[var(--color-text-muted)]">{t('invite.body')}</p>
+            <Button href="/reviews">{t('invite.cta')}</Button>
+          </div>
+        </Container>
+      </section>
+    );
+  }
   const items = result.data.slice(0, 12);
   return (
-    <section className="testimonials-section" aria-labelledby="testimonials-title">
+    <section className="testimonials-section border-t border-[var(--color-border)]" aria-labelledby="testimonials-title">
       <Container className="grid gap-10 py-[var(--section-y)]">
-        <div className="testimonials-head">
-          <RatingBadge ratings={result.data.map((i) => i.rating)} />
-          <h2 id="testimonials-title">{t('homeTitle')}</h2>
-          <p className="text-[var(--color-text-muted)]">{t('homeLead')}</p>
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <SectionHeading index={index} kicker={t('kicker')} title={<span id="testimonials-title">{t('homeTitle')}</span>} lead={t('homeLead')} />
+          <div className="grid justify-items-start gap-3 sm:justify-items-end">
+            <RatingBadge ratings={realRatings(result.data)} />
+            <Button href="/reviews" variant="ghost">
+              {t('all')}
+            </Button>
+          </div>
         </div>
         <TestimonialsCarousel items={toCarousel(items, env.ok ? env.data.url : null)} />
-        <p className="text-center">
-          <Link href="/reviews" className="text-[length:var(--fs-sm)] font-medium underline underline-offset-4">
-            {t('all')}
-          </Link>
-        </p>
       </Container>
     </section>
   );
@@ -75,7 +97,7 @@ export async function TestimonialsFor({ items, headingId = 'entity-reviews' }: {
         <h2 id={headingId} className="text-[length:var(--fs-h3)]">
           {t('forEntity')}
         </h2>
-        <RatingBadge ratings={items.map((i) => i.rating)} />
+        <RatingBadge ratings={realRatings(items)} />
       </div>
       <TestimonialsCarousel items={toCarousel(items, env.ok ? env.data.url : null)} autoplayMs={8000} />
     </Container>

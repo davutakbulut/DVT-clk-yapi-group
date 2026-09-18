@@ -1664,7 +1664,7 @@
     transition: border-color 0.35s, box-shadow 0.35s;
   }
   .testimonial[data-active] .testimonial-card {
-    border: 2px solid #c9a35a;
+    border: 2px solid var(--color-accent);
     box-shadow: 0 24px 50px -18px rgb(15 19 21 / 0.28);
   }
   .testimonial-top {
@@ -1695,6 +1695,7 @@
   .t-badge-google { background: #eaf1fe; border-color: #cbdcfb; color: #1d4fbf; }
   .t-badge-manual { background: #fdeef0; border-color: #f8cdd3; color: #a3182f; }
   .t-badge-visitor { background: #f1f0fb; border-color: #d9d5f5; color: #4a3bb0; }
+  .t-badge-sample { background: var(--color-surface-dark); border-color: var(--color-surface-dark); color: var(--color-text-inverse); }
   .t-badge-verified { background: #e9f8ef; border-color: #bfe8cf; color: #14663a; }
   .testimonial-body { margin: 0; font-size: var(--fs-body-lg); font-style: italic; line-height: 1.55; color: var(--color-text); }
   .testimonial-body p { margin: 0; }
@@ -1709,11 +1710,11 @@
     font-size: var(--fs-sm);
     margin-top: auto;
   }
-  .testimonial-avatar { width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover; flex: none; border: 2px solid #c9a35a; }
+  .testimonial-avatar { width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover; flex: none; border: 2px solid var(--color-accent); }
   .testimonial-avatar-fallback { display: grid; place-items: center; background: var(--color-surface-dark); color: var(--color-text-inverse); font-weight: 700; }
   .testimonial-name { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; min-width: 0; }
-  .testimonial-name svg { color: #a87a1f; flex: none; }
-  .testimonial-role { font-size: var(--fs-xs); color: #8a6417; font-weight: 600; }
+  .testimonial-name svg { color: var(--color-accent-text); flex: none; }
+  .testimonial-role { font-size: var(--fs-xs); color: var(--color-accent-text); font-weight: 600; }
   .testimonial-date { margin-left: auto; font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; }
   .testimonials-arrow {
     position: absolute;
@@ -1727,11 +1728,11 @@
     border: 1px solid var(--color-border);
     border-radius: 50%;
     background: var(--color-bg);
-    color: #8a6417;
+    color: var(--color-accent-text);
     box-shadow: 0 10px 24px rgb(15 19 21 / 0.14);
     transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
   }
-  .testimonials-arrow:hover { transform: scale(1.06); border-color: #c9a35a; }
+  .testimonials-arrow:hover { transform: scale(1.06); border-color: var(--color-accent); }
   .testimonials-arrow-prev { left: max(0px, calc(50% - var(--card-w) / 2 - 78px)); }
   .testimonials-arrow-next { right: max(0px, calc(50% - var(--card-w) / 2 - 78px)); }
   .testimonials-dots { display: flex; align-items: center; justify-content: center; gap: var(--space-2); }
@@ -1754,7 +1755,7 @@
     transition: background-color 0.3s;
   }
   .testimonials-dot[aria-selected='true'] { width: 44px; }
-  .testimonials-dot[aria-selected='true']::before { background: #a87a1f; inset: 8px 4px; }
+  .testimonials-dot[aria-selected='true']::before { background: var(--color-accent-text); inset: 8px 4px; }
   @media (max-width: 639px) {
     /* Mobilde de orta-kart: kart 78vw → iki yandan komşu kartlar görünür; oklar kart kenarlarına biner */
     .testimonials-stage { --card-w: 78vw; }
@@ -1776,10 +1777,30 @@
     .testimonial { transition: none; }
   }
 
+  /* Yorum yokken davet kartı (K-77): carousel'in orta kartıyla aynı dil */
+  .testimonials-invite {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-4);
+    width: min(620px, 100%);
+    margin-inline: auto;
+    padding: var(--space-8) var(--space-6);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-2);
+    background: var(--color-surface);
+    box-shadow: 0 18px 40px rgb(15 19 21 / 0.1);
+    text-align: center;
+  }
+  .testimonials-invite-stars { font-size: 1.5rem; letter-spacing: 4px; }
+  .testimonials-invite-title { margin: 0; font-family: var(--font-heading); font-size: var(--fs-h3); font-weight: 700; text-wrap: balance; }
+  @media (max-width: 639px) {
+    .testimonials-invite { padding: var(--space-6) var(--space-5); }
+  }
+
   /* ── Sahadan videolar (K-76): dikey 9:16 kartlar; masaüstünde şerit + sağ altta oklar, mobilde orta-kart (komşular eğik) */
   .fv-section > .container-x { grid-template-columns: minmax(0, 1fr); }
-  .fv-accent { color: #a87a1f; }
-  .fv { display: grid; gap: var(--space-5); min-width: 0; --fv-w: clamp(220px, 21vw, 290px); }
+  /* Masaüstünde 4 kart kaydırmadan sığar: (kapsayıcı − 3 boşluk) / 4; az kart varsa şerit ortalanır */
+  .fv { display: grid; gap: var(--space-5); min-width: 0; --fv-w: clamp(220px, calc((100% - 3 * var(--space-5) - 2 * var(--space-1)) / 4), 300px); }
   .fv-track {
     display: flex;
     gap: var(--space-5);
@@ -1790,6 +1811,8 @@
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
+    justify-content: safe center;
+    position: relative; /* kaydırma kutusu kendi içeriğini kapsar (mobil taşma denetimi + sr-only tuzağı) */
   }
   .fv-track::-webkit-scrollbar { display: none; }
   .fv-item {
@@ -1805,7 +1828,7 @@
     position: relative;
     aspect-ratio: 9 / 16;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: var(--radius-2);
     background: var(--color-surface-dark);
     box-shadow: 0 14px 34px rgb(15 19 21 / 0.18);
   }
@@ -1843,7 +1866,7 @@
     padding-left: 3px;
     border-radius: 50%;
     background: rgb(255 255 255 / 0.94);
-    color: #8a6417;
+    color: var(--color-accent-text);
     box-shadow: 0 8px 22px rgb(0 0 0 / 0.3);
     transition: transform var(--dur-fast) var(--ease-out);
   }
@@ -1869,10 +1892,10 @@
     border: 1px solid var(--color-border);
     border-radius: 50%;
     background: var(--color-bg);
-    color: #8a6417;
+    color: var(--color-accent-text);
     transition: transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast);
   }
-  .fv-arrow:hover:not(:disabled) { transform: scale(1.06); border-color: #c9a35a; }
+  .fv-arrow:hover:not(:disabled) { transform: scale(1.06); border-color: var(--color-accent); }
   .fv-arrow:disabled { opacity: 0.4; cursor: default; }
   @media (max-width: 767px) {
     .fv { --fv-w: 62vw; }

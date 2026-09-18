@@ -56,11 +56,11 @@ export default async function HomePage({ params }: Props) {
       ) : null}
       {/* Sahadan videolar: kayıt yoksa bölüm hiç çizilmez */}
       <ModuleBoundary module="field-videos/home">
-        <FieldVideosSection locale={locale} />
+        <FieldVideosSection locale={locale} index="05" />
       </ModuleBoundary>
       {on('testimonials') ? (
         <ModuleBoundary module="testimonials/home">
-          <TestimonialsSection locale={locale} index="05" />
+          <TestimonialsSection locale={locale} index="06" />
         </ModuleBoundary>
       ) : null}
     </>

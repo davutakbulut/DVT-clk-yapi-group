@@ -11,6 +11,7 @@ export interface CarouselItem {
   readonly rating: number;
   readonly body: string;
   readonly isVerified: boolean;
+  readonly isSample?: boolean;
   readonly source: 'manual' | 'google' | 'visitor';
   readonly avatarSrc: string | null;
   readonly reviewedOn: string | null;
@@ -101,10 +102,14 @@ export function TestimonialsCarousel({ items, autoplayMs = 6000 }: { readonly it
             >
               <figure className="testimonial-card">
                 <div className="testimonial-top">
-                  <span className={`t-badge t-badge-${item.source}`}>
-                    <i aria-hidden="true" />
-                    {sourceLabel(item.source)}
-                  </span>
+                  {item.isSample ? (
+                    <span className="t-badge t-badge-sample">{t('sample')}</span>
+                  ) : (
+                    <span className={`t-badge t-badge-${item.source}`}>
+                      <i aria-hidden="true" />
+                      {sourceLabel(item.source)}
+                    </span>
+                  )}
                   {item.isVerified ? (
                     <span className="t-badge t-badge-verified">
                       <Check />

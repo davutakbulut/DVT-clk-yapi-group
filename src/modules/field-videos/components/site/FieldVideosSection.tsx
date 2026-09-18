@@ -3,12 +3,13 @@ import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Container } from '@/ui/Container';
+import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedFieldVideos } from '../../data/fieldVideosRepository';
 import { youTubeThumbnail } from '../../domain/youtube';
 import { FieldVideosCarousel, type FieldVideoItem } from './FieldVideosCarousel';
 
 /** Ana sayfa "Sahadan Videolar": panelden eklenen videolar. Kayıt yoksa ya da veri gelmezse bölüm HİÇ render edilmez (Kural 3). */
-export async function FieldVideosSection({ locale }: { readonly locale: string }) {
+export async function FieldVideosSection({ locale, index }: { readonly locale: string; readonly index?: string }) {
   const [result, env, t] = await Promise.all([getCachedFieldVideos(locale), readSupabasePublicEnv(), getTranslations('FieldVideos')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'field-videos', code: result.error.code });
@@ -29,14 +30,9 @@ export async function FieldVideosSection({ locale }: { readonly locale: string }
     .filter((v) => (v.source === 'youtube' ? Boolean(v.youtubeId) : Boolean(v.videoSrc)));
   if (items.length === 0) return null;
   return (
-    <section className="fv-section" aria-labelledby="field-videos-title">
+    <section className="fv-section border-t border-[var(--color-border)]" aria-labelledby="field-videos-title">
       <Container className="grid gap-10 py-[var(--section-y)]">
-        <div className="testimonials-head">
-          <h2 id="field-videos-title">
-            {t('titleLead')} <span className="fv-accent">{t('titleAccent')}</span>
-          </h2>
-          <p className="text-[var(--color-text-muted)]">{t('lead')}</p>
-        </div>
+        <SectionHeading index={index} kicker={t('kicker')} title={<span id="field-videos-title">{t('title')}</span>} lead={t('lead')} />
         <FieldVideosCarousel items={items} />
       </Container>
     </section>

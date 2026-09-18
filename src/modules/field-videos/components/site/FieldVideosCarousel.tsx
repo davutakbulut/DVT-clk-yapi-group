@@ -26,6 +26,8 @@ export function FieldVideosCarousel({ items }: { readonly items: readonly FieldV
   const track = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState<string | null>(null);
+  // Tüm kartlar sığıyorsa (masaüstünde ≤4 video) oklar ve noktalar anlamsız → gizlenir
+  const [scrollable, setScrollable] = useState(true);
 
   const goTo = (index: number) => {
     const el = track.current;
@@ -51,10 +53,15 @@ export function FieldVideosCarousel({ items }: { readonly items: readonly FieldV
         }
       });
       setActive(best);
+      setScrollable(el.scrollWidth - el.clientWidth > 4);
     };
     el.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     onScroll();
-    return () => el.removeEventListener('scroll', onScroll);
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
   }, [items.length]);
 
   return (
@@ -92,7 +99,7 @@ export function FieldVideosCarousel({ items }: { readonly items: readonly FieldV
           </li>
         ))}
       </ul>
-      {items.length > 1 ? (
+      {items.length > 1 && scrollable ? (
         <div className="fv-controls">
           <button type="button" className="fv-arrow" onClick={() => goTo(active - 1)} aria-label={t('prev')} aria-controls={`${id}-track`} disabled={active === 0}>
             <Chevron dir="left" />

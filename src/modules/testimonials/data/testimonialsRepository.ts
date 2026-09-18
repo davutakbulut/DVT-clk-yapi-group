@@ -14,6 +14,8 @@ export interface TestimonialData {
   readonly rating: number;
   readonly body: string;
   readonly isVerified: boolean;
+  /** Örnek (tasarım önizleme) kaydı: "Örnek" rozetiyle görünür; ortalamaya ve JSON-LD'ye girmez (K-78). */
+  readonly isSample: boolean;
   readonly isFeatured: boolean;
   readonly reviewedOn: string | null;
   readonly avatar: MediaAsset | null;
@@ -33,7 +35,7 @@ async function fetchTestimonials(locale: string): Promise<Result<TestimonialData
   if (!client.ok) return client;
   const { data, error } = await client.data
     .from('testimonials')
-    .select(`id, source, author_name, author_title, company, rating, body, original_locale, is_verified, is_featured, reviewed_on, avatar_url, service_id, project_id, product_id, avatar:media_library!testimonials_avatar_id_fkey(${MEDIA_SELECT})`)
+    .select(`id, source, author_name, author_title, company, rating, body, original_locale, is_verified, is_featured, is_sample, reviewed_on, avatar_url, service_id, project_id, product_id, avatar:media_library!testimonials_avatar_id_fkey(${MEDIA_SELECT})`)
     .eq('status', 'published')
     .order('is_featured', { ascending: false })
     .order('sort_order', { ascending: true, nullsFirst: false })
@@ -55,6 +57,7 @@ async function fetchTestimonials(locale: string): Promise<Result<TestimonialData
       rating: row.rating,
       body,
       isVerified: row.is_verified,
+      isSample: row.is_sample,
       isFeatured: row.is_featured,
       reviewedOn: row.reviewed_on,
       avatar: avatar ? { bucket: avatar.storage_bucket, path: avatar.storage_path, width: avatar.width, height: avatar.height, blurDataUrl: avatar.blur_data_url, alt: rec(avatar.alt), variants: rec(avatar.variants) } : null,

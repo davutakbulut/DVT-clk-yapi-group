@@ -1776,7 +1776,7 @@
   "Testimonials": {
     "title": "Müşteri Yorumları",
     "kicker": "Yorumlar",
-    "homeTitle": "Müşterilerimizin Değerlendirmeleri",
+    "homeTitle": "Müşteri değerlendirmeleri",
     "lead": "Yayındaki tüm müşteri yorumları. Google yorumları düzenli olarak eşitlenir; ziyaretçi yorumları onaydan sonra görünür.",
     "empty": "Henüz yayında yorum yok.",
     "all": "Tüm yorumlar",
@@ -1808,7 +1808,14 @@
     "homeLead": "Birlikte çalıştığımız müşterilerin kendi sözleriyle deneyimleri. Google yorumları düzenli eşitlenir; tüm yorumlar yayınlanmadan önce doğrulanır.",
     "sourceGoogle": "Google yorumu",
     "sourceVisitor": "Ziyaretçi değerlendirmesi",
-    "sourceCustomer": "Müşteri görüşü"
+    "sourceCustomer": "Müşteri görüşü",
+    "invite": {
+      "lead": "Değerlendirmeler yalnız gerçek müşterilerimizden gelir; onaylandıkça burada yayımlanır.",
+      "title": "İlk değerlendirmeyi siz yazın",
+      "body": "Bizimle çalıştıysanız deneyiminizi birkaç cümleyle paylaşın. Yorumunuz incelendikten sonra yayımlanır.",
+      "cta": "Yorum yaz"
+    },
+    "sample": "Örnek yorum"
   },
   "Configurator": {
     "title": "3D Konfigüratör",
@@ -1963,8 +1970,6 @@
     }
   },
   "FieldVideos": {
-    "titleLead": "Sahadan",
-    "titleAccent": "Videolar",
     "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",
     "play": "{title} videosunu oynat",
     "close": "Videoyu kapat",
@@ -1973,6 +1978,8 @@
     "dotsLabel": "Video seç",
     "goTo": "{index}. video",
     "carouselLabel": "Sahadan videolar",
-    "frameTitle": "{title} · video"
+    "frameTitle": "{title} · video",
+    "kicker": "Saha",
+    "title": "Sahadan videolar"
   }
 }

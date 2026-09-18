@@ -9,6 +9,7 @@ Next.js 15 · TypeScript · Tailwind v4 · Supabase · Vercel · next-intl.
 
 **Durum:** `docs/ROADMAP.md` — hangi fazdayız oradan bakın.
 **Kararlar:** `docs/02-DECISIONS.md` — bir şeyin neden öyle olduğunu oradan öğrenin, tahmin etmeyin.
+**Tasarım kuralları:** `docs/design/04-DESIGN-RULES.md` — yeni bölüm/bileşen yazmadan önce okuyun; referans görselden renk, köşe ve başlık hizası alınmaz.
 
 ## Bağlayıcı Kurallar
 

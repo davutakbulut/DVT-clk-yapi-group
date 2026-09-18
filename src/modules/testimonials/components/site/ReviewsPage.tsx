@@ -7,6 +7,7 @@ import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedTestimonials } from '../../data/testimonialsRepository';
 import { ReviewForm } from './ReviewForm';
 import { Stars } from './TestimonialsCarousel';
+import { realRatings } from '../../domain/testimonials';
 import { RatingBadge } from './TestimonialsSections';
 
 interface Choice {
@@ -24,7 +25,7 @@ export async function ReviewsPage({ locale, services }: { readonly locale: strin
     <Container as="section" className="grid gap-12 py-[var(--section-y)]">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <SectionHeading as="h1" kicker={t('kicker')} title={t('title')} lead={t('lead')} />
-        <RatingBadge ratings={items.map((i) => i.rating)} />
+        <RatingBadge ratings={realRatings(items)} />
       </div>
       {items.length === 0 ? (
         <p className="text-[var(--color-text-muted)]">{t('empty')}</p>
@@ -53,7 +54,7 @@ export async function ReviewsPage({ locale, services }: { readonly locale: strin
                     <span className="font-semibold">{i.authorName}</span>
                     <span className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]">
                       {[i.authorTitle, i.company].filter(Boolean).join(' · ')}
-                      {i.source === 'google' ? ` · ${t('viaGoogle')}` : i.isVerified ? ` · ${t('verified')}` : ''}
+                      {i.isSample ? ` · ${t('sample')}` : i.source === 'google' ? ` · ${t('viaGoogle')}` : i.isVerified ? ` · ${t('verified')}` : ''}
                     </span>
                   </span>
                 </figcaption>

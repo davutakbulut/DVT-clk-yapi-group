@@ -65,7 +65,7 @@ test.describe('müşteri yorumları', () => {
         )
         .toBe(1);
       await page.goto('/tr');
-      await expect(page.getByRole('heading', { name: 'Müşterilerimizin Değerlendirmeleri' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Müşteri değerlendirmeleri' })).toBeVisible();
       // Yorum VARKEN bölüm erişilebilir olmalı (soluk yan kartlar inert; kaydırılan şerit odaklanabilir)
       const axe = await new AxeBuilder({ page }).include('.testimonials-section').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
       expect(axe.violations.map((v) => `${v.id}: ${v.nodes[0]?.target.join(' ')}`)).toEqual([]);

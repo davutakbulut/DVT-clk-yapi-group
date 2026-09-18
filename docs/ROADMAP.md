@@ -327,6 +327,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |
-| Saha videoları (YouTube bağlantısı ya da dosya) | ana sayfa | ⏳ ürün sahibi `/admin/field-videos` — kayıt yokken bölüm görünmez |
+| Gerçek saha video çekimleri | ana sayfa | ⏳ ürün sahibi `/admin/field-videos` — şimdilik fotoğraf derlemeleri yayında (K-77) |
+| Gerçek müşteri yorumları | ana sayfa, 17 | ⏳ `/yorumlar` formu ya da `/admin/testimonials` — şimdilik 3 etiketli ÖRNEK kart (K-78); **yayın öncesi** `node --env-file=.env.local scripts/sample-testimonials.mjs remove` |
 | Supabase Pro plana geçiş | **12** | ⏳ *yayın öncesi zorunlu* |
 | Hukukçu onayı (KVKK metinleri) | 12 | ⏳ *sayfalar ve panel hazır (taslak)* |

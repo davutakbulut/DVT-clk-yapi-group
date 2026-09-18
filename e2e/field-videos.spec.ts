@@ -51,7 +51,7 @@ test.describe('sahadan videolar', () => {
         )
         .toBe(1);
       await page.getByRole('button', { name: 'Yalnız zorunlu' }).click({ timeout: 3000 }).catch(() => undefined);
-      await expect(page.getByRole('heading', { name: 'Sahadan Videolar' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Sahadan videolar' })).toBeVisible();
       const axe = await new AxeBuilder({ page }).include('.fv-section').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
       expect(axe.violations.map((v) => `${v.id}: ${v.nodes[0]?.target.join(' ')}`)).toEqual([]);
       // Yatay taşma yok
@@ -67,5 +67,29 @@ test.describe('sahadan videolar', () => {
       await row.getByRole('button', { name: 'Sil' }).click();
       await expect(page.locator('details').filter({ hasText: title })).toHaveCount(0, { timeout: 20_000 });
     }
+  });
+});
+
+// Ana sayfa bölümleri (K-77): veri varsa video şeridi çalışır; yorum yoksa davet kartı, varsa carousel — ikisi de erişilebilir, taşma yok.
+test.describe('ana sayfa: sahadan videolar + yorumlar', () => {
+  test('video kartı tıklanınca oynatıcı açılır; yorumlar bölümü carousel ya da davet kartı; axe temiz', async ({ page }) => {
+    await page.goto('/tr');
+    await page.getByRole('button', { name: 'Yalnız zorunlu' }).click({ timeout: 3000 }).catch(() => undefined);
+    const videos = page.locator('.fv-section');
+    if ((await videos.count()) > 0) {
+      await videos.scrollIntoViewIfNeeded();
+      await expect(videos.locator('iframe, video.fv-media')).toHaveCount(0);
+      await videos.locator('.fv-item[data-active] .fv-poster, .fv-poster').first().click();
+      await expect(videos.locator('iframe, video.fv-media')).toHaveCount(1);
+    }
+    const reviews = page.locator('.testimonials-section');
+    await expect(reviews).toHaveCount(1);
+    await expect(reviews.locator('.testimonials-track, .testimonials-invite')).toHaveCount(1);
+    if ((await reviews.locator('.testimonials-invite').count()) > 0) {
+      await expect(reviews.getByRole('link', { name: 'Yorum yaz' })).toHaveAttribute('href', '/tr/yorumlar');
+    }
+    const axe = await new AxeBuilder({ page }).include('.testimonials-section').include('.fv-section').withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+    expect(axe.violations.map((v) => `${v.id}: ${v.nodes[0]?.target.join(' ')}`)).toEqual([]);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   });
 });

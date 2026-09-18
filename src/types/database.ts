@@ -4778,6 +4778,7 @@ export type Database = {
           id: string
           ip_masked: string | null
           is_featured: boolean
+          is_sample: boolean
           is_verified: boolean
           original_locale: string | null
           product_id: string | null
@@ -4803,6 +4804,7 @@ export type Database = {
           id?: string
           ip_masked?: string | null
           is_featured?: boolean
+          is_sample?: boolean
           is_verified?: boolean
           original_locale?: string | null
           product_id?: string | null
@@ -4828,6 +4830,7 @@ export type Database = {
           id?: string
           ip_masked?: string | null
           is_featured?: boolean
+          is_sample?: boolean
           is_verified?: boolean
           original_locale?: string | null
           product_id?: string | null
