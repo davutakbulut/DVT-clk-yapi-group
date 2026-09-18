@@ -5252,6 +5252,10 @@ export type Database = {
         Args: { p_locale: string; p_template_key: string }
         Returns: string
       }
+      evaluate_funnel: {
+        Args: { p_from: string; p_funnel_id: string; p_to: string }
+        Returns: Json
+      }
       get_blog_post_by_slug: {
         Args: { p_locale: string; p_slug: string }
         Returns: Json

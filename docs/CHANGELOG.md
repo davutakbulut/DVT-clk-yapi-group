@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 24 · Sıcaklık haritası + huni + form analizi
+- `analytics` modülü: `data/insightsRepository` (heatmap, huni değerlendirme, form istatistikleri, yolculuk) · `adminFunnelsRepository` · `InsightViews` · `FunnelForm`; `actions` huni kaydet/sil; route'lar `app/admin/analytics/{heatmap,funnels,forms,journeys}`; nav
+- `supabase/migrations/0036_funnels.sql` (`evaluate_funnel`) · `supabase/tests/funnels.test.ts` (2); mesajlar `Admin.insights`; `e2e/insights.spec.ts`
+
 ### Eklendi — Faz 23 · İzleyici altyapısı
 - `src/modules/analytics` — `Tracker` · `ThirdPartyScripts` · `AnalyticsOverview` · `AnalyticsSettingsForm`; `domain/classify` (3 test); `data/ingestRepository` · `analyticsRepository`; `actions` (ayar)
 - `/api/analytics/collect` · `/api/cron/analytics` · `core/jobs/analyticsNightly`; route'lar `app/admin/analytics`, `app/admin/settings/analytics`; marketing layout izleyici + üçüncü parti scriptler (onaya bağlı); `site-settings` `analytics` alanı; nav

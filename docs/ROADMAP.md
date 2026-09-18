@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 24 — Sıcaklık haritası + huni + form analizi ⏳ (sırada) · Faz 1–23 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 25 — Hata takip + performans izleme ⏳ (sırada) · Faz 1–24 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -259,7 +259,11 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `/admin/analytics` (7/30/90 gün: oturum, pageview, günlük seri, sayfalar, kaynak türü, 🤖 AI kaynaklı trafik, cihaz, dil, çıkış) · `/admin/settings/analytics` (izleyici açık/kapalı, örnekleme, GA4/Ads/Pixel kimlikleri) · `site_settings` `analytics.config` (açık) + `analytics.salt` (gizli)
   - [x] E2E `analytics.spec.ts` (onaysız 204; onaylı ziyaret → beacon → genel bakışta oturum; ayar kaydı; cron 401)
   - [ ] *Faz 24:* sıcaklık haritası/huni/form ekranları (özet tablolar hazır) · *Faz 25:* hata + vitals ekranları (web_vitals doluyor) · *Ürün sahibi:* GA4/Ads/Pixel kimlikleri
-- [ ] **Faz 24** — Sıcaklık haritası + huni + form analizi
+- [x] **Faz 24** — Sıcaklık haritası + huni + form analizi ✅ 2026-09-18
+  - [x] `/admin/analytics/heatmap` (sayfa + cihaz AYRI + tarih; tık ve dikkat haritası 100×N hücre ızgarası, scroll haritası eşik çubukları + katlama, öfke/ölü tık seçici listeleri — gece özetinden) · `/admin/analytics/journeys` (giriş sayfaları, geçişler, çıkış oranı — Sankey yerine tablo) · `/admin/analytics/funnels` (admin tanımlar "ad | tür | değer"; `evaluate_funnel` **sıralı**: adım i, i-1'den sonra; düşüş ≥ %50 kırmızı) · `/admin/analytics/forms` (alan bazında odak/terk/ort. süre/hata; içerik yok)
+  - [x] `0036_funnels.sql` `evaluate_funnel` (path / path_prefix / event[form anahtarı]) — 2 DB testi; `data/insightsRepository` + `adminFunnelsRepository`; `FunnelForm`; nav
+  - [x] E2E `insights.spec.ts` (sayfalar + huni oluştur → adımlar → sil)
+  - [ ] *Sonraki:* gerçek sayfa ekran görüntüsü üstüne bindirme (şimdilik oran ızgarası) · Sankey görselleştirme (isteğe bağlı kütüphane)
 - [ ] **Faz 25** — Hata takip + performans izleme
 
 ## v1.4 — Konfigüratör
