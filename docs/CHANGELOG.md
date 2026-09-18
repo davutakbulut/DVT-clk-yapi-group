@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — ana sayfa yorumlar alanı · eksik tokenlar · hero blob
+- **Yorumlar (ana sayfa + detaylar):** orta-kart carousel — puan hapı ve ortalı başlık, vurgulu orta kart (çerçeve + gölge), soluk ve kenarlardan kırpık yan kartlar, yüzen yuvarlak oklar, hap biçimli aktif nokta, kaynak/doğrulama rozetleri, tarih. Yan kartlar `inert` + `aria-hidden` (soluk metin okunmak zorunda değil), şerit klavyeyle odaklanır; `reviews.spec` bölümü yorum VARKEN axe ile denetler. Yayında yorum yoksa bölüm hâlâ hiç çizilmez (sahte yorum yok)
+- **Tanımsız CSS tokenları:** `--space-5`, `--space-10`, `--fs-h4` hiç tanımlı değildi (iç boşluk 0'a düşüyordu) → eklendi; `src/lib/__tests__/cssTokens.test.ts` yedeksiz kullanılan her `var(--x)`'in tanımlı olduğunu doğrular
+- **Hero:** blob adresi video öğesi kullanırken serbest bırakılmıyor; blob okunamazsa doğrudan adrese düşülür
+
 ### Düzeltildi — mobilde yatay taşma
 - Ürün detayında ölçü tablosunun son sütun başlığındaki `sr-only` (mutlak konumlu) öğe kaydırma kutusundan kaçıp belgeyi 440 → 658 px genişletiyordu (sayfa sağa kayıyor, sağda boş şerit). Başlık `aria-label` oldu; kaydırılan sarmalayıcılar (`.overflow-x-auto`, `.table-scroll`) artık konumlu
 - `e2e/mobile-overflow.spec.ts`: 27 sayfada belge genişliği ≤ görünüm alanı denetimi (taşıran öğeyi adıyla raporlar)

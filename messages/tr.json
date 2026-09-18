@@ -1751,7 +1751,7 @@
   "Testimonials": {
     "title": "Müşteri Yorumları",
     "kicker": "Yorumlar",
-    "homeTitle": "Müşterilerimiz ne diyor",
+    "homeTitle": "Müşterilerimizin Değerlendirmeleri",
     "lead": "Yayındaki tüm müşteri yorumları. Google yorumları düzenli olarak eşitlenir; ziyaretçi yorumları onaydan sonra görünür.",
     "empty": "Henüz yayında yorum yok.",
     "all": "Tüm yorumlar",
@@ -1779,7 +1779,11 @@
       "submit": "Yorumu gönder",
       "successTitle": "Teşekkürler!",
       "successBody": "Yorumunuz alındı; onaylandıktan sonra sitede görünecek."
-    }
+    },
+    "homeLead": "Birlikte çalıştığımız müşterilerin kendi sözleriyle deneyimleri. Google yorumları düzenli eşitlenir; tüm yorumlar yayınlanmadan önce doğrulanır.",
+    "sourceGoogle": "Google yorumu",
+    "sourceVisitor": "Ziyaretçi değerlendirmesi",
+    "sourceCustomer": "Müşteri görüşü"
   },
   "Configurator": {
     "title": "3D Konfigüratör",

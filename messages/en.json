@@ -1751,7 +1751,7 @@
   "Testimonials": {
     "title": "Customer Reviews",
     "kicker": "Reviews",
-    "homeTitle": "What our customers say",
+    "homeTitle": "What Our Clients Say",
     "lead": "All published customer reviews. Google reviews are synced regularly; visitor reviews appear after approval.",
     "empty": "No reviews published yet.",
     "all": "All reviews",
@@ -1761,7 +1761,7 @@
     "ratingLabel": "{rating} out of 5",
     "reviewCount": "{count} reviews",
     "viaGoogle": "Google",
-    "verified": "Verified customer",
+    "verified": "Verified client",
     "prev": "Previous review",
     "next": "Next review",
     "dotsLabel": "Choose a review",
@@ -1779,7 +1779,11 @@
       "submit": "Send review",
       "successTitle": "Thank you!",
       "successBody": "Your review has been received and will appear on the site once approved."
-    }
+    },
+    "homeLead": "Experiences in our clients' own words. Google reviews are synced regularly; every review is verified before it is published.",
+    "sourceGoogle": "Google review",
+    "sourceVisitor": "Visitor review",
+    "sourceCustomer": "Client testimonial"
   },
   "Configurator": {
     "title": "3D Configurator",

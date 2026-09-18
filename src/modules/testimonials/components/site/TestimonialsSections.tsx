@@ -4,7 +4,6 @@ import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
 import { Container } from '@/ui/Container';
-import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedTestimonials, type TestimonialData } from '../../data/testimonialsRepository';
 import { summarize } from '../../domain/testimonials';
 import { Stars, TestimonialsCarousel, type CarouselItem } from './TestimonialsCarousel';
@@ -39,7 +38,7 @@ export async function RatingBadge({ ratings }: { readonly ratings: readonly numb
 }
 
 /** Ana sayfa (footer'dan önce): yayında yorum yoksa bölüm HİÇ render edilmez. */
-export async function TestimonialsSection({ locale, index = '05' }: { readonly locale: string; readonly index?: string }) {
+export async function TestimonialsSection({ locale }: { readonly locale: string; readonly index?: string }) {
   const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readSupabasePublicEnv(), getTranslations('Testimonials')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'testimonials', code: result.error.code });
@@ -48,18 +47,19 @@ export async function TestimonialsSection({ locale, index = '05' }: { readonly l
   if (result.data.length === 0) return null;
   const items = result.data.slice(0, 12);
   return (
-    <section className="bg-[var(--color-surface)]" aria-labelledby="testimonials-title">
+    <section className="testimonials-section" aria-labelledby="testimonials-title">
       <Container className="grid gap-10 py-[var(--section-y)]">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading index={index} kicker={t('kicker')} title={<span id="testimonials-title">{t('homeTitle')}</span>} />
-          <div className="grid justify-items-end gap-2">
-            <RatingBadge ratings={result.data.map((i) => i.rating)} />
-            <Link href="/reviews" className="text-[length:var(--fs-sm)] underline-offset-4 hover:underline">
-              {t('all')}
-            </Link>
-          </div>
+        <div className="testimonials-head">
+          <RatingBadge ratings={result.data.map((i) => i.rating)} />
+          <h2 id="testimonials-title">{t('homeTitle')}</h2>
+          <p className="text-[var(--color-text-muted)]">{t('homeLead')}</p>
         </div>
         <TestimonialsCarousel items={toCarousel(items, env.ok ? env.data.url : null)} />
+        <p className="text-center">
+          <Link href="/reviews" className="text-[length:var(--fs-sm)] font-medium underline underline-offset-4">
+            {t('all')}
+          </Link>
+        </p>
       </Container>
     </section>
   );

@@ -101,7 +101,13 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     })();
     return () => {
       controller.abort();
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      // Blob adresi, <video> onu hâlâ kullanırken serbest bırakılmamalı (ERR_FILE_NOT_FOUND → onError → kalıcı poster).
+      // Önce kaynak state'ten çıkarılır; adres video öğesi söküldükten sonra bırakılır.
+      if (objectUrl) {
+        const stale = objectUrl;
+        setScrubSrc((cur) => (cur === stale ? null : cur));
+        window.setTimeout(() => URL.revokeObjectURL(stale), 2000);
+      }
     };
   }, [decided, mode, sourceUrl]);
 
@@ -192,8 +198,12 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
               emit(1);
             }}
             onError={() => {
-              // Dosya yüklenemedi (ör. önbellekteki eski adres): poster kalır, boş/siyah sahne gösterilmez
               setReady(false);
+              // Bellekteki (blob) kopya okunamadıysa doğrudan adrese düş; o da olmazsa poster kalır (boş/siyah sahne yok)
+              if (mode === 'scrub' && scrubSrc?.startsWith('blob:') && sourceUrl) {
+                setScrubSrc(sourceUrl);
+                return;
+              }
               setMode('poster');
               emit(1);
             }}
