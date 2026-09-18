@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Düzeltildi — mobilde yatay taşma
+- Ürün detayında ölçü tablosunun son sütun başlığındaki `sr-only` (mutlak konumlu) öğe kaydırma kutusundan kaçıp belgeyi 440 → 658 px genişletiyordu (sayfa sağa kayıyor, sağda boş şerit). Başlık `aria-label` oldu; kaydırılan sarmalayıcılar (`.overflow-x-auto`, `.table-scroll`) artık konumlu
+- `e2e/mobile-overflow.spec.ts`: 27 sayfada belge genişliği ≤ görünüm alanı denetimi (taşıran öğeyi adıyla raporlar)
+- Kaydırılan tablolarda ilk sütun sabit (sticky)
+
 ### Eklendi — ürün kataloğu · WhatsApp ile stok/sipariş sorusu · Markdown tabloları
 - `supabase/migrations/0043_product_catalog_seed.sql`: firmanın KENDİ iş fotoğraflarındaki dört ürün hattı — Kutu Profil Karkas · Alçıpan Bölme Duvar ve Asma Tavan Karkası · Hafif Çelik Yapı Sistemi · Çelik Körkasa; 3 kategori, TR+EN ayrıntılı açıklama, karşılaştırma tabloları, 18 teknik özellik, 19 ölçü satırı (TS EN 10219 standart kg/m), kapak + galeri kendi görsellerinden. Fiyat, stok miktarı, kapasite YOK
 - `modules/whatsapp`: `WhatsAppInquiry` (sayfa içi büyük düğme + tablo satırı bağlantısı; WhatsApp kapalıysa render edilmez) · `domain/waLink`; ürün detayında "WhatsApp ile stok ve sipariş sor" + her ölçü satırında "WhatsApp'tan sor" (hazır mesajda ürün, ölçü, sayfa adresi)

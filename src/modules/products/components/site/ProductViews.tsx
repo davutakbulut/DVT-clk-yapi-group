@@ -230,9 +230,8 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
                   {hasDim('lengthMm') ? <th scope="col">{t('length')} (mm)</th> : null}
                   {hasDim('kgPerM') ? <th scope="col">{t('kgPerM')}</th> : null}
                   {hasDim('stockCode') ? <th scope="col">{t('stockCode')}</th> : null}
-                  <th scope="col">
-                    <span className="sr-only">{t('waAskSize')}</span>
-                  </th>
+                  {/* sr-only (mutlak konumlu) kaydırılan tablonun dışına taşıp sayfayı genişletiyordu → aria-label */}
+                  <th scope="col" aria-label={t('waAskSize')} />
                 </tr>
               </thead>
               <tbody>

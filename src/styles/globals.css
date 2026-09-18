@@ -672,6 +672,19 @@
     background: var(--color-surface-dark);
     color: var(--color-text-inverse);
   }
+  /* Yatay kaydırılan sarmalayıcılar konumlu olmalı: içlerindeki mutlak konumlu öğeler (sr-only vb.) aksi hâlde kaydırma
+     kutusundan kaçıp BELGENİN genişliğini büyütür (mobilde sayfa sağa taşar). :where → özgüllük 0. */
+  :where(.overflow-x-auto, .table-scroll) {
+    position: relative;
+  }
+  /* Kaydırılan tabloda ilk sütun (satır başlığı) sabit kalır: sağdaki hücrelere giderken satır kaybolmaz */
+  :where(.overflow-x-auto, .table-scroll) .data-table tbody th[scope='row'] {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--color-bg);
+    box-shadow: 1px 0 0 var(--color-border);
+  }
   /* Markdown tabloları: dar ekranda yatay kaydırma (03-RESPONSIVE: tablolar sıkıştırılmaz) */
   .table-scroll {
     overflow-x: auto;
