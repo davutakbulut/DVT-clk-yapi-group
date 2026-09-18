@@ -5202,6 +5202,10 @@ export type Database = {
     }
     Functions: {
       admin_dashboard_counts: { Args: never; Returns: Json }
+      get_blog_post_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
       get_configuration_by_token: { Args: { p_token: string }; Returns: Json }
       get_project_by_slug: {
         Args: { p_locale: string; p_slug: string }

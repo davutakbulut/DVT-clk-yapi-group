@@ -4,6 +4,7 @@ import { ModuleBoundary } from '@/core/errors';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
+import { BlogSection } from '@/modules/blog';
 import { AboutSection, HeroSection } from '@/modules/home';
 import { ProjectsSection } from '@/modules/projects';
 import { ServicesSection } from '@/modules/services';
@@ -40,6 +41,9 @@ export default async function HomePage({ params }: Props) {
       </ModuleBoundary>
       <ModuleBoundary module="projects/home">
         <ProjectsSection locale={locale} index="03" />
+      </ModuleBoundary>
+      <ModuleBoundary module="blog/home">
+        <BlogSection locale={locale} index="04" />
       </ModuleBoundary>
     </>
   );

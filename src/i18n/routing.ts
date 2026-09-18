@@ -25,6 +25,11 @@ export const routing = defineRouting({
     '/projects': { tr: '/projeler', en: '/projects' },
     '/projects/[slug]': { tr: '/projeler/[slug]', en: '/projects/[slug]' },
     '/projects/category/[slug]': { tr: '/projeler/kategori/[slug]', en: '/projects/category/[slug]' },
+    // Faz 9 · blog
+    '/blog': '/blog',
+    '/blog/[slug]': '/blog/[slug]',
+    '/blog/category/[slug]': { tr: '/blog/kategori/[slug]', en: '/blog/category/[slug]' },
+    '/blog/tag/[slug]': { tr: '/blog/etiket/[slug]', en: '/blog/tag/[slug]' },
   },
 });
 

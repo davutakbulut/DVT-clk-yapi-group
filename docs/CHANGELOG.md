@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 9 · Blog
+- `src/modules/blog` — site: `PostsList` · `PostDetail` (TOC, yazar kutusu, yorumlar) · `BlogSection` · `PostCard` · `CommentForm`; admin: `PostForm` · `SeoPanel` · `TaxonomyForm`; `domain/seoAnalysis` (17 madde, 4 test); `actions` (yazı/sınıflandırma kaydet-sil, moderasyon, ziyaretçi yorumu)
+- `src/lib/markdown` — `extractHeadings` + başlık `id`'leri (içindekiler); testler
+- Route'lar `/blog` · `/blog/[slug]` · `/blog/category/[slug]` · `/blog/tag/[slug]`; `app/admin/blog` (liste · new · [id] · taxonomy · comments)
+- `supabase/migrations/0019_blog.sql` · `supabase/tests/blog.test.ts` (4)
+- `globals.css` — `.toc` · `.prose-article` · `.author-box` · `.comment` · `.field`; mesajlar `Blog`, `Admin.blog`, `Admin.blogTaxonomy`, `Admin.comments`, `Admin.seoPanel`; `e2e/blog.spec.ts`
+
 ### Eklendi — Faz 8 · Projeler
 - `src/modules/projects` — site: `ProjectsList` (kategori çipleri) · `ProjectDetail` (künye, galeri, hizmetler, ilgili, önceki/sonraki) · `ProjectsSection` · `ProjectCard`; admin: `ProjectForm` · `CategoryForm`; `actions` (proje/kategori kaydet-sil-sırala)
 - Route'lar `/projects` · `/projects/[slug]` · `/projects/category/[slug]`; `app/admin/projects` · `app/admin/project-categories`

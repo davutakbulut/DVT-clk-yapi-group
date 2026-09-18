@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 9 — Blog ⏳ (sırada) · Faz 1–8 `feat/faz-02-database` dalında
+**Şu an:** Faz 10 — Talep + Mail ⏳ (sırada) · Faz 1–9 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 8 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 9 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -146,7 +146,13 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Admin `/admin/projects` (liste `ContentTable` — admin-shell'de ortak: ad · slug · ek sütun · durum · ↑↓ · sil) · `/new` · `/[id]` (`ProjectForm`: içerik, künye, medya/galeri, kategori ve hizmet onay kutuları, SEO, yayın) · `/admin/project-categories` (satır içi CRUD + sıralama)
   - [x] Ana sayfa 03 proje galerisi (proje varsa); E2E `projects.spec.ts` (liste axe, kategori sayfası + 404, admin oluştur→yayınla→sitede künye/JSON-LD/hizmet bağlantısı→sil→404)
   - [ ] *Faz 17:* proje detayında ilgili yorumlar · *Faz 19–20:* `client_id`/`sale_id` bağlantısı (tamamlanan satış → referans proje)
-- [ ] **Faz 09** — Blog (ön yüz + admin + canlı SEO paneli)
+- [x] **Faz 09** — Blog (ön yüz + admin + canlı SEO paneli) ✅ 2026-09-18
+  - [x] Route'lar: `/blog` · `/blog/kategori/[slug]` · `/blog/etiket/[slug]` (5 yazıdan azsa noindex, 02-SEO) · `/blog/[slug]`; URL'de tarih yok
+  - [x] Detay: başlık bandı (kategori · tarih · okuma süresi · yazar) → kapak → **içindekiler** (Markdown başlık id'leri, `extractHeadings`) + gövde → etiketler → yazar kutusu (yalnız yayındaki ekip üyesi, E-E-A-T) → aynı kategoriden 3 → önceki/sonraki → **yorumlar** (onaylı liste `published_comments` görünümünden + ziyaretçi formu: bal küpü, RLS yalnız `pending`, IP maskelenip özetlenir); JSON-LD `BlogPosting` (author, datePublished, dateModified, inLanguage) + `BreadcrumbList`
+  - [x] `0019_blog.sql`: `get_blog_post_by_slug` RPC · anonim yorum INSERT politikası (dar kolon listesi, yalnız yoruma açık yayındaki yazı) · 3 kategori (taksonomi, K-55) — 4 DB testi
+  - [x] Admin `/admin/blog` (liste) · `/new` · `/[id]`: `PostForm` + **canlı SEO paneli** (`analyzeSeo`, 17 madde, TR/EN sekmesi, skor; diğer yazıların odak kelimeleri ve girişleriyle benzersizlik/örtüşme; 4 test) · zamanlanmış yayın (`published_at` ileri tarih, K-07 gizler) · okuma süresi otomatik · her kayıtta `content_revisions` anlık görüntüsü · `/admin/blog/taxonomy` (kategori/etiket CRUD) · `/admin/blog/comments` (bekleyen/onaylı/red/spam süzgeci, tek tık moderasyon)
+  - [x] Ana sayfa 04 son yazılar; E2E `blog.spec.ts` (liste axe, 404, admin: SEO paneli → yayınla → sitede TOC/BlogPosting → ziyaretçi yorumu → onayla → görünür → sil)
+  - [ ] *Sonraki:* Tiptap/Draft Mode önizleme (v1'de Markdown, K-53) · RSS (Faz 30) · `content_links` küratörlü ilgili içerik · yorum yanıtı admin'den (şimdilik yalnız moderasyon)
 - [ ] **Faz 10** — Talep + Mail *(kuyruk + canlılık denetimi testi)*
 - [ ] **Faz 11** — Kurumsal sayfalar (ekip, referanslar, belgeler, kariyer)
 - [ ] **Faz 12** — SEO temeli + **YAYIN** 🚀 *(yayın öncesi tam denetim)*

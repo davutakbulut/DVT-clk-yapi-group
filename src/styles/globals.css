@@ -803,6 +803,75 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* ── Blog: içindekiler, yazar kutusu, yorum, form alanı */
+  .toc {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    border-top: 2px solid var(--color-text);
+  }
+  .toc ol {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: var(--fs-sm);
+  }
+  .toc a {
+    color: var(--color-text-muted);
+  }
+  .toc a:hover {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-article {
+    max-width: none;
+  }
+  .prose-article > * {
+    max-width: var(--prose-max);
+  }
+  .prose-article h2,
+  .prose-article h3 {
+    scroll-margin-top: calc(var(--header-h) + var(--space-4));
+  }
+  .author-box {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .author-photo {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: var(--radius-full);
+  }
+  .comment {
+    display: grid;
+    gap: var(--space-2);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .field {
+    min-height: 44px;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: 400;
+  }
+  .field:focus-visible {
+    border-color: var(--color-text);
+  }
+  .field[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+
   /* ── CTA bandı */
   .cta-band {
     background: var(--color-surface-dark);
