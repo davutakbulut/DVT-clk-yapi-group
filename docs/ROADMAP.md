@@ -116,7 +116,8 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Modül public API'si üçe ayrıldı: `index.ts` (istemciye inebilir) + `server.ts` (yalnız sunucu) + `actions.ts` (Server Action, doğrudan) — ESLint sınırı üçünü de tanır (K-51)
   - [x] `src/instrumentation.ts` — üretim hata yığınları loglanır; Faz 5'te iki üretim-yalnız hatayı bu yakaladı (RSC'ye fonksiyon prop, barrel action)
   - [x] `scripts/create-e2e-user.mjs`: ayrı E2E admin hesabı, rastgele şifre yalnız `.env.local`'da
-  - [x] Testler: 188 birim/DB · `e2e/admin.spec.ts` (kapı, açık yönlendirme, panel ekranları, axe) — hesap yoksa atlanır
+  - [x] Testler: 189 birim/DB · E2E **91 geçti** (3 kırılım; `admin.spec.ts` 8 senaryo: kapı, açık yönlendirme, panel/menü/ayar/medya/üye, hesap menüsü, axe) — hesap yoksa atlanır
+  - [x] Lighthouse (site, 3 koşu): performans 89–96 · erişilebilirlik 100 · en iyi uygulamalar 100 · CLS ≈ 0 · 431 KB — eşik üstünde, LCP uyarısı Faz 4'teki gibi
   - [ ] *Ürün sahibi:* Supabase Dashboard › Auth › URL Configuration: Site URL + Redirect `…/auth/callback` (davet/şifre bağlantıları için) · davet e-postasını onaylayıp şifre belirle
   - [ ] *Sonraki fazlar:* 8 saat hareketsizlik çıkışı + MFA (Faz 12 güvenlik denetimi) · giriş hız sınırı (Upstash, Faz 10) · TanStack Table liste ekranları (Faz 7'den itibaren)
 - [ ] **Faz 06** — Ana sayfa: scroll video hero + hakkımızda *(iOS Safari testi)*
