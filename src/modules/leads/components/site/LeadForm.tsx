@@ -9,7 +9,7 @@ import { submitLead } from '../../actions';
 import type { QuoteFormOptions } from '../../domain/leadSchema';
 
 interface Props {
-  readonly variant: 'contact_form' | 'quote_form' | 'quote_basket';
+  readonly variant: 'contact_form' | 'quote_form' | 'quote_basket' | 'configurator';
   readonly services: readonly { readonly id: string; readonly title: string }[];
   readonly options: QuoteFormOptions;
   /** Ek gizli alanlar (ör. sepet kalemleri JSON). */

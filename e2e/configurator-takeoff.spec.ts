@@ -20,7 +20,7 @@ test.describe('metraj', () => {
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
     const takeoff = page.getByTestId('takeoff');
     await expect(takeoff.getByRole('heading', { name: 'Metraj' })).toBeVisible();
-    const columnRow = takeoff.getByRole('row').filter({ has: page.getByRole('rowheader', { name: 'Kolon' }) });
+    const columnRow = takeoff.getByRole('row').filter({ has: page.getByRole('rowheader', { name: 'Kolon', exact: true }) });
     await expect(columnRow.getByRole('cell').nth(1)).toHaveText('16');
     await expect(columnRow.getByRole('cell').nth(2)).toHaveText('96 m');
     await expect(takeoff.getByRole('rowheader', { name: 'Çatı paneli' })).toBeVisible();

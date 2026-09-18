@@ -1746,6 +1746,88 @@
       "bolts": "Civata",
       "steelTotal": "Çelik toplamı",
       "incomplete": "Şu profillerin kg/m değeri henüz girilmedi: {codes}. Tonaj eksiktir."
+    },
+    "price": {
+      "title": "Tahmini fiyat",
+      "blurSample": "₺ ••• ••• · çelik + işçilik + panel",
+      "gated": "Fiyat tahmini yalnız üyelere gösterilir. Ücretsiz üye olun; metraj ve 3D model herkese açıktır.",
+      "register": "Fiyatı görmek için üye olun",
+      "lines": {
+        "steel": "Çelik",
+        "labor": "İşçilik",
+        "roof": "Çatı paneli",
+        "wall": "Duvar/alın paneli",
+        "bolts": "Civata"
+      },
+      "total": "Toplam (KDV hariç)",
+      "partial": "Fiyatlanmayan kalemler: {items}. Toplam eksiktir.",
+      "unavailable": "Fiyat hesaplanamadı: {reason}",
+      "reasonPrices": "malzeme fiyatı ya da fiyat eşlemesi henüz girilmedi",
+      "reasonWeights": "bazı profillerin kg/m değeri girilmedi (tonaj eksik)"
+    },
+    "save": {
+      "title": "Kaydet ve paylaş",
+      "titleVersion": "Yeni sürüm kaydet (v{version})",
+      "name": "Kayıt adı (isteğe bağlı)",
+      "email": "E-posta",
+      "consent": "E-postamın bu kaydı saklamak ve bağlantısını göndermek için işlenmesini kabul ediyorum (KVKK).",
+      "submit": "Kaydet",
+      "submitVersion": "Yeni sürüm olarak kaydet",
+      "done": "Kaydedildi · Ref {ref} · v{version}",
+      "doneMember": "Kayıt hesabınızda; Hesabım sayfasından ulaşabilirsiniz.",
+      "doneAnon": "Bağlantı kayıt yetkinizdir; saklayın. Aynı e-postayla üye olup doğrularsanız kayıt hesabınıza geçer.",
+      "open": "Paylaşım sayfası",
+      "copy": "Bağlantıyı kopyala",
+      "copied": "Kopyalandı",
+      "print": "Yazdır / PDF",
+      "quote": "Teklif iste",
+      "errors": {
+        "validation": "Lütfen alanları kontrol edin.",
+        "rateLimited": "Çok fazla kayıt denemesi; biraz sonra tekrar deneyin.",
+        "forbidden": "Bu kayda sürüm ekleme yetkiniz yok.",
+        "unexpected": "Kaydedilemedi; lütfen tekrar deneyin."
+      }
+    },
+    "shared": {
+      "title": "Kayıtlı konfigürasyon",
+      "ref": "Referans",
+      "version": "Sürüm",
+      "updated": "Güncelleme",
+      "tonnage": "Tonaj",
+      "price": "Paylaşılan tahmini fiyat",
+      "sharePrice": "Paylaşım bağlantısında fiyat görünsün",
+      "sharePriceSave": "Uygula",
+      "quoteTitle": "Bu konfigürasyon için teklif isteyin",
+      "quoteLead": "Metraj ve ölçüler talebinize otomatik eklenir; ekibimiz keşif sonrası resmî teklif hazırlar.",
+      "print": "Yazdır / PDF",
+      "notFound": "Kayıt bulunamadı"
+    },
+    "print": {
+      "title": "Konfigürasyon özeti",
+      "button": "Yazdır / PDF olarak kaydet",
+      "generated": "Oluşturma",
+      "params": "Ölçüler",
+      "dims": "{width} × {length} m · saçak {eave} m · mahya {ridge} m · aks {bay} m",
+      "element": "Eleman",
+      "profile": "Profil",
+      "pieces": "Adet",
+      "length": "Boy (m)",
+      "area": "Alan (m²)",
+      "weight": "Ağırlık (kg)",
+      "tonnage": "Toplam tonaj",
+      "price": "Tahmini fiyat",
+      "groups": {
+        "panel_roof": "Çatı paneli",
+        "panel_wall": "Duvar paneli",
+        "panel_gable": "Alın paneli",
+        "plates": "Plakalar",
+        "bolts": "Civata"
+      }
+    },
+    "mine": {
+      "title": "Konfigürasyonlarım",
+      "empty": "Henüz kayıt yok.",
+      "start": "Konfigüratörü aç"
     }
   }
 }

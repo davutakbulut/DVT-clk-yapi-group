@@ -6,6 +6,7 @@ import { buildAlternates } from '@/i18n/alternates';
 import { getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { AuthForm } from '@/modules/auth';
+import { MyConfigurations } from '@/modules/configurator/server';
 import { signOut, updateProfile } from '@/modules/auth/actions';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
@@ -49,6 +50,7 @@ export default async function AccountPage({ params }: Props) {
           ],
         }}
       />
+      <MyConfigurations />
       <form action={signOut}>
         <button type="submit" className="btn btn-ghost">
           {t('logout')}

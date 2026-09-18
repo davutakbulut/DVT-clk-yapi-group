@@ -970,6 +970,12 @@
   .configurator-table th, .configurator-table td { padding: 4px 6px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); text-align: left; vertical-align: top; }
   .configurator-table thead th { color: var(--color-text-muted); font-weight: 500; }
   .configurator-table tfoot th { text-align: right; }
+  .configurator-gate { display: grid; gap: var(--space-2); position: relative; }
+  .configurator-gate-blur { filter: blur(6px); user-select: none; font-family: var(--font-mono, monospace); font-size: var(--fs-h4); }
+  .configurator-print { max-width: 72ch; padding: var(--space-6); background: #fff; color: #111; display: grid; gap: var(--space-4); }
+  .configurator-print table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .configurator-print th, .configurator-print td { border-bottom: 1px solid #ddd; padding: 4px 6px; text-align: left; }
+  @media print { .configurator-bar, .print\:hidden { display: none !important; } .configurator-shell { background: #fff; color: #111; min-height: 0; } }
   .configurator-shell .btn-ghost { border-color: rgba(255, 255, 255, 0.25); color: var(--color-text-inverse); }
 
   /* ── Yorumlar: scroll-snap carousel (K-60), yıldızlar, rozet */

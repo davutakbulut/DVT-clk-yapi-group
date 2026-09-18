@@ -1746,6 +1746,88 @@
       "bolts": "Bolts",
       "steelTotal": "Steel total",
       "incomplete": "kg/m is not yet entered for: {codes}. Tonnage is incomplete."
+    },
+    "price": {
+      "title": "Estimated price",
+      "blurSample": "₺ ••• ••• · steel + labor + panels",
+      "gated": "Price estimates are shown to members only. Sign up for free; take-off and the 3D model are public.",
+      "register": "Sign up to see the price",
+      "lines": {
+        "steel": "Steel",
+        "labor": "Labor",
+        "roof": "Roof panel",
+        "wall": "Wall/gable panel",
+        "bolts": "Bolts"
+      },
+      "total": "Total (excl. VAT)",
+      "partial": "Unpriced items: {items}. The total is incomplete.",
+      "unavailable": "Price could not be computed: {reason}",
+      "reasonPrices": "material prices or the price map are not entered yet",
+      "reasonWeights": "kg/m is missing for some profiles (tonnage incomplete)"
+    },
+    "save": {
+      "title": "Save and share",
+      "titleVersion": "Save new version (v{version})",
+      "name": "Name (optional)",
+      "email": "Email",
+      "consent": "I consent to my email being processed to store this configuration and send its link (KVKK).",
+      "submit": "Save",
+      "submitVersion": "Save as new version",
+      "done": "Saved · Ref {ref} · v{version}",
+      "doneMember": "The configuration is in your account; open it from My Account.",
+      "doneAnon": "The link is your access key; keep it. If you sign up and verify with the same email, it moves to your account.",
+      "open": "Share page",
+      "copy": "Copy link",
+      "copied": "Copied",
+      "print": "Print / PDF",
+      "quote": "Request a quote",
+      "errors": {
+        "validation": "Please check the fields.",
+        "rateLimited": "Too many save attempts; try again shortly.",
+        "forbidden": "You cannot add versions to this configuration.",
+        "unexpected": "Could not save; please try again."
+      }
+    },
+    "shared": {
+      "title": "Saved configuration",
+      "ref": "Reference",
+      "version": "Version",
+      "updated": "Updated",
+      "tonnage": "Tonnage",
+      "price": "Shared estimated price",
+      "sharePrice": "Show price on the share link",
+      "sharePriceSave": "Apply",
+      "quoteTitle": "Request a quote for this configuration",
+      "quoteLead": "Dimensions and take-off are attached to your request automatically; our team prepares a formal quote after a site survey.",
+      "print": "Print / PDF",
+      "notFound": "Configuration not found"
+    },
+    "print": {
+      "title": "Configuration summary",
+      "button": "Print / Save as PDF",
+      "generated": "Generated",
+      "params": "Dimensions",
+      "dims": "{width} × {length} m · eave {eave} m · ridge {ridge} m · bay {bay} m",
+      "element": "Element",
+      "profile": "Profile",
+      "pieces": "Pcs",
+      "length": "Length (m)",
+      "area": "Area (m²)",
+      "weight": "Weight (kg)",
+      "tonnage": "Total tonnage",
+      "price": "Estimated price",
+      "groups": {
+        "panel_roof": "Roof panel",
+        "panel_wall": "Wall panel",
+        "panel_gable": "Gable panel",
+        "plates": "Plates",
+        "bolts": "Bolts"
+      }
+    },
+    "mine": {
+      "title": "My configurations",
+      "empty": "No saved configurations yet.",
+      "start": "Open the configurator"
     }
   }
 }

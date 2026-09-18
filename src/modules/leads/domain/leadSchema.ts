@@ -5,7 +5,7 @@ const optional = (max: number) => z.string().trim().max(max).optional().or(z.lit
 /** Ziyaretçi formu (iletişim + teklif). Bal küpü `website` dolu gelirse bot. E-posta ya da telefon zorunlu. */
 export const leadFormSchema = z
   .object({
-    source: z.enum(['contact_form', 'quote_form', 'quote_basket']),
+    source: z.enum(['contact_form', 'quote_form', 'quote_basket', 'configurator']),
     locale: z.enum(['tr', 'en']),
     fullName: z.string().trim().min(2).max(120),
     company: optional(120),
@@ -26,6 +26,8 @@ export const leadFormSchema = z
     utmMedium: optional(120),
     utmCampaign: optional(120),
     items: z.string().max(20000).optional().or(z.literal('')),
+    /** Konfigüratörden teklif (Faz 28): token → leads.configuration_id (RPC çözer). */
+    configurationToken: z.string().uuid().optional().or(z.literal('')),
   })
   .refine((v) => Boolean(v.email) || Boolean(v.phone), { message: 'contact', path: ['email'] });
 

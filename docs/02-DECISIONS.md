@@ -341,6 +341,11 @@ Satış, fatura ve tahsilat tutarları TypeScript'te kayan nokta yerine kuruş t
 **Neden:** Sıfır ya da tahmini bir kg/m, tonajı ve Faz 28 fiyatını sessizce yanlış yapar; müşteri karşısına "uydurma" sayı çıkar (CLAUDE.md "asla"). Eksikliğin görünür olması ürün sahibini kataloğu doldurmaya zorlar.
 **Bilinen bedeli:** Katalog boşken metraj "ağırlıksız" görünür; Faz 28 fiyat kutusu tonaj tamamlanmadan hesaplanmaz.
 
+### K-67 · PDF = tarayıcının yazdırma akışı; fiyat üyeye birim fiyat tablosuyla istemcide hesaplanır
+Konfigürasyon çıktısı için PDF kütüphanesi (jsPDF, react-pdf ~1 MB) eklenmez: `/konfigurator/k/[token]/yazdir` yazdırma CSS'li sade bir sayfadır, "PDF olarak kaydet" tarayıcıda yapılır. Üyeye fiyat için sunucu `material_prices`'tan (RLS: yalnız oturumlu) birim fiyat tablosunu okuyup istemciye verir; kaydırıcı her değiştiğinde fiyat istemcide anında güncellenir. Ziyaretçiye tablo hiç gönderilmez (kapı sunucuda). Kaydederken metraj ve fiyat **sunucuda** yeniden hesaplanır; istemciden gelen sayı kabul edilmez.
+**Neden:** Bundle boyutu ve bakım; fiyat canlı olmalı (RSC turu olmadan). K-29 kapısı "istemcide gizle" değil "sunucudan gönderme" ile sağlanır.
+**Bilinen bedeli:** Yazdırma çıktısının görünümü tarayıcıya bağlıdır (antet/altbilgi). Üye, birim fiyatları ağ sekmesinden görebilir — üyeye zaten gösterilen bilgidir.
+
 ---
 
 ## Değiştirilen Kararlar

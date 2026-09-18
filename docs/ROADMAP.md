@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 28 — Fiyat, kaydetme, teklif, PDF ⏳ (sırada) · Faz 1–27 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 29 — Konfigüratör admin + satışa dönüştür ⏳ (sırada) · Faz 1–28 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -286,7 +286,13 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Admin `/admin/configurator/profiles` — `SteelProfileForm` (kod ASCII, aile, kg/m, kullanım, aktif) · `actions` kaydet/sil (yalnız admin) · nav `steelProfiles`; mesajlar `Admin.steelProfiles`, `Configurator.takeoff`
   - [x] E2E `configurator-takeoff.spec.ts` (tablo: kolon 16 · 96 m; profil ekle → 12.5 kg/m → sil); cleanup `E2E%` profilleri
   - [ ] *Ürün sahibi:* gerçek profil kg/m değerleri ve panel tipleri girilir; `profile_map` kodlarıyla eşleşmeli
-- [ ] **Faz 28** — Fiyat, kaydetme, teklif, PDF
+- [x] **Faz 28** — Fiyat, kaydetme, teklif, PDF ✅
+  - [x] `domain/pricing` — `computePrice(takeoff, table)`: çelik kg × birim + işçilik (katsayı) + panel m² + civata; çelik fiyatı/para birimi/tonaj yoksa **null** (K-66); 2 test elle doğrulandı (938.250)
+  - [x] `data/pricesRepository` (`loadPriceTable`: `price_map` kodları → `material_prices`, üye RLS K-29; kg/ton dönüşümü; farklı para birimi dışarıda) · `PricePanel` (üye: canlı döküm; ziyaretçi: bulanık kutu + kayıt CTA'sı)
+  - [x] `0039_configurator_save.sql` — `save_configuration` (üye / anonim e-posta + KVKK, sürüm + kalemler, sahiplik: user_id ya da token) · `get_configuration_by_token` (kalemler, sürüm sayısı, fiyat yalnız share_price) · `set_configuration_sharing` · `submit_lead` `configuration_token` → `leads.configuration_id` + durum `converted_to_lead` · e-posta **doğrulanınca** devralma (K-30) · admin silme politikası · `price_map` kuralı (boş)
+  - [x] `SavePanel` (bal küpü, hız sınırı `CONFIG_RATE_LIMIT`, sunucu metrajı yeniden hesaplar) · paylaşım `/konfigurator/k/[token]` (model + yeni sürüm + fiyat anahtarı + teklif formu kaynak `configurator`) · yazdır `/konfigurator/k/[token]/yazdir` (K-67: tarayıcı PDF'i) · Hesabım "Konfigürasyonlarım"
+  - [x] `leads`: kaynak `configurator`, `LeadFormSection` `hiddenFields`; E2E `configurator-save.spec.ts` (kapı → kaydet → paylaşım → yazdır → teklif TLP-; üye fiyat paneli + Hesabım)
+  - [ ] *Ürün sahibi:* `price_map` kodları + `material_prices` (çelik kg/ton, panel m², civata adet) — girilmeden fiyat kutusu "hesaplanamadı" der
 - [ ] **Faz 29** — Konfigüratör admin + satışa dönüştür
 
 ## v2.0 — İleri Seviye

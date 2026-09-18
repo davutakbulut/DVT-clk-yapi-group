@@ -2,11 +2,14 @@
 
 import dynamic from 'next/dynamic';
 import { useFormatter, useTranslations } from 'next-intl';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { clampParams, parseParams, serializeParams, type Limits, type Params } from '../../domain/params';
 import type { ProfileKey } from '../../domain/structure';
 import { buildStructure } from '../../domain/structure';
+import type { PriceTable } from '../../domain/pricing';
 import type { PanelWeights, WeightTable } from '../../domain/takeoff';
+import { PricePanel } from './PricePanel';
+import { SavePanel } from './SavePanel';
 import { TakeoffPanel } from './TakeoffPanel';
 
 const Scene = dynamic(() => import('./Scene'), { ssr: false, loading: () => <div className="configurator-canvas-loading" aria-hidden="true" /> });
@@ -23,15 +26,18 @@ interface Props {
   /** Faz 27: kg/m tablosu (steel_profiles) ve panel kg/m²; boş → ağırlıksız metraj. */
   readonly weights?: WeightTable;
   readonly panelWeights?: PanelWeights;
-  /** Faz 27+: metraj/fiyat/kaydetme yuvası — yapı verisi ile çağrılır. */
-  readonly renderExtras?: (structure: ReturnType<typeof buildStructure>) => ReactNode;
+  /** Faz 28: üye → birim fiyat tablosu (canlı tahmin); ziyaretçi → null (kapı). */
+  readonly priceTable?: PriceTable | null;
+  readonly member?: boolean;
+  readonly nextPath?: string;
+  readonly existing?: { readonly id: string; readonly token: string; readonly refCode: string; readonly name: string; readonly version: number } | null;
 }
 
 /**
  * Konfigüratör (04-CONFIGURATOR): 5 parametre + görsel anahtarlar; durum sorgu dizesinde (`history.replaceState`, RSC turu yok);
  * localStorage taslağı; istatistikler anında. 3D sahne dinamik import (SSR yok, K-24). Metraj Faz 27, fiyat/kayıt Faz 28.
  */
-export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM, profileMap, disclaimer, weights = {}, panelWeights = {}, renderExtras }: Props) {
+export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM, profileMap, disclaimer, weights = {}, panelWeights = {}, priceTable = null, member = false, nextPath = '/configurator', existing = null }: Props) {
   const t = useTranslations('Configurator');
   const format = useFormatter();
   const [params, setParams] = useState<Params>(initial);
@@ -40,6 +46,7 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
 
   // İlk yükleme: sorgu dizesi > taslak > varsayılan
   useEffect(() => {
+    if (existing) return;
     const search = new URLSearchParams(window.location.search);
     if ([...search.keys()].some((k) => ['w', 'l', 'e', 'r', 'b'].includes(k))) return;
     try {
@@ -48,9 +55,10 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
     } catch {
       // taslak yok
     }
-  }, [limits]);
+  }, [limits, existing]);
 
   useEffect(() => {
+    if (existing) return; // paylaşım sayfasında URL token'lı kalır; taslak yazılmaz
     const q = serializeParams(params);
     window.history.replaceState(null, '', `${window.location.pathname}?${q}`);
     try {
@@ -58,7 +66,7 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
     } catch {
       // kota
     }
-  }, [params]);
+  }, [params, existing]);
 
   const update = (patch: Partial<Params>) => setParams((p) => clampParams({ ...p, ...patch }, limits));
   const slider = (key: 'width' | 'length' | 'eave' | 'ridge' | 'bay', range: { min: number; max: number; step: number }, unit = 'm') => (
@@ -121,7 +129,8 @@ export function Configurator({ initial, limits, trussThresholdM, purlinSpacingM,
           {copied ? t('copied') : t('share')}
         </button>
         <TakeoffPanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} />
-        {renderExtras ? renderExtras(structure) : null}
+        <PricePanel structure={structure} profileMap={profileMap} weights={weights} panelWeights={panelWeights} priceTable={priceTable} nextPath={nextPath} />
+        <SavePanel params={params} member={member} existing={existing} />
         <p className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]" role="note">
           {disclaimer}
         </p>

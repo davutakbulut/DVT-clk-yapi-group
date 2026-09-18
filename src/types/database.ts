@@ -5307,6 +5307,11 @@ export type Database = {
         Args: { p_entity_type: string; p_locale: string; p_old_slug: string }
         Returns: string
       }
+      save_configuration: { Args: { p: Json }; Returns: Json }
+      set_configuration_sharing: {
+        Args: { p_share_price: boolean; p_token: string }
+        Returns: boolean
+      }
       submit_job_application: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }
       submit_testimonial: { Args: { p: Json }; Returns: Json }

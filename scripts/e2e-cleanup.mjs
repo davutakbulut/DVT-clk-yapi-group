@@ -66,6 +66,7 @@ for (const [table, col, pattern] of [
   ['translation_glossary', 'term_tr', 'E2E %'],
   ['funnels', 'name', 'E2E Huni %'],
   ['steel_profiles', 'code', 'E2E%'],
+  ['configurations', 'name', 'E2E %'],
 ]) {
   const { data } = await client.from(table).select(`id, ${col}`).like(col, pattern);
   for (const row of data ?? []) {

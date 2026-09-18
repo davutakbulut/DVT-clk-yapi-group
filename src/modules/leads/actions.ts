@@ -64,6 +64,7 @@ export async function submitLead(_prev: ActionState, formData: FormData): Promis
       utm,
       page_url: v.pageUrl || null,
       items: parseBasketItems(v.items),
+      configuration_token: v.configurationToken || null,
       ip_masked: ip ? createHash('sha256').update(ip.replace(/\.\d+$/, '.0')).digest('hex').slice(0, 16) : null,
     } as Json,
   });

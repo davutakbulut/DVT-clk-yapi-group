@@ -7,3 +7,5 @@ export { computeTakeoff, type Takeoff, type TakeoffLine, type PanelLine, type We
 export { getCachedWeights, type CatalogWeights } from './data/profilesRepository';
 export { TakeoffPanel } from './components/site/TakeoffPanel';
 export { SteelProfileForm } from './components/admin/SteelProfileForm';
+export { computePrice, type PriceTable, type PriceEstimate } from './domain/pricing';
+export { PrintButton } from './components/site/PrintButton';

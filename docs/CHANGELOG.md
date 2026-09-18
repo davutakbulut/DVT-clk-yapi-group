@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 28 · Fiyat, kaydetme, teklif, PDF
+- `configurator` modülü: `domain/pricing` (2 test) · `data/pricesRepository` · `data/configurationsRepository` · `actions` (`saveConfiguration`, `setSharing`) · `PricePanel` · `SavePanel` · `PrintButton` · `MyConfigurations`; `rulesRepository` `price_map`
+- Route'lar `app/[locale]/(configurator)/configurator/k/[token]` (+ `/print`); `/konfigurator/k/[token]`, `/yazdir`; Hesabım listesi; `leads` kaynak `configurator` + `configurationToken`; CSS kapı/yazdır
+- `supabase/migrations/0039_configurator_save.sql`; mesajlar `Configurator.{price,save,shared,print,mine}`; `e2e/configurator-save.spec.ts`; cleanup `configurations`
+
 ### Eklendi — Faz 27 · Metraj motoru
 - `configurator` modülü: `domain/takeoff` (2 test, elle doğrulanmış) · `data/profilesRepository` · `data/adminProfilesRepository` · `actions` (profil kaydet/sil) · `TakeoffPanel` · `SteelProfileForm`; `server.ts`
 - Route `app/admin/configurator/profiles`; nav `steelProfiles`; mesajlar; CSS `.configurator-table`; `e2e/configurator-takeoff.spec.ts`; cleanup
