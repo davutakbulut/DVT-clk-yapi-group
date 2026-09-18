@@ -38,6 +38,10 @@ npm run db:types                                       # src/types/database.ts �
 
 `supabase init` yapılmış durumda (`supabase/config.toml` repoda).
 
+### Auth (Faz 5)
+
+Supabase Dashboard › Authentication › URL Configuration: **Site URL** = sitenin adresi, **Redirect URLs** listesine `http://localhost:3000/auth/callback` ve üretim adresi `https://<domain>/auth/callback` eklenir; davet/şifre bağlantıları oraya iner. E-posta şablonlarında `{{ .ConfirmationURL }}` kullanılır. E2E: `node --env-file=.env.local scripts/create-e2e-user.mjs` ayrı bir `admin` test hesabı açar (kimlik bilgileri `.env.local` › `E2E_*`, CI'da gizli değişken).
+
 ### Storage bucket'ları (0013)
 
 | Bucket | Erişim | İçerik |

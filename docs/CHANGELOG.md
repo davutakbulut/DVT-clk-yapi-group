@@ -7,6 +7,22 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 5 · Auth + Admin çatısı
+- `src/core/auth/` — `getCurrentUser` · `requireRole` · `safeReturnUrl` · roller; `src/core/db/createServerClient.ts` (server-only) · `createBrowserClient.ts`
+- Middleware giriş kapısı (`/admin`, `/tr/hesabim`, `/en/account`) — yalnız deneyim, K-14
+- `src/modules/auth` — Server Action'lar (giriş/kayıt/şifre/profil/çıkış), `AuthForm`, `AccountMenu`; sayfalar `login · register · forgot-password · reset-password · account`; `app/auth/callback` PKCE
+- `src/app/admin` — layout (kapı + 403), dashboard, `menus`, `settings`, `settings/whatsapp`, `pages/errors`, `media`, `users`; `src/modules/admin-shell` (çatı + kayıt listesi)
+- Modül admin katmanları: navigation · site-settings · whatsapp · static-pages · **media** (yeni) · **users** (yeni); her modülde `server.ts` (sunucu API'si)
+- shadcn/ui (`src/components/ui`, yalnız admin) — değişkenler `theme.admin.css` içinde `[data-surface='admin']` altında; sitenin tokenlarına sızmaz
+- `0015_admin_helpers.sql` — `reorder_menu_items(uuid[])` · `admin_dashboard_counts()` (invoker, RLS)
+- `scripts/create-e2e-user.mjs` · `e2e/admin.spec.ts` · Playwright `.env.local` E2E_* yükleyicisi
+- Mesajlar: `Auth`, `Admin` ad alanları (TR/EN)
+- **K-51** — davet service-role'süz (OTP bağlantısı) ve modül `server.ts` sözleşmesi
+
+### Düzeltildi — Faz 5
+- `scripts/scan-static-data.mjs` shadcn üretimi bileşenleri (`components/ui/`) atlar
+
+
 ### Eklendi — Faz 4 · Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp
 - Tipografi: `src/ui/fonts.ts` — Syne / IBM Plex Sans / IBM Plex Mono, `next/font` self-host, `latin-ext`; akışkan ölçek ve tam semantik token seti (`tokens.primitive.css`, `theme.site.css`)
 - `src/ui`: `Button` · `Container` · `SectionHeading` · `BrandMark` · `MenuSuggestions`; `globals.css` bileşen katmanı (header ızgarası, çekmece, footer, WhatsApp, çizgi animasyonu)

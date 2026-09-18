@@ -17,7 +17,7 @@ import sharp from 'sharp';
 import {
   BLUR_WIDTH, IMAGE_EXT, VIDEO_EXT, WEBP_QUALITY, altFor, contentHash, folderSlug, imagePaths, mimeFor,
   planWidths, readVideoMetadata, uuidFromHash, videoPath,
-} from './lib/media-pipeline.mjs';
+} from '../src/lib/mediaPipeline.ts';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const ASSETS = join(ROOT, 'assets');

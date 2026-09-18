@@ -9,6 +9,8 @@ const ROOT = new URL('../src/', import.meta.url).pathname;
 
 // 03-ERROR-ISOLATION: global-error next-intl bağlamına erişemez → metin gömülü olmak ZORUNDA.
 const ALLOWED_FILES = new Set(['app/global-error.tsx']);
+// shadcn üretimi bileşenler (yalnız admin, 02-STYLE-ISOLATION): sr-only 'Close' gibi yerleşik metinler kütüphaneye ait.
+const ALLOWED_PREFIXES = ['components/ui/'];
 
 const TR_CHARS = 'çğıöşüÇĞİÖŞÜâîû';
 const RULES = [
@@ -36,7 +38,7 @@ function* walk(dir) {
 const findings = [];
 for (const file of walk(ROOT)) {
   const rel = relative(ROOT, file);
-  if (ALLOWED_FILES.has(rel)) continue;
+  if (ALLOWED_FILES.has(rel) || ALLOWED_PREFIXES.some((prefix) => rel.startsWith(prefix))) continue;
   readFileSync(file, 'utf8').split('\n').forEach((line, index) => {
     if (IGNORED_LINE.test(line)) return;
     const code = line.replace(/\/\/.*$/, ''); // satır sonu yorumları içerik değildir

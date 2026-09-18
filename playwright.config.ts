@@ -1,4 +1,13 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+
+// .env.local'daki E2E_* değişkenleri (test hesabı) — dotenv bağımlılığı olmadan. CI'da gizli değişken olarak verilir.
+if (existsSync('.env.local')) {
+  for (const line of readFileSync('.env.local', 'utf8').split('\n')) {
+    const match = /^(E2E_[A-Z_]+)=(.*)$/.exec(line.trim());
+    if (match?.[1] && process.env[match[1]] === undefined) process.env[match[1]] = match[2] ?? '';
+  }
+}
 
 const PORT = 3200;
 

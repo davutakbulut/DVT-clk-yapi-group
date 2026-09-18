@@ -4,6 +4,7 @@ import { pickLocale } from '@/lib/localized';
 import { BrandMark } from '@/ui/BrandMark';
 import { Container } from '@/ui/Container';
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher';
+import { AccountMenu } from '@/modules/auth';
 import { getMenu } from '../../services/getMenu';
 import { MenuLinkView } from './MenuLinkView';
 import { MobileDrawer } from './MobileDrawer';
@@ -56,6 +57,7 @@ export async function Header({ locale }: Props) {
           ) : null}
           {/* Her kırılımda header'da: mobilde çekmece olmayabilir (K-50), dil değiştirici yine erişilebilir olmalı */}
           <LanguageSwitcher />
+          <AccountMenu />
           {cta ? <MenuLinkView node={cta} className="btn btn-primary hidden sm:inline-flex" /> : null}
         </div>
       </Container>

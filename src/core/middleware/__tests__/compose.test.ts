@@ -84,3 +84,35 @@ describe('composeMiddleware — K-13', () => {
     expect(intl).not.toHaveBeenCalled();
   });
 });
+
+describe('composeMiddleware — giriş kapısı (yalnız deneyim, K-14)', () => {
+  it('oturumsuz /admin → /tr/giris?next=… (yol + sorgu korunur), çerezler yine basılır', async () => {
+    const { middleware, intl } = setup(ANONYMOUS, () => NextResponse.next());
+    const response = await middleware(request('/admin/menus?tab=header'));
+
+    expect(response.status).toBe(307);
+    const location = new URL(response.headers.get('location')!);
+    expect(location.pathname).toBe('/tr/giris');
+    expect(location.searchParams.get('next')).toBe('/admin/menus?tab=header');
+    expect(intl).not.toHaveBeenCalled();
+  });
+
+  it('oturumsuz üye alanı (/tr/hesabim, /en/account) giriş sayfasına; /tr/hesabimx değil', async () => {
+    const { middleware } = setup(ANONYMOUS, () => NextResponse.next());
+    expect((await middleware(request('/tr/hesabim'))).status).toBe(307);
+    expect((await middleware(request('/en/account/profile'))).status).toBe(307);
+    expect((await middleware(request('/tr/hesabimx'))).status).toBe(200);
+  });
+
+  it('oturumlu kullanıcı /admin ve üye alanında yönlendirilmez (rol kontrolü sunucu bileşeninde)', async () => {
+    const { middleware } = setup(REFRESHED, () => NextResponse.next());
+    expect((await middleware(request('/admin'))).status).toBe(200);
+    expect((await middleware(request('/tr/hesabim'))).status).toBe(200);
+  });
+
+  it('herkese açık sayfa oturumsuz da geçer', async () => {
+    const { middleware, intl } = setup(ANONYMOUS, () => NextResponse.next());
+    expect((await middleware(request('/tr/giris'))).status).toBe(200);
+    expect(intl).toHaveBeenCalledTimes(1);
+  });
+});

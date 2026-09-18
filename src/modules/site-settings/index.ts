@@ -11,3 +11,4 @@ export async function getPublicSettings(): Promise<PublicSettings> {
   logger.warn(result.error.message, { module: 'site-settings', code: result.error.code });
   return DEFAULT_SETTINGS;
 }
+export { SettingsForm } from './components/admin/SettingsForm';

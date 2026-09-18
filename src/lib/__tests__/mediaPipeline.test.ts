@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   altFor, folderSlug, imagePaths, mimeFor, planWidths, readMp4Metadata, uuidFromHash, videoPath,
-} from '../lib/media-pipeline.mjs';
+} from '../mediaPipeline';
 
 describe('medya boru hattı — saf parçalar', () => {
   it('Türkçe klasör adları toLowerCase olmadan slug olur (K-16)', () => {

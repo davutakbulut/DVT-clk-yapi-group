@@ -9,8 +9,8 @@
 
 | Ön yüzde görünen | Admin ekranı | İşlemler |
 |---|---|---|
-| Header + footer menüleri | `/admin/menus` | CRUD · **sürükle-bırak sırala** · sol/sağ grup · dil bazlı |
-| Logo, favicon, site adı, slogan | `/admin/settings` | Düzenle · görsel yükle |
+| Header + footer menüleri | `/admin/menus` ✅ Faz 5 | CRUD · sırala (↑↓, tek RPC; sürükle-bırak sonra) · sol/sağ grup · dil bazlı |
+| Logo, favicon, site adı, slogan | `/admin/settings` ✅ Faz 5 | Düzenle · logo medya kütüphanesinden seçilir |
 | Hero videosu (masaüstü + mobil ayrı) | `/admin/pages/home` | Yükle · poster · süre |
 | Hakkımızda + istatistikler | `/admin/pages/about` | Düzenle · istatistik CRUD |
 | **Hizmetler** | `/admin/services` | CRUD · sırala · galeri · SEO · TR/EN |
@@ -32,14 +32,14 @@
 | SSS | `/admin/faq` | CRUD · sırala · varlığa bağla |
 | Teklif formu seçenekleri | `/admin/settings/form` | Seçenek CRUD · sırala |
 | **Gelen talepler** | `/admin/leads` | Liste · filtre · detay · not · **cevapla (mail)** · durum · ata · **ürün kalemleri** · Excel |
-| İletişim, sosyal medya, çalışma saatleri | `/admin/settings` | Düzenle |
-| **WhatsApp butonu** | `/admin/settings/whatsapp` | Numara · mesaj şablonları · saatler · sayfa bazlı gizle |
+| İletişim, sosyal medya, çalışma saatleri | `/admin/settings` ✅ Faz 5 | Düzenle |
+| **WhatsApp butonu** | `/admin/settings/whatsapp` ✅ Faz 5 | Numara · mesaj şablonu · gecikme · sayfa bazlı gizle (saatler sonra) |
 | Yasal sayfalar | `/admin/pages` | Düzenle · TR/EN |
 | Çerez onay bandı | `/admin/settings/cookies` | Düzenle |
-| **404/403/500 metinleri** | `/admin/pages/errors` | Düzenle · TR/EN |
+| **404/403/500 metinleri** | `/admin/pages/errors` ✅ Faz 5 | Düzenle · TR/EN · K-08 onay kutusu |
 | Bakım modu | `/admin/settings` | Aç/kapa · metin · süre |
 | **Modül aç/kapa** | `/admin/settings/modules` | Kill switch |
-| Üyeler ve roller | `/admin/users` | Liste · davet · rol · aktif/pasif · şifre sıfırla · aktivite |
+| Üyeler ve roller | `/admin/users` ✅ Faz 5 | Liste · davet (OTP bağlantısı, K-51) · rol · aktif/pasif (şifre sıfırlama kişi kendi yapar) |
 | Arayüz etiketleri | `/admin/translations` | Ara · düzenle · varsayılana dön |
 | Terim sözlüğü | `/admin/translations/glossary` | CRUD · TR↔EN · bağlam |
 | Çevirisi eksikler | `/admin/translations/missing` | EN tarafı boş kayıtlar |

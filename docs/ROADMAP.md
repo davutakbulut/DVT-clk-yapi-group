@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 5 — Auth + Admin çatısı ⏳ (sırada) · Faz 1–4 PR'da
+**Şu an:** Faz 6 — Ana sayfa ⏳ (sırada) · Faz 1–5 PR'da
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ⏳ Bekliyor |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 5 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -102,7 +102,22 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v1.0 — Yayına Hazır Site
 
-- [ ] **Faz 05** — Auth + Admin çatısı · üyelik ekranları · dashboard · medya kütüphanesi
+- [x] **Faz 05** — Auth + Admin çatısı · üyelik ekranları · dashboard · medya kütüphanesi ✅ 2026-09-18
+  - [x] `core/auth`: `getCurrentUser` (getUser + profil, istek başına önbellek) · `requireRole` (K-14 kapısı, açık rol listesi) · `safeReturnUrl` (açık yönlendirme savunması, 18 test)
+  - [x] `core/db/createServerClient` (çerezli, RLS'li) · `createBrowserClient` (yalnız oturum durumu) · service-role istek yolunda YOK
+  - [x] Middleware: oturumsuz `/admin` ve üye alanı → `/tr/giris?next=…` (yalnız deneyim; 4 yeni test)
+  - [x] Üyelik ekranları: giriş · kayıt · şifremi unuttum · şifre yenile · hesabım (TR/EN route'ları, Server Action + `useActionState`, JS'siz çalışır) · `/auth/callback` PKCE
+  - [x] Header hesap menüsü (istemci; ISR'ı bozmaz): misafir → Giriş, üye → Hesabım / Yönetim Paneli / Çıkış
+  - [x] `/admin` çatısı: `data-surface="admin"` + shadcn (yalnız admin, değişkenler `theme.admin.css`'te kapsamlı) · sol menü + mobil menü · rol süzgeçli kayıt listesi · 403 içeriği · noindex meta
+  - [x] Dashboard: `admin_dashboard_counts` RPC (0015, invoker) · son hatalar · hızlı erişim
+  - [x] **Faz 4 admin karşılıkları kapandı:** `/admin/menus` (öğe CRUD, üst/alt, sol/sağ, CTA, dil, `reorder_menu_items` tek RPC) · `/admin/settings` · `/admin/settings/whatsapp` · `/admin/pages/errors` (K-08 onay kutusu)
+  - [x] `/admin/media`: yükleme (sihirli bayt + MIME uyumu + 25 MB, sharp ile aynı WebP boru hattı, kullanıcının oturumuyla Storage'a) · alt metni TR/EN · sil (varyantlarla) · klasör süzgeci
+  - [x] `/admin/users`: liste · rol/aktiflik (yalnız super_admin; son super_admin korunur) · davet = OTP giriş bağlantısı (service-role'süz, K-51)
+  - [x] Modül public API'si ikiye ayrıldı: `index.ts` (istemciye inebilir) + `server.ts` (yalnız sunucu) — ESLint sınırı ikisini de tanır
+  - [x] `scripts/create-e2e-user.mjs`: ayrı E2E admin hesabı, rastgele şifre yalnız `.env.local`'da
+  - [x] Testler: 188 birim/DB · `e2e/admin.spec.ts` (kapı, açık yönlendirme, panel ekranları, axe) — hesap yoksa atlanır
+  - [ ] *Ürün sahibi:* Supabase Dashboard › Auth › URL Configuration: Site URL + Redirect `…/auth/callback` (davet/şifre bağlantıları için) · davet e-postasını onaylayıp şifre belirle
+  - [ ] *Sonraki fazlar:* 8 saat hareketsizlik çıkışı + MFA (Faz 12 güvenlik denetimi) · giriş hız sınırı (Upstash, Faz 10) · TanStack Table liste ekranları (Faz 7'den itibaren)
 - [ ] **Faz 06** — Ana sayfa: scroll video hero + hakkımızda *(iOS Safari testi)*
 - [ ] **Faz 07** — Hizmetler (ön yüz + admin)
 - [ ] **Faz 08** — Projeler (ön yüz + admin)

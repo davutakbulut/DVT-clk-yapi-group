@@ -12,6 +12,12 @@ export const routing = defineRouting({
   localeDetection: false,
   pathnames: {
     '/': '/',
+    // Faz 5 · üyelik
+    '/login': { tr: '/giris', en: '/login' },
+    '/register': { tr: '/kayit', en: '/register' },
+    '/forgot-password': { tr: '/sifremi-unuttum', en: '/forgot-password' },
+    '/reset-password': { tr: '/sifre-yenile', en: '/reset-password' },
+    '/account': { tr: '/hesabim', en: '/account' },
   },
 });
 

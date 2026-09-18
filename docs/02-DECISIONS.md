@@ -261,6 +261,11 @@ Görseller yükleme anında (Faz 3'te betikle, Faz 5'ten sonra admin yükleyicis
 **Neden:** Sayfası olmayan bağlantı ölü bağlantıdır (404) — "öksüz sayfa yok" kuralının tersi. Menüyü faz faz seed etmek ise panelden yapılmış düzenlemeyle çakışır; yapıyı bir kez yazıp süzmek iki sorunu da çözer.
 **Bilinen bedeli:** Faz 4 sonunda header'da yalnız marka, dil değiştirici ve (kapalı) CTA görünür; menü Faz 7–11 boyunca dolar. Süzme `buildMenuTree` içinde tek yerdedir ve testle kilitlidir.
 
+### K-51 · Panelde service-role yok: davet OTP bağlantısıyla; modül API'si `index.ts` + `server.ts`
+Kullanıcı daveti `auth.admin.inviteUserByEmail` (service-role) yerine `signInWithOtp({ shouldCreateUser: true })` ile yapılır: kişi e-postadaki bağlantıyla girer, profili `member` olarak oluşur, rolü super_admin panelden atar. Modüllerin dış API'si ikiye ayrılır: `index.ts` istemci bileşenlerine de inebilen ihracatlar (bileşenler, Server Action'lar, saf yardımcılar), `server.ts` yalnız sunucuda çalışan veri katmanı (`next/headers`).
+**Neden:** Kural 4 service-role anahtarını istekle erişilebilen hiçbir yerde istemiyor; davet için de istisna açılmadı. `index.ts`'e sunucu-yalnız kod girince istemci bileşeni (`error.tsx`) onu içe aktardığında derleme kırıldı; iki giriş noktası sınırı ESLint'te görünür kılar.
+**Bilinen bedeli:** Davetli kişi ilk girişte `member`dır; rol ataması ikinci adımdır (panelde tek tıkla). İki giriş dosyası: yeni modül iskeleti ikisini de açar.
+
 ---
 
 ## Değiştirilen Kararlar

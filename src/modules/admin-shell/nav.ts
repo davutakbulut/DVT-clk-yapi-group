@@ -1,0 +1,18 @@
+import type { AppRole } from '@/core/auth';
+
+// Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
+export interface AdminNavItem {
+  readonly key: 'dashboard' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly href: string;
+  readonly roles?: readonly AppRole[];
+}
+
+export const ADMIN_NAV: readonly AdminNavItem[] = [
+  { key: 'dashboard', href: '/admin' },
+  { key: 'menus', href: '/admin/menus', roles: ['super_admin', 'admin'] },
+  { key: 'settings', href: '/admin/settings', roles: ['super_admin', 'admin'] },
+  { key: 'whatsapp', href: '/admin/settings/whatsapp', roles: ['super_admin', 'admin'] },
+  { key: 'errors', href: '/admin/pages/errors', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'media', href: '/admin/media', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'users', href: '/admin/users', roles: ['super_admin', 'admin'] },
+];
