@@ -13,6 +13,10 @@ interface Props {
   readonly params: Promise<{ locale: string }>;
 }
 
+// K-46 emniyet kemeri: etiketli önbellek düşürülmese bile (ör. footer'daki yıl, elle DB düzenlemesi) sayfalar en geç
+// bir saatte kendini yeniler. Etiket düşürme (revalidateTag) anında yenilemeyi sağlar; bu yalnız üst sınır.
+export const revalidate = 3600;
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }

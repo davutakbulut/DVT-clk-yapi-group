@@ -102,3 +102,10 @@ supabase/seed.sql
 | `timestamptz` | `DATETIMEOFFSET` |
 | RLS + `auth.uid()` | Servis katmanı yetkisi (RLS güvenilemez) |
 | `pg_cron` | SQL Server Agent |
+
+## Sonraki migration'lar
+
+| Dosya | Faz | İçerik |
+|---|---|---|
+| `0013_storage_buckets.sql` | 3 | `media` + `private-documents` bucket'ları ve `storage.objects` politikaları — `storage` şeması yoksa (PGlite) kendini atlar |
+| `0014_navigation_seed.sql` | 4 | Menü yapısı (yalnız menü boşsa) + `menu_items` sıralama tekilliği `(menu_id, parent_id)` kapsamına alındı |

@@ -110,7 +110,7 @@ GIN değil — GIN benzersizlik uygulayamaz. Ayrıntı: [`../architecture/02-ROU
 | `error_logs` | Yol, hata kodu, mesaj, stack, **modül etiketi**, kullanıcı, IP |
 | `slug_history` | Eski slug → 308 yönlendirme kaynağı |
 | `redirects` | Elle tanımlanan yönlendirmeler (410 Gone dahil) |
-| `media_library` | Tüm görsel/video/belge kayıtları — `alt` JSONB (TR/EN), `variants` (WebP boyutları) |
+| `media_library` | Tüm görsel/video/belge kayıtları — `alt` JSONB (TR/EN), `variants` (WebP boyutları, K-49). Storage: `media` (herkese açık) · `private-documents` (staff), 0013 |
 | `content_revisions` | Editördeki revizyon geçmişi — her içerik tipi için ortak |
 | `document_counters` | `TLP-2026-0118` · `SAT-2026-0042` — yıl başına, yarışa dayanıklı sayaç |
 

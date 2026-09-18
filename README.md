@@ -27,7 +27,7 @@
 ```bash
 npm install
 cp .env.example .env.local     # değerleri doldurun (Supabase'siz de açılır)
-supabase start                 # yerel veritabanı — Faz 2'den itibaren (Docker gerekir)
+# Yerel Docker YOK (K-47): şema PGlite testleriyle doğrulanır, uzak projeye db push edilir
 npm run dev
 ```
 
@@ -43,6 +43,10 @@ npm run dev
 | `npm run test:e2e` | Playwright + axe — üretim derlemesine karşı, 3 kırılımda |
 | `npm run scan:static` | "Sıfır statik veri" kuralı taraması |
 | `npm run circular` | Döngüsel bağımlılık denetimi (madge) |
+| `npm run test:db` | PGlite üzerinde migration + RLS testleri (~5 sn, Docker'sız) |
+| `npm run db:push` | Migration'ları bağlı projeye uygular — hedef izin listesinden doğrulanır |
+| `npm run db:types` · `db:report` | Tip üretimi · şema gezgini HTML (`supabase/.temp/`) |
+| `npm run media:migrate` · `media:report` | `assets/` → WebP → Storage · medya galerisi HTML (Node ≥ 22.18) |
 
 ## Dokümantasyon
 

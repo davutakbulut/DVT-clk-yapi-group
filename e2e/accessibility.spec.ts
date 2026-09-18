@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-const PAGES = ['/tr', '/en', '/tr/olmayan-sayfa'];
+const PAGES = ['/tr', '/en', '/tr/olmayan-sayfa', '/en/no-such-page'];
 
 for (const path of PAGES) {
   test(`axe: ${path} ihlalsiz (WCAG 2.1 AA)`, async ({ page }) => {

@@ -68,8 +68,8 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Referans verisi migration'da; gerçek-veri tabloları (fiyat, yorum, proje, ekip, sertifika) **boş**
   - [x] Uzak projeye uygulandı · gerçek API üzerinden anonim anahtarla doğrulandı (hassas tablolar 401, `app_private` 404) · `src/types/database.ts` üretildi
   - [x] `npm run db:push` hedef projeyi izin listesinden doğrulamadan çalışmaz (`scripts/db-push.mjs`)
-  - [ ] *Ürün sahibi:* `.env.local` › `SUPABASE_SECRET_KEY` → `create-super-admin.mjs`
-  - [ ] *Ürün sahibi:* yanlış projeye (başka uygulama) uygulanan `0001`–`0002`'nin temizliği — betik hazır, karar bekliyor
+  - [x] `create-super-admin.mjs` çalıştırıldı: `dvtakblt@gmail.com` super_admin — *davet e-postası henüz onaylanmadı (ürün sahibi şifre belirleyecek)*
+  - [x] Yanlış projeye uygulanan `0001`–`0002` temizlendi; doğrulandı (34 kendi tablosu, bizden 0)
 - [x] **Faz 03** — Medya migrasyonu (162 görsel → WebP → Storage) ✅ 2026-09-18
   - [x] `0013_storage_buckets.sql` — `media` (herkese açık) + `private-documents` (staff) bucket'ları ve `storage.objects` politikaları; PGlite'ta koruma bloğuyla atlanır
   - [x] **K-49** boru hattı: `scripts/media-migrate.mjs` — sharp ile WebP (480/960/1440 varyant + ≤1920 tam boy + 16 px blur), içerik hash'inden kararlı id, yeniden çalıştırılabilir upsert
