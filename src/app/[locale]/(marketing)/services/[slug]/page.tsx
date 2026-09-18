@@ -10,6 +10,7 @@ import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedServiceBySlug, getCachedServiceSlugs, resolveOldServiceSlug, ServiceDetail, type ServiceDetailData } from '@/modules/services';
+import { SolutionsForService } from '@/modules/solutions';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -78,7 +79,15 @@ export default async function ServicePage({ params }: Props) {
     <RouteAlternates value={{ hrefs: hrefs(service), fallback: '/services' }}>
       <JsonLd data={jsonLd} />
       <ModuleBoundary module="services/detail">
-        <ServiceDetail service={service} locale={locale} />
+        <ServiceDetail
+          service={service}
+          locale={locale}
+          extra={
+            <ModuleBoundary module="solutions/for-service">
+              <SolutionsForService serviceId={service.id} locale={locale} />
+            </ModuleBoundary>
+          }
+        />
       </ModuleBoundary>
     </RouteAlternates>
   );

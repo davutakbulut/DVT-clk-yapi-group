@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
@@ -12,13 +13,15 @@ import { ServiceIcon } from './ServiceIcon';
 interface Props {
   readonly service: ServiceDetailData;
   readonly locale: string;
+  /** CTA bandından önce ek bölüm (ör. bu hizmete bağlı çözümler — route katmanı verir, modül sınırı korunur). */
+  readonly extra?: ReactNode;
 }
 
 /**
  * Hizmet detayı (01-PUBLIC-PAGES › iç bağlantı akışı): başlık bandı → gövde → süreç (gerçek sıra, numaralı) → galeri →
  * bu hizmetle yapılan projeler (Faz 8 verisi; yoksa yok) → SSS → teklif CTA (route gelince). Boş bölüm render edilmez.
  */
-export async function ServiceDetail({ service, locale }: Props) {
+export async function ServiceDetail({ service, locale, extra }: Props) {
   const [env, t] = await Promise.all([readSupabasePublicEnv(), getTranslations('Services')]);
   const url = env.ok ? env.data.url : null;
   const cover = service.cover && url ? service.cover : null;
@@ -135,6 +138,8 @@ export async function ServiceDetail({ service, locale }: Props) {
           </ul>
         </Container>
       ) : null}
+
+      {extra}
 
       {quoteRoute ? (
         <section className="cta-band" data-on-dark="">
