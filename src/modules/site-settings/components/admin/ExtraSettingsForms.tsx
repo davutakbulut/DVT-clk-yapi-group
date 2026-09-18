@@ -21,7 +21,7 @@ export function SeoSettingsForm({ settings, images, indexable }: { readonly sett
       <FormSection title={t('seoSettings.indexable')}>
         <p className={`text-sm ${indexable ? 'text-green-700' : 'text-amber-700'}`}>{indexable ? t('seoSettings.indexableOn') : t('seoSettings.indexableOff')}</p>
         <p className="text-xs text-muted-foreground">
-          {t('seoSettings.sitemap')}: <code>/sitemap.xml</code> · robots: <code>/robots.txt</code> · {t('seoSettings.llms')}: <code>/llms.txt</code>
+          {t('seoSettings.sitemap')}: <code>/sitemap.xml</code> · <code>/robots.txt</code> · {t('seoSettings.llms')}: <code>/llms.txt</code> {/* static-ok: teknik yol adları */}
         </p>
       </FormSection>
       <FormSection title={t('seoSettings.title')}>

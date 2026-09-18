@@ -69,7 +69,7 @@ describe('0020 · talep + mail', () => {
     const { join } = await import('node:path');
     const sql = readFileSync(join(__dirname, '..', 'migrations', '0020_leads_mail.sql'), 'utf8');
     await db.exec(sql.slice(sql.indexOf('insert into public.email_templates')));
-    expect((await db.query<{ n: number }>(`select count(*)::int as n from public.email_templates`)).rows[0]!.n).toBe(3);
+    expect((await db.query<{ n: number }>(`select count(*)::int as n from public.email_templates where key like 'lead.%'`)).rows[0]!.n).toBe(3);
     expect((await db.query<{ n: number }>(`select count(*)::int as n from public.cron_heartbeats where job_key = 'mail_queue'`)).rows[0]!.n).toBe(1);
   });
 });

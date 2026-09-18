@@ -908,6 +908,101 @@
     object-fit: contain;
   }
 
+  /* ── Çerez bandı: alt sabit, koyu; odak halkası açık zemin rengi */
+  .consent-banner {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 70;
+    background: var(--color-surface-darker);
+    color: var(--color-text-inverse);
+    border-top: 2px solid var(--color-accent);
+    box-shadow: var(--shadow-3);
+  }
+
+  /* ── Veri tablosu (ürün özellik/ölçü, fiyat rehberi): çizgi ağırlıklı, tabular rakam */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--fs-sm);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table caption {
+    text-align: left;
+    padding: var(--space-2) 0;
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+  .data-table th,
+  .data-table td {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+  }
+  .data-table thead th {
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .data-table tbody th {
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+  }
+
+  /* ── Çözüm avantajları (K-26) */
+  .advantage-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  @media (min-width: 640px) {
+    .advantage-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .advantage {
+    display: grid;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--color-bg);
+  }
+  .advantage-index {
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: var(--fs-xs);
+    color: var(--color-accent-text);
+  }
+  .advantage-title {
+    font-size: var(--fs-h4, 1.125rem);
+    margin: 0;
+  }
+  .advantage-desc {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Sepet rozeti */
+  .basket-badge {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-on-dark);
+    color: var(--ink);
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: 11px;
+    line-height: 18px;
+    text-align: center;
+  }
+
   /* ── CTA bandı */
   .cta-band {
     background: var(--color-surface-dark);

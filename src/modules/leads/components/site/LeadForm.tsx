@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { IDLE } from '@/lib/formState';
 import { pickLocale } from '@/lib/localized';
 import { Button } from '@/ui/Button';
@@ -9,18 +9,28 @@ import { submitLead } from '../../actions';
 import type { QuoteFormOptions } from '../../domain/leadSchema';
 
 interface Props {
-  readonly variant: 'contact_form' | 'quote_form';
+  readonly variant: 'contact_form' | 'quote_form' | 'quote_basket';
   readonly services: readonly { readonly id: string; readonly title: string }[];
   readonly options: QuoteFormOptions;
+  /** Ek gizli alanlar (ör. sepet kalemleri JSON). */
+  readonly hiddenFields?: Readonly<Record<string, string>>;
+  readonly onSuccess?: (data: Readonly<Record<string, string>>) => void;
 }
 
 /** İletişim / teklif formu: görünür etiketler, alanın yanında hata, bal küpü, KVKK onayı; JS'siz de gönderilir. */
-export function LeadForm({ variant, services, options }: Props) {
+export function LeadForm({ variant, services, options, hiddenFields, onSuccess }: Props) {
   const t = useTranslations('LeadForm');
   const locale = useLocale();
   const [state, action, pending] = useActionState(submitLead, IDLE);
   const [pageUrl, setPageUrl] = useState('');
   const [utm, setUtm] = useState({ source: '', medium: '', campaign: '' });
+  const doneRef = useRef(false);
+  useEffect(() => {
+    if (state.done && !doneRef.current) {
+      doneRef.current = true;
+      onSuccess?.(state.data ?? {});
+    }
+  }, [state.done, state.data, onSuccess]);
   useEffect(() => {
     setPageUrl(window.location.href);
     const q = new URLSearchParams(window.location.search);
@@ -61,6 +71,9 @@ export function LeadForm({ variant, services, options }: Props) {
       <input type="hidden" name="utmSource" value={utm.source} />
       <input type="hidden" name="utmMedium" value={utm.medium} />
       <input type="hidden" name="utmCampaign" value={utm.campaign} />
+      {Object.entries(hiddenFields ?? {}).map(([k, v]) => (
+        <input key={k} type="hidden" name={k} value={v} />
+      ))}
       <div className="hidden" aria-hidden="true">
         <label>
           Website <input type="text" name="website" tabIndex={-1} autoComplete="off" />
@@ -94,13 +107,13 @@ export function LeadForm({ variant, services, options }: Props) {
         <p id="lead-contact-hint" className="text-[length:var(--fs-xs)] text-[var(--color-text-subtle)] sm:col-span-2">
           {t('contactHint')}
         </p>
-        {variant === 'quote_form' ? (
+        {variant !== 'contact_form' ? (
           <>
             <label className="grid gap-1 text-[length:var(--fs-sm)] font-medium">
               {t('city')}
               <input name="city" maxLength={120} autoComplete="address-level2" className="field" />
             </label>
-            {services.length > 0 ? (
+            {variant === 'quote_form' && services.length > 0 ? (
               <label className="grid gap-1 text-[length:var(--fs-sm)] font-medium">
                 {t('service')}
                 <select name="serviceId" className="field" defaultValue="">

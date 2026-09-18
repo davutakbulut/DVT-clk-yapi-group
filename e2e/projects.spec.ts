@@ -20,7 +20,7 @@ test.describe('projeler', () => {
   test('/tr/projeler: h1, kategori çipleri (DB varsa), BreadcrumbList, axe temiz', async ({ page }) => {
     await page.goto('/tr/projeler');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Projelerimiz');
-    expect(await page.locator('script[type="application/ld+json"]').first().textContent()).toContain('BreadcrumbList');
+    expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('BreadcrumbList');
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });
@@ -67,7 +67,7 @@ test.describe('proje yönetimi', () => {
     // Suspense akışının gizli kapsayıcısı (body sonunda) kısa süre kopya taşıyabilir → ana içeriğe daraltılır
     await expect(page.locator('#main-content .facts')).toContainText('2.400 m²');
     await expect(page.locator('#main-content .facts')).toContainText('Gebze');
-    expect(await page.locator('script[type="application/ld+json"]').first().textContent()).toContain('"@type":"Article"');
+    expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('"@type":"Article"');
     if (await firstService.count()) await expect(page.locator('main a[href^="/tr/hizmetler/"]').first()).toBeVisible();
     const list = await page.goto('/tr/projeler');
     expect(list?.status()).toBe(200);

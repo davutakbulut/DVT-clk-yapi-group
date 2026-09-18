@@ -4,6 +4,8 @@ import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 import { getSiteUrl } from '@/core/config/site';
+import { getPublicSettings } from '@/modules/site-settings';
+import { pickLocale } from '@/lib/localized';
 import { routing } from '@/i18n/routing';
 import { fontClassNames } from '@/ui/fonts';
 import '@/styles/globals.css';
@@ -24,11 +26,18 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Pick<Props, 'params'>): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: 'Meta' });
+  const [t, settings] = await Promise.all([getTranslations({ locale, namespace: 'Meta' }), getPublicSettings()]);
+  const siteName = pickLocale(settings.siteName, locale, { fallback: 'tr' }) || t('siteName');
+  const description = pickLocale(settings.seoDescription, locale) || undefined;
+  const v = settings.seoVerification;
 
   return {
     metadataBase: getSiteUrl(),
-    title: { default: t('siteName'), template: t('titleTemplate') },
+    title: { default: siteName, template: `%s · ${siteName}` },
+    description,
+    openGraph: { siteName, locale: locale === 'tr' ? 'tr_TR' : 'en_US', type: 'website' },
+    twitter: { card: 'summary_large_image' },
+    verification: { ...(v.google ? { google: v.google } : {}), ...(v.yandex ? { yandex: v.yandex } : {}), ...(v.bing ? { other: { 'msvalidate.01': v.bing } } : {}) },
   };
 }
 

@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { CookieSettingsButton } from '@/modules/consent';
 import { getCachedServiceList } from '@/modules/services';
 import { getPublicSettings } from '@/modules/site-settings';
 import { pickLocale } from '@/lib/localized';
@@ -84,15 +85,18 @@ export async function Footer({ locale }: Props) {
           ) : null}
         </div>
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--color-border-dark)] pt-6 text-[length:var(--fs-xs)]">
-          {legal.length > 0 ? (
-            <ul className="flex flex-wrap gap-x-5 gap-y-2">
-              {legal.map((node) => (
-                <li key={node.id}>
-                  <MenuLinkView node={node} />
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {legal.map((node) => (
+              <li key={node.id}>
+                <MenuLinkView node={node} />
+              </li>
+            ))}
+            {settings.cookieBanner ? (
+              <li>
+                <CookieSettingsButton label={pickLocale(settings.cookieBanner[locale]?.settings ? { [locale]: settings.cookieBanner[locale]!.settings } : { tr: settings.cookieBanner['tr']?.settings ?? '' }, locale, { fallback: 'tr' })} />
+              </li>
+            ) : null}
+          </ul>
           <p className="label-mono text-[var(--color-text-inverse-subtle)]">{t('copyright', { year, siteName })}</p>
         </div>
       </Container>

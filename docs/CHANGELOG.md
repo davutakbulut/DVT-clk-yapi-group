@@ -7,6 +7,40 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 16 · Fiyat rehberi + hesaplayıcı
+- `src/modules/pricing` — `PricingList` · `PriceGuideDetail` · `PriceCalculator` (istemci) · `PriceGuideForm` · `MaterialPriceForm`; `domain/priceLines` · `domain/estimate` (4 test); `actions` (rehber CRUD + satırlar, malzeme fiyatı CRUD yalnız admin); `data/pricingRepository` · `adminPricingRepository`
+- Route'lar `/pricing` (tr `/fiyatlar`) · `/pricing/[slug]`; `app/admin/pricing` (liste · new · [id] · materials); `whatsapp` modülü `getCachedWhatsAppConfig` dışa açıldı (hesaplayıcı CTA)
+- `supabase/migrations/0026_price_guides.sql` (`get_price_guide_by_slug` security definer, `touch_price_guide`) · `supabase/tests/price-guides.test.ts` (4); mesajlar `Pricing`, `Admin.pricing`, `Admin.materials`; `e2e/pricing.spec.ts`; cleanup betiği rehber + E2E malzeme fiyatlarını temizler
+
+### Eklendi — Faz 15 · Çözüm sayfaları
+- `src/modules/solutions` — `SolutionsList` · `SolutionDetail` · `SolutionCard` · `SolutionsForService` · `SolutionForm`; `domain/solutionLines` (2 test); `actions` (CRUD + sıralama); `data/solutionsRepository` · `adminSolutionsRepository`
+- Route'lar `/solutions` (tr `/cozumler`) · `/solutions/[slug]`; `app/admin/solutions` (liste · new · [id]); `ServiceDetail` `extra` slotu; sitemap + llms.txt + admin nav; `globals.css` `.advantage-grid`
+- `supabase/migrations/0025_solutions.sql` (`get_solution_by_slug` + tohum) · `supabase/tests/solutions.test.ts` (3); mesajlar `Solutions`, `Admin.solutions`; `e2e/solutions.spec.ts`; cleanup betiği çözümleri de temizler
+
+### Eklendi — Faz 14 · Teklif sepeti
+- `src/modules/quote-basket` — `domain/basket` (6 test) · `BasketProvider` · `AddToBasket` · `BasketLink` · `BasketPage`; route `/quote-basket` (tr `/teklif-sepeti`, noindex); header rozeti `.basket-badge`
+- `leads`: `LeadForm` `variant="quote_basket"` + `hiddenFields` + `onSuccess`; `leadSchema` `items` + `parseBasketItems`; `submitLead` kalemleri RPC'ye geçirir; admin talep detayında "Teklif kalemleri"
+- `supabase/migrations/0024_quote_basket.sql` — `submit_lead` kalem işleme (DB'den anlık görüntü); `supabase/tests/quote-basket.test.ts` (2); mesajlar `Basket`, `Products.unitDefault`, `Admin.leads.item*`; `e2e/basket.spec.ts`
+
+### Değişti
+- `LeadForm.onSuccess` artık sonuç verisini (ref no) verir; `BasketPage` sepet boşaldıktan sonra başarı kutusunu korur
+- E2E ürün/sepet testleri stok kodunu zaman damgasıyla üretir (`stock_code` global benzersiz, paralel projeler çakışıyordu)
+- Blog yorum moderasyonu artık `blog` önbellek etiketini de tazeler (onaylanan yorum sitede hemen görünür)
+- `rls-content.test.ts`: `seo.verification` 0022 ile herkese açık (HTML meta) — beklenti güncellendi; `leads.test.ts` şablon sayımı `lead.%` anahtarlarıyla
+
+### Eklendi — Faz 13 · Ürün kataloğu
+- `src/modules/products` — site: `ProductsList` · `ProductDetail` · `ProductCard`; admin: `ProductForm` · `ProductCategoryForm`; `domain/productLines` (özellik/varyant satır biçimleri, 2 test); `actions` (ürün/kategori CRUD + sıralama, alt tablolar sil-yaz)
+- Route'lar `/products` · `/products/category/[slug]` · `/products/[slug]`; `app/admin/products` (liste · new · [id]) · `app/admin/product-categories`
+- `supabase/migrations/0023_products.sql` (`get_product_by_slug`) · `supabase/tests/products.test.ts` (3); `globals.css` `.data-table`; mesajlar `Products`, `Admin.products`, `Admin.productCategories`; `e2e/products.spec.ts`; cleanup betiği ürünleri de temizler
+
+### Eklendi — Faz 12 · SEO temeli + yayın hazırlığı
+- `app/sitemap.ts` (hreflang'lı, DB'den) · `app/robots.ts` (AI botları, sitemap) · `app/llms.txt/route.ts` · `app/[locale]/(marketing)/sitemap` (HTML)
+- `src/core/seo/organization.ts` — `organizationJsonLd` · `localBusinessJsonLd`; kök layout OG/Twitter/doğrulama meta'ları
+- `src/modules/consent` — `CookieBanner` · `CookieSettingsButton` · `domain/consent` (1 test); footer bağlantısı
+- `src/modules/static-pages` — `LegalPage` · `LegalPageForm` · `legalPageRepository` · `saveLegalPage`; 4 yasal route + `app/admin/pages`, `app/admin/pages/[key]`
+- `src/modules/site-settings` — `cookie_banner` · `maintenance` · `seo.verification` · `seo.default_og_media_id` alanları; `SeoSettingsForm` · `CookieBannerForm` · `MaintenanceForm`; `app/admin/settings/{seo,cookies,maintenance}`; bakım modu (marketing layout)
+- `next.config.ts` güvenlik başlıkları + `trailingSlash: false`; `supabase/migrations/0022_legal_pages.sql` · `supabase/tests/legal-pages.test.ts` (3); `e2e/seo.spec.ts`
+
 ### Eklendi — Faz 11 · Kurumsal
 - `src/modules/corporate` — site: `TeamGrid` · `ClientLogos` · `CertificatesList` · `JobList` · `JobDetail` · `ApplicationForm` · `FaqList` · `CorporateLinks`; admin: `TeamMemberForm` · `ClientForm` · `CertificateForm` · `JobPostingForm` · `ApplicationStatusForm` · `FaqForm`; `actions` (ekip/referans/belge/ilan/SSS CRUD + sıralama, başvuru durumu, ziyaretçi başvurusu + CV yükleme)
 - Route'lar `/about` · `/team` · `/references` · `/certificates` · `/careers` · `/careers/[slug]` · `/faq`; `app/admin/{team,references,certificates,careers,careers/applications,faq}`

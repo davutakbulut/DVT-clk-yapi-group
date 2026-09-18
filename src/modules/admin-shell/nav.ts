@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'materialPrices' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -13,6 +13,11 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'services', href: '/admin/services', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'projects', href: '/admin/projects', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'projectCategories', href: '/admin/project-categories', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'products', href: '/admin/products', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'solutions', href: '/admin/solutions', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'pricing', href: '/admin/pricing', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'materialPrices', href: '/admin/pricing/materials', roles: ['super_admin', 'admin'] },
+  { key: 'productCategories', href: '/admin/product-categories', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blog', href: '/admin/blog', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blogTaxonomy', href: '/admin/blog/taxonomy', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'comments', href: '/admin/blog/comments', roles: ['super_admin', 'admin', 'editor'] },

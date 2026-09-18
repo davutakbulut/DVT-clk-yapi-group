@@ -21,6 +21,9 @@ for (const [table, prefix] of [
   ['services', 'e2e-hizmet-'],
   ['blog_posts', 'e2e-yazi-'],
   ['job_postings', 'e2e-ilan-'],
+  ['products', 'e2e-urun-'],
+  ['solutions', 'e2e-cozum-'],
+  ['price_guides', 'e2e-fiyat-'],
 ]) {
   const { data } = await client.from(table).select('id, slug').like('slug->>tr', `${prefix}%`);
   for (const row of data ?? []) {
@@ -43,3 +46,10 @@ for (const [table, prefix] of [
   }
 }
 await client.auth.signOut({ scope: 'local' });
+{
+  const { data } = await client.from('material_prices').select('id, code').like('code', 'E2E-%');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('material_prices').delete().eq('id', row.id);
+    console.log('material_prices', row.code, e ? `HATA ${e.message}` : 'silindi');
+  }
+}

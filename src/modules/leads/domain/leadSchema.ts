@@ -5,7 +5,7 @@ const optional = (max: number) => z.string().trim().max(max).optional().or(z.lit
 /** Ziyaretçi formu (iletişim + teklif). Bal küpü `website` dolu gelirse bot. E-posta ya da telefon zorunlu. */
 export const leadFormSchema = z
   .object({
-    source: z.enum(['contact_form', 'quote_form']),
+    source: z.enum(['contact_form', 'quote_form', 'quote_basket']),
     locale: z.enum(['tr', 'en']),
     fullName: z.string().trim().min(2).max(120),
     company: optional(120),
@@ -25,6 +25,7 @@ export const leadFormSchema = z
     utmSource: optional(120),
     utmMedium: optional(120),
     utmCampaign: optional(120),
+    items: z.string().max(20000).optional().or(z.literal('')),
   })
   .refine((v) => Boolean(v.email) || Boolean(v.phone), { message: 'contact', path: ['email'] });
 
@@ -65,4 +66,19 @@ export function readOptions(value: unknown): QuoteFormOptions {
         })
       : [];
   return { projectTypes: list('project_types'), budgets: list('budgets'), timelines: list('timelines') };
+}
+
+export const basketItemsSchema = z
+  .array(z.object({ product_id: z.string().uuid(), variant_id: z.string().uuid().nullable().optional(), quantity: z.number().positive().max(1_000_000), unit: z.string().max(20).nullable().optional(), note: z.string().max(500).nullable().optional() }))
+  .max(50);
+
+/** Sepet kalemleri JSON'u; bozuksa boş (form yine talep olarak kaydedilir). */
+export function parseBasketItems(raw: string | undefined): z.infer<typeof basketItemsSchema> {
+  if (!raw) return [];
+  try {
+    const parsed = basketItemsSchema.safeParse(JSON.parse(raw));
+    return parsed.success ? parsed.data : [];
+  } catch {
+    return [];
+  }
 }

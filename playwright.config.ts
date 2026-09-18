@@ -34,5 +34,7 @@ export default defineConfig({
     url: `http://localhost:${PORT}/tr`,
     timeout: 180_000,
     reuseExistingServer: !process.env.CI,
+    // Aynı IP'den 3 proje × birkaç form: üretim sınırı (5/10 dk) testte yükseltilir
+    env: { LEAD_RATE_LIMIT: '100' },
   },
 });

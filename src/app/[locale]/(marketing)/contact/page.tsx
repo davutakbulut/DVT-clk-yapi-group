@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ModuleBoundary } from '@/core/errors';
-import { breadcrumbList, JsonLd } from '@/core/seo';
+import { breadcrumbList, JsonLd, localBusinessJsonLd } from '@/core/seo';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
+import { pickLocale } from '@/lib/localized';
 import { ContactInfo, LeadFormSection } from '@/modules/leads';
+import { getPublicSettings } from '@/modules/site-settings';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 
@@ -21,10 +23,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
-  const t = await getTranslations('Contact');
+  const [t, settings] = await Promise.all([getTranslations('Contact'), getPublicSettings()]);
+  const business = localBusinessJsonLd({
+    name: pickLocale(settings.siteName, locale, { fallback: 'tr' }),
+    phone: settings.contact.phone,
+    email: settings.contact.email,
+    address: pickLocale(settings.contact.address, locale) || null,
+    openingHours: pickLocale(settings.contact.workingHours, locale) || null,
+    mapUrl: settings.contact.mapUrl,
+    locale,
+  });
   return (
     <>
-      <JsonLd data={breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/contact' }], locale as Locale)} />
+      <JsonLd data={[breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/contact' }], locale as Locale), business]} />
       <Container as="section" className="grid gap-12 py-[var(--section-y)] lg:grid-cols-[5fr_7fr]">
         <div className="grid content-start gap-8">
           <SectionHeading as="h1" kicker={t('info')} title={t('title')} lead={t('lead')} />

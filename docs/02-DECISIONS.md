@@ -291,6 +291,21 @@ Hero, hakkımızda ve hizmet açıklamaları gibi **tanımlayıcı** metinler mi
 **Neden:** Kural 4 service-role'ü kullanıcı isteğiyle erişilen yollardan uzak tutar; formun kendisi RLS'in gerçek sınır kaldığı yoldur (RPC içi doğrulama + kısıtlar). Cron ise kullanıcı bağlamı olmayan bir iş: oturum yok, RLS'in koruyacağı "kim" yok. Alternatif (pg_cron + pg_net) uzantı gerektirir (K-47 uzantısızlık) ve mail sağlayıcı sırrını veritabanına taşırdı.
 **Bilinen bedeli:** İki gizli anahtar (CRON_SECRET, SUPABASE_SECRET_KEY) Vercel ortamında tanımlanmalı; yerelde cron elle tetiklenir. Süreç içi hız sınırı tek instance'ı korur — üretimde Upstash beklenir.
 
+### K-57 · AI tarayıcılarına açık izin; çerez onayı tek birinci-taraf çerezde
+`robots.txt` yayın bayrağı açıkken GPTBot, ClaudeBot, PerplexityBot, ChatGPT-User, Google-Extended, CCBot, Applebot-Extended ve OAI-SearchBot'a **açıkça** izin verir; `/llms.txt` veritabanından site özeti sunar. Çerez onayı `clk_consent` adlı tek JSON çerezinde (sürüm, zorunlu=true, analitik, pazarlama, tarih; 180 gün, SameSite=Lax) tutulur; üçüncü taraf CMP yok.
+**Neden:** 02-SEO: AI cevaplarında görünmek klasik SEO'dan ayrı hazırlık ister ve varsayılan şablonlar bu botları engeller. Onay için üçüncü taraf CMP (Cookiebot vb.) kendi scriptini ve çerezlerini getirir; KVKK'nın istediği şey açık onay + geri alınabilirlik — bunu 60 satırlık kendi bandımız karşılar ve onay durumu sunucuda da okunabilir (`cookies()`), Faz 23 analitik scriptlerini buna göre yükler.
+**Bilinen bedeli:** Onay metni ve kategori listesi kendi bakımımızda; ileride "onay kaydı sunucuda tutulmalı" gereksinimi çıkarsa `consent_logs` tablosu eklenir (çerez sürümü v2).
+
+### K-58 · Teklif sepeti tarayıcıda yaşar; kalem adları sunucuda dondurulur
+Sepet oturum/hesap gerektirmez: `localStorage` (`clk_basket`) içinde ürün id + varyant id + miktar + not tutulur; sunucuya yalnız kimlikler ve miktar gider. `submit_lead` RPC'si ürün adını, ölçü etiketini ve stok kodunu **veritabanından** okuyup `lead_items` satırlarına anlık görüntü olarak yazar; taslak ya da silinmiş ürünler sessizce atlanır, 50 kalemden fazlası reddedilir.
+**Neden:** Fiyat yok (K-27), dolayısıyla "sepet" bir alışveriş değil, bir teklif isteğinin kalem listesidir — misafir akışı doğal olanıdır ve veritabanına anonim sepet tablosu (temizlik, GDPR) eklemeyi gerektirmez. İstemciden gelen metinlere güvenmeyerek satış ekibi her zaman o anki gerçek katalog adını görür; ürün sonradan silinse bile talep okunabilir kalır.
+**Bilinen bedeli:** Sepet cihaza bağlıdır (başka cihazda görünmez) ve JS ister; JS'siz kullanıcı ürün sayfasındaki "Teklif iste" bağlantısıyla tek ürün için form doldurur. Faz 19 CRM'de giriş yapan müşteri için sunucu sepeti eklenebilir.
+
+### K-59 · Fiyat rehberi herkese açık, malzeme fiyat tablosu değil
+`material_prices` anonime kapalıdır (0008, K-29: konfigüratörde fiyat üyeye özel). Fiyat rehberi ise bilinçli olarak herkese açık bir SEO sayfasıdır (01-PUBLIC-PAGES "Ton Fiyatları"). Çelişki `get_price_guide_by_slug` ile çözülür: **security definer** RPC yalnız `status='published'` ve o dilde yayındaki rehberin satırlarını, kaynak fiyat × min/max çarpan olarak **türetilmiş** biçimde döndürür; tablo, kod, not ve geçmiş dışarı çıkmaz. Rehber sayfasına `Offer`/`PriceSpecification` şeması eklenmez (aralık tahmindir, teklif değildir).
+**Neden:** Alternatif, `material_prices`'a anonim SELECT açmaktı — o zaman işçilik, bağlantı ve kaplama fiyatları da (rehberde olmasa bile) herkese açılırdı. Definer RPC "ne yayınlandıysa o görünür" sınırını tam olarak çizer; fiyat bir yerde güncellenince rehber otomatik tazelenir (`touch_price_guide`), panel `stale_after_days` ile "bayat" uyarısı verir.
+**Bilinen bedeli:** RPC'nin WHERE koşulu RLS yerine geçer — değiştirilirken `price-guides.test.ts` (taslak → null, anonim tablo → hata) yeşil kalmalı. Hesaplayıcının metraj girdisi Faz 23'e kadar analitiğe yazılmaz.
+
 ---
 
 ## Değiştirilen Kararlar

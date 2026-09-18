@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 12 — SEO temeli + YAYIN ⏳ (sırada) · Faz 1–11 `feat/faz-02-database` dalında
+**Şu an:** Faz 17 — Müşteri yorumları + Google Places ⏳ (sırada) · Faz 1–16 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -20,8 +20,8 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 11 ✅ |
-| **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ✅ Faz 5–12 kod tamam · yayın ürün sahibinde |
+| **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | 🔨 Faz 16 ✅ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
 | **v1.4 Konfigüratör** | 26–29 | 3D araç, metraj, fiyat, teklif | ⏳ |
@@ -168,14 +168,43 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Admin `/admin/team` · `/admin/references` · `/admin/certificates` · `/admin/careers` (+ `/applications`: durum, iç not, 10 dk imzalı CV bağlantısı) · `/admin/faq` (genel ya da hizmet/ürün/proje/çözüm bağlı, K-08 yayın) — hepsi `ContentTable`/satır içi formlarla, ↑↓ tek RPC
   - [x] E2E `corporate.spec.ts` (6 sayfa axe + BreadcrumbList, footer bağlantıları, ilan → JobPosting → başvuru → İK listesi → sil)
   - [ ] *Faz 12:* KVKK Aydınlatma Metni sayfası — form onay metinleri ona bağlanacak · *Faz 18:* CV saklama süresi dolunca purge cron'u (`purge_expired_job_applications` + Storage silme)
-- [ ] **Faz 12** — SEO temeli + **YAYIN** 🚀 *(yayın öncesi tam denetim)*
+- [x] **Faz 12** — SEO temeli + yayın hazırlığı ✅ 2026-09-18 *(yayın düğmesi ürün sahibinde — aşağıdaki liste)*
+  - [x] `sitemap.xml` veritabanından: her URL `xhtml:link` dil kümesi + `x-default`, çevrilmemiş dil yazılmaz, öncelikler 02-SEO hiyerarşisinde; `/site-haritasi` HTML haritası (ikinci keşif yolu, öksüz sayfa yok)
+  - [x] `robots.txt`: yayın bayrağı kapalıyken tümü engelli; açıkken AI tarayıcılarına (GPTBot, ClaudeBot, PerplexityBot…) **açık izin** + sitemap; `/llms.txt` (site özeti, hizmetler, son yazılar — DB'den)
+  - [x] JSON-LD: kök `Organization`+`GeneralContractor` (NAP, sameAs, `@id`) her sayfada; iletişimde `LocalBusiness`; `inLanguage` her parçada; OG `siteName`/locale, Twitter card; Search Console/Bing/Yandex doğrulama meta'ları `site_settings`'ten
+  - [x] Yasal sayfalar: `0022_legal_pages.sql` (4 sayfa TASLAK, `auto_translate_disabled`, slug'lar route tablosuyla) · `/gizlilik-politikasi` · `/cerez-politikasi` · `/kvkk-aydinlatma-metni` · `/kullanim-kosullari` (yayında değilse 404) · admin `/admin/pages` + `/admin/pages/[key]` (Markdown, K-08) — 3 DB testi
+  - [x] Çerez onayı: `modules/consent` — `clk_consent` çerezi (v1, 180 gün, zorunlu/analitik/pazarlama), bant metinleri `/admin/settings/cookies`, footer "Çerez ayarları" yeniden açar; analitik/pazarlama scriptleri onaysız yüklenmez (Faz 23 bu bayrağı okur)
+  - [x] Bakım modu `/admin/settings/maintenance` (ön yüz tek sayfa, panel açık) · SEO ayarları `/admin/settings/seo` (OG görseli, doğrulama kodları, indekslenebilirlik durumu)
+  - [x] Güvenlik başlıkları: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, HSTS; `trailingSlash: false`; admin `X-Robots-Tag` korunuyor
+  - [x] E2E `seo.spec.ts` (sitemap hreflang, robots, llms.txt + başlıklar, JSON-LD, çerez bandı çerezi, taslak yasal 404, HTML site haritası)
+  - [ ] **YAYIN listesi (ürün sahibi):** Vercel env — `NEXT_PUBLIC_SITE_URL`, `SITE_INDEXABLE=true`, `SUPABASE_SECRET_KEY`, `CRON_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, (`UPSTASH_*`) · domain + DNS (SPF/DKIM/DMARC, Resend doğrulaması) · Supabase Pro + ayrı üretim projesi (K-47 güncellemesi) · hukukçu onaylı 4 yasal metni panelden yayınla · Search Console/Bing doğrulama kodları · hero videosu/poster, logo, iletişim bilgileri, gerçek proje/ekip/belge kayıtları · yayın günü Lighthouse + 3 kırılım kontrolü
+  - [ ] *Sonraki:* 410 Gone (silinen içerik) · raporlamalı CSP (Faz 25) · IndexNow/RSS (Faz 30)
 
 ## v1.1 — Katalog & İçerik
 
-- [ ] **Faz 13** — Ürün kataloğu (ön yüz + admin)
-- [ ] **Faz 14** — Teklif sepeti
-- [ ] **Faz 15** — Çözüm sayfaları
-- [ ] **Faz 16** — Fiyat rehberi + hesaplayıcı
+- [x] **Faz 13** — Ürün kataloğu (ön yüz + admin) ✅ 2026-09-18
+  - [x] Route'lar `/urunler` · `/urunler/kategori/[slug]` (hiyerarşik: üst kategori alt kategorileri kapsar, alt çipler) · `/urunler/[slug]`; `0023_products.sql` `get_product_by_slug` RPC (kategori, hizmet [yalnız o dilde yayında], görseller, özellikler gruplu, aktif varyantlar, belgeler dil süzgeçli, aynı hizmetin projeleri, SSS) — 3 DB testi
+  - [x] Detay: kapak + galeri, Markdown açıklama/kullanım alanları, ilgili hizmet bağlantısı (K-25), **teknik özellik tabloları** (grup başlıklı), **ölçü tablosu** (yalnız dolu sütunlar, tabular rakam), belgeler (PDF + boyut), kullanıldığı projeler, SSS, aynı kategoriden 4 ürün; "Teklif iste" → `/teklif-al?product=slug`; JSON-LD `Product` (marka/üretici → Organization) — **Offer YOK** (K-27)
+  - [x] Admin `/admin/products` (liste ↑↓ sil) · `/new` · `/[id]`: özellikler "grup | ad | değer | birim" TR/EN, varyantlar "ölçü | g | y | et | boy | kg/m | stok", 3–6 belge satırı (PDF + başlık + tür), galeri, SEO, yayın · `/admin/product-categories` (hiyerarşi, görsel, ↑↓ kardeşler arasında) — `domain/productLines` 2 test
+  - [x] E2E `products.spec.ts` (liste axe, 404, admin oluştur → sitede ölçü tablosu + Product JSON-LD Offer'sız → sil); `.data-table` stili
+  - [x] *Faz 14:* "Teklif listesine ekle" (varyant + adet) · [ ] *Faz 4/18:* header mega menü (kategoriler + öne çıkanlar)
+- [x] **Faz 14** — Teklif sepeti ✅ 2026-09-18
+  - [x] `src/modules/quote-basket` — `domain/basket` (localStorage `clk_basket`, aynı ürün+varyant birleşir, miktar ≥ 0,001, ≤ 50 kalem; 6 test) · `BasketProvider` (hidrasyon sonrası okur, sekmeler arası `storage` senkronu) · `AddToBasket` (ürün detayında varyant + miktar, `role=status` geri bildirimi) · `BasketLink` (header rozeti, boşken 0 yok) · `BasketPage`
+  - [x] Route `/teklif-sepeti` (noindex, follow): kalem tablosu (miktar/not düzenle, kaldır), `LeadForm variant="quote_basket"` gizli `items` JSON'la; başarıda sepet boşalır; JS'siz kullanıcı için ürün sayfasındaki "Teklif iste" bağlantısı kalır (K-27)
+  - [x] `0024_quote_basket.sql` — `submit_lead` `items` dizisini işler: ürün adı / ölçü etiketi / stok kodu **DB'den anlık görüntü** (istemcinin gönderdiği ad değil), taslak/silinmiş ürün atlanır, > 50 kalem reddedilir; `lead_items` ürün silinince kalır (`set null`) — 2 DB testi
+  - [x] Admin `/admin/leads/[id]` "Teklif kalemleri" tablosu (ürün, ölçü/stok, miktar, not); `leadSchema` `items` + `parseBasketItems` (bozuk JSON → talep yine kaydedilir, kalemsiz)
+  - [x] E2E `basket.spec.ts` (boş durum + noindex; ürün → varyant seç → sepet → talep → admin kalemler → ürün silinince kalem kalır)
+- [x] **Faz 15** — Çözüm sayfaları ✅ 2026-09-18
+  - [x] `src/modules/solutions` — site: `SolutionsList` · `SolutionDetail` (K-26'nın 8 bölümü sırayla: hero → sorun → karşılaştırma tablosu → avantajlar → teknik dayanak → örnek projeler [bağlı hizmetin projeleri] → SSS → CTA; boş bölüm yok, CTA metni DB'den) · `SolutionCard` · `SolutionsForService` (hizmet detayında "bu hizmete bağlı çözümler", route katmanı `extra` slotuyla verir); admin: `SolutionForm` (bölüm bölüm, karşılaştırma "kriter | çelik | alternatif", avantaj "başlık | açıklama"); `domain/solutionLines` (2 test)
+  - [x] Route'lar `/cozumler` · `/cozumler/[slug]` (WebPage + BreadcrumbList + SSS varsa FAQPage JSON-LD; K-15 308); `app/admin/solutions` (liste ↑↓ sil · new · [id]); footer "Çözümler" bağlantısı artık canlı; sitemap + llms.txt
+  - [x] `0025_solutions.sql` — `get_solution_by_slug` (bağlı hizmet yalnız o dilde yayındaysa; EN'de kriteri olmayan karşılaştırma satırı düşer) + 1 tohum çözüm (yalnız TR, sayısal iddia yok — K-55) — 3 DB testi; SSS admin'de `solution:` bağlama zaten vardı (Faz 11)
+  - [x] E2E `solutions.spec.ts` (liste axe, 404, admin oluştur → sitede tablo + avantaj + CTA → listede → sil → 404)
+- [x] **Faz 16** — Fiyat rehberi + hesaplayıcı ✅ 2026-09-18
+  - [x] `src/modules/pricing` — site: `PricingList` · `PriceGuideDetail` (01-PUBLIC-PAGES şablonu: H1 + son güncelleme + KDV notu → fiyat tablosu [sistem · açıklama · birim fiyat aralığı · ön ayar sütunları] → **hızlı hesaplayıcı** (istemci, sunucuya gitmez) → faktörler · formül → **zorunlu uyarı** → SSS) · `PriceCalculator`; admin: `PriceGuideForm` (satırlar "sistem | açıklama | MALZEME KODU | min | max", bilinmeyen kod reddedilir) · `MaterialPriceForm`; `domain/priceLines` + `domain/estimate` (4 test)
+  - [x] Route'lar `/fiyatlar` · `/fiyatlar/[slug]` (WebPage + Breadcrumb + SSS varsa FAQPage; **Offer YOK**; K-15 308); `app/admin/pricing` (liste ↑↓ sil + **bayat uyarısı** · new · [id]) · `/admin/pricing/materials` (yalnız admin: fiyatın tek kaynağı, geçmiş sayısı); footer "Fiyat Rehberi" bağlantısı canlı; sitemap + llms.txt
+  - [x] `0026_price_guides.sql` — `get_price_guide_by_slug` **security definer** (K-59: material_prices anonime kapalı kalır, yalnız yayındaki rehberin türetilmiş min/max aralığı çıkar) + `touch_price_guide` tetikleyicisi (satır ya da malzeme fiyatı değişince `prices_updated_at`) — 4 DB testi; **tohum fiyat YOK** (K-55)
+  - [x] E2E `pricing.spec.ts` (liste axe, 404; malzeme fiyatı → rehber → sitede 900–1.200 ₺ aralığı + 50 t sütunu + hesaplayıcı 10 t → sil)
+  - [ ] *Ürün sahibi:* gerçek malzeme fiyatları `/admin/pricing/materials` · *Faz 23:* hesaplayıcı metrajı analitik olayı · *Faz 29:* fiyat geçmişi ekranı konfigüratör admin'e taşınır
 - [ ] **Faz 17** — Müşteri yorumları + Google Places senkronu
 
 ## v1.2 — Ticari Yönetim
@@ -215,8 +244,8 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Firma iletişim bilgileri | 4 | ⏳ Placeholder ile ilerleniyor |
 | Logo dosyası | 4 | ⏳ |
 | WhatsApp numarası | 4 | ⏳ |
-| Gerçek fiyat verileri | 16 | ⏳ |
+| Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |
 | Supabase Pro plana geçiş | **12** | ⏳ *yayın öncesi zorunlu* |
-| Hukukçu onayı (KVKK metinleri) | 12 | ⏳ |
+| Hukukçu onayı (KVKK metinleri) | 12 | ⏳ *sayfalar ve panel hazır (taslak)* |

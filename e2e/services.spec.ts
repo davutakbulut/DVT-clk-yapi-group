@@ -20,7 +20,7 @@ test.describe('hizmetler', () => {
   test('/tr/hizmetler: h1, kartlar (DB varsa), BreadcrumbList, axe temiz', async ({ page }) => {
     await page.goto('/tr/hizmetler');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hizmetlerimiz');
-    const ld = await page.locator('script[type="application/ld+json"]').first().textContent();
+    const ld = (await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ');
     expect(ld).toContain('BreadcrumbList');
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
@@ -36,7 +36,7 @@ test.describe('hizmetler', () => {
     await expect(page).toHaveURL(new RegExp(`${href}$`));
     await expect(page.getByRole('heading', { level: 1 })).not.toBeEmpty();
     await expect(page.getByRole('heading', { level: 2, name: 'Nasıl ilerliyoruz' })).toBeVisible();
-    const ld = await page.locator('script[type="application/ld+json"]').first().textContent();
+    const ld = (await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ');
     expect(ld).toContain('"@type":"Service"');
     expect(ld).toContain('"inLanguage":"tr"');
     await expect(page.locator('link[rel="alternate"][hreflang="tr"]')).toHaveCount(1);

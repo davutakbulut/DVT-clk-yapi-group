@@ -47,6 +47,18 @@ export const routing = defineRouting({
     '/data-protection': { tr: '/kvkk-aydinlatma-metni', en: '/data-protection' },
     '/terms-of-use': { tr: '/kullanim-kosullari', en: '/terms-of-use' },
     '/sitemap': { tr: '/site-haritasi', en: '/sitemap' },
+    // Faz 13 · ürün kataloğu
+    '/products': { tr: '/urunler', en: '/products' },
+    '/products/category/[slug]': { tr: '/urunler/kategori/[slug]', en: '/products/category/[slug]' },
+    '/products/[slug]': { tr: '/urunler/[slug]', en: '/products/[slug]' },
+    // Faz 15 · çözüm sayfaları
+    '/solutions': { tr: '/cozumler', en: '/solutions' },
+    '/solutions/[slug]': { tr: '/cozumler/[slug]', en: '/solutions/[slug]' },
+    // Faz 16 · fiyat rehberi
+    '/pricing': { tr: '/fiyatlar', en: '/pricing' },
+    '/pricing/[slug]': { tr: '/fiyatlar/[slug]', en: '/pricing/[slug]' },
+    // Faz 14 · teklif sepeti
+    '/quote-basket': { tr: '/teklif-sepeti', en: '/quote-basket' },
   },
 });
 

@@ -49,6 +49,35 @@ export default async function AdminLeadDetailPage({ params }: { readonly params:
               <p className="whitespace-pre-wrap">{l.message}</p>
             </div>
           ) : null}
+          {l.items.length > 0 ? (
+            <div className="grid gap-1 border-t pt-3 text-sm">
+              <p className="font-medium">{t('leads.items')}</p>
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-muted-foreground">
+                    <th className="py-1">{t('leads.itemProduct')}</th>
+                    <th className="py-1">{t('leads.itemVariant')}</th>
+                    <th className="py-1">{t('leads.itemQuantity')}</th>
+                    <th className="py-1">{t('leads.itemNote')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {l.items.map((i) => (
+                    <tr key={i.id} className="border-t">
+                      <td className="py-1">{i.product_name_snapshot}</td>
+                      <td className="py-1">
+                        {i.variant_label_snapshot ?? '—'} {i.stock_code_snapshot ? <span className="font-mono text-xs text-muted-foreground">{i.stock_code_snapshot}</span> : null}
+                      </td>
+                      <td className="py-1">
+                        {i.quantity} {i.unit ?? ''}
+                      </td>
+                      <td className="py-1">{i.note ?? ''}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
           {formEntries.length > 0 ? (
             <dl className="grid gap-1 border-t pt-3 text-sm">
               <p className="font-medium">{t('leads.formData')}</p>

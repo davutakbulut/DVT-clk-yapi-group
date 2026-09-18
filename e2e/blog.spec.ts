@@ -52,7 +52,7 @@ test.describe('blog yönetimi', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
     await expect(page.getByRole('navigation', { name: 'İçindekiler' })).toBeVisible();
     await expect(page.locator('#main-content h2#birinci-bolum')).toBeVisible();
-    expect(await page.locator('script[type="application/ld+json"]').first().textContent()).toContain('"@type":"BlogPosting"');
+    expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('"@type":"BlogPosting"');
 
     // Ziyaretçi (oturumsuz) yorum bırakır
     const visitor = await browser.newContext();
@@ -72,8 +72,16 @@ test.describe('blog yönetimi', () => {
     await expect(page.getByRole('row').filter({ hasText: commentText })).toHaveCount(0, { timeout: 15_000 });
     await page.goto('/admin/blog/comments?status=approved');
     await expect(page.getByRole('row').filter({ hasText: commentText })).toHaveCount(1);
-    await page.goto(`/tr/blog/${slug}`);
-    await expect(page.locator('#main-content .comment').filter({ hasText: commentText })).toBeVisible();
+    // ISR: onay sonrası ilk istek bayat sayfayı sunabilir (SWR) → yeniden yükleyerek bekle
+    await expect
+      .poll(
+        async () => {
+          await page.goto(`/tr/blog/${slug}`);
+          return page.locator('#main-content .comment').filter({ hasText: commentText }).count();
+        },
+        { timeout: 20_000, intervals: [1000, 2000, 3000] },
+      )
+      .toBe(1);
 
     await page.goto('/admin/blog');
     const postRow = page.getByRole('row').filter({ hasText: name });

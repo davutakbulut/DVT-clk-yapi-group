@@ -203,6 +203,7 @@ export async function moderateComment(formData: FormData): Promise<void> {
   const { error } = await client.data.from('post_comments').update({ status: status.data, moderated_by: gate.data.id, moderated_at: new Date().toISOString() }).eq('id', id.data);
   if (error) logger.error('Yorum moderasyonu basarisiz', { module: 'blog', code: error.code, message: error.message });
   revalidatePath('/admin/blog/comments');
+  revalidateTag(CACHE_TAGS.blog);
 }
 
 const commentSchema = z.object({

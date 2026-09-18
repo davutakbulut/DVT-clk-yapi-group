@@ -12,7 +12,7 @@ import { logger } from '@/core/observability/logger';
 import { rateLimit } from '@/core/rate-limit';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
-import { leadFormSchema, parseOptions } from './domain/leadSchema';
+import { leadFormSchema, parseBasketItems, parseOptions } from './domain/leadSchema';
 
 const SALES = ['super_admin', 'admin', 'sales'] as const;
 const issues = (error: z.ZodError) => Object.fromEntries(error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation']));
@@ -37,7 +37,8 @@ export async function submitLead(_prev: ActionState, formData: FormData): Promis
   }
   const v = parsed.data;
   const ip = await clientIp();
-  const limit = await rateLimit(`lead:${ip || 'unknown'}`, 5, 600);
+  // Varsayılan 10 dakikada 5; E2E (aynı IP, çok proje) LEAD_RATE_LIMIT ile yükseltir
+  const limit = await rateLimit(`lead:${ip || 'unknown'}`, Number(process.env['LEAD_RATE_LIMIT'] ?? 5) || 5, 600);
   if (!limit.allowed) return failed('rateLimited');
   const client = await createServerClient();
   if (!client.ok) return failed('notConfigured');
@@ -62,6 +63,7 @@ export async function submitLead(_prev: ActionState, formData: FormData): Promis
       consent_marketing: v.consentMarketing,
       utm,
       page_url: v.pageUrl || null,
+      items: parseBasketItems(v.items),
       ip_masked: ip ? createHash('sha256').update(ip.replace(/\.\d+$/, '.0')).digest('hex').slice(0, 16) : null,
     } as Json,
   });

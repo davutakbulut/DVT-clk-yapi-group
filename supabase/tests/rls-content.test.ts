@@ -82,11 +82,13 @@ describe('içerik — yazma', () => {
 });
 
 describe('site ayarları', () => {
-  it('anonim yalnız is_public ayarları görür — modül bayrakları ve doğrulama kodları sızmaz', async () => {
+  it('anonim yalnız is_public ayarları görür — modül bayrakları ve mail ayarları sızmaz', async () => {
     const keys = await as(db, anon, async (tx) => (await tx.query<{ key: string }>('select key from public.site_settings')).rows.map((r) => r.key));
     expect(keys).toContain('site.name');
+    // 0022: seo.verification HTML meta olarak zaten herkese açık → is_public=true (Faz 12)
+    expect(keys).toContain('seo.verification');
     expect(keys).not.toContain('modules.enabled');
-    expect(keys).not.toContain('seo.verification');
+    expect(keys).not.toContain('configurator.limits');
   });
 
   it('editör ayarları okur ama DEĞİŞTİREMEZ; admin değiştirir', async () => {

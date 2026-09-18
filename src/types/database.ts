@@ -5211,11 +5211,23 @@ export type Database = {
         Returns: Json
       }
       get_configuration_by_token: { Args: { p_token: string }; Returns: Json }
+      get_price_guide_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
+      get_product_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
       get_project_by_slug: {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
       }
       get_service_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
+      get_solution_by_slug: {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
       }

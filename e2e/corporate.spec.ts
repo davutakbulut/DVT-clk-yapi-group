@@ -30,7 +30,7 @@ test.describe('kurumsal sayfalar', () => {
       expect(res?.status()).toBe(200);
       await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
       await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1);
-      expect(await page.locator('script[type="application/ld+json"]').first().textContent()).toContain('BreadcrumbList');
+      expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('BreadcrumbList');
       const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
       expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
     });
@@ -67,7 +67,7 @@ test.describe('kariyer yönetimi', () => {
     const res = await vp.goto(`/tr/kariyer/${slug}`);
     expect(res?.status()).toBe(200);
     await expect(vp.getByRole('heading', { level: 1 })).toHaveText(name);
-    expect(await vp.locator('script[type="application/ld+json"]').first().textContent()).toContain('"@type":"JobPosting"');
+    expect((await vp.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('"@type":"JobPosting"');
     await vp.waitForLoadState('networkidle');
     await vp.getByLabel('Ad Soyad').fill('E2E Aday');
     await vp.getByLabel('E-posta').fill('e2e-aday@example.com');
