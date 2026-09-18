@@ -325,6 +325,249 @@
       transform: translateX(var(--beam-x, 0));
     }
   }
+
+  /* ── Hero (Faz 6). Sahne: video (scrub → 300dvh sarmalayıcı + sticky sahne) ya da koyu desen. Kopya alt-sol. */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    background: var(--color-surface-dark);
+    color: var(--color-text-inverse);
+  }
+  .hero-static {
+    position: absolute;
+    inset: 0;
+  }
+  .hero-scrub {
+    height: 300dvh;
+  }
+  .hero-stage {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    overflow: hidden;
+  }
+  .hero-static .hero-stage {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity var(--dur-slow) var(--ease-out);
+  }
+  .hero-media-hidden {
+    opacity: 0;
+  }
+  /* Metin kontrastı: alt yarıda koyulaşan perde (prototipteki gradient) */
+  .hero-stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(15 19 21 / 0.28) 0%, rgb(15 19 21 / 0.42) 45%, rgb(15 19 21 / 0.9) 100%);
+    pointer-events: none;
+  }
+  .hero-stage-pattern {
+    background:
+      radial-gradient(120% 80% at 85% 20%, color-mix(in srgb, var(--color-accent) 22%, transparent) 0%, transparent 60%),
+      linear-gradient(165deg, var(--color-surface-dark) 0%, var(--color-surface-darker) 100%);
+  }
+  /* Çelik ızgara: 1px çizgiler, üstte görünür altta perdenin arkasında kaybolur */
+  .hero-stage-pattern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(90deg, rgb(247 246 244 / 0.06) 0 1px, transparent 1px 96px),
+      repeating-linear-gradient(0deg, rgb(247 246 244 / 0.045) 0 1px, transparent 1px 96px);
+    mask-image: linear-gradient(180deg, rgb(0 0 0 / 0.9), transparent 90%);
+  }
+  .hero-kademe {
+    position: absolute;
+    right: clamp(-6vw, -2vw, 0px);
+    bottom: 0;
+    width: min(52vw, 640px);
+    height: auto;
+    aspect-ratio: 40 / 30;
+    fill: var(--color-accent);
+    opacity: 0.16;
+  }
+  .hero-kademe rect:first-child {
+    fill: var(--color-accent-on-dark);
+  }
+  .hero-kademe rect:last-child {
+    fill: var(--color-text-inverse);
+  }
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    display: grid;
+    align-content: end;
+    gap: var(--space-6);
+    padding-top: calc(var(--header-h) + var(--space-8));
+    padding-bottom: clamp(var(--space-12), 9vh, var(--space-24));
+  }
+  .hero-scrub + .hero-copy {
+    margin-top: -100dvh;
+  }
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent-on-dark);
+  }
+  .hero-kicker::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+  }
+  .hero-title {
+    max-width: 18ch;
+    color: var(--color-text-inverse);
+    font-size: clamp(2.5rem, 1.4rem + 5.6vw, 5.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .hero-lead {
+    max-width: 58ch;
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-inverse-muted);
+    text-wrap: pretty;
+  }
+  /* Tek orkestre edilmiş giriş: satırlar sırayla yükselir. Yalnız transform — opaklık animasyonu axe'in kontrast
+     ölçümüne yarı saydam anda yakalanıyordu (E2E). reduced-motion'da base katmanı süreyi sıfırlar. */
+  .hero-reveal > * {
+    animation: hero-rise 0.9s var(--ease-out) both;
+  }
+  .hero-reveal > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .hero-reveal > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .hero-reveal > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  @keyframes hero-rise {
+    from {
+      transform: translateY(28px);
+    }
+  }
+
+  /* Header hero üstünde: sabit + şeffaf; kaydırınca (HeroOverlay) koyulaşır. JS'siz de yerleşim doğru. */
+  body:has(.hero) .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    background: transparent;
+    border-bottom-color: transparent;
+    transition:
+      background-color var(--dur) var(--ease-out),
+      border-color var(--dur) var(--ease-out);
+  }
+  html[data-header-solid] body:has(.hero) .site-header {
+    background: color-mix(in srgb, var(--color-surface-dark) 94%, transparent);
+    border-bottom-color: var(--color-border-dark);
+  }
+
+  /* ── Hakkımızda: prose + kaydırılmış çerçeveli görsel + 1px ızgaralı istatistikler (prototip stat-row) */
+  .prose-site {
+    display: grid;
+    gap: var(--space-4);
+    max-width: var(--prose-max);
+    color: var(--color-text-muted);
+    text-wrap: pretty;
+  }
+  .prose-site h2,
+  .prose-site h3,
+  .prose-site h4 {
+    color: var(--color-text);
+    margin-top: var(--space-4);
+  }
+  .prose-site h4 {
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 700;
+  }
+  .prose-site strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  .prose-site a {
+    color: var(--color-accent-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-site ul,
+  .prose-site ol {
+    padding-left: 1.25em;
+    display: grid;
+    gap: var(--space-2);
+  }
+  .prose-site ul {
+    list-style: square;
+  }
+  .prose-site blockquote {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-4);
+    color: var(--color-text);
+    font-size: var(--fs-body-lg);
+  }
+  .prose-site hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .about-figure {
+    position: relative;
+    isolation: isolate;
+    margin: 0 var(--space-4) var(--space-4) 0;
+  }
+  .about-figure img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .about-figure::before {
+    content: '';
+    position: absolute;
+    inset: var(--space-4) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-4);
+    border: 1px solid var(--color-accent);
+    z-index: -1;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+  }
+  .stat {
+    background: var(--color-surface);
+    padding: var(--space-6);
+  }
+  .stat-num {
+    font-family: var(--font-heading, ui-sans-serif), sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 1.4rem + 2.2vw, 2.75rem);
+    line-height: 1;
+    color: var(--color-accent-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    margin-top: var(--space-2);
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+  }
 }
 
 /* shadcn (YALNIZ admin — 02-STYLE-ISOLATION). Değerler theme.admin.css içinde [data-surface='admin'] altında;

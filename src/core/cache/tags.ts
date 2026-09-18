@@ -5,6 +5,18 @@ export const CACHE_TAGS = {
   whatsapp: 'whatsapp_settings',
   staticPages: 'static_pages',
   media: 'media_library',
+  hero: 'hero_media',
+  about: 'about_content',
+  services: 'services',
+  projects: 'projects',
+  blog: 'blog_posts',
+  products: 'products',
+  solutions: 'solutions',
+  pricing: 'price_guides',
+  testimonials: 'testimonials',
+  corporate: 'corporate',
+  faqs: 'faqs',
+  translations: 'ui_translations',
 } as const;
 
 export type CacheTag = (typeof CACHE_TAGS)[keyof typeof CACHE_TAGS];

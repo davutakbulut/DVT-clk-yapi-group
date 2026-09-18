@@ -271,6 +271,16 @@ Kullanıcı daveti `auth.admin.inviteUserByEmail` (service-role) yerine `signInW
 **Neden:** Tek oturum yöneticisi sunucudur (middleware yeniler, Server Action yazar). Tarayıcıda ikinci bir istemci aynı çerezi yönetmeye kalkınca yarış ve hata ayıklama yüzeyi büyür; anon anahtarla istemciden veri çekmek de "veri sunucuda" kuralını (K-46) gevşetirdi. Action içi 303 yönlendirmesi + RSC gezinmesinde Set-Cookie'nin uygulanma sırası tarayıcıya bağlı; tam sayfa yönlendirme kesin.
 **Bilinen bedeli:** Header'da hesap durumu bir ek `fetch` ile gelir (private, no-store); `pageshow` ile tazelenir. Realtime gibi istemci-tarafı abonelikler gerektiğinde (Faz 10 bildirimler) ayrı, salt-okunur bir istemci kararı verilir.
 
+### K-53 · Zengin metin v1'de Markdown: sunucuda render, izinli etiket kümesi
+İçerik gövdeleri (hakkımızda, hizmet, blog…) veritabanında Markdown olarak tutulur; `src/lib/markdown.ts` başlık (h2–h4), paragraf, liste, kalın/italik, bağlantı, alıntı ve çizgiyi HTML'e çevirir. Her metin parçası kaçırılır, yalnız `https:`/`/`/`mailto:`/`tel:` href'leri kabul edilir; çıktı `dangerouslySetInnerHTML` ile basılır. Tiptap/editör yok.
+**Neden:** Blok editörü (Tiptap + JSON şema) v1'de 1 hafta iş ve ayrı bir bağımlılık kümesi; içerik ekibi bir kişi. Markdown veritabanında taşınabilir (K-02), diff'lenebilir, çeviri makinesine düz metin olarak verilebilir; sanitize edilmiş küçük bir dönüştürücü XSS yüzeyini kapalı tutar.
+**Bilinen bedeli:** Tablo, görsel yerleştirme ve iç içe liste yok; gerektiğinde Faz 9 (blog) ya da Faz 18'de editör kararı yeniden açılır — depolama biçimi değişmeden.
+
+### K-54 · Tasarım rehberleri depoda, tasarım sistemi kararı tek dosyada
+`.claude/skills/ui-ux-pro-max` (GitHub'ın en çok yıldızlı tasarım skill'i — kural indeksi; Python arama motoru ve CSV'leri depoya alınmadı, plugin kurulumuyla gelir) ve `.claude/skills/frontend-design` (Anthropic) proje skill'i olarak eklendi. Aracın `--design-system` çıktısı marka prototipiyle birleştirilip `references/clk-design-system.md` MASTER dosyasına yazıldı; ön yüz tasarım işi bu dosyayla başlar.
+**Neden:** Faz 6'da ürün sahibi tasarımı yetersiz buldu; sorun ön yüzün boş olması (yalnız "Yapım aşamasında") kadar tasarım kararlarının yazılı olmamasıydı. Araç önerilerinden markayla çelişenler (ikinci vurgu rengi "safety orange", Plus Jakarta Sans) açıkça reddedildi; marka prototipi kazanır.
+**Bilinen bedeli:** Skill metinleri üst kaynaktan kopya; güncellemesi elle. Tam veri tabanlı arama için `/plugin install ui-ux-pro-max@ui-ux-pro-max-skill` gerekir.
+
 ---
 
 ## Değiştirilen Kararlar

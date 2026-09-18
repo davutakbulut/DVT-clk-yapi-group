@@ -7,6 +7,20 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 6 · Ana sayfa (hero + hakkımızda) ve ortak içerik altyapısı
+- `src/modules/home` — `HeroSection` · `HeroVideo` (scroll-scrub masaüstü / loop mobil / poster; reduced-motion ve saveData'da poster) · `HeroOverlay` · `AboutSection`; admin `HeroForm` · `AboutForm`; `/admin/pages/home`; `domain/stats` (3 test)
+- `src/core/content` — yayın yardımcıları (`isVisibleIn`, `alternatesFromRow`, `publishedSlugs`, `publishColumns`, `slugMap`, `dbErrorKey`); `src/lib/localized.localized()`
+- `src/modules/admin-shell` — `LocalizedField` · `MediaSelect` · `PublishFields` · `FormSection` · `ActionMessage` · `StatusBadge` · `AdminPageHeader`
+- `src/lib/markdown.ts` — **K-53** güvenli Markdown → HTML
+- `globals.css` — hero sahnesi, kademe motifi, `body:has(.hero)` header sabitleme, `.prose-site`, `.stat-grid`, `.about-figure`
+- `supabase/migrations/0016_home_seed.sql` + `supabase/tests/home-seed.test.ts`
+- `.claude/skills/ui-ux-pro-max` + `.claude/skills/frontend-design` — **K-54** tasarım rehberleri ve CLK tasarım sistemi MASTER dosyası
+- `e2e/home.spec.ts` · Mesajlar: `Admin.form`, `Admin.pages`, `Admin.nav.home`
+
+### Değiştirildi — Faz 6
+- Ana sayfa artık `getPublicSettings` ile site adı/meta açıklama alır; bölümler `ModuleBoundary` içinde
+- `.claude/launch.json` `autoPort: true`
+
 ### Eklendi — Faz 5 · Auth + Admin çatısı
 - `src/core/auth/` — `getCurrentUser` · `requireRole` · `safeReturnUrl` · roller; `src/core/db/createServerClient.ts` (server-only) · `createBrowserClient.ts`
 - Middleware giriş kapısı (`/admin`, `/tr/hesabim`, `/en/account`) — yalnız deneyim, K-14

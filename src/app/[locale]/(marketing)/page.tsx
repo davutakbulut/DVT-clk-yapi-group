@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
+import { ModuleBoundary } from '@/core/errors';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
-import { Container } from '@/ui/Container';
-import { SectionHeading } from '@/ui/SectionHeading';
+import { pickLocale } from '@/lib/localized';
+import { AboutSection, HeroSection } from '@/modules/home';
+import { getPublicSettings } from '@/modules/site-settings';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;
@@ -11,18 +13,26 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  return { alternates: buildAlternates(locale as Locale, { tr: '/', en: '/' }) };
+  const settings = await getPublicSettings();
+  const description = pickLocale(settings.seoDescription, locale);
+  return { ...(description ? { description } : {}), alternates: buildAlternates(locale as Locale, { tr: '/', en: '/' }) };
 }
 
-// Bölümler (scroll video hero, hakkımızda…) Faz 6'da, her biri kendi <ModuleBoundary> içinde gelir.
+// Bölüm sırası 01-PUBLIC-PAGES: hero → hakkımızda → (Faz 7+) hizmetler, projeler, yorumlar… Her biri kendi sınırında.
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
-  const [meta, home] = await Promise.all([getTranslations('Meta'), getTranslations('Home')]);
+  const settings = await getPublicSettings();
+  const siteName = pickLocale(settings.siteName, locale, { fallback: 'tr' });
 
   return (
-    <Container as="section" className="py-[var(--section-y)]">
-      <SectionHeading as="h1" title={meta('siteName')} lead={home('underConstruction')} />
-    </Container>
+    <>
+      <ModuleBoundary module="home/hero">
+        <HeroSection locale={locale} siteName={siteName} />
+      </ModuleBoundary>
+      <ModuleBoundary module="home/about">
+        <AboutSection locale={locale} index="01" />
+      </ModuleBoundary>
+    </>
   );
 }

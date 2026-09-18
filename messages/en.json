@@ -118,7 +118,8 @@
       "whatsapp": "WhatsApp",
       "errors": "Error Pages",
       "media": "Media Library",
-      "users": "Users & Roles"
+      "users": "Users & Roles",
+      "home": "Home Page"
     },
     "common": {
       "save": "Save",
@@ -272,6 +273,49 @@
         "member": "Member"
       },
       "you": "you"
+    },
+    "form": {
+      "publishing": "Publishing",
+      "status": "Status",
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived",
+      "slugTr": "Slug (TR)",
+      "slugEn": "Slug (EN, manual)",
+      "slugAuto": "generated from title if empty",
+      "reviewedEn": "I reviewed the English translation",
+      "publishEn": "Published in English",
+      "translate": "Translate all to English",
+      "translating": "Translating…",
+      "translated": "Machine draft written — please review",
+      "new": "New",
+      "list": "List",
+      "back": "Back to list",
+      "order": "Order",
+      "featured": "Featured",
+      "untitled": "(untitled)"
+    },
+    "pages": {
+      "home": "Home Page",
+      "homeLead": "Hero video, posters and headline; about text and stats.",
+      "hero": "Hero",
+      "heroLabel": "Label (internal)",
+      "desktopVideo": "Desktop video",
+      "mobileVideo": "Mobile video",
+      "desktopPoster": "Desktop poster",
+      "mobilePoster": "Mobile poster",
+      "headline": "Headline",
+      "subheadline": "Subheadline",
+      "ctaLabel": "CTA label",
+      "ctaPath": "CTA path (routing key, e.g. /get-quote)",
+      "duration": "Duration (s)",
+      "heroActive": "Active",
+      "about": "About",
+      "eyebrow": "Eyebrow",
+      "title": "Title",
+      "body": "Body (Markdown)",
+      "image": "Image",
+      "stats": "Stats (one per line: value | label TR | label EN)"
     }
   }
 }

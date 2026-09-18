@@ -13,12 +13,13 @@ interface Props {
 
 export function SectionHeading({ index, kicker, title, lead, as: Tag = 'h2', align = 'start', onDark = false }: Props) {
   const color = onDark ? 'text-[var(--color-text-inverse)]' : 'text-[var(--color-text)]';
+  const badge = onDark ? 'bg-[var(--color-accent-on-dark)] text-[var(--ink)]' : 'bg-[var(--color-accent-text)] text-[var(--color-text-inverse)]';
   const leadColor = onDark ? 'text-[var(--color-text-inverse-muted)]' : 'text-[var(--color-text-muted)]';
   return (
     <div className={`grid gap-4 ${align === 'center' ? 'justify-items-center text-center' : ''}`}>
       {kicker ? (
         <p className="label-mono flex items-center gap-3 text-[var(--color-accent-text)]">
-          {index ? <span className="bg-[var(--color-accent)] px-2 py-1 font-[family-name:var(--font-heading)] text-[var(--color-text)]">{index}</span> : null}
+          {index ? <span className={`${badge} px-2 py-1 font-[family-name:var(--font-heading)]`}>{index}</span> : null}
           <span className={onDark ? 'text-[var(--color-accent-on-dark)]' : ''}>{kicker}</span>
         </p>
       ) : null}

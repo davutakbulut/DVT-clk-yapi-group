@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 6 — Ana sayfa ⏳ (sırada) · Faz 1–5 PR'da
+**Şu an:** Faz 7 — Hizmetler ⏳ (sırada) · Faz 1–6 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 5 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 6 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -80,7 +80,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Boyut: görseller 41,7 → 35,2 MB tam boy + 39,1 MB varyant · videolar 31,8 MB olduğu gibi (mp4 süre/boyut okundu, webm için null)
   - [x] Yükleme yeniden denemesi (3×) · `--skip-existing` · manifest koşular arası birleştirilir
   - [x] Anonim anahtarla doğrulandı: `media` listelenir + CDN `max-age=31536000`, `private-documents` boş döner, her iki bucket'a yazma RLS'e takılır
-  - [ ] *Faz 6'ya devredildi:* video poster kareleri ve mobil/masaüstü ayrı encode (ffmpeg gerektirir)
+  - [x] *Faz 6:* poster kareleri ve mobil/masaüstü video panelden ayrı ayrı seçilir (ffmpeg gerekmez)
 - [ ] **Faz 03B** — İçerik üretimi *(paralel, 4–17 boyunca)*
 - [x] **Faz 04** — Tasarım sistemi · Header · Footer · Hata sayfaları · WhatsApp ✅ 2026-09-18
   - [x] Tipografi: Syne · IBM Plex Sans · IBM Plex Mono, `next/font` ile self-host, **`latin-ext`** (Türkçe glifler) · akışkan ölçek tokenları
@@ -97,7 +97,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Testler: 3 DB testi (0014) · 9 birim · E2E `chrome.spec.ts` (header/footer/404/WhatsApp/mobil çekmece) · 404 başlığı DB ya da nötr metin kabul eder (CI'da Supabase yok)
   - [x] Lighthouse (üretim build, 3 koşu): performans **92–96** · erişilebilirlik **100** · en iyi uygulamalar **100** · CLS 0 · 394 KB. LCP laboratuvarda 2,7 sn (uyarı eşiği 2,0): metin LCP'si ön yüklenen marka fontuna bağlı; `display: optional` + ağırlık kırpma 3,7 → 2,7 sn getirdi. Yerel alt-kümeleme (`next/font/local` + pyftsubset) Faz 31'e not edildi
   - [ ] *Faz 5:* menü/ayar/hata metni admin ekranları (ön yüz ↔ admin matrisi orada kapanır) · header 👤 oturum bileşeni
-  - [ ] *Faz 6:* header video üstünde şeffaf başlayıp scroll'da koyulaşma (hero gelince)
+  - [x] *Faz 6:* header video üstünde şeffaf başlayıp scroll'da koyulaşma ✅
   - [ ] *Faz 7:* footer hizmet listesi `entity` bağlantılarıyla
 
 ## v1.0 — Yayına Hazır Site
@@ -120,7 +120,16 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Lighthouse (site, 3 koşu): performans 89–96 · erişilebilirlik 100 · en iyi uygulamalar 100 · CLS ≈ 0 · 431 KB — eşik üstünde, LCP uyarısı Faz 4'teki gibi
   - [ ] *Ürün sahibi:* Supabase Dashboard › Auth › URL Configuration: Site URL + Redirect `…/auth/callback` (davet/şifre bağlantıları için) · davet e-postasını onaylayıp şifre belirle
   - [ ] *Sonraki fazlar:* 8 saat hareketsizlik çıkışı + MFA (Faz 12 güvenlik denetimi) · giriş hız sınırı (Upstash, Faz 10) · TanStack Table liste ekranları (Faz 7'den itibaren)
-- [ ] **Faz 06** — Ana sayfa: scroll video hero + hakkımızda *(iOS Safari testi)*
+- [x] **Faz 06** — Ana sayfa: scroll video hero + hakkımızda ✅ 2026-09-18
+  - [x] `src/modules/home`: `HeroSection` (video → `HeroVideo` scroll-scrub/loop/poster; video yoksa koyu sahne + kademe motifi) · `AboutSection` (Markdown gövde, kaydırılmış çerçeveli görsel, 1px ızgaralı istatistikler) · `HeroOverlay` (header hero üstünde şeffaf, 32 px'te koyulaşır; sabitleme CSS `body:has(.hero)` → JS'siz de doğru)
+  - [x] Admin: `/admin/pages/home` — `HeroForm` (video/poster medya kütüphanesinden, TR/EN metin, CTA yolu, tek aktif) + `AboutForm` (Markdown, görsel, istatistik satırları, K-08 yayın alanları) · `ADMIN_NAV` › home (editör+)
+  - [x] Ortak içerik altyapısı (Faz 7+ için): `core/content` (`isVisibleIn` · `alternatesFromRow` · `publishedSlugs` · `publishSchema` · `publishColumns` · `slugMap`) · `admin-shell` ortak form parçaları (`LocalizedField` · `MediaSelect` · `PublishFields` · `StatusBadge` · `AdminPageHeader`) · `CACHE_TAGS` tüm içerik tabloları
+  - [x] **K-53** `lib/markdown`: güvenli Markdown → HTML (izinli etiketler, kaçırılmış metin, güvenli href) · `markdownToText` · `readingMinutes` — 10 test
+  - [x] `0016_home_seed.sql`: hero + hakkımızda başlangıç metni (yalnız boşsa; sayısal iddia yok; EN makine taslağı onaysız → yalnız TR yayında) — 4 DB testi; uzak projeye uygulandı
+  - [x] **K-54** Tasarım desteği depoda: `.claude/skills/ui-ux-pro-max` (GitHub'ın en çok yıldızlı tasarım skill'i, kural indeksi + CLK tasarım sistemi MASTER) · `.claude/skills/frontend-design` (Anthropic)
+  - [x] Testler: 201 birim/DB · E2E `home.spec.ts` (hero tek h1, header sabit/koyulaşma, axe, K-08 EN görünmez, admin form kaydet)
+  - [ ] *Ürün sahibi:* hero videosu + poster kareleri medya kütüphanesine yüklenip `/admin/pages/home`'dan seçilecek (ffmpeg yok, poster ayrı yüklenir) · iOS Safari'de scrub/loop gözle kontrol
+  - [ ] *Faz 10:* hero CTA `/get-quote` route'u gelince buton kendiliğinden görünür
 - [ ] **Faz 07** — Hizmetler (ön yüz + admin)
 - [ ] **Faz 08** — Projeler (ön yüz + admin)
 - [ ] **Faz 09** — Blog (ön yüz + admin + canlı SEO paneli)

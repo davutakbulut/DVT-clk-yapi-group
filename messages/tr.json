@@ -118,7 +118,8 @@
       "whatsapp": "WhatsApp",
       "errors": "Hata Sayfaları",
       "media": "Medya Kütüphanesi",
-      "users": "Üyeler ve Roller"
+      "users": "Üyeler ve Roller",
+      "home": "Ana Sayfa"
     },
     "common": {
       "save": "Kaydet",
@@ -272,6 +273,49 @@
         "member": "Üye"
       },
       "you": "siz"
+    },
+    "form": {
+      "publishing": "Yayın",
+      "status": "Durum",
+      "draft": "Taslak",
+      "published": "Yayında",
+      "archived": "Arşiv",
+      "slugTr": "Slug (TR)",
+      "slugEn": "Slug (EN, elle)",
+      "slugAuto": "boşsa başlıktan üretilir",
+      "reviewedEn": "İngilizce çeviriyi gözden geçirdim",
+      "publishEn": "İngilizce yayında",
+      "translate": "Tümünü İngilizceye çevir",
+      "translating": "Çevriliyor…",
+      "translated": "Makine taslağı yazıldı — gözden geçirin",
+      "new": "Yeni",
+      "list": "Liste",
+      "back": "Listeye dön",
+      "order": "Sıra",
+      "featured": "Öne çıkan",
+      "untitled": "(başlıksız)"
+    },
+    "pages": {
+      "home": "Ana Sayfa",
+      "homeLead": "Hero videosu, posterler ve başlık; hakkımızda metni ve istatistikler.",
+      "hero": "Hero",
+      "heroLabel": "Etiket (dahili)",
+      "desktopVideo": "Masaüstü video",
+      "mobileVideo": "Mobil video",
+      "desktopPoster": "Masaüstü poster",
+      "mobilePoster": "Mobil poster",
+      "headline": "Başlık",
+      "subheadline": "Alt başlık",
+      "ctaLabel": "CTA etiketi",
+      "ctaPath": "CTA yolu (routing anahtarı, ör. /get-quote)",
+      "duration": "Süre (sn)",
+      "heroActive": "Aktif",
+      "about": "Hakkımızda",
+      "eyebrow": "Üst etiket",
+      "title": "Başlık",
+      "body": "Metin (Markdown)",
+      "image": "Görsel",
+      "stats": "İstatistikler (satır başına: değer | etiket TR | etiket EN)"
     }
   }
 }

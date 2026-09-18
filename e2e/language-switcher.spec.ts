@@ -7,13 +7,15 @@ test.describe('dil değiştirici', () => {
 
     await expect(page).toHaveURL(/\/en$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.getByText('Under construction')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Skip to content' })).toHaveCount(1); // arayüz metni dil değiştirdi
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     expect((await context.cookies()).find((cookie) => cookie.name === 'NEXT_LOCALE')?.value).toBe('en');
 
     await page.getByRole('link', { name: 'Türkçe' }).click();
 
     await expect(page).toHaveURL(/\/tr$/);
-    await expect(page.getByText('Yapım aşamasında')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'İçeriğe geç' })).toHaveCount(1);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     expect((await context.cookies()).find((cookie) => cookie.name === 'NEXT_LOCALE')?.value).toBe('tr');
   });
 
