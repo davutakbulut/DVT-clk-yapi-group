@@ -145,6 +145,15 @@
   [data-on-dark] .btn-ghost:hover {
     border-color: var(--color-accent-on-dark);
   }
+  /* Koyu zeminde birincil buton: açık turkuaz zemin + mürekkep metin (≈8.5:1); paper üstü turq-light 1.9:1 olurdu */
+  [data-on-dark] .btn-primary {
+    background: var(--color-accent-on-dark);
+    color: var(--ink);
+  }
+  [data-on-dark] .btn-primary:hover {
+    background: var(--color-text-inverse);
+    color: var(--ink);
+  }
 
   /* ── Header: ortalanmış logo. İki kenar sütunu EŞİT (1fr · auto · 1fr) → logo piksel hassasiyetinde ortada. */
   .site-header {

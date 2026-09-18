@@ -41,7 +41,8 @@ test.describe('klavye', () => {
   test('tüm etkileşimli öğelere yalnız klavyeyle ulaşılır', async ({ page }) => {
     await page.goto('/tr');
     const reached: string[] = [];
-    for (let i = 0; i < 6; i++) {
+    // Menü faz faz doluyor (K-50): 14 Tab, header'daki tüm bağlantıları kapsar
+    for (let i = 0; i < 14; i++) {
       await page.keyboard.press('Tab');
       reached.push(await page.evaluate(() => document.activeElement?.getAttribute('aria-label') ?? document.activeElement?.textContent?.trim() ?? ''));
     }

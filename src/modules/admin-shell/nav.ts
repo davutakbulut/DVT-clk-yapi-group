@@ -2,7 +2,7 @@ import type { AppRole } from '@/core/auth';
 
 // Modül kayıt listesi (CONTRIBUTING › Yeni Modül Ekleme): her faz kendi satırını ekler. Etiketler Admin.nav.<key>.
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'menus' | 'settings' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   readonly roles?: readonly AppRole[];
 }
@@ -16,6 +16,15 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'blog', href: '/admin/blog', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'blogTaxonomy', href: '/admin/blog/taxonomy', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'comments', href: '/admin/blog/comments', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'leads', href: '/admin/leads' },
+  { key: 'team', href: '/admin/team', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'references', href: '/admin/references', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'certificates', href: '/admin/certificates', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'careers', href: '/admin/careers', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'applications', href: '/admin/careers/applications', roles: ['super_admin', 'admin'] },
+  { key: 'faq', href: '/admin/faq', roles: ['super_admin', 'admin', 'editor'] },
+  { key: 'mailTemplates', href: '/admin/mail-templates', roles: ['super_admin', 'admin'] },
+  { key: 'formSettings', href: '/admin/settings/form', roles: ['super_admin', 'admin'] },
   { key: 'menus', href: '/admin/menus', roles: ['super_admin', 'admin'] },
   { key: 'settings', href: '/admin/settings', roles: ['super_admin', 'admin'] },
   { key: 'whatsapp', href: '/admin/settings/whatsapp', roles: ['super_admin', 'admin'] },

@@ -1,0 +1,44 @@
+import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { ModuleBoundary } from '@/core/errors';
+import { breadcrumbList, JsonLd } from '@/core/seo';
+import { buildAlternates } from '@/i18n/alternates';
+import type { Locale } from '@/i18n/routing';
+import { ContactInfo, LeadFormSection } from '@/modules/leads';
+import { Container } from '@/ui/Container';
+import { SectionHeading } from '@/ui/SectionHeading';
+
+interface Props {
+  readonly params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale: locale as Locale, namespace: 'Contact' });
+  return { title: t('title'), description: t('lead'), alternates: buildAlternates(locale as Locale, { tr: '/contact', en: '/contact' }) };
+}
+
+export default async function ContactPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale as Locale);
+  const t = await getTranslations('Contact');
+  return (
+    <>
+      <JsonLd data={breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/contact' }], locale as Locale)} />
+      <Container as="section" className="grid gap-12 py-[var(--section-y)] lg:grid-cols-[5fr_7fr]">
+        <div className="grid content-start gap-8">
+          <SectionHeading as="h1" kicker={t('info')} title={t('title')} lead={t('lead')} />
+          <ModuleBoundary module="leads/contact-info">
+            <ContactInfo locale={locale} />
+          </ModuleBoundary>
+        </div>
+        <div className="grid content-start gap-6 border border-[var(--color-border)] bg-[var(--color-surface)] p-6 lg:p-10">
+          <h2 className="text-[length:var(--fs-h3)]">{t('form')}</h2>
+          <ModuleBoundary module="leads/form">
+            <LeadFormSection locale={locale} variant="contact_form" />
+          </ModuleBoundary>
+        </div>
+      </Container>
+    </>
+  );
+}

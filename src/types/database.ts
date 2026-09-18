@@ -5202,6 +5202,10 @@ export type Database = {
     }
     Functions: {
       admin_dashboard_counts: { Args: never; Returns: Json }
+      enqueue_test_email: {
+        Args: { p_locale: string; p_template_key: string }
+        Returns: string
+      }
       get_blog_post_by_slug: {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
@@ -5221,10 +5225,16 @@ export type Database = {
         Returns: number
       }
       reorder_menu_items: { Args: { p_ids: string[] }; Returns: number }
+      reply_lead: {
+        Args: { p_body: string; p_lead_id: string; p_subject: string }
+        Returns: string
+      }
       resolve_old_slug: {
         Args: { p_entity_type: string; p_locale: string; p_old_slug: string }
         Returns: string
       }
+      submit_job_application: { Args: { p: Json }; Returns: Json }
+      submit_lead: { Args: { p: Json }; Returns: Json }
     }
     Enums: {
       [_ in never]: never

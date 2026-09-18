@@ -286,6 +286,11 @@ Hero, hakkımızda ve hizmet açıklamaları gibi **tanımlayıcı** metinler mi
 **Neden:** Boş bir site tasarım kalitesini görünmez kılar (Faz 6'da ürün sahibi "tasarım rezalet" dedi — sayfa yalnız "Yapım aşamasında" idi). Hizmet açıklaması firmanın ne yaptığını anlatır, doğrulanması gereken bir olgu öne sürmez; prototipteki brief de aynı metinleri içerir. Yorum/proje/sertifika ise gerçek dünyada karşılığı olmayan bir iddiaya dönüşür.
 **Bilinen bedeli:** `conventions.test.ts` "boş başlar" listesinden `services` çıkarıldı; ürün sahibi hizmet metinlerini panelden gözden geçirmeli (yayından kaldırabilir).
 
+### K-56 · Service-role yalnız cron işlerinde; ziyaretçi yazımı security definer RPC ile
+`leads`, `email_queue`, `notifications` anonim yazıma kapalıdır. Ziyaretçi formu `submit_lead(jsonb)` **security definer** RPC'sine gider: doğrulama, talep, kuyruk satırları ve rol bildirimi tek transaction'da; anonim taraf tabloları görmez. Kuyruğu boşaltan cron (`/api/cron/mail`) `CRON_SECRET` ile korunan makine isteğidir ve `createServiceClient` (RLS'i atlar) yalnız `src/core/jobs/**` içinden çağrılır; ESLint başka her yerde içe aktarımı reddeder.
+**Neden:** Kural 4 service-role'ü kullanıcı isteğiyle erişilen yollardan uzak tutar; formun kendisi RLS'in gerçek sınır kaldığı yoldur (RPC içi doğrulama + kısıtlar). Cron ise kullanıcı bağlamı olmayan bir iş: oturum yok, RLS'in koruyacağı "kim" yok. Alternatif (pg_cron + pg_net) uzantı gerektirir (K-47 uzantısızlık) ve mail sağlayıcı sırrını veritabanına taşırdı.
+**Bilinen bedeli:** İki gizli anahtar (CRON_SECRET, SUPABASE_SECRET_KEY) Vercel ortamında tanımlanmalı; yerelde cron elle tetiklenir. Süreç içi hız sınırı tek instance'ı korur — üretimde Upstash beklenir.
+
 ---
 
 ## Değiştirilen Kararlar

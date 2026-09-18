@@ -1,7 +1,7 @@
 'use server';
 
 import { createHash } from 'node:crypto';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -202,6 +202,7 @@ export async function moderateComment(formData: FormData): Promise<void> {
   if (!client.ok) return;
   const { error } = await client.data.from('post_comments').update({ status: status.data, moderated_by: gate.data.id, moderated_at: new Date().toISOString() }).eq('id', id.data);
   if (error) logger.error('Yorum moderasyonu basarisiz', { module: 'blog', code: error.code, message: error.message });
+  revalidatePath('/admin/blog/comments');
 }
 
 const commentSchema = z.object({

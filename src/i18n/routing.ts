@@ -30,6 +30,17 @@ export const routing = defineRouting({
     '/blog/[slug]': '/blog/[slug]',
     '/blog/category/[slug]': { tr: '/blog/kategori/[slug]', en: '/blog/category/[slug]' },
     '/blog/tag/[slug]': { tr: '/blog/etiket/[slug]', en: '/blog/tag/[slug]' },
+    // Faz 10 · talep
+    '/contact': { tr: '/iletisim', en: '/contact' },
+    '/get-quote': { tr: '/teklif-al', en: '/get-quote' },
+    // Faz 11 · kurumsal
+    '/about': { tr: '/hakkimizda', en: '/about' },
+    '/team': { tr: '/ekibimiz', en: '/team' },
+    '/references': { tr: '/referanslarimiz', en: '/references' },
+    '/certificates': { tr: '/belgelerimiz', en: '/certificates' },
+    '/careers': { tr: '/kariyer', en: '/careers' },
+    '/careers/[slug]': { tr: '/kariyer/[slug]', en: '/careers/[slug]' },
+    '/faq': { tr: '/sss', en: '/faq' },
   },
 });
 

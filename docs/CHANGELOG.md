@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 10 · Talep + Mail
+- `src/modules/leads` — site: `LeadForm` · `LeadFormSection` · `ContactInfo`; admin: `LeadStatusForm` · `LeadNoteForm` · `LeadReplyForm` · `QuoteFormOptionsForm` · `MailTemplateForm`; `domain/leadSchema` (2 test); `actions` (`submitLead` · `updateLead` · `addLeadNote` · `replyLead` · `saveQuoteFormOptions` · `saveMailTemplate` · `sendTestMail`)
+- `src/core/mail` (`renderMail` · `sendWithFallback` Resend/SMTP) · `src/core/jobs/mailQueue` · `src/core/db/createServiceClient` (**K-56**) · `src/core/rate-limit` · `app/api/cron/mail` · `vercel.json`
+- Route'lar `/contact` · `/get-quote`; `app/admin/leads` · `app/admin/leads/[id]` · `app/admin/settings/form` · `app/admin/mail-templates`
+- `supabase/migrations/0020_leads_mail.sql` · `supabase/tests/leads.test.ts` (5); `nodemailer` bağımlılığı
+- `ActionState.data` (küçük dönüş verisi) · `rateLimited` hata anahtarı; mesajlar `Contact`, `Quote`, `LeadForm`, `Admin.leads`, `Admin.mail`, `Admin.formSettings`; `e2e/leads.spec.ts`
+
 ### Eklendi — Faz 9 · Blog
 - `src/modules/blog` — site: `PostsList` · `PostDetail` (TOC, yazar kutusu, yorumlar) · `BlogSection` · `PostCard` · `CommentForm`; admin: `PostForm` · `SeoPanel` · `TaxonomyForm`; `domain/seoAnalysis` (17 madde, 4 test); `actions` (yazı/sınıflandırma kaydet-sil, moderasyon, ziyaretçi yorumu)
 - `src/lib/markdown` — `extractHeadings` + başlık `id`'leri (içindekiler); testler

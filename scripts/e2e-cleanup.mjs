@@ -27,4 +27,11 @@ for (const [table, prefix] of [
     console.log(table, row.slug.tr, e ? `HATA ${e.message}` : 'silindi');
   }
 }
+{
+  const { data } = await client.from('leads').select('id, full_name').like('full_name', 'E2E %');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('leads').delete().eq('id', row.id);
+    console.log('leads', row.full_name, e ? `HATA ${e.message}` : 'silindi');
+  }
+}
 await client.auth.signOut({ scope: 'local' });

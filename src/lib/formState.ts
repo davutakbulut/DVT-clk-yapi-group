@@ -1,5 +1,5 @@
 /** Admin Server Action'larının ortak dönüşü. Metin değil anahtar taşır; bileşen messages'tan çevirir. */
-export type ActionErrorKey = 'forbidden' | 'validation' | 'unexpected' | 'notConfigured' | 'fileType' | 'fileMagic' | 'fileSize' | 'lastSuperAdmin';
+export type ActionErrorKey = 'forbidden' | 'validation' | 'unexpected' | 'notConfigured' | 'fileType' | 'fileMagic' | 'fileSize' | 'lastSuperAdmin' | 'rateLimited';
 
 export interface ActionState {
   readonly ok: boolean;
@@ -8,6 +8,8 @@ export interface ActionState {
   readonly done?: boolean;
   /** Başarı sonrası yönlendirme gerektiğinde. */
   readonly redirectTo?: string;
+  /** Başarıyla dönen küçük veri (ör. talep referans numarası). */
+  readonly data?: Readonly<Record<string, string>>;
 }
 
 export const IDLE: ActionState = { ok: false };

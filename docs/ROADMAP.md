@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 10 — Talep + Mail ⏳ (sırada) · Faz 1–9 `feat/faz-02-database` dalında
+**Şu an:** Faz 11 — Kurumsal sayfalar ⏳ (sırada) · Faz 1–10 `feat/faz-02-database` dalında
 
 ---
 
@@ -20,7 +20,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Sürüm | Fazlar | Ne elde edilir | Durum |
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
-| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 9 ✅ |
+| **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | 🔨 Faz 10 ✅ |
 | **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ⏳ |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
@@ -153,7 +153,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] Admin `/admin/blog` (liste) · `/new` · `/[id]`: `PostForm` + **canlı SEO paneli** (`analyzeSeo`, 17 madde, TR/EN sekmesi, skor; diğer yazıların odak kelimeleri ve girişleriyle benzersizlik/örtüşme; 4 test) · zamanlanmış yayın (`published_at` ileri tarih, K-07 gizler) · okuma süresi otomatik · her kayıtta `content_revisions` anlık görüntüsü · `/admin/blog/taxonomy` (kategori/etiket CRUD) · `/admin/blog/comments` (bekleyen/onaylı/red/spam süzgeci, tek tık moderasyon)
   - [x] Ana sayfa 04 son yazılar; E2E `blog.spec.ts` (liste axe, 404, admin: SEO paneli → yayınla → sitede TOC/BlogPosting → ziyaretçi yorumu → onayla → görünür → sil)
   - [ ] *Sonraki:* Tiptap/Draft Mode önizleme (v1'de Markdown, K-53) · RSS (Faz 30) · `content_links` küratörlü ilgili içerik · yorum yanıtı admin'den (şimdilik yalnız moderasyon)
-- [ ] **Faz 10** — Talep + Mail *(kuyruk + canlılık denetimi testi)*
+- [x] **Faz 10** — Talep + Mail (kuyruk + canlılık denetimi) ✅ 2026-09-18
+  - [x] Route'lar `/iletisim` (iletişim bilgileri + form) · `/teklif-al` (hizmet, yapı tipi/bütçe/süre seçenekleri); hero ve CTA bantları `/get-quote`'a bağlandı
+  - [x] `0020_leads_mail.sql`: `submit_lead(jsonb)` security definer — talep + müşteri/firma mail kuyruğu + `sales`/`admin` bildirimi tek transaction'da (anonim `leads`/`email_queue`'ya doğrudan yazamaz) · `reply_lead` · `enqueue_test_email` · 3 şablon · `mail_queue` heartbeat — 5 DB testi
+  - [x] Form: bal küpü, KVKK onayı zorunlu (`consent_kvkk_at`), e-posta/telefon en az biri, IP başına 5/10 dk hız sınırı (`core/rate-limit`: Upstash varsa, yoksa süreç içi), IP maskelenip özetlenir, UTM + sayfa URL'si; JS'siz gönderim
+  - [x] Mail: `core/mail` — `renderMail` ({{degisken}}, HTML kaçırma, düz metin) · Resend (fetch) → SMTP (nodemailer) yedek · `core/jobs/mailQueue` (kilit + zaman aşımı, üstel geri çekilme, `email_logs`, `lead_replies.sent_at`, `cron_heartbeats`) · `/api/cron/mail` (Bearer CRON_SECRET, `vercel.json` her dakika) — **K-56**: service-role yalnız `core/jobs`, ESLint zorlar
+  - [x] Admin `/admin/leads` (durum süzgeci, liste) · `/admin/leads/[id]` (iletişim, form alanları, onaylar, durum/atama/teklif tutarı/kayıp nedeni, iç notlar, cevap → kuyruk, mail kayıtları) · `/admin/settings/form` (seçenek grupları) · `/admin/mail-templates` (şablon düzenle, test gönder, kuyruk/heartbeat/son gönderimler)
+  - [x] E2E `leads.spec.ts` (iletişim/teklif axe, hero CTA, cron 401, ziyaretçi talep → admin not + cevap kuyruğa, şablon sayfaları); `scripts/e2e-cleanup.mjs` talepleri de temizler
+  - [ ] *Ürün sahibi:* Resend domain doğrulaması + SPF/DKIM/DMARC (07-MAIL, DNS engelleyicisi) · Vercel'de `CRON_SECRET`, `RESEND_API_KEY`, `MAIL_FROM`, `SUPABASE_SECRET_KEY` · Upstash (isteğe bağlı)
+  - [ ] *Faz 18:* panelde bildirim zili (Realtime/yoklama) · *Faz 14:* teklif sepeti kalemleri (`lead_items`) · *Faz 21:* dosya ekleri
 - [ ] **Faz 11** — Kurumsal sayfalar (ekip, referanslar, belgeler, kariyer)
 - [ ] **Faz 12** — SEO temeli + **YAYIN** 🚀 *(yayın öncesi tam denetim)*
 
@@ -198,7 +206,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Konu | Etkilediği faz | Durum |
 |---|---|---|
 | Domain adı | 12, 30 | ⏳ Bekleniyor |
-| DNS erişimi (SPF/DKIM/DMARC) | **10** | ⏳ Bekleniyor — *mail teslimatı için zorunlu* |
+| DNS erişimi (SPF/DKIM/DMARC) | **10** → 12 | ⏳ Bekleniyor — *kod hazır (Faz 10); teslimat için zorunlu* |
 | Firma iletişim bilgileri | 4 | ⏳ Placeholder ile ilerleniyor |
 | Logo dosyası | 4 | ⏳ |
 | WhatsApp numarası | 4 | ⏳ |

@@ -20,6 +20,11 @@ const SUPABASE_IMPORTS = {
   ],
 };
 
+const SERVICE_CLIENT_IMPORT = {
+  group: ['@/core/db/createServiceClient', '**/createServiceClient'],
+  message: 'Service-role istemcisi yalnız src/core/jobs içinde kullanılır (K-56, Kural 4).',
+};
+
 const eslintConfig = [
   { ignores: ['node_modules/**', '.next/**', 'out/**', 'next-env.d.ts', 'experiments/**', '_archive/**', 'playwright-report/**', 'test-results/**'] },
 
@@ -84,10 +89,16 @@ const eslintConfig = [
     },
   },
 
-  // Supabase'e dokunmasına izin verilen iki yer
+  // Supabase'e dokunmasına izin verilen iki yer: core/db ve modules/*/data. K-56: service-role istemcisi (RLS'i atlar)
+  // YALNIZ src/core/jobs (cron işleri) içe aktarır; diğer her yerde yasak.
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/core/jobs/**', 'src/core/db/**', 'src/modules/*/data/**'],
+    rules: { 'no-restricted-imports': ['error', { patterns: [...SUPABASE_IMPORTS.patterns, SERVICE_CLIENT_IMPORT] }] },
+  },
   {
     files: ['src/core/db/**/*.{ts,tsx}', 'src/modules/*/data/**/*.{ts,tsx}'],
-    rules: { 'no-restricted-imports': 'off' },
+    rules: { 'no-restricted-imports': ['error', { patterns: [SERVICE_CLIENT_IMPORT] }] },
   },
 ];
 
