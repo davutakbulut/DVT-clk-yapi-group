@@ -10,6 +10,7 @@ import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedProjectBySlug, getCachedProjectList, getCachedProjectSlugs, ProjectDetail, resolveOldProjectSlug, type ProjectDetailData } from '@/modules/projects';
+import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -62,9 +63,11 @@ export default async function ProjectPage({ params }: Props) {
   const categorySlugs = new Set(project.categories.map((c) => c.slug));
   const related = all.filter((p) => p.id !== project.id && p.categories.some((c) => categorySlugs.has(c.slug))).slice(0, 3);
   const self: AppHref = { pathname: '/projects/[slug]', params: { slug: project.slug } };
+  const reviews = await getCachedTestimonialsFor(locale, { projectId: project.id });
   const jsonLd = [
     {
       '@type': 'Article',
+      '@id': `${absoluteUrl(self, locale as Locale)}#project`,
       headline: project.title,
       description: project.seo.description || project.excerpt || undefined,
       url: absoluteUrl(self, locale as Locale),
@@ -76,13 +79,26 @@ export default async function ProjectPage({ params }: Props) {
       about: { '@type': 'Thing', name: project.categories.map((c) => c.name).join(', ') || project.title },
     },
     breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/projects' }, { name: project.title, href: self }], locale as Locale),
+    // 02-SEO: yalnız bu projeye bağlı yorumlar, bu projenin @id'si üzerinde
+    ...reviewJsonLd(reviews, { id: `${absoluteUrl(self, locale as Locale)}#project`, type: 'Project' }),
   ];
 
   return (
     <RouteAlternates value={{ hrefs: hrefs(project), fallback: '/projects' }}>
       <JsonLd data={jsonLd} />
       <ModuleBoundary module="projects/detail">
-        <ProjectDetail project={project} locale={locale} related={related} prev={prev} next={next} />
+        <ProjectDetail
+          project={project}
+          locale={locale}
+          related={related}
+          prev={prev}
+          next={next}
+          extra={
+            <ModuleBoundary module="testimonials/for-project">
+              <TestimonialsFor items={reviews} headingId="project-reviews" />
+            </ModuleBoundary>
+          }
+        />
       </ModuleBoundary>
     </RouteAlternates>
   );

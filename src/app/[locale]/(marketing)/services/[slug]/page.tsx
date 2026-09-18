@@ -11,6 +11,7 @@ import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedServiceBySlug, getCachedServiceSlugs, resolveOldServiceSlug, ServiceDetail, type ServiceDetailData } from '@/modules/services';
 import { SolutionsForService } from '@/modules/solutions';
+import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -58,7 +59,7 @@ export default async function ServicePage({ params }: Props) {
     if (fresh) permanentRedirect(getPathname({ href: { pathname: '/services/[slug]', params: { slug: fresh } }, locale: locale as Locale }));
     notFound();
   }
-  const t = await getTranslations('Services');
+  const [t, reviews] = await Promise.all([getTranslations('Services'), getCachedTestimonialsFor(locale, { serviceId: service.id })]);
   const self: AppHref = { pathname: '/services/[slug]', params: { slug: service.slug } };
   const jsonLd = [
     {
@@ -73,6 +74,8 @@ export default async function ServicePage({ params }: Props) {
       areaServed: { '@type': 'Country', name: 'TR' },
     },
     breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/services' }, { name: service.title, href: self }], locale as Locale),
+    // 02-SEO: Review/AggregateRating yalnız bu hizmete bağlı yorumlarla, bu hizmetin @id'si üzerinde
+    ...reviewJsonLd(reviews, { id: `${absoluteUrl(self, locale as Locale)}#service`, type: 'Service' }),
   ];
 
   return (
@@ -83,9 +86,14 @@ export default async function ServicePage({ params }: Props) {
           service={service}
           locale={locale}
           extra={
-            <ModuleBoundary module="solutions/for-service">
-              <SolutionsForService serviceId={service.id} locale={locale} />
-            </ModuleBoundary>
+            <>
+              <ModuleBoundary module="solutions/for-service">
+                <SolutionsForService serviceId={service.id} locale={locale} />
+              </ModuleBoundary>
+              <ModuleBoundary module="testimonials/for-service">
+                <TestimonialsFor items={reviews} headingId="service-reviews" />
+              </ModuleBoundary>
+            </>
           }
         />
       </ModuleBoundary>

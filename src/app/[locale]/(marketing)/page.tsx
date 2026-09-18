@@ -8,6 +8,7 @@ import { BlogSection } from '@/modules/blog';
 import { AboutSection, HeroSection } from '@/modules/home';
 import { ProjectsSection } from '@/modules/projects';
 import { ServicesSection } from '@/modules/services';
+import { TestimonialsSection } from '@/modules/testimonials';
 import { getPublicSettings } from '@/modules/site-settings';
 
 interface Props {
@@ -44,6 +45,9 @@ export default async function HomePage({ params }: Props) {
       </ModuleBoundary>
       <ModuleBoundary module="blog/home">
         <BlogSection locale={locale} index="04" />
+      </ModuleBoundary>
+      <ModuleBoundary module="testimonials/home">
+        <TestimonialsSection locale={locale} index="05" />
       </ModuleBoundary>
     </>
   );

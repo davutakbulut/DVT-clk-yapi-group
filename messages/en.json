@@ -143,7 +143,8 @@
       "productCategories": "Product Categories",
       "solutions": "Solution Pages",
       "pricing": "Price Guides",
-      "materialPrices": "Material Prices"
+      "materialPrices": "Material Prices",
+      "testimonials": "Customer Reviews"
     },
     "common": {
       "save": "Save",
@@ -809,6 +810,54 @@
         "coating": "Coating",
         "other": "Other"
       }
+    },
+    "testimonials": {
+      "title": "Customer Reviews",
+      "lead": "Add reviews manually, approve visitor reviews, sync Google reviews (read-only). The rating badge is computed from published reviews.",
+      "new": "New review (manual)",
+      "count": "{count} reviews",
+      "author": "Full name",
+      "company": "Company",
+      "rating": "Rating",
+      "authorTitleTr": "Title (Turkish)",
+      "authorTitleEn": "Title (English)",
+      "reviewedOn": "Review date",
+      "bodyTr": "Review (Turkish)",
+      "bodyEn": "Review (English)",
+      "service": "Service",
+      "project": "Project",
+      "product": "Product",
+      "verified": "Verified customer",
+      "approve": "Approve",
+      "reject": "Reject",
+      "googleReadOnly": "Google review: text and rating are read-only; only status, featured and links can change.",
+      "google": "Google Places sync",
+      "placeId": "Google Place ID",
+      "placeIdHint": "The Place ID of your Google Business profile (starts with ChIJ…). The API key lives in the GOOGLE_PLACES_API_KEY environment variable.",
+      "apiKeyOk": "API key configured.",
+      "apiKeyMissing": "GOOGLE_PLACES_API_KEY is not set — sync will not run.",
+      "syncNow": "Sync now",
+      "syncing": "Syncing…",
+      "syncResult": "{fetched} fetched · {inserted} new (pending) · {updated} updated",
+      "runCounts": "{fetched} fetched · {inserted} new · {updated} updated",
+      "filters": {
+        "pending": "Pending",
+        "published": "Published",
+        "rejected": "Rejected",
+        "archived": "Archived",
+        "all": "All"
+      },
+      "statuses": {
+        "pending": "Pending",
+        "published": "Published",
+        "rejected": "Rejected",
+        "archived": "Archived"
+      },
+      "sources": {
+        "manual": "Manual",
+        "google": "Google",
+        "visitor": "Visitor"
+      }
     }
   },
   "Services": {
@@ -1135,6 +1184,39 @@
       "m2": "m²",
       "m": "m",
       "piece": "pcs"
+    }
+  },
+  "Testimonials": {
+    "title": "Customer Reviews",
+    "kicker": "Reviews",
+    "homeTitle": "What our customers say",
+    "lead": "All published customer reviews. Google reviews are synced regularly; visitor reviews appear after approval.",
+    "empty": "No reviews published yet.",
+    "all": "All reviews",
+    "home": "Home",
+    "forEntity": "Customer reviews",
+    "carouselLabel": "Customer reviews",
+    "ratingLabel": "{rating} out of 5",
+    "reviewCount": "{count} reviews",
+    "viaGoogle": "Google",
+    "verified": "Verified customer",
+    "prev": "Previous review",
+    "next": "Next review",
+    "dotsLabel": "Choose a review",
+    "goTo": "Review {index}",
+    "form": {
+      "title": "Share your experience",
+      "lead": "Your review is published after our team reads it. No email required.",
+      "name": "Full name",
+      "company": "Company (optional)",
+      "rating": "Rating",
+      "service": "Related service (optional)",
+      "none": "Select",
+      "body": "Your review",
+      "consent": "I have read the privacy notice and agree that my name and review may be published on the site.",
+      "submit": "Send review",
+      "successTitle": "Thank you!",
+      "successBody": "Your review has been received and will appear on the site once approved."
     }
   }
 }

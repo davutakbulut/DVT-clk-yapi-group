@@ -143,7 +143,8 @@
       "productCategories": "Ürün Kategorileri",
       "solutions": "Çözüm Sayfaları",
       "pricing": "Fiyat Rehberleri",
-      "materialPrices": "Malzeme Fiyatları"
+      "materialPrices": "Malzeme Fiyatları",
+      "testimonials": "Müşteri Yorumları"
     },
     "common": {
       "save": "Kaydet",
@@ -809,6 +810,54 @@
         "coating": "Kaplama",
         "other": "Diğer"
       }
+    },
+    "testimonials": {
+      "title": "Müşteri Yorumları",
+      "lead": "Elle yorum ekleyin, ziyaretçi yorumlarını onaylayın, Google yorumlarını eşitleyin (salt-okunur). Puan rozeti yayındaki yorumlardan otomatik hesaplanır.",
+      "new": "Yeni yorum (elle)",
+      "count": "{count} yorum",
+      "author": "Ad Soyad",
+      "company": "Firma",
+      "rating": "Puan",
+      "authorTitleTr": "Unvan (Türkçe)",
+      "authorTitleEn": "Unvan (İngilizce)",
+      "reviewedOn": "Yorum tarihi",
+      "bodyTr": "Yorum (Türkçe)",
+      "bodyEn": "Yorum (İngilizce)",
+      "service": "Hizmet",
+      "project": "Proje",
+      "product": "Ürün",
+      "verified": "Doğrulanmış müşteri",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "googleReadOnly": "Google kaynaklı yorum: metin ve puan salt-okunur; yalnız durum, öne çıkan ve bağlantılar değişir.",
+      "google": "Google Places senkronu",
+      "placeId": "Google Place ID",
+      "placeIdHint": "Google Business profilinizin Place ID'si (ChIJ… ile başlar). API anahtarı GOOGLE_PLACES_API_KEY ortam değişkenindedir.",
+      "apiKeyOk": "API anahtarı tanımlı.",
+      "apiKeyMissing": "GOOGLE_PLACES_API_KEY tanımlı değil — senkron çalışmaz.",
+      "syncNow": "Şimdi eşitle",
+      "syncing": "Eşitleniyor…",
+      "syncResult": "{fetched} yorum alındı · {inserted} yeni (bekleyen) · {updated} güncellendi",
+      "runCounts": "{fetched} alındı · {inserted} yeni · {updated} güncel",
+      "filters": {
+        "pending": "Bekleyen",
+        "published": "Yayında",
+        "rejected": "Reddedilen",
+        "archived": "Arşiv",
+        "all": "Tümü"
+      },
+      "statuses": {
+        "pending": "Bekleyen",
+        "published": "Yayında",
+        "rejected": "Reddedildi",
+        "archived": "Arşiv"
+      },
+      "sources": {
+        "manual": "Elle",
+        "google": "Google",
+        "visitor": "Ziyaretçi"
+      }
     }
   },
   "Services": {
@@ -1135,6 +1184,39 @@
       "m2": "m²",
       "m": "m",
       "piece": "adet"
+    }
+  },
+  "Testimonials": {
+    "title": "Müşteri Yorumları",
+    "kicker": "Yorumlar",
+    "homeTitle": "Müşterilerimiz ne diyor",
+    "lead": "Yayındaki tüm müşteri yorumları. Google yorumları düzenli olarak eşitlenir; ziyaretçi yorumları onaydan sonra görünür.",
+    "empty": "Henüz yayında yorum yok.",
+    "all": "Tüm yorumlar",
+    "home": "Ana sayfa",
+    "forEntity": "Müşteri yorumları",
+    "carouselLabel": "Müşteri yorumları",
+    "ratingLabel": "5 üzerinden {rating} puan",
+    "reviewCount": "{count} değerlendirme",
+    "viaGoogle": "Google",
+    "verified": "Doğrulanmış müşteri",
+    "prev": "Önceki yorum",
+    "next": "Sonraki yorum",
+    "dotsLabel": "Yorum seç",
+    "goTo": "{index}. yorum",
+    "form": {
+      "title": "Deneyiminizi paylaşın",
+      "lead": "Yorumunuz ekibimizce okunduktan sonra yayınlanır. E-posta istemiyoruz.",
+      "name": "Ad Soyad",
+      "company": "Firma (isteğe bağlı)",
+      "rating": "Puan",
+      "service": "İlgili hizmet (isteğe bağlı)",
+      "none": "Seçiniz",
+      "body": "Yorumunuz",
+      "consent": "KVKK Aydınlatma Metni'ni okudum; adımın ve yorumumun sitede yayınlanmasını kabul ediyorum.",
+      "submit": "Yorumu gönder",
+      "successTitle": "Teşekkürler!",
+      "successBody": "Yorumunuz alındı; onaylandıktan sonra sitede görünecek."
     }
   }
 }

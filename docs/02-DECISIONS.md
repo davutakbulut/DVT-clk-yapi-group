@@ -306,6 +306,11 @@ Sepet oturum/hesap gerektirmez: `localStorage` (`clk_basket`) içinde ürün id 
 **Neden:** Alternatif, `material_prices`'a anonim SELECT açmaktı — o zaman işçilik, bağlantı ve kaplama fiyatları da (rehberde olmasa bile) herkese açılırdı. Definer RPC "ne yayınlandıysa o görünür" sınırını tam olarak çizer; fiyat bir yerde güncellenince rehber otomatik tazelenir (`touch_price_guide`), panel `stale_after_days` ile "bayat" uyarısı verir.
 **Bilinen bedeli:** RPC'nin WHERE koşulu RLS yerine geçer — değiştirilirken `price-guides.test.ts` (taslak → null, anonim tablo → hata) yeşil kalmalı. Hesaplayıcının metraj girdisi Faz 23'e kadar analitiğe yazılmaz.
 
+### K-60 · Yorum carousel'i yerel scroll-snap; Google yorumları "bekleyen" başlar
+Carousel Embla yerine CSS `scroll-snap` + küçük bir istemci bileşeniyle yapılır: sürükleme, dokunma ve klavye kaydırma tarayıcıdan gelir; oklar, noktalar ve otomatik kayma (hover/odakta durur, `prefers-reduced-motion`'da başlamaz) bileşende. Google Places'tan çekilen yorumlar `pending` yazılır, metin/puan salt-okunurdur; yayın kararı insanındır. Rozet ve `AggregateRating` yalnız yayındaki yorumlardan, şema yalnız yorumun bağlı olduğu varlık sayfasında.
+**Neden:** Embla ~8 KB gzip ve ayrı bir bağımlılık; istenen davranışların tamamı yerel kaydırmayla karşılanıyor ve erişilebilirlik (klavye, dokunma) tarayıcıdan gelir. Google yorumu herkese açık olsa da sitede hangi yorumların öne çıkacağı editoryal karardır (K-08 ile tutarlı); spam ya da alakasız yorumlar otomatik yayınlanmaz. Şema kapsamı 02-SEO'nun Google politikası notudur.
+**Bilinen bedeli:** Sonsuz döngü (loop) yok — son karttan ilke "atlar". Google en çok 5 yorum döndürür; tam arşiv istenirse üçüncü taraf toplayıcı gerekir. Proje/ürün sayfalarında yorum bölümü slotu hazır, JSON-LD hizmetle başladı.
+
 ---
 
 ## Değiştirilen Kararlar

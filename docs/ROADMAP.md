@@ -3,7 +3,7 @@
 > **Bu dosya her fazdan sonra güncellenir.** Projenin güncel durumunu tek bakışta görmek için buraya bakın.
 
 **Son güncelleme:** 2026-09-18
-**Şu an:** Faz 17 — Müşteri yorumları + Google Places ⏳ (sırada) · Faz 1–16 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
+**Şu an:** Faz 18 — Sistem yönetimi ⏳ (sırada) · Faz 1–17 `feat/faz-02-database` dalında · **Yayın: ürün sahibinin listesi Faz 12'de**
 
 ---
 
@@ -21,7 +21,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 |---|---|---|---|
 | **v0.5 Temel** | 0–4 | Altyapı, tasarım sistemi, veritabanı | ✅ Faz 0–4 tamam |
 | **v1.0 Yayına Hazır Site** | 5–12 | **Çalışan, yönetilebilen, canlı site** | ✅ Faz 5–12 kod tamam · yayın ürün sahibinde |
-| **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | 🔨 Faz 16 ✅ |
+| **v1.1 Katalog & İçerik** | 13–17 | Ürünler, çözümler, fiyat rehberi, yorumlar | ✅ Faz 17 |
 | **v1.2 Ticari Yönetim** | 18–22 | CRM, satış, fatura, hakediş, raporlar | ⏳ |
 | **v1.3 Ölçüm** | 23–25 | Analitik, sıcaklık haritası, hata takip | ⏳ |
 | **v1.4 Konfigüratör** | 26–29 | 3D araç, metraj, fiyat, teklif | ⏳ |
@@ -205,7 +205,13 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `0026_price_guides.sql` — `get_price_guide_by_slug` **security definer** (K-59: material_prices anonime kapalı kalır, yalnız yayındaki rehberin türetilmiş min/max aralığı çıkar) + `touch_price_guide` tetikleyicisi (satır ya da malzeme fiyatı değişince `prices_updated_at`) — 4 DB testi; **tohum fiyat YOK** (K-55)
   - [x] E2E `pricing.spec.ts` (liste axe, 404; malzeme fiyatı → rehber → sitede 900–1.200 ₺ aralığı + 50 t sütunu + hesaplayıcı 10 t → sil)
   - [ ] *Ürün sahibi:* gerçek malzeme fiyatları `/admin/pricing/materials` · *Faz 23:* hesaplayıcı metrajı analitik olayı · *Faz 29:* fiyat geçmişi ekranı konfigüratör admin'e taşınır
-- [ ] **Faz 17** — Müşteri yorumları + Google Places senkronu
+- [x] **Faz 17** — Müşteri yorumları + Google Places senkronu ✅ 2026-09-18
+  - [x] `src/modules/testimonials` — site: `TestimonialsSection` (ana sayfa 05, yayında yorum yoksa hiç render edilmez, **rozet yayındaki yorumlardan** otomatik) · `TestimonialsCarousel` (yerel scroll-snap: sürükleme/klavye tarayıcıdan, oklar + noktalar, otomatik kayma hover/odakta durur, `prefers-reduced-motion`'da başlamaz, mobilde tek kart — K-60) · `TestimonialsFor` (hizmet/proje/ürün detayı) · `ReviewsPage` + `ReviewForm` (ziyaretçi yorumu: puan, metin, KVKK, bal küpü, hız sınırı); admin: `TestimonialForm` (elle yorum; Google satırı salt-okunur) · `GoogleSyncPanel` (Place ID ayarı + şimdi eşitle); `domain/testimonials` (özet + Review/AggregateRating JSON-LD, 2 test)
+  - [x] Route'lar `/yorumlar` (şema yok) · `/admin/testimonials?status=` (bekleyen/yayında/…; onayla/reddet/↑↓/sil; senkron koşuları); hizmet detayında yorum bölümü + **Review/AggregateRating yalnız o hizmet üzerinde** (02-SEO); `ProjectDetail`/`ProductDetail` `extra` slotu (proje/ürün yorumları admin'de bağlanır, sayfada aynı yolla gösterilir — sonraki fazda JSON-LD)
+  - [x] `0027_testimonials.sql` — `submit_testimonial` security definer (pending, KVKK, yayında olmayan varlığa bağlanamaz, editör/admin bildirimi) · `reviews.google_place_id` ayarı (gizli) · `review_sync_runs` admin yazımı · `review_sync` heartbeat — 4 DB testi; **tohum yorum YOK** (K-55)
+  - [x] `core/jobs/googleReviews` (Places API New eşlemesi, 2 test) · `core/jobs/reviewSync` (yeni → pending, var olan → metin/puan güncellenir, durum korunur; koşu kaydı) · `/api/cron/reviews` (günde 1, `vercel.json`) · panelden "şimdi eşitle" admin oturumuyla
+  - [x] E2E `reviews.spec.ts` (sayfa axe + cron 401; ziyaretçi → onay → sitede + ana sayfa carousel; hizmete bağlı yorum → AggregateRating JSON-LD → sil)
+  - [ ] *Ürün sahibi:* `GOOGLE_PLACES_API_KEY` (Vercel) + Place ID (panel) · *Faz 18:* bildirim zilinde `testimonial.pending`
 
 ## v1.2 — Ticari Yönetim
 

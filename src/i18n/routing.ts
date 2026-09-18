@@ -54,6 +54,8 @@ export const routing = defineRouting({
     // Faz 15 · çözüm sayfaları
     '/solutions': { tr: '/cozumler', en: '/solutions' },
     '/solutions/[slug]': { tr: '/cozumler/[slug]', en: '/solutions/[slug]' },
+    // Faz 17 · müşteri yorumları
+    '/reviews': { tr: '/yorumlar', en: '/reviews' },
     // Faz 16 · fiyat rehberi
     '/pricing': { tr: '/fiyatlar', en: '/pricing' },
     '/pricing/[slug]': { tr: '/fiyatlar/[slug]', en: '/pricing/[slug]' },

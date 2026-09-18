@@ -9,6 +9,7 @@ import { buildAlternates } from '@/i18n/alternates';
 import { getPathname, type AppHref } from '@/i18n/navigation';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
+import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
 import { getCachedProductBySlug, getCachedProductList, getCachedProductSlugs, ProductDetail, resolveOldProductSlug, type ProductDetailData } from '@/modules/products';
 
 interface Props {
@@ -56,12 +57,13 @@ export default async function ProductPage({ params }: Props) {
     if (fresh) permanentRedirect(getPathname({ href: { pathname: '/products/[slug]', params: { slug: fresh } }, locale: locale as Locale }));
     notFound();
   }
-  const [t, list, env] = await Promise.all([getTranslations('Products'), getCachedProductList(locale), readSupabasePublicEnv()]);
+  const [t, list, env, reviews] = await Promise.all([getTranslations('Products'), getCachedProductList(locale), readSupabasePublicEnv(), getCachedTestimonialsFor(locale, { productId: product.id })]);
   const related = (list.ok ? list.data : []).filter((p) => p.id !== product.id && product.category && p.category?.id === product.category.id).slice(0, 4);
   const self: AppHref = { pathname: '/products/[slug]', params: { slug: product.slug } };
   const jsonLd = [
     {
       '@type': 'Product',
+      '@id': `${absoluteUrl(self, locale as Locale)}#product`,
       name: product.name,
       description: product.seo.description || product.shortDescription || undefined,
       url: absoluteUrl(self, locale as Locale),
@@ -73,12 +75,23 @@ export default async function ProductPage({ params }: Props) {
       ...(product.variants.some((v) => v.stockCode) ? { sku: product.variants.find((v) => v.stockCode)?.stockCode } : {}),
     },
     breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/products' }, ...(product.category ? [{ name: product.category.name, href: { pathname: '/products/category/[slug]', params: { slug: product.category.slug } } as AppHref }] : []), { name: product.name, href: self }], locale as Locale),
+    // 02-SEO: Review/AggregateRating yalnız bu ürüne bağlı yorumlarla (Offer yine yok, K-27)
+    ...reviewJsonLd(reviews, { id: `${absoluteUrl(self, locale as Locale)}#product`, type: 'Product' }),
   ];
   return (
     <RouteAlternates value={{ hrefs: hrefs(product), fallback: '/products' }}>
       <JsonLd data={jsonLd} />
       <ModuleBoundary module="products/detail">
-        <ProductDetail product={product} locale={locale} related={related} />
+        <ProductDetail
+          product={product}
+          locale={locale}
+          related={related}
+          extra={
+            <ModuleBoundary module="testimonials/for-product">
+              <TestimonialsFor items={reviews} headingId="product-reviews" />
+            </ModuleBoundary>
+          }
+        />
       </ModuleBoundary>
     </RouteAlternates>
   );

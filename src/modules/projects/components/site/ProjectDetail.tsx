@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
@@ -16,13 +17,15 @@ interface Props {
   readonly related: readonly ProjectCardData[];
   readonly prev: ProjectCardData | null;
   readonly next: ProjectCardData | null;
+  /** CTA bandından önce ek bölüm (ör. bu projeye bağlı yorumlar — route katmanı verir). */
+  readonly extra?: ReactNode;
 }
 
 /**
  * Proje detayı (01-PUBLIC-PAGES): başlık bandı + künye → kapak → gövde + galeri → kullanılan hizmetler → aynı kategoriden
  * → önceki/sonraki → teklif CTA. Künyede yalnız dolu alanlar; uydurma değer yok.
  */
-export async function ProjectDetail({ project, locale, related, prev, next }: Props) {
+export async function ProjectDetail({ project, locale, related, prev, next, extra }: Props) {
   const [env, t, format] = await Promise.all([readSupabasePublicEnv(), getTranslations('Projects'), getFormatter()]);
   const url = env.ok ? env.data.url : null;
   const cover = project.cover && url ? project.cover : null;
@@ -152,6 +155,8 @@ export async function ProjectDetail({ project, locale, related, prev, next }: Pr
           ) : null}
         </Container>
       ) : null}
+
+      {extra}
 
       {quoteRoute ? (
         <section className="cta-band" data-on-dark="">

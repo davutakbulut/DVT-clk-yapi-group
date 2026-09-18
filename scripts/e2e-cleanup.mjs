@@ -53,3 +53,10 @@ await client.auth.signOut({ scope: 'local' });
     console.log('material_prices', row.code, e ? `HATA ${e.message}` : 'silindi');
   }
 }
+{
+  const { data } = await client.from('testimonials').select('id, author_name').like('author_name', 'E2E %');
+  for (const row of data ?? []) {
+    const { error: e } = await client.from('testimonials').delete().eq('id', row.id);
+    console.log('testimonials', row.author_name, e ? `HATA ${e.message}` : 'silindi');
+  }
+}

@@ -4682,9 +4682,11 @@ export type Database = {
           avatar_url: string | null
           body: Json
           company: string | null
+          consent_kvkk_at: string | null
           created_at: string
           external_id: string | null
           id: string
+          ip_masked: string | null
           is_featured: boolean
           is_verified: boolean
           original_locale: string | null
@@ -4705,9 +4707,11 @@ export type Database = {
           avatar_url?: string | null
           body?: Json
           company?: string | null
+          consent_kvkk_at?: string | null
           created_at?: string
           external_id?: string | null
           id?: string
+          ip_masked?: string | null
           is_featured?: boolean
           is_verified?: boolean
           original_locale?: string | null
@@ -4728,9 +4732,11 @@ export type Database = {
           avatar_url?: string | null
           body?: Json
           company?: string | null
+          consent_kvkk_at?: string | null
           created_at?: string
           external_id?: string | null
           id?: string
+          ip_masked?: string | null
           is_featured?: boolean
           is_verified?: boolean
           original_locale?: string | null
@@ -5247,6 +5253,7 @@ export type Database = {
       }
       submit_job_application: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }
+      submit_testimonial: { Args: { p: Json }; Returns: Json }
     }
     Enums: {
       [_ in never]: never

@@ -16,6 +16,7 @@ const STATIC: readonly { readonly href: AppHref; readonly priority: number; read
   { href: '/services', priority: 0.9, changeFrequency: 'weekly' },
   { href: '/solutions', priority: 0.8, changeFrequency: 'monthly' },
   { href: '/pricing', priority: 0.8, changeFrequency: 'weekly' },
+  { href: '/reviews', priority: 0.5, changeFrequency: 'weekly' },
   { href: '/projects', priority: 0.8, changeFrequency: 'weekly' },
   { href: '/blog', priority: 0.8, changeFrequency: 'daily' },
   { href: '/about', priority: 0.6, changeFrequency: 'monthly' },

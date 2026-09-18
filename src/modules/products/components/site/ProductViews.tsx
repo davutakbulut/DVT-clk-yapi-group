@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
 import { readSupabasePublicEnv } from '@/core/db/publicEnv';
 import { logger } from '@/core/observability/logger';
@@ -88,7 +89,7 @@ export async function ProductsList({ locale, categorySlug }: { readonly locale: 
   );
 }
 
-export async function ProductDetail({ product, locale, related }: { readonly product: ProductDetailData; readonly locale: string; readonly related: readonly ProductCardData[] }) {
+export async function ProductDetail({ product, locale, related, extra }: { readonly product: ProductDetailData; readonly locale: string; readonly related: readonly ProductCardData[]; readonly extra?: ReactNode }) {
   const [env, t, format] = await Promise.all([readSupabasePublicEnv(), getTranslations('Products'), getFormatter()]);
   const url = env.ok ? env.data.url : null;
   const cover = product.cover && url ? product.cover : null;
@@ -300,6 +301,7 @@ export async function ProductDetail({ product, locale, related }: { readonly pro
           </ul>
         </Container>
       ) : null}
+      {extra}
     </article>
   );
 }

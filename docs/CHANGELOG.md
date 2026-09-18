@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — Faz 17 · Müşteri yorumları + Google Places
+- `src/modules/testimonials` — `TestimonialsSection` · `TestimonialsCarousel` · `TestimonialsFor` · `RatingBadge` · `ReviewsPage` · `ReviewForm` · `TestimonialForm` · `GoogleSyncPanel`; `domain/testimonials` (2 test); `actions` (ziyaretçi RPC, elle yorum, durum, sıralama, Place ID, şimdi eşitle)
+- `src/core/jobs/googleReviews` (2 test) · `src/core/jobs/reviewSync`; route `/api/cron/reviews` (`vercel.json` 03:00); `/reviews` (tr `/yorumlar`); `app/admin/testimonials`; ana sayfa 05. bölüm; hizmet detayında yorumlar + Review/AggregateRating JSON-LD; `ProjectDetail`/`ProductDetail` `extra` slotu
+- `supabase/migrations/0027_testimonials.sql` · `supabase/tests/testimonials.test.ts` (4); mesajlar `Testimonials`, `Admin.testimonials`; `globals.css` carousel/yıldız/rozet; `e2e/reviews.spec.ts`; cleanup betiği E2E yorumlarını temizler
+
 ### Eklendi — Faz 16 · Fiyat rehberi + hesaplayıcı
 - `src/modules/pricing` — `PricingList` · `PriceGuideDetail` · `PriceCalculator` (istemci) · `PriceGuideForm` · `MaterialPriceForm`; `domain/priceLines` · `domain/estimate` (4 test); `actions` (rehber CRUD + satırlar, malzeme fiyatı CRUD yalnız admin); `data/pricingRepository` · `adminPricingRepository`
 - Route'lar `/pricing` (tr `/fiyatlar`) · `/pricing/[slug]`; `app/admin/pricing` (liste · new · [id] · materials); `whatsapp` modülü `getCachedWhatsAppConfig` dışa açıldı (hesaplayıcı CTA)
