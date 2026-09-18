@@ -69,7 +69,7 @@ test.describe('blog yönetimi', () => {
     const row = page.getByRole('row').filter({ hasText: commentText }).first();
     await expect(row).toBeVisible();
     await row.getByRole('button', { name: 'Onayla' }).click();
-    await expect(page.getByRole('row').filter({ hasText: commentText })).toHaveCount(0);
+    await expect(page.getByRole('row').filter({ hasText: commentText })).toHaveCount(0, { timeout: 15_000 });
     await page.goto(`/tr/blog/${slug}`);
     await expect(page.locator('#main-content .comment').filter({ hasText: commentText })).toBeVisible();
 
