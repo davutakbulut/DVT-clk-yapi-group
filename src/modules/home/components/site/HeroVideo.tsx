@@ -19,8 +19,8 @@ type Mode = 'poster' | 'scrub' | 'loop';
 
 /**
  * Scroll video hero (03-RESPONSIVE-ANIMATION): kaydırdıkça video KARE KARE ilerler (`currentTime` scrub; kaynak `-g 1`
- * ile kodlanır → her kare keyframe, seek takılmaz). Masaüstü: tam çözünürlük; tablet (≥768): düşük çözünürlüklü kaynak;
- * telefon: scrub yok, otomatik döngü; `reduced-motion`/`saveData`: yalnız poster (video hiç yüklenmez).
+ * ile kodlanır → her kare keyframe, seek takılmaz). Tablet ve masaüstü (≥768): scrub; telefon: scrub yok, dikey kırpılmış
+ * yüksek çözünürlüklü kaynakla otomatik döngü; `reduced-motion`/`saveData`: yalnız poster (video hiç yüklenmez).
  * Poster her zaman ilk boyanır (LCP), video hazır olunca üstüne oturur. GSAP/ScrollTrigger pin YOK: CSS sticky + tek rAF.
  * iOS/zayıf cihaz: seek gecikmesi ölçülür, eşik aşılırsa otomatik döngüye düşülür. İlerleme `--hero-progress` olarak
  * bölüme yazılır (kopya solması + ilerleme çizgisi CSS'te).
@@ -38,7 +38,7 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     const desktopUp = window.matchMedia('(min-width: 1024px)');
     const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
     const decide = () => {
-      setWide(desktopUp.matches);
+      setWide(tabletUp.matches);
       if (reduced.matches || saveData) setMode('poster');
       else setMode(tabletUp.matches ? 'scrub' : 'loop');
     };
@@ -110,7 +110,7 @@ export function HeroVideo({ desktop, mobile, posterAlt }: Props) {
     };
   }, [mode, wide]);
 
-  // Masaüstü: tam çözünürlük; tablet scrub ve telefon döngüsü: düşük çözünürlüklü kaynak (ikisi de -g 1)
+  // Tablet ve üstü: -g 1 yatay kaynakla scrub; telefon: dikey kırpılmış, yüksek çözünürlüklü döngü kaynağı
   const source = (wide ? desktop : mobile) ?? desktop ?? mobile;
   const poster = source?.poster ?? desktop?.poster ?? mobile?.poster ?? null;
 

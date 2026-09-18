@@ -35,7 +35,8 @@ const SECURITY = [
 
 const nextConfig: NextConfig = {
   // Dev sunucusu ayrı klasöre yazar: E2E/üretim derlemesi (.next) çalışırken dev sunucusu açık kalabilir, manifestler çakışmaz.
-  distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
+  // NEXT_DIST_DIR: paylaşım tüneli (scripts/share-tunnel.sh) kendi klasöründe derlenir → E2E/derleme onu bozmaz.
+  distDir: process.env.NEXT_DIST_DIR ?? (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
   poweredByHeader: false,
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın

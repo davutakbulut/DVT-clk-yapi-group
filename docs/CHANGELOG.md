@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — paylaşım tüneli · mobil hero kalitesi
+- `scripts/share-tunnel.sh` (`start` · `rebuild` · `status` · `stop`): üretim derlemesi (`.next-share`, port 3400) + Cloudflare hızlı tüneli; adres tünel işlemi yaşadıkça sabit, `rebuild` adresi değiştirmeden siteyi günceller; `caffeinate` ile Mac uyumaz; `noindex` açık. `next.config` `NEXT_DIST_DIR`
+- Mobil hero: yatay 854×480 `-g 1` dosya dikey ekranda bulanıktı → telefon için dikey kırpım + lanczos 912×1080 + hafif keskinleştirme, normal GOP (3 MB); tablet masaüstü `-g 1` dosyasıyla scrub eder; kullanılmayan hero dosyaları Storage'dan kaldırıldı
+
 ### Eklendi — başlangıç içeriği (yasal sayfalar · SSS · blog)
 - `supabase/migrations/0041_content_legal_faq_blog.sql`: 4 yasal sayfa (gizlilik, çerez, KVKK aydınlatma, kullanım koşulları) sitenin gerçekte yaptığı veri işlemeye göre yazıldı ve **TR** yayınlandı (EN: Kural 7 gereği insan onayı bekler) · 11 genel SSS · 3 bilgilendirici blog yazısı (kategori başına bir). Yeniden çalıştırılabilir; `supabase/tests/content-seed.test.ts`
 - Ticari unvan/adres uydurulmadı (İletişim sayfasına atıf) — **hukukçu gözden geçirmeli**. Proje, referans, belge, ekip, yorum, fiyat ve ürün verisi EKLENMEDİ (CLAUDE.md "asla")

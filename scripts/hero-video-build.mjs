@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Hero scroll videosu (03-RESPONSIVE-ANIMATION › Hero Video Stratejisi): kaynak videodan
 //   · masaüstü: her kare keyframe (-g 1) → currentTime scrub takılmaz
-//   · mobil/tablet: düşük çözünürlük, o da -g 1 → tablette scrub, telefonda otomatik döngü (tek dosya, ~2 MB)
+//   · telefon: DİKEY kırpım (ekranda zaten yalnız orta şerit görünür) + lanczos ile 1080 px yüksekliğe + hafif keskinleştirme,
+//     normal GOP (döngüde seek yok → aynı boyutta daha yüksek kalite). Tablet masaüstü dosyasıyla scrub eder.
 //   · poster = videonun İLK karesi (WebP) → poster→video geçişi fark edilmez, LCP posterdir
 // üretir, Storage'a yükler, media_library'ye yazar ve AKTİF hero_media kaydına bağlar.
 //
@@ -35,8 +36,8 @@ const out = { desktop: join(work, 'desktop.mp4'), mobile: join(work, 'mobile.mp4
 
 // Masaüstü: -g 1 (tüm kareler keyframe), ses yok, faststart (moov başta → hemen seek edilebilir)
 run(['-i', input, '-an', '-vf', 'scale=1280:-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '25', '-g', '1', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out.desktop]);
-// Mobil/tablet: tablette scrub edilir → bu da -g 1; crf 30 ile ~2 MB
-run(['-i', input, '-an', '-vf', 'scale=854:-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-g', '1', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out.mobile]);
+// Telefon: yatay 480p'yi dikey ekrana yaymak bulanıklaştırıyordu → kaynağın tam yüksekliği, dikey kırpım, 912×1080
+run(['-i', input, '-an', '-vf', 'crop=ih*0.845:ih,scale=912:1080:flags=lanczos,unsharp=5:5:0.6', '-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out.mobile]);
 run(['-i', out.desktop, '-frames:v', '1', out.frameD]);
 run(['-i', out.mobile, '-frames:v', '1', out.frameM]);
 
@@ -73,7 +74,7 @@ async function poster(file, label) {
 
 try {
   const d = await video(out.desktop, 'hero-desktop-g1');
-  const m = await video(out.mobile, 'hero-mobile-g1');
+  const m = await video(out.mobile, 'hero-mobile-portrait');
   const pd = await poster(out.frameD, 'hero-poster-desktop');
   const pm = await poster(out.frameM, 'hero-poster-mobile');
   const { data: active, error } = await supabase.from('hero_media').select('id, label').eq('is_active', true).maybeSingle();

@@ -36,13 +36,15 @@
   "include": [
     "*.mts",
     "*.ts",
+    ".next-dev/types/**/*.ts",
+    ".next-share/types/**/*.ts",
     ".next/types/**/*.ts",
     "e2e/**/*.ts",
     "next-env.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
     "supabase/tests/**/*.ts",
-    ".next-dev/types/**/*.ts"
+    ".next-share-new/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

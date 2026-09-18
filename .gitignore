@@ -6,6 +6,9 @@ node_modules/
 # Next.js
 .next/
 .next-dev/
+.next-share/
+.next-share-new/
+.share/
 out/
 build/
 dist/
