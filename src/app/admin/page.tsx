@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/core/auth';
 import { createServerClient } from '@/core/db/createServerClient';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ADMIN_NAV } from '@/modules/admin-shell';
+import { listSchedules } from '@/modules/finance/server';
 
 interface Counts {
   readonly media: number;
@@ -11,6 +12,9 @@ interface Counts {
   readonly members: number;
   readonly leads_open: number;
   readonly leads_today: number;
+  readonly customers: number;
+  readonly overdue_schedules: number;
+  readonly pending_reviews: number;
   readonly errors_24h: number;
   readonly notifications: number;
 }
@@ -26,9 +30,13 @@ export default async function AdminDashboard() {
     const { data: errors } = await client.data.from('error_logs').select('id, module, message, last_seen_at').order('last_seen_at', { ascending: false }).limit(5);
     recentErrors = errors ?? [];
   }
+  const overdue = user && ['super_admin', 'admin', 'sales', 'viewer'].includes(user.role) ? await listSchedules('overdue', 5) : null;
   const cards: { key: keyof Counts; label: string }[] = [
     { key: 'leads_today', label: t('dashboard.leadsToday') },
     { key: 'leads_open', label: t('dashboard.leadsOpen') },
+    { key: 'customers', label: t('dashboard.customers') },
+    { key: 'overdue_schedules', label: t('dashboard.overdue') },
+    { key: 'pending_reviews', label: t('dashboard.pendingReviews') },
     { key: 'media', label: t('dashboard.media') },
     { key: 'staff', label: t('dashboard.staff') },
     { key: 'members', label: t('dashboard.members') },
@@ -53,6 +61,25 @@ export default async function AdminDashboard() {
           </Card>
         ))}
       </div>
+      {overdue?.ok && overdue.data.length > 0 ? (
+        <Card className="border-red-300">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-red-700">⚠ {t('dashboard.overdue')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="grid gap-1 text-sm">
+              {overdue.data.map((s) => (
+                <li key={s.id}>
+                  <NextLink href={`/admin/sales/${s.sale_id}/finance`} className="underline underline-offset-4">
+                    {s.saleNo}
+                  </NextLink>{' '}
+                  · {s.customerName} · {s.description} · {s.due_date}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : null}
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>

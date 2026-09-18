@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
 import { AdminPageHeader, FormSection } from '@/modules/admin-shell';
+import { ConvertLeadButton } from '@/modules/customers';
 import { LeadNoteForm, LeadReplyForm, LeadStatusForm } from '@/modules/leads';
+import { ConvertLeadToSaleButton } from '@/modules/sales';
 import { getLeadForAdmin, listStaffChoices } from '@/modules/leads/server';
 
 export default async function AdminLeadDetailPage({ params }: { readonly params: Promise<{ id: string }> }) {
@@ -90,7 +92,13 @@ export default async function AdminLeadDetailPage({ params }: { readonly params:
             </dl>
           ) : null}
         </FormSection>
-        <FormSection title={t('leads.status')}>{canWrite ? <LeadStatusForm lead={l} staff={staff.ok ? staff.data : []} /> : <p className="text-sm">{t(`leads.statuses.${l.status as 'new'}`)}</p>}</FormSection>
+        <FormSection title={t('leads.status')}>
+          {canWrite ? <LeadStatusForm lead={l} staff={staff.ok ? staff.data : []} /> : <p className="text-sm">{t(`leads.statuses.${l.status as 'new'}`)}</p>}
+          <div className="flex flex-wrap items-center gap-3 border-t pt-3">
+            <ConvertLeadButton leadId={l.id} customerId={l.customer_id} canWrite={canWrite} />
+            <ConvertLeadToSaleButton leadId={l.id} canWrite={canWrite} />
+          </div>
+        </FormSection>
         <FormSection title={t('leads.notes')}>
           {l.notes.length === 0 ? <p className="text-sm text-muted-foreground">{t('common.empty')}</p> : null}
           <ul className="grid gap-3">
