@@ -42,6 +42,7 @@ Geçersizleştirme hem admin server action'ından hem Supabase webhook'undan tet
 
 ## Görsel
 
+- Fontlar: `next/font` self-host, `display: optional`, yalnız başlık + gövde ön yüklenir (~115 KB, latin + latin-ext). Faz 4 Lighthouse: LCP 2,7 sn (lab) — metin LCP'si font isteğine bağlı; Faz 31'de yerel alt-kümeleme değerlendirilir
 - `next/image` · AVIF → WebP → JPEG sırası · responsive `srcset` · blur placeholder
 - **162 görsel Faz 3'te WebP'ye çevrildi** (K-49): 480/960/1440 px varyant + ≤1920 px tam boy + blur yer tutucu, `media_library.variants` → `core/storage.mediaSrcSet`. Kaynaklar sıkıştırılmadan kullanılsaydı LCP mahvolurdu
 - Katlama üstündeki görsellerde `priority`, altındakiler lazy

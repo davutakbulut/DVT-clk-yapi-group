@@ -81,6 +81,8 @@ Her ikisi de açık lisanslı (SIL OFL) — ticari kullanımda sorun yok.
 
 Self-host edilir: harici istek yok, preload edilebilir, CLS oluşmaz.
 
+**`font-display: optional` (Faz 4 ölçümü):** `swap` ile h1 önce yedek fontla boyanıp marka fontu gelince yeniden boyanıyor, yavaş 4G'de LCP 3,7 sn'ye kayıyordu. `optional` ile font kısa blok süresinde gelmezse o görünümde metrik uyumlu yedek kalır (FOUT yok, CLS yok); font önbelleğe alınır, sonraki sayfalarda marka fontu görünür. Mono yalnız küçük etiketlerde olduğu için ön yüklenmez. Ağırlıklar: Syne 700/800 · Plex Sans 400/500/600 · Plex Mono 400.
+
 ## Aralık · Yuvarlaklık · Gölge · Hareket
 
 ```css
