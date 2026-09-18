@@ -7,6 +7,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — tek kullanımlık şifre belirleme bağlantısı
+- `scripts/admin-recovery-link.mjs`: hesap için tek kullanımlık bağlantıyı yalnız terminale yazar (şifre hiçbir betikten/sohbetten geçmez) · `/auth/callback` `token_hash` doğrulaması (`verifyOtp`; recovery/invite/email/signup) — ilk kullanım oturum açar, ikinci kullanım ve geçersiz token `/tr/giris?error=link`
+
 ### Düzeltildi — ölü bağlantılar · yerel sunucu kararlılığı
 - Footer yasal bağlantıları: taslak/yayınlanmamış yasal sayfalar (gizlilik, çerez, KVKK, kullanım koşulları) 404 veriyordu ama footer'da bağlıydı → `getMenu` o dilde yayında olmayan yasal yolları gizler (metin girilip yayınlanınca kendiliğinden görünür)
 - Dil değiştirici (SSR/JS'siz): slug'lı sayfada karşı dil yayında değilken 404'e bağlanıyordu → bölüm listesine iner; hidrasyonda tam hedef
