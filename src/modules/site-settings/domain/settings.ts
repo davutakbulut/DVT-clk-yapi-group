@@ -27,13 +27,14 @@ const schema = z.object({
   'cookie_banner': z.record(z.string(), z.object({ title: z.string(), body: z.string(), accept: z.string(), reject: z.string(), settings: z.string() })).nullable().catch(null),
   'maintenance': z.object({ enabled: z.boolean().catch(false), message: z.record(z.string(), z.string()).catch({}) }).catch({ enabled: false, message: {} }),
   'modules.enabled': z.record(z.string(), z.boolean()).catch({}),
+  'configurator.disclaimer': z.record(z.string(), z.string()).catch({}),
   'analytics.config': z
     .object({ enabled: z.boolean().catch(true), sample_rate: z.number().min(0).max(1).catch(1), ga4_id: z.string().catch(''), ads_id: z.string().catch(''), meta_pixel_id: z.string().catch('') })
     .catch({ enabled: true, sample_rate: 1, ga4_id: '', ads_id: '', meta_pixel_id: '' }),
 });
 
 /** Kill switch anahtarları (K-43/K-61). Listede olmayan ya da bayrağı yazılmamış modül AÇIK sayılır. */
-export const MODULE_KEYS = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent'] as const;
+export const MODULE_KEYS = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent', 'configurator'] as const;
 export type ModuleKey = (typeof MODULE_KEYS)[number];
 
 /** Menü bağlantısı → modül: kapalı modülün iç bağlantısı header/footer'da gizlenir. */
@@ -49,6 +50,7 @@ export const MODULE_BY_PATH: Readonly<Record<string, ModuleKey>> = {
   '/contact': 'leads',
   '/get-quote': 'leads',
   '/quote-basket': 'quoteBasket',
+  '/configurator': 'configurator',
 };
 
 export function isModuleEnabled(modules: Readonly<Record<string, boolean>>, key: ModuleKey): boolean {
@@ -85,6 +87,8 @@ export interface PublicSettings {
   readonly modules: Readonly<Record<string, boolean>>;
   /** İzleyici + üçüncü parti kimlikleri (K-39; yükleme onaya bağlı). */
   readonly analytics: { readonly enabled: boolean; readonly sampleRate: number; readonly ga4Id: string; readonly adsId: string; readonly metaPixelId: string };
+  /** Konfigüratör yasal uyarısı (04-CONFIGURATOR zorunlu). */
+  readonly configuratorDisclaimer: LocalizedText;
 }
 
 // Veritabanı ulaşılamazsa bile site ayakta kalır (03-ERROR-ISOLATION Katman 2). Yer tutucu iletişim bilgisi YOK.
@@ -102,6 +106,7 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   maintenance: { enabled: false, message: {} },
   modules: {},
   analytics: { enabled: false, sampleRate: 1, ga4Id: '', adsId: '', metaPixelId: '' },
+  configuratorDisclaimer: {},
 };
 
 export function parseSettings(rows: readonly { readonly key: string; readonly value: unknown }[]): PublicSettings {
@@ -126,6 +131,7 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     cookieBanner: s['cookie_banner'],
     maintenance: s['maintenance'],
     modules: s['modules.enabled'],
+    configuratorDisclaimer: s['configurator.disclaimer'],
     analytics: { enabled: s['analytics.config'].enabled, sampleRate: s['analytics.config'].sample_rate, ga4Id: s['analytics.config'].ga4_id, adsId: s['analytics.config'].ads_id, metaPixelId: s['analytics.config'].meta_pixel_id },
   };
 }

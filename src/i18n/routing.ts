@@ -54,6 +54,8 @@ export const routing = defineRouting({
     // Faz 15 · çözüm sayfaları
     '/solutions': { tr: '/cozumler', en: '/solutions' },
     '/solutions/[slug]': { tr: '/cozumler/[slug]', en: '/solutions/[slug]' },
+    // Faz 26 · konfigüratör (kendi route grubu, K-23)
+    '/configurator': { tr: '/konfigurator', en: '/configurator' },
     // Faz 17 · müşteri yorumları
     '/reviews': { tr: '/yorumlar', en: '/reviews' },
     // Faz 16 · fiyat rehberi

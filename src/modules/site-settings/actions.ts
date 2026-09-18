@@ -125,7 +125,7 @@ export async function saveMaintenance(_prev: ActionState, formData: FormData): P
 
 /** /admin/settings/modules — kill switch (K-43): işaretli = açık. Yalnız false yazılır; eksik anahtar açık sayılır. */
 export async function saveModules(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const keys = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent'] as const;
+  const keys = ['services', 'projects', 'blog', 'products', 'solutions', 'pricing', 'testimonials', 'careers', 'leads', 'quoteBasket', 'whatsapp', 'consent', 'configurator'] as const;
   const value: Record<string, boolean> = {};
   for (const key of keys) if (formData.get(`m_${key}`) !== 'on') value[key] = false;
   const result = await writeSettings({ 'modules.enabled': value });
