@@ -5,6 +5,9 @@ import { cn } from "cn"
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <InputPrimitive
+      // Sunucu eylemi kaydedip sayfa tazelenince `defaultValue` değişir. Kontrolsüz alan bunu yok sayar (ekranda eski değer
+      // kalır) ve Base UI "default value changed" uyarısı verir → değer değişince alan yeniden kurulur. Yazarken değişmez.
+      key={props.defaultValue === undefined ? undefined : String(props.defaultValue)}
       type={type}
       data-slot="input"
       className={cn(
