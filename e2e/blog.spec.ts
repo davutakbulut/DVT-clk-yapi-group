@@ -36,6 +36,7 @@ test.describe('blog yönetimi', () => {
     const panel = page.getByRole('complementary', { name: 'Canlı SEO paneli' });
     await expect(panel).toContainText('Genel skor');
     const name = `E2E Yazı ${Date.now()}`;
+    const commentText = `Çok faydalı bir yazı. (${name})`; // paralel çalışanlar aynı metni yazmasın
     await page.getByLabel('Ad (Türkçe)').fill(name);
     await page.getByLabel('Odak anahtar kelime (Türkçe)').fill('e2e yazı');
     await page.getByLabel('Metin (Markdown) (Türkçe)').fill(`E2E yazı giriş paragrafı burada. ${'Kısa cümle. '.repeat(40)}\n\n# Birinci bölüm\n\nMetin [hizmetler](/hizmetler) ve [projeler](/projeler).\n\n## Alt bölüm\n\nMetin.\n\n# SSS\n\nSoru.`);
@@ -59,18 +60,18 @@ test.describe('blog yönetimi', () => {
     await vp.goto(`/tr/blog/${slug}`);
     await vp.waitForLoadState('networkidle');
     await vp.getByLabel('Adınız').fill('Ziyaretçi');
-    await vp.getByLabel('Yorumunuz').fill('Çok faydalı bir yazı.');
+    await vp.getByLabel('Yorumunuz').fill(commentText);
     await vp.getByRole('button', { name: 'Gönder' }).click();
-    await expect(vp.getByRole('status')).toContainText('onaylandıktan sonra');
+    await expect(vp.locator('#main-content').getByRole('status')).toContainText('onaylandıktan sonra');
     await visitor.close();
 
     await page.goto('/admin/blog/comments?status=pending');
-    const row = page.getByRole('row').filter({ hasText: 'Çok faydalı bir yazı.' }).first();
+    const row = page.getByRole('row').filter({ hasText: commentText }).first();
     await expect(row).toBeVisible();
     await row.getByRole('button', { name: 'Onayla' }).click();
-    await expect(page.getByRole('row').filter({ hasText: 'Çok faydalı bir yazı.' })).toHaveCount(0);
+    await expect(page.getByRole('row').filter({ hasText: commentText })).toHaveCount(0);
     await page.goto(`/tr/blog/${slug}`);
-    await expect(page.locator('#main-content .comment').filter({ hasText: 'Çok faydalı bir yazı.' })).toBeVisible();
+    await expect(page.locator('#main-content .comment').filter({ hasText: commentText })).toBeVisible();
 
     await page.goto('/admin/blog');
     const postRow = page.getByRole('row').filter({ hasText: name });
