@@ -47,7 +47,15 @@ cPanel → **Setup Node.js App** → **Create Application**
 
 **"Run NPM Install"a basmayın** — bağımlılıklar paketin içinde; basarsanız paylaşımlı sunucuda gereksiz yere yüzlerce MB kurmaya çalışır.
 
-## 4 · Ortam değişkenleri (aynı ekranda "Environment variables")
+## 4 · Ayarlar ve sırlar — tek dosya
+
+```bash
+bash scripts/cpanel-secrets.sh https://clkyapigroup.com info@clkyapigroup.com
+```
+
+`deploy/secrets.env` üretir (Supabase anahtarı `.env.local`'dan, `CRON_SECRET` rastgele, posta şifresi gizli sorulur; hiçbir değer ekrana yazılmaz). Dosyayı `~/clk-site/` içine yükleyin → Setup Node.js App → Restart. `app.js` açılışta okur. Aşağıdaki tablo aynı değişkenlerin panelden girilmesi hâlidir (panel değeri önceliklidir).
+
+### Panelden girmek isterseniz
 
 | Ad | Değer |
 |---|---|

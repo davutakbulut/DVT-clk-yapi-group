@@ -52,6 +52,15 @@ cat > "$APP/app.js" <<'JS'
 const path = require('node:path');
 process.env.NODE_ENV = 'production';
 process.env.HOSTNAME = '0.0.0.0';
+// secrets.env (scripts/cpanel-secrets.sh üretir; public_html dışında): KEY=VALUE satırları → ortam. Paneldeki değişkenler önceliklidir.
+try {
+  for (const line of require('node:fs').readFileSync(path.join(__dirname, 'secrets.env'), 'utf8').split('\n')) {
+    const i = line.indexOf('=');
+    if (i > 0 && !line.startsWith('#') && process.env[line.slice(0, i).trim()] === undefined) process.env[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+  }
+} catch {
+  // dosya yoksa yalnız paneldeki değişkenlerle çalışır
+}
 process.chdir(path.join(__dirname, 'app'));
 require('./app/server.js');
 JS
@@ -60,12 +69,11 @@ JS
 cat > "$APP/cron.sh" <<'SH'
 #!/usr/bin/env bash
 # Kullanım (cPanel → Cron Jobs):  bash ~/clk-site/cron.sh mail
-# SITE_URL ve CRON_SECRET bu dosyanın yanındaki cron.env'den okunur (chmod 600).
+# SITE_URL ve CRON_SECRET bu dosyanın yanındaki secrets.env'den okunur (kaynak olarak çalıştırılmaz: değerlerde boşluk olabilir).
 set -euo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
-# shellcheck disable=SC1091
-source "$DIR/cron.env"
-curl -fsS -m 120 -H "Authorization: Bearer $CRON_SECRET" "$SITE_URL/api/cron/$1" >/dev/null
+val() { grep -E "^$1=" "$DIR/secrets.env" | head -1 | cut -d= -f2-; }
+curl -fsS -m 120 -H "Authorization: Bearer $(val CRON_SECRET)" "$(val SITE_URL)/api/cron/$1" >/dev/null
 SH
 chmod +x "$APP/cron.sh"
 

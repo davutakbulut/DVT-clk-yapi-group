@@ -20,6 +20,9 @@ export async function createServerClient(): Promise<Result<ServerDbClient>> {
   return ok(
     createSsrClient<Database>(env.data.url, env.data.anonKey, {
       cookies: {
+        // K-83: çerezde yalnız jetonlar (kullanıcı nesnesi yok) → oturum çerezi ~%60 küçülür. Paylaşımlı hosting'in ön vekili büyük
+        // Set-Cookie başlığında 502 veriyordu. Güvenli: uygulama hiçbir yerde session.user'a güvenmez, hep getUser() ile doğrular (K-14).
+        encode: 'tokens-only',
         getAll: () => store.getAll(),
         setAll: (list) => {
           try {

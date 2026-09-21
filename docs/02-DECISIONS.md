@@ -422,6 +422,10 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Neden sunucuda derleme yok:** paylaşımlı hosting bellek limiti (2 GB) `next build`'e yetmeyebilir; ayrıca kaynak kod ve geliştirme bağımlılıkları sunucuya hiç çıkmaz.
 **Bulgu:** bağımsız sunucuda `HOSTNAME` belirli bir ada ayarlanırsa middleware'in iç yeniden yazımları dış vekil isteğe dönüşüyor (307 döngüsü / EPROTO 500) → `0.0.0.0` sabit.
 
+### K-83 · Oturum çerezi yalnız jeton taşır (`encode: 'tokens-only'`)
+**Bulgu:** Canlı hosting'de (cPanel, ön vekil) başarılı girişte 502 alınıyordu; yanlış şifrede 200. Neden: Supabase oturum çerezi kullanıcı nesnesiyle birlikte birkaç KB → vekilin yanıt başlığı sınırını aşıyordu (paylaşımlı sunucuda ayar değiştirilemez).
+**Karar:** `@supabase/ssr` istemcilerinde `cookies.encode = 'tokens-only'`. Çerez yalnız erişim/yenileme jetonunu taşır. Güvenli: uygulama hiçbir yerde `session.user`'a güvenmez, her zaman `getUser()` ile doğrular (K-14). Canlıda doğrulandı: giriş 200 → `/admin`.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

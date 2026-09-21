@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Canlıya alındı — clkyapigroup.com (cPanel) · 2026-09-22
+- Site `https://clkyapigroup.com` üzerinde çalışıyor (Node 22, Passenger); Let's Encrypt SSL (dns-01; alan adı + www + mail); ad sunucuları hosting'e çevrildi
+- **Düzeltme (K-83):** başarılı girişte 502 → oturum çerezi `tokens-only`
+- `scripts/cpanel-secrets.sh`: tek `secrets.env` dosyası (değerler ekrana yazılmaz); `app.js` açılışta okur, `cron.sh` aynı dosyayı kullanır
+- 9 zamanlanmış görev (cPanel cron), DMARC kaydı (SPF ve DKIM hosting tarafından hazır), Supabase Site URL + Redirect URLs
+- Bilinen: `e2e/admin.spec.ts` "menüler" testi bu değişikliklerden bağımsız olarak başarısız (ayrı iş)
+
 ### Eklendi — cPanel/VPS dağıtım paketi (K-82)
 - `scripts/cpanel-package.sh <alan adı>` → `deploy/clk-site.zip` (~36 MB): bağımsız derleme, sırsız, Linux sharp ikilileri, `app.js` (Passenger) ve `cron.sh`
 - `docs/processes/06-DEPLOY-CPANEL.md`: adım adım kurulum, ortam değişkenleri, cron tablosu, güncelleme/geri dönüş

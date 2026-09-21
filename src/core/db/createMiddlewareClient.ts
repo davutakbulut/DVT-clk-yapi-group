@@ -24,6 +24,9 @@ const AUTH_TIMEOUT_MS = 5000;
 export function createMiddlewareClient(env: SupabasePublicEnv, requestCookies: RequestCookieJar, collected: CookieToSet[]): SupabaseClient {
   return createServerClient(env.url, env.anonKey, {
     cookies: {
+      // K-83: çerezde yalnız jetonlar (kullanıcı nesnesi yok) → oturum çerezi ~%60 küçülür. Paylaşımlı hosting'in ön vekili büyük
+      // Set-Cookie başlığında 502 veriyordu. Güvenli: uygulama hiçbir yerde session.user'a güvenmez, hep getUser() ile doğrular (K-14).
+      encode: 'tokens-only',
       getAll: () => requestCookies.getAll(),
       setAll: (cookies) => {
         for (const cookie of cookies) {
