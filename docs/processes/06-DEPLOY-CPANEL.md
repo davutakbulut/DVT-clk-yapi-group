@@ -92,6 +92,21 @@ Hosting "dakikada bir" cron'a izin vermiyorsa `mail` için `*/5` kullanın (e-po
 - `https://www.alanadiniz.com/api/cron/heartbeat` tarayıcıdan **401** veriyor (sırsız erişim kapalı)
 - Hata olursa: Setup Node.js App ekranındaki log yolu ya da `clk-site/stderr.log`
 
+## E-posta (clkyapigroup.com)
+
+Posta kutusu: `info@clkyapigroup.com` (cPanel → E-posta Hesapları). Sitenin gönderim ayarları (Setup Node.js App → Environment variables):
+
+| Ad | Değer |
+|---|---|
+| `MAIL_FROM` | `CLK Yapı Group <info@clkyapigroup.com>` |
+| `SMTP_HOST` | `mail.clkyapigroup.com` |
+| `SMTP_PORT` | `465` (SSL) |
+| `SMTP_USER` | `info@clkyapigroup.com` |
+| `SMTP_PASSWORD` | posta kutusu şifresi — **yalnız panele elle girilir**, depoya/sohbete yazılmaz |
+
+Teslim edilebilirlik: cPanel → **Email Deliverability** → clkyapigroup.com → *Repair* (SPF + DKIM kayıtlarını ekler; alan adı hosting'in ad sunucularında olduğu için tek tık). DMARC: Zone Editor → TXT `_dmarc` = `v=DMARC1; p=quarantine; rua=mailto:info@clkyapigroup.com`.
+Sitede görünen iletişim e-postası panelden: Ayarlar → İletişim (`contact.email`).
+
 ## Güncelleme
 
 1. `bash scripts/cpanel-package.sh https://www.alanadiniz.com`
