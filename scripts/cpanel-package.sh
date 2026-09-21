@@ -61,6 +61,23 @@ try {
 } catch {
   // dosya yoksa yalnız paneldeki değişkenlerle çalışır
 }
+// http → https (301): sunucunun ön katmanı X-Forwarded-Proto gönderir; .htaccess kuralı Passenger'dan önce çalışmadığı için burada.
+// Statik dosyalar dahil her yolu kapsar. Kapatmak için FORCE_HTTPS=0. ACME doğrulama yolu hariç.
+if (process.env.FORCE_HTTPS !== '0') {
+  const http = require('node:http');
+  const createServer = http.createServer;
+  http.createServer = function (options, listener) {
+    const handler = typeof options === 'function' ? options : listener;
+    const wrapped = (req, res) => {
+      if (req.headers['x-forwarded-proto'] === 'http' && !String(req.url).startsWith('/.well-known/')) {
+        res.writeHead(301, { Location: `https://${req.headers.host}${req.url}`, 'Cache-Control': 'max-age=3600' });
+        return res.end();
+      }
+      return handler(req, res);
+    };
+    return typeof options === 'function' ? createServer.call(http, wrapped) : createServer.call(http, options, wrapped);
+  };
+}
 process.chdir(path.join(__dirname, 'app'));
 require('./app/server.js');
 JS

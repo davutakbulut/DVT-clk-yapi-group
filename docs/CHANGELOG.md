@@ -12,6 +12,8 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - **Düzeltme (K-83):** başarılı girişte 502 → oturum çerezi `tokens-only`
 - `scripts/cpanel-secrets.sh`: tek `secrets.env` dosyası (değerler ekrana yazılmaz); `app.js` açılışta okur, `cron.sh` aynı dosyayı kullanır
 - 9 zamanlanmış görev (cPanel cron), DMARC kaydı (SPF ve DKIM hosting tarafından hazır), Supabase Site URL + Redirect URLs
+- http → https 301 (`app.js`, statik dosyalar dahil); `secrets.env` sunucuda (0600) — cron uçları sırla 200, sırsız 401
+- `scripts/cpanel-deploy.sh`: API anahtarıyla tek komut canlı güncelleme (yedekli, doğrulamalı)
 - Bilinen: `e2e/admin.spec.ts` "menüler" testi bu değişikliklerden bağımsız olarak başarısız (ayrı iş)
 
 ### Eklendi — cPanel/VPS dağıtım paketi (K-82)

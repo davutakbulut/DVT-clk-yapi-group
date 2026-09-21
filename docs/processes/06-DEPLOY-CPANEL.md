@@ -119,7 +119,24 @@ Posta kutusu: `info@clkyapigroup.com` (cPanel → E-posta Hesapları). Sitenin g
 Teslim edilebilirlik: cPanel → **Email Deliverability** → clkyapigroup.com → *Repair* (SPF + DKIM kayıtlarını ekler; alan adı hosting'in ad sunucularında olduğu için tek tık). DMARC: Zone Editor → TXT `_dmarc` = `v=DMARC1; p=quarantine; rua=mailto:info@clkyapigroup.com`.
 Sitede görünen iletişim e-postası panelden: Ayarlar → İletişim (`contact.email`).
 
-## Güncelleme
+## Güncelleme — tek komut
+
+```bash
+bash scripts/cpanel-deploy.sh
+```
+
+Derler, yükler, eski sürümü `app-eski-TARİH` olarak yedekler, açar, yeniden başlatır ve 4 sayfayı doğrular. Bir kez kurulum: cPanel → **Manage API Tokens** → Create (ad: `deploy`) → anahtarı `.env.local`'a yazın:
+
+```
+CPANEL_HOST=mt-seal.guzelhosting.com
+CPANEL_USER=clkyapig
+CPANEL_TOKEN=…
+LIVE_URL=https://clkyapigroup.com
+```
+
+http → https yönlendirmesi `app.js` içindedir (`.htaccess` kuralı Passenger'dan önce çalışmıyor; cPanel'in "Force HTTPS" düğmesi de etkisiz kaldı).
+
+## Güncelleme — elle
 
 1. `bash scripts/cpanel-package.sh https://www.alanadiniz.com`
 2. cPanel'de eski `clk-site` klasörünü `clk-site-eski` yapın (`cron.env`'i yenisine kopyalayın), yeni zip'i açın
