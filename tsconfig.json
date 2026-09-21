@@ -37,6 +37,7 @@
     "*.mts",
     "*.ts",
     ".next-dev/types/**/*.ts",
+    ".next-share-new/types/**/*.ts",
     ".next-share/types/**/*.ts",
     ".next/types/**/*.ts",
     "e2e/**/*.ts",
@@ -44,7 +45,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "supabase/tests/**/*.ts",
-    ".next-share-new/types/**/*.ts"
+    ".next-cpanel/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

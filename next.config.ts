@@ -4,8 +4,8 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 // Yayın (Faz 12) öncesi ve önizleme dağıtımlarında hiçbir şey indekslenmez.
-// İkisi birden gerekir: Vercel üretim ortamı + açık yayın bayrağı.
-const isIndexable = process.env.VERCEL_ENV === 'production' && process.env.SITE_INDEXABLE === 'true';
+// İkisi birden gerekir: üretim ortamı (Vercel üretimi ya da kendi sunucumuzda SITE_ENV=production) + açık yayın bayrağı.
+const isIndexable = (process.env.VERCEL_ENV === 'production' || process.env.SITE_ENV === 'production') && process.env.SITE_INDEXABLE === 'true';
 
 const NOINDEX = { key: 'X-Robots-Tag', value: 'noindex, nofollow' };
 // 03-SECURITY: temel başlıklar. CSP nonce'suz (JSON-LD ve next/font inline) — Faz 25'te raporlamalı CSP.
@@ -37,6 +37,8 @@ const nextConfig: NextConfig = {
   // Dev sunucusu ayrı klasöre yazar: E2E/üretim derlemesi (.next) çalışırken dev sunucusu açık kalabilir, manifestler çakışmaz.
   // NEXT_DIST_DIR: paylaşım tüneli (scripts/share-tunnel.sh) kendi klasöründe derlenir → E2E/derleme onu bozmaz.
   distDir: process.env.NEXT_DIST_DIR ?? (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
+  // cPanel/VPS paketi (scripts/cpanel-package.sh): node_modules'suz, kendi kendine yeten sunucu çıktısı. Vercel ve dev'de kapalı.
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
   poweredByHeader: false,
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın

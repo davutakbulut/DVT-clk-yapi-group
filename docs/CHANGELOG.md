@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — cPanel/VPS dağıtım paketi (K-82)
+- `scripts/cpanel-package.sh <alan adı>` → `deploy/clk-site.zip` (~36 MB): bağımsız derleme, sırsız, Linux sharp ikilileri, `app.js` (Passenger) ve `cron.sh`
+- `docs/processes/06-DEPLOY-CPANEL.md`: adım adım kurulum, ortam değişkenleri, cron tablosu, güncelleme/geri dönüş
+- `SITE_ENV=production`: Vercel dışında üretim ortamı bildirimi (indeksleme koşulu); `NEXT_OUTPUT=standalone` isteğe bağlı
+
 ### Değişti — konfigüratör mobil yerleşimi + geri bağlantısı (K-81)
 - **Mobil/tablet:** 3D tuval tam ekran; ölçüler, istatistikler, metraj, fiyat ve kayıt **sağdan açılan panelde** ("Ölçüler ve metraj" düğmesi, Esc/dışarı dokunma/✕ kapatır, kapalıyken `inert`); tuval üstünde kısa özet. İki konfigüratör ortak `ConfiguratorFrame` kullanır
 - **Geri bağlantısı:** konfigüratörün içinde "← Konfigüratörler" (seçim sayfası); seçim sayfasında "← Ana sayfa"

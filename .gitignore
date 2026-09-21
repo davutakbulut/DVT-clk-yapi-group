@@ -9,6 +9,8 @@ node_modules/
 .next-share/
 .next-share-new/
 .share/
+.next-cpanel/
+deploy/
 out/
 build/
 dist/

@@ -417,6 +417,11 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Karar:** <1024px'te ölçüler/istatistik/metraj/kayıt paneli sayfanın üstünde uzun bir sütun olmak yerine sağdan açılan panele taşındı (`ConfiguratorFrame`, iki konfigüratör ortak kullanır). Tuval ekranı kaplar; üstünde kısa özet ("18 × 53 m · 954 m²") ve "Ölçüler ve metraj" düğmesi durur. Panel kapalıyken `inert` + görünmez; Esc, dışarı dokunma ve ✕ kapatır, odak düğmeye döner. Panel genişliği en çok %86 → modelin bir şeridi görünür kalır. Üst çubuktaki geri bağlantısı konfigüratörün içindeyken `/konfigurator` (seçim), seçim sayfasındayken ana sayfaya gider.
 **Neden:** Mobilde kullanıcı 3D modeli görmek için uzun formu kaydırmak zorundaydı; model konfigüratörün asıl içeriği.
 
+### K-82 · Vercel dışı barındırma: cPanel/VPS için kendi kendine yeten paket
+**Karar:** Ürün sahibi siteyi Node.js destekli cPanel hosting'e kurmak istiyor. `NEXT_OUTPUT=standalone` ile isteğe bağlı bağımsız çıktı eklendi (Vercel ve dev etkilenmez); `scripts/cpanel-package.sh` derler, sırları ayıklar, Linux `sharp` ikililerini ekler, Passenger başlangıç dosyası (`app.js`) ve cron betiği ile zip üretir. Üretim ortamı Vercel dışında `SITE_ENV=production` ile bildirilir (indeksleme koşulu). Rehber: `docs/processes/06-DEPLOY-CPANEL.md`.
+**Neden sunucuda derleme yok:** paylaşımlı hosting bellek limiti (2 GB) `next build`'e yetmeyebilir; ayrıca kaynak kod ve geliştirme bağımlılıkları sunucuya hiç çıkmaz.
+**Bulgu:** bağımsız sunucuda `HOSTNAME` belirli bir ada ayarlanırsa middleware'in iç yeniden yazımları dış vekil isteğe dönüşüyor (307 döngüsü / EPROTO 500) → `0.0.0.0` sabit.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*
