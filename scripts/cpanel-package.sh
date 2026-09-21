@@ -37,15 +37,23 @@ mkdir -p "$APP/node_modules/@img"
 cp -R "$TMP"/node_modules/@img/*linux* "$APP/node_modules/@img/" 2>/dev/null || { echo "UYARI: linux sharp ikilisi alınamadı — panelden görsel yükleme çalışmayabilir"; }
 rm -rf "$TMP"
 
+# CloudLinux Node.js Selector uygulama kökünde gerçek bir node_modules klasörüne izin vermez (kendi sanal ortamına sembolik bağ koyar)
+# → paketin tamamı app/ alt klasöründe durur; kökte yalnız başlangıç dosyası ve cron betiği kalır.
+mkdir -p "$APP/app"
+for item in .next-cpanel messages node_modules package.json server.js public; do
+  [ -e "$APP/$item" ] && mv "$APP/$item" "$APP/app/$item"
+done
+
 # Passenger başlangıç dosyası: cPanel "Application startup file" = app.js
 cat > "$APP/app.js" <<'JS'
 // cPanel/Passenger başlangıç dosyası. Passenger dinlenecek soketi kendi verir (listen() çağrısını yakalar).
 // HOSTNAME 0.0.0.0 OLMALI: belirli bir ad (127.0.0.1/localhost) verilirse Next, middleware'in iç yönlendirmelerini
 // (/tr/urunler → /tr/products) "dış adres" sanıp kendine vekil istek atar → 307 döngüsü / 500 (yerelde doğrulandı).
+const path = require('node:path');
 process.env.NODE_ENV = 'production';
 process.env.HOSTNAME = '0.0.0.0';
-process.chdir(__dirname);
-require('./server.js');
+process.chdir(path.join(__dirname, 'app'));
+require('./app/server.js');
 JS
 
 # Zamanlanmış görevler (vercel.json'daki cron'ların cPanel karşılığı)

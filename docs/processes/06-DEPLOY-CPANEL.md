@@ -25,9 +25,13 @@ Pakette sır yoktur (`.env*` dosyaları silinir; betik sonrası tarama ile doğr
 ## 2 · Yükle
 
 cPanel → **Dosya Yöneticisi** → ev dizini (`/home/KULLANICI/`) → `clk-site.zip` yükle → sağ tık **Extract**.
-Sonuç: `/home/KULLANICI/clk-site/` (içinde `app.js`, `server.js`, `node_modules`, `.next-cpanel`, `messages`, `cron.sh`).
+Sonuç: `/home/KULLANICI/clk-site/` → kökte yalnız `app.js` + `cron.sh`, paketin kendisi `app/` alt klasöründe (`server.js`, `node_modules`, `.next-cpanel`, `messages`). CloudLinux, uygulama kökünde gerçek bir `node_modules` klasörüne izin vermez (kendi sanal ortam bağını koyar) — bu yüzden alt klasör.
 
 ⚠️ `public_html` içine **açmayın** — kaynak dosyalar web'den indirilebilir olur.
+
+## 2a · Ad sunucuları (DNS)
+
+Alan adı hosting'in ad sunucularını göstermeli, yoksa istekler park sayfasına gider (clkyapigroup.com'da yaşandı: alan adı `us/eu/sg/tr.guzelhosting.com`'daydı → 185.106.208.2; hosting ise `ns1/ns2/ns11/ns12.guzelhosting.com` → 46.45.136.3 bekliyordu). Doğru değerler cPanel → Zone Editor'daki NS kayıtlarıdır. Yayılmadan önce deneme: `curl --resolve alanadi.com:80:SUNUCU_IP http://alanadi.com/tr`.
 
 ## 3 · Node.js uygulamasını oluştur
 
