@@ -5,6 +5,7 @@ import { sendWithFallback } from '@/core/mail/provider';
 import { renderMail } from '@/core/mail/render';
 import { logger } from '@/core/observability/logger';
 import { getSiteUrl } from '@/core/config/site';
+import { isReservedTestAddress } from '@/core/mail/reservedAddress';
 
 export interface MailQueueSummary {
   readonly claimed: number;
@@ -55,6 +56,12 @@ export async function processMailQueue(limit = 20): Promise<Result<MailQueueSumm
   let sent = 0;
   let failed = 0;
   for (const job of jobs ?? []) {
+    // RFC 2606/6761 ayrılmış alan adları (E2E testleri bunları kullanır) gerçek posta kutusu değildir: gönderilmez, iptal edilir.
+    // Canlıya geçişte birikmiş test kuyruğu example.com'a gönderilmeye başlamıştı → geri dönen iletiler gönderici itibarını bozar.
+    if (isReservedTestAddress(job.to_email)) {
+      await db.from('email_queue').update({ status: 'cancelled', locked_at: null, last_error: 'Ayrilmis test adresi: gonderilmedi' }).eq('id', job.id);
+      continue;
+    }
     const template = templateByKey.get(job.template_key);
     const attempts = job.attempts + 1;
     let outcome: { ok: boolean; provider: 'resend' | 'smtp'; messageId?: string; error?: string };

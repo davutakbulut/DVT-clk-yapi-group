@@ -26,7 +26,7 @@ const SERVICE_CLIENT_IMPORT = {
 };
 
 const eslintConfig = [
-  { ignores: ['node_modules/**', '.next/**', '.next-dev/**', '.next-share/**', '.next-share-new/**', 'out/**', 'next-env.d.ts', 'experiments/**', '_archive/**', 'playwright-report/**', 'test-results/**'] },
+  { ignores: ['node_modules/**', '.next/**', '.next-dev/**', '.next-share/**', '.next-share-new/**', '.next-cpanel/**', 'deploy/**', 'out/**', 'next-env.d.ts', 'experiments/**', '_archive/**', 'playwright-report/**', 'test-results/**'] },
 
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
 

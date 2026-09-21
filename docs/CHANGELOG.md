@@ -14,6 +14,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - 9 zamanlanmış görev (cPanel cron), DMARC kaydı (SPF ve DKIM hosting tarafından hazır), Supabase Site URL + Redirect URLs
 - http → https 301 (`app.js`, statik dosyalar dahil); `secrets.env` sunucuda (0600) — cron uçları sırla 200, sırsız 401
 - `scripts/cpanel-deploy.sh`: API anahtarıyla tek komut canlı güncelleme (yedekli, doğrulamalı)
+- **İndekse açıldı:** `scripts/cpanel-settings.env` (gizli olmayan canlı ayarlar: `SITE_INDEXABLE=true`, IndexNow anahtarı) derlemeye ve pakete girer; robots.txt açık, X-Robots-Tag kalktı, 66 URL'lik site haritası
+- **E-posta:** SMTP doğrulandı (form → müşteri + firma e-postası gönderildi). Hosting cron'u en sık 15 dk → `app.js` kuyruğu dakikada bir tetikler; `cron.sh` hataları `~/logs/clk-cron.log`'a yazar
+- **Koruma:** kuyruk, teste ayrılmış adreslere (example.com, .test…) göndermez, iptal eder — canlıya geçişte birikmiş 100+ E2E e-postası gitmeye başlamıştı (37'si iptal edildi)
 - Bilinen: `e2e/admin.spec.ts` "menüler" testi bu değişikliklerden bağımsız olarak başarısız (ayrı iş)
 
 ### Eklendi — cPanel/VPS dağıtım paketi (K-82)

@@ -14,10 +14,13 @@ SITE_URL="${1:-}"
 
 OUT=deploy
 APP="$OUT/clk-site"
-rm -rf "$OUT" .next-cpanel
+rm -rf "$APP" "$OUT/clk-site.zip" .next-cpanel   # secrets.env gibi diğer dosyalara dokunma
 mkdir -p "$APP"
 
-echo "1/4 Derleniyor ($SITE_URL)…"
+# Gizli olmayan canlı ayarlar: derlemeye (X-Robots-Tag başlığı derlemede sabitlenir) ve çalışma zamanına (settings.env) girer
+set -a; source scripts/cpanel-settings.env; set +a
+
+echo "1/4 Derleniyor ($SITE_URL · indekslenebilir: ${SITE_INDEXABLE:-false})…"
 NEXT_OUTPUT=standalone NEXT_DIST_DIR=.next-cpanel NEXT_PUBLIC_SITE_URL="$SITE_URL" npx next build > "$OUT/build.log" 2>&1 || { tail -30 "$OUT/build.log"; echo "Derleme başarısız (bkz. $OUT/build.log)"; exit 1; }
 
 echo "2/4 Paket toplanıyor…"
@@ -44,6 +47,8 @@ for item in .next-cpanel messages node_modules package.json server.js public; do
   [ -e "$APP/$item" ] && mv "$APP/$item" "$APP/app/$item"
 done
 
+grep -vE "^\s*(#|$)" scripts/cpanel-settings.env > "$APP/settings.env"
+
 # Passenger başlangıç dosyası: cPanel "Application startup file" = app.js
 cat > "$APP/app.js" <<'JS'
 // cPanel/Passenger başlangıç dosyası. Passenger dinlenecek soketi kendi verir (listen() çağrısını yakalar).
@@ -53,13 +58,16 @@ const path = require('node:path');
 process.env.NODE_ENV = 'production';
 process.env.HOSTNAME = '0.0.0.0';
 // secrets.env (scripts/cpanel-secrets.sh üretir; public_html dışında): KEY=VALUE satırları → ortam. Paneldeki değişkenler önceliklidir.
-try {
-  for (const line of require('node:fs').readFileSync(path.join(__dirname, 'secrets.env'), 'utf8').split('\n')) {
-    const i = line.indexOf('=');
-    if (i > 0 && !line.startsWith('#') && process.env[line.slice(0, i).trim()] === undefined) process.env[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+// settings.env: gizli olmayan ayarlar (paketle gelir: SITE_ENV, SITE_INDEXABLE, INDEXNOW_KEY).
+for (const file of ['secrets.env', 'settings.env']) {
+  try {
+    for (const line of require('node:fs').readFileSync(path.join(__dirname, file), 'utf8').split('\n')) {
+      const i = line.indexOf('=');
+      if (i > 0 && !line.startsWith('#') && process.env[line.slice(0, i).trim()] === undefined) process.env[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+    }
+  } catch {
+    // dosya yoksa yalnız paneldeki değişkenlerle çalışır
   }
-} catch {
-  // dosya yoksa yalnız paneldeki değişkenlerle çalışır
 }
 // http → https (301): sunucunun ön katmanı X-Forwarded-Proto gönderir; .htaccess kuralı Passenger'dan önce çalışmadığı için burada.
 // Statik dosyalar dahil her yolu kapsar. Kapatmak için FORCE_HTTPS=0. ACME doğrulama yolu hariç.
@@ -78,6 +86,13 @@ if (process.env.FORCE_HTTPS !== '0') {
     return typeof options === 'function' ? createServer.call(http, wrapped) : createServer.call(http, options, wrapped);
   };
 }
+// E-posta kuyruğu: paylaşımlı hosting cron'u en sık 15 dk'da bir çalışır → onay e-postaları gecikir. Uygulama ayaktayken kuyruk
+// dakikada bir buradan tetiklenir (aynı korumalı uç; cron yedek olarak kalır). Uygulama uyurken form da gelmez; form uyandırır.
+if (process.env.SITE_URL && process.env.CRON_SECRET && process.env.MAIL_TICK !== '0') {
+  const tick = () => fetch(`${process.env.SITE_URL}/api/cron/mail`, { headers: { authorization: `Bearer ${process.env.CRON_SECRET}` }, signal: AbortSignal.timeout(50_000) }).catch(() => {});
+  setTimeout(tick, 20_000).unref();
+  setInterval(tick, 60_000).unref();
+}
 process.chdir(path.join(__dirname, 'app'));
 require('./app/server.js');
 JS
@@ -87,10 +102,15 @@ cat > "$APP/cron.sh" <<'SH'
 #!/usr/bin/env bash
 # Kullanım (cPanel → Cron Jobs):  bash ~/clk-site/cron.sh mail
 # SITE_URL ve CRON_SECRET bu dosyanın yanındaki secrets.env'den okunur (kaynak olarak çalıştırılmaz: değerlerde boşluk olabilir).
-set -euo pipefail
+set -uo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
 val() { grep -E "^$1=" "$DIR/secrets.env" | head -1 | cut -d= -f2-; }
-curl -fsS -m 120 -H "Authorization: Bearer $(val CRON_SECRET)" "$(val SITE_URL)/api/cron/$1" >/dev/null
+LOG="$HOME/logs/clk-cron.log"
+CODE=$(curl -sS -m 120 -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $(val CRON_SECRET)" "$(val SITE_URL)/api/cron/$1" 2>>"$LOG")
+# Başarılı dakikalık koşular günlüğü şişirmesin: yalnız hata ve dakikalık olmayan işler yazılır; günlük 500 satırda tutulur
+if [ "$CODE" != "200" ] || [ "$1" != "mail" ]; then echo "$(date '+%F %T') $1 $CODE" >> "$LOG"; fi
+[ -f "$LOG" ] && [ "$(wc -l < "$LOG")" -gt 500 ] && tail -300 "$LOG" > "$LOG.tmp" && mv "$LOG.tmp" "$LOG"
+[ "$CODE" = "200" ]
 SH
 chmod +x "$APP/cron.sh"
 
