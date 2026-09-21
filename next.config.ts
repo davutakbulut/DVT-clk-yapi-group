@@ -43,6 +43,12 @@ const nextConfig: NextConfig = {
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın
   outputFileTracingRoot: __dirname,
+  // IndexNow: anahtar dosyası KÖKTE olmalı — /api/ altındaki dosya yalnız /api/* adreslerini yetkilendirir (422). /<anahtar>.txt → aynı uç.
+  async rewrites() {
+    // Anahtar derleme anında bilinir (scripts/cpanel-settings.env / Vercel env) → yalnız o dosya adı eşleşir, başka .txt adları 404 kalır
+    const key = (process.env.INDEXNOW_KEY ?? '').trim();
+    return /^[A-Za-z0-9-]{8,128}$/.test(key) ? [{ source: `/${key}.txt`, destination: '/api/indexnow-key' }] : [];
+  },
   async headers() {
     return [
       // K-36: admin her ortamda indeks dışı

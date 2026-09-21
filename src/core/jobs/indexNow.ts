@@ -51,7 +51,7 @@ export async function submitIndexNow(db: ServiceDbClient, fetcher: typeof fetch 
     const res = await fetcher(ENDPOINT, {
       method: 'POST',
       headers: { 'content-type': 'application/json; charset=utf-8' },
-      body: JSON.stringify({ host: origin.host, key, keyLocation: new URL('/api/indexnow-key', origin).toString(), urlList: urls }),
+      body: JSON.stringify({ host: origin.host, key, keyLocation: new URL(`/${key}.txt`, origin).toString(), urlList: urls }),
     });
     if (res.status >= 400) {
       logger.warn('IndexNow reddetti', { module: 'jobs/indexnow', status: res.status, count: urls.length });
