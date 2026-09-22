@@ -23,4 +23,7 @@ for p in /tr /tr/urunler /tr/konfigurator /en; do
   code=$(curl -s -o /dev/null -m 90 -w '%{http_code}' "$LIVE$p"); echo "$code $p"
   [ "$code" = 200 ] || { echo "DOĞRULAMA BAŞARISIZ → geri dönüş: clk-site/app'i sil, app-eski-$STAMP'i app yap, Restart"; exit 1; }
 done
-echo "Canlı güncellendi: $LIVE (önceki sürüm: clk-site/app-eski-$STAMP — sorun yoksa silinebilir)"
+# Doğrulama geçti → daha eski yedekleri ve yüklenen zip'i çöpe taşı (yalnız bu turun yedeği kalır: geri dönüş için)
+LIST=$(curl -fsS -m 60 -H "$AUTH" "$API/execute/Fileman/list_files?dir=$HOME_/clk-site" | node -e "const j=JSON.parse(require('fs').readFileSync(0,'utf8'));console.log((j.data||[]).map(f=>f.file).filter(f=>f.startsWith('app-eski-')&&f!=='app-eski-$STAMP').join(' '))")
+for f in $LIST clk-site-new.zip; do p="$HOME_/clk-site/$f"; [ "$f" = clk-site-new.zip ] && p="$HOME_/$f"; fileop -d op=trash --data-urlencode "sourcefiles=$p" >/dev/null 2>&1 || true; done
+echo "Canlı güncellendi: $LIVE (geri dönüş yedeği: clk-site/app-eski-$STAMP; daha eskileri ve zip çöpe taşındı)"
