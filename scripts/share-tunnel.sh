@@ -47,7 +47,9 @@ case "${1:-status}" in
     alive server && kill "$(cat "$DIR/server.pid")" 2>/dev/null || true
     pkill -f "next start -p $PORT" 2>/dev/null || true
     sleep 1
-    rm -rf .next-share && mv .next-share-new .next-share
+    # Finder .DS_Store yazınca rm/mv yarışı: hedef boş değilse yeniden dene
+    for _ in 1 2 3; do rm -rf .next-share; mv .next-share-new .next-share 2>/dev/null && break; sleep 1; done
+    [ -f .next-share/BUILD_ID ] || { echo "Derleme taşınamadı (.next-share-new → .next-share)"; exit 1; }
     NEXT_DIST_DIR=.next-share NEXT_PUBLIC_SITE_URL="$URL" nohup npx next start -p "$PORT" > "$DIR/server.log" 2>&1 &
     echo $! > "$DIR/server.pid"
     for _ in $(seq 1 40); do curl -s -o /dev/null "http://localhost:$PORT/tr" && break; sleep 1; done
