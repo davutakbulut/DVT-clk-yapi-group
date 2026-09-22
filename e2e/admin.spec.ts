@@ -60,7 +60,8 @@ test.describe('yönetim paneli', () => {
     await expect(page.getByRole('link', { name: /Üst menü/ })).toBeVisible();
     await page.getByRole('link', { name: /Üst menü/ }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Üst menü');
-    await expect(page.locator('main').getByText('Hizmetler', { exact: true }).first()).toBeVisible();
+    // Kenar çubuğundaki (kapalı grup) 'Hizmetler' bağlantısı değil, listedeki öğe: içerik alanıyla sınırla
+    await expect(page.locator('#admin-content summary').filter({ hasText: 'Hizmetler' }).first()).toBeVisible(); // <option> eşleşmeleri değil, liste satırı
     // Faz 26'da /configurator route'u geldi → tohumlanan header öğelerinin hepsinin route'u var (K-50 uyarısı boş)
     await expect(page.getByText('route yok')).toHaveCount(0);
     await expect(page.getByRole('heading', { name: 'Yeni öğe' })).toBeVisible();

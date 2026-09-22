@@ -17,7 +17,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - **İndekse açıldı:** `scripts/cpanel-settings.env` (gizli olmayan canlı ayarlar: `SITE_INDEXABLE=true`, IndexNow anahtarı) derlemeye ve pakete girer; robots.txt açık, X-Robots-Tag kalktı, 66 URL'lik site haritası
 - **E-posta:** SMTP doğrulandı (form → müşteri + firma e-postası gönderildi). Hosting cron'u en sık 15 dk → `app.js` kuyruğu dakikada bir tetikler; `cron.sh` hataları `~/logs/clk-cron.log`'a yazar
 - **Koruma:** kuyruk, teste ayrılmış adreslere (example.com, .test…) göndermez, iptal eder — canlıya geçişte birikmiş 100+ E2E e-postası gitmeye başlamıştı (37'si iptal edildi)
-- Bilinen: `e2e/admin.spec.ts` "menüler" testi bu değişikliklerden bağımsız olarak başarısız (ayrı iş)
+- **Auth e-postaları (K-84):** geri dönüş adresi düzeltildi (0.0.0.0:3000 → site adresi), tek kullanımlık bağlantılar onay düğmesiyle; Supabase şablonları Türkçe, gönderici `info@clkyapigroup.com` (özel SMTP)
+- **Canlı önbellek:** `cacheMaxMemorySize: 0` (Passenger çok süreçli) → panel kayıtları anında görünür
+- **E2E artıkları:** `scripts/purge-e2e-data.mjs` + Playwright `globalTeardown` — her koşu sonunda test kayıtları silinir; birikmiş 300+ kayıt temizlendi
+- Düzeltilen testler: `admin.spec` menüler (gizli `<option>` eşleşmesi), `leads.spec` şablon (çift eşleşme)
 
 ### Eklendi — cPanel/VPS dağıtım paketi (K-82)
 - `scripts/cpanel-package.sh <alan adı>` → `deploy/clk-site.zip` (~36 MB): bağımsız derleme, sırsız, Linux sharp ikilileri, `app.js` (Passenger) ve `cron.sh`

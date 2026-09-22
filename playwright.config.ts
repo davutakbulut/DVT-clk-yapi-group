@@ -13,6 +13,8 @@ const PORT = 3200;
 
 // Üretim derlemesine karşı koşar: global-error, ISR ve önbellek başlıkları yalnız `next start`ta gerçektir.
 export default defineConfig({
+  // Koşu sonunda test artıkları veritabanından silinir (bkz. e2e/support/globalTeardown.ts)
+  globalTeardown: './e2e/support/globalTeardown.ts',
   testDir: './e2e',
   fullyParallel: true,
   // 3 kırılım × büyüyen admin akışları: 2 çalışan + 60 sn, yük altındaki zaman aşımlarını (Faz 11) önler

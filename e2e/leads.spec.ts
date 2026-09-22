@@ -82,7 +82,7 @@ test.describe('talep akışı', () => {
   test('mail şablonları ve teklif formu seçenekleri sayfaları açılır', async ({ page }) => {
     await login(page, '/admin/mail-templates');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mail Şablonları');
-    await expect(page.getByText('lead.received.customer')).toBeVisible();
+    await expect(page.getByText('lead.received.customer').first()).toBeVisible(); // anahtar hem şablon kartında hem kuyruk listesinde görünebilir
     await page.goto('/admin/settings/form');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Teklif Formu Seçenekleri');
   });
