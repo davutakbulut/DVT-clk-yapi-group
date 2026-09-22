@@ -426,6 +426,11 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Bulgu:** Canlı hosting'de (cPanel, ön vekil) başarılı girişte 502 alınıyordu; yanlış şifrede 200. Neden: Supabase oturum çerezi kullanıcı nesnesiyle birlikte birkaç KB → vekilin yanıt başlığı sınırını aşıyordu (paylaşımlı sunucuda ayar değiştirilemez).
 **Karar:** `@supabase/ssr` istemcilerinde `cookies.encode = 'tokens-only'`. Çerez yalnız erişim/yenileme jetonunu taşır. Güvenli: uygulama hiçbir yerde `session.user`'a güvenmez, her zaman `getUser()` ile doğrular (K-14). Canlıda doğrulandı: giriş 200 → `/admin`.
 
+### K-84 · Auth geri dönüş adresleri site ayarından; tek kullanımlık bağlantılar onay düğmesiyle
+**Bulgu:** Canlıda üyelik doğrulama e-postasındaki bağlantı `https://0.0.0.0:3000/tr/giris` adresine düşüyordu: `/auth/callback` mutlak adresi `request.nextUrl.origin`'den kuruyordu ve Passenger arkasında bu `HOSTNAME:PORT`. Ayrıca bağlantı "otp_expired" veriyordu: e-posta tarayıcıları/ikinci tıklama tek kullanımlık jetonu tüketiyor.
+**Karar:** Mutlak adresler `getSiteUrl()`'den. token_hash bağlantıları GET'te doğrulanmaz: küçük bir onay sayfası (düğme) gösterilir, doğrulama POST'ta yapılır. Supabase e-posta şablonları Türkçe ve `{{ .SiteURL }}/auth/callback?token_hash=…` biçiminde (Supabase'in kendi /verify yönlendirmesi yerine).
+**Ek (canlı önbellek):** Passenger çok süreçli → `cacheMaxMemorySize: 0` (yalnız standalone): panelden kaydedilen ayarlar her süreçte anında görünür.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

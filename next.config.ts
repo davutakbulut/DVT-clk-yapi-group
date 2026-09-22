@@ -39,6 +39,9 @@ const nextConfig: NextConfig = {
   distDir: process.env.NEXT_DIST_DIR ?? (process.env.NODE_ENV === 'development' ? '.next-dev' : '.next'),
   // cPanel/VPS paketi (scripts/cpanel-package.sh): node_modules'suz, kendi kendine yeten sunucu çıktısı. Vercel ve dev'de kapalı.
   output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
+  // Passenger birden çok süreç açar: bellek içi önbellek süreç başına ayrı → panelden kaydedilen ayar bir süreçte düşer, diğerinde 1 saat
+  // eski kalır. Bellek içi önbellek kapalı (0) → tek kaynak diskteki paylaşımlı önbellek (.next-cpanel/cache), etiket düşürme her süreçte geçer.
+  ...(process.env.NEXT_OUTPUT === 'standalone' ? { cacheMaxMemorySize: 0 } : {}),
   poweredByHeader: false,
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın
