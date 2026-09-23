@@ -448,6 +448,9 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Veri:** `products.options` (kaliteler, stok boyları, özel boy, birim), `products.facts`, `product_variants.variant_group` + `props`; panelde "Seçici" bölümü ve genişletilmiş varyant satırı (Excel'den sekmeli yapıştırma). Kutu profil: 331 ölçü (nominal, TS EN 10219-2 + 7850 kg/m³; K-75 gereği standart değer uydurma sayılmaz), 4 SSS ve teknik özellikler prototipten (ürün sahibinin dosyası) alındı.
 **Tasarım:** Prototipin sarı işaret rengi yalnız çizimdeki ölçü oklarında kaldı (teknik çizim dili); arayüzde vurgu çelik mavisi, köşe ≤ 4px (04-DESIGN-RULES). Fiyat yok (K-27).
 
+### K-89 · Ürün görselleri yalnız gerçek kaynaktan; panel dışı değişiklikte önbellek ucu
+**Karar:** Görseli olmayan 61 ürünün kapakları için önce firmanın kendi fotoğrafları tarandı; ürünün gerçekten göründüğü 6 ürüne (I-profiller, beyaz alçıpan) kapak + galeri atandı (`scripts/product-covers.mjs`). Çimento, membran, OSB gibi kalemlerde elimizde fotoğraf yok: bunlara uydurma görsel konmaz; ürün sahibi tedarikçi/üretici görselleri verir ya da açıkça onaylarsa serbest lisanslı (Unsplash/Pexels) genel ürün fotoğrafı indirilir (markalı ambalaj görünmeyen). Betikle yapılan değişiklikler panelden geçmediği için `/api/cron/revalidate` ile önbellek düşürülür.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

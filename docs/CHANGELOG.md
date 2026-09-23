@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — ürün kapak/galeri görselleri (kendi fotoğraflarımızdan) · önbellek düşürme ucu
+- `scripts/product-covers.mjs <eşleme.json> <assets klasörleri>`: firmanın kendi fotoğraflarını ürün kapağı + galeri olarak yükler (media/products, WebP varyantları, kararlı id). IPE, HEA, HEB, HEM, IPN ve beyaz alçıpan için uygulandı; HEA/HEB'in yanlış kapağı (saha videosu posteri) düzeltildi
+- `/api/cron/revalidate?tags=…` (CRON_SECRET): panel dışı veri değişikliklerinden sonra etiket düşürme (K-89)
+
 ### Eklendi — ürün seçici: dinamik ölçü/ağırlık/teklif (K-88)
 - **Ürün sayfası:** gerçekler şeridi, kesit çizimi, grup→ölçü→et→kalite→boy→adet seçimi, kg/m·boy·toplam, kesit değerleri, "Teklif sepetine ekle"; filtreli/sıralı/aranabilir ölçü tablosu (satır → seçim). Ölçü verisi olmayan ürünler eski düzende
 - **Sepet/talep:** kalem nitelikleri (kalite, boy, kg/m, toplam kg), sepette toplam ağırlık, panelde talep kaleminde nitelikler (`0046`)
