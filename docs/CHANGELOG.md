@@ -7,7 +7,8 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
-### Eklendi — form içi görsel yükleme · sosyal medya yönetimi (K-85, K-86)
+### Eklendi — form içi görsel yükleme · sosyal medya yönetimi · liste küçük resimleri (K-85, K-86, K-87)
+- **Liste küçük resimleri (K-87):** 9 panel listesinde kapak/fotoğraf/logo küçük resmi; tıklayınca büyük görüntü (dialog); görselsiz satırda boş yer tutucu; `admin-thumbs.spec`
 - **MediaPicker:** paneldeki 23 medya alanı artık doğrudan yükleme yapıyor (önizleme, klasör içerik türüne göre, aynı boru hattı ve RLS); Medya sayfası toplu yükleme için duruyor
 - **Sosyal medya:** footer'da yuvarlak ikon düğmeleri (URL'den tanınan 9 platform + genel simge); Ayarlar → Sosyal Medya sayfasında ikonlu ekle/kaldır; genel ayarlardaki metin alanı kaldırıldı
 - **WhatsApp:** şablonda `{{url}}` yoksa sayfa adresi eklenir

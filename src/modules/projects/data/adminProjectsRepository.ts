@@ -11,6 +11,8 @@ export interface AdminProjectRow {
   readonly is_featured: boolean;
   readonly location: LocalizedText;
   readonly completed_on: string | null;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminProject extends AdminProjectRow {
@@ -53,7 +55,7 @@ const LIST = 'id, title, slug, status, published_locales, is_featured, location,
 export async function listProjectsForAdmin(): Promise<Result<AdminProjectRow[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('projects').select(LIST).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
+  const { data, error } = await client.data.from('projects').select(`${LIST}, thumb:media_library!projects_cover_image_id_fkey(storage_path, variants)`).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
   if (error) return err(appError('external_service', error.message, { module: 'projects' }));
   return ok(data.map((r) => ({ ...r, title: lt(r.title), slug: lt(r.slug), location: lt(r.location) })));
 }

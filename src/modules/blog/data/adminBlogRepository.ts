@@ -11,6 +11,8 @@ export interface AdminPostRow {
   readonly published_at: string | null;
   readonly is_featured: boolean;
   readonly categoryName: string;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminPost extends Omit<AdminPostRow, 'categoryName'> {
@@ -62,7 +64,7 @@ const LIST = 'id, title, slug, status, published_locales, published_at, is_featu
 export async function listPostsForAdmin(): Promise<Result<AdminPostRow[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('blog_posts').select(`${LIST}, category:blog_categories(name)`).order('published_at', { ascending: false, nullsFirst: true }).order('created_at', { ascending: false });
+  const { data, error } = await client.data.from('blog_posts').select(`${LIST}, category:blog_categories(name), thumb:media_library!blog_posts_cover_image_id_fkey(storage_path, variants)`).order('published_at', { ascending: false, nullsFirst: true }).order('created_at', { ascending: false });
   if (error) return err(appError('external_service', error.message, { module: 'blog' }));
   return ok(data.map((r) => ({ ...r, title: lt(r.title), slug: lt(r.slug), categoryName: lt((r.category as { name?: unknown } | null)?.name)['tr'] ?? '' })));
 }

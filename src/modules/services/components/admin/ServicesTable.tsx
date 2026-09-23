@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { StatusBadge } from '@/modules/admin-shell';
+import { StatusBadge, Thumb, thumbSrc } from '@/modules/admin-shell';
 import { deleteService, moveService } from '../../actions';
 import type { AdminServiceRow } from '../../data/adminServicesRepository';
 
@@ -14,6 +14,9 @@ export async function ServicesTable({ rows }: { readonly rows: readonly AdminSer
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead className="w-14">
+            <span className="sr-only">{t('form.image')}</span>
+          </TableHead>
           <TableHead>{t('services.name')}</TableHead>
           <TableHead>{t('services.slug')}</TableHead>
           <TableHead>{t('form.status')}</TableHead>
@@ -24,6 +27,9 @@ export async function ServicesTable({ rows }: { readonly rows: readonly AdminSer
       <TableBody>
         {rows.map((row, i) => (
           <TableRow key={row.id}>
+            <TableCell className="w-14 py-1">
+              <Thumb src={thumbSrc(row.thumb)} alt={row.title['tr'] || t('form.untitled')} />
+            </TableCell>
             <TableCell className="font-medium">
               <NextLink href={`/admin/services/${row.id}`} className="underline-offset-4 hover:underline">
                 {row.title['tr'] || t('form.untitled')}

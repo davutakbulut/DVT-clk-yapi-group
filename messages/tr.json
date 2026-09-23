@@ -193,7 +193,9 @@
       "no": "Hayır",
       "empty": "Kayıt yok",
       "loading": "Yükleniyor…",
-      "optimisticConflict": "Bu kayıt siz açtıktan sonra değişti. Sayfayı yenileyip tekrar deneyin."
+      "optimisticConflict": "Bu kayıt siz açtıktan sonra değişti. Sayfayı yenileyip tekrar deneyin.",
+      "preview": "Önizle",
+      "close": "Kapat"
     },
     "errors": {
       "forbidden": "Bu işlem için yetkiniz yok.",
@@ -364,7 +366,8 @@
       "featured": "Öne çıkan",
       "untitled": "(başlıksız)",
       "name": "Ad",
-      "slug": "Slug"
+      "slug": "Slug",
+      "image": "Görsel"
     },
     "pages": {
       "home": "Ana Sayfa",

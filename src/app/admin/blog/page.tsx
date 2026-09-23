@@ -1,6 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
-import { AdminPageHeader, ContentTable } from '@/modules/admin-shell';
+import { AdminPageHeader, ContentTable, thumbSrc } from '@/modules/admin-shell';
 import { deletePost } from '@/modules/blog/actions';
 import { listPostsForAdmin } from '@/modules/blog/server';
 
@@ -14,7 +14,7 @@ export default async function AdminBlogPage() {
     <div className="grid gap-6">
       <AdminPageHeader title={t('blog.title')} lead={t('blog.lead')} action={{ href: '/admin/blog/new', label: t('blog.new') }} />
       <p className="text-sm text-muted-foreground">{t('blog.count', { count: rows.data.length })}</p>
-      <ContentTable rows={rows.data.map((r) => ({ ...r, extra: [r.categoryName, r.published_at ? r.published_at.slice(0, 10) : null].filter(Boolean).join(' · ') }))} basePath="/admin/blog" extraLabel={t('blog.categoryCol')} remove={deletePost} />
+      <ContentTable rows={rows.data.map((r) => ({ ...r, extra: [r.categoryName, r.published_at ? r.published_at.slice(0, 10) : null].filter(Boolean).join(' · '), thumb: thumbSrc(r.thumb) }))} basePath="/admin/blog" extraLabel={t('blog.categoryCol')} remove={deletePost} />
     </div>
   );
 }

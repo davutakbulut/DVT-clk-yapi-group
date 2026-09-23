@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { requireRole } from '@/core/auth';
-import { AdminPageHeader } from '@/modules/admin-shell';
+import { AdminPageHeader, Thumb, thumbSrc } from '@/modules/admin-shell';
 import { ClientForm } from '@/modules/corporate';
 import { deleteClient, moveClient } from '@/modules/corporate/actions';
 import { listClientsForAdmin, listMediaChoices } from '@/modules/corporate/server';
@@ -18,6 +18,7 @@ export default async function ReferencesPage() {
         {clients.data.map((client, i) => (
           <li key={client.id} className="grid gap-2">
             <div className="flex items-center gap-2">
+              <Thumb src={thumbSrc(client.thumb)} alt={client.name} />
               <span className="text-sm font-medium">{client.name}</span>
               {!client.is_active ? <span className="rounded bg-muted px-1.5 py-0.5 text-xs">{t('common.inactive')}</span> : null}
               <span className="ml-auto flex gap-1">

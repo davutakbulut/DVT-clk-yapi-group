@@ -439,6 +439,10 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Karar:** `social.links` ayarı korunur (`{platform,url}[]`). Footer'da `SocialLinks` (yuvarlak 40px çizgi düğme, hover'da çelik mavisi dolgu — 04-DESIGN-RULES §3'ün "yuvarlak yalnız ikon düğmesinde" kuralı). İkon URL'den tanınır (`src/lib/social/socialPlatform.ts`), panel etiketi erişilebilir ad. Panel: Ayarlar → Sosyal Medya (`/admin/settings/social`) — satır ekle/kaldır, ikon anında; genel ayarlardaki "platform | URL" metin alanı kaldırıldı (tek düzenleme yeri). Uydurma hesap adresi yazılmadı; liste ürün sahibi girene dek boş, footer'da bölüm çizilmez.
 **Ek:** WhatsApp şablonunda `{{url}}` yoksa sayfa adresi mesajın sonuna eklenir (firma, ziyaretçinin hangi sayfadan yazdığını görür).
 
+### K-87 · Panel listelerinde kapak küçük resmi + büyütme
+**Karar:** İçerik listeleri (ürün, ürün kategorisi, proje, blog, hizmet, çözüm, ekip, referans, sertifika) ilk sütunda 44px kapak küçük resmi gösterir; tıklayınca yerleşik `<dialog>` ile tam boy açılır (Esc, dışarı tıklama, ✕). Küçük resim `w480` varyantından, büyük hâli tam boydan; liste sorguları kapağı `thumb:media_library!<fk>(storage_path, variants)` gömüsüyle tek istekte alır (ek sorgu yok). Görseli olmayan satırda çizgili boş yer tutucu → satır hizası bozulmaz. Bileşenler `admin-shell` (`Thumb`, `thumbSrc`); `ServicesTable` de aynı bileşeni kullanır.
+**Neden:** Ürün sahibi listede hangi kaydın görselinin olduğunu görmek ve düzenleme sayfasına girmeden bakmak istedi.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

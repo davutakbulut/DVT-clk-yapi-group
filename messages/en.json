@@ -193,7 +193,9 @@
       "no": "No",
       "empty": "No records",
       "loading": "Loading…",
-      "optimisticConflict": "This record changed after you opened it. Refresh and try again."
+      "optimisticConflict": "This record changed after you opened it. Refresh and try again.",
+      "preview": "Preview",
+      "close": "Close"
     },
     "errors": {
       "forbidden": "You are not allowed to do this.",
@@ -364,7 +366,8 @@
       "featured": "Featured",
       "untitled": "(untitled)",
       "name": "Name",
-      "slug": "Slug"
+      "slug": "Slug",
+      "image": "Image"
     },
     "pages": {
       "home": "Home Page",

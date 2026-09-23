@@ -14,6 +14,8 @@ export interface AdminProductRow {
   readonly published_locales: readonly string[];
   readonly is_featured: boolean;
   readonly categoryName: string;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminProductDocument {
@@ -50,6 +52,8 @@ export interface AdminProductCategory {
   readonly parent_id: string | null;
   readonly image_id: string | null;
   readonly is_active: boolean;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface Choice {
@@ -62,7 +66,7 @@ const LIST = 'id, name, slug, status, published_locales, is_featured';
 export async function listProductsForAdmin(): Promise<Result<AdminProductRow[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('products').select(`${LIST}, category:product_categories(name)`).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
+  const { data, error } = await client.data.from('products').select(`${LIST}, category:product_categories(name), thumb:media_library!products_cover_image_id_fkey(storage_path, variants)`).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
   if (error) return fail(error.message);
   return ok(data.map((r) => ({ ...r, name: lt(r.name), slug: lt(r.slug), categoryName: lt((r.category as { name?: unknown } | null)?.name)['tr'] ?? '' })));
 }
@@ -126,7 +130,7 @@ export async function getProductForAdmin(id: string): Promise<Result<AdminProduc
 export async function listProductCategoriesForAdmin(): Promise<Result<AdminProductCategory[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('product_categories').select('id, slug, name, description, parent_id, image_id, is_active').order('parent_id', { ascending: true, nullsFirst: true }).order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('product_categories').select('id, slug, name, description, parent_id, image_id, is_active, thumb:media_library!product_categories_image_id_fkey(storage_path, variants)').order('parent_id', { ascending: true, nullsFirst: true }).order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return fail(error.message);
   return ok(data.map((c) => ({ ...c, slug: lt(c.slug), name: lt(c.name), description: lt(c.description) })));
 }

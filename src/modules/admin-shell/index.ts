@@ -4,3 +4,5 @@ export { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, Pu
 export { AdminPageHeader } from './components/admin/AdminPageHeader';
 export { StatusBadge } from './components/admin/StatusBadge';
 export { ContentTable, type ContentRow } from './components/admin/ContentTable';
+export { Thumb, type ThumbSrc } from './components/admin/Thumb';
+export { thumbSrc, type ThumbMedia } from './domain/thumb';

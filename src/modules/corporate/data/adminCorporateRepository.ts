@@ -22,6 +22,8 @@ export interface AdminTeamMember {
   readonly status: string;
   readonly published_locales: readonly string[];
   readonly reviewedEn: boolean;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminClient {
@@ -32,6 +34,8 @@ export interface AdminClient {
   readonly sector: LocalizedText;
   readonly is_featured: boolean;
   readonly is_active: boolean;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminCertificate {
@@ -47,6 +51,8 @@ export interface AdminCertificate {
   readonly status: string;
   readonly published_locales: readonly string[];
   readonly reviewedEn: boolean;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminJobPosting {
@@ -110,7 +116,7 @@ export async function listMediaChoices(kind: 'image' | 'document'): Promise<Resu
 export async function listTeamForAdmin(): Promise<Result<AdminTeamMember[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('team_members').select('id, full_name, position, bio, photo_id, email, linkedin_url, status, published_locales, translation_meta').order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('team_members').select('id, full_name, position, bio, photo_id, email, linkedin_url, status, published_locales, translation_meta, thumb:media_library!team_members_photo_id_fkey(storage_path, variants)').order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return fail(error.message);
   return ok(data.map((r) => ({ ...r, position: lt(r.position), bio: lt(r.bio), reviewedEn: reviewed(r.translation_meta) })));
 }
@@ -123,7 +129,7 @@ export async function getTeamMemberForAdmin(id: string): Promise<Result<AdminTea
 export async function listClientsForAdmin(): Promise<Result<AdminClient[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('clients').select('id, name, logo_id, website_url, sector, is_featured, is_active').order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('clients').select('id, name, logo_id, website_url, sector, is_featured, is_active, thumb:media_library!clients_logo_id_fkey(storage_path, variants)').order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return fail(error.message);
   return ok(data.map((r) => ({ ...r, sector: lt(r.sector) })));
 }
@@ -131,7 +137,7 @@ export async function listClientsForAdmin(): Promise<Result<AdminClient[]>> {
 export async function listCertificatesForAdmin(): Promise<Result<AdminCertificate[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('certificates').select('id, title, issuer, certificate_no, description, image_id, document_id, issued_on, valid_until, status, published_locales, translation_meta').order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('certificates').select('id, title, issuer, certificate_no, description, image_id, document_id, issued_on, valid_until, status, published_locales, translation_meta, thumb:media_library!certificates_image_id_fkey(storage_path, variants)').order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return fail(error.message);
   return ok(data.map((r) => ({ ...r, title: lt(r.title), description: lt(r.description), reviewedEn: reviewed(r.translation_meta) })));
 }

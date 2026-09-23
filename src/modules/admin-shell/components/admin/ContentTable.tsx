@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { LocalizedText } from '@/lib/localized';
 import { StatusBadge } from './StatusBadge';
+import { Thumb, type ThumbSrc } from './Thumb';
 
 export interface ContentRow {
   readonly id: string;
@@ -14,6 +15,8 @@ export interface ContentRow {
   readonly is_featured?: boolean;
   /** Serbest ek sütun (kategori, tarih, konum…). */
   readonly extra?: string | null;
+  /** Kapak/fotoğraf küçük resmi (K-87); satırların en az birinde varsa sütun açılır. */
+  readonly thumb?: ThumbSrc | null;
 }
 
 type FormAction = (formData: FormData) => Promise<void>;
@@ -34,10 +37,12 @@ interface Props {
 export async function ContentTable({ rows, basePath, extraLabel, move, remove }: Props) {
   const t = await getTranslations('Admin');
   if (rows.length === 0) return <p className="text-sm text-muted-foreground">{t('common.empty')}</p>;
+  const withThumb = rows.some((r) => r.thumb !== undefined);
   return (
     <Table>
       <TableHeader>
         <TableRow>
+          {withThumb ? <TableHead className="w-14"><span className="sr-only">{t('form.image')}</span></TableHead> : null}
           <TableHead>{t('form.name')}</TableHead>
           <TableHead>{t('form.slug')}</TableHead>
           {extraLabel ? <TableHead>{extraLabel}</TableHead> : null}
@@ -49,6 +54,11 @@ export async function ContentTable({ rows, basePath, extraLabel, move, remove }:
       <TableBody>
         {rows.map((row, i) => (
           <TableRow key={row.id}>
+            {withThumb ? (
+              <TableCell className="w-14 py-1">
+                <Thumb src={row.thumb ?? null} alt={row.title['tr'] || t('form.untitled')} />
+              </TableCell>
+            ) : null}
             <TableCell className="font-medium">
               <NextLink href={`${basePath}/${row.id}`} className="underline-offset-4 hover:underline">
                 {row.title['tr'] || t('form.untitled')}

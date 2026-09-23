@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Button } from '@/components/ui/button';
 import { requireRole } from '@/core/auth';
-import { AdminPageHeader } from '@/modules/admin-shell';
+import { AdminPageHeader, Thumb, thumbSrc } from '@/modules/admin-shell';
 import { listMediaChoices } from '@/modules/corporate/server';
 import { ProductCategoryForm } from '@/modules/products';
 import { deleteProductCategory, moveProductCategory } from '@/modules/products/actions';
@@ -45,6 +45,7 @@ export default async function ProductCategoriesPage() {
         {roots.map((root, i) => (
           <li key={root.id} className="grid gap-3">
             <div className="flex items-center gap-2">
+              <Thumb src={thumbSrc(root.thumb)} alt={root.name['tr'] ?? ''} />
               <span className="font-medium">{root.name['tr']}</span>
               <span className="font-mono text-xs text-muted-foreground">{root.slug['tr']}</span>
               {controls(root.id, root.name['tr'] ?? '', roots.length, i)}
@@ -55,6 +56,7 @@ export default async function ProductCategoriesPage() {
                 {childrenOf(root.id).map((child, j) => (
                   <li key={child.id} className="grid gap-2">
                     <div className="flex items-center gap-2">
+                      <Thumb src={thumbSrc(child.thumb)} alt={child.name['tr'] ?? ''} />
                       <span className="text-sm font-medium">{child.name['tr']}</span>
                       <span className="font-mono text-xs text-muted-foreground">{child.slug['tr']}</span>
                       {controls(child.id, child.name['tr'] ?? '', childrenOf(root.id).length, j)}

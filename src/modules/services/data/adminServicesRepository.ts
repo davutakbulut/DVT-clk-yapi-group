@@ -12,6 +12,8 @@ export interface AdminServiceRow {
   readonly is_featured: boolean;
   readonly sort_order: number | null;
   readonly updated_at: string;
+  /** Kapak küçük resmi için medya gömüsü (liste, K-87). */
+  readonly thumb?: { readonly storage_path: string; readonly variants: unknown } | null;
 }
 
 export interface AdminService extends AdminServiceRow {
@@ -42,7 +44,7 @@ const LIST = 'id, title, slug, status, published_locales, is_featured, sort_orde
 export async function listServicesForAdmin(): Promise<Result<AdminServiceRow[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('services').select(LIST).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at');
+  const { data, error } = await client.data.from('services').select(`${LIST}, thumb:media_library!services_cover_image_id_fkey(storage_path, variants)`).order('sort_order', { ascending: true, nullsFirst: false }).order('created_at');
   if (error) return err(appError('external_service', error.message, { module: 'services' }));
   return ok(data.map((r) => ({ ...r, title: lt(r.title), slug: lt(r.slug) })));
 }
