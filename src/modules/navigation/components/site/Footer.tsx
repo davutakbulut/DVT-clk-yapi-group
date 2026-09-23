@@ -8,6 +8,7 @@ import { BrandMark } from '@/ui/BrandMark';
 import { Container } from '@/ui/Container';
 import { getMenu } from '../../services/getMenu';
 import { MenuLinkView } from './MenuLinkView';
+import { SocialLinks } from './SocialLinks';
 
 interface Props {
   readonly locale: string;
@@ -33,17 +34,7 @@ export async function Footer({ locale }: Props) {
           <div className="grid content-start gap-4">
             <BrandMark siteName={siteName} />
             {tagline ? <p className="max-w-[36ch] text-[length:var(--fs-sm)]">{tagline}</p> : null}
-            {settings.socialLinks.length > 0 ? (
-              <ul aria-label={t('followUs')} className="flex flex-wrap gap-4 text-[length:var(--fs-sm)]">
-                {settings.socialLinks.map((link) => (
-                  <li key={link.url}>
-                    <a href={link.url} rel="noopener noreferrer" target="_blank">
-                      {link.platform}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
+            <SocialLinks links={settings.socialLinks} label={t('followUs')} />
           </div>
           {columns.map((column) => (
             <nav key={column.id} aria-label={column.label} className="grid content-start gap-3">

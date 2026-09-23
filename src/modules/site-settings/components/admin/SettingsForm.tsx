@@ -1,11 +1,11 @@
 'use client';
 
+import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useActionState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
 import { saveSettings } from '../../actions';
 import type { LogoOption } from '../../data/adminSettingsRepository';
@@ -62,10 +62,12 @@ export function SettingsForm({ settings, logos }: Props) {
         {field('seoTr', `${t('settings.seoDescription')} (TR)`, settings.seoDescription?.['tr'] ?? '')}
         {field('seoEn', `${t('settings.seoDescription')} (EN)`, settings.seoDescription?.['en'] ?? '')}
       </div>
-      <div className="grid gap-1">
-        <Label htmlFor="s-social">{t('settings.social')}</Label>
-        <Textarea id="s-social" name="social" rows={4} defaultValue={settings.socialLinks.map((l) => `${l.platform} | ${l.url}`).join('\n')} />
-      </div>
+      <p className="text-sm text-muted-foreground">
+        {t('settings.socialMoved')}{' '}
+        <NextLink href="/admin/settings/social" className="underline underline-offset-4">
+          {t('nav.socialLinks')}
+        </NextLink>
+      </p>
       <div>
         <Button type="submit" disabled={pending}>
           {t('common.save')}

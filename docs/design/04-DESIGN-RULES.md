@@ -40,7 +40,7 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 ## 3. Köşe · Gölge
 
 - Köşe: `--radius-0 | --radius-1 (2px) | --radius-2 (4px)`. Kart, görsel, video, buton, form → **en fazla 4px**.
-- `--radius-full` yalnız: avatar, nokta göstergesi, yuvarlak ikon düğmesi (ok, oynat), hap rozet.
+- `--radius-full` yalnız: avatar, nokta göstergesi, yuvarlak ikon düğmesi (ok, oynat, sosyal medya), hap rozet.
 - **İstisna:** yüzen WhatsApp penceresi (mesajlaşma uygulaması alışkanlığı; ürün sahibinin referansıyla yapıldı). Başka hiçbir bileşen bu istisnayı örnek almaz.
 - Gölge: tasarım çizgi ağırlıklı. Gölge yalnız **öne çıkan tek öğede** (carousel'in orta kartı, yüzen düğme). Dizideki her karta gölge verilmez; kart sınırı 1px çizgidir.
 

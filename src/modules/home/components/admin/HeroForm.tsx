@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField } from '@/modules/admin-shell';
 import { saveHero } from '../../actions';
 import type { AdminHero, MediaChoice } from '../../data/adminHomeRepository';
+import { MediaPicker } from '@/modules/media';
 
 interface Props {
   readonly hero: AdminHero | null;
@@ -36,10 +37,10 @@ export function HeroForm({ hero, images, videos }: Props) {
             <Input id="f-durationSeconds" name="durationSeconds" type="number" min={0} max={60} step="0.1" defaultValue={hero?.duration_seconds ?? ''} />
             <FieldError state={state} name="durationSeconds" />
           </div>
-          <MediaSelect name="desktopVideoId" label={t('pages.desktopVideo')} options={videos} value={hero?.desktop_video_id} />
-          <MediaSelect name="mobileVideoId" label={t('pages.mobileVideo')} options={videos} value={hero?.mobile_video_id} />
-          <MediaSelect name="desktopPosterId" label={t('pages.desktopPoster')} options={images} value={hero?.desktop_poster_id} />
-          <MediaSelect name="mobilePosterId" label={t('pages.mobilePoster')} options={images} value={hero?.mobile_poster_id} />
+          <MediaPicker name="desktopVideoId" label={t('pages.desktopVideo')} options={videos} value={hero?.desktop_video_id} folder="hero" kind="video" />
+          <MediaPicker name="mobileVideoId" label={t('pages.mobileVideo')} options={videos} value={hero?.mobile_video_id} folder="hero" kind="video" />
+          <MediaPicker name="desktopPosterId" label={t('pages.desktopPoster')} options={images} value={hero?.desktop_poster_id} folder="hero" />
+          <MediaPicker name="mobilePosterId" label={t('pages.mobilePoster')} options={images} value={hero?.mobile_poster_id} folder="hero" />
         </div>
         <LocalizedField name="headline" label={t('pages.headline')} value={hero?.headline} state={state} />
         <LocalizedField name="subheadline" label={t('pages.subheadline')} value={hero?.subheadline} state={state} multiline rows={3} />

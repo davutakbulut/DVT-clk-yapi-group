@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveCertificate, saveClient, saveFaq, saveJobPosting, saveTeamMember, updateApplication } from '../../actions';
 import type { AdminApplication, AdminCertificate, AdminClient, AdminFaq, AdminJobPosting, AdminTeamMember } from '../../data/adminCorporateRepository';
+import { MediaPicker } from '@/modules/media';
 
 const publishValue = (v: { status: string; published_locales: readonly string[]; reviewedEn: boolean; slug?: Readonly<Partial<Record<string, string>>> | null } | null) => (v ? { status: v.status, published_locales: v.published_locales, reviewedEn: v.reviewedEn, slug: v.slug ?? null } : null);
 
@@ -35,7 +36,7 @@ export function TeamMemberForm({ member, images }: { readonly member: AdminTeamM
         <LocalizedField name="position" label={t('corporate.team.position')} value={member?.position} state={state} required />
         <LocalizedField name="bio" label={t('corporate.team.bio')} value={member?.bio} state={state} multiline rows={4} />
         <div className="grid gap-3 sm:grid-cols-3">
-          <MediaSelect name="photoId" label={t('corporate.team.photo')} options={images} value={member?.photo_id} />
+          <MediaPicker name="photoId" label={t('corporate.team.photo')} options={images} value={member?.photo_id} folder="team" />
           <TextField name="email" label={t('corporate.team.email')} value={member?.email} type="email" state={state} />
           <TextField name="linkedinUrl" label={t('corporate.team.linkedin')} value={member?.linkedin_url} type="url" state={state} />
         </div>
@@ -63,7 +64,7 @@ export function ClientForm({ client, images }: { readonly client: AdminClient | 
           <Label htmlFor={`c-${k}-name`}>{t('corporate.references.name')}</Label>
           <Input id={`c-${k}-name`} name="name" defaultValue={client?.name ?? ''} required />
         </div>
-        <MediaSelect name="logoId" label={t('corporate.references.logo')} options={images} value={client?.logo_id} />
+        <MediaPicker name="logoId" label={t('corporate.references.logo')} options={images} value={client?.logo_id} folder="clients" />
         <div className="grid gap-1">
           <Label htmlFor={`c-${k}-website`}>{t('corporate.references.website')}</Label>
           <Input id={`c-${k}-website`} name="websiteUrl" type="url" defaultValue={client?.website_url ?? ''} />
@@ -103,8 +104,8 @@ export function CertificateForm({ certificate, images, documents }: { readonly c
           <TextField name="certificateNo" label={t('corporate.certificates.no')} value={certificate?.certificate_no} state={state} />
           <TextField name="issuedOn" label={t('corporate.certificates.issuedOn')} value={certificate?.issued_on} type="date" state={state} />
           <TextField name="validUntil" label={t('corporate.certificates.validUntil')} value={certificate?.valid_until} type="date" state={state} />
-          <MediaSelect name="imageId" label={t('corporate.certificates.image')} options={images} value={certificate?.image_id} />
-          <MediaSelect name="documentId" label={t('corporate.certificates.document')} options={documents} value={certificate?.document_id} />
+          <MediaPicker name="imageId" label={t('corporate.certificates.image')} options={images} value={certificate?.image_id} folder="certificates" />
+          <MediaPicker name="documentId" label={t('corporate.certificates.document')} options={documents} value={certificate?.document_id} folder="certificates" kind="document" />
         </div>
       </FormSection>
       <PublishFields withSlug={false} state={state} value={publishValue(certificate)} />

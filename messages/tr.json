@@ -170,7 +170,8 @@
       "steelProfiles": "Çelik Profiller",
       "configurations": "Konfigüratör Gönderimleri",
       "configuratorRules": "Konfigüratör Kuralları",
-      "fieldVideos": "Sahadan Videolar"
+      "fieldVideos": "Sahadan Videolar",
+      "socialLinks": "Sosyal Medya"
     },
     "common": {
       "save": "Kaydet",
@@ -264,11 +265,11 @@
       "address": "Adres",
       "mapUrl": "Harita bağlantısı",
       "workingHours": "Çalışma saatleri",
-      "social": "Sosyal medya (her satır: platform | URL)",
       "logo": "Logo",
       "logoDark": "Koyu zemin logosu",
       "noLogo": "Logo seçilmedi (kademe ikonu kullanılır)",
-      "seoDescription": "Varsayılan meta açıklama"
+      "seoDescription": "Varsayılan meta açıklama",
+      "socialMoved": "Sosyal medya bağlantıları ayrı sayfada yönetilir:"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -308,7 +309,19 @@
       "size": "Boyut",
       "dimensions": "Ölçü",
       "deleteFile": "Dosyayı sil",
-      "copyUrl": "URL"
+      "copyUrl": "URL",
+      "pickUpload": "Dosya yükle",
+      "uploading": "Yükleniyor…",
+      "pickHint": "Kütüphaneden seçin ya da yeni dosya yükleyin; dosya media/{folder} klasörüne gider ve kayıt otomatik bağlanır.",
+      "uploadErrors": {
+        "forbidden": "Bu işlem için yetkiniz yok.",
+        "validation": "Dosya seçilmedi.",
+        "notConfigured": "Depolama yapılandırılmamış.",
+        "fileSize": "Dosya çok büyük (en çok 25 MB).",
+        "fileType": "Desteklenmeyen dosya türü.",
+        "fileMagic": "Dosya içeriği uzantısıyla uyuşmuyor.",
+        "unexpected": "Yükleme başarısız, yeniden deneyin."
+      }
     },
     "users": {
       "title": "Üyeler ve Roller",
@@ -1457,6 +1470,20 @@
       "active": "Yayında",
       "inactive": "pasif",
       "sortOrder": "Sıra"
+    },
+    "social": {
+      "title": "Sosyal Medya",
+      "lead": "Footer'daki yuvarlak ikon düğmeleri. Adres yazıldığında ikon otomatik tanınır (Instagram, LinkedIn, YouTube, Facebook, X, TikTok, WhatsApp, Pinterest, Threads); tanınmayan adreste genel bağlantı simgesi kullanılır.",
+      "name": "Görünen ad",
+      "url": "Adres (https://…)",
+      "add": "Bağlantı ekle",
+      "remove": "Kaldır",
+      "empty": "Henüz sosyal medya bağlantısı yok.",
+      "genericIcon": "Bu adres için özel ikon yok; genel bağlantı simgesi gösterilir.",
+      "errors": {
+        "validation": "Boş ad ya da geçersiz adres var (https:// ile başlamalı).",
+        "unexpected": "Kaydedilemedi, yeniden deneyin."
+      }
     }
   },
   "Services": {

@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveProject } from '../../actions';
 import type { AdminProject, Choice } from '../../data/adminProjectsRepository';
+import { MediaPicker } from '@/modules/media';
 
 interface Props {
   readonly project: AdminProject | null;
@@ -62,8 +63,8 @@ export function ProjectForm({ project, images, categories, services }: Props) {
       </FormSection>
       <FormSection title={t('projects.media')}>
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="coverImageId" label={t('projects.cover')} options={images} value={project?.cover_image_id} />
-          <MediaSelect name="ogImageId" label={t('projects.ogImage')} options={images} value={project?.og_image_id} />
+          <MediaPicker name="coverImageId" label={t('projects.cover')} options={images} value={project?.cover_image_id} folder="projects" />
+          <MediaPicker name="ogImageId" label={t('projects.ogImage')} options={images} value={project?.og_image_id} folder="projects" />
           <div className="grid gap-1 sm:col-span-2">
             <Label htmlFor="f-gallery">{t('projects.gallery')}</Label>
             <select id="f-gallery" name="gallery" multiple size={8} defaultValue={project?.gallery ? [...project.gallery] : []} className="rounded-md border bg-background px-2 py-1 text-sm">

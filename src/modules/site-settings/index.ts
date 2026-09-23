@@ -26,3 +26,4 @@ export async function hiddenMenuPaths(): Promise<ReadonlySet<string>> {
 export { SettingsForm } from './components/admin/SettingsForm';
 export { ModulesForm } from './components/admin/ModulesForm';
 export { CookieBannerForm, MaintenanceForm, SeoSettingsForm } from './components/admin/ExtraSettingsForms';
+export { SocialLinksForm } from './components/admin/SocialLinksForm';

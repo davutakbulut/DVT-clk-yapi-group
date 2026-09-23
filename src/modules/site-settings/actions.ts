@@ -7,7 +7,6 @@ import { CACHE_TAGS } from '@/core/cache/tags';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
-import { parseSocialLines } from './domain/social';
 
 const MODULE = 'site-settings';
 const MANAGERS = ['super_admin', 'admin'] as const;
@@ -25,7 +24,6 @@ const schema = z.object({
   mapUrl: z.string().trim().url().optional().or(z.literal('')),
   hoursTr: optional,
   hoursEn: optional,
-  social: z.string().max(4000).optional().or(z.literal('')),
   logoMediaId: z.string().uuid().optional().or(z.literal('')),
   logoDarkMediaId: z.string().uuid().optional().or(z.literal('')),
   seoTr: optional,
@@ -60,7 +58,6 @@ export async function saveSettings(_prev: ActionState, formData: FormData): Prom
     'contact.address': localized(v.addressTr, v.addressEn),
     'contact.map_url': v.mapUrl || '',
     'contact.working_hours': localized(v.hoursTr, v.hoursEn),
-    'social.links': parseSocialLines(v.social ?? ''),
     'seo.default_description': localized(v.seoTr, v.seoEn),
   };
   // Anahtar başına update (upsert değil): is_public/description referans verisinde kalır, yalnız değer değişir.
@@ -147,4 +144,32 @@ export async function triggerIndexNow(): Promise<void> {
   const result = await submitIndexNow(client.data);
   if (!result.ok) logger.warn('IndexNow gonderimi basarisiz', { module: MODULE, code: result.error.code, message: result.error.message });
   revalidatePath('/admin/settings/seo');
+}
+
+/** Sosyal medya bağlantıları (/admin/settings/social): satırlar platform_i / url_i; boş satır atlanır, geçersiz URL alan hatası. */
+export async function saveSocialLinks(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(MANAGERS);
+  if (!gate.ok) return failed('forbidden');
+  const count = Math.min(30, Math.max(0, Number(formData.get('count') ?? 0) || 0));
+  const links: { platform: string; url: string }[] = [];
+  const fieldErrors: Record<string, string> = {};
+  for (let i = 0; i < count; i += 1) {
+    const platform = String(formData.get(`platform_${i}`) ?? '').trim();
+    const url = String(formData.get(`url_${i}`) ?? '').trim();
+    if (!platform && !url) continue;
+    if (!platform || platform.length > 40) fieldErrors[`platform_${i}`] = 'validation';
+    if (!/^https:\/\/[^\s]+$/.test(url)) fieldErrors[`url_${i}`] = 'validation';
+    links.push({ platform, url });
+  }
+  if (Object.keys(fieldErrors).length) return failed('validation', fieldErrors);
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  const { error } = await client.data.from('site_settings').update({ value: links as never, updated_by: gate.data.id }).eq('key', 'social.links');
+  if (error) {
+    logger.error('Sosyal bağlantılar kaydedilemedi', { module: MODULE, code: error.code });
+    return failed('unexpected');
+  }
+  revalidateTag(CACHE_TAGS.siteSettings);
+  revalidatePath('/', 'layout');
+  return DONE;
 }

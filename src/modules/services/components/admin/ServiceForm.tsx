@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields } from '@/modules/admin-shell';
 import { saveService } from '../../actions';
 import type { AdminService, MediaChoice } from '../../data/adminServicesRepository';
 import { formatSteps } from '../../domain/processSteps';
+import { MediaPicker } from '@/modules/media';
 
 const ICON_KEYS = ['building', 'factory', 'warehouse', 'roof', 'hammer', 'ruler', 'layers', 'wrench'];
 
@@ -56,7 +57,7 @@ export function ServiceForm({ service, images }: Props) {
               ))}
             </select>
           </div>
-          <MediaSelect name="coverImageId" label={t('services.cover')} options={images} value={service?.cover_image_id} />
+          <MediaPicker name="coverImageId" label={t('services.cover')} options={images} value={service?.cover_image_id} folder="services" />
           <div className="grid gap-1 sm:col-span-2">
             <Label htmlFor="f-gallery">{t('services.gallery')}</Label>
             <select id="f-gallery" name="gallery" multiple size={8} defaultValue={service?.gallery ? [...service.gallery] : []} className="rounded-md border bg-background px-2 py-1 text-sm">
@@ -79,7 +80,7 @@ export function ServiceForm({ service, images }: Props) {
         <LocalizedField name="seoDescription" label={t('services.seoDescription')} value={service?.seo_description} state={state} multiline rows={2} />
         <LocalizedField name="focusKeyword" label={t('services.focusKeyword')} value={service?.focus_keyword} state={state} />
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="ogImageId" label={t('services.ogImage')} options={images} value={service?.og_image_id} />
+          <MediaPicker name="ogImageId" label={t('services.ogImage')} options={images} value={service?.og_image_id} folder="services" />
           <div className="grid gap-1">
             <Label htmlFor="f-canonicalUrl">{t('services.canonical')}</Label>
             <Input id="f-canonicalUrl" name="canonicalUrl" type="url" defaultValue={service?.canonical_url ?? ''} aria-invalid={state.fieldErrors?.['canonicalUrl'] ? 'true' : undefined} />

@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FormSection, LocalizedField, MediaSelect, PublishFields } from '@/modules/admin-shell';
+import { ActionMessage, FormSection, LocalizedField, PublishFields } from '@/modules/admin-shell';
 import { saveAbout } from '../../actions';
 import type { AdminAbout, MediaChoice } from '../../data/adminHomeRepository';
+import { MediaPicker } from '@/modules/media';
 
 interface Props {
   readonly about: AdminAbout | null;
@@ -28,7 +29,7 @@ export function AboutForm({ about, images }: Props) {
         <LocalizedField name="title" label={t('pages.title')} value={about?.title} state={state} required />
         <LocalizedField name="body" label={t('pages.body')} value={about?.body} state={state} multiline rows={12} />
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="imageId" label={t('pages.image')} options={images} value={about?.image_id} />
+          <MediaPicker name="imageId" label={t('pages.image')} options={images} value={about?.image_id} folder="pages" />
           <div className="grid gap-1">
             <Label htmlFor="f-stats">{t('pages.stats')}</Label>
             <Textarea id="f-stats" name="stats" rows={4} defaultValue={about?.statsText ?? ''} />

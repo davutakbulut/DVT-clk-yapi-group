@@ -21,7 +21,9 @@ test.describe('çatı', () => {
     const footer = page.getByRole('contentinfo');
     await expect(footer).toBeVisible();
     await expect(footer).toContainText(String(new Date().getFullYear()));
-    await expect(footer.getByRole('link', { name: /tel:|\+90/ })).toHaveCount(0);
+    // Telefon panelden girilmişse gerçek numaradır; yer tutucu desen (555 000 00 00 / 000 000) kabul edilmez
+    const phones = footer.getByRole('link', { name: /\+90/ });
+    for (const text of await phones.allTextContents()) expect(text.replace(/\s/g, '')).not.toMatch(/5550000000|0000000/);
   });
 
   test('WhatsApp: numara yoksa buton YOK; varsa panel açılır ve hazır mesaj anlamlıdır', async ({ page }) => {

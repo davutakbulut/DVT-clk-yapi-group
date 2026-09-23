@@ -38,6 +38,24 @@ export async function uploadMedia(_prev: ActionState, formData: FormData): Promi
   return DONE;
 }
 
+export type InlineUploadResult = { readonly ok: true; readonly id: string; readonly path: string; readonly mime: string } | { readonly ok: false; readonly error: 'forbidden' | 'validation' | 'notConfigured' | 'fileSize' | 'fileType' | 'fileMagic' | 'unexpected' };
+
+/** Form içi yükleme (MediaPicker, K-85): sonuç yönlendirme değil veri döner; aynı boru hattı ve RLS. */
+export async function uploadMediaInline(formData: FormData): Promise<InlineUploadResult> {
+  const gate = await requireRole(EDITORS);
+  if (!gate.ok) return { ok: false, error: 'forbidden' };
+  const file = formData.get('file');
+  if (!(file instanceof File) || file.size === 0) return { ok: false, error: 'validation' };
+  const folder = z.string().trim().min(1).max(60).safeParse(formData.get('folder'));
+  if (!folder.success) return { ok: false, error: 'validation' };
+  const client = await createServerClient();
+  if (!client.ok) return { ok: false, error: 'notConfigured' };
+  const result = await processUpload(client.data, { bytes: Buffer.from(await file.arrayBuffer()), declaredMime: file.type, originalName: file.name, folder: folder.data, altTr: '', altEn: '', uploadedBy: gate.data.id });
+  if (!result.ok) return { ok: false, error: result.error };
+  revalidateTag(CACHE_TAGS.media);
+  return { ok: true, id: result.data.id, path: result.data.path, mime: file.type.startsWith('image/') ? 'image/webp' : file.type };
+}
+
 export async function updateMediaAlt(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const gate = await requireRole(EDITORS);
   if (!gate.ok) return failed('forbidden');

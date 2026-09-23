@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { savePost } from '../../actions';
 import type { AdminPost, Choice } from '../../data/adminBlogRepository';
 import { SeoPanel } from './SeoPanel';
+import { MediaPicker } from '@/modules/media';
 
 interface Props {
   readonly post: AdminPost | null;
@@ -74,8 +75,8 @@ export function PostForm({ post, images, categories, tags, authors, otherKeyword
         </FormSection>
         <FormSection title={t('blog.media')}>
           <div className="grid gap-3 sm:grid-cols-2">
-            <MediaSelect name="coverImageId" label={t('blog.cover')} options={images} value={post?.cover_image_id} />
-            <MediaSelect name="ogImageId" label={t('blog.ogImage')} options={images} value={post?.og_image_id} />
+            <MediaPicker name="coverImageId" label={t('blog.cover')} options={images} value={post?.cover_image_id} folder="blog" />
+            <MediaPicker name="ogImageId" label={t('blog.ogImage')} options={images} value={post?.og_image_id} folder="blog" />
             <div className="grid gap-1">
               <Label htmlFor="f-publishedAt">{t('blog.publishedAt')}</Label>
               <Input id="f-publishedAt" name="publishedAt" type="datetime-local" defaultValue={toLocalInput(post?.published_at ?? null)} aria-invalid={state.fieldErrors?.['publishedAt'] ? 'true' : undefined} />

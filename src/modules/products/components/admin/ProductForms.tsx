@@ -7,10 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveProduct, saveProductCategory } from '../../actions';
 import type { AdminProduct, AdminProductCategory, Choice } from '../../data/adminProductsRepository';
 import { formatSpecs, formatVariants } from '../../domain/productLines';
+import { MediaPicker } from '@/modules/media';
 
 const DOC_TYPES = ['datasheet', 'certificate', 'installation_guide', 'other'] as const;
 
@@ -65,8 +66,8 @@ export function ProductForm({ product, images, documents, categories, services }
       </FormSection>
       <FormSection title={t('products.media')}>
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="coverImageId" label={t('products.cover')} options={images} value={product?.cover_image_id} />
-          <MediaSelect name="ogImageId" label={t('products.ogImage')} options={images} value={product?.og_image_id} />
+          <MediaPicker name="coverImageId" label={t('products.cover')} options={images} value={product?.cover_image_id} folder="products" />
+          <MediaPicker name="ogImageId" label={t('products.ogImage')} options={images} value={product?.og_image_id} folder="products" />
           <div className="grid gap-1 sm:col-span-2">
             <Label htmlFor="f-gallery">{t('products.gallery')}</Label>
             <select id="f-gallery" name="gallery" multiple size={6} defaultValue={product?.gallery ? [...product.gallery] : []} className="rounded-md border bg-background px-2 py-1 text-sm">
@@ -87,7 +88,7 @@ export function ProductForm({ product, images, documents, categories, services }
         <div className="grid gap-3">
           {docRows.map((doc, i) => (
             <div key={i} className="grid gap-2 sm:grid-cols-[2fr_2fr_2fr_1fr]">
-              <MediaSelect name={`docMedia_${i}`} label={`${t('products.docMedia')} ${i + 1}`} options={documents} value={doc?.media_id} />
+              <MediaPicker name={`docMedia_${i}`} label={`${t('products.docMedia')} ${i + 1}`} options={documents} value={doc?.media_id} folder="documents" kind="document" />
               <div className="grid gap-1">
                 <Label htmlFor={`f-docTitleTr_${i}`}>{t('products.docTitle')} (TR)</Label>
                 <Input id={`f-docTitleTr_${i}`} name={`docTitleTr_${i}`} defaultValue={doc?.title['tr'] ?? ''} />
@@ -158,7 +159,7 @@ export function ProductCategoryForm({ category, categories, images }: { readonly
           </select>
           <FieldError state={state} name="parentId" />
         </div>
-        <MediaSelect name="imageId" label={t('productCategories.image')} options={images} value={category?.image_id} />
+        <MediaPicker name="imageId" label={t('productCategories.image')} options={images} value={category?.image_id} folder="products" />
         <div className="grid gap-1">
           <Label htmlFor={`c-${k}-slugTr`}>{t('form.slugTr')}</Label>
           <Input id={`c-${k}-slugTr`} name="slugTr" defaultValue={category?.slug['tr'] ?? ''} placeholder={t('form.slugAuto')} />

@@ -321,6 +321,18 @@
     text-transform: uppercase;
   }
 
+  /* Sosyal medya: yuvarlak ikon düğmeleri (04-DESIGN-RULES §3) — çizgi, koyu zemin; hover'da çelik mavisi dolgu */
+  .social-links { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+  .social-link {
+    display: inline-grid; place-items: center; width: 40px; height: 40px;
+    border: 1px solid var(--color-border-dark); border-radius: var(--radius-full);
+    color: var(--color-text-inverse); background: transparent;
+    transition: background-color var(--dur-fast), border-color var(--dur-fast), color var(--dur-fast), transform var(--dur-fast) var(--ease-out);
+  }
+  .social-link:hover, .social-link:focus-visible { background: var(--color-accent); border-color: var(--color-accent); color: var(--ink); transform: translateY(-2px); }
+  .site-footer .social-link:hover { color: var(--ink); }
+  @media (prefers-reduced-motion: reduce) { .social-link { transition: none; } .social-link:hover { transform: none; } }
+
   /* ── Yüzen WhatsApp: kapalıyken koyu etiket + nabız halkalı yeşil düğme; açıkken kart panel (degrade başlık, karşılama
      balonu, iletişim kartı, büyük CTA). Nabız düğmenin KENDİSİNDE değil ::before halkasında → düğme kutusu sabit kalır. */
   .wa-fab {

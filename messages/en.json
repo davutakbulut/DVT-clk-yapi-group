@@ -170,7 +170,8 @@
       "steelProfiles": "Steel Profiles",
       "configurations": "Configurator Submissions",
       "configuratorRules": "Configurator Rules",
-      "fieldVideos": "Field Videos"
+      "fieldVideos": "Field Videos",
+      "socialLinks": "Social Media"
     },
     "common": {
       "save": "Save",
@@ -264,11 +265,11 @@
       "address": "Address",
       "mapUrl": "Map link",
       "workingHours": "Working hours",
-      "social": "Social links (one per line: platform | URL)",
       "logo": "Logo",
       "logoDark": "Logo on dark",
       "noLogo": "No logo selected (brand mark is used)",
-      "seoDescription": "Default meta description"
+      "seoDescription": "Default meta description",
+      "socialMoved": "Social links are managed on their own page:"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -308,7 +309,19 @@
       "size": "Size",
       "dimensions": "Dimensions",
       "deleteFile": "Delete file",
-      "copyUrl": "URL"
+      "copyUrl": "URL",
+      "pickUpload": "Upload file",
+      "uploading": "Uploading…",
+      "pickHint": "Pick from the library or upload a new file; it is stored under media/{folder} and linked automatically.",
+      "uploadErrors": {
+        "forbidden": "You are not allowed to do this.",
+        "validation": "No file selected.",
+        "notConfigured": "Storage is not configured.",
+        "fileSize": "File too large (max 25 MB).",
+        "fileType": "Unsupported file type.",
+        "fileMagic": "File content does not match its extension.",
+        "unexpected": "Upload failed, try again."
+      }
     },
     "users": {
       "title": "Users & Roles",
@@ -1457,6 +1470,20 @@
       "active": "Published",
       "inactive": "inactive",
       "sortOrder": "Order"
+    },
+    "social": {
+      "title": "Social Media",
+      "lead": "The round icon buttons in the footer. The icon is detected from the URL (Instagram, LinkedIn, YouTube, Facebook, X, TikTok, WhatsApp, Pinterest, Threads); unknown addresses get a generic link icon.",
+      "name": "Display name",
+      "url": "Address (https://…)",
+      "add": "Add link",
+      "remove": "Remove",
+      "empty": "No social links yet.",
+      "genericIcon": "No specific icon for this address; a generic link icon is shown.",
+      "errors": {
+        "validation": "Empty name or invalid address (must start with https://).",
+        "unexpected": "Could not save, try again."
+      }
     }
   },
   "Services": {

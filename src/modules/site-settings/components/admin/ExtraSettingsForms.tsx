@@ -7,9 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FormSection, MediaSelect, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FormSection, type MediaOption } from '@/modules/admin-shell';
 import { saveCookieBanner, saveMaintenance, saveSeoSettings } from '../../actions';
 import type { CookieBannerText, PublicSettings } from '../../domain/settings';
+import { MediaPicker } from '@/modules/media';
 
 export function SeoSettingsForm({ settings, images, indexable }: { readonly settings: PublicSettings; readonly images: readonly MediaOption[]; readonly indexable: boolean }) {
   const t = useTranslations('Admin');
@@ -26,7 +27,7 @@ export function SeoSettingsForm({ settings, images, indexable }: { readonly sett
       </FormSection>
       <FormSection title={t('seoSettings.title')}>
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="ogMediaId" label={t('seoSettings.ogImage')} options={images} value={settings.seoOgMediaId} />
+          <MediaPicker name="ogMediaId" label={t('seoSettings.ogImage')} options={images} value={settings.seoOgMediaId} folder="seo" />
           {(['google', 'bing', 'yandex'] as const).map((k) => (
             <div key={k} className="grid gap-1">
               <Label htmlFor={`f-${k}`}>{t(`seoSettings.${k}`)}</Label>

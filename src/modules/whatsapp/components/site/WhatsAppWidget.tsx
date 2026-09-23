@@ -59,7 +59,9 @@ export function WhatsAppWidget({ phone, displayName, greeting, replyTime, messag
   const url = typeof window === 'undefined' ? '' : window.location.href;
   // Kayıtlı şablon anlamsız kısaysa (ör. yanlışlıkla "/") yok sayılır → varsayılan mesaj
   const template = messageTemplate && messageTemplate.trim().length >= 10 ? messageTemplate : null;
-  const message = (template ?? t('defaultMessage', { url: '{{url}}' })).replaceAll('{{url}}', url);
+  // Şablonda {{url}} yoksa sayfa adresi yeni satırda eklenir: firma, ziyaretçinin hangi sayfadan yazdığını görür
+  const base = template ?? t('defaultMessage', { url: '{{url}}' });
+  const message = (base.includes('{{url}}') ? base : `${base}\n${'{{url}}'}`).replaceAll('{{url}}', url);
   const chatHref = whatsappHref(phone, message);
 
   async function copy() {

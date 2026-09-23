@@ -431,6 +431,14 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Karar:** Mutlak adresler `getSiteUrl()`'den. token_hash bağlantıları GET'te doğrulanmaz: küçük bir onay sayfası (düğme) gösterilir, doğrulama POST'ta yapılır. Supabase e-posta şablonları Türkçe ve `{{ .SiteURL }}/auth/callback?token_hash=…` biçiminde (Supabase'in kendi /verify yönlendirmesi yerine).
 **Ek (canlı önbellek):** Passenger çok süreçli → `cacheMaxMemorySize: 0` (yalnız standalone): panelden kaydedilen ayarlar her süreçte anında görünür.
 
+### K-85 · Panelde form içi medya yükleme (MediaPicker); dosyalar Storage'da, kayıt media_library'de
+**Karar:** Görsel/video/belge seçen her panel alanı (`MediaSelect`, 23 alan / 10 form) `MediaPicker`'a geçti: kütüphaneden seç YA DA aynı alandan yükle. Yükleme mevcut boru hattından geçer (WebP varyantları, içerik-hash id, kullanıcı oturumu + RLS); dosya `media/<klasör>/` altına gider (klasör içerik türüne göre: products, projects, blog, hero, team, clients, certificates, seo…), satır `media_library`'ye yazılır, formdaki gizli alan `media_library.id` taşır. Ürün sahibinin "sunucudaki klasöre yüklensin, yolu veritabanına yazılsın" isteği böyle karşılanır: yol `media_library.storage_path`'te, dosya Storage'ta (paylaşımlı hosting diski dağıtımda silinir ve dev/paylaşım ortamlarından erişilemez → uygun değil).
+**Neden:** Görsel eklemek için önce Medya sayfasına gidip sonra formda listeden bulmak iki adımdı; kullanıcı tek adım istedi.
+
+### K-86 · Sosyal medya: footer'da yuvarlak ikon düğmeleri, panelde ikonlu satır yönetimi
+**Karar:** `social.links` ayarı korunur (`{platform,url}[]`). Footer'da `SocialLinks` (yuvarlak 40px çizgi düğme, hover'da çelik mavisi dolgu — 04-DESIGN-RULES §3'ün "yuvarlak yalnız ikon düğmesinde" kuralı). İkon URL'den tanınır (`src/lib/social/socialPlatform.ts`), panel etiketi erişilebilir ad. Panel: Ayarlar → Sosyal Medya (`/admin/settings/social`) — satır ekle/kaldır, ikon anında; genel ayarlardaki "platform | URL" metin alanı kaldırıldı (tek düzenleme yeri). Uydurma hesap adresi yazılmadı; liste ürün sahibi girene dek boş, footer'da bölüm çizilmez.
+**Ek:** WhatsApp şablonunda `{{url}}` yoksa sayfa adresi mesajın sonuna eklenir (firma, ziyaretçinin hangi sayfadan yazdığını görür).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

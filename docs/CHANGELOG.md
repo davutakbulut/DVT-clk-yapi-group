@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — form içi görsel yükleme · sosyal medya yönetimi (K-85, K-86)
+- **MediaPicker:** paneldeki 23 medya alanı artık doğrudan yükleme yapıyor (önizleme, klasör içerik türüne göre, aynı boru hattı ve RLS); Medya sayfası toplu yükleme için duruyor
+- **Sosyal medya:** footer'da yuvarlak ikon düğmeleri (URL'den tanınan 9 platform + genel simge); Ayarlar → Sosyal Medya sayfasında ikonlu ekle/kaldır; genel ayarlardaki metin alanı kaldırıldı
+- **WhatsApp:** şablonda `{{url}}` yoksa sayfa adresi eklenir
+- **Temizlik:** `ui_translations`'daki E2E artığı ("E2E İletişim …" footer başlığı) silindi; purge betiği bu tabloyu da kapsıyor
+- **Testler:** `socialPlatform` birim, `social-links.spec`, `media-picker.spec`; `chrome.spec` footer testi gerçek telefonu kabul eder (yer tutucu deseni reddeder)
+
 ### Canlıya alındı — clkyapigroup.com (cPanel) · 2026-09-22
 - Site `https://clkyapigroup.com` üzerinde çalışıyor (Node 22, Passenger); Let's Encrypt SSL (dns-01; alan adı + www + mail); ad sunucuları hosting'e çevrildi
 - **Düzeltme (K-83):** başarılı girişte 502 → oturum çerezi `tokens-only`

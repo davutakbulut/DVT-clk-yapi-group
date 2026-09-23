@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveMaterialPrice, savePriceGuide } from '../../actions';
 import type { AdminMaterialPrice, AdminPriceGuide, Choice } from '../../data/adminPricingRepository';
 import { formatPriceRows } from '../../domain/priceLines';
+import { MediaPicker } from '@/modules/media';
 
 const UNITS = ['ton', 'kg', 'm2', 'm', 'piece'] as const;
 const MATERIAL_UNITS = ['kg', 'ton', 'm2', 'm', 'piece', 'hour'] as const;
@@ -95,7 +96,7 @@ export function PriceGuideForm({ guide, images, services, materials }: GuideProp
         <LocalizedField name="seoDescription" label={t('services.seoDescription')} value={g?.seo_description} state={state} multiline rows={2} />
         <LocalizedField name="focusKeyword" label={t('services.focusKeyword')} value={g?.focus_keyword} state={state} />
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="ogImageId" label={t('services.ogImage')} options={images} value={g?.og_image_id} />
+          <MediaPicker name="ogImageId" label={t('services.ogImage')} options={images} value={g?.og_image_id} folder="pricing" />
           <div className="grid gap-1">
             <Label htmlFor="f-canonicalUrl">{t('services.canonical')}</Label>
             <Input id="f-canonicalUrl" name="canonicalUrl" type="url" defaultValue={g?.canonical_url ?? ''} aria-invalid={state.fieldErrors?.['canonicalUrl'] ? 'true' : undefined} />

@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
-import { ActionMessage, FieldError, FormSection, LocalizedField, MediaSelect, PublishFields, type MediaOption } from '@/modules/admin-shell';
+import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveSolution } from '../../actions';
 import type { AdminSolution, Choice } from '../../data/adminSolutionsRepository';
 import { formatAdvantages, formatComparisonRows } from '../../domain/solutionLines';
+import { MediaPicker } from '@/modules/media';
 
 interface Props {
   readonly solution: AdminSolution | null;
@@ -44,7 +45,7 @@ export function SolutionForm({ solution, images, services }: Props) {
             </select>
             <p className="text-xs text-muted-foreground">{t('solutions.serviceHint')}</p>
           </div>
-          <MediaSelect name="coverImageId" label={t('solutions.cover')} options={images} value={s?.cover_image_id} />
+          <MediaPicker name="coverImageId" label={t('solutions.cover')} options={images} value={s?.cover_image_id} folder="solutions" />
         </div>
       </FormSection>
 
@@ -76,7 +77,7 @@ export function SolutionForm({ solution, images, services }: Props) {
         <LocalizedField name="seoDescription" label={t('services.seoDescription')} value={s?.seo_description} state={state} multiline rows={2} />
         <LocalizedField name="focusKeyword" label={t('services.focusKeyword')} value={s?.focus_keyword} state={state} />
         <div className="grid gap-3 sm:grid-cols-2">
-          <MediaSelect name="ogImageId" label={t('services.ogImage')} options={images} value={s?.og_image_id} />
+          <MediaPicker name="ogImageId" label={t('services.ogImage')} options={images} value={s?.og_image_id} folder="solutions" />
           <div className="grid gap-1">
             <Label htmlFor="f-canonicalUrl">{t('services.canonical')}</Label>
             <Input id="f-canonicalUrl" name="canonicalUrl" type="url" defaultValue={s?.canonical_url ?? ''} aria-invalid={state.fieldErrors?.['canonicalUrl'] ? 'true' : undefined} />
