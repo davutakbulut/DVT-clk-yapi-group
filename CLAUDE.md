@@ -36,6 +36,7 @@ Her bölüm `<ModuleBoundary>` içinde. Verisi gelmeyen bölüm **sessizce rende
 Middleware (yalnız deneyim) → sunucu bileşeni rol kontrolü (kapı) → **RLS (gerçek sınır)**.
 Servis katmanında yetki kontrolü **açık ve eksiksiz** yazılır — ileride MSSQL'e geçişte RLS kaybolacak.
 Service-role anahtarı istekle erişilebilen hiçbir yerde kullanılmaz.
+**Kötüye kullanım (K-104):** anonim çağrılabilen her RPC kapı + eşik + boyut denetiminden geçer (`docs/processes/07-ABUSE-RESISTANCE.md` §5 kontrol listesi); IP yalnız `clientIp()` ile; kullanıcı girdisiyle anahtarlanan `unstable_cache` yasak.
 
 ### 5. Adlandırma
 ```

@@ -3,6 +3,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import type { Database } from '@/types/database';
 import { readSupabasePublicEnv } from './publicEnv';
+import { gateHeaders } from './gateHeaders';
 
 export type ServiceDbClient = SupabaseClient<Database>;
 
@@ -16,5 +17,5 @@ export function createServiceClient(): Result<ServiceDbClient> {
   if (!env.ok) return env;
   const secret = process.env['SUPABASE_SECRET_KEY'];
   if (!secret) return err(appError('not_configured', 'SUPABASE_SECRET_KEY yok', { module: 'core/db' }));
-  return ok(createClient<Database>(env.data.url, secret, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } }));
+  return ok(createClient<Database>(env.data.url, secret, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }, global: { headers: gateHeaders() } }));
 }

@@ -1,5 +1,6 @@
 'use server';
 
+import { clientIp as requestIp } from '@/core/request/clientIp';
 import { SIMPLE, SIMPLE_KINDS, SIMPLE_RULE_KEY } from './domain/simple/registry';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -87,8 +88,7 @@ const saveSchema = z.object({
 });
 
 async function clientIp(): Promise<string> {
-  const h = await headers();
-  return (h.get('x-forwarded-for') ?? h.get('x-real-ip') ?? '').split(',')[0]?.trim() ?? '';
+  return requestIp(await headers());
 }
 
 /**

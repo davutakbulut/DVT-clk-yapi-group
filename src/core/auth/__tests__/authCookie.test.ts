@@ -11,8 +11,13 @@ describe('hasAuthCookie', () => {
     expect(hasAuthCookie(['sb-exifnifijxnrxagkqwam-auth-token.0', 'sb-exifnifijxnrxagkqwam-auth-token.1'])).toBe(true);
   });
 
-  it("proje ref'ine sabitlenmez — yerel Supabase'de de çalışır", () => {
+  it("URL tanımsızken ref'e sabitlenmez (yerel Supabase); tanımlıyken YALNIZ kendi ref'i sayılır (K-104)", () => {
+    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
     expect(hasAuthCookie(['sb-127-auth-token'])).toBe(true);
+    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://exifnifijxnrxagkqwam.supabase.co';
+    expect(hasAuthCookie(['sb-127-auth-token'])).toBe(false);
+    expect(hasAuthCookie(['sb-exifnifijxnrxagkqwam-auth-token.1'])).toBe(true);
+    delete process.env.NEXT_PUBLIC_SUPABASE_URL;
   });
 
   it.each([

@@ -7,7 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
-_(henüz yok)_
+### Güvenlik — kötüye kullanım / aşırı yük sertleştirmesi (K-104)
+- RPC kapısı (`x-clk-gate`) + veritabanı içi eşik + boyut sınırları: yazma RPC'leri anon anahtarla doğrudan çağrılamaz (0052, `_impl` sarmalayıcıları); yeni fonksiyonlar varsayılan kapalı
+- Güvenilir istemci IP'si (`clientIp`, X-Forwarded-For sondan) — sahte başlıkla hız sınırı aşımı kapandı; sınırlayıcı sertleştirildi (özet anahtar, üst sınır, Upstash hatasında süreç içi)
+- Gövde/şema sınırları (analytics 64 KB, errors/csp 16 KB, payload ≤ 1 KB, context ≤ 2 KB), e2e atlaması yalnız üretim dışı, Auth/hesap/yorum eylemlerinde hız sınırı, oturum çerezi proje ref'ine sabit, arama LRU (diske sınırsız önbellek yok), `cached()` hata saklamaz, slug deseni DB'den önce, kategori/etiket `dynamicParams=false`, `/_next/image` kapalı, izleyici 30 sn, cron sırrı sabit zamanlı, bakımda 90 günlük temizlik
+- Doküman: `docs/processes/07-ABUSE-RESISTANCE.md`; sonda: `scripts/abuse-probe.sh`; kurulum: `scripts/set-rpc-gate.mjs`, `scripts/cpanel-secret-set.sh`; testler: `supabase/tests/abuse.test.ts`, `clientIp.test.ts`
 
 ## [0.5.0] — 2026-09-24
 

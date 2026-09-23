@@ -11,7 +11,7 @@ export const errorReportSchema = z.object({
   path: z.string().max(500).optional(),
   status_code: z.number().int().min(100).max(599).optional(),
   visitor: z.string().max(64).optional(),
-  context: z.record(z.string(), z.unknown()).default({}),
+  context: z.record(z.string().max(60), z.unknown()).refine((v) => JSON.stringify(v).length <= 2048, 'context').default({}), // K-104: <= 2 KB
 });
 export type ErrorReport = z.infer<typeof errorReportSchema>;
 
@@ -20,7 +20,7 @@ export function cspReportToError(body: unknown): ErrorReport | null {
   const b = body as { 'csp-report'?: Record<string, unknown> } | Record<string, unknown>[] | null;
   const r = Array.isArray(b) ? (b[0] as { body?: Record<string, unknown> } | undefined)?.body : (b as { 'csp-report'?: Record<string, unknown> } | null)?.['csp-report'];
   if (!r || typeof r !== 'object') return null;
-  const directive = String(r['violated-directive'] ?? r['effectiveDirective'] ?? r['effective-directive'] ?? '?');
+  const directive = String(r['violated-directive'] ?? r['effectiveDirective'] ?? r['effective-directive'] ?? '?').slice(0, 200);
   const blocked = String(r['blocked-uri'] ?? r['blockedURL'] ?? '?').slice(0, 200);
   const doc = String(r['document-uri'] ?? r['documentURL'] ?? '');
   let path: string | undefined;

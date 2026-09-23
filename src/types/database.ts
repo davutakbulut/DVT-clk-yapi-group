@@ -5350,6 +5350,10 @@ export type Database = {
         Args: { p_body: string; p_kind: string; p_lead_id: string }
         Returns: string
       }
+      customer_lead_message_impl: {
+        Args: { p_body: string; p_kind: string; p_lead_id: string }
+        Returns: string
+      }
       delete_my_account: { Args: never; Returns: undefined }
       enqueue_test_email: {
         Args: { p_locale: string; p_template_key: string }
@@ -5386,6 +5390,7 @@ export type Database = {
         Returns: Json
       }
       ingest_analytics: { Args: { p: Json }; Returns: Json }
+      ingest_analytics_impl: { Args: { p: Json }; Returns: Json }
       mark_notifications_read: { Args: { p_ids: string[] }; Returns: number }
       purge_expired_job_applications: {
         Args: never
@@ -5397,6 +5402,7 @@ export type Database = {
       purge_old_analytics: { Args: { p_keep_days?: number }; Returns: number }
       recalc_sale_payments: { Args: { p_sale_id: string }; Returns: undefined }
       record_redirect_hit: { Args: { p_path: string }; Returns: undefined }
+      record_redirect_hit_impl: { Args: { p_path: string }; Returns: undefined }
       reorder_content: {
         Args: { p_ids: string[]; p_table: string }
         Returns: number
@@ -5407,12 +5413,26 @@ export type Database = {
         Returns: string
       }
       report_error: { Args: { p: Json }; Returns: Json }
+      report_error_impl: { Args: { p: Json }; Returns: Json }
       resolve_old_slug: {
         Args: { p_entity_type: string; p_locale: string; p_old_slug: string }
         Returns: string
       }
+      rpc_gate_ok: { Args: never; Returns: boolean }
       save_configuration: { Args: { p: Json }; Returns: Json }
+      save_configuration_impl: { Args: { p: Json }; Returns: Json }
       search_site: {
+        Args: { p_limit?: number; p_locale: string; p_q: string }
+        Returns: {
+          field: string
+          kind: string
+          rank: number
+          slug: string
+          snippet: string
+          title: string
+        }[]
+      }
+      search_site_impl: {
         Args: { p_limit?: number; p_locale: string; p_q: string }
         Returns: {
           field: string
@@ -5427,9 +5447,17 @@ export type Database = {
         Args: { p_share_price: boolean; p_token: string }
         Returns: boolean
       }
+      set_configuration_sharing_impl: {
+        Args: { p_share_price: boolean; p_token: string }
+        Returns: boolean
+      }
+      set_rpc_gate: { Args: { p_secret: string }; Returns: undefined }
       submit_job_application: { Args: { p: Json }; Returns: Json }
+      submit_job_application_impl: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }
+      submit_lead_impl: { Args: { p: Json }; Returns: Json }
       submit_testimonial: { Args: { p: Json }; Returns: Json }
+      submit_testimonial_impl: { Args: { p: Json }; Returns: Json }
       upsert_my_customer: { Args: { p: Json }; Returns: string }
       web_vitals_summary: {
         Args: { p_from: string; p_to: string }

@@ -50,7 +50,7 @@ export async function matchRedirect(request: NextRequest, event: NextFetchEvent)
   if (rules.size === 0) return null;
   const rule = rules.get(normalize(pathname));
   if (!rule) return null;
-  event.waitUntil(fetch(`${origin}/api/redirects/hit`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ path: rule.source }) }).catch(() => undefined));
+  event.waitUntil(fetch(`${origin}/api/redirects/hit`, { method: 'POST', headers: { 'content-type': 'application/json', ...(process.env['RPC_GATE_SECRET'] ? { 'x-clk-gate': process.env['RPC_GATE_SECRET'] } : {}) }, body: JSON.stringify({ path: rule.source }) }).catch(() => undefined));
   if (rule.status === 410 || !rule.target) return new NextResponse(null, { status: 410 });
   const target = /^https?:\/\//.test(rule.target) ? new URL(rule.target) : new URL(`${rule.target}${rule.target.includes('?') ? '' : search}`, origin);
   return NextResponse.redirect(target, rule.status);

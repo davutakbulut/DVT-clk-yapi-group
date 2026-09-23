@@ -1,3 +1,4 @@
+import { clientIp } from '@/core/request/clientIp';
 import { NextResponse } from 'next/server';
 import { rateLimit } from '@/core/rate-limit';
 import { routing } from '@/i18n/routing';
@@ -15,7 +16,7 @@ export async function GET(request: Request): Promise<NextResponse> {
   const q = normalizeQuery(url.searchParams.get('q'));
   const locale = routing.locales.includes(url.searchParams.get('locale') as 'tr') ? (url.searchParams.get('locale') as string) : routing.defaultLocale;
   if (!q) return NextResponse.json({ hits: [] }, { headers: { 'Cache-Control': 'public, max-age=60' } });
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local';
+  const ip = clientIp(request.headers);
   const rl = await rateLimit(`search:${ip}`, 60, 60);
   if (!rl.allowed) return NextResponse.json({ hits: [], error: 'rate_limited' }, { status: 429, headers: { 'Retry-After': '60' } });
   const result = await getCachedSearch(locale, q, 20);

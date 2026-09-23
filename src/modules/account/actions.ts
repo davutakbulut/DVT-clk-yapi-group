@@ -10,6 +10,7 @@ import { getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { fieldErrorsFrom, type AuthFormState } from '@/modules/auth';
 import { DELETE_CONFIRM_WORDS, MESSAGE_KINDS } from './domain/types';
+import { rateLimit } from '@/core/rate-limit';
 
 const MODULE = 'account';
 const text = (max: number) => z.string().trim().max(max).optional().or(z.literal(''));
@@ -18,6 +19,9 @@ const text = (max: number) => z.string().trim().max(max).optional().or(z.literal
 export async function sendLeadMessage(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = z.object({ leadId: z.string().uuid(), kind: z.enum(MESSAGE_KINDS), body: z.string().trim().min(3, 'validation').max(4000) }).safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
+  const me = await getCurrentUser();
+  if (!me) return { ok: false, error: 'sessionExpired' };
+  if (!(await rateLimit(`clm:${me.id}`, 5, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104 (DB'de de aynı eşik)
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
   const { error } = await client.data.rpc('customer_lead_message', { p_lead_id: parsed.data.leadId, p_kind: parsed.data.kind, p_body: parsed.data.body });
@@ -47,6 +51,7 @@ export async function changePassword(_prev: AuthFormState, formData: FormData): 
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: 'sessionExpired' };
+  if (!(await rateLimit(`pw:${user.id}`, 5, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
   const check = await client.data.auth.signInWithPassword({ email: user.email, password: parsed.data.current });
@@ -61,6 +66,7 @@ export async function changeEmail(_prev: AuthFormState, formData: FormData): Pro
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: 'sessionExpired' };
+  if (!(await rateLimit(`email:${user.id}`, 3, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: iki adrese onay maili
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
   const check = await client.data.auth.signInWithPassword({ email: user.email, password: parsed.data.current });

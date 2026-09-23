@@ -514,3 +514,16 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - KVKK taşınabilirlik: `/api/account/export` üyenin kendi satırlarını (RLS) JSON indirir.
 
 **Sonuç:** migration 0051; PGlite `account.test.ts`; E2E `account.spec.ts` (kapı, profil kalıcılığı, talep → revizyon isteği → admin rozeti, sepet, güvenlik, dışa aktarım). Plan dokümanı `docs/modules/ACCOUNT-PLAN.md` (uygulandı).
+
+### K-104 · Kötüye kullanım / aşırı yük sertleştirmesi: RPC kapısı + veritabanı içi eşik + güvenilir IP
+
+**Bağlam:** Ürün sahibi "birileri çok istek atıp veritabanımı/sunucumu yorabilir mi?" diye sordu. 2026-09-24'te üç paralel inceleme (API rotaları, server action + RPC'ler, sayfa maliyeti/önbellek) şunları buldu: (1) yazma RPC'leri (`submit_lead`, `ingest_analytics`, `report_error`, `save_configuration`…) herkese açık anon anahtarla **doğrudan** çağrılabiliyor, uygulamadaki hız sınırı/bal küpü/doğrulama atlanıyordu; `submit_lead` her çağrıda istenen adrese e-posta kuyruklayabiliyordu. (2) Hız sınırı anahtarı `X-Forwarded-For`'un **ilk** değerinden alınıyordu; canlıda her istekte farklı başlıkla 65 istek atıldı, 429 gelmedi. (3) Arama ve detay sayfaları kullanıcı girdisiyle anahtarlanan `unstable_cache` ile diske sınırsız dosya yazıyordu. (4) Rastgele `sb-*-auth-token` çerezi her isteği Supabase Auth'a gönderiyordu (ortak IP kotası). (5) Analitik/hata uçları 10 MB gövdeyi okuyor, e2e bayrağı onay ve bot süzgecini atlatıyordu.
+
+**Karar:**
+- **RPC kapısı:** sunucu istemcileri `x-clk-gate` gizli başlığını gönderir; DB'de `rpc_gate_ok()` doğrular. Yazma RPC'leri `<ad>_impl` olarak yeniden adlandırıldı (yetkisiz), aynı imzalı sarmalayıcılar kapı + `app_private.throttle` + `pg_column_size` denetiminden sonra impl'i çağırır → uygulama kodu değişmeden anon anahtarla doğrudan çağrı kapandı. Kapı yapılandırılmamışken açık (kurulum sırası: önce sunucu sırrı, sonra DB). service_role muaf.
+- **Varsayılan kapalı:** `alter default privileges … revoke execute on functions from anon, authenticated`; grant açıkça yazılır. Test izin listesi (`abuse.test.ts`) yazma fonksiyonlarını denetler.
+- **Güvenilir IP:** tek `clientIp()` (X-Forwarded-For'un sondan `TRUSTED_PROXY_HOPS` adresi; IPv6 /64). Tüm hız sınırı anahtarları ve `ip_masked` buradan.
+- **Sınırlayıcı:** özetlenmiş anahtar, sert üst sınır, zamanlayıcıyla süpürme; Upstash hatasında süreç içi sayaca düşer (açık kalmaz).
+- **Gövde/şema sınırları**, e2e atlaması yalnız üretim dışı, Auth/hesap/yorum eylemlerinde hız sınırı, çerez adı proje ref'ine sabit, arama LRU, `cached()` hata sonucu saklamaz, slug deseni DB'den önce, kategori/etiket `dynamicParams=false`, görsel eniyileyici kapalı, izleyici 30 sn/boş paket yok, cron sırrı sabit zamanlı, bakımda 90 günlük temizlik, tablo boyut CHECK'leri.
+
+**Sonuç / bedel:** migration 0052; `docs/processes/07-ABUSE-RESISTANCE.md` (tehdit modeli, katmanlar, envanter, açık maddeler, kontrol listesi); `scripts/abuse-probe.sh` canlı sonda; `scripts/set-rpc-gate.mjs` + `scripts/cpanel-secret-set.sh`. Açık: geçerli desenli rastgele slug'ların ISR 404 disk girişi, Supabase Auth CAPTCHA (panel ayarı), süreç başına sayaç (Upstash ile çözülür).

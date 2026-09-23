@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { ok, type Result } from '@/core/errors/result';
 import type { Database } from '@/types/database';
 import { readSupabasePublicEnv } from './publicEnv';
+import { gateHeaders } from './gateHeaders';
 
 export type ServerDbClient = SupabaseClient<Database>;
 
@@ -19,6 +20,7 @@ export async function createServerClient(): Promise<Result<ServerDbClient>> {
   const store = await cookies();
   return ok(
     createSsrClient<Database>(env.data.url, env.data.anonKey, {
+      global: { headers: gateHeaders() }, // K-104 RPC kapısı
       cookies: {
         // K-83: çerezde yalnız jetonlar (kullanıcı nesnesi yok) → oturum çerezi ~%60 küçülür. Paylaşımlı hosting'in ön vekili büyük
         // Set-Cookie başlığında 502 veriyordu. Güvenli: uygulama hiçbir yerde session.user'a güvenmez, hep getUser() ile doğrular (K-14).

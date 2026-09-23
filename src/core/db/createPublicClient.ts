@@ -2,6 +2,7 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Result } from '@/core/errors/result';
 import type { Database } from '@/types/database';
 import { readSupabasePublicEnv } from './publicEnv';
+import { gateHeaders } from './gateHeaders';
 
 export type PublicDbClient = SupabaseClient<Database>;
 
@@ -17,6 +18,7 @@ export function createPublicClient(): Result<PublicDbClient> {
     ok: true,
     data: createClient<Database>(env.data.url, env.data.anonKey, {
       auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+      global: { headers: gateHeaders() }, // K-104 RPC kapısı
     }),
   };
 }

@@ -1,5 +1,6 @@
 'use server';
 
+import { clientIp } from '@/core/request/clientIp';
 import { headers } from 'next/headers';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
@@ -40,8 +41,7 @@ const visitorSchema = z.object({
 });
 
 async function maskedIp(): Promise<string> {
-  const h = await headers();
-  const raw = (h.get('x-forwarded-for') ?? '').split(',')[0]?.trim() ?? '';
+  const raw = clientIp(await headers());
   if (!raw) return '';
   return raw.includes(':') ? raw.split(':').slice(0, 4).join(':') + '::' : raw.split('.').slice(0, 3).join('.') + '.0';
 }

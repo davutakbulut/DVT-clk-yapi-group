@@ -23,7 +23,7 @@ mkdir -p deploy; OUT=deploy/secrets.env; umask 177
   echo "SMTP_PORT=465"
   echo "SMTP_USER=$MAILBOX"
   [ -n "$SMTP_PASS" ] && echo "SMTP_PASSWORD=$SMTP_PASS"
-  for k in GOOGLE_PLACES_API_KEY GOOGLE_PLACE_ID INDEXNOW_KEY RESEND_API_KEY UPSTASH_REDIS_REST_URL UPSTASH_REDIS_REST_TOKEN; do v="$(get $k)"; [ -n "$v" ] && echo "$k=$v"; done
+  for k in GOOGLE_PLACES_API_KEY GOOGLE_PLACE_ID INDEXNOW_KEY RESEND_API_KEY UPSTASH_REDIS_REST_URL UPSTASH_REDIS_REST_TOKEN RPC_GATE_SECRET TRUSTED_PROXY_HOPS; do v="$(get $k)"; [ -n "$v" ] && echo "$k=$v"; done
 } > "$OUT"
 echo "Hazır: $OUT ($(wc -l < "$OUT" | tr -d ' ') satır; değerler gösterilmedi)"
 echo "Yükle: cPanel → Dosya Yöneticisi → /home/KULLANICI/clk-site/ içine → sonra Setup Node.js App → Restart"

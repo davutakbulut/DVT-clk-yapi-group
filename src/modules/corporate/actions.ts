@@ -1,5 +1,6 @@
 'use server';
 
+import { clientIp } from '@/core/request/clientIp';
 import { randomUUID } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
@@ -334,8 +335,7 @@ export async function submitApplication(_prev: ActionState, formData: FormData):
     return failed('validation', issues(parsed.error));
   }
   const v = parsed.data;
-  const h = await headers();
-  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0]?.trim() ?? '';
+  const ip = clientIp(await headers());
   const limit = await rateLimit(`application:${ip || 'unknown'}`, 3, 3600);
   if (!limit.allowed) return failed('rateLimited');
   const client = await createServerClient();

@@ -1,3 +1,4 @@
+import { cache as reactCache } from 'react';
 import { cached } from '@/core/cache/cached';
 import { CACHE_TAGS } from '@/core/cache/tags';
 import { createPublicClient } from '@/core/db/createPublicClient';
@@ -27,4 +28,4 @@ async function fetchMenus(): Promise<Result<MenuRows>> {
   return ok(rows);
 }
 
-export const getCachedMenus = cached(fetchMenus, ['navigation', 'menus'], { tags: [CACHE_TAGS.menus] });
+export const getCachedMenus = reactCache(cached(fetchMenus, ['navigation', 'menus'], { tags: [CACHE_TAGS.menus] })); // K-104: istek içinde tekil

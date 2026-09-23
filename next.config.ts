@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
   // Passenger birden çok süreç açar: bellek içi önbellek süreç başına ayrı → panelden kaydedilen ayar bir süreçte düşer, diğerinde 1 saat
   // eski kalır. Bellek içi önbellek kapalı (0) → tek kaynak diskteki paylaşımlı önbellek (.next-cpanel/cache), etiket düşürme her süreçte geçer.
   ...(process.env.NEXT_OUTPUT === 'standalone' ? { cacheMaxMemorySize: 0 } : {}),
+  images: { unoptimized: true }, // K-104: next/image kullanılmıyor; /_next/image uç noktası kapalı (rastgele URL'yi sunucuda render ettirme yolu)
   poweredByHeader: false,
   trailingSlash: false,
   // experiments/ altındaki kendi lockfile'ları kök tespitini şaşırtmasın

@@ -90,3 +90,7 @@ KVKK aydınlatma metni · gizlilik politikası · çerez politikası · kullanı
 ## Görsel Telifi
 
 `assets/` altındaki 162 fotoğraf **telifsiz** olarak teyit edildi (K-04'ün dışında, ürün sahibi beyanı). Prototiplerdeki Pexels/Unsplash bağlantıları kullanılmayacak.
+
+## Kötüye kullanım / aşırı yük
+
+Hız sınırları, RPC kapısı, veritabanı içi eşikler, gövde sınırları ve denetim betiği: [07-ABUSE-RESISTANCE.md](07-ABUSE-RESISTANCE.md) (K-104).

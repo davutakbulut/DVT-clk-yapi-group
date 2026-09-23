@@ -62,7 +62,7 @@ const uuid = z.string().uuid();
 const path = z.string().min(1).max(500);
 const device = z.enum(['mobile', 'tablet', 'desktop']);
 
-/** İstemciden gelen toplu paket (sendBeacon). Alan içerikleri asla yok; metinler kısa. */
+/** İstemciden gelen toplu paket (sendBeacon). Alan içerikleri asla yok; metinler kısa. K-104: utm ≤ 10 anahtar, olay payload ≤ 1 KB. */
 export const collectSchema = z.object({
   session: z.object({
     id: uuid,
@@ -70,13 +70,13 @@ export const collectSchema = z.object({
     device,
     locale: z.enum(['tr', 'en']).optional(),
     referrer: z.string().max(1000).optional(),
-    utm: z.record(z.string().max(60), z.string().max(200)).default({}),
+    utm: z.record(z.string().max(60), z.string().max(200)).refine((v) => Object.keys(v).length <= 10, 'utm').default({}),
     landing_path: path.optional(),
     viewport_w: z.number().int().min(0).max(10_000).optional(),
     viewport_h: z.number().int().min(0).max(10_000).optional(),
   }),
   pageviews: z.array(z.object({ id: uuid, path, locale: z.enum(['tr', 'en']).optional(), viewed_at: z.string().optional(), duration_ms: z.number().int().min(0).max(86_400_000).optional(), max_scroll_pct: z.number().int().min(0).max(100).optional(), viewport_w: z.number().int().optional(), viewport_h: z.number().int().optional() })).max(50).default([]),
-  events: z.array(z.object({ pageview_id: uuid.optional(), type: z.enum(['click', 'rage_click', 'dead_click', 'attention', 'form_focus', 'form_abandon', 'conversion', 'custom']), path, x_pct: z.number().min(0).max(100).optional(), y_pct: z.number().min(0).max(100).optional(), selector: z.string().max(200).optional(), element_text: z.string().max(80).optional(), payload: z.record(z.string(), z.unknown()).default({}), occurred_at: z.string().optional() })).max(200).default([]),
+  events: z.array(z.object({ pageview_id: uuid.optional(), type: z.enum(['click', 'rage_click', 'dead_click', 'attention', 'form_focus', 'form_abandon', 'conversion', 'custom']), path, x_pct: z.number().min(0).max(100).optional(), y_pct: z.number().min(0).max(100).optional(), selector: z.string().max(200).optional(), element_text: z.string().max(80).optional(), payload: z.record(z.string().max(60), z.unknown()).refine((v) => JSON.stringify(v).length <= 1024, 'payload').default({}), occurred_at: z.string().optional() })).max(200).default([]),
   vitals: z.array(z.object({ path, metric: z.enum(['LCP', 'CLS', 'INP', 'TTFB', 'FCP']), value: z.number().min(0), rating: z.enum(['good', 'needs_improvement', 'poor']).optional() })).max(20).default([]),
   forms: z.array(z.object({ form_key: z.string().min(1).max(60), field_name: z.string().min(1).max(60), focus: z.number().int().min(0).optional(), abandon: z.number().int().min(0).optional(), error: z.number().int().min(0).optional(), time_ms: z.number().int().min(0).optional() })).max(50).default([]),
 });

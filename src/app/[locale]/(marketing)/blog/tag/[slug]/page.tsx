@@ -13,7 +13,7 @@ interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
 }
 
-export const dynamicParams = true;
+export const dynamicParams = false; // K-104: bilinmeyen kategori/etiket slug'ı diske 404 sayfası yazdırmasın; yeni kategori yayında → yeniden dağıtım
 export async function generateStaticParams() {
   const all = await Promise.all(
     routing.locales.map(async (locale) => {

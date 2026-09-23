@@ -1,3 +1,4 @@
+import { cache as reactCache } from 'react';
 import { cached } from '@/core/cache/cached';
 import { CACHE_TAGS } from '@/core/cache/tags';
 import { isVisibleIn, type Publishable } from '@/core/content';
@@ -23,7 +24,7 @@ async function fetchLegalPages(): Promise<Result<readonly LegalPageRow[]>> {
   return ok(data.filter((r) => isLocalizedText(r.title)).map((r) => ({ page_key: r.page_key, title: r.title as LocalizedText, body: isLocalizedText(r.body) ? r.body : {}, status: r.status, published_locales: r.published_locales, published_at: r.published_at, updated_at: r.updated_at })));
 }
 
-export const getCachedLegalPages = cached(fetchLegalPages, ['static-pages', 'legal'], { tags: [CACHE_TAGS.staticPages] });
+export const getCachedLegalPages = reactCache(cached(fetchLegalPages, ['static-pages', 'legal'], { tags: [CACHE_TAGS.staticPages] })); // K-104: istek içinde tekil
 
 /** O dilde yayındaysa (K-07/K-08) sayfa; değilse null → 404. */
 export async function getLegalPage(key: LegalPageKey, locale: string): Promise<{ title: string; body: string; updatedAt: string } | null> {

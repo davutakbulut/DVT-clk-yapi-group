@@ -19,8 +19,12 @@ echo "Yedekleniyor…";  fileop -d op=rename --data-urlencode "sourcefiles=$HOME
 echo "Açılıyor…";      fileop -d op=extract --data-urlencode "sourcefiles=$HOME_/clk-site-new.zip" --data-urlencode "destfiles=$HOME_"
 echo "Yeniden başlatılıyor…"; curl -fsS -m 60 -H "$AUTH" "$API/execute/Fileman/save_file_content" --data-urlencode "dir=$HOME_/clk-site/tmp" -d file=restart.txt -d "content=$STAMP" | ok
 sleep 5
+# Passenger ilk isteklerde 502/503 verebilir (süreç ayağa kalkıyor): her yol için 8 deneme, 5 sn arayla (K-104 notu)
 for p in /tr /tr/urunler /tr/konfigurator /en; do
-  code=$(curl -s -o /dev/null -m 90 -w '%{http_code}' "$LIVE$p"); echo "$code $p"
+  for try in 1 2 3 4 5 6 7 8; do
+    code=$(curl -s -o /dev/null -m 90 -w '%{http_code}' "$LIVE$p"); [ "$code" = 200 ] && break; sleep 5
+  done
+  echo "$code $p"
   [ "$code" = 200 ] || { echo "DOĞRULAMA BAŞARISIZ → geri dönüş: clk-site/app'i sil, app-eski-$STAMP'i app yap, Restart"; exit 1; }
 done
 # Doğrulama geçti → daha eski yedekleri ve yüklenen zip'i çöpe taşı (yalnız bu turun yedeği kalır: geri dönüş için)

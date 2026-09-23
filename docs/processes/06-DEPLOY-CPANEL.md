@@ -155,3 +155,7 @@ Veritabanı değişiklikleri (migration) hosting'den bağımsızdır: `npm run d
 ## Dağıtım anında 404 chunk / "MIME text/html" (K-101)
 
 Dağıtımda `app/` klasörü yenilenince, o sırada açık olan eski sayfalar eski hash'li `_next/static` dosyalarını ister ve 404 (HTML) alır. `cpanel-package.sh` bu yüzden son 3 derlemenin statik parçalarını `deploy/static-history/` altında saklar ve yeni pakete `cp -n` ile ekler; içerik hash'li oldukları için çakışmaz. Kullanıcı sayfayı yenileyince zaten yeni sürüm gelir.
+
+## RPC kapısı sırrı (K-104)
+
+`secrets.env` içinde `RPC_GATE_SECRET` bulunmalı (ve `TRUSTED_PROXY_HOPS=1`). Tek anahtar güncelleme: `bash scripts/cpanel-secret-set.sh RPC_GATE_SECRET` (sunucuya yazar + yeniden başlatır). Sır veritabanına **dağıtımdan sonra** yazılır: `node --env-file=.env.local scripts/set-rpc-gate.mjs`. Ayrıntı: [07-ABUSE-RESISTANCE.md](07-ABUSE-RESISTANCE.md).

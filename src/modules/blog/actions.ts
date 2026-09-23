@@ -13,6 +13,8 @@ import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import { readingMinutes } from '@/lib/markdown';
 import type { Json } from '@/types/database';
+import { rateLimit } from '@/core/rate-limit';
+import { clientIp } from '@/core/request/clientIp';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
 const uuid = z.string().uuid().optional().or(z.literal(''));
@@ -224,7 +226,8 @@ export async function submitComment(_prev: ActionState, formData: FormData): Pro
   const client = await createServerClient();
   if (!client.ok) return failed('notConfigured');
   const [user, h] = await Promise.all([getCurrentUser(), headers()]);
-  const ip = (h.get('x-forwarded-for') ?? '').split(',')[0]?.trim() ?? '';
+  const ip = clientIp(h);
+  if (!(await rateLimit(`comment:${ip}`, 5, 3600)).allowed) return failed('rateLimited'); // K-104
   const ipMasked = ip ? createHash('sha256').update(ip.replace(/\.\d+$/, '.0')).digest('hex').slice(0, 16) : null;
   const { error } = await client.data.from('post_comments').insert({
     post_id: v.postId,

@@ -12,6 +12,7 @@ import { routing, type Locale } from '@/i18n/routing';
 import { getCachedProjectBySlug, getCachedProjectList, getCachedProjectSlugs, ProjectDetail, resolveOldProjectSlug, type ProjectDetailData } from '@/modules/projects';
 import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
 import { moduleEnabled } from '@/modules/site-settings';
+import { isPublicSlug } from '@/lib/slugify';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -50,6 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!isPublicSlug(slug)) notFound(); // K-104: bozuk/uzun slug için DB'ye ve önbelleğe gidilmez
   if (!(await moduleEnabled('projects'))) notFound(); // K-43 kill switch
   const project = await load(locale, slug);
   if (!project) {

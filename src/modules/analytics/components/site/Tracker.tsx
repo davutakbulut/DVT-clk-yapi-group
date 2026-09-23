@@ -18,7 +18,7 @@ interface Batch {
   forms: Record<string, unknown>[];
 }
 
-const FLUSH_MS = 10_000;
+const FLUSH_MS = 30_000; // K-104: 10 sn → 30 sn; boş paket gönderilmez
 const VISITOR_KEY = 'clk_vid';
 const SESSION_KEY = 'clk_sid';
 const rid = () => (typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`);
@@ -84,8 +84,15 @@ export function Tracker({ locale, enabled, sampleRate }: Props) {
 
     const pageview = () => ({ id: state.pvId, path: window.location.pathname, locale, viewed_at: new Date(state.pvStart).toISOString(), duration_ms: Date.now() - state.pvStart, max_scroll_pct: state.maxScroll, viewport_w: window.innerWidth, viewport_h: window.innerHeight });
 
+    let finalSent = false;
+    let lastPv = '';
     const flush = (final = false) => {
       const b = state.batch;
+      if (final) { if (finalSent) return; finalSent = true; }
+      // Değişiklik yoksa (olay/vital/form yok ve aynı sayfa görüntülemesi) sunucuya gitme
+      const pvSig = `${state.pvId}:${state.maxScroll}`;
+      if (!final && b.events.length === 0 && b.vitals.length === 0 && b.forms.length === 0 && b.pageviews.length === 0 && pvSig === lastPv) return;
+      lastPv = pvSig;
       const body = JSON.stringify({ session: { id: sid, visitor: vid, device, locale, referrer: document.referrer || undefined, utm, landing_path: window.location.pathname, viewport_w: window.innerWidth, viewport_h: window.innerHeight }, pageviews: [pageview(), ...b.pageviews].slice(0, 50), events: b.events.slice(0, 200), vitals: b.vitals.slice(0, 20), forms: b.forms.slice(0, 50) });
       state.batch = { pageviews: [], events: [], vitals: [], forms: [] };
       if (final && navigator.sendBeacon) navigator.sendBeacon('/api/analytics/collect', new Blob([body], { type: 'application/json' }));

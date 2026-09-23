@@ -1,5 +1,6 @@
 'use server';
 
+import { clientIp as requestIp } from '@/core/request/clientIp';
 import { createHash } from 'node:crypto';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { headers } from 'next/headers';
@@ -23,8 +24,7 @@ function fail(what: string, error: { code?: string; message: string }): ActionSt
 }
 
 async function clientIp(): Promise<string> {
-  const h = await headers();
-  return (h.get('x-forwarded-for') ?? h.get('x-real-ip') ?? '').split(',')[0]?.trim() ?? '';
+  return requestIp(await headers());
 }
 
 /** Ziyaretçi formu → submit_lead RPC (güvenilir bağlam). Bal küpü + IP başına 5/10 dk hız sınırı. */

@@ -166,7 +166,7 @@ Canlı site cPanel (CloudLinux Node.js / Passenger) üzerinde çalışır; verit
 | Şema · RLS/yetki · migration akışı | [docs/database/](docs/database/) |
 | Tasarım sistemi · stil izolasyonu · responsive/animasyon · tasarım kuralları | [docs/design/](docs/design/) |
 | Modül spesifikasyonları (ön yüz, admin, katalog, konfigüratör, satış/finans, analitik, mail, hesabım) | [docs/modules/](docs/modules/) |
-| Süreçler: çeviri · SEO & AI görünürlük · güvenlik/KVKK · test · ortamlar · cPanel dağıtım | [docs/processes/](docs/processes/) |
+| Süreçler: çeviri · SEO & AI görünürlük · güvenlik/KVKK · test · ortamlar · cPanel dağıtım · **kötüye kullanım dayanıklılığı** | [docs/processes/](docs/processes/) |
 | Güncel durum ve fazlar | [docs/ROADMAP.md](docs/ROADMAP.md) |
 | Değişiklik geçmişi | [docs/CHANGELOG.md](docs/CHANGELOG.md) |
 | Katkı kuralları | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) |

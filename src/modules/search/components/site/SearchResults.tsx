@@ -2,12 +2,18 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { getCachedSearch } from '../../data/searchRepository';
 import { hrefFor, normalizeQuery, splitHighlight } from '../../domain/types';
+import { headers } from 'next/headers';
+import { appError, err } from '@/core/errors/result';
+import { rateLimit } from '@/core/rate-limit';
+import { clientIp } from '@/core/request/clientIp';
 
 /** /arama sayfası (K-102): JS'siz de çalışır (GET formu); aynı RPC ve önbellek. */
 export async function SearchResults({ locale, q }: { readonly locale: string; readonly q: string | undefined }) {
   const t = await getTranslations('Search');
   const query = normalizeQuery(q);
-  const result = query ? await getCachedSearch(locale, query, 50) : null;
+  // K-104: /arama sayfası da API ile aynı sınırda (IP başına 60/dk); aşımda sorgu çalıştırılmaz
+  const allowed = query ? (await rateLimit(`search:${clientIp(await headers())}`, 60, 60)).allowed : true;
+  const result = query && allowed ? await getCachedSearch(locale, query, 50) : query ? err(appError('validation', 'search: rate limited', { module: 'search' })) : null;
   const hits = result?.ok ? result.data : [];
   return (
     <div className="grid gap-8">

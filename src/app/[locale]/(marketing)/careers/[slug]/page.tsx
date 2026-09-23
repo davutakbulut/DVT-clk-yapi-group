@@ -9,6 +9,7 @@ import { RouteAlternates } from '@/i18n/RouteAlternates';
 import { routing, type Locale } from '@/i18n/routing';
 import { getCachedJobPostingBySlug, getCachedJobSlugs, JobDetail, resolveOldJobSlug, type JobPostingData } from '@/modules/corporate';
 import { moduleEnabled } from '@/modules/site-settings';
+import { isPublicSlug } from '@/lib/slugify';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -41,6 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function JobPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!isPublicSlug(slug)) notFound(); // K-104: bozuk/uzun slug için DB'ye ve önbelleğe gidilmez
   if (!(await moduleEnabled('careers'))) notFound(); // K-43 kill switch
   const job = await load(locale, slug);
   if (!job) {

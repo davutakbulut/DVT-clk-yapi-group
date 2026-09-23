@@ -9,6 +9,9 @@ import { logger } from '@/core/observability/logger';
 import { getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { fieldErrorsFrom, forgotSchema, loginSchema, mapAuthError, profileSchema, registerSchema, resetSchema, type AuthFormState } from './domain/schemas';
+import { headers } from 'next/headers';
+import { rateLimit } from '@/core/rate-limit';
+import { clientIp } from '@/core/request/clientIp';
 
 const MODULE = 'auth';
 
@@ -20,6 +23,10 @@ async function localePath(pathname: '/' | '/login' | '/account' | '/reset-passwo
 export async function signIn(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
+  // K-104: Supabase Auth'un IP sınırı sunucu IP'sine işler; deneme selini burada durdur (IP: 10/5 dk, e-posta: 8/15 dk)
+  const ip = clientIp(await headers());
+  const email = parsed.data.email.toLocaleLowerCase('en');
+  if (!(await rateLimit(`signin:ip:${ip}`, 10, 300)).allowed || !(await rateLimit(`signin:email:${email}`, 8, 900)).allowed) return { ok: false, error: 'rateLimited' };
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 
@@ -40,6 +47,7 @@ export async function signIn(_prev: AuthFormState, formData: FormData): Promise<
 export async function signUp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = registerSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
+  if (!(await rateLimit(`signup:ip:${clientIp(await headers())}`, 5, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: onay e-postası kotası
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 
@@ -60,6 +68,9 @@ export async function signUp(_prev: AuthFormState, formData: FormData): Promise<
 export async function requestPasswordReset(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = forgotSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
+  // K-104: sıfırlama e-postası projede ortak kotadan düşer → e-posta başına 3/saat, IP başına 10/saat
+  const ip = clientIp(await headers());
+  if (!(await rateLimit(`reset:email:${parsed.data.email.toLocaleLowerCase('en')}`, 3, 3600)).allowed || !(await rateLimit(`reset:ip:${ip}`, 10, 3600)).allowed) return { ok: true, done: true }; // sessiz: adres varlığı sızmaz
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 

@@ -12,6 +12,7 @@ import { routing, type Locale } from '@/i18n/routing';
 import { getCachedTestimonialsFor, reviewJsonLd, TestimonialsFor } from '@/modules/testimonials';
 import { getCachedProductBySlug, getCachedProductList, getCachedProductSlugs, ProductDetail, resolveOldProductSlug, type ProductDetailData } from '@/modules/products';
 import { moduleEnabled } from '@/modules/site-settings';
+import { isPublicSlug } from '@/lib/slugify';
 
 interface Props {
   readonly params: Promise<{ locale: string; slug: string }>;
@@ -52,6 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
+  if (!isPublicSlug(slug)) notFound(); // K-104: bozuk/uzun slug için DB'ye ve önbelleğe gidilmez
   if (!(await moduleEnabled('products'))) notFound(); // K-43 kill switch
   const product = await load(locale, slug);
   if (!product) {

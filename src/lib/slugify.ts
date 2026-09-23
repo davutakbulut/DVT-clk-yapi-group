@@ -47,3 +47,6 @@ export function slugify(input: string): string {
 export function isValidSlug(value: string): boolean {
   return value.length <= MAX_SLUG_LENGTH && SLUG_PATTERN.test(value);
 }
+
+/** Genel URL slug'ı (K-104): CHECK kısıtıyla aynı desen + uzunluk sınırı; sayfalar DB'ye gitmeden bunu doğrular. */
+export const isPublicSlug = (slug: string): boolean => slug.length > 0 && slug.length <= 120 && SLUG_PATTERN.test(slug);

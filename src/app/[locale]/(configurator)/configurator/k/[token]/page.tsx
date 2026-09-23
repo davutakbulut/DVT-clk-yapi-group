@@ -11,6 +11,9 @@ import { setSharing } from '@/modules/configurator/actions';
 import { getConfigurationByToken, loadPriceTable } from '@/modules/configurator/server';
 import { LeadFormSection } from '@/modules/leads';
 import { getPublicSettings } from '@/modules/site-settings';
+import { headers } from 'next/headers';
+import { rateLimit } from '@/core/rate-limit';
+import { clientIp } from '@/core/request/clientIp';
 
 interface Props {
   readonly params: Promise<{ locale: string; token: string }>;
@@ -26,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SharedConfigurationPage({ params }: Props) {
   const { locale, token } = await params;
   setRequestLocale(locale as Locale);
+  if (!(await rateLimit(`share:${clientIp(await headers())}`, 60, 60)).allowed) notFound(); // K-104: token tarama
   const config = await getConfigurationByToken(token);
   if (!config) notFound();
   const [t, format, rulesResult, weightsResult, settings, user] = await Promise.all([getTranslations('Configurator'), getFormatter(), getCachedRules(), getCachedWeights(), getPublicSettings(), getCurrentUser()]);
