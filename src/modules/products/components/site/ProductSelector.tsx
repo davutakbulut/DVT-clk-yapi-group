@@ -59,6 +59,7 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
   const [toast, setToast] = useState('');
   const [showProps, setShowProps] = useState(false);
   const [query, setQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false); // mobil: ikon → giriş açılır (K-93)
   const [tableGroup, setTableGroup] = useState<string | null>(null);
   const [tableT, setTableT] = useState<number | null>(null);
   const [sort, setSort] = useState<{ key: string; dir: 1 | -1 } | null>(null);
@@ -298,7 +299,7 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
               <span className="pcfg-lbl" id={`${id}-sf`}>{t('cfg.surface')}</span>
               <div className="pcfg-surf" role="group" aria-labelledby={`${id}-sf`}>
                 {surfaces.map((s) => (
-                  <button key={s} type="button" aria-pressed={surface === s} onClick={() => setSurface(s)}>
+                  <button key={s} type="button" aria-pressed={surface === s} onClick={() => { setSurface(s); setView3d(true); /* K-95: yüzey seçimi 3B'de görülsün (ürün sahibi) */ }}>
                     <i style={{ background: SURFACE_SWATCH[s] }} aria-hidden="true" />
                     {t(`cfg.surf.${s}`)}
                   </button>
@@ -421,7 +422,10 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
           </h2>
           <p className="max-w-[70ch] text-[var(--color-text-muted)]">{t('table.lead')}</p>
         </div>
-        <div className="pcfg-tools">
+        <div className="pcfg-tools" data-search-open={searchOpen || query ? '' : undefined}>
+          <button type="button" className="pcfg-search-toggle" aria-expanded={searchOpen || Boolean(query)} aria-controls={`${id}-search`} aria-label={t('table.searchToggle')} onClick={() => setSearchOpen((o) => !o)}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+          </button>
           {groups.length > 1 ? (
             <div className="pcfg-seg" role="group" aria-label={t('table.filter')}>
               <button type="button" aria-pressed={tableGroup === null} onClick={() => setTableGroup(null)}>
@@ -434,7 +438,7 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
               ))}
             </div>
           ) : null}
-          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('table.search')} aria-label={t('table.search')} className="field max-w-60" />
+          <input id={`${id}-search`} type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('table.search')} aria-label={t('table.search')} className="field pcfg-search" />
           {anyHidden ? (
             <label className="flex items-center gap-2 text-[length:var(--fs-sm)]">
               <input type="checkbox" checked={showProps} onChange={(e) => setShowProps(e.target.checked)} /> {t('table.showProps')}

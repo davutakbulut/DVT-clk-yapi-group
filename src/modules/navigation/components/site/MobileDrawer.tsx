@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { MenuNode } from '../../domain/types';
+import { BrandIcon } from '@/ui/BrandMark';
 import { MenuLinkView } from './MenuLinkView';
 
 interface Props {
@@ -32,10 +33,9 @@ export function MobileDrawer({ items, cta, brand }: Props) {
 
   return (
     <>
-      <button type="button" className="inline-flex h-11 w-11 items-center justify-center lg:hidden" aria-label={t('openMenu')} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M3 6h18M3 12h18M3 18h18" />
-        </svg>
+      {/* K-95: hamburger yerine canlı logo ikonu menüyü açar (çubuklar sırayla yükselir → dokunulabilir ipucu); oran korunur */}
+      <button type="button" className="brand-menu-button lg:hidden" aria-label={t('openMenu')} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>
+        <BrandIcon height={26} animated />
       </button>
       <dialog ref={ref} className="site-drawer" aria-label={t('menu')} onClose={close} onClick={(e) => e.target === ref.current && close()}>
         <div className="flex h-full flex-col p-6" data-on-dark="">

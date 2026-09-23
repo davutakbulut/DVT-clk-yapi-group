@@ -4,6 +4,7 @@ import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
 import { extractHeadings, renderMarkdown } from '@/lib/markdown';
 import { Container } from '@/ui/Container';
+import { Crumbs } from '@/ui/Crumbs';
 import { fetchPublishedComments, type PostCardData, type PostDetailData } from '../../data/blogRepository';
 import { CommentForm } from './CommentForm';
 import { PostCard } from './PostCard';
@@ -33,7 +34,7 @@ export async function PostDetail({ post, locale, related, prev, next }: Props) {
     <article className="grid">
       <header className="page-head" data-on-dark="">
         <Container className="grid gap-6 py-[var(--section-y)]">
-          <nav aria-label={t('breadcrumb')} className="label-mono flex flex-wrap items-center gap-2 text-[var(--color-text-inverse-subtle)]">
+          <Crumbs label={t('breadcrumb')} className="text-[var(--color-text-inverse-subtle)]">
             <Link href="/" className="hover:text-[var(--color-accent-on-dark)]">
               {t('home')}
             </Link>
@@ -49,7 +50,7 @@ export async function PostDetail({ post, locale, related, prev, next }: Props) {
                 </Link>
               </>
             ) : null}
-          </nav>
+          </Crumbs>
           <div className="grid gap-4">
             <h1 className="max-w-[24ch] text-[var(--color-text-inverse)]">{post.title}</h1>
             {post.excerpt ? <p className="max-w-[60ch] text-[length:var(--fs-body-lg)] text-[var(--color-text-inverse-muted)]">{post.excerpt}</p> : null}

@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
+import { Crumbs } from '@/ui/Crumbs';
 import type { ProjectCardData, ProjectDetailData } from '../../data/projectsRepository';
 import { ProjectCard } from './ProjectCard';
 
@@ -44,7 +45,7 @@ export async function ProjectDetail({ project, locale, related, prev, next, extr
     <article className="grid">
       <header className="page-head" data-on-dark="">
         <Container className="grid gap-6 py-[var(--section-y)]">
-          <nav aria-label={t('breadcrumb')} className="label-mono flex flex-wrap items-center gap-2 text-[var(--color-text-inverse-subtle)]">
+          <Crumbs label={t('breadcrumb')} className="text-[var(--color-text-inverse-subtle)]">
             <Link href="/" className="hover:text-[var(--color-accent-on-dark)]">
               {t('home')}
             </Link>
@@ -60,7 +61,7 @@ export async function ProjectDetail({ project, locale, related, prev, next, extr
                 </Link>
               </>
             ) : null}
-          </nav>
+          </Crumbs>
           <div className="grid gap-4">
             <h1 className="max-w-[20ch] text-[var(--color-text-inverse)]">{project.title}</h1>
             {project.excerpt ? <p className="max-w-[58ch] text-[length:var(--fs-body-lg)] text-[var(--color-text-inverse-muted)]">{project.excerpt}</p> : null}

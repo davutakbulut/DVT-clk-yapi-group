@@ -212,6 +212,16 @@
     align-items: center;
     gap: var(--space-2);
   }
+  /* K-95: mobil menü düğmesi = logo ikonu; çubuklar soldan sağa sırayla 2 px yükselir (2,4 s döngü), azaltılmış harekette durur */
+  .brand-menu-button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; height: 44px; padding: 0 4px; background: none; border: 0; color: inherit; cursor: pointer; }
+  .brand-icon-live rect { transform-box: fill-box; transform-origin: 50% 100%; animation: brand-bar-rise 2.4s ease-in-out infinite; }
+  .brand-icon-live rect:nth-child(2) { animation-delay: 0.18s; }
+  .brand-icon-live rect:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes brand-bar-rise {
+    0%, 55%, 100% { transform: translateY(0); }
+    20% { transform: translateY(-2.5px); }
+  }
+  @media (prefers-reduced-motion: reduce) { .brand-icon-live rect { animation: none; } }
   .site-header-nav {
     grid-area: nav;
     display: none;
@@ -1250,9 +1260,30 @@
     background: color-mix(in srgb, var(--color-accent) 8%, transparent);
   }
   .card-media {
+    position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-surface-dark);
+  }
+  /* K-94: görsel üstü zarif rozet ("Öne çıkan"); kategori etiketi başlıktan küçük, cümle düzeni */
+  .card-badge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: 3px 8px;
+    border: 1px solid rgb(236 235 231 / 0.35);
+    background: rgb(18 22 28 / 0.72);
+    backdrop-filter: blur(4px);
+    color: var(--color-text-inverse);
+    font-family: var(--font-mono, ui-monospace), monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .card-kicker {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
   }
   .card-media img {
     display: block;
@@ -1732,15 +1763,22 @@
   .pcfg-chips-sz button { font-family: inherit; min-width: 0; }
   .pcfg-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   /* ── Ürün sayfası başlığı (K-90, örnek sayfalar): açık zemin, kırıntı → aile çubuğu → büyük başlık + giriş → gerçekler */
-  .product-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: var(--space-6); font-size: var(--fs-xs); color: var(--color-text-muted); }
+  /* Sayfa yolu (K-93): tek satır, yatay kaydırma, sona hizalı (Crumbs bileşeni scrollLeft'i sona alır); mobilde küçük yazı */
+  .crumbs { position: relative; display: flex; flex-wrap: nowrap; align-items: center; gap: var(--space-2); overflow-x: auto; white-space: nowrap; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .crumbs::-webkit-scrollbar { display: none; }
+  .crumbs > * { flex: 0 0 auto; }
+  .product-crumb { padding-top: var(--space-6); font-size: var(--fs-xs); color: var(--color-text-muted); }
   .product-crumb a:hover { color: var(--color-text); text-decoration: underline; text-underline-offset: 4px; }
+  .pcfg-search-toggle { display: none; }
+  .pcfg-search { max-width: 15rem; }
   .fams { position: relative; display: flex; gap: 6px; overflow-x: auto; padding: var(--space-3) 0 2px; scrollbar-width: thin; } /* position: relative → kaydırma kutusu, taşma sayılmaz (04-DESIGN-RULES §8) */
   .fams a { flex: 0 0 auto; padding: 6px 11px; border: 1px solid var(--color-border-strong); font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
   .fams a:hover { color: var(--color-text); border-color: var(--color-text); }
   .fams a[aria-current='page'] { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg); }
   .product-head { display: grid; grid-template-columns: 1fr minmax(0, 420px); gap: var(--space-10); align-items: end; padding: var(--space-4) 0 var(--space-8); }
   /* Örnekteki gibi her kelime ayrı satırda ("Kutu / Profil"); tek kelime tek satır */
-  .product-head h1 { inline-size: min-content; min-inline-size: 60%; font-size: clamp(2.75rem, 1.5rem + 5.5vw, 6rem); line-height: 0.92; letter-spacing: -0.02em; text-wrap: initial; }
+  /* Ürün adı doğal kırılır: sığıyorsa tek satır, sığmıyorsa alta (ürün sahibi, K-93) */
+  .product-head h1 { max-width: 100%; font-size: clamp(2.75rem, 1.5rem + 5.5vw, 6rem); line-height: 0.92; letter-spacing: -0.02em; overflow-wrap: anywhere; }
   .product-lede { margin: 0; max-width: 52ch; color: var(--color-text-muted); }
   .product-lede small { display: block; margin-top: var(--space-3); font-size: var(--fs-xs); color: var(--color-text-subtle); }
   @media (max-width: 900px) { .pcfg { grid-template-columns: 1fr; } .pcfg-draw { min-height: 0; } .pcfg-svg { min-height: 300px; } .pcfg-v3 { min-height: 300px; } .product-head { grid-template-columns: 1fr; gap: var(--space-4); align-items: start; } }
@@ -2090,7 +2128,16 @@
     .hero-copy { gap: var(--space-4); padding-bottom: var(--space-10); }
     .hero-lead { font-size: var(--fs-sm); }
     .hero-scrub { height: 180dvh; }
-    .product-crumb { padding-top: var(--space-3); letter-spacing: 0.08em; }
+    .crumbs { font-size: 11px; letter-spacing: 0.08em; }
+    .product-crumb { padding-top: var(--space-3); }
+    /* Ölçü tablosu: kalınlık çipleri tek satır kaydırma; arama ikonla açılır (alan kazancı) */
+    .pcfg-tchips { flex-wrap: nowrap; overflow-x: auto; position: relative; padding-bottom: 2px; scrollbar-width: thin; }
+    .pcfg-tchips button { flex: 0 0 auto; white-space: nowrap; }
+    .pcfg-search-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--color-text); background: none; color: var(--color-text); cursor: pointer; }
+    .pcfg-search-toggle[aria-expanded='true'] { background: var(--color-text); color: var(--color-bg); }
+    .pcfg-tools .pcfg-search { display: none; }
+    .pcfg-tools[data-search-open] .pcfg-search { display: block; order: 10; flex: 1 0 100%; width: 100%; max-width: none; }
+    .site-footer-copy { font-size: 10px; letter-spacing: 0.06em; }
     .fams { padding: var(--space-2) 0 2px; }
     .fams a { padding: 5px 9px; }
     .product-head { padding: var(--space-2) 0 var(--space-4); gap: var(--space-3); }

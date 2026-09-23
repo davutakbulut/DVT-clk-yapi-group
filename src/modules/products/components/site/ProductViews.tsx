@@ -14,6 +14,7 @@ import { isConfigurable } from '../../domain/productConfig';
 import { ProductSelector } from './ProductSelector';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
+import { Crumbs } from '@/ui/Crumbs';
 import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedProductCategories, getCachedProductList, type ProductCardData, type ProductDetailData } from '../../data/productsRepository';
 
@@ -32,15 +33,17 @@ export function ProductCard({ product, locale, supabaseUrl, headingLevel: Headin
           ) : (
             <div className="card-media-icon" aria-hidden="true" />
           )}
+          {/* K-94: "Öne çıkan" görselin sağ üstünde küçük rozet — kartı uzatmaz */}
+          {product.isFeatured ? <span className="card-badge">{featuredLabel}</span> : null}
         </div>
         <div className="card-body">
-          {product.category ? <p className="label-mono text-[var(--color-accent-text)]">{product.category.name}</p> : null}
+          {/* K-94: kategori addan küçük, cümle düzeni (büyük harf dönüşümü yok) */}
+          {product.category ? <p className="card-kicker">{product.category.name}</p> : null}
           <Heading className="card-title">{product.name}</Heading>
           {product.shortDescription ? <p className="card-excerpt">{product.shortDescription}</p> : null}
-          {product.variantCount > 0 || product.isFeatured ? (
+          {product.variantCount > 0 ? (
             <p className="card-meta">
-              {product.isFeatured ? <span className="card-chip card-chip-accent">{featuredLabel}</span> : null}
-              {product.variantCount > 0 ? <span className="card-chip">{sizesLabel}</span> : null}
+              <span className="card-chip">{sizesLabel}</span>
             </p>
           ) : null}
         </div>
@@ -123,7 +126,7 @@ export async function ProductDetail({ product, locale, related, families = [], e
     <article className="grid">
       {/* K-90: örnek sayfalardaki gibi açık, kompakt başlık: kırıntı → aile çubuğu → büyük başlık + giriş → gerçekler */}
       <Container as="header" className="grid">
-        <nav aria-label={t('breadcrumb')} className="product-crumb label-mono">
+        <Crumbs label={t('breadcrumb')} className="product-crumb">
           <Link href="/">{t('home')}</Link>
           <span aria-hidden="true">/</span>
           <Link href="/products">{t('title')}</Link>
@@ -133,7 +136,7 @@ export async function ProductDetail({ product, locale, related, families = [], e
               <Link href={{ pathname: '/products/category/[slug]', params: { slug: product.category.slug } }}>{product.category.name}</Link>
             </>
           ) : null}
-        </nav>
+        </Crumbs>
         {families.length > 1 ? (
           <nav aria-label={t('families')} className="fams">
             {families.map((p) => (

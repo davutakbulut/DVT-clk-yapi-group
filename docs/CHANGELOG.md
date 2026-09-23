@@ -7,7 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
-### Değişti — mobil yoğunluk (K-92)
+### Değişti — mobil yoğunluk (K-92, K-93, K-94, K-95)
+- Mobil menü düğmesi hamburger yerine canlı logo ikonu (çubuklar sırayla yükselir)
+- Ürün/kategori adları başlık düzeni (betik, kısaltmalar korunur); kartta kategori etiketi küçük, "Öne çıkan" görselin sağ üstünde rozet
+- Sayfa yolu tüm sistemde kaydırmalı ve sona hizalı (`ui/Crumbs`); mobilde kalınlık çipleri kaydırmalı, arama ikonla açılır; ürün adı doğal kırılır; footer telif satırı mobilde tek satır
 - ≤ 640 px: bölüm boşluğu/başlık ölçeği/header orantılı küçüldü, kartlar 2 sütun, kategori çipleri tek satır kaydırmalı, hero 180dvh, ürün başlığı + gerçekler + seçici kompakt; ürün listesi mobilde 30,6k → 8,9k px, ana sayfa 8,5k → 6,2k px
 
 ### Değişti — ürün sayfaları örnek sayfalar gibi · koyu renk sistemi · 3B (K-90, K-91)

@@ -1906,7 +1906,8 @@
       "p": "Pitch (mm)",
       "coil": "Coil width (mm)",
       "thickness": "Thickness",
-      "noteGeneric": "Values are nominal, calculated with 7850 kg/m³; actual weight varies with mill tolerances."
+      "noteGeneric": "Values are nominal, calculated with 7850 kg/m³; actual weight varies with mill tolerances.",
+      "searchToggle": "Open search"
     },
     "factSizes": "{count} sizes",
     "factSizesHint": "from {from} to {to}",

@@ -88,7 +88,7 @@ export async function Footer({ locale }: Props) {
               </li>
             ) : null}
           </ul>
-          <p className="label-mono text-[var(--color-text-inverse-subtle)]">{t('copyright', { year, siteName })}</p>
+          <p className="label-mono site-footer-copy text-[var(--color-text-inverse-subtle)]">{t('copyright', { year, siteName })}</p>
         </div>
       </Container>
     </footer>

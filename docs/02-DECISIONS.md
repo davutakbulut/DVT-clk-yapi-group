@@ -464,6 +464,15 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Karar:** Küçük ekranda aynı anda daha fazla içerik doğru sırada görünsün diye tek bir kesme noktasında (≤ 640 px) token ölçeği daralır: bölüm boşluğu 3,5rem → 2,25rem, başlık ölçeği (display 30–40 px, h2 24–30 px, h3 18 px), header 64+40 → 56+36 px; gövde metni 16 px KALIR (okunaklılık). Bileşenler: kart ızgarası 2 sütun (min 150 px), kart iç boşluğu 12 px, özet 2 satıra kırpılır, görselsiz kartta yer tutucu 16:7; kategori çipleri tek satır yatay kaydırma; hero kaydırma 220 → 180 dvh; ürün başlığı/gerçekler/seçici kompakt (gerçekler 2 sütun, çizim 240 px, panel 16 px, tablo 12 px); Tailwind `gap-8/10/12` yardımcıları utilities katmanında daraltılır. Dokunma hedefleri ≥ 36–44 px korunur.
 **Ölçüm (390×844):** ürün listesi 30.622 → 8.924 px, ana sayfa 8.540 → 6.204 px, ürün detayı 10.349 → 8.072 px, hizmetler 3.208 → 1.764 px; yatay taşma yok; axe temiz.
 
+### K-93 · Mobil ürün sayfası ayrıntıları: kaydırmalı kırıntı/çipler, ikonla açılan arama, doğal başlık kırılımı
+**Karar:** (1) Sayfa yolu tüm detay sayfalarında tek satır ve yatay kaydırmalı (`ui/Crumbs`), ilk boyamada sona (geçerli sayfaya) kaydırılmış gelir; ≤ 640 px'de 11 px. (2) Ölçü tablosundaki kalınlık çipleri mobilde tek satır kaydırma. (3) Mobilde arama girişi gizli; segmentin solundaki büyüteç ikonu (40 px, `aria-expanded`) girişi açar — alan kazancı; masaüstünde giriş hep görünür. (4) Ürün adı her kelime ayrı satır yerine doğal kırılır (sığıyorsa tek satır). (5) Footer telif satırı mobilde 10 px (tek satır).
+
+### K-94 · Ürün adları başlık düzeni; kartta kategori küçük, "Öne çıkan" görsel üstü rozet
+**Karar:** Veritabanındaki TAMAMI büyük harf ürün/kategori adları başlık düzenine çevrildi (`scripts/title-case-product-names.mjs`: Türkçe İ/ı kuralı, kısaltmalar MDF/OSB/XPS/HEA/PVC/HDPE… korunur; karışık yazılmış adlara dokunulmaz). Kartta kategori etiketi cümle düzeni ve addan küçük (`.card-kicker`); "Öne çıkan" kartı uzatan çip yerine görselin sağ üstünde yarı saydam küçük rozet (`.card-badge`). E2E artığı yayınlanmış "E2E Ürün …" kayıtları silindi.
+
+### K-95 · Mobil menü düğmesi = canlı logo ikonu
+**Karar:** Mobil header'da hamburger kaldırıldı; menüyü logonun kademe ikonu açar (`BrandIcon animated`, 44 px dokunma alanı, `aria-label` "Menüyü aç"). Çubuklar soldan sağa sırayla 2,5 px yükselip iner (2,4 s döngü) — dokunulabilirlik ipucu; oran değişmez (viewBox 40×30). `prefers-reduced-motion`'da animasyon yok. Marka imzasında mobilde yalnız yazı kalır (ikon düğmede), masaüstünde imza eskisi gibi bütün. Ayrıca ürün sayfasında **yüzey seçilince seçici otomatik 3B görünüme geçer** (doku/kaplama 2B çizimde görünmez).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

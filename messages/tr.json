@@ -1906,7 +1906,8 @@
       "p": "Adım (mm)",
       "coil": "Bobin gen. (mm)",
       "thickness": "Kalınlık",
-      "noteGeneric": "Değerler nominal ölçüler ve 7850 kg/m³ yoğunlukla hesaplanmıştır; gerçek ağırlık üretici toleranslarına göre değişebilir."
+      "noteGeneric": "Değerler nominal ölçüler ve 7850 kg/m³ yoğunlukla hesaplanmıştır; gerçek ağırlık üretici toleranslarına göre değişebilir.",
+      "searchToggle": "Aramayı aç"
     },
     "factSizes": "{count} ölçü",
     "factSizesHint": "{from}'ten {to}'e",

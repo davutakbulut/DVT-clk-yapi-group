@@ -31,7 +31,7 @@ export async function Header({ locale }: Props) {
       <Container className="site-header-grid">
         <div className="site-header-brand">
           <MobileDrawer items={links} cta={cta} brand={<BrandMark siteName={siteName} size="sm" />} />
-          <BrandMark siteName={siteName} />
+          <BrandMark siteName={siteName} iconHiddenBelowLg />
         </div>
         {links.length > 0 ? (
           <nav aria-label={a11y('mainNavigation')} className="site-header-nav">

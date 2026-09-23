@@ -24,6 +24,9 @@ test.describe('ürün seçici (kutu profil)', () => {
     await expect(page.getByTestId('pcfg-total')).toHaveText(/7,92 t/);
     // Tablo: kalınlık filtresi + arama + satır seçimi
     await page.getByRole('group', { name: 'Et kalınlığına göre filtrele' }).getByRole('button', { name: '2 mm', exact: true }).click();
+    // Mobilde arama ikonla açılır (K-93); masaüstünde giriş zaten görünür
+    const toggle = page.getByRole('button', { name: 'Aramayı aç' });
+    if (await toggle.isVisible()) await toggle.click();
     await page.getByLabel('Ölçü ara, örn. 100×50').fill('40x40');
     await expect(page.locator('.pcfg-table tbody tr')).toHaveCount(1);
     await page.getByRole('button', { name: 'Seç: 40×40×2' }).click();

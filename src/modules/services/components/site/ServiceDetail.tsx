@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
+import { Crumbs } from '@/ui/Crumbs';
 import type { ServiceDetailData } from '../../data/servicesRepository';
 import { ServiceIcon } from './ServiceIcon';
 
@@ -31,7 +32,7 @@ export async function ServiceDetail({ service, locale, extra }: Props) {
     <article className="grid">
       <header className="page-head" data-on-dark="">
         <Container className="grid gap-6 py-[var(--section-y)]">
-          <nav aria-label={t('breadcrumb')} className="label-mono flex flex-wrap items-center gap-2 text-[var(--color-text-inverse-subtle)]">
+          <Crumbs label={t('breadcrumb')} className="text-[var(--color-text-inverse-subtle)]">
             <Link href="/" className="hover:text-[var(--color-accent-on-dark)]">
               {t('home')}
             </Link>
@@ -39,7 +40,7 @@ export async function ServiceDetail({ service, locale, extra }: Props) {
             <Link href="/services" className="hover:text-[var(--color-accent-on-dark)]">
               {t('title')}
             </Link>
-          </nav>
+          </Crumbs>
           <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-end">
             <div className="grid gap-4">
               <h1 className="max-w-[20ch] text-[var(--color-text-inverse)]">{service.title}</h1>

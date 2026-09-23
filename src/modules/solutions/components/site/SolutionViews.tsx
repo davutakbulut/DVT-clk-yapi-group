@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
+import { Crumbs } from '@/ui/Crumbs';
 import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedSolutionList, type SolutionCardData, type SolutionDetailData } from '../../data/solutionsRepository';
 
@@ -93,7 +94,7 @@ export async function SolutionDetail({ solution, locale }: { readonly solution: 
     <article className="grid">
       <header className="page-head" data-on-dark="">
         <Container className="grid gap-6 py-[var(--section-y)]">
-          <nav aria-label={t('breadcrumb')} className="label-mono flex flex-wrap items-center gap-2 text-[var(--color-text-inverse-subtle)]">
+          <Crumbs label={t('breadcrumb')} className="text-[var(--color-text-inverse-subtle)]">
             <Link href="/" className="hover:text-[var(--color-accent-on-dark)]">
               {t('home')}
             </Link>
@@ -101,7 +102,7 @@ export async function SolutionDetail({ solution, locale }: { readonly solution: 
             <Link href="/solutions" className="hover:text-[var(--color-accent-on-dark)]">
               {t('title')}
             </Link>
-          </nav>
+          </Crumbs>
           <div className="grid gap-4">
             <h1 className="max-w-[22ch] text-[var(--color-text-inverse)]">{solution.title}</h1>
             {solution.summary ? <p className="max-w-[60ch] text-[length:var(--fs-body-lg)] text-[var(--color-text-inverse-muted)]">{solution.summary}</p> : null}
