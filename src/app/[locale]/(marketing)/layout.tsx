@@ -8,6 +8,7 @@ import { pickLocale } from '@/lib/localized';
 import { CookieBanner } from '@/modules/consent';
 import { Footer, Header } from '@/modules/navigation';
 import { ThirdPartyScripts, Tracker } from '@/modules/analytics';
+import { BasketAutoSave } from '@/modules/account';
 import { BasketProvider } from '@/modules/quote-basket';
 import { getPublicSettings } from '@/modules/site-settings';
 import { getErrorPage, getLegalPage } from '@/modules/static-pages';
@@ -57,6 +58,7 @@ export default async function MarketingLayout({ children, params }: Props) {
   return (
     <RouteAlternatesProvider>
       <BasketProvider>
+        <BasketAutoSave />
       {/* İlk giriş yükleyicisi: betik boyamadan önce sınıfı koyar; katman varsayılan gizlidir (JS yoksa hiç görünmez) */}
       <script dangerouslySetInnerHTML={{ __html: SITE_LOADER_BOOT }} />
       <SiteLoader label={a11y('loading')} siteName={siteName} />

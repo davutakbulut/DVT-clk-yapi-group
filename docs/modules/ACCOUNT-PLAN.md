@@ -1,4 +1,4 @@
-# Hesabım (üye alanı) — uygulama planı (K-103, taslak)
+# Hesabım (üye alanı) — uygulama planı (K-103) — **uygulandı** (migration 0051, `src/modules/account`)
 
 > Ürün sahibi isteği: "kullanıcı her şeye erişebilsin — teklifler, konfigürasyonlar, profil, üyelik silme, şifre/e-posta değiştirme, teklif düzenleme isteği, yarım kalan sepetler…"
 
@@ -21,7 +21,7 @@
 
 Ortak kabuk: sol/üst sekme gezinmesi (mobilde yatay kaydırmalı çipler, K-92/93 kuralları), her bölüm `ModuleBoundary`.
 
-## Migration 0050 (taslak)
+## Migration 0051 (uygulandı; 0050 numarası arama parçasına gitti)
 - `lead_replies.direction text not null default 'outbound' check (direction in ('outbound','inbound'))`, `lead_replies.kind text not null default 'reply' check (kind in ('reply','revision_request','cancel_request'))`; üye kendi talebine inbound satır ekleyebilir (RPC).
 - `profiles.saved_basket jsonb not null default '[]'`.
 - RPC: `customer_lead_message`, `claim_my_leads()` (aynı e-postayla üye olunca eski anonim talepler üyeye bağlanır, K-30 benzeri), `upsert_my_customer`, `delete_my_account`.

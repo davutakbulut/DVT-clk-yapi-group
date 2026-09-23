@@ -593,6 +593,12 @@
         "length_m": "Boy (m)",
         "kg_per_m": "kg/m",
         "total_kg": "Toplam kg"
+      },
+      "fromCustomer": "Müşteriden",
+      "customerKinds": {
+        "reply": "Mesaj",
+        "revision_request": "Revizyon isteği",
+        "cancel_request": "İptal isteği"
       }
     },
     "mail": {
@@ -1049,7 +1055,8 @@
         "comment_pending": "Onay bekleyen blog yorumu",
         "schedule_due": "Hakediş yaklaşıyor: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "schedule_overdue": "Vadesi geçen hakediş: {sale_no} · {customer} · {amount} ₺ · {due_date}",
-        "system_stale_cron": "Cron sessiz: {job_key} (son çalışma {last_run_at})"
+        "system_stale_cron": "Cron sessiz: {job_key} (son çalışma {last_run_at})",
+        "lead_customer_message": "Müşteri mesajı {ref_no} ({kind})"
       }
     },
     "customers": {
@@ -2517,6 +2524,152 @@
       "excerpt": "Özette",
       "body": "İçerikte",
       "variants": "Ölçü tablosunda"
+    }
+  },
+  "Account": {
+    "kicker": "Hesabım",
+    "nav": "Hesap bölümleri",
+    "tabs": {
+      "overview": "Özet",
+      "quotes": "Tekliflerim",
+      "configurations": "Konfigürasyonlarım",
+      "basket": "Sepetim",
+      "profile": "Profil",
+      "security": "Güvenlik",
+      "notifications": "Bildirimler",
+      "data": "Verilerim"
+    },
+    "overview": {
+      "welcome": "Hoş geldiniz, {name}",
+      "lead": "Teklif taleplerinizi, konfigürasyonlarınızı ve hesap ayarlarınızı buradan yönetin.",
+      "quotes": "Teklif talebi",
+      "configurations": "Kayıtlı konfigürasyon",
+      "basket": "Sepette kalem",
+      "unread": "Okunmamış bildirim",
+      "recentQuotes": "Son talepler",
+      "recentConfigs": "Son konfigürasyonlar",
+      "all": "Tümü",
+      "claimed": "{count} eski talebiniz hesabınıza bağlandı."
+    },
+    "quotes": {
+      "empty": "Henüz teklif talebiniz yok.",
+      "start": "Ürünlerden ya da konfigüratörden teklif isteyin.",
+      "ref": "Talep no",
+      "date": "Tarih",
+      "status": "Durum",
+      "items": "Kalem",
+      "amount": "Teklif",
+      "statuses": {
+        "new": "Alındı",
+        "in_review": "İnceleniyor",
+        "quoted": "Teklif verildi",
+        "won": "Onaylandı",
+        "lost": "Kapandı"
+      },
+      "detail": "Talep detayı",
+      "message": "Mesajınız",
+      "itemsTitle": "Kalemler",
+      "product": "Ürün",
+      "qty": "Miktar",
+      "note": "Not",
+      "replies": "Yazışma",
+      "you": "Siz",
+      "company": "CLK Yapı Group",
+      "noReplies": "Henüz yazışma yok.",
+      "send": "Gönder",
+      "kind": "Mesaj türü",
+      "kinds": {
+        "reply": "Mesaj / soru",
+        "revision_request": "Teklif düzenleme (revizyon) isteği",
+        "cancel_request": "Talebi iptal et"
+      },
+      "body": "Mesaj",
+      "sent": "Mesajınız iletildi; satış ekibi en kısa sürede döner.",
+      "quoted": "Verilen teklif",
+      "lead": "Teklif talepleriniz, durumları ve yazışmalar; her talebe mesaj ya da revizyon isteği gönderebilirsiniz."
+    },
+    "configurations": {
+      "lead": "Kaydettiğiniz konfigürasyonlar; paylaşım bağlantısı ve yazdırma her kayıtta.",
+      "empty": "Kayıtlı konfigürasyon yok.",
+      "start": "Konfigüratörü aç",
+      "open": "Aç",
+      "rename": "Adı değiştir",
+      "archive": "Arşivle",
+      "archived": "Arşivlendi",
+      "unarchive": "Arşivden çıkar",
+      "print": "Yazdır",
+      "name": "Kayıt adı",
+      "save": "Kaydet"
+    },
+    "basket": {
+      "lead": "Bu cihazdaki sepet ile hesabınıza kaydedilen sepet.",
+      "device": "Bu cihazdaki sepet",
+      "saved": "Hesaba kaydedilen sepet",
+      "empty": "Boş",
+      "save": "Sepeti hesabıma kaydet",
+      "restore": "Kaydedilen sepeti bu cihaza yükle",
+      "savedOk": "Sepet kaydedildi.",
+      "restoredOk": "Sepet yüklendi.",
+      "goBasket": "Sepete git",
+      "items": "{count} kalem",
+      "autoSave": "Giriş yaptığınız sürece sepet değişiklikleri hesabınıza da kaydedilir.",
+      "error": "Kaydedilemedi, yeniden deneyin."
+    },
+    "profile": {
+      "lead": "Ad, telefon, dil ve firma bilgileriniz teklif formlarında otomatik dolar.",
+      "personal": "Kişisel bilgiler",
+      "company": "Firma bilgileri",
+      "type": "Müşteri türü",
+      "individual": "Bireysel",
+      "corporate": "Kurumsal",
+      "fullName": "Yetkili ad soyad",
+      "companyTitle": "Firma ünvanı",
+      "taxOffice": "Vergi dairesi",
+      "taxId": "Vergi / TC kimlik no",
+      "taxIdHint": "10 haneli vergi no ya da 11 haneli TC kimlik no; boş bırakılabilir.",
+      "address": "Adres",
+      "city": "İl",
+      "district": "İlçe",
+      "phone": "Firma telefonu",
+      "save": "Kaydet",
+      "saved": "Kaydedildi."
+    },
+    "security": {
+      "lead": "Şifre ve e-posta değişiklikleri için mevcut şifreniz istenir.",
+      "email": "E-posta adresi",
+      "currentEmail": "Mevcut e-posta",
+      "password": "Şifre",
+      "changePassword": "Şifreyi değiştir",
+      "current": "Mevcut şifre",
+      "newPassword": "Yeni şifre",
+      "confirm": "Yeni şifre (tekrar)",
+      "passwordChanged": "Şifreniz güncellendi.",
+      "changeEmail": "E-postayı değiştir",
+      "newEmail": "Yeni e-posta",
+      "emailSent": "Yeni adresinize onay bağlantısı gönderildi; onaylayınca değişiklik tamamlanır.",
+      "danger": "Hesabı sil",
+      "dangerLead": "Hesabınız, profiliniz ve kayıtlı konfigürasyonlarınız kalıcı olarak silinir. Verilmiş teklif talepleri şirket kayıtlarında (kimliğiniz olmadan) kalır. Geri alınamaz.",
+      "confirmWord": "Onaylamak için SİL yazın",
+      "deleteBtn": "Hesabımı kalıcı olarak sil",
+      "sessions": "Oturum",
+      "logout": "Çıkış yap"
+    },
+    "notifications": {
+      "lead": "Talep durumu ve cevaplarla ilgili bildirimler.",
+      "empty": "Bildirim yok.",
+      "markRead": "Okundu işaretle",
+      "open": "Aç",
+      "types": {
+        "lead_replied": "Talebinize cevap verildi",
+        "lead_status": "Talep durumu güncellendi",
+        "default": "Bildirim"
+      }
+    },
+    "data": {
+      "lead": "KVKK kapsamında hesabınıza bağlı verilerin kopyasını indirebilirsiniz.",
+      "download": "Verilerimi indir (JSON)",
+      "includes": "Profil, firma bilgisi, teklif talepleri ve kalemleri, yazışmalar, konfigürasyonlar.",
+      "privacy": "Gizlilik politikası"
     }
   }
 }

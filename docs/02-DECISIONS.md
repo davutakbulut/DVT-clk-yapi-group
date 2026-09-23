@@ -499,3 +499,18 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*
+
+### K-103 · Hesabım: üyenin kendi verisine tam erişim (talep yazışması, firma bilgisi, sepet senkronu, KVKK silme/dışa aktarım)
+
+**Bağlam:** Ürün sahibi üyenin "her şeye" erişebilmesini istedi: teklifler, konfigürasyonlar, profil, üyelik silme, şifre/e-posta değiştirme, teklif düzenleme isteği, yarım kalan sepetler. Önceki `/hesabim` yalnız ad/telefon/dil + konfigürasyon listesiydi.
+
+**Karar:**
+- `/hesabim` sekmeli kabuk (`AccountShell`, mobilde yatay çipler): özet · tekliflerim · konfigürasyonlarım · sepetim · profil · güvenlik · bildirimler · verilerim. Her sayfa `requireMember` kapısı (K-14); gerçek sınır RLS ("member reads own"). Modül: `src/modules/account`.
+- Müşteri → şirket yazışması **aynı `lead_replies` tablosunda** `direction` ('inbound'|'outbound') + `kind` ('reply'|'revision_request'|'cancel_request') ile; RPC `customer_lead_message` yalnız kendi talebine yazar, satış rolüne bildirim (`lead.customer_message`) + şirkete e-posta kuyruğu. İptal isteği yeni/incelemedeki talebi `lost` / `customer_cancel` yapar. Panelde gelen satır "Müşteriden · tür" rozetiyle görünür.
+- Eski anonim talepler: `claim_my_leads()` doğrulanmış e-postayla eşleşenleri üyeye bağlar (özet sayfası ilk ziyarette çağırır; idempotent). 0039'daki tetikleyici yalnız konfigürasyonları devralıyordu.
+- Firma bilgisi `customers.profile_id = auth.uid()` satırında (`upsert_my_customer` / `get_my_customer`; `notes` dışarı çıkmaz) → teklif ve satış tarafı aynı müşteri kaydını kullanır.
+- Sepet: `profiles.saved_basket jsonb` (≤50 kalem). Giriş yapmış üyede her değişiklik 2 sn gecikmeyle hesaba yazılır (`BasketAutoSave`; oturum bilgisi header menüsünün yayınladığı `clk:me` olayından, ikinci /api/me isteği yok). `/hesabim/sepet` cihaz ↔ hesap sepetini gösterir; yükle / kaydet.
+- Güvenlik: şifre ve e-posta değişikliği **mevcut şifreyle yeniden doğrulama** ister (signInWithPassword → updateUser). Hesap silme `delete_my_account()` (security definer: `auth.users` satırı silinir → profil/konfigürasyon cascade, talepler `user_id null` ile şirket kayıtlarında kalır; personel hesabı silinemez) + "SİL" onay sözcüğü.
+- KVKK taşınabilirlik: `/api/account/export` üyenin kendi satırlarını (RLS) JSON indirir.
+
+**Sonuç:** migration 0051; PGlite `account.test.ts`; E2E `account.spec.ts` (kapı, profil kalıcılığı, talep → revizyon isteği → admin rozeti, sepet, güvenlik, dışa aktarım). Plan dokümanı `docs/modules/ACCOUNT-PLAN.md` (uygulandı).

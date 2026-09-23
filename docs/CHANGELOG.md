@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — hesabım (K-103)
+- `/hesabim` sekmeli üye alanı: özet, tekliflerim (detay + mesaj / revizyon / iptal isteği), konfigürasyonlarım (ad değiştir, arşivle, yazdır), sepetim (cihaz ↔ hesap senkronu, otomatik kayıt), profil (+ firma bilgileri), güvenlik (şifre / e-posta değiştirme, hesap silme), bildirimler, verilerim (KVKK JSON)
+- Migration 0051: `lead_replies.direction/kind`, `profiles.saved_basket`, RPC `customer_lead_message` / `claim_my_leads` / `upsert_my_customer` / `get_my_customer` / `delete_my_account`; panelde müşteri mesajı rozeti, `lead.customer_message` bildirimi; PGlite + E2E testleri
+
 ### Eklendi — site içi arama (K-102)
 - `search_site` RPC (0049, Türkçe-duyarlı, 7 kaynak, alan + parça), `/api/search` (hız sınırı + 5 dk önbellek), header araması (panel/tam ekran, klavye, vurgu), `/arama` sayfası; PGlite + E2E testleri
 

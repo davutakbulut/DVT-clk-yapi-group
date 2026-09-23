@@ -2121,8 +2121,10 @@ export type Database = {
           author_id: string | null
           body: string
           created_at: string
+          direction: string
           email_log_id: string | null
           id: string
+          kind: string
           lead_id: string
           sent_at: string | null
           subject: string
@@ -2132,8 +2134,10 @@ export type Database = {
           author_id?: string | null
           body: string
           created_at?: string
+          direction?: string
           email_log_id?: string | null
           id?: string
+          kind?: string
           lead_id: string
           sent_at?: string | null
           subject: string
@@ -2143,8 +2147,10 @@ export type Database = {
           author_id?: string | null
           body?: string
           created_at?: string
+          direction?: string
           email_log_id?: string | null
           id?: string
+          kind?: string
           lead_id?: string
           sent_at?: string | null
           subject?: string
@@ -3557,6 +3563,7 @@ export type Database = {
           phone: string | null
           preferred_locale: string
           role: string
+          saved_basket: Json
           updated_at: string
         }
         Insert: {
@@ -3571,6 +3578,7 @@ export type Database = {
           phone?: string | null
           preferred_locale?: string
           role?: string
+          saved_basket?: Json
           updated_at?: string
         }
         Update: {
@@ -3585,6 +3593,7 @@ export type Database = {
           phone?: string | null
           preferred_locale?: string
           role?: string
+          saved_basket?: Json
           updated_at?: string
         }
         Relationships: [
@@ -5327,6 +5336,7 @@ export type Database = {
       admin_dashboard_counts: { Args: never; Returns: Json }
       aggregate_analytics_day: { Args: { p_day: string }; Returns: Json }
       anonymize_customer: { Args: { p_id: string }; Returns: undefined }
+      claim_my_leads: { Args: never; Returns: number }
       create_customer_from_lead: {
         Args: { p_lead_id: string }
         Returns: string
@@ -5336,6 +5346,11 @@ export type Database = {
         Returns: string
       }
       create_sale_from_lead: { Args: { p_lead_id: string }; Returns: string }
+      customer_lead_message: {
+        Args: { p_body: string; p_kind: string; p_lead_id: string }
+        Returns: string
+      }
+      delete_my_account: { Args: never; Returns: undefined }
       enqueue_test_email: {
         Args: { p_locale: string; p_template_key: string }
         Returns: string
@@ -5349,6 +5364,7 @@ export type Database = {
         Returns: Json
       }
       get_configuration_by_token: { Args: { p_token: string }; Returns: Json }
+      get_my_customer: { Args: never; Returns: Json }
       get_price_guide_by_slug: {
         Args: { p_locale: string; p_slug: string }
         Returns: Json
@@ -5414,6 +5430,7 @@ export type Database = {
       submit_job_application: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }
       submit_testimonial: { Args: { p: Json }; Returns: Json }
+      upsert_my_customer: { Args: { p: Json }; Returns: string }
       web_vitals_summary: {
         Args: { p_from: string; p_to: string }
         Returns: {

@@ -36,7 +36,7 @@ export interface LeadDetail extends LeadRow {
   readonly page_url: string | null;
   readonly utm: Readonly<Record<string, unknown>>;
   readonly notes: readonly { id: string; body: string; created_at: string; authorName: string; is_pinned: boolean }[];
-  readonly replies: readonly { id: string; subject: string; body: string; created_at: string; sent_at: string | null; authorName: string }[];
+  readonly replies: readonly { id: string; subject: string; body: string; created_at: string; sent_at: string | null; authorName: string; direction: 'inbound' | 'outbound'; kind: string }[];
   readonly mails: readonly { id: string; template_key: string | null; to_email: string; status: string; provider: string; error: string | null; created_at: string }[];
   readonly items: readonly { id: string; product_name_snapshot: string; variant_label_snapshot: string | null; stock_code_snapshot: string | null; quantity: number; unit: string | null; note: string | null; attributes: unknown }[];
 }
@@ -65,7 +65,7 @@ export async function getLeadForAdmin(id: string): Promise<Result<LeadDetail | n
   const [lead, notes, replies, mails, items] = await Promise.all([
     client.data.from('leads').select('*, service:services(title), assignee:profiles!leads_assigned_to_fkey(full_name)').eq('id', id).maybeSingle(),
     client.data.from('lead_notes').select('id, body, created_at, is_pinned, author:profiles(full_name)').eq('lead_id', id).order('is_pinned', { ascending: false }).order('created_at', { ascending: false }),
-    client.data.from('lead_replies').select('id, subject, body, created_at, sent_at, author:profiles(full_name)').eq('lead_id', id).order('created_at', { ascending: false }),
+    client.data.from('lead_replies').select('id, subject, body, created_at, sent_at, direction, kind, author:profiles(full_name)').eq('lead_id', id).order('created_at', { ascending: false }),
     client.data.from('email_logs').select('id, template_key, to_email, status, provider, error, created_at').eq('related_type', 'lead').eq('related_id', id).order('created_at', { ascending: false }),
     client.data.from('lead_items').select('id, product_name_snapshot, variant_label_snapshot, stock_code_snapshot, quantity, unit, note, attributes').eq('lead_id', id).order('sort_order'),
   ]);
@@ -81,7 +81,7 @@ export async function getLeadForAdmin(id: string): Promise<Result<LeadDetail | n
     serviceTitle: title(r.service as { title?: unknown } | null),
     assignedName: name(r.assignee as { full_name?: string | null } | null),
     notes: (notes.data ?? []).map((n) => ({ id: n.id, body: n.body, created_at: n.created_at, is_pinned: n.is_pinned, authorName: name(n.author as { full_name?: string | null } | null) })),
-    replies: (replies.data ?? []).map((n) => ({ id: n.id, subject: n.subject, body: n.body, created_at: n.created_at, sent_at: n.sent_at, authorName: name(n.author as { full_name?: string | null } | null) })),
+    replies: (replies.data ?? []).map((n) => ({ id: n.id, subject: n.subject, body: n.body, created_at: n.created_at, sent_at: n.sent_at, authorName: name(n.author as { full_name?: string | null } | null), direction: (n.direction === 'inbound' ? 'inbound' : 'outbound') as 'inbound' | 'outbound', kind: n.kind ?? 'reply' })),
     mails: mails.data ?? [],
     items: (items.data ?? []).map((i) => ({ ...i, quantity: Number(i.quantity) })),
   });

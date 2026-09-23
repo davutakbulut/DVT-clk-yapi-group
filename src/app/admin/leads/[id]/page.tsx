@@ -128,11 +128,12 @@ export default async function AdminLeadDetailPage({ params }: { readonly params:
           {l.replies.length === 0 ? <p className="text-sm text-muted-foreground">{t('common.empty')}</p> : null}
           <ul className="grid gap-3">
             {l.replies.map((r) => (
-              <li key={r.id} className="rounded-md border p-3 text-sm">
+              <li key={r.id} className={r.direction === 'inbound' ? 'rounded-md border border-amber-400/60 bg-amber-50/40 p-3 text-sm dark:bg-amber-950/20' : 'rounded-md border p-3 text-sm'}>
+                {r.direction === 'inbound' ? <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-300">{t('leads.fromCustomer')} · {t(`leads.customerKinds.${r.kind === 'revision_request' ? 'revision_request' : r.kind === 'cancel_request' ? 'cancel_request' : 'reply'}`)}</p> : null}
                 <p className="font-medium">{r.subject}</p>
                 <p className="whitespace-pre-wrap">{r.body}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {r.authorName} · {r.created_at.slice(0, 16).replace('T', ' ')} · {r.sent_at ? t('leads.sent') : t('leads.queued')}
+                  {r.authorName} · {r.created_at.slice(0, 16).replace('T', ' ')}{r.direction === 'outbound' ? ` · ${r.sent_at ? t('leads.sent') : t('leads.queued')}` : ''}
                 </p>
               </li>
             ))}

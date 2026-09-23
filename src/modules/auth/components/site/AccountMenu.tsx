@@ -28,6 +28,9 @@ export function AccountMenu() {
         const res = await fetch(`/api/me?t=${Date.now()}`, { credentials: 'same-origin', cache: 'no-store' });
         const data = (await res.json()) as { user: { name: string; isStaff: boolean } | null };
         if (!cancelled) setState(data.user ? { status: 'user', isStaff: data.user.isStaff, name: data.user.name } : { status: 'guest' });
+        // Diğer istemci bileşenleri (sepet otomatik kaydı, K-103) ikinci istek atmasın: özet olayla yayınlanır
+        (window as Window & { __clkMe?: unknown }).__clkMe = data.user;
+        window.dispatchEvent(new CustomEvent('clk:me', { detail: data.user }));
       } catch {
         if (!cancelled) setState({ status: 'guest' });
       }

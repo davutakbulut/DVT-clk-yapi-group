@@ -593,6 +593,12 @@
         "length_m": "Length (m)",
         "kg_per_m": "kg/m",
         "total_kg": "Total kg"
+      },
+      "fromCustomer": "From customer",
+      "customerKinds": {
+        "reply": "Message",
+        "revision_request": "Revision request",
+        "cancel_request": "Cancellation request"
       }
     },
     "mail": {
@@ -1049,7 +1055,8 @@
         "comment_pending": "Blog comment awaiting approval",
         "schedule_due": "Instalment due soon: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "schedule_overdue": "Overdue instalment: {sale_no} · {customer} · {amount} ₺ · {due_date}",
-        "system_stale_cron": "Cron silent: {job_key} (last run {last_run_at})"
+        "system_stale_cron": "Cron silent: {job_key} (last run {last_run_at})",
+        "lead_customer_message": "Customer message {ref_no} ({kind})"
       }
     },
     "customers": {
@@ -2517,6 +2524,152 @@
       "excerpt": "In summary",
       "body": "In content",
       "variants": "In size table"
+    }
+  },
+  "Account": {
+    "kicker": "My account",
+    "nav": "Account sections",
+    "tabs": {
+      "overview": "Overview",
+      "quotes": "My quotes",
+      "configurations": "My configurations",
+      "basket": "My basket",
+      "profile": "Profile",
+      "security": "Security",
+      "notifications": "Notifications",
+      "data": "My data"
+    },
+    "overview": {
+      "welcome": "Welcome, {name}",
+      "lead": "Manage your quote requests, configurations and account settings here.",
+      "quotes": "Quote requests",
+      "configurations": "Saved configurations",
+      "basket": "Items in basket",
+      "unread": "Unread notifications",
+      "recentQuotes": "Recent requests",
+      "recentConfigs": "Recent configurations",
+      "all": "All",
+      "claimed": "{count} earlier requests were linked to your account."
+    },
+    "quotes": {
+      "empty": "You have no quote requests yet.",
+      "start": "Request a quote from products or the configurator.",
+      "ref": "Request no",
+      "date": "Date",
+      "status": "Status",
+      "items": "Items",
+      "amount": "Quote",
+      "statuses": {
+        "new": "Received",
+        "in_review": "In review",
+        "quoted": "Quoted",
+        "won": "Approved",
+        "lost": "Closed"
+      },
+      "detail": "Request detail",
+      "message": "Your message",
+      "itemsTitle": "Items",
+      "product": "Product",
+      "qty": "Quantity",
+      "note": "Note",
+      "replies": "Messages",
+      "you": "You",
+      "company": "CLK Yapı Group",
+      "noReplies": "No messages yet.",
+      "send": "Send",
+      "kind": "Message type",
+      "kinds": {
+        "reply": "Message / question",
+        "revision_request": "Quote revision request",
+        "cancel_request": "Cancel the request"
+      },
+      "body": "Message",
+      "sent": "Your message was sent; the sales team will get back to you.",
+      "quoted": "Quote given",
+      "lead": "Your quote requests, their status and messages; you can send a message or a revision request for any request."
+    },
+    "configurations": {
+      "lead": "Your saved configurations, each with a share link and print view.",
+      "empty": "No saved configurations.",
+      "start": "Open the configurator",
+      "open": "Open",
+      "rename": "Rename",
+      "archive": "Archive",
+      "archived": "Archived",
+      "unarchive": "Unarchive",
+      "print": "Print",
+      "name": "Name",
+      "save": "Save"
+    },
+    "basket": {
+      "lead": "The basket on this device and the basket saved to your account.",
+      "device": "Basket on this device",
+      "saved": "Basket saved to account",
+      "empty": "Empty",
+      "save": "Save basket to my account",
+      "restore": "Load saved basket on this device",
+      "savedOk": "Basket saved.",
+      "restoredOk": "Basket loaded.",
+      "goBasket": "Go to basket",
+      "items": "{count} items",
+      "autoSave": "While signed in, basket changes are also saved to your account.",
+      "error": "Could not save, please try again."
+    },
+    "profile": {
+      "lead": "Your name, phone, language and company details prefill quote forms.",
+      "personal": "Personal details",
+      "company": "Company details",
+      "type": "Customer type",
+      "individual": "Individual",
+      "corporate": "Company",
+      "fullName": "Contact name",
+      "companyTitle": "Company name",
+      "taxOffice": "Tax office",
+      "taxId": "Tax / ID number",
+      "taxIdHint": "10-digit tax number or 11-digit ID number; may be left empty.",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "phone": "Company phone",
+      "save": "Save",
+      "saved": "Saved."
+    },
+    "security": {
+      "lead": "Your current password is required for password and email changes.",
+      "email": "Email address",
+      "currentEmail": "Current email",
+      "password": "Password",
+      "changePassword": "Change password",
+      "current": "Current password",
+      "newPassword": "New password",
+      "confirm": "New password (again)",
+      "passwordChanged": "Your password was updated.",
+      "changeEmail": "Change email",
+      "newEmail": "New email",
+      "emailSent": "A confirmation link was sent to the new address; the change completes once confirmed.",
+      "danger": "Delete account",
+      "dangerLead": "Your account, profile and saved configurations are permanently deleted. Submitted quote requests remain in company records without your identity. This cannot be undone.",
+      "confirmWord": "Type DELETE to confirm",
+      "deleteBtn": "Permanently delete my account",
+      "sessions": "Session",
+      "logout": "Sign out"
+    },
+    "notifications": {
+      "lead": "Notifications about request status and replies.",
+      "empty": "No notifications.",
+      "markRead": "Mark as read",
+      "open": "Open",
+      "types": {
+        "lead_replied": "Your request received a reply",
+        "lead_status": "Request status updated",
+        "default": "Notification"
+      }
+    },
+    "data": {
+      "lead": "Under KVKK/GDPR you can download a copy of the data linked to your account.",
+      "download": "Download my data (JSON)",
+      "includes": "Profile, company details, quote requests and items, messages, configurations.",
+      "privacy": "Privacy policy"
     }
   }
 }

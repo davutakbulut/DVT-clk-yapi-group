@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import { addItem, BASKET_EVENT, BASKET_KEY, itemKey, parseBasket, removeItem, updateItem, type BasketItem } from '../../domain/basket';
+import { addItem, BASKET_EVENT, BASKET_KEY, BASKET_MAX_ITEMS, itemKey, parseBasket, removeItem, updateItem, type BasketItem } from '../../domain/basket';
 
 interface BasketStore {
   readonly items: readonly BasketItem[];
@@ -10,6 +10,8 @@ interface BasketStore {
   readonly update: (key: string, patch: Partial<Pick<BasketItem, 'quantity' | 'note' | 'unit'>>) => void;
   readonly remove: (key: string) => void;
   readonly clear: () => void;
+  /** Sepeti verilen listeyle değiştir (hesaptan yükleme, K-103). */
+  readonly replace: (items: readonly BasketItem[]) => void;
 }
 
 const BasketContext = createContext<BasketStore | null>(null);
@@ -58,6 +60,7 @@ export function BasketProvider({ children }: { readonly children: ReactNode }) {
       update: (key, patch) => commit(updateItem(read(), key, patch)),
       remove: (key) => commit(removeItem(read(), key)),
       clear: () => commit([]),
+      replace: (next) => commit(next.slice(0, BASKET_MAX_ITEMS)),
     }),
     [items, ready, commit],
   );

@@ -302,6 +302,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 
 ## v2.0 — İleri Seviye
 
+- [x] **Faz 29c** — Hesabım üye alanı: sekmeli kabuk, tekliflerim (yazışma + revizyon/iptal isteği), konfigürasyonlarım, sepet senkronu, profil + firma, güvenlik (şifre/e-posta/hesap silme), bildirimler, KVKK dışa aktarım (K-103, migration 0051) ✅ 2026-09-24
 - [x] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel ✅
   - [x] RSS 2.0 `/{locale}/feed.xml` (dil başına yayındaki son 50 yazı; `atom:link self`; 30 dk önbellek) · `buildAlternates` her sayfaya `application/rss+xml` otomatik keşfi · `llms.txt` genişletildi (çözümler, ürünler, projeler, beslemeler)
   - [x] IndexNow: `core/jobs/indexNow` (`parseSitemap`/`selectChanged` 2 test; sitemap'teki `lastmod` > son başarılı koşu → `api.indexnow.org` tek POST; ilk koşuda tümü; yalnız üretim + `SITE_INDEXABLE`; heartbeat `indexnow`) · `/api/cron/indexnow` (saatte bir, `vercel.json`) · `/api/indexnow-key` (keyLocation) · SEO ayarlarında durum + "Şimdi gönder" (`triggerIndexNow`, admin oturumu K-56 deseni)

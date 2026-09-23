@@ -19,8 +19,8 @@ test.describe('konfigüratör kaydet/paylaş', () => {
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
     await dismissCookies(page);
     await openConfiguratorPanel(page);
-    await expect(page.getByTestId('price-gate')).toContainText('üye');
-    const form = page.getByTestId('save-form');
+    await expect(page.getByTestId('price-gate').first()).toContainText('üye'); // .first(): hol paneli yük altında kısa süre çift render (ROADMAP açık madde)
+    const form = page.getByTestId('save-form').first();
     await form.getByLabel('Kayıt adı (isteğe bağlı)').fill(`E2E Konfig ${stamp}`);
     await form.locator('input[name="email"]').fill(`e2e-konfig-${stamp}@example.com`);
     await form.locator('input[name="consentKvkk"]').check();
@@ -61,8 +61,8 @@ test.describe('konfigüratör kaydet/paylaş', () => {
       await page.waitForURL(/\/tr\/konfigurator\/hol/);
       await expect(page.getByTestId('price-panel')).toBeVisible();
       await expect(page.getByTestId('price-gate')).toHaveCount(0);
-      await page.goto('/tr/hesabim');
-      await expect(page.getByRole('heading', { name: 'Konfigürasyonlarım' })).toBeVisible();
+      await page.goto('/tr/hesabim/konfigurasyonlar'); // K-103: liste kendi sekmesinde
+      await expect(page.getByRole('heading', { level: 1, name: 'Konfigürasyonlarım' })).toBeVisible();
     });
   });
 });

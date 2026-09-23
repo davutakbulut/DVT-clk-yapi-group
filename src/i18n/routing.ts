@@ -18,6 +18,15 @@ export const routing = defineRouting({
     '/forgot-password': { tr: '/sifremi-unuttum', en: '/forgot-password' },
     '/reset-password': { tr: '/sifre-yenile', en: '/reset-password' },
     '/account': { tr: '/hesabim', en: '/account' },
+    // K-103 · hesabım alt bölümleri
+    '/account/quotes': { tr: '/hesabim/teklifler', en: '/account/quotes' },
+    '/account/quotes/[id]': { tr: '/hesabim/teklifler/[id]', en: '/account/quotes/[id]' },
+    '/account/configurations': { tr: '/hesabim/konfigurasyonlar', en: '/account/configurations' },
+    '/account/basket': { tr: '/hesabim/sepet', en: '/account/basket' },
+    '/account/profile': { tr: '/hesabim/profil', en: '/account/profile' },
+    '/account/security': { tr: '/hesabim/guvenlik', en: '/account/security' },
+    '/account/notifications': { tr: '/hesabim/bildirimler', en: '/account/notifications' },
+    '/account/data': { tr: '/hesabim/verilerim', en: '/account/data' },
     // Faz 7 · hizmetler
     '/services': { tr: '/hizmetler', en: '/services' },
     '/services/[slug]': { tr: '/hizmetler/[slug]', en: '/services/[slug]' },
