@@ -38,7 +38,7 @@ export interface LeadDetail extends LeadRow {
   readonly notes: readonly { id: string; body: string; created_at: string; authorName: string; is_pinned: boolean }[];
   readonly replies: readonly { id: string; subject: string; body: string; created_at: string; sent_at: string | null; authorName: string }[];
   readonly mails: readonly { id: string; template_key: string | null; to_email: string; status: string; provider: string; error: string | null; created_at: string }[];
-  readonly items: readonly { id: string; product_name_snapshot: string; variant_label_snapshot: string | null; stock_code_snapshot: string | null; quantity: number; unit: string | null; note: string | null }[];
+  readonly items: readonly { id: string; product_name_snapshot: string; variant_label_snapshot: string | null; stock_code_snapshot: string | null; quantity: number; unit: string | null; note: string | null; attributes: unknown }[];
 }
 
 export interface StaffChoice {
@@ -67,7 +67,7 @@ export async function getLeadForAdmin(id: string): Promise<Result<LeadDetail | n
     client.data.from('lead_notes').select('id, body, created_at, is_pinned, author:profiles(full_name)').eq('lead_id', id).order('is_pinned', { ascending: false }).order('created_at', { ascending: false }),
     client.data.from('lead_replies').select('id, subject, body, created_at, sent_at, author:profiles(full_name)').eq('lead_id', id).order('created_at', { ascending: false }),
     client.data.from('email_logs').select('id, template_key, to_email, status, provider, error, created_at').eq('related_type', 'lead').eq('related_id', id).order('created_at', { ascending: false }),
-    client.data.from('lead_items').select('id, product_name_snapshot, variant_label_snapshot, stock_code_snapshot, quantity, unit, note').eq('lead_id', id).order('sort_order'),
+    client.data.from('lead_items').select('id, product_name_snapshot, variant_label_snapshot, stock_code_snapshot, quantity, unit, note, attributes').eq('lead_id', id).order('sort_order'),
   ]);
   const failure = lead.error ?? notes.error ?? replies.error;
   if (failure) return err(appError('external_service', failure.message, { module: 'leads' }));

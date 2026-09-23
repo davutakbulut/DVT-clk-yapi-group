@@ -10,6 +10,7 @@ import { IDLE } from '@/lib/formState';
 import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveProduct, saveProductCategory } from '../../actions';
 import type { AdminProduct, AdminProductCategory, Choice } from '../../data/adminProductsRepository';
+import { formatFacts } from '../../domain/productConfig';
 import { formatSpecs, formatVariants } from '../../domain/productLines';
 import { MediaPicker } from '@/modules/media';
 
@@ -56,11 +57,32 @@ export function ProductForm({ product, images, documents, categories, services }
           {select('serviceId', t('products.service'), services, product?.service_id)}
         </div>
       </FormSection>
+      <FormSection title={t('products.selector')}>
+        <p className="text-xs text-muted-foreground">{t('products.selectorHint')}</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-1">
+            <Label htmlFor="f-grades">{t('products.grades')}</Label>
+            <Input id="f-grades" name="grades" defaultValue={product?.options.grades.join(', ') ?? ''} placeholder="S235JRH, S275J0H, S355J2H" />
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-lengthsM">{t('products.lengths')}</Label>
+            <Input id="f-lengthsM" name="lengthsM" defaultValue={product?.options.lengthsM.join(', ') ?? ''} placeholder="6, 12" inputMode="decimal" />
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-unit">{t('products.unit')}</Label>
+            <Input id="f-unit" name="unit" defaultValue={product?.options.unit ?? ''} placeholder={tp('unitDefault')} maxLength={20} />
+          </div>
+          <label className="flex items-center gap-2 self-end text-sm">
+            <input type="checkbox" name="customLength" defaultChecked={product?.options.customLength ?? false} /> {t('products.customLength')}
+          </label>
+        </div>
+        <LocalizedField name="facts" label={t('products.facts')} value={product ? { tr: formatFacts(product.facts, 'tr'), en: formatFacts(product.facts, 'en') } : null} state={state} multiline rows={3} hint={t('products.factsHint')} />
+      </FormSection>
       <FormSection title={t('products.specs')}>
         <LocalizedField name="specs" label={t('products.specs')} value={product ? { tr: formatSpecs(product.specs, 'tr'), en: formatSpecs(product.specs, 'en') } : null} state={state} multiline rows={6} hint={t('products.specsHint')} />
         <div className="grid gap-1">
           <Label htmlFor="f-variants">{t('products.variants')}</Label>
-          <Textarea id="f-variants" name="variants" rows={6} defaultValue={product ? formatVariants(product.variants) : ''} className="font-mono text-xs" />
+          <Textarea id="f-variants" name="variants" rows={10} defaultValue={product ? formatVariants(product.variants) : ''} className="font-mono text-xs" />
           <p className="text-xs text-muted-foreground">{t('products.variantsHint')}</p>
         </div>
       </FormSection>

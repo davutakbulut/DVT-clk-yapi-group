@@ -43,10 +43,12 @@ test.describe('teklif sepeti', () => {
       const vp = await visitor.newPage();
       await vp.goto(`/tr/urunler/${slug}`);
       await vp.waitForLoadState('networkidle');
-      await vp.getByRole('combobox', { name: 'Ölçü', exact: true }).selectOption({ label: `50×50 mm · ${code}` });
+      // K-88 seçici: ölçü (H×B) → seçili kesitin stok kodu çizim panelinde; miktar → sepet
+      await vp.getByRole('combobox', { name: 'Ölçü', exact: true }).selectOption({ label: '50×50' });
+      await expect(vp.getByTestId('pcfg-code')).toHaveText(code);
       await vp.getByLabel(/^Miktar/).fill('12');
-      await vp.getByRole('button', { name: 'Sepete ekle' }).click();
-      await expect(vp.locator('#main-content').getByRole('status')).toContainText('Sepete eklendi');
+      await vp.getByRole('button', { name: 'Teklif sepetine ekle' }).click();
+      await expect(vp.locator('#main-content').getByRole('status').filter({ hasText: 'teklif sepetine eklendi' })).toBeVisible();
       await expect(vp.getByRole('link', { name: 'Teklif sepeti, 1 kalem' })).toBeVisible();
 
       await vp.goto('/tr/teklif-sepeti');

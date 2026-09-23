@@ -7,6 +7,14 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — ürün seçici: dinamik ölçü/ağırlık/teklif (K-88)
+- **Ürün sayfası:** gerçekler şeridi, kesit çizimi, grup→ölçü→et→kalite→boy→adet seçimi, kg/m·boy·toplam, kesit değerleri, "Teklif sepetine ekle"; filtreli/sıralı/aranabilir ölçü tablosu (satır → seçim). Ölçü verisi olmayan ürünler eski düzende
+- **Sepet/talep:** kalem nitelikleri (kalite, boy, kg/m, toplam kg), sepette toplam ağırlık, panelde talep kaleminde nitelikler (`0046`)
+- **Panel:** Ürün → "Seçici" bölümü (kaliteler, stok boyları, özel boy, birim, gerçekler); varyant satırında grup + kesit değerleri, Excel'den sekmeli yapıştırma
+- **İçerik:** kutu profil 331 ölçü + SSS + teknik özellikler (prototipten)
+- **Düzeltme:** mobil +4px taşma (seçicideki `<select>`), WhatsApp CTA kontrastı 4,37 → 5,9
+- **Testler:** `productConfig` birim (5), sepet nitelikleri, DB `0046`, `product-selector.spec` (masaüstü+mobil); ürün/sepet E2E'leri seçiciye uyarlandı
+
 ### Eklendi — form içi görsel yükleme · sosyal medya yönetimi · liste küçük resimleri (K-85, K-86, K-87)
 - **Liste küçük resimleri (K-87):** 9 panel listesinde kapak/fotoğraf/logo küçük resmi; tıklayınca büyük görüntü (dialog); görselsiz satırda boş yer tutucu; `admin-thumbs.spec`
 - **MediaPicker:** paneldeki 23 medya alanı artık doğrudan yükleme yapıyor (önizleme, klasör içerik türüne göre, aynı boru hattı ve RLS); Medya sayfası toplu yükleme için duruyor

@@ -10,6 +10,8 @@ import type { Locale } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { AddToBasket } from '@/modules/quote-basket';
 import { WhatsAppInquiry } from '@/modules/whatsapp';
+import { isConfigurable } from '../../domain/productConfig';
+import { ProductSelector } from './ProductSelector';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
@@ -112,6 +114,10 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
   // WhatsApp hazır mesajında tam sayfa adresi (müşteri temsilcisi hangi üründen yazıldığını görür)
   const pageUrl = `${getSiteUrl().origin}${getPathname({ href: { pathname: '/products/[slug]', params: { slug: product.slug } }, locale: locale as Locale })}`;
   const hasDim = (k: 'widthMm' | 'heightMm' | 'thicknessMm' | 'lengthMm' | 'kgPerM' | 'stockCode') => product.variants.some((v) => v[k] !== null && v[k] !== '');
+  // K-88: ölçü/ağırlık verisi olan ürünlerde seçici (çizim + hesap + tablo); diğerlerinde basit sepet formu ve düz ölçü tablosu
+  const configurable = isConfigurable(product.variants);
+  const sizeRange = product.variants.length > 1 ? { from: product.variants[0]!.sizeLabel, to: product.variants[product.variants.length - 1]!.sizeLabel } : null;
+  const facts = [...product.facts, ...(product.variants.length > 1 ? [{ label: sizeRange ? t('factSizesHint', sizeRange) : '', value: t('factSizes', { count: product.variants.length }) }] : [])];
 
   return (
     <article className="grid">
@@ -141,8 +147,28 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
           </div>
         </Container>
       </header>
+      {facts.length > 0 ? (
+        <Container>
+          <dl className="product-facts">
+            {facts.map((f) => (
+              <div key={f.label + f.value}>
+                <dd>{f.value}</dd>
+                <dt>{f.label}</dt>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      ) : null}
+      {configurable ? (
+        <Container as="section" aria-labelledby="product-selector" className="grid gap-6 py-[var(--section-y)]">
+          <h2 id="product-selector" className="sr-only">
+            {t('cfg.title')}
+          </h2>
+          <ProductSelector productId={product.id} slug={product.slug} name={product.name} variants={product.variants} options={product.options} unit={product.options.unit ?? t('unitDefault')} />
+        </Container>
+      ) : null}
 
-      <Container className="grid gap-12 py-[var(--section-y)] lg:grid-cols-[6fr_6fr]">
+      <Container className={`grid gap-12 lg:grid-cols-[6fr_6fr] ${configurable ? 'pb-[var(--section-y)]' : 'py-[var(--section-y)]'}`}>
         <div className="grid content-start gap-6">
           {cover ? (
             <figure className="about-figure">
@@ -177,7 +203,7 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
               </Link>
             </p>
           ) : null}
-          <AddToBasket productId={product.id} slug={product.slug} name={product.name} variants={product.variants.map((v) => ({ id: v.id, label: v.sizeLabel, stockCode: v.stockCode }))} unit={t('unitDefault')} />
+          {!configurable ? <AddToBasket productId={product.id} slug={product.slug} name={product.name} variants={product.variants.map((v) => ({ id: v.id, label: v.sizeLabel, stockCode: v.stockCode }))} unit={product.options.unit ?? t('unitDefault')} /> : null}
           {/* Stok / sipariş sorusu doğrudan WhatsApp'tan: ürün adı + sayfa adresi hazır mesajda. WhatsApp kapalıysa render edilmez. */}
           <WhatsAppInquiry message={t('waProduct', { name: product.name, url: pageUrl })} label={t('waAsk')} />
           <div className="grid justify-items-start gap-3 border-t border-[var(--color-border)] pt-6">
@@ -214,7 +240,7 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
         </Container>
       ) : null}
 
-      {product.variants.length > 0 ? (
+      {product.variants.length > 0 && !configurable ? (
         <Container as="section" aria-labelledby="product-variants" className="grid gap-6 pb-[var(--section-y)]">
           <h2 id="product-variants" className="text-[length:var(--fs-h3)]">
             {t('variants')}

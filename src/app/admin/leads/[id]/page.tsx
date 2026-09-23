@@ -70,6 +70,11 @@ export default async function AdminLeadDetailPage({ params }: { readonly params:
                       <td className="py-1">{i.product_name_snapshot}</td>
                       <td className="py-1">
                         {i.variant_label_snapshot ?? '—'} {i.stock_code_snapshot ? <span className="font-mono text-xs text-muted-foreground">{i.stock_code_snapshot}</span> : null}
+                        {i.attributes && typeof i.attributes === 'object' && Object.keys(i.attributes).length > 0 ? (
+                          <span className="block text-xs text-muted-foreground">
+                            {Object.entries(i.attributes as Record<string, string | number>).map(([k, v]) => `${t(`leads.attr.${k}` as never)}: ${v}`).join(' · ')}
+                          </span>
+                        ) : null}
                       </td>
                       <td className="py-1">
                         {i.quantity} {i.unit ?? ''}

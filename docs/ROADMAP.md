@@ -325,6 +325,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Logo dosyası | 4 | ⏳ |
 | WhatsApp numarası | 4 | ⏳ |
 | Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
+| Diğer profil ürünlerinin ölçü tabloları (boru, HEA/HEB/IPE/UPN…) | ürünler | ⏳ ürün sahibi — panelde varyant satırına Excel'den yapıştırma (K-88); kutu profil hazır |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |
 | Gerçek saha video çekimleri | ana sayfa | ⏳ ürün sahibi `/admin/field-videos` — şimdilik fotoğraf derlemeleri yayında (K-77) |

@@ -443,6 +443,11 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 **Karar:** İçerik listeleri (ürün, ürün kategorisi, proje, blog, hizmet, çözüm, ekip, referans, sertifika) ilk sütunda 44px kapak küçük resmi gösterir; tıklayınca yerleşik `<dialog>` ile tam boy açılır (Esc, dışarı tıklama, ✕). Küçük resim `w480` varyantından, büyük hâli tam boydan; liste sorguları kapağı `thumb:media_library!<fk>(storage_path, variants)` gömüsüyle tek istekte alır (ek sorgu yok). Görseli olmayan satırda çizgili boş yer tutucu → satır hizası bozulmaz. Bileşenler `admin-shell` (`Thumb`, `thumbSrc`); `ServicesTable` de aynı bileşeni kullanır.
 **Neden:** Ürün sahibi listede hangi kaydın görselinin olduğunu görmek ve düzenleme sayfasına girmeden bakmak istedi.
 
+### K-88 · Ürün sayfası = seçici: ölçü/kalınlık/kalite/boy/adet → ağırlık → teklif sepeti
+**Karar:** Ölçü tablosu (kg/m ya da H×B) olan her ürün sayfası, ürün sahibinin kutu-profil.html prototipine göre "seçici" düzeninde açılır: başlık altı kısa gerçekler şeridi (+ otomatik "N ölçü"), koyu panelde ölçekli kesit çizimi (TS EN 10219 köşe yarıçapları; boruda daire), seçim paneli (kesit grubu → H×B → et kalınlığı çipleri → kalite → boy/özel boy → adet), kg/m · bir boy · toplam, kesit değerleri (A, Ix, Iy, Wx, Wy, ix, iy, u), "Teklif sepetine ekle"; altında filtrelenip sıralanan, aranan, satırı seçime aktaran ölçü tablosu. Ölçü verisi olmayan ürünler eski basit düzende kalır. Sepet kalemi kalite/boy/kg/toplam niteliklerini taşır; aynı ölçü farklı kalite/boy ayrı kalemdir; sepette ve panelde talep kaleminde görünür (`lead_items.attributes`).
+**Veri:** `products.options` (kaliteler, stok boyları, özel boy, birim), `products.facts`, `product_variants.variant_group` + `props`; panelde "Seçici" bölümü ve genişletilmiş varyant satırı (Excel'den sekmeli yapıştırma). Kutu profil: 331 ölçü (nominal, TS EN 10219-2 + 7850 kg/m³; K-75 gereği standart değer uydurma sayılmaz), 4 SSS ve teknik özellikler prototipten (ürün sahibinin dosyası) alındı.
+**Tasarım:** Prototipin sarı işaret rengi yalnız çizimdeki ölçü oklarında kaldı (teknik çizim dili); arayüzde vurgu çelik mavisi, köşe ≤ 4px (04-DESIGN-RULES). Fiyat yok (K-27).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

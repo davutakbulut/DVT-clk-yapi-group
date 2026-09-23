@@ -41,7 +41,13 @@ export interface VariantRow {
   readonly lengthMm: number | null;
   readonly kgPerM: number | null;
   readonly stockCode: string | null;
+  /** Kesit grubu (ör. Kare / Dikdörtgen) — TR metin; EN yoksa TR gösterilir. */
+  readonly variantGroup: string | null;
+  /** Kesit değerleri A, Ix, Iy, Wx, Wy, ix, iy, u (yalnız pozitif sayılar). */
+  readonly props: Readonly<Record<string, number>>;
 }
+
+const PROP_ORDER = ['A', 'Ix', 'Iy', 'Wx', 'Wy', 'ix', 'iy', 'u'] as const;
 
 const n = (v: string | undefined): number | null => {
   if (!v) return null;
@@ -49,16 +55,33 @@ const n = (v: string | undefined): number | null => {
   return Number.isFinite(x) && x > 0 ? x : null;
 };
 
+/**
+ * Satır: ölçü | genişlik | yükseklik | et | boy | kg/m | kod | grup | A | Ix | Iy | Wx | Wy | ix | iy | u
+ * Excel'den yapıştırılan sekmeli satırlar da kabul edilir (sekme → |). Başlık satırı ("ölçü"/"size" ile başlayan) atlanır.
+ */
 export function parseVariants(text: string): VariantRow[] {
   return text
     .split('\n')
-    .map((l) => l.split('|').map((p) => p.trim()))
-    .filter((p) => p[0])
-    .map((p) => ({ sizeLabel: p[0]!, widthMm: n(p[1]), heightMm: n(p[2]), thicknessMm: n(p[3]), lengthMm: n(p[4]), kgPerM: n(p[5]), stockCode: p[6] || null }));
+    .map((l) => l.replace(/\t/g, '|').split('|').map((p) => p.trim()))
+    .filter((p) => p[0] && !/^(ölçü|olcu|size|stok|kod)/i.test(p[0]) )
+    .map((p) => {
+      const props: Record<string, number> = {};
+      PROP_ORDER.forEach((k, i) => {
+        const v = n(p[8 + i]);
+        if (v !== null) props[k] = v;
+      });
+      return { sizeLabel: p[0]!, widthMm: n(p[1]), heightMm: n(p[2]), thicknessMm: n(p[3]), lengthMm: n(p[4]), kgPerM: n(p[5]), stockCode: p[6] || null, variantGroup: p[7] || null, props };
+    });
 }
 
 export function formatVariants(rows: readonly VariantRow[]): string {
-  return rows.map((v) => [v.sizeLabel, v.widthMm ?? '', v.heightMm ?? '', v.thicknessMm ?? '', v.lengthMm ?? '', v.kgPerM ?? '', v.stockCode ?? ''].join(' | ').replace(/( \|)+$/, '')).join('\n');
+  return rows
+    .map((v) => {
+      const base = [v.sizeLabel, v.widthMm ?? '', v.heightMm ?? '', v.thicknessMm ?? '', v.lengthMm ?? '', v.kgPerM ?? '', v.stockCode ?? '', v.variantGroup ?? ''];
+      const extra = PROP_ORDER.map((k) => v.props[k] ?? '');
+      return [...base, ...(extra.some((x) => x !== '') ? extra : [])].join(' | ').replace(/( \|)+$/, '');
+    })
+    .join('\n');
 }
 
 export function readSpecs(rows: readonly { group_name: unknown; name: unknown; value: unknown; unit: string | null }[]): SpecRow[] {

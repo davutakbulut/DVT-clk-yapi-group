@@ -5,6 +5,7 @@ import { createPublicClient } from '@/core/db/createPublicClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import type { MediaAsset } from '@/core/storage';
 import { isLocalizedText, pickLocale } from '@/lib/localized';
+import { readFacts, readOptions, readProps, type PropKey, type ProductOptions } from '../domain/productConfig';
 
 export interface ProductCategoryRef {
   readonly id: string;
@@ -36,6 +37,8 @@ export interface ProductVariant {
   readonly lengthMm: number | null;
   readonly kgPerM: number | null;
   readonly stockCode: string | null;
+  readonly group: string | null;
+  readonly props: Partial<Record<PropKey, number>>;
 }
 
 export interface ProductDetailData {
@@ -55,6 +58,9 @@ export interface ProductDetailData {
   readonly images: readonly MediaAsset[];
   readonly specs: readonly { readonly group: string; readonly name: string; readonly value: string; readonly unit: string | null }[];
   readonly variants: readonly ProductVariant[];
+  /** Seçici seçenekleri ve başlık altı gerçekler (K-88). */
+  readonly options: ProductOptions;
+  readonly facts: readonly { readonly label: string; readonly value: string }[];
   readonly documents: readonly { readonly title: string; readonly docType: string; readonly bucket: string; readonly path: string; readonly sizeBytes: number | null }[];
   readonly projects: readonly { readonly slug: string; readonly title: string }[];
   readonly faqs: readonly { readonly question: string; readonly answer: string }[];
@@ -134,7 +140,9 @@ async function fetchProductBySlug(locale: string, slug: string): Promise<Result<
     service: service?.slug && service.title ? { slug: service.slug, title: service.title } : null,
     images: ((d['images'] ?? []) as NonNullable<RpcMedia>[]).map((m) => rpcMedia(m, locale)!),
     specs: ((d['specs'] ?? []) as { group: string | null; name: string | null; value: string | null; unit: string | null }[]).map((s) => ({ group: s.group ?? '', name: s.name ?? '', value: s.value ?? '', unit: s.unit })),
-    variants: ((d['variants'] ?? []) as Record<string, unknown>[]).map((v) => ({ id: String(v['id']), sizeLabel: String(v['size_label'] ?? ''), widthMm: num(v['width_mm']), heightMm: num(v['height_mm']), thicknessMm: num(v['thickness_mm']), lengthMm: num(v['length_mm']), kgPerM: num(v['kg_per_m']), stockCode: (v['stock_code'] as string | null) ?? null })),
+    variants: ((d['variants'] ?? []) as Record<string, unknown>[]).map((v) => ({ id: String(v['id']), sizeLabel: String(v['size_label'] ?? ''), widthMm: num(v['width_mm']), heightMm: num(v['height_mm']), thicknessMm: num(v['thickness_mm']), lengthMm: num(v['length_mm']), kgPerM: num(v['kg_per_m']), stockCode: (v['stock_code'] as string | null) ?? null, group: typeof v['variant_group'] === 'string' && v['variant_group'] ? v['variant_group'] : null, props: readProps(v['props']) })),
+    options: readOptions(d['options']),
+    facts: readFacts(d['facts']).map((f) => ({ label: pickLocale(f.label, locale), value: pickLocale(f.value, locale) })).filter((f) => f.label || f.value),
     documents: ((d['documents'] ?? []) as { title: string | null; doc_type: string; bucket: string; path: string; size_bytes: number | null }[]).filter((x) => x.title).map((x) => ({ title: x.title!, docType: x.doc_type, bucket: x.bucket, path: x.path, sizeBytes: x.size_bytes })),
     projects: ((d['projects'] ?? []) as { slug: string | null; title: string | null }[]).filter((p): p is { slug: string; title: string } => Boolean(p.slug && p.title)),
     faqs: ((d['faqs'] ?? []) as { question: string | null; answer: string | null }[]).filter((f): f is { question: string; answer: string } => Boolean(f.question && f.answer)),

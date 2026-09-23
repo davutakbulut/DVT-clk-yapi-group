@@ -584,7 +584,13 @@
       "itemProduct": "Ürün",
       "itemVariant": "Ölçü / stok",
       "itemQuantity": "Miktar",
-      "itemNote": "Not"
+      "itemNote": "Not",
+      "attr": {
+        "grade": "Kalite",
+        "length_m": "Boy (m)",
+        "kg_per_m": "kg/m",
+        "total_kg": "Toplam kg"
+      }
     },
     "mail": {
       "title": "Mail Şablonları",
@@ -765,7 +771,7 @@
       "specs": "Teknik özellikler",
       "specsHint": "Satır başına: grup | ad | değer | birim (birim yalnız TR satırında). TR ve EN satırları sırayla eşleşir.",
       "variants": "Ölçü tablosu (varyantlar)",
-      "variantsHint": "Satır başına: ölçü etiketi | genişlik mm | yükseklik mm | et kalınlığı mm | boy mm | kg/m | stok kodu",
+      "variantsHint": "Satır başına: ölçü | genişlik mm | yükseklik mm | et kalınlığı mm | boy mm | kg/m | stok kodu | grup (Kare/Dikdörtgen…) | A | Ix | Iy | Wx | Wy | ix | iy | u. Excel'den sekmeli yapıştırılabilir; başlık satırı atlanır.",
       "documents": "Belgeler (PDF)",
       "docMedia": "Dosya",
       "docTitle": "Belge başlığı",
@@ -777,7 +783,15 @@
       "ogImage": "Paylaşım görseli (OG)",
       "canonical": "Canonical URL (boş bırakın)",
       "noindex": "Arama motorlarından gizle (noindex)",
-      "categoryCol": "Kategori"
+      "categoryCol": "Kategori",
+      "selector": "Seçici (ürün sayfası)",
+      "selectorHint": "Ölçü tablosu doluysa ürün sayfasında seçici açılır: kesit grubu → ölçü → et kalınlığı → kalite → boy → adet, ağırlık hesabı ve \"Teklif sepetine ekle\".",
+      "grades": "Çelik kaliteleri (virgülle)",
+      "lengths": "Stok boyları, m (virgülle)",
+      "unit": "Adet birimi",
+      "customLength": "Özel boy girilebilsin",
+      "facts": "Başlık altı kısa gerçekler",
+      "factsHint": "Satır başına: Etiket | Değer (ör. Üretim standardı | TS EN 10219). Ölçü sayısı otomatik eklenir."
     },
     "productCategories": {
       "title": "Ürün Kategorileri",
@@ -1744,7 +1758,54 @@
     "waAsk": "WhatsApp ile stok ve sipariş sor",
     "waAskSize": "WhatsApp'tan sor",
     "waProduct": "Merhaba, {name} için stok ve sipariş bilgisi almak istiyorum. ({url})",
-    "waVariant": "Merhaba, {name} · {size} için stok, fiyat ve termin bilgisi almak istiyorum. ({url})"
+    "waVariant": "Merhaba, {name} · {size} için stok, fiyat ve termin bilgisi almak istiyorum. ({url})",
+    "cfg": {
+      "title": "Ölçü seçimi ve ağırlık hesabı",
+      "selected": "Seçili kesit",
+      "drawing": "{label} kesit çizimi",
+      "group": "Kesit tipi",
+      "size": "Ölçü",
+      "sizeHint": "H × B, mm",
+      "thickness": "Et kalınlığı (mm)",
+      "grade": "Çelik kalitesi",
+      "length": "Boy (m)",
+      "custom": "Özel",
+      "customLength": "Özel boy (m)",
+      "quantity": "Miktar",
+      "unitWeight": "Birim ağırlık",
+      "perBar": "Bir boy",
+      "total": "Toplam",
+      "props": "Kesit değerleri",
+      "add": "Teklif sepetine ekle",
+      "added": "{label}, {qty} {unit} teklif sepetine eklendi.",
+      "customInvalid": "Özel boy için 0'dan büyük bir değer girin.",
+      "radii": "ro = {ro} mm · ri = {ri} mm",
+      "section": "Kesit {label} mm",
+      "noWeight": "Bu ölçü için ağırlık verisi yok; teklif isteyin.",
+      "paintArea": "Boya yüzeyi"
+    },
+    "table": {
+      "title": "Ölçü tablosu",
+      "lead": "Bir satıra tıklayınca yukarıdaki hesaplayıcıya aktarılır. Sütun başlığına tıklayarak sıralayabilirsiniz.",
+      "all": "Tümü",
+      "search": "Ölçü ara, örn. 100×50",
+      "showProps": "Kesit değerlerini göster",
+      "count": "{count} ölçü",
+      "allThickness": "Tüm kalınlıklar",
+      "code": "Stok kodu",
+      "size": "Ölçü",
+      "t": "t (mm)",
+      "kgPerM": "kg/m",
+      "bar6": "6 m boy (kg)",
+      "paint": "Boya yüzeyi (m²/m)",
+      "pick": "Seç",
+      "empty": "Bu filtreyle eşleşen ölçü yok. Aramayı \"100x50\" gibi yazın ya da kalınlık filtresini kaldırın.",
+      "note": "Değerler nominaldir; TS EN 10219-2 köşe yarıçapları ve 7850 kg/m³ yoğunlukla hesaplanmıştır. Gerçek ağırlık üretici toleranslarına göre değişebilir.",
+      "filter": "Tabloyu filtrele",
+      "thicknessFilter": "Et kalınlığına göre filtrele"
+    },
+    "factSizes": "{count} ölçü",
+    "factSizesHint": "{from}'ten {to}'e"
   },
   "Basket": {
     "title": "Teklif sepeti",
@@ -1763,7 +1824,11 @@
     "note": "Not",
     "notePlaceholder": "Renk, kaplama, teslim…",
     "remove": "Kaldır",
-    "formTitle": "İletişim bilgileriniz"
+    "formTitle": "İletişim bilgileriniz",
+    "grade": "Kalite",
+    "length": "Boy",
+    "weight": "Ağırlık",
+    "totalWeight": "Toplam ağırlık"
   },
   "Solutions": {
     "title": "Çözümler",

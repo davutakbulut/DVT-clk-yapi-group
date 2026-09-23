@@ -2000,6 +2000,7 @@ export type Database = {
       }
       lead_items: {
         Row: {
+          attributes: Json
           created_at: string
           id: string
           lead_id: string
@@ -2015,6 +2016,7 @@ export type Database = {
           variant_label_snapshot: string | null
         }
         Insert: {
+          attributes?: Json
           created_at?: string
           id?: string
           lead_id: string
@@ -2030,6 +2032,7 @@ export type Database = {
           variant_label_snapshot?: string | null
         }
         Update: {
+          attributes?: Json
           created_at?: string
           id?: string
           lead_id?: string
@@ -3366,11 +3369,13 @@ export type Database = {
           kg_per_m: number | null
           length_mm: number | null
           product_id: string
+          props: Json
           size_label: string
           sort_order: number | null
           stock_code: string | null
           thickness_mm: number | null
           updated_at: string
+          variant_group: Json
           width_mm: number | null
         }
         Insert: {
@@ -3381,11 +3386,13 @@ export type Database = {
           kg_per_m?: number | null
           length_mm?: number | null
           product_id: string
+          props?: Json
           size_label: string
           sort_order?: number | null
           stock_code?: string | null
           thickness_mm?: number | null
           updated_at?: string
+          variant_group?: Json
           width_mm?: number | null
         }
         Update: {
@@ -3396,11 +3403,13 @@ export type Database = {
           kg_per_m?: number | null
           length_mm?: number | null
           product_id?: string
+          props?: Json
           size_label?: string
           sort_order?: number | null
           stock_code?: string | null
           thickness_mm?: number | null
           updated_at?: string
+          variant_group?: Json
           width_mm?: number | null
         }
         Relationships: [
@@ -3420,12 +3429,14 @@ export type Database = {
           cover_image_id: string | null
           created_at: string
           description: Json
+          facts: Json
           focus_keyword: Json
           id: string
           is_featured: boolean
           name: Json
           noindex: boolean
           og_image_id: string | null
+          options: Json
           published_at: string | null
           published_locales: string[]
           seo_description: Json
@@ -3445,12 +3456,14 @@ export type Database = {
           cover_image_id?: string | null
           created_at?: string
           description?: Json
+          facts?: Json
           focus_keyword?: Json
           id?: string
           is_featured?: boolean
           name: Json
           noindex?: boolean
           og_image_id?: string | null
+          options?: Json
           published_at?: string | null
           published_locales?: string[]
           seo_description?: Json
@@ -3470,12 +3483,14 @@ export type Database = {
           cover_image_id?: string | null
           created_at?: string
           description?: Json
+          facts?: Json
           focus_keyword?: Json
           id?: string
           is_featured?: boolean
           name?: Json
           noindex?: boolean
           og_image_id?: string | null
+          options?: Json
           published_at?: string | null
           published_locales?: string[]
           seo_description?: Json

@@ -2,6 +2,7 @@ import { createServerClient } from '@/core/db/createServerClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import { isLocalizedText, type LocalizedText } from '@/lib/localized';
 import { readSpecs, type SpecRow, type VariantRow } from '../domain/productLines';
+import { readFacts, readOptions, readProps, type Fact, type ProductOptions } from '../domain/productConfig';
 
 const lt = (v: unknown): LocalizedText => (isLocalizedText(v) ? v : {});
 const fail = (message: string) => err(appError('external_service', message, { module: 'products' }));
@@ -41,6 +42,8 @@ export interface AdminProduct extends AdminProductRow {
   readonly gallery: readonly string[];
   readonly specs: readonly SpecRow[];
   readonly variants: readonly VariantRow[];
+  readonly options: ProductOptions;
+  readonly facts: readonly Fact[];
   readonly documents: readonly AdminProductDocument[];
 }
 
@@ -96,10 +99,10 @@ export async function getProductForAdmin(id: string): Promise<Result<AdminProduc
   const client = await createServerClient();
   if (!client.ok) return client;
   const [product, images, specs, variants, documents] = await Promise.all([
-    client.data.from('products').select(`${LIST}, short_description, description, usage_areas, category_id, service_id, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta, category:product_categories(name)`).eq('id', id).maybeSingle(),
+    client.data.from('products').select(`${LIST}, short_description, description, usage_areas, options, facts, category_id, service_id, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta, category:product_categories(name)`).eq('id', id).maybeSingle(),
     client.data.from('product_images').select('media_id').eq('product_id', id).order('sort_order'),
     client.data.from('product_specs').select('group_name, name, value, unit').eq('product_id', id).order('sort_order'),
-    client.data.from('product_variants').select('size_label, width_mm, height_mm, thickness_mm, length_mm, kg_per_m, stock_code').eq('product_id', id).order('sort_order'),
+    client.data.from('product_variants').select('size_label, width_mm, height_mm, thickness_mm, length_mm, kg_per_m, stock_code, variant_group, props').eq('product_id', id).order('sort_order'),
     client.data.from('product_documents').select('media_id, title, doc_type').eq('product_id', id).order('sort_order'),
   ]);
   const failure = product.error ?? images.error ?? specs.error ?? variants.error ?? documents.error;
@@ -122,7 +125,9 @@ export async function getProductForAdmin(id: string): Promise<Result<AdminProduc
     reviewedEn: meta.en?.reviewed === true,
     gallery: (images.data ?? []).map((i) => i.media_id),
     specs: readSpecs(specs.data ?? []),
-    variants: (variants.data ?? []).map((v) => ({ sizeLabel: v.size_label, widthMm: num(v.width_mm), heightMm: num(v.height_mm), thicknessMm: num(v.thickness_mm), lengthMm: num(v.length_mm), kgPerM: num(v.kg_per_m), stockCode: v.stock_code })),
+    variants: (variants.data ?? []).map((v) => ({ sizeLabel: v.size_label, widthMm: num(v.width_mm), heightMm: num(v.height_mm), thicknessMm: num(v.thickness_mm), lengthMm: num(v.length_mm), kgPerM: num(v.kg_per_m), stockCode: v.stock_code, variantGroup: (typeof v.variant_group === 'object' && v.variant_group !== null ? ((v.variant_group as Record<string, string>)['tr'] ?? null) : null), props: readProps(v.props) })),
+    options: readOptions(r.options),
+    facts: readFacts(r.facts),
     documents: (documents.data ?? []).map((d) => ({ media_id: d.media_id, title: lt(d.title), doc_type: d.doc_type })),
   });
 }

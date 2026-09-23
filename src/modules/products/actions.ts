@@ -10,6 +10,7 @@ import { createServerClient, type ServerDbClient } from '@/core/db/createServerC
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
+import { parseFacts, parseList, parseNumberList, writeOptions } from './domain/productConfig';
 import { parseSpecs, parseVariants } from './domain/productLines';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
@@ -49,6 +50,12 @@ const productSchema = publishSchema.extend({
   specsTr: long,
   specsEn: long,
   variants: long,
+  grades: short,
+  lengthsM: short,
+  customLength: z.boolean(),
+  unit: z.string().trim().max(20).optional().or(z.literal('')),
+  factsTr: long,
+  factsEn: long,
   seoTitleTr: short,
   seoTitleEn: short,
   seoDescriptionTr: short,
@@ -65,7 +72,7 @@ const DOC_TYPES = ['datasheet', 'certificate', 'installation_guide', 'other'] as
 export async function saveProduct(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const gate = await requireRole(EDITORS);
   if (!gate.ok) return failed('forbidden');
-  const parsed = productSchema.safeParse({ ...Object.fromEntries(formData), isFeatured: checkbox(formData, 'isFeatured'), noindex: checkbox(formData, 'noindex'), publishEn: checkbox(formData, 'publishEn'), reviewedEn: checkbox(formData, 'reviewedEn') });
+  const parsed = productSchema.safeParse({ ...Object.fromEntries(formData), isFeatured: checkbox(formData, 'isFeatured'), customLength: checkbox(formData, 'customLength'), noindex: checkbox(formData, 'noindex'), publishEn: checkbox(formData, 'publishEn'), reviewedEn: checkbox(formData, 'reviewedEn') });
   if (!parsed.success) return failed('validation', issues(parsed.error));
   const v = parsed.data;
   const client = await createServerClient();
@@ -87,6 +94,8 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     cover_image_id: v.coverImageId || null,
     og_image_id: v.ogImageId || null,
     is_featured: v.isFeatured,
+    options: writeOptions({ grades: parseList(v.grades ?? ''), lengthsM: parseNumberList(v.lengthsM ?? ''), customLength: v.customLength, unit: v.unit || null }) as Json,
+    facts: parseFacts(v.factsTr ?? '', v.factsEn ?? '') as unknown as Json,
     seo_title: localized(v.seoTitleTr, v.seoTitleEn),
     seo_description: localized(v.seoDescriptionTr, v.seoDescriptionEn),
     focus_keyword: localized(v.focusKeywordTr, v.focusKeywordEn),
@@ -115,7 +124,7 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     docs.push({ product_id: id, media_id: media, title: localized(titleTr, titleEn), doc_type: DOC_TYPES.includes(type as (typeof DOC_TYPES)[number]) ? type : 'other', locales: titleEn ? ['tr', 'en'] : ['tr'], sort_order: docs.length + 1 });
   }
   const specs = parseSpecs(v.specsTr ?? '', v.specsEn ?? '').map((s, i) => ({ product_id: id, group_name: s.group as Json, name: s.name as Json, value: s.value as Json, unit: s.unit, sort_order: i + 1 }));
-  const variants = parseVariants(v.variants ?? '').map((x, i) => ({ product_id: id, size_label: x.sizeLabel, width_mm: x.widthMm, height_mm: x.heightMm, thickness_mm: x.thicknessMm, length_mm: x.lengthMm, kg_per_m: x.kgPerM, stock_code: x.stockCode, sort_order: i + 1 }));
+  const variants = parseVariants(v.variants ?? '').map((x, i) => ({ product_id: id, size_label: x.sizeLabel, width_mm: x.widthMm, height_mm: x.heightMm, thickness_mm: x.thicknessMm, length_mm: x.lengthMm, kg_per_m: x.kgPerM, stock_code: x.stockCode, variant_group: (x.variantGroup ? { tr: x.variantGroup } : {}) as Json, props: x.props as Json, sort_order: i + 1 }));
   const relErr =
     (await replaceChildren(client.data, 'product_images', id, ids(formData, 'gallery').map((media_id, i) => ({ product_id: id, media_id, sort_order: i + 1 })))) ??
     (await replaceChildren(client.data, 'product_specs', id, specs)) ??

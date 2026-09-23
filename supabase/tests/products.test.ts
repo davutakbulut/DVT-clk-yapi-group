@@ -1,6 +1,6 @@
 import type { PGlite } from '@electric-sql/pglite';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { anon, as, createTestDb } from './helpers/db';
+import { anon, as, createTestDb, seedUsers } from './helpers/db';
 
 // 0023: ürün RPC'si — kategori/hizmet/varyant/özellik/belge dil süzgeçli; taslak ürünün alt tabloları sızmaz; Offer yok.
 describe('0023 · ürün kataloğu', () => {
@@ -43,5 +43,40 @@ describe('0023 · ürün kataloğu', () => {
     expect(p?.['name']).toBe('Square Box Profile');
     expect((p?.['specs'] as unknown[]).length).toBe(1);
     expect(p?.['alternates']).toEqual({ tr: 'kare-kutu-profil', en: 'square-box-profile' });
+  });
+});
+
+// 0046 (K-88): seçici sütunları, RPC'de options/facts/variant_group/props, talep kaleminde nitelikler
+describe('0046 · ürün seçici', () => {
+  it('varyant grubu + kesit değerleri RPC ile gelir; talep kalemi nitelikleri saklar (yalnız nesne)', async () => {
+    const db = await createTestDb();
+    try {
+      await seedUsers(db);
+      const cat = (await db.query<{ id: string }>(`insert into public.product_categories (slug, name) values ('{"tr": "kp-cat"}', '{"tr": "Kutu"}') returning id`)).rows[0]!.id;
+      const pid = (await db.query<{ id: string }>(`insert into public.products (slug, name, category_id, status, published_locales, published_at, options, facts)
+        values ('{"tr": "kutu-test"}', '{"tr": "Kutu Test"}', $1, 'published', '{tr}', now(),
+                '{"grades": ["S235JRH"], "lengths_m": [6, 12], "custom_length": true, "unit": "adet"}', '[{"label": {"tr": "Standart"}, "value": {"tr": "TS EN 10219"}}]') returning id`, [cat])).rows[0]!.id;
+      await db.query(`insert into public.product_variants (product_id, size_label, width_mm, height_mm, thickness_mm, kg_per_m, stock_code, variant_group, props, sort_order)
+        values ($1, '100×50×3', 50, 100, 3, 6.6, 'T-KP-100X50X3', '{"tr": "Dikdörtgen", "en": "Rectangular"}', '{"A": 8.41, "Ix": 104.7, "u": 0.29}', 1)`, [pid]);
+      const p = (await db.query<{ r: Record<string, unknown> }>('select public.get_product_by_slug($1, $2) as r', ['tr', 'kutu-test'])).rows[0]!.r;
+      expect(p['options']).toMatchObject({ grades: ['S235JRH'], custom_length: true });
+      expect((p['facts'] as unknown[]).length).toBe(1);
+      const v = (p['variants'] as Record<string, unknown>[])[0]!;
+      expect(v).toMatchObject({ variant_group: 'Dikdörtgen', kg_per_m: 6.6, props: { A: 8.41, u: 0.29 } });
+      const en = (await db.query<{ r: Record<string, unknown> | null }>('select public.get_product_by_slug($1, $2) as r', ['en', 'kutu-test'])).rows[0]!.r;
+      expect(en).toBeNull(); // EN yayında değil (K-08)
+
+      const vid = (await db.query<{ id: string }>('select id from public.product_variants where product_id = $1', [pid])).rows[0]!.id;
+      const lead = (await db.query<{ r: { id: string } }>('select public.submit_lead($1::jsonb) as r', [JSON.stringify({ source: 'quote_basket', full_name: 'Test Kişi', email: 't@ornek.com.tr', consent_kvkk: true, items: [
+        { product_id: pid, variant_id: vid, quantity: 10, unit: 'adet', attributes: { grade: 'S235JRH', length_m: 6, kg_per_m: 6.6, total_kg: 396 } },
+        { product_id: pid, variant_id: vid, quantity: 1, attributes: 'bozuk' },
+      ] })])).rows[0]!.r;
+      const items = (await db.query<{ attributes: Record<string, unknown>; quantity: string }>('select attributes, quantity from public.lead_items where lead_id = $1 order by sort_order', [lead.id])).rows;
+      expect(items).toHaveLength(2);
+      expect(items[0]!.attributes).toEqual({ grade: 'S235JRH', length_m: 6, kg_per_m: 6.6, total_kg: 396 });
+      expect(items[1]!.attributes).toEqual({});
+    } finally {
+      db.close();
+    }
   });
 });

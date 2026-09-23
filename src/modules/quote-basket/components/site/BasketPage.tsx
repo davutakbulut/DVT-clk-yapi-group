@@ -1,17 +1,18 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Link } from '@/i18n/navigation';
 import { LeadForm, type QuoteFormOptions } from '@/modules/leads';
 import { Button } from '@/ui/Button';
-import { toSubmission } from '../../domain/basket';
+import { toSubmission, totalWeightKg } from '../../domain/basket';
 import { itemKey, useBasket } from './BasketProvider';
 
 /** /teklif-sepeti: kalemler (adet/birim/not düzenle, kaldır) + teklif formu; gönderimde kalemler `items` alanıyla gider, başarıda sepet boşalır. */
 export function BasketPage({ options }: { readonly options: QuoteFormOptions }) {
   const t = useTranslations('Basket');
   const tf = useTranslations('LeadForm');
+  const format = useFormatter();
   const basket = useBasket();
   // Gönderim başarılıysa sepet boşalır; başarı kutusu form yerine burada kalır (form, boş sepetle birlikte kaldırılır).
   const [doneRef, setDoneRef] = useState<string | null>(null);
@@ -62,6 +63,12 @@ export function BasketPage({ options }: { readonly options: QuoteFormOptions }) 
                   <td>
                     {item.variantLabel ?? '—'}
                     {item.stockCode ? <span className="block font-mono text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]">{item.stockCode}</span> : null}
+                    {item.attributes ? (
+                      <span className="block text-[length:var(--fs-xs)] text-[var(--color-text-muted)]">
+                        {[item.attributes['grade'], item.attributes['length_m'] !== undefined ? `${format.number(Number(item.attributes['length_m']))} m` : null].filter(Boolean).join(' · ')}
+                        {typeof item.weightKg === 'number' ? ` · ${format.number(item.weightKg, { maximumFractionDigits: 1 })} kg` : ''}
+                      </span>
+                    ) : null}
                   </td>
                   <td>
                     <label className="flex items-center gap-2">
@@ -85,6 +92,14 @@ export function BasketPage({ options }: { readonly options: QuoteFormOptions }) 
               );
             })}
           </tbody>
+          {totalWeightKg(basket.items) !== null ? (
+            <tfoot>
+              <tr>
+                <th scope="row" colSpan={2}>{t('totalWeight')}</th>
+                <td colSpan={3} className="font-mono">{format.number(totalWeightKg(basket.items)!, { maximumFractionDigits: 1 })} kg</td>
+              </tr>
+            </tfoot>
+          ) : null}
         </table>
       </div>
       <section className="grid gap-6 border border-[var(--color-border)] bg-[var(--color-surface)] p-6 lg:p-10" aria-labelledby="basket-form-title">

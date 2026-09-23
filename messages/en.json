@@ -584,7 +584,13 @@
       "itemProduct": "Product",
       "itemVariant": "Size / stock",
       "itemQuantity": "Quantity",
-      "itemNote": "Note"
+      "itemNote": "Note",
+      "attr": {
+        "grade": "Grade",
+        "length_m": "Length (m)",
+        "kg_per_m": "kg/m",
+        "total_kg": "Total kg"
+      }
     },
     "mail": {
       "title": "Mail Templates",
@@ -765,7 +771,7 @@
       "specs": "Technical specifications",
       "specsHint": "One per line: group | name | value | unit (unit only on the TR line). TR and EN lines pair by order.",
       "variants": "Size table (variants)",
-      "variantsHint": "One per line: size label | width mm | height mm | thickness mm | length mm | kg/m | stock code",
+      "variantsHint": "One per line: size | width mm | height mm | wall mm | length mm | kg/m | stock code | group (Square/Rectangular…) | A | Ix | Iy | Wx | Wy | ix | iy | u. Tab-separated paste from Excel works; a header line is skipped.",
       "documents": "Documents (PDF)",
       "docMedia": "File",
       "docTitle": "Document title",
@@ -777,7 +783,15 @@
       "ogImage": "Share image (OG)",
       "canonical": "Canonical URL (leave empty)",
       "noindex": "Hide from search engines (noindex)",
-      "categoryCol": "Category"
+      "categoryCol": "Category",
+      "selector": "Selector (product page)",
+      "selectorHint": "When the size table is filled the product page shows a selector: section group → size → wall thickness → grade → length → quantity, weight calculation and \"Add to quote basket\".",
+      "grades": "Steel grades (comma-separated)",
+      "lengths": "Stock lengths, m (comma-separated)",
+      "unit": "Quantity unit",
+      "customLength": "Allow custom length",
+      "facts": "Key facts under the title",
+      "factsHint": "One per line: Label | Value (e.g. Standard | EN 10219). The size count is added automatically."
     },
     "productCategories": {
       "title": "Product Categories",
@@ -1744,7 +1758,54 @@
     "waAsk": "Ask stock and order via WhatsApp",
     "waAskSize": "Ask on WhatsApp",
     "waProduct": "Hello, I would like stock and ordering information for {name}. ({url})",
-    "waVariant": "Hello, I would like stock, price and lead-time information for {name} · {size}. ({url})"
+    "waVariant": "Hello, I would like stock, price and lead-time information for {name} · {size}. ({url})",
+    "cfg": {
+      "title": "Size selection and weight calculation",
+      "selected": "Selected section",
+      "drawing": "{label} section drawing",
+      "group": "Section type",
+      "size": "Size",
+      "sizeHint": "H × B, mm",
+      "thickness": "Wall thickness (mm)",
+      "grade": "Steel grade",
+      "length": "Length (m)",
+      "custom": "Custom",
+      "customLength": "Custom length (m)",
+      "quantity": "Quantity",
+      "unitWeight": "Unit weight",
+      "perBar": "Per bar",
+      "total": "Total",
+      "props": "Section properties",
+      "add": "Add to quote basket",
+      "added": "{label}, {qty} {unit} added to the quote basket.",
+      "customInvalid": "Enter a custom length greater than 0.",
+      "radii": "ro = {ro} mm · ri = {ri} mm",
+      "section": "Section {label} mm",
+      "noWeight": "No weight data for this size; request a quote.",
+      "paintArea": "Paint area"
+    },
+    "table": {
+      "title": "Size table",
+      "lead": "Click a row to load it into the calculator above. Click a column header to sort.",
+      "all": "All",
+      "search": "Search size, e.g. 100×50",
+      "showProps": "Show section properties",
+      "count": "{count} sizes",
+      "allThickness": "All thicknesses",
+      "code": "Stock code",
+      "size": "Size",
+      "t": "t (mm)",
+      "kgPerM": "kg/m",
+      "bar6": "6 m bar (kg)",
+      "paint": "Paint area (m²/m)",
+      "pick": "Select",
+      "empty": "No size matches this filter. Try \"100x50\" or clear the thickness filter.",
+      "note": "Values are nominal; calculated with EN 10219-2 corner radii and 7850 kg/m³. Actual weight varies with mill tolerances.",
+      "filter": "Filter table",
+      "thicknessFilter": "Filter by wall thickness"
+    },
+    "factSizes": "{count} sizes",
+    "factSizesHint": "from {from} to {to}"
   },
   "Basket": {
     "title": "Quote basket",
@@ -1763,7 +1824,11 @@
     "note": "Note",
     "notePlaceholder": "Colour, coating, delivery…",
     "remove": "Remove",
-    "formTitle": "Your contact details"
+    "formTitle": "Your contact details",
+    "grade": "Grade",
+    "length": "Length",
+    "weight": "Weight",
+    "totalWeight": "Total weight"
   },
   "Solutions": {
     "title": "Solutions",
