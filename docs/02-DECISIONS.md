@@ -473,6 +473,12 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 ### K-95 · Mobil menü düğmesi = canlı logo ikonu
 **Karar:** Mobil header'da hamburger kaldırıldı; menüyü logonun kademe ikonu açar (`BrandIcon animated`, 44 px dokunma alanı, `aria-label` "Menüyü aç"). Çubuklar soldan sağa sırayla 2,5 px yükselip iner (2,4 s döngü) — dokunulabilirlik ipucu; oran değişmez (viewBox 40×30). `prefers-reduced-motion`'da animasyon yok. Marka imzasında mobilde yalnız yazı kalır (ikon düğmede), masaüstünde imza eskisi gibi bütün. Ayrıca ürün sayfasında **yüzey seçilince seçici otomatik 3B görünüme geçer** (doku/kaplama 2B çizimde görünmez).
 
+### K-96 · Blog iç bağlantı ve zenginleştirme betiği
+**Karar:** Mevcut üç yazıya `scripts/enrich-blog-internal-links.mjs` ile satır içi iç bağlantılar (ürün ölçü sayfaları, hizmetler, çözüm, konfigüratör, diğer yazılar) ve sonlarına bağlamlı "profil seçimi / süreyi kısaltan hazırlık / malzeme kalitesi" + "ilgili yazılar ve hizmetler" bölümleri eklendi; okuma süresi yeniden hesaplandı. Eklenen metin genel bilgi ve sitedeki gerçek sayfalara işaret eder; uydurma sayı/proje yok (K-75). Betik `<!-- k96 -->` işaretiyle yeniden çalıştırılabilir; yeni yazılar için PLAN'a satır eklenir. Toplam iç bağlantı: 20 / 15 / 14.
+
+### K-97 · Mobil çekmece içeriği
+**Karar:** Çekmece bağlantıları soldan kademeli girer (45 ms aralık, `--i` sırası; azaltılmış harekette yok), her bağlantı numaralı ("01"), üstte slogan (site ayarı), altta hızlı iletişim (telefon/e-posta, `tel:`/`mailto:`), sosyal bağlantılar ve CTA. Tümü site ayarlarından gelir; boş alan gösterilmez.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

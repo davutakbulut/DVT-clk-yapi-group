@@ -30,7 +30,7 @@ export async function Header({ locale }: Props) {
     <header className="site-header" data-on-dark="">
       <Container className="site-header-grid">
         <div className="site-header-brand">
-          <MobileDrawer items={links} cta={cta} brand={<BrandMark siteName={siteName} size="sm" />} />
+          <MobileDrawer items={links} cta={cta} brand={<BrandMark siteName={siteName} size="sm" />} tagline={pickLocale(settings.tagline, locale) || null} contact={settings.contact} socialLinks={settings.socialLinks} />
           <BrandMark siteName={siteName} iconHiddenBelowLg />
         </div>
         {links.length > 0 ? (
