@@ -366,8 +366,11 @@
   /* K-98: footer satır başı ikonları — başlıkta ve iletişim satırlarında, çelik-açık tonda */
   .site-footer-row { display: flex; align-items: flex-start; gap: var(--space-2); }
   .site-footer-icon { flex: none; margin-top: 2px; color: var(--color-accent-on-dark); opacity: 0.85; }
-  .site-footer-heading .site-footer-icon { margin-top: 0; vertical-align: -3px; margin-right: 6px; }
+  .site-footer-heading .site-footer-icon { margin-top: 0; }
   .site-footer-heading {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* K-98: ikon kelimenin başında, aynı satırda */
     color: var(--color-text-inverse);
     font-family: var(--font-heading, ui-sans-serif), sans-serif;
     font-stretch: 116%;

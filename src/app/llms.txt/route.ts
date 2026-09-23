@@ -56,5 +56,6 @@ export async function GET() {
     lines.push('');
   }
   lines.push(`## ${le('sitemapTitle')}`, `- ${origin}/sitemap.xml`, `- ${origin}/tr/feed.xml`, `- ${origin}/en/feed.xml`);
+  if (settings.developer) lines.push('', `## Credits`, `- Design & development: ${settings.developer.name}${settings.developer.url ? ` (${settings.developer.url})` : ''}`);
   return new Response(lines.join('\n'), { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' } });
 }

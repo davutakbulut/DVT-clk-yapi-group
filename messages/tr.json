@@ -45,7 +45,8 @@
     "phone": "Telefon",
     "email": "E-posta",
     "address": "Adres",
-    "workingHours": "Çalışma saatleri"
+    "workingHours": "Çalışma saatleri",
+    "credit": "Tasarım ve yazılım"
   },
   "WhatsApp": {
     "open": "WhatsApp ile yazın",
@@ -271,7 +272,9 @@
       "logoDark": "Koyu zemin logosu",
       "noLogo": "Logo seçilmedi (kademe ikonu kullanılır)",
       "seoDescription": "Varsayılan meta açıklama",
-      "socialMoved": "Sosyal medya bağlantıları ayrı sayfada yönetilir:"
+      "socialMoved": "Sosyal medya bağlantıları ayrı sayfada yönetilir:",
+      "developerName": "Geliştirici imzası (footer, meta, humans.txt)",
+      "developerUrl": "Geliştirici bağlantısı (isteğe bağlı)"
     },
     "whatsapp": {
       "title": "WhatsApp",

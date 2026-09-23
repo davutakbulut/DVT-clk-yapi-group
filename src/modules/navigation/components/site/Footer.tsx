@@ -108,6 +108,16 @@ export async function Footer({ locale }: Props) {
             ) : null}
           </ul>
           <p className="label-mono site-footer-copy text-[var(--color-text-inverse-subtle)]">{t('copyright', { year, siteName })}</p>
+          {settings.developer ? (
+            <p className="label-mono site-footer-copy site-footer-credit text-[var(--color-text-inverse-subtle)]">
+              {t('credit')}:{' '}
+              {settings.developer.url ? (
+                <a href={settings.developer.url} rel="noopener noreferrer author" target="_blank">{settings.developer.name}</a>
+              ) : (
+                <span>{settings.developer.name}</span>
+              )}
+            </p>
+          ) : null}
         </div>
       </Container>
     </footer>

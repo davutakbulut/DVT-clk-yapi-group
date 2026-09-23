@@ -61,6 +61,8 @@ export function SettingsForm({ settings, logos }: Props) {
         {field('hoursEn', `${t('settings.workingHours')} (EN)`, settings.contact.workingHours?.['en'] ?? '')}
         {field('seoTr', `${t('settings.seoDescription')} (TR)`, settings.seoDescription?.['tr'] ?? '')}
         {field('seoEn', `${t('settings.seoDescription')} (EN)`, settings.seoDescription?.['en'] ?? '')}
+        {field('developerName', t('settings.developerName'), settings.developer?.name ?? '')}
+        {field('developerUrl', t('settings.developerUrl'), settings.developer?.url ?? '', 'url')}
       </div>
       <p className="text-sm text-muted-foreground">
         {t('settings.socialMoved')}{' '}

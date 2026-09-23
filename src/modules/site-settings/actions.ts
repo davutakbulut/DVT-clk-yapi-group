@@ -17,6 +17,8 @@ const schema = z.object({
   siteNameEn: optional,
   taglineTr: optional,
   taglineEn: optional,
+  developerName: optional,
+  developerUrl: z.string().trim().url().optional().or(z.literal('')),
   phone: z.string().trim().regex(/^\+[1-9]\d{7,14}$/).optional().or(z.literal('')),
   email: z.string().trim().email().optional().or(z.literal('')),
   addressTr: optional,
@@ -51,6 +53,7 @@ export async function saveSettings(_prev: ActionState, formData: FormData): Prom
   const values: Record<string, unknown> = {
     'site.name': localized(v.siteNameTr, v.siteNameEn),
     'site.tagline': localized(v.taglineTr, v.taglineEn),
+    'site.developer': v.developerName ? { name: v.developerName, url: v.developerUrl || null } : null,
     'site.logo_media_id': v.logoMediaId || '',
     'site.logo_dark_media_id': v.logoDarkMediaId || '',
     'contact.phone': v.phone || '',

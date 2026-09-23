@@ -482,6 +482,9 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 ### K-98 · Footer satır başı ikonları
 **Karar:** Footer sütun başlıkları (kurumsal → bina, hizmetler → anahtar, ürün & proje → kutu; bağlantı yollarından türetilir) ve iletişim satırları (telefon, e-posta, adres, saat) 16 px çizgi ikonuyla başlar; dekoratif (`aria-hidden`), açık çelik tonda. İkon seti `Footer.tsx` içinde sabit yol tanımlarıdır (markasız, genel).
 
+### K-99 · Geliştirici imzası tek ayardan her yere
+**Karar:** "Davut Akbulut | Dijital Web Ajansı" imzası `site.developer` ayarından (Site Ayarları → geliştirici adı + isteğe bağlı bağlantı) okunur ve şu noktalara yayılır: footer alt satırı ("Tasarım ve yazılım: …", bağlantı varsa `rel="author"`), `<meta name="author">` / `creator` / `designer` / `developer` etiketleri, JSON-LD `WebSite.creator`, `/humans.txt`, `/llms.txt` Credits bölümü, `X-Developed-By` yanıt başlığı (yapılandırma sabiti), yönetim paneli kenar çubuğu altı. Ayar boşsa hiçbiri görünmez (Kural 1). Kaynak koduna yorum satırı eklenmedi: React yorumları HTML'e yazmaz.
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

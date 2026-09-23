@@ -45,7 +45,8 @@
     "phone": "Phone",
     "email": "Email",
     "address": "Address",
-    "workingHours": "Working hours"
+    "workingHours": "Working hours",
+    "credit": "Design & development"
   },
   "WhatsApp": {
     "open": "Chat on WhatsApp",
@@ -271,7 +272,9 @@
       "logoDark": "Logo on dark",
       "noLogo": "No logo selected (brand mark is used)",
       "seoDescription": "Default meta description",
-      "socialMoved": "Social links are managed on their own page:"
+      "socialMoved": "Social links are managed on their own page:",
+      "developerName": "Developer credit (footer, meta, humans.txt)",
+      "developerUrl": "Developer link (optional)"
     },
     "whatsapp": {
       "title": "WhatsApp",

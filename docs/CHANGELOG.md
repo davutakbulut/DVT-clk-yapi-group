@@ -7,6 +7,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — geliştirici imzası (K-99)
+- `site.developer` ayarı (`0048`): footer imzası, meta author/creator, JSON-LD WebSite.creator, /humans.txt, /llms.txt, X-Developed-By başlığı, panel kenar çubuğu
+
 ### Eklendi — blog iç bağlantı zenginleştirme (K-96) · mobil çekmece içeriği (K-97)
 - Çekmece: kademeli giriş animasyonu, numaralı bağlantılar, slogan, hızlı iletişim, sosyal bağlantılar
 - Footer: başlık ve iletişim satırlarında ikonlar (K-98)

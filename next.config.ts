@@ -11,6 +11,7 @@ const NOINDEX = { key: 'X-Robots-Tag', value: 'noindex, nofollow' };
 // 03-SECURITY: temel başlıklar. CSP nonce'suz (JSON-LD ve next/font inline) — Faz 25'te raporlamalı CSP.
 const SECURITY = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'X-Developed-By', value: 'Davut Akbulut - Dijital Web Ajansi' }, // K-99 geliştirici imzası (yanıt başlığı; HTTP başlığı ASCII olmalı)
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' },

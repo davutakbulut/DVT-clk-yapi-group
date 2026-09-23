@@ -13,6 +13,7 @@ const text = z.string().min(1).nullable().catch(null);
 const schema = z.object({
   'site.name': localized,
   'site.tagline': localized,
+  'site.developer': z.object({ name: z.string().trim().max(120), url: z.string().url().nullable().optional() }).nullable().catch(null),
   'site.logo_media_id': text,
   'site.logo_dark_media_id': text,
   'contact.phone': text,
@@ -68,6 +69,8 @@ export interface CookieBannerText {
 export interface PublicSettings {
   readonly siteName: LocalizedText;
   readonly tagline: LocalizedText | null;
+  /** Geliştirici imzası (K-99): footer, meta author, JSON-LD, humans.txt; null → gösterilmez */
+  readonly developer: { readonly name: string; readonly url: string | null } | null;
   readonly logoMediaId: string | null;
   readonly logoDarkMediaId: string | null;
   readonly contact: {
@@ -95,6 +98,7 @@ export interface PublicSettings {
 export const DEFAULT_SETTINGS: PublicSettings = {
   siteName: { tr: 'CLK Yapı Group', en: 'CLK Yapı Group' }, // static-ok: marka adı, veri gelmezse son çare
   tagline: null,
+  developer: null,
   logoMediaId: null,
   logoDarkMediaId: null,
   contact: { phone: null, email: null, address: null, mapUrl: null, workingHours: null },
@@ -115,6 +119,7 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
   return {
     siteName: s['site.name'] ?? DEFAULT_SETTINGS.siteName,
     tagline: s['site.tagline'],
+    developer: s['site.developer'] && s['site.developer'].name ? { name: s['site.developer'].name, url: s['site.developer'].url ?? null } : null,
     logoMediaId: s['site.logo_media_id'],
     logoDarkMediaId: s['site.logo_dark_media_id'],
     contact: {

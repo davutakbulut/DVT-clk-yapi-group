@@ -1,7 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 import { ModuleBoundary } from '@/core/errors';
-import { JsonLd, organizationJsonLd } from '@/core/seo';
+import { JsonLd, organizationJsonLd, webSiteJsonLd } from '@/core/seo';
 import { RouteAlternatesProvider } from '@/i18n/RouteAlternates';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
@@ -60,7 +60,7 @@ export default async function MarketingLayout({ children, params }: Props) {
       {/* İlk giriş yükleyicisi: betik boyamadan önce sınıfı koyar; katman varsayılan gizlidir (JS yoksa hiç görünmez) */}
       <script dangerouslySetInnerHTML={{ __html: SITE_LOADER_BOOT }} />
       <SiteLoader label={a11y('loading')} siteName={siteName} />
-      <JsonLd data={organization} />
+      <JsonLd data={[organization, webSiteJsonLd({ name: siteName, locale, developer: settings.developer })]} />
       <a href="#main-content" className="skip-link">
         {a11y('skipToContent')}
       </a>

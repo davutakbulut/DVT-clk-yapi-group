@@ -48,3 +48,17 @@ export function localBusinessJsonLd(input: OrganizationInput & { readonly openin
     ...(input.logoUrl ? { image: input.logoUrl } : {}),
   };
 }
+
+/** WebSite düğümü (K-99): sitenin yayıncısı kuruluş, yaratıcısı (tasarım + yazılım) geliştirici. */
+export function webSiteJsonLd(input: { readonly name: string; readonly locale: string; readonly developer: { readonly name: string; readonly url: string | null } | null }): JsonLdObject {
+  const origin = getSiteUrl().origin;
+  return {
+    '@type': 'WebSite',
+    '@id': `${origin}/#website`,
+    name: input.name,
+    url: origin,
+    inLanguage: input.locale,
+    publisher: { '@id': `${origin}/#organization` },
+    ...(input.developer ? { creator: { '@type': 'Organization', name: input.developer.name, ...(input.developer.url ? { url: input.developer.url } : {}) } } : {}),
+  };
+}

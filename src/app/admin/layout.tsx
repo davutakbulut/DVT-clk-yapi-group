@@ -5,6 +5,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 import { getCurrentUser } from '@/core/auth';
+import { getPublicSettings } from '@/modules/site-settings';
 import { fontClassNames } from '@/ui/fonts';
 import { ADMIN_NAV, AdminShell } from '@/modules/admin-shell';
 import { NotificationBell } from '@/modules/notifications';
@@ -23,14 +24,14 @@ export const dynamic = 'force-dynamic';
 export default async function AdminLayout({ children }: { readonly children: ReactNode }) {
   const user = await getCurrentUser();
   if (!user) redirect('/tr/giris?next=%2Fadmin');
-  const [messages, t] = await Promise.all([getMessages({ locale: 'tr' }), getTranslations({ locale: 'tr', namespace: 'Admin' })]);
+  const [messages, t, settings] = await Promise.all([getMessages({ locale: 'tr' }), getTranslations({ locale: 'tr', namespace: 'Admin' }), getPublicSettings()]);
 
   return (
     <html lang="tr" data-surface="admin" className={fontClassNames}>
       <body>
         <NextIntlClientProvider locale="tr" messages={messages}>
           {user.isStaff ? (
-            <AdminShell user={user} nav={ADMIN_NAV} headerExtra={<NotificationBell key="notification-bell" initialUnread={0} />}>
+            <AdminShell user={user} nav={ADMIN_NAV} credit={settings.developer?.name ?? null} headerExtra={<NotificationBell key="notification-bell" initialUnread={0} />}>
               {children}
             </AdminShell>
           ) : (

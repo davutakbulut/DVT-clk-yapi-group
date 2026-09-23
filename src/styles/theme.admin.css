@@ -414,3 +414,6 @@
   [data-surface='admin'] .admin-lightbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 14px; border-bottom: 1px solid var(--border); }
   [data-surface='admin'] .admin-lightbox > img { display: block; max-width: 100%; max-height: calc(92dvh - 52px); margin: 0 auto; object-fit: contain; }
 }
+
+/* K-99: kenar çubuğu altı geliştirici imzası */
+.admin-credit { margin-top: auto; padding: 12px 12px 4px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sidebar-foreground); opacity: 0.55; }

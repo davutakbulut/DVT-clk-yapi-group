@@ -37,6 +37,8 @@ export async function generateMetadata({ params }: Pick<Props, 'params'>): Promi
     description,
     openGraph: { siteName, locale: locale === 'tr' ? 'tr_TR' : 'en_US', type: 'website' },
     twitter: { card: 'summary_large_image' },
+    // K-99: geliştirici imzası (site ayarı) — author/creator meta etiketleri
+    ...(settings.developer ? { authors: [{ name: settings.developer.name, ...(settings.developer.url ? { url: settings.developer.url } : {}) }], creator: settings.developer.name, other: { designer: settings.developer.name, developer: settings.developer.name } } : {}),
     verification: { ...(v.google ? { google: v.google } : {}), ...(v.yandex ? { yandex: v.yandex } : {}), ...(v.bing ? { other: { 'msvalidate.01': v.bing } } : {}) },
   };
 }

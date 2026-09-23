@@ -10,6 +10,8 @@ import { signOut } from '@/modules/auth/actions';
 import { ADMIN_NAV_GROUPS, type AdminNavGroup, type AdminNavItem } from '../../nav';
 
 interface Props {
+  /** K-99: kenar çubuğu altı geliştirici imzası (site ayarı) */
+  readonly credit?: string | null;
   readonly user: CurrentUser;
   readonly nav: readonly AdminNavItem[];
   /** Başlık çubuğuna ek (ör. bildirim zili) — layout verir, modül sınırı korunur. */
@@ -49,7 +51,7 @@ const norm = (s: string) => s.toLocaleLowerCase('tr-TR');
  * Panel çatısı: koyu marka kenar çubuğu (bölümlere ayrılmış, daraltılabilir, aranabilir) + yapışkan üst şerit
  * (konum kırıntısı · bildirim · siteyi gör · kullanıcı · çıkış). Tüm metin Admin.* mesajlarından; roller menüyü süzer.
  */
-export function AdminShell({ user, nav, headerExtra, children }: Props) {
+export function AdminShell({ user, nav, headerExtra, children, credit = null }: Props) {
   const t = useTranslations('Admin');
   const pathname = usePathname();
   const [drawer, setDrawer] = useState(false);
@@ -143,6 +145,7 @@ export function AdminShell({ user, nav, headerExtra, children }: Props) {
           );
         })}
       </nav>
+      {credit ? <p className="admin-credit">{credit}</p> : null}
     </div>
   );
 
