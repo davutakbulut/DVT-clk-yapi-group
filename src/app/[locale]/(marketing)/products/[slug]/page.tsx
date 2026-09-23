@@ -60,7 +60,9 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
   const [t, list, env, reviews] = await Promise.all([getTranslations('Products'), getCachedProductList(locale), readSupabasePublicEnv(), getCachedTestimonialsFor(locale, { productId: product.id })]);
-  const related = (list.ok ? list.data : []).filter((p) => p.id !== product.id && product.category && p.category?.id === product.category.id).slice(0, 4);
+  // Aynı kategorideki yayındaki ürünler: aile çubuğu (K-90) tümünü, "ilgili ürünler" ilk dördünü gösterir
+  const families = (list.ok ? list.data : []).filter((p) => product.category && p.category?.id === product.category.id);
+  const related = families.filter((p) => p.id !== product.id).slice(0, 4);
   const self: AppHref = { pathname: '/products/[slug]', params: { slug: product.slug } };
   const jsonLd = [
     {
@@ -88,6 +90,7 @@ export default async function ProductPage({ params }: Props) {
           product={product}
           locale={locale}
           related={related}
+          families={families}
           extra={
             <ModuleBoundary module="testimonials/for-product">
               <TestimonialsFor items={reviews} headingId="product-reviews" />

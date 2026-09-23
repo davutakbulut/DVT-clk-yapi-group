@@ -82,4 +82,4 @@ Bir özelliğin ön yüzü ve admin karşılığı **aynı fazda** biter. `main`
 - Üretim veritabanına elle SQL çalıştırmak (her değişiklik migration dosyası)
 - Mobilde ScrollTrigger `pin` kullanmak (adres çubuğu yüksekliği değişir)
 - `100vh` kullanmak (`100dvh` kullanılır)
-- Three.js'i konfigüratör dışında bir sayfaya dahil etmek (~600 KB)
+- Three.js'i ilk yüke dahil etmek (~600 KB): yalnız konfigüratörde ve ürün sayfasının "3B" düğmesinde, tıklanınca dinamik import (K-24, K-90)

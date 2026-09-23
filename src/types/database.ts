@@ -3363,13 +3363,16 @@ export type Database = {
       product_variants: {
         Row: {
           created_at: string
+          dims: Json
           height_mm: number | null
           id: string
           is_active: boolean
           kg_per_m: number | null
+          kg_per_m2: number | null
           length_mm: number | null
           product_id: string
           props: Json
+          size_key: string | null
           size_label: string
           sort_order: number | null
           stock_code: string | null
@@ -3380,13 +3383,16 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          dims?: Json
           height_mm?: number | null
           id?: string
           is_active?: boolean
           kg_per_m?: number | null
+          kg_per_m2?: number | null
           length_mm?: number | null
           product_id: string
           props?: Json
+          size_key?: string | null
           size_label: string
           sort_order?: number | null
           stock_code?: string | null
@@ -3397,13 +3403,16 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          dims?: Json
           height_mm?: number | null
           id?: string
           is_active?: boolean
           kg_per_m?: number | null
+          kg_per_m2?: number | null
           length_mm?: number | null
           product_id?: string
           props?: Json
+          size_key?: string | null
           size_label?: string
           sort_order?: number | null
           stock_code?: string | null

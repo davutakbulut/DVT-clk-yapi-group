@@ -104,7 +104,7 @@ export async function ProductsList({ locale, categorySlug }: { readonly locale: 
   );
 }
 
-export async function ProductDetail({ product, locale, related, extra }: { readonly product: ProductDetailData; readonly locale: string; readonly related: readonly ProductCardData[]; readonly extra?: ReactNode }) {
+export async function ProductDetail({ product, locale, related, families = [], extra }: { readonly product: ProductDetailData; readonly locale: string; readonly related: readonly ProductCardData[]; /** Aynı kategorideki yayındaki ürünler (aile çubuğu, K-90) */ readonly families?: readonly ProductCardData[]; readonly extra?: ReactNode }) {
   const [env, t, format] = await Promise.all([readSupabasePublicEnv(), getTranslations('Products'), getFormatter()]);
   const url = env.ok ? env.data.url : null;
   const cover = product.cover && url ? product.cover : null;
@@ -121,34 +121,36 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
 
   return (
     <article className="grid">
-      <header className="page-head" data-on-dark="">
-        <Container className="grid gap-6 py-[var(--section-y)]">
-          <nav aria-label={t('breadcrumb')} className="label-mono flex flex-wrap items-center gap-2 text-[var(--color-text-inverse-subtle)]">
-            <Link href="/" className="hover:text-[var(--color-accent-on-dark)]">
-              {t('home')}
-            </Link>
-            <span aria-hidden="true">/</span>
-            <Link href="/products" className="hover:text-[var(--color-accent-on-dark)]">
-              {t('title')}
-            </Link>
-            {product.category ? (
-              <>
-                <span aria-hidden="true">/</span>
-                <Link href={{ pathname: '/products/category/[slug]', params: { slug: product.category.slug } }} className="hover:text-[var(--color-accent-on-dark)]">
-                  {product.category.name}
-                </Link>
-              </>
-            ) : null}
+      {/* K-90: örnek sayfalardaki gibi açık, kompakt başlık: kırıntı → aile çubuğu → büyük başlık + giriş → gerçekler */}
+      <Container as="header" className="grid">
+        <nav aria-label={t('breadcrumb')} className="product-crumb label-mono">
+          <Link href="/">{t('home')}</Link>
+          <span aria-hidden="true">/</span>
+          <Link href="/products">{t('title')}</Link>
+          {product.category ? (
+            <>
+              <span aria-hidden="true">/</span>
+              <Link href={{ pathname: '/products/category/[slug]', params: { slug: product.category.slug } }}>{product.category.name}</Link>
+            </>
+          ) : null}
+        </nav>
+        {families.length > 1 ? (
+          <nav aria-label={t('families')} className="fams">
+            {families.map((p) => (
+              <Link key={p.id} href={{ pathname: '/products/[slug]', params: { slug: p.slug } }} aria-current={p.id === product.id ? 'page' : undefined}>
+                {p.name}
+              </Link>
+            ))}
           </nav>
-          <div className="grid gap-4">
-            <h1 className="max-w-[20ch] text-[var(--color-text-inverse)]">{product.name}</h1>
-            {product.shortDescription ? <p className="max-w-[58ch] text-[length:var(--fs-body-lg)] text-[var(--color-text-inverse-muted)]">{product.shortDescription}</p> : null}
-            <p className="text-[length:var(--fs-sm)] text-[var(--color-text-inverse-subtle)]">{t('noPrice')}</p>
-          </div>
-        </Container>
-      </header>
-      {facts.length > 0 ? (
-        <Container>
+        ) : null}
+        <div className="product-head">
+          <h1>{product.name}</h1>
+          <p className="product-lede">
+            {product.shortDescription}
+            <small>{t('noPrice')}</small>
+          </p>
+        </div>
+        {facts.length > 0 ? (
           <dl className="product-facts">
             {facts.map((f) => (
               <div key={f.label + f.value}>
@@ -157,14 +159,14 @@ export async function ProductDetail({ product, locale, related, extra }: { reado
               </div>
             ))}
           </dl>
-        </Container>
-      ) : null}
+        ) : null}
+      </Container>
       {configurable ? (
-        <Container as="section" aria-labelledby="product-selector" className="grid gap-6 py-[var(--section-y)]">
+        <Container as="section" aria-labelledby="product-selector" className="grid gap-6 pt-[var(--space-10)] pb-[var(--section-y)]">
           <h2 id="product-selector" className="sr-only">
             {t('cfg.title')}
           </h2>
-          <ProductSelector productId={product.id} slug={product.slug} name={product.name} variants={product.variants} options={product.options} unit={product.options.unit ?? t('unitDefault')} />
+          <ProductSelector key={product.id} productId={product.id} slug={product.slug} name={product.name} locale={locale} variants={product.variants} options={product.options} unit={product.options.unit ?? t('unitDefault')} />
         </Container>
       ) : null}
 

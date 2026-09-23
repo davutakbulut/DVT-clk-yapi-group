@@ -1,30 +1,35 @@
-/* Ön yüz semantik tokenları. Marka rengini burada değiştirmek admin'e dokunmaz. */
-@layer tokens {
+/* Ön yüz semantik tokenları. Marka rengini burada değiştirmek admin'e dokunmaz.
+   KATMAN: `base` (tokens DEĞİL). shadcn'in Tailwind teması `:root { --color-accent: var(--accent); --color-border: var(--border) }`
+   satırlarını `theme` katmanına yazar; aynı <html> öğesinde katman sırası özgüllüğü yener ve sitede --accent/--border tanımsız
+   olduğundan --color-accent / --color-border BOŞ kalıyordu (hover'da kaybolan buton zemini, K-91). base > theme → bizim değer kazanır. */
+@layer base {
+  /* K-91: ürün sahibinin örnek sayfalarındaki KOYU palet tüm site için — koyu kâğıt, hafif açık yüzey, açık mürekkep, altın işaret.
+     "Metin rengi zemin" (aktif çip, birincil buton) üstünde metin = --color-bg; --color-text-inverse yalnız koyu bantlarda (header/footer). */
   [data-surface='site'] {
-    --color-bg: var(--paper);
-    --color-surface: #fff;
-    --color-surface-raised: #fff;
-    --color-surface-dark: var(--charcoal);
-    --color-surface-darker: var(--bar-dark);
-    --color-text: var(--ink);
-    --color-text-muted: var(--steel);
-    --color-text-subtle: var(--steel-light);
-    --color-text-inverse: var(--paper);
-    --color-text-inverse-muted: #c7cdd1; /* antrasit üzerinde 9.05:1 */
-    --color-text-inverse-subtle: #9aa5ac; /* antrasit üzerinde 5.78:1 */
-    --color-accent: var(--turq);
-    --color-accent-hover: var(--turq-light);
-    --color-accent-text: var(--turq-deep); /* --turq gövde metninde KULLANILMAZ: 3.87:1 */
-    --color-accent-on-dark: var(--turq-light); /* antrasit üzerinde 5.98:1 */
-    --color-border: var(--line-light);
-    --color-border-strong: var(--steel);
-    --color-border-dark: var(--line);
-    --color-focus: var(--charcoal);
-    --color-focus-on-dark: var(--turq-light);
-    --color-success: #2f7a4f;
-    --color-warning: #9a6b00;
-    --color-danger: #b3261e;
-    --color-info: var(--turq-deep);
+    --color-bg: var(--paper-dark);
+    --color-surface: var(--surface-dark);
+    --color-surface-raised: #20262f;
+    --color-surface-dark: var(--navy-dark); /* header, footer, çizim paneli, koyu kart */
+    --color-surface-darker: #0a0f17;
+    --color-text: var(--ink-dark);
+    --color-text-muted: var(--ink-2-dark); /* koyu kâğıt üzerinde 7.3:1 */
+    --color-text-subtle: #8a93a1; /* 5.9:1 */
+    --color-text-inverse: var(--ink-dark);
+    --color-text-inverse-muted: var(--ink-2-dark);
+    --color-text-inverse-subtle: #8a93a1;
+    --color-accent: var(--mark); /* altın: zemin/çizgi; koyu zeminde metin olarak da AA (11:1) */
+    --color-accent-hover: var(--mark-hover);
+    --color-accent-text: var(--mark);
+    --color-accent-on-dark: var(--mark);
+    --color-border: var(--line-dark);
+    --color-border-strong: var(--line-2-dark);
+    --color-border-dark: var(--line-dark);
+    --color-focus: var(--focus-blue-light);
+    --color-focus-on-dark: var(--focus-blue-light);
+    --color-success: #5fcd86;
+    --color-warning: #f0c04a;
+    --color-danger: #ff7a6e;
+    --color-info: var(--focus-blue-light);
   }
 
   /* Koyu yüzey (header, footer, çekmece): metin tokenları ters çevrilir → ui/ bileşenleri (dil değiştirici, buton)
@@ -35,7 +40,7 @@
     --color-text-subtle: var(--color-text-inverse-subtle);
     --color-accent-text: var(--color-accent-on-dark);
     --color-border: var(--color-border-dark);
-    --color-border-strong: var(--color-text-inverse-muted);
+    --color-border-strong: var(--line-2-dark);
     --color-focus: var(--color-focus-on-dark);
   }
 }

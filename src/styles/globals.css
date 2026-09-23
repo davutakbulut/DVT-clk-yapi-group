@@ -12,7 +12,7 @@
 
 @layer base {
   html {
-    color-scheme: light;
+    color-scheme: dark; /* K-91: koyu palet; form denetimleri de koyu */
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: var(--header-h);
   }
@@ -86,7 +86,7 @@
     z-index: 100;
     padding: var(--space-2) var(--space-4);
     background: var(--color-text);
-    color: var(--color-text-inverse);
+    color: var(--color-bg);
     transform: translateY(-200%);
   }
 
@@ -127,13 +127,19 @@
       border-color var(--dur-fast) var(--ease-out);
   }
 
+  /* K-91: örnek sayfaların .btn-dark'ı — açık zeminde mürekkep zemin + kâğıt metin; hover'da lacivert (metin hep kâğıt → zemine karışmaz) */
   .btn-primary {
-    background: var(--color-accent-text); /* turq-deep: kâğıt metniyle 5.21:1 */
-    color: var(--color-text-inverse);
+    background: var(--color-text); /* koyu temada açık zemin + koyu metin (örnek: .btn-dark) */
+    color: var(--color-bg);
   }
-  .btn-primary:hover {
-    background: var(--color-accent);
-    color: var(--color-text);
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    background: #fff;
+    color: var(--color-bg);
+  }
+  .btn-primary:active {
+    background: var(--color-text-muted);
+    color: var(--color-bg);
   }
 
   .btn-ghost {
@@ -141,24 +147,40 @@
     color: var(--color-text);
     background: transparent;
   }
-  .btn-ghost:hover {
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
     border-color: var(--color-text);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
+  .btn-ghost:active {
+    background: var(--color-text);
+    color: var(--color-bg);
   }
 
   [data-on-dark] .btn-ghost {
-    border-color: var(--color-border-dark);
+    border-color: rgb(185 198 216 / 0.5);
+    color: var(--color-text-inverse);
+    background: transparent;
+  }
+  [data-on-dark] .btn-ghost:hover,
+  [data-on-dark] .btn-ghost:focus-visible {
+    border-color: var(--color-accent-on-dark);
+    background: rgb(255 255 255 / 0.06);
     color: var(--color-text-inverse);
   }
-  [data-on-dark] .btn-ghost:hover {
-    border-color: var(--color-accent-on-dark);
-  }
-  /* Koyu zeminde birincil buton: açık turkuaz zemin + mürekkep metin (≈8.5:1); paper üstü turq-light 1.9:1 olurdu */
+  /* Koyu zeminde birincil buton: altın zemin + mürekkep metin (lacivert üzerinde 8.6:1); hover'da kâğıt zemin */
   [data-on-dark] .btn-primary {
     background: var(--color-accent-on-dark);
     color: var(--ink);
   }
-  [data-on-dark] .btn-primary:hover {
-    background: var(--color-text-inverse);
+  [data-on-dark] .btn-primary:hover,
+  [data-on-dark] .btn-primary:focus-visible {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  [data-on-dark] .btn-primary:active {
+    background: var(--mark-hover);
     color: var(--ink);
   }
 
@@ -1407,7 +1429,7 @@
   .chip[aria-current='page'] {
     background: var(--color-text);
     border-color: var(--color-text);
-    color: var(--color-text-inverse);
+    color: var(--color-bg);
   }
   .facts {
     display: grid;
@@ -1635,7 +1657,7 @@
   .product-facts > div:last-child { border-right: 0; margin-right: 0; }
   .product-facts dd { margin: 0; color: var(--color-text); font-weight: 650; font-size: var(--fs-body); }
   .product-facts dt { font-size: var(--fs-xs); }
-  .pcfg { --pcfg-mark: #E8C25A; --pcfg-steel: #B9C6D8; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); background: var(--color-surface); border: 1px solid var(--color-border); }
+  .pcfg { --pcfg-mark: var(--color-accent); --pcfg-steel: #B9C6D8; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); background: var(--color-surface); border: 1px solid var(--color-border); }
   .pcfg-draw { position: relative; display: flex; flex-direction: column; min-height: 460px; background: var(--color-surface-dark); color: var(--pcfg-steel);
     background-image: linear-gradient(rgb(143 163 191 / 0.14) 1px, transparent 1px), linear-gradient(90deg, rgb(143 163 191 / 0.14) 1px, transparent 1px); background-size: 32px 32px; }
   .pcfg-svg { flex: 1; width: 100%; height: 100%; min-height: 380px; display: block; }
@@ -1679,7 +1701,7 @@
   .pcfg-table th { position: sticky; top: 0; z-index: 1; background: var(--color-surface-dark); color: #fff; text-align: right; padding: 0; font-size: 13px; }
   .pcfg-table th button { all: unset; display: block; width: 100%; box-sizing: border-box; padding: 10px 12px; font-weight: 600; cursor: pointer; text-align: inherit; }
   .pcfg-table th button:focus-visible { outline: 2px solid var(--color-accent-on-dark); outline-offset: -2px; }
-  .pcfg-table th:first-child, .pcfg-table th:nth-child(2), .pcfg-table td:first-child, .pcfg-table td:nth-child(2) { text-align: left; }
+  .pcfg-table .pcfg-left { text-align: left; }
   .pcfg-table th[aria-sort='ascending'] button::after { content: ' ▲'; font-size: 9px; }
   .pcfg-table th[aria-sort='descending'] button::after { content: ' ▼'; font-size: 9px; }
   .pcfg-table td { padding: 8px 12px; border-bottom: 1px solid var(--color-border); text-align: right; font-family: var(--font-mono, monospace); font-size: 13px; }
@@ -1691,8 +1713,38 @@
   .pcfg-table[data-props] .pcfg-kc { display: table-cell; }
   .pcfg-pick { font-family: var(--font-body, inherit); font-size: 12px; border: 1px solid var(--color-border-strong, var(--color-border)); border-radius: var(--radius-1); background: none; color: var(--color-text); padding: 4px 8px; cursor: pointer; }
   .pcfg-empty { padding: 28px; text-align: center; color: var(--color-text-muted); font-family: var(--font-body, inherit) !important; white-space: normal; }
-  @media (max-width: 900px) { .pcfg { grid-template-columns: 1fr; } .pcfg-draw { min-height: 0; } .pcfg-svg { min-height: 300px; } }
-  @media (max-width: 520px) { .pcfg-draw-scale { display: none; } .pcfg-row3 { grid-template-columns: 1fr 1fr; } .pcfg-row3 .pcfg-field:first-child { grid-column: 1 / -1; } .pcfg-pgrid { grid-template-columns: repeat(2, 1fr); } .product-facts > div { padding-right: var(--space-4); margin-right: var(--space-4); } }
+  /* 2B/3B geçişi + 3B görünüm (K-90): three.js yalnız 3B seçilince yüklenir */
+  .pcfg-vt { position: absolute; top: 14px; right: 14px; z-index: 3; display: inline-flex; border: 1px solid rgb(185 198 216 / 0.5); }
+  .pcfg-vt button { background: transparent; color: #DCE4EF; border: 0; padding: 6px 14px; font: inherit; font-size: 13px; cursor: pointer; }
+  .pcfg-vt button[aria-pressed='true'] { background: var(--color-accent); color: var(--ink); font-weight: 600; }
+  .pcfg-vt button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .pcfg-v3 { position: relative; flex: 1; min-height: 380px; touch-action: none; cursor: grab; outline-offset: -3px; }
+  .pcfg-v3 canvas { display: block; width: 100% !important; height: 100% !important; position: absolute; inset: 0; }
+  .pcfg-v3msg { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 20px; color: var(--pcfg-steel); font-family: var(--font-mono, monospace); font-size: 13px; text-align: center; }
+  .pcfg-v3ctl { position: absolute; right: 14px; bottom: 12px; z-index: 2; display: flex; gap: 6px; }
+  .pcfg-v3ctl button { min-width: 30px; padding: 5px 9px; border: 1px solid rgb(185 198 216 / 0.4); background: rgb(28 42 61 / 0.85); color: #DCE4EF; font: inherit; font-size: 12px; cursor: pointer; }
+  .pcfg-v3ctl button[aria-pressed='true'] { border-color: var(--color-accent); color: var(--color-accent); }
+  .pcfg-v3hint { position: absolute; left: 18px; bottom: 14px; margin: 0; color: var(--pcfg-steel); font-family: var(--font-mono, monospace); font-size: 11px; pointer-events: none; }
+  .pcfg-surf { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pcfg-surf button { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1px solid var(--color-border-strong); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: var(--fs-sm); cursor: pointer; }
+  .pcfg-surf button[aria-pressed='true'] { border-color: var(--color-text); box-shadow: inset 0 0 0 1px var(--color-text); font-weight: 600; }
+  .pcfg-surf i { width: 16px; height: 16px; display: inline-block; border: 1px solid rgb(0 0 0 / 0.25); }
+  .pcfg-chips-sz button { font-family: inherit; min-width: 0; }
+  .pcfg-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  /* ── Ürün sayfası başlığı (K-90, örnek sayfalar): açık zemin, kırıntı → aile çubuğu → büyük başlık + giriş → gerçekler */
+  .product-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: var(--space-6); font-size: var(--fs-xs); color: var(--color-text-muted); }
+  .product-crumb a:hover { color: var(--color-text); text-decoration: underline; text-underline-offset: 4px; }
+  .fams { position: relative; display: flex; gap: 6px; overflow-x: auto; padding: var(--space-3) 0 2px; scrollbar-width: thin; } /* position: relative → kaydırma kutusu, taşma sayılmaz (04-DESIGN-RULES §8) */
+  .fams a { flex: 0 0 auto; padding: 6px 11px; border: 1px solid var(--color-border-strong); font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+  .fams a:hover { color: var(--color-text); border-color: var(--color-text); }
+  .fams a[aria-current='page'] { background: var(--color-text); border-color: var(--color-text); color: var(--color-bg); }
+  .product-head { display: grid; grid-template-columns: 1fr minmax(0, 420px); gap: var(--space-10); align-items: end; padding: var(--space-4) 0 var(--space-8); }
+  /* Örnekteki gibi her kelime ayrı satırda ("Kutu / Profil"); tek kelime tek satır */
+  .product-head h1 { inline-size: min-content; min-inline-size: 60%; font-size: clamp(2.75rem, 1.5rem + 5.5vw, 6rem); line-height: 0.92; letter-spacing: -0.02em; text-wrap: initial; }
+  .product-lede { margin: 0; max-width: 52ch; color: var(--color-text-muted); }
+  .product-lede small { display: block; margin-top: var(--space-3); font-size: var(--fs-xs); color: var(--color-text-subtle); }
+  @media (max-width: 900px) { .pcfg { grid-template-columns: 1fr; } .pcfg-draw { min-height: 0; } .pcfg-svg { min-height: 300px; } .pcfg-v3 { min-height: 300px; } .product-head { grid-template-columns: 1fr; gap: var(--space-4); align-items: start; } }
+  @media (max-width: 520px) { .pcfg-draw-scale { display: none; } .pcfg-v3hint { display: none; } .pcfg-row2 { grid-template-columns: 1fr; } .pcfg-row3 { grid-template-columns: 1fr 1fr; } .pcfg-row3 .pcfg-field:first-child { grid-column: 1 / -1; } .pcfg-pgrid { grid-template-columns: repeat(2, 1fr); } .product-facts > div { padding-right: var(--space-4); margin-right: var(--space-4); } }
 
   /* ── Yorumlar: orta-kart carousel (K-60 scroll-snap): ortadaki kart vurgulu, yanlar soluk ve kenarlardan kırpık;
      yüzen yuvarlak oklar, hap biçimli aktif nokta, puan hapı. */
@@ -1770,7 +1822,7 @@
     margin: 0;
     padding: var(--space-6) var(--space-8);
     border: 1px solid var(--color-border);
-    background: #fff; /* krem bölüm zemininde kart öne çıksın */
+    background: var(--color-surface); /* koyu zeminde yüzey rengi (K-91) */
     transition: border-color 0.35s, box-shadow 0.35s;
   }
   .testimonial[data-active] .testimonial-card {
@@ -1802,11 +1854,11 @@
     border-radius: 50%;
     background: currentColor;
   }
-  .t-badge-google { background: #eaf1fe; border-color: #cbdcfb; color: #1d4fbf; }
-  .t-badge-manual { background: #fdeef0; border-color: #f8cdd3; color: #a3182f; }
-  .t-badge-visitor { background: #f1f0fb; border-color: #d9d5f5; color: #4a3bb0; }
+  .t-badge-google { background: rgb(122 167 240 / 0.14); border-color: rgb(122 167 240 / 0.4); color: #a9c4f5; }
+  .t-badge-manual { background: rgb(255 122 110 / 0.14); border-color: rgb(255 122 110 / 0.4); color: #ffb0a8; }
+  .t-badge-visitor { background: rgb(167 175 188 / 0.14); border-color: rgb(167 175 188 / 0.4); color: #c9cfd9; }
   .t-badge-sample { background: var(--color-surface-dark); border-color: var(--color-surface-dark); color: var(--color-text-inverse); }
-  .t-badge-verified { background: #e9f8ef; border-color: #bfe8cf; color: #14663a; }
+  .t-badge-verified { background: rgb(95 205 134 / 0.14); border-color: rgb(95 205 134 / 0.4); color: #9fe3b6; }
   .testimonial-body { margin: 0; font-size: var(--fs-body-lg); font-style: italic; line-height: 1.55; color: var(--color-text); }
   .testimonial-body p { margin: 0; }
   .testimonial-body p::before { content: '“'; }

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lama Demiri · Ölçü ve Ağırlık Tablosu · CLK Yapı Group</title>
+<meta name="description" content="Sıcak haddelenmiş lama demiri ölçü tablosu: genişlik, kalınlık, kg/m ağırlık ve ağırlık hesaplayıcı.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Lama", "category": "Çelik Profiller", "brand": {"@type": "Brand", "name": "CLK Yapı Group"}, "description": "Sıcak haddelenmiş lama demiri ölçü tablosu: genişlik, kalınlık, kg/m ağırlık ve ağırlık hesaplayıcı.", "offers": {"@type": "AggregateOffer", "priceCurrency": "TRY", "availability": "https://schema.org/InStock", "offerCount": "198"}}</script>
+<style>
+:root{
+  --paper:#F6F5F3; --surface:#FFFFFF; --ink:#15191F; --ink-2:#4A5260; --line:#DCDAD5; --line-2:#C9C6BF;
+  --navy:#1C2A3D; --navy-2:#243650; --grid:rgba(143,163,191,.14); --steel:#B9C6D8; --mark:#F2C230; --mark-ink:#15191F;
+  --focus:#2F6FD6;
+  --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#12161C; --surface:#1A1F27; --ink:#ECEBE7; --ink-2:#A7AFBC; --line:#2B323D; --line-2:#3A4250;
+  --navy:#0E1622; --navy-2:#1A2638; --grid:rgba(143,163,191,.10); --focus:#7AA7F0;
+}}
+:root[data-theme="dark"]{
+  --paper:#12161C; --surface:#1A1F27; --ink:#ECEBE7; --ink-2:#A7AFBC; --line:#2B323D; --line-2:#3A4250;
+  --navy:#0E1622; --navy-2:#1A2638; --grid:rgba(143,163,191,.10); --focus:#7AA7F0;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.logo{font-weight:800;font-stretch:125%;letter-spacing:.02em;text-decoration:none;font-size:17px;white-space:nowrap}
+.nav{display:flex;gap:22px;font-size:14px;color:var(--ink-2);flex:1}
+.nav a{text-decoration:none}.nav a:hover{color:var(--ink)}
+.nav a[aria-current]{color:var(--ink);font-weight:600}
+.cart{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--line-2);color:var(--ink);padding:8px 12px;font:inherit;font-size:14px;cursor:pointer}
+.cart b{font-family:var(--mono);font-weight:500;background:var(--ink);color:var(--paper);min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;padding:0 5px}
+.btn-dark{background:var(--ink);color:var(--paper);border:0;padding:10px 16px;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+@media (max-width:900px){.nav{display:none}.top .wrap{justify-content:space-between}}
+
+/* heading */
+.crumb{font-size:13px;color:var(--ink-2);padding:28px 0 0}
+.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
+.head{display:grid;grid-template-columns:1fr minmax(0,420px);gap:40px;align-items:end;padding:18px 0 32px}
+h1{font-weight:850;font-stretch:125%;font-size:clamp(44px,7.5vw,96px);line-height:.92;letter-spacing:-.02em;margin:0}
+.lede{margin:0;color:var(--ink-2);font-size:16px;max-width:52ch}
+.facts{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:40px}
+.facts div{padding:14px 28px 14px 0;margin-right:28px;border-right:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.facts div:last-child{border-right:0}
+.facts strong{display:block;color:var(--ink);font-size:15px;font-weight:650}
+@media (max-width:900px){.head{grid-template-columns:1fr;gap:16px}.facts div{padding:10px 16px 10px 0;margin-right:16px}}
+
+/* configurator */
+.cfg{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line)}
+@media (max-width:900px){.cfg{grid-template-columns:1fr}}
+.draw{background:var(--navy);color:var(--steel);position:relative;min-height:460px;display:flex;flex-direction:column;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.draw svg{flex:1;width:100%;height:100%;min-height:380px;display:block}
+.draw-meta{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;font-family:var(--mono);font-size:12px;border-top:1px solid rgba(185,198,216,.2)}
+.draw-code{position:absolute;top:16px;left:18px;font-family:var(--mono);font-size:13px;color:#fff}
+.draw-code span{display:block;color:var(--steel);font-size:11px}
+.panel{padding:28px;display:flex;flex-direction:column;gap:22px}
+.field label,.field .lbl{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{background:none;border:0;padding:9px 18px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+select,input[type=number]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);border-radius:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-family:var(--mono);font-size:13px;padding:7px 11px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer;min-width:52px}
+.chips button[aria-pressed="true"]{background:var(--mark);border-color:var(--mark);color:var(--mark-ink);font-weight:500}
+.chips button:hover{border-color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+@media (max-width:520px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
+.result{border-top:1px solid var(--line);padding-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.result div{font-size:13px;color:var(--ink-2)}
+.result b{display:block;font-family:var(--mono);font-weight:500;font-size:20px;color:var(--ink)}
+.result .total b{font-size:26px}
+.add{display:flex;gap:10px;align-items:center}
+.add .btn-dark{padding:14px 20px;font-size:15px;flex:1}
+.toast{font-size:13px;color:var(--ink-2);min-height:20px}
+details.props{border-top:1px solid var(--line);padding-top:14px}
+details.props summary{cursor:pointer;font-size:14px;font-weight:600}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 14px;margin-top:12px}
+.pgrid div{font-size:12px;color:var(--ink-2)}
+.pgrid b{display:block;font-family:var(--mono);font-weight:500;font-size:14px;color:var(--ink)}
+@media (max-width:520px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* sections */
+section.blk{padding:72px 0 0}
+h2{font-weight:800;font-stretch:112%;font-size:clamp(28px,4vw,40px);line-height:1.05;margin:0 0 8px;letter-spacing:-.01em}
+.sub{color:var(--ink-2);margin:0 0 24px;max-width:70ch}
+.tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:14px}
+.tools input[type=search]{max-width:240px;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.tools label.tg{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.tools .count{margin-left:auto;font-size:13px;color:var(--ink-2);font-family:var(--mono)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tchips button{font-family:var(--mono);font-size:12px;padding:5px 9px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.tchips button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--surface)}
+.tscroll{overflow-x:auto;border:1px solid var(--line);background:var(--surface);max-height:640px;overflow-y:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;white-space:nowrap}
+th{position:sticky;top:0;background:var(--navy);color:#fff;font-weight:600;text-align:right;padding:10px 12px;font-size:13px;cursor:pointer;user-select:none}
+th:first-child,th:nth-child(2),td:first-child,td:nth-child(2){text-align:left}
+th[aria-sort="ascending"]::after{content:" ▲";font-size:9px}
+th[aria-sort="descending"]::after{content:" ▼";font-size:9px}
+td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-size:13px}
+td:first-child{font-family:var(--sans);font-size:14px;font-weight:600}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--paper)}
+tbody tr.sel{background:color-mix(in srgb,var(--mark) 22%,transparent)}
+.kc{display:none}.showk .kc{display:table-cell}
+td .pick{font-family:var(--sans);font-size:12px;border:1px solid var(--line-2);background:none;color:var(--ink);padding:4px 8px;cursor:pointer}
+.empty{padding:28px;text-align:center;color:var(--ink-2);font-family:var(--sans)}
+
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
+.specs>div{padding:20px 24px 24px 0}
+.specs h3{font-size:17px;margin:0 0 12px;font-weight:700}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
+dt{color:var(--ink-2)}dd{margin:0}
+@media (max-width:900px){.specs{grid-template-columns:1fr}}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:16px}
+.faq p{margin:10px 0 0;color:var(--ink-2);max-width:72ch}
+
+/* quote drawer */
+dialog{border:0;padding:0;max-width:520px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(10,14,20,.5)}
+.dlg{padding:24px}
+.dlg h2{font-size:24px}
+.qitem{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.qitem small{display:block;color:var(--ink-2);font-family:var(--mono);font-size:12px}
+.qitem button{background:none;border:0;color:var(--ink-2);cursor:pointer;font:inherit;font-size:13px;text-decoration:underline}
+.qsum{display:flex;justify-content:space-between;padding:14px 0;font-weight:650}
+.dlg .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.btn-line{background:none;border:1px solid var(--line-2);color:var(--ink);padding:10px 16px;font:inherit;font-size:14px;cursor:pointer}
+footer{margin-top:88px;border-top:1px solid var(--line);padding:28px 0 36px;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+
+.fams{display:flex;gap:6px;overflow-x:auto;padding:14px 0 2px;scrollbar-width:thin}
+.fams a{flex:0 0 auto;font-size:13px;text-decoration:none;padding:6px 11px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.fams a:hover{color:var(--ink);border-color:var(--ink)}
+.fams a[aria-current]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chips.sz button{font-family:var(--sans);min-width:0}
+.fmt2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+[hidden]{display:none!important}
+
+.vt{position:absolute;top:14px;right:14px;z-index:3;display:inline-flex;border:1px solid rgba(185,198,216,.5)}
+.vt button{background:transparent;color:#DCE4EF;border:0;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer}
+.vt button[aria-pressed="true"]{background:#F2C230;color:#15191F;font-weight:600}
+#v3{flex:1;position:relative;min-height:380px;touch-action:none;cursor:grab}
+#v3:active{cursor:grabbing}
+#v3 canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block}
+.v3msg{position:absolute;inset:0;display:grid;place-items:center;color:#B9C6D8;font-family:var(--mono);font-size:13px;text-align:center;padding:20px}
+.v3ctl{position:absolute;right:14px;bottom:12px;display:flex;gap:6px;z-index:2}
+.v3ctl button{background:rgba(28,42,61,.85);color:#DCE4EF;border:1px solid rgba(185,198,216,.4);font:inherit;font-size:12px;padding:5px 9px;cursor:pointer;min-width:30px}
+.v3ctl button[aria-pressed="true"]{border-color:#F2C230;color:#F2C230}
+.v3hint{position:absolute;left:18px;bottom:14px;color:#B9C6D8;font-family:var(--mono);font-size:11px;pointer-events:none}
+.surf{display:flex;flex-wrap:wrap;gap:6px}
+.surf button{display:flex;align-items:center;gap:8px;font:inherit;font-size:14px;padding:8px 12px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer}
+.surf button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);font-weight:600}
+.surf i{width:16px;height:16px;display:inline-block;border:1px solid rgba(0,0,0,.25)}
+.rnote{font-size:13px;color:var(--ink-2);margin-top:-8px}
+@media (max-width:520px){.v3hint{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="https://clkyapigroup.com/tr">CLKYAPI GROUP</a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="https://clkyapigroup.com/tr/konfigurator">Konfigüratör</a>
+      <a href="https://clkyapigroup.com/tr/urunler" aria-current="page">Ürünler</a>
+      <a href="https://clkyapigroup.com/tr/hizmetler">Hizmetler</a>
+      <a href="https://clkyapigroup.com/tr/projeler">Projeler</a>
+      <a href="https://clkyapigroup.com/tr/iletisim">İletişim</a>
+    </nav>
+    <button class="cart" id="openCart" type="button">Teklif listesi <b id="cartN">0</b></button>
+  </div>
+</header>
+<main class="wrap" id="main-content">
+  <div class="crumb"><a href="https://clkyapigroup.com/tr/urunler">Ürünler</a> / <a href="https://clkyapigroup.com/tr/urunler">Çelik Profiller</a> / Lama</div>
+  <nav class="fams" id="fams" aria-label="Diğer ürünler"></nav>
+  <div class="head">
+    <h1>Lama</h1>
+    <p class="lede">Dikdörtgen kesitli sıcak haddelenmiş yassı çelik. Bağlantı levhası, berkitme, ankraj, korkuluk, kapı ve demir doğrama imalatında kullanılır.</p>
+  </div>
+  <div class="facts"><div><strong>TS EN 10058</strong>Standart</div><div><strong>S235JR – S355JR</strong>Çelik kalitesi</div><div><strong>6 m</strong>Stok boyu</div><div><strong>198 ölçü</strong>10 – 200 mm genişlik</div></div>
+
+  <div class="cfg" aria-label="Ölçü seçimi ve ağırlık hesabı">
+    <div class="draw">
+      <div class="draw-code" aria-live="polite"><span>Seçili ürün</span><b id="dCode"></b></div>
+      <div class="vt" role="group" aria-label="Görünüm"><button type="button" data-view="2d" aria-pressed="true">Kesit</button><button type="button" data-view="3d" aria-pressed="false">3B</button></div>
+      <svg id="sec" viewBox="0 0 520 420" role="img" aria-label="Kesit çizimi"></svg>
+      <div id="v3" hidden><div class="v3msg" id="v3msg">3B görünüm yükleniyor…</div>
+        <div class="v3ctl"><button type="button" id="v3spin" aria-pressed="true" title="Otomatik döndür">Döndür</button><button type="button" id="v3in" aria-label="Yakınlaştır">+</button><button type="button" id="v3out" aria-label="Uzaklaştır">−</button><button type="button" id="v3reset">Sıfırla</button></div>
+        <div class="v3hint">Sürükleyerek 360° çevirin</div></div>
+      <div class="draw-meta"><span id="dL"></span><span id="dR"></span></div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <section class="blk" id="tablo">
+    <h2>Ölçü tablosu</h2>
+    <p class="sub">Bir satıra tıklayınca yukarıdaki hesaplayıcıya aktarılır. Sütun başlığına tıklayarak sıralayabilirsiniz.</p>
+    <div class="tools" id="tools"></div>
+    <div class="tchips" id="tfilter" role="group" aria-label="Kalınlığa göre filtrele"></div>
+    <div class="tscroll"><table id="tbl"><thead><tr id="thr"></tr></thead><tbody id="tb"></tbody></table></div>
+    <p class="sub" style="margin-top:12px;font-size:13px">Ağırlık, genişlik × kalınlık × 7850 kg/m³ ile hesaplanmıştır.</p>
+  </section>
+
+  <section class="blk">
+    <h2>Teknik özellikler</h2>
+    <p class="sub">Siparişte ölçü, kalite, boy ve yüzey durumunu belirtmeniz yeterli.</p>
+    <div class="specs"><div><h3>Malzeme</h3><dl><dt>Standart</dt><dd>TS EN 10058</dd><dt>Kalite</dt><dd>S235JR, S275JR, S355JR</dd><dt>Belge</dt><dd>EN 10204 3.1 sertifika</dd></dl></div><div><h3>Teslim</h3><dl><dt>Boy</dt><dd>6 m standart</dd><dt>Kesim</dt><dd>Ölçüye kesim yapılır</dd><dt>Yüzey</dt><dd>Siyah, antipaslı, sıcak daldırma galvaniz</dd><dt>Sevkiyat</dt><dd>İstanbul ve tüm Türkiye</dd></dl></div><div><h3>Uygulama</h3><dl><dt>Kullanım</dt><dd>Levha, berkitme, korkuluk, kapı</dd><dt>İşleme</dt><dd>Kesim, delik, büküm</dd></dl></div></div>
+  </section>
+
+  <section class="blk faq">
+    <h2>Sık sorulan sorular</h2>
+    <details><summary>Ağırlık nasıl hesaplanır?</summary><p>Tablodaki kg/m değerini toplam metrajla çarpın. Örneğin 10 adet 6 m 50×5 lama: 1,96 × 6 × 10 = 118 kg. Yukarıdaki hesaplayıcı bunu otomatik yapar.</p></details><details><summary>Lama ile sac şeridi arasındaki fark nedir?</summary><p>Lama haddeden kenarları düzgün çıkar; sac şeridi ise levhadan kesilir. Lama kenarları daha düzgün ve boyu standarttır.</p></details><details><summary>Kesim, delik ve galvaniz yapıyor musunuz?</summary><p>Evet. Kesim listenizi veya imalat resminizi gönderin; kesim, delik, antipas ya da sıcak daldırma galvaniz dahil teklif hazırlayalım.</p></details>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 CLK Yapı Group · +90 531 958 98 85 · info@clkyapigroup.com</div></footer>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <div class="dlg">
+    <h2 id="dlgT">Teklif listesi</h2>
+    <div id="qlist"></div>
+    <div class="qsum"><span>Toplam ağırlık</span><span id="qsum">0 kg</span></div>
+    <div class="acts">
+      <button class="btn-line" type="button" id="closeDlg">Kapat</button>
+      <a class="btn-dark" href="https://clkyapigroup.com/tr/teklif-al" target="_blank" rel="noopener">Teklif iste</a>
+    </div>
+  </div>
+</dialog>
+<script>
+const CFG={"slug": "lama", "name": ["Lama", ""], "groups": null, "defaultS": "50 mm", "defaultV": 5, "sizeLabel": "Genişlik", "sizeUI": "select", "variantLabel": "Kalınlık (mm)", "draw": "flat", "grades": ["S235JR", "S275JR", "S355JR"], "lengths": [{"v": 6, "l": "6 m"}, {"v": 12, "l": "12 m"}], "props": [["A", "A", "cm²", 2], ["U", "Boya yüzeyi", "m²/m", 3]], "cols": [["k", "Stok kodu", null, 0], ["_i", "Genişlik × kalınlık (mm)", null, 0], ["kg", "kg/m", 2, 0], ["_bar", "6 m boy (kg)", 2, 0], ["A", "A (cm²)", 2, 0], ["U", "Boya yüzeyi (m²/m)", 3, 0]]};
+const DATA=[{"k":"LM-10X3","g":null,"s":"10 mm","v":3,"lbl":"10×3","dim":"10 × 3","kg":0.235,"A":0.3,"U":0.026,"d":{"w":10,"t":3}},{"k":"LM-10X4","g":null,"s":"10 mm","v":4,"lbl":"10×4","dim":"10 × 4","kg":0.314,"A":0.4,"U":0.028,"d":{"w":10,"t":4}},{"k":"LM-10X5","g":null,"s":"10 mm","v":5,"lbl":"10×5","dim":"10 × 5","kg":0.392,"A":0.5,"U":0.03,"d":{"w":10,"t":5}},{"k":"LM-12X3","g":null,"s":"12 mm","v":3,"lbl":"12×3","dim":"12 × 3","kg":0.283,"A":0.36,"U":0.03,"d":{"w":12,"t":3}},{"k":"LM-12X4","g":null,"s":"12 mm","v":4,"lbl":"12×4","dim":"12 × 4","kg":0.377,"A":0.48,"U":0.032,"d":{"w":12,"t":4}},{"k":"LM-12X5","g":null,"s":"12 mm","v":5,"lbl":"12×5","dim":"12 × 5","kg":0.471,"A":0.6,"U":0.034,"d":{"w":12,"t":5}},{"k":"LM-12X6","g":null,"s":"12 mm","v":6,"lbl":"12×6","dim":"12 × 6","kg":0.565,"A":0.72,"U":0.036,"d":{"w":12,"t":6}},{"k":"LM-15X3","g":null,"s":"15 mm","v":3,"lbl":"15×3","dim":"15 × 3","kg":0.353,"A":0.45,"U":0.036,"d":{"w":15,"t":3}},{"k":"LM-15X4","g":null,"s":"15 mm","v":4,"lbl":"15×4","dim":"15 × 4","kg":0.471,"A":0.6,"U":0.038,"d":{"w":15,"t":4}},{"k":"LM-15X5","g":null,"s":"15 mm","v":5,"lbl":"15×5","dim":"15 × 5","kg":0.589,"A":0.75,"U":0.04,"d":{"w":15,"t":5}},{"k":"LM-15X6","g":null,"s":"15 mm","v":6,"lbl":"15×6","dim":"15 × 6","kg":0.706,"A":0.9,"U":0.042,"d":{"w":15,"t":6}},{"k":"LM-16X3","g":null,"s":"16 mm","v":3,"lbl":"16×3","dim":"16 × 3","kg":0.377,"A":0.48,"U":0.038,"d":{"w":16,"t":3}},{"k":"LM-16X4","g":null,"s":"16 mm","v":4,"lbl":"16×4","dim":"16 × 4","kg":0.502,"A":0.64,"U":0.04,"d":{"w":16,"t":4}},{"k":"LM-16X5","g":null,"s":"16 mm","v":5,"lbl":"16×5","dim":"16 × 5","kg":0.628,"A":0.8,"U":0.042,"d":{"w":16,"t":5}},{"k":"LM-16X6","g":null,"s":"16 mm","v":6,"lbl":"16×6","dim":"16 × 6","kg":0.754,"A":0.96,"U":0.044,"d":{"w":16,"t":6}},{"k":"LM-16X8","g":null,"s":"16 mm","v":8,"lbl":"16×8","dim":"16 × 8","kg":1.0,"A":1.28,"U":0.048,"d":{"w":16,"t":8}},{"k":"LM-20X3","g":null,"s":"20 mm","v":3,"lbl":"20×3","dim":"20 × 3","kg":0.471,"A":0.6,"U":0.046,"d":{"w":20,"t":3}},{"k":"LM-20X4","g":null,"s":"20 mm","v":4,"lbl":"20×4","dim":"20 × 4","kg":0.628,"A":0.8,"U":0.048,"d":{"w":20,"t":4}},{"k":"LM-20X5","g":null,"s":"20 mm","v":5,"lbl":"20×5","dim":"20 × 5","kg":0.785,"A":1.0,"U":0.05,"d":{"w":20,"t":5}},{"k":"LM-20X6","g":null,"s":"20 mm","v":6,"lbl":"20×6","dim":"20 × 6","kg":0.942,"A":1.2,"U":0.052,"d":{"w":20,"t":6}},{"k":"LM-20X8","g":null,"s":"20 mm","v":8,"lbl":"20×8","dim":"20 × 8","kg":1.26,"A":1.6,"U":0.056,"d":{"w":20,"t":8}},{"k":"LM-20X10","g":null,"s":"20 mm","v":10,"lbl":"20×10","dim":"20 × 10","kg":1.57,"A":2.0,"U":0.06,"d":{"w":20,"t":10}},{"k":"LM-25X3","g":null,"s":"25 mm","v":3,"lbl":"25×3","dim":"25 × 3","kg":0.589,"A":0.75,"U":0.056,"d":{"w":25,"t":3}},{"k":"LM-25X4","g":null,"s":"25 mm","v":4,"lbl":"25×4","dim":"25 × 4","kg":0.785,"A":1.0,"U":0.058,"d":{"w":25,"t":4}},{"k":"LM-25X5","g":null,"s":"25 mm","v":5,"lbl":"25×5","dim":"25 × 5","kg":0.981,"A":1.25,"U":0.06,"d":{"w":25,"t":5}},{"k":"LM-25X6","g":null,"s":"25 mm","v":6,"lbl":"25×6","dim":"25 × 6","kg":1.18,"A":1.5,"U":0.062,"d":{"w":25,"t":6}},{"k":"LM-25X8","g":null,"s":"25 mm","v":8,"lbl":"25×8","dim":"25 × 8","kg":1.57,"A":2.0,"U":0.066,"d":{"w":25,"t":8}},{"k":"LM-25X10","g":null,"s":"25 mm","v":10,"lbl":"25×10","dim":"25 × 10","kg":1.96,"A":2.5,"U":0.07,"d":{"w":25,"t":10}},{"k":"LM-25X12","g":null,"s":"25 mm","v":12,"lbl":"25×12","dim":"25 × 12","kg":2.35,"A":3.0,"U":0.074,"d":{"w":25,"t":12}},{"k":"LM-30X3","g":null,"s":"30 mm","v":3,"lbl":"30×3","dim":"30 × 3","kg":0.706,"A":0.9,"U":0.066,"d":{"w":30,"t":3}},{"k":"LM-30X4","g":null,"s":"30 mm","v":4,"lbl":"30×4","dim":"30 × 4","kg":0.942,"A":1.2,"U":0.068,"d":{"w":30,"t":4}},{"k":"LM-30X5","g":null,"s":"30 mm","v":5,"lbl":"30×5","dim":"30 × 5","kg":1.18,"A":1.5,"U":0.07,"d":{"w":30,"t":5}},{"k":"LM-30X6","g":null,"s":"30 mm","v":6,"lbl":"30×6","dim":"30 × 6","kg":1.41,"A":1.8,"U":0.072,"d":{"w":30,"t":6}},{"k":"LM-30X8","g":null,"s":"30 mm","v":8,"lbl":"30×8","dim":"30 × 8","kg":1.88,"A":2.4,"U":0.076,"d":{"w":30,"t":8}},{"k":"LM-30X10","g":null,"s":"30 mm","v":10,"lbl":"30×10","dim":"30 × 10","kg":2.35,"A":3.0,"U":0.08,"d":{"w":30,"t":10}},{"k":"LM-30X12","g":null,"s":"30 mm","v":12,"lbl":"30×12","dim":"30 × 12","kg":2.83,"A":3.6,"U":0.084,"d":{"w":30,"t":12}},{"k":"LM-30X15","g":null,"s":"30 mm","v":15,"lbl":"30×15","dim":"30 × 15","kg":3.53,"A":4.5,"U":0.09,"d":{"w":30,"t":15}},{"k":"LM-35X3","g":null,"s":"35 mm","v":3,"lbl":"35×3","dim":"35 × 3","kg":0.824,"A":1.05,"U":0.076,"d":{"w":35,"t":3}},{"k":"LM-35X4","g":null,"s":"35 mm","v":4,"lbl":"35×4","dim":"35 × 4","kg":1.1,"A":1.4,"U":0.078,"d":{"w":35,"t":4}},{"k":"LM-35X5","g":null,"s":"35 mm","v":5,"lbl":"35×5","dim":"35 × 5","kg":1.37,"A":1.75,"U":0.08,"d":{"w":35,"t":5}},{"k":"LM-35X6","g":null,"s":"35 mm","v":6,"lbl":"35×6","dim":"35 × 6","kg":1.65,"A":2.1,"U":0.082,"d":{"w":35,"t":6}},{"k":"LM-35X8","g":null,"s":"35 mm","v":8,"lbl":"35×8","dim":"35 × 8","kg":2.2,"A":2.8,"U":0.086,"d":{"w":35,"t":8}},{"k":"LM-35X10","g":null,"s":"35 mm","v":10,"lbl":"35×10","dim":"35 × 10","kg":2.75,"A":3.5,"U":0.09,"d":{"w":35,"t":10}},{"k":"LM-35X12","g":null,"s":"35 mm","v":12,"lbl":"35×12","dim":"35 × 12","kg":3.3,"A":4.2,"U":0.094,"d":{"w":35,"t":12}},{"k":"LM-35X15","g":null,"s":"35 mm","v":15,"lbl":"35×15","dim":"35 × 15","kg":4.12,"A":5.25,"U":0.1,"d":{"w":35,"t":15}},{"k":"LM-40X3","g":null,"s":"40 mm","v":3,"lbl":"40×3","dim":"40 × 3","kg":0.942,"A":1.2,"U":0.086,"d":{"w":40,"t":3}},{"k":"LM-40X4","g":null,"s":"40 mm","v":4,"lbl":"40×4","dim":"40 × 4","kg":1.26,"A":1.6,"U":0.088,"d":{"w":40,"t":4}},{"k":"LM-40X5","g":null,"s":"40 mm","v":5,"lbl":"40×5","dim":"40 × 5","kg":1.57,"A":2.0,"U":0.09,"d":{"w":40,"t":5}},{"k":"LM-40X6","g":null,"s":"40 mm","v":6,"lbl":"40×6","dim":"40 × 6","kg":1.88,"A":2.4,"U":0.092,"d":{"w":40,"t":6}},{"k":"LM-40X8","g":null,"s":"40 mm","v":8,"lbl":"40×8","dim":"40 × 8","kg":2.51,"A":3.2,"U":0.096,"d":{"w":40,"t":8}},{"k":"LM-40X10","g":null,"s":"40 mm","v":10,"lbl":"40×10","dim":"40 × 10","kg":3.14,"A":4.0,"U":0.1,"d":{"w":40,"t":10}},{"k":"LM-40X12","g":null,"s":"40 mm","v":12,"lbl":"40×12","dim":"40 × 12","kg":3.77,"A":4.8,"U":0.104,"d":{"w":40,"t":12}},{"k":"LM-40X15","g":null,"s":"40 mm","v":15,"lbl":"40×15","dim":"40 × 15","kg":4.71,"A":6.0,"U":0.11,"d":{"w":40,"t":15}},{"k":"LM-40X20","g":null,"s":"40 mm","v":20,"lbl":"40×20","dim":"40 × 20","kg":6.28,"A":8.0,"U":0.12,"d":{"w":40,"t":20}},{"k":"LM-45X3","g":null,"s":"45 mm","v":3,"lbl":"45×3","dim":"45 × 3","kg":1.06,"A":1.35,"U":0.096,"d":{"w":45,"t":3}},{"k":"LM-45X4","g":null,"s":"45 mm","v":4,"lbl":"45×4","dim":"45 × 4","kg":1.41,"A":1.8,"U":0.098,"d":{"w":45,"t":4}},{"k":"LM-45X5","g":null,"s":"45 mm","v":5,"lbl":"45×5","dim":"45 × 5","kg":1.77,"A":2.25,"U":0.1,"d":{"w":45,"t":5}},{"k":"LM-45X6","g":null,"s":"45 mm","v":6,"lbl":"45×6","dim":"45 × 6","kg":2.12,"A":2.7,"U":0.102,"d":{"w":45,"t":6}},{"k":"LM-45X8","g":null,"s":"45 mm","v":8,"lbl":"45×8","dim":"45 × 8","kg":2.83,"A":3.6,"U":0.106,"d":{"w":45,"t":8}},{"k":"LM-45X10","g":null,"s":"45 mm","v":10,"lbl":"45×10","dim":"45 × 10","kg":3.53,"A":4.5,"U":0.11,"d":{"w":45,"t":10}},{"k":"LM-45X12","g":null,"s":"45 mm","v":12,"lbl":"45×12","dim":"45 × 12","kg":4.24,"A":5.4,"U":0.114,"d":{"w":45,"t":12}},{"k":"LM-45X15","g":null,"s":"45 mm","v":15,"lbl":"45×15","dim":"45 × 15","kg":5.3,"A":6.75,"U":0.12,"d":{"w":45,"t":15}},{"k":"LM-45X20","g":null,"s":"45 mm","v":20,"lbl":"45×20","dim":"45 × 20","kg":7.06,"A":9.0,"U":0.13,"d":{"w":45,"t":20}},{"k":"LM-50X3","g":null,"s":"50 mm","v":3,"lbl":"50×3","dim":"50 × 3","kg":1.18,"A":1.5,"U":0.106,"d":{"w":50,"t":3}},{"k":"LM-50X4","g":null,"s":"50 mm","v":4,"lbl":"50×4","dim":"50 × 4","kg":1.57,"A":2.0,"U":0.108,"d":{"w":50,"t":4}},{"k":"LM-50X5","g":null,"s":"50 mm","v":5,"lbl":"50×5","dim":"50 × 5","kg":1.96,"A":2.5,"U":0.11,"d":{"w":50,"t":5}},{"k":"LM-50X6","g":null,"s":"50 mm","v":6,"lbl":"50×6","dim":"50 × 6","kg":2.35,"A":3.0,"U":0.112,"d":{"w":50,"t":6}},{"k":"LM-50X8","g":null,"s":"50 mm","v":8,"lbl":"50×8","dim":"50 × 8","kg":3.14,"A":4.0,"U":0.116,"d":{"w":50,"t":8}},{"k":"LM-50X10","g":null,"s":"50 mm","v":10,"lbl":"50×10","dim":"50 × 10","kg":3.92,"A":5.0,"U":0.12,"d":{"w":50,"t":10}},{"k":"LM-50X12","g":null,"s":"50 mm","v":12,"lbl":"50×12","dim":"50 × 12","kg":4.71,"A":6.0,"U":0.124,"d":{"w":50,"t":12}},{"k":"LM-50X15","g":null,"s":"50 mm","v":15,"lbl":"50×15","dim":"50 × 15","kg":5.89,"A":7.5,"U":0.13,"d":{"w":50,"t":15}},{"k":"LM-50X20","g":null,"s":"50 mm","v":20,"lbl":"50×20","dim":"50 × 20","kg":7.85,"A":10.0,"U":0.14,"d":{"w":50,"t":20}},{"k":"LM-50X25","g":null,"s":"50 mm","v":25,"lbl":"50×25","dim":"50 × 25","kg":9.81,"A":12.5,"U":0.15,"d":{"w":50,"t":25}},{"k":"LM-60X3","g":null,"s":"60 mm","v":3,"lbl":"60×3","dim":"60 × 3","kg":1.41,"A":1.8,"U":0.126,"d":{"w":60,"t":3}},{"k":"LM-60X4","g":null,"s":"60 mm","v":4,"lbl":"60×4","dim":"60 × 4","kg":1.88,"A":2.4,"U":0.128,"d":{"w":60,"t":4}},{"k":"LM-60X5","g":null,"s":"60 mm","v":5,"lbl":"60×5","dim":"60 × 5","kg":2.35,"A":3.0,"U":0.13,"d":{"w":60,"t":5}},{"k":"LM-60X6","g":null,"s":"60 mm","v":6,"lbl":"60×6","dim":"60 × 6","kg":2.83,"A":3.6,"U":0.132,"d":{"w":60,"t":6}},{"k":"LM-60X8","g":null,"s":"60 mm","v":8,"lbl":"60×8","dim":"60 × 8","kg":3.77,"A":4.8,"U":0.136,"d":{"w":60,"t":8}},{"k":"LM-60X10","g":null,"s":"60 mm","v":10,"lbl":"60×10","dim":"60 × 10","kg":4.71,"A":6.0,"U":0.14,"d":{"w":60,"t":10}},{"k":"LM-60X12","g":null,"s":"60 mm","v":12,"lbl":"60×12","dim":"60 × 12","kg":5.65,"A":7.2,"U":0.144,"d":{"w":60,"t":12}},{"k":"LM-60X15","g":null,"s":"60 mm","v":15,"lbl":"60×15","dim":"60 × 15","kg":7.06,"A":9.0,"U":0.15,"d":{"w":60,"t":15}},{"k":"LM-60X20","g":null,"s":"60 mm","v":20,"lbl":"60×20","dim":"60 × 20","kg":9.42,"A":12.0,"U":0.16,"d":{"w":60,"t":20}},{"k":"LM-60X25","g":null,"s":"60 mm","v":25,"lbl":"60×25","dim":"60 × 25","kg":11.77,"A":15.0,"U":0.17,"d":{"w":60,"t":25}},{"k":"LM-60X30","g":null,"s":"60 mm","v":30,"lbl":"60×30","dim":"60 × 30","kg":14.13,"A":18.0,"U":0.18,"d":{"w":60,"t":30}},{"k":"LM-70X3","g":null,"s":"70 mm","v":3,"lbl":"70×3","dim":"70 × 3","kg":1.65,"A":2.1,"U":0.146,"d":{"w":70,"t":3}},{"k":"LM-70X4","g":null,"s":"70 mm","v":4,"lbl":"70×4","dim":"70 × 4","kg":2.2,"A":2.8,"U":0.148,"d":{"w":70,"t":4}},{"k":"LM-70X5","g":null,"s":"70 mm","v":5,"lbl":"70×5","dim":"70 × 5","kg":2.75,"A":3.5,"U":0.15,"d":{"w":70,"t":5}},{"k":"LM-70X6","g":null,"s":"70 mm","v":6,"lbl":"70×6","dim":"70 × 6","kg":3.3,"A":4.2,"U":0.152,"d":{"w":70,"t":6}},{"k":"LM-70X8","g":null,"s":"70 mm","v":8,"lbl":"70×8","dim":"70 × 8","kg":4.4,"A":5.6,"U":0.156,"d":{"w":70,"t":8}},{"k":"LM-70X10","g":null,"s":"70 mm","v":10,"lbl":"70×10","dim":"70 × 10","kg":5.49,"A":7.0,"U":0.16,"d":{"w":70,"t":10}},{"k":"LM-70X12","g":null,"s":"70 mm","v":12,"lbl":"70×12","dim":"70 × 12","kg":6.59,"A":8.4,"U":0.164,"d":{"w":70,"t":12}},{"k":"LM-70X15","g":null,"s":"70 mm","v":15,"lbl":"70×15","dim":"70 × 15","kg":8.24,"A":10.5,"U":0.17,"d":{"w":70,"t":15}},{"k":"LM-70X20","g":null,"s":"70 mm","v":20,"lbl":"70×20","dim":"70 × 20","kg":10.99,"A":14.0,"U":0.18,"d":{"w":70,"t":20}},{"k":"LM-70X25","g":null,"s":"70 mm","v":25,"lbl":"70×25","dim":"70 × 25","kg":13.74,"A":17.5,"U":0.19,"d":{"w":70,"t":25}},{"k":"LM-70X30","g":null,"s":"70 mm","v":30,"lbl":"70×30","dim":"70 × 30","kg":16.48,"A":21.0,"U":0.2,"d":{"w":70,"t":30}},{"k":"LM-80X3","g":null,"s":"80 mm","v":3,"lbl":"80×3","dim":"80 × 3","kg":1.88,"A":2.4,"U":0.166,"d":{"w":80,"t":3}},{"k":"LM-80X4","g":null,"s":"80 mm","v":4,"lbl":"80×4","dim":"80 × 4","kg":2.51,"A":3.2,"U":0.168,"d":{"w":80,"t":4}},{"k":"LM-80X5","g":null,"s":"80 mm","v":5,"lbl":"80×5","dim":"80 × 5","kg":3.14,"A":4.0,"U":0.17,"d":{"w":80,"t":5}},{"k":"LM-80X6","g":null,"s":"80 mm","v":6,"lbl":"80×6","dim":"80 × 6","kg":3.77,"A":4.8,"U":0.172,"d":{"w":80,"t":6}},{"k":"LM-80X8","g":null,"s":"80 mm","v":8,"lbl":"80×8","dim":"80 × 8","kg":5.02,"A":6.4,"U":0.176,"d":{"w":80,"t":8}},{"k":"LM-80X10","g":null,"s":"80 mm","v":10,"lbl":"80×10","dim":"80 × 10","kg":6.28,"A":8.0,"U":0.18,"d":{"w":80,"t":10}},{"k":"LM-80X12","g":null,"s":"80 mm","v":12,"lbl":"80×12","dim":"80 × 12","kg":7.54,"A":9.6,"U":0.184,"d":{"w":80,"t":12}},{"k":"LM-80X15","g":null,"s":"80 mm","v":15,"lbl":"80×15","dim":"80 × 15","kg":9.42,"A":12.0,"U":0.19,"d":{"w":80,"t":15}},{"k":"LM-80X20","g":null,"s":"80 mm","v":20,"lbl":"80×20","dim":"80 × 20","kg":12.56,"A":16.0,"U":0.2,"d":{"w":80,"t":20}},{"k":"LM-80X25","g":null,"s":"80 mm","v":25,"lbl":"80×25","dim":"80 × 25","kg":15.7,"A":20.0,"U":0.21,"d":{"w":80,"t":25}},{"k":"LM-80X30","g":null,"s":"80 mm","v":30,"lbl":"80×30","dim":"80 × 30","kg":18.84,"A":24.0,"U":0.22,"d":{"w":80,"t":30}},{"k":"LM-90X3","g":null,"s":"90 mm","v":3,"lbl":"90×3","dim":"90 × 3","kg":2.12,"A":2.7,"U":0.186,"d":{"w":90,"t":3}},{"k":"LM-90X4","g":null,"s":"90 mm","v":4,"lbl":"90×4","dim":"90 × 4","kg":2.83,"A":3.6,"U":0.188,"d":{"w":90,"t":4}},{"k":"LM-90X5","g":null,"s":"90 mm","v":5,"lbl":"90×5","dim":"90 × 5","kg":3.53,"A":4.5,"U":0.19,"d":{"w":90,"t":5}},{"k":"LM-90X6","g":null,"s":"90 mm","v":6,"lbl":"90×6","dim":"90 × 6","kg":4.24,"A":5.4,"U":0.192,"d":{"w":90,"t":6}},{"k":"LM-90X8","g":null,"s":"90 mm","v":8,"lbl":"90×8","dim":"90 × 8","kg":5.65,"A":7.2,"U":0.196,"d":{"w":90,"t":8}},{"k":"LM-90X10","g":null,"s":"90 mm","v":10,"lbl":"90×10","dim":"90 × 10","kg":7.06,"A":9.0,"U":0.2,"d":{"w":90,"t":10}},{"k":"LM-90X12","g":null,"s":"90 mm","v":12,"lbl":"90×12","dim":"90 × 12","kg":8.48,"A":10.8,"U":0.204,"d":{"w":90,"t":12}},{"k":"LM-90X15","g":null,"s":"90 mm","v":15,"lbl":"90×15","dim":"90 × 15","kg":10.6,"A":13.5,"U":0.21,"d":{"w":90,"t":15}},{"k":"LM-90X20","g":null,"s":"90 mm","v":20,"lbl":"90×20","dim":"90 × 20","kg":14.13,"A":18.0,"U":0.22,"d":{"w":90,"t":20}},{"k":"LM-90X25","g":null,"s":"90 mm","v":25,"lbl":"90×25","dim":"90 × 25","kg":17.66,"A":22.5,"U":0.23,"d":{"w":90,"t":25}},{"k":"LM-90X30","g":null,"s":"90 mm","v":30,"lbl":"90×30","dim":"90 × 30","kg":21.19,"A":27.0,"U":0.24,"d":{"w":90,"t":30}},{"k":"LM-100X5","g":null,"s":"100 mm","v":5,"lbl":"100×5","dim":"100 × 5","kg":3.92,"A":5.0,"U":0.21,"d":{"w":100,"t":5}},{"k":"LM-100X6","g":null,"s":"100 mm","v":6,"lbl":"100×6","dim":"100 × 6","kg":4.71,"A":6.0,"U":0.212,"d":{"w":100,"t":6}},{"k":"LM-100X8","g":null,"s":"100 mm","v":8,"lbl":"100×8","dim":"100 × 8","kg":6.28,"A":8.0,"U":0.216,"d":{"w":100,"t":8}},{"k":"LM-100X10","g":null,"s":"100 mm","v":10,"lbl":"100×10","dim":"100 × 10","kg":7.85,"A":10.0,"U":0.22,"d":{"w":100,"t":10}},{"k":"LM-100X12","g":null,"s":"100 mm","v":12,"lbl":"100×12","dim":"100 × 12","kg":9.42,"A":12.0,"U":0.224,"d":{"w":100,"t":12}},{"k":"LM-100X15","g":null,"s":"100 mm","v":15,"lbl":"100×15","dim":"100 × 15","kg":11.77,"A":15.0,"U":0.23,"d":{"w":100,"t":15}},{"k":"LM-100X20","g":null,"s":"100 mm","v":20,"lbl":"100×20","dim":"100 × 20","kg":15.7,"A":20.0,"U":0.24,"d":{"w":100,"t":20}},{"k":"LM-100X25","g":null,"s":"100 mm","v":25,"lbl":"100×25","dim":"100 × 25","kg":19.62,"A":25.0,"U":0.25,"d":{"w":100,"t":25}},{"k":"LM-100X30","g":null,"s":"100 mm","v":30,"lbl":"100×30","dim":"100 × 30","kg":23.55,"A":30.0,"U":0.26,"d":{"w":100,"t":30}},{"k":"LM-110X5","g":null,"s":"110 mm","v":5,"lbl":"110×5","dim":"110 × 5","kg":4.32,"A":5.5,"U":0.23,"d":{"w":110,"t":5}},{"k":"LM-110X6","g":null,"s":"110 mm","v":6,"lbl":"110×6","dim":"110 × 6","kg":5.18,"A":6.6,"U":0.232,"d":{"w":110,"t":6}},{"k":"LM-110X8","g":null,"s":"110 mm","v":8,"lbl":"110×8","dim":"110 × 8","kg":6.91,"A":8.8,"U":0.236,"d":{"w":110,"t":8}},{"k":"LM-110X10","g":null,"s":"110 mm","v":10,"lbl":"110×10","dim":"110 × 10","kg":8.63,"A":11.0,"U":0.24,"d":{"w":110,"t":10}},{"k":"LM-110X12","g":null,"s":"110 mm","v":12,"lbl":"110×12","dim":"110 × 12","kg":10.36,"A":13.2,"U":0.244,"d":{"w":110,"t":12}},{"k":"LM-110X15","g":null,"s":"110 mm","v":15,"lbl":"110×15","dim":"110 × 15","kg":12.95,"A":16.5,"U":0.25,"d":{"w":110,"t":15}},{"k":"LM-110X20","g":null,"s":"110 mm","v":20,"lbl":"110×20","dim":"110 × 20","kg":17.27,"A":22.0,"U":0.26,"d":{"w":110,"t":20}},{"k":"LM-110X25","g":null,"s":"110 mm","v":25,"lbl":"110×25","dim":"110 × 25","kg":21.59,"A":27.5,"U":0.27,"d":{"w":110,"t":25}},{"k":"LM-110X30","g":null,"s":"110 mm","v":30,"lbl":"110×30","dim":"110 × 30","kg":25.9,"A":33.0,"U":0.28,"d":{"w":110,"t":30}},{"k":"LM-120X5","g":null,"s":"120 mm","v":5,"lbl":"120×5","dim":"120 × 5","kg":4.71,"A":6.0,"U":0.25,"d":{"w":120,"t":5}},{"k":"LM-120X6","g":null,"s":"120 mm","v":6,"lbl":"120×6","dim":"120 × 6","kg":5.65,"A":7.2,"U":0.252,"d":{"w":120,"t":6}},{"k":"LM-120X8","g":null,"s":"120 mm","v":8,"lbl":"120×8","dim":"120 × 8","kg":7.54,"A":9.6,"U":0.256,"d":{"w":120,"t":8}},{"k":"LM-120X10","g":null,"s":"120 mm","v":10,"lbl":"120×10","dim":"120 × 10","kg":9.42,"A":12.0,"U":0.26,"d":{"w":120,"t":10}},{"k":"LM-120X12","g":null,"s":"120 mm","v":12,"lbl":"120×12","dim":"120 × 12","kg":11.3,"A":14.4,"U":0.264,"d":{"w":120,"t":12}},{"k":"LM-120X15","g":null,"s":"120 mm","v":15,"lbl":"120×15","dim":"120 × 15","kg":14.13,"A":18.0,"U":0.27,"d":{"w":120,"t":15}},{"k":"LM-120X20","g":null,"s":"120 mm","v":20,"lbl":"120×20","dim":"120 × 20","kg":18.84,"A":24.0,"U":0.28,"d":{"w":120,"t":20}},{"k":"LM-120X25","g":null,"s":"120 mm","v":25,"lbl":"120×25","dim":"120 × 25","kg":23.55,"A":30.0,"U":0.29,"d":{"w":120,"t":25}},{"k":"LM-120X30","g":null,"s":"120 mm","v":30,"lbl":"120×30","dim":"120 × 30","kg":28.26,"A":36.0,"U":0.3,"d":{"w":120,"t":30}},{"k":"LM-130X5","g":null,"s":"130 mm","v":5,"lbl":"130×5","dim":"130 × 5","kg":5.1,"A":6.5,"U":0.27,"d":{"w":130,"t":5}},{"k":"LM-130X6","g":null,"s":"130 mm","v":6,"lbl":"130×6","dim":"130 × 6","kg":6.12,"A":7.8,"U":0.272,"d":{"w":130,"t":6}},{"k":"LM-130X8","g":null,"s":"130 mm","v":8,"lbl":"130×8","dim":"130 × 8","kg":8.16,"A":10.4,"U":0.276,"d":{"w":130,"t":8}},{"k":"LM-130X10","g":null,"s":"130 mm","v":10,"lbl":"130×10","dim":"130 × 10","kg":10.2,"A":13.0,"U":0.28,"d":{"w":130,"t":10}},{"k":"LM-130X12","g":null,"s":"130 mm","v":12,"lbl":"130×12","dim":"130 × 12","kg":12.25,"A":15.6,"U":0.284,"d":{"w":130,"t":12}},{"k":"LM-130X15","g":null,"s":"130 mm","v":15,"lbl":"130×15","dim":"130 × 15","kg":15.31,"A":19.5,"U":0.29,"d":{"w":130,"t":15}},{"k":"LM-130X20","g":null,"s":"130 mm","v":20,"lbl":"130×20","dim":"130 × 20","kg":20.41,"A":26.0,"U":0.3,"d":{"w":130,"t":20}},{"k":"LM-130X25","g":null,"s":"130 mm","v":25,"lbl":"130×25","dim":"130 × 25","kg":25.51,"A":32.5,"U":0.31,"d":{"w":130,"t":25}},{"k":"LM-130X30","g":null,"s":"130 mm","v":30,"lbl":"130×30","dim":"130 × 30","kg":30.61,"A":39.0,"U":0.32,"d":{"w":130,"t":30}},{"k":"LM-140X5","g":null,"s":"140 mm","v":5,"lbl":"140×5","dim":"140 × 5","kg":5.49,"A":7.0,"U":0.29,"d":{"w":140,"t":5}},{"k":"LM-140X6","g":null,"s":"140 mm","v":6,"lbl":"140×6","dim":"140 × 6","kg":6.59,"A":8.4,"U":0.292,"d":{"w":140,"t":6}},{"k":"LM-140X8","g":null,"s":"140 mm","v":8,"lbl":"140×8","dim":"140 × 8","kg":8.79,"A":11.2,"U":0.296,"d":{"w":140,"t":8}},{"k":"LM-140X10","g":null,"s":"140 mm","v":10,"lbl":"140×10","dim":"140 × 10","kg":10.99,"A":14.0,"U":0.3,"d":{"w":140,"t":10}},{"k":"LM-140X12","g":null,"s":"140 mm","v":12,"lbl":"140×12","dim":"140 × 12","kg":13.19,"A":16.8,"U":0.304,"d":{"w":140,"t":12}},{"k":"LM-140X15","g":null,"s":"140 mm","v":15,"lbl":"140×15","dim":"140 × 15","kg":16.48,"A":21.0,"U":0.31,"d":{"w":140,"t":15}},{"k":"LM-140X20","g":null,"s":"140 mm","v":20,"lbl":"140×20","dim":"140 × 20","kg":21.98,"A":28.0,"U":0.32,"d":{"w":140,"t":20}},{"k":"LM-140X25","g":null,"s":"140 mm","v":25,"lbl":"140×25","dim":"140 × 25","kg":27.47,"A":35.0,"U":0.33,"d":{"w":140,"t":25}},{"k":"LM-140X30","g":null,"s":"140 mm","v":30,"lbl":"140×30","dim":"140 × 30","kg":32.97,"A":42.0,"U":0.34,"d":{"w":140,"t":30}},{"k":"LM-150X5","g":null,"s":"150 mm","v":5,"lbl":"150×5","dim":"150 × 5","kg":5.89,"A":7.5,"U":0.31,"d":{"w":150,"t":5}},{"k":"LM-150X6","g":null,"s":"150 mm","v":6,"lbl":"150×6","dim":"150 × 6","kg":7.06,"A":9.0,"U":0.312,"d":{"w":150,"t":6}},{"k":"LM-150X8","g":null,"s":"150 mm","v":8,"lbl":"150×8","dim":"150 × 8","kg":9.42,"A":12.0,"U":0.316,"d":{"w":150,"t":8}},{"k":"LM-150X10","g":null,"s":"150 mm","v":10,"lbl":"150×10","dim":"150 × 10","kg":11.77,"A":15.0,"U":0.32,"d":{"w":150,"t":10}},{"k":"LM-150X12","g":null,"s":"150 mm","v":12,"lbl":"150×12","dim":"150 × 12","kg":14.13,"A":18.0,"U":0.324,"d":{"w":150,"t":12}},{"k":"LM-150X15","g":null,"s":"150 mm","v":15,"lbl":"150×15","dim":"150 × 15","kg":17.66,"A":22.5,"U":0.33,"d":{"w":150,"t":15}},{"k":"LM-150X20","g":null,"s":"150 mm","v":20,"lbl":"150×20","dim":"150 × 20","kg":23.55,"A":30.0,"U":0.34,"d":{"w":150,"t":20}},{"k":"LM-150X25","g":null,"s":"150 mm","v":25,"lbl":"150×25","dim":"150 × 25","kg":29.44,"A":37.5,"U":0.35,"d":{"w":150,"t":25}},{"k":"LM-150X30","g":null,"s":"150 mm","v":30,"lbl":"150×30","dim":"150 × 30","kg":35.32,"A":45.0,"U":0.36,"d":{"w":150,"t":30}},{"k":"LM-160X5","g":null,"s":"160 mm","v":5,"lbl":"160×5","dim":"160 × 5","kg":6.28,"A":8.0,"U":0.33,"d":{"w":160,"t":5}},{"k":"LM-160X6","g":null,"s":"160 mm","v":6,"lbl":"160×6","dim":"160 × 6","kg":7.54,"A":9.6,"U":0.332,"d":{"w":160,"t":6}},{"k":"LM-160X8","g":null,"s":"160 mm","v":8,"lbl":"160×8","dim":"160 × 8","kg":10.05,"A":12.8,"U":0.336,"d":{"w":160,"t":8}},{"k":"LM-160X10","g":null,"s":"160 mm","v":10,"lbl":"160×10","dim":"160 × 10","kg":12.56,"A":16.0,"U":0.34,"d":{"w":160,"t":10}},{"k":"LM-160X12","g":null,"s":"160 mm","v":12,"lbl":"160×12","dim":"160 × 12","kg":15.07,"A":19.2,"U":0.344,"d":{"w":160,"t":12}},{"k":"LM-160X15","g":null,"s":"160 mm","v":15,"lbl":"160×15","dim":"160 × 15","kg":18.84,"A":24.0,"U":0.35,"d":{"w":160,"t":15}},{"k":"LM-160X20","g":null,"s":"160 mm","v":20,"lbl":"160×20","dim":"160 × 20","kg":25.12,"A":32.0,"U":0.36,"d":{"w":160,"t":20}},{"k":"LM-160X25","g":null,"s":"160 mm","v":25,"lbl":"160×25","dim":"160 × 25","kg":31.4,"A":40.0,"U":0.37,"d":{"w":160,"t":25}},{"k":"LM-160X30","g":null,"s":"160 mm","v":30,"lbl":"160×30","dim":"160 × 30","kg":37.68,"A":48.0,"U":0.38,"d":{"w":160,"t":30}},{"k":"LM-180X5","g":null,"s":"180 mm","v":5,"lbl":"180×5","dim":"180 × 5","kg":7.06,"A":9.0,"U":0.37,"d":{"w":180,"t":5}},{"k":"LM-180X6","g":null,"s":"180 mm","v":6,"lbl":"180×6","dim":"180 × 6","kg":8.48,"A":10.8,"U":0.372,"d":{"w":180,"t":6}},{"k":"LM-180X8","g":null,"s":"180 mm","v":8,"lbl":"180×8","dim":"180 × 8","kg":11.3,"A":14.4,"U":0.376,"d":{"w":180,"t":8}},{"k":"LM-180X10","g":null,"s":"180 mm","v":10,"lbl":"180×10","dim":"180 × 10","kg":14.13,"A":18.0,"U":0.38,"d":{"w":180,"t":10}},{"k":"LM-180X12","g":null,"s":"180 mm","v":12,"lbl":"180×12","dim":"180 × 12","kg":16.96,"A":21.6,"U":0.384,"d":{"w":180,"t":12}},{"k":"LM-180X15","g":null,"s":"180 mm","v":15,"lbl":"180×15","dim":"180 × 15","kg":21.19,"A":27.0,"U":0.39,"d":{"w":180,"t":15}},{"k":"LM-180X20","g":null,"s":"180 mm","v":20,"lbl":"180×20","dim":"180 × 20","kg":28.26,"A":36.0,"U":0.4,"d":{"w":180,"t":20}},{"k":"LM-180X25","g":null,"s":"180 mm","v":25,"lbl":"180×25","dim":"180 × 25","kg":35.32,"A":45.0,"U":0.41,"d":{"w":180,"t":25}},{"k":"LM-180X30","g":null,"s":"180 mm","v":30,"lbl":"180×30","dim":"180 × 30","kg":42.39,"A":54.0,"U":0.42,"d":{"w":180,"t":30}},{"k":"LM-200X5","g":null,"s":"200 mm","v":5,"lbl":"200×5","dim":"200 × 5","kg":7.85,"A":10.0,"U":0.41,"d":{"w":200,"t":5}},{"k":"LM-200X6","g":null,"s":"200 mm","v":6,"lbl":"200×6","dim":"200 × 6","kg":9.42,"A":12.0,"U":0.412,"d":{"w":200,"t":6}},{"k":"LM-200X8","g":null,"s":"200 mm","v":8,"lbl":"200×8","dim":"200 × 8","kg":12.56,"A":16.0,"U":0.416,"d":{"w":200,"t":8}},{"k":"LM-200X10","g":null,"s":"200 mm","v":10,"lbl":"200×10","dim":"200 × 10","kg":15.7,"A":20.0,"U":0.42,"d":{"w":200,"t":10}},{"k":"LM-200X12","g":null,"s":"200 mm","v":12,"lbl":"200×12","dim":"200 × 12","kg":18.84,"A":24.0,"U":0.424,"d":{"w":200,"t":12}},{"k":"LM-200X15","g":null,"s":"200 mm","v":15,"lbl":"200×15","dim":"200 × 15","kg":23.55,"A":30.0,"U":0.43,"d":{"w":200,"t":15}},{"k":"LM-200X20","g":null,"s":"200 mm","v":20,"lbl":"200×20","dim":"200 × 20","kg":31.4,"A":40.0,"U":0.44,"d":{"w":200,"t":20}},{"k":"LM-200X25","g":null,"s":"200 mm","v":25,"lbl":"200×25","dim":"200 × 25","kg":39.25,"A":50.0,"U":0.45,"d":{"w":200,"t":25}},{"k":"LM-200X30","g":null,"s":"200 mm","v":30,"lbl":"200×30","dim":"200 × 30","kg":47.1,"A":60.0,"U":0.46,"d":{"w":200,"t":30}}];
+const FAMS=[{"s": "kutu-profil", "n": "Kutu Profil"}, {"s": "boru-profil", "n": "Boru Profil"}, {"s": "ipe", "n": "IPE"}, {"s": "hea", "n": "HEA"}, {"s": "heb", "n": "HEB"}, {"s": "hem", "n": "HEM"}, {"s": "npi", "n": "NPI"}, {"s": "npu", "n": "NPU"}, {"s": "upe", "n": "UPE"}, {"s": "kosebent", "n": "Köşebent"}, {"s": "t-profil", "n": "T Profil"}, {"s": "lama", "n": "Lama"}, {"s": "sac", "n": "Sac"}, {"s": "ceta-sac", "n": "Çeta Sac"}, {"s": "trapez-sac", "n": "Trapez Sac"}];
+/* Sitenize eklerken bağlantı adresini buradan değiştirin, örn: s=>'/tr/urunler/'+s */
+const LINK=s=>s+'.html';
+const nf=(v,d=2)=>Number(v).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const tf=t=>String(t).replace('.',',');
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+DATA.forEach((d,i)=>d._i=i);
+const G=CFG.groups,hasV=!!CFG.variantLabel,plate=!!CFG.plate,L0=plate?0:CFG.lengths[0].v;
+const gLabel=c=>(G.find(x=>x.c===c)||{}).l||'';
+let st={g:G?(CFG.defaultG||G[0].c):null,s:CFG.defaultS||null,v:CFG.defaultV??null};
+
+/* other families */
+$('#fams').innerHTML=FAMS.map(f=>`<a href="${LINK(f.s)}"${f.s===CFG.slug?' aria-current="page"':''}>${esc(f.n)}</a>`).join('');
+
+const rowsG=()=>DATA.filter(d=>!G||d.g===st.g);
+function sizes(){const a=[];rowsG().forEach(d=>{if(!a.includes(d.s))a.push(d.s)});return a}
+function variants(){return rowsG().filter(d=>plate||d.s===st.s).map(d=>d.v)}
+function cur(){return rowsG().find(d=>(plate||d.s===st.s)&&(!hasV||d.v===st.v))}
+const grades=()=>Array.isArray(CFG.grades)?CFG.grades:CFG.grades[st.g];
+const formats=()=>plate?CFG.formats[st.g]:[];
+const SF={black:{l:'Siyah',sw:'#34373c'},galv:{l:'Galvanizli',sw:'linear-gradient(135deg,#dfe4ea,#aab3bd)'},red:{l:'Antipaslı (kırmızı)',sw:'#8e2f22'},
+  raw:{l:'Ham (parlak)',sw:'linear-gradient(135deg,#c7ccd2,#8f979f)'},alu:{l:'Alüminyum',sw:'linear-gradient(135deg,#eef1f4,#bfc6ce)'},ss:{l:'Paslanmaz',sw:'linear-gradient(135deg,#f1f3f5,#aeb6bf)'}};
+function surfaces(){
+  if(CFG.slug==='trapez-sac')return null;
+  const m={DKP:['raw','red'],GLV:['galv'],CTA:['alu'],CTP:['ss']};
+  const ks=(plate&&m[st.g])||['black','galv','red'];return ks.map(k=>({k,...SF[k]}));
+}
+st.sf='black';
+
+/* panel */
+let P='';
+if(G)P+=`<div class="field"><span class="lbl">${CFG.groupLabel}</span><div class="seg" role="group" aria-label="${CFG.groupLabel}" id="gseg">${G.map(g=>`<button type="button" data-g="${g.c}">${esc(g.l)}</button>`).join('')}</div></div>`;
+if(!plate)P+=CFG.sizeUI==='chips'
+  ?`<div class="field"><span class="lbl" id="szl">${CFG.sizeLabel}</span><div class="chips sz" id="szc" role="group" aria-labelledby="szl"></div></div>`
+  :`<div class="field"><label for="size">${CFG.sizeLabel}</label><select id="size"></select></div>`;
+if(hasV)P+=`<div class="field"><span class="lbl" id="vl">${CFG.variantLabel}</span><div class="chips" id="vc" role="group" aria-labelledby="vl"></div></div>`;
+P+=`<div class="field" id="surfWrap"><span class="lbl" id="sfl">Yüzey</span><div class="surf" id="surf" role="group" aria-labelledby="sfl"></div></div>`;
+P+=`<div class="row3"><div class="field"><label for="grade">${CFG.gradeLabel||(plate?'Kalite':'Çelik kalitesi')}</label><select id="grade"></select></div>`;
+P+=plate?`<div class="field"><label for="len">Plaka ebadı</label><select id="len"></select></div>`
+        :`<div class="field"><label for="len">${CFG.lenLabel||'Boy (m)'}</label><select id="len">${CFG.lengths.map(l=>`<option value="${l.v}">${l.l}</option>`).join('')}<option value="c">Özel</option></select></div>`;
+P+=`<div class="field"><label for="qty">Adet</label><input id="qty" type="number" min="1" step="1" value="${CFG.qtyDefault||(plate?2:10)}" inputmode="numeric"></div></div>`;
+P+=plate?`<div class="fmt2" id="customWrap" hidden><div class="field"><label for="cw">Genişlik (mm)</label><input id="cw" type="number" min="1" value="1000"></div><div class="field"><label for="cl">Uzunluk (mm)</label><input id="cl" type="number" min="1" value="2000"></div></div>`
+        :`<div class="field" id="customWrap" hidden><label for="clen">Özel boy (m)</label><input id="clen" type="number" min="0.1" step="0.1" value="3"></div>`;
+P+=`<div class="result" aria-live="polite"><div>Birim ağırlık<b id="rU"></b>${plate?'kg/m²':'kg/m'}</div><div>${CFG.oneLabel||(plate?'Bir plaka':'Bir boy')}<b id="rOne"></b>kg</div><div class="total">Toplam<b id="rTot"></b><span id="rTotU">kg</span></div></div><div class="toast" id="rArea" hidden></div><div class="rnote" id="rNote" hidden></div>`;
+if(CFG.props.length)P+=`<details class="props"><summary>Kesit değerleri</summary><div class="pgrid" id="pgrid"></div></details>`;
+P+=`<div class="add"><button class="btn-dark" id="addBtn" type="button">Teklif listesine ekle</button></div><div class="toast" id="toast" role="status"></div>`;
+$('#panel').innerHTML=P;
+
+function renderSel(){
+  if(G)document.querySelectorAll('#gseg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===st.g));
+  if(!plate){
+    const sz=sizes();if(!sz.includes(st.s))st.s=sz[Math.min(sz.length-1,Math.floor(sz.length/3))];
+    if(CFG.sizeUI==='chips')$('#szc').innerHTML=sz.map(s=>`<button type="button" data-s="${esc(s)}" aria-pressed="${s===st.s}">${esc(s)}</button>`).join('');
+    else $('#size').innerHTML=sz.map(s=>`<option${s===st.s?' selected':''}>${esc(s)}</option>`).join('');
+  }
+  if(hasV){const vs=variants();if(!vs.includes(st.v))st.v=vs[Math.floor(vs.length/2)];
+    $('#vc').innerHTML=vs.map(v=>{const r=plate&&rowsG().find(d=>d.v===v);const lb=r&&r.s.includes('/')?r.s.replace(' mm',''):tf(v);return `<button type="button" data-v="${v}" aria-pressed="${v===st.v}">${lb}</button>`}).join('');}
+  const gs=grades(),gsel=$('#grade');if(gsel.dataset.set!==gs.join()){gsel.innerHTML=gs.map(g=>`<option>${g}</option>`).join('');gsel.dataset.set=gs.join()}
+  if(plate){const fs=formats(),ls=$('#len'),key=st.g;if(ls.dataset.set!==key){const old=ls.value;
+    ls.innerHTML=fs.map(f=>`<option value="${f.w}x${f.l}">${f.w} × ${f.l} mm</option>`).join('')+'<option value="c">Özel ebat</option>';
+    if([...ls.options].some(o=>o.value===old))ls.value=old;ls.dataset.set=key;$('#customWrap').hidden=ls.value!=='c'}}
+  const sf=surfaces();$('#surfWrap').hidden=!sf;
+  if(sf){if(!sf.some(x=>x.k===st.sf))st.sf=sf[0].k;$('#surf').innerHTML=sf.map(x=>`<button type="button" data-sf="${x.k}" aria-pressed="${x.k===st.sf}"><i style="background:${x.sw}"></i>${x.l}</button>`).join('')}
+  const d=cur();if(!d)return;
+  draw(d);props(d);calc();markRow();
+}
+function lenInfo(){
+  const v=$('#len').value;
+  if(plate){let w,l;if(v==='c'){w=+$('#cw').value||0;l=+$('#cl').value||0}else[w,l]=v.split('x').map(Number);return{per:w*l/1e6,txt:`${w}×${l} mm`}}
+  const L=v==='c'?Math.max(0,parseFloat($('#clen').value)||0):+v;return{per:L,txt:`${tf(L)} m`};
+}
+function calc(){
+  const d=cur();if(!d)return;const u=plate?d.kgm2:d.kg,{per}=lenInfo(),q=Math.max(1,parseInt($('#qty').value)||1);
+  $('#rU').textContent=nf(u,u<1?3:2);$('#rOne').textContent=nf(u*per,u*per<10?2:1);
+  const tot=u*per*q;
+  {const n=$('#rNote');let z=0;if(st.sf==='galv'&&!(plate&&st.g==='GLV')){z=plate?1.22*per*q:(d.U?d.U*0.61*(/kutu|boru/.test(CFG.slug)?2:1)*per*q:0)}
+   n.hidden=!z;if(z)n.textContent=`Sıcak daldırma galvaniz kaplama yaklaşık +${nf(z,z<10?1:0)} kg ekler (≈85 µm).`}if(d.we){$('#rArea').hidden=false;$('#rArea').textContent=`Toplam faydalı örtü alanı: ${nf(d.we/1000*per*q,1)} m²`}$('#rTot').textContent=tot>=1000?nf(tot/1000,2):nf(tot,0);$('#rTotU').textContent=tot>=1000?'ton':'kg';
+}
+function props(d){if(!CFG.props.length)return;
+  $('#pgrid').innerHTML=CFG.props.filter(p=>d[p[0]]!=null).map(([k,n,u,dd])=>`<div>${n} (${u})<b>${nf(d[k],dd)}</b></div>`).join('');}
+
+/* events */
+$('#panel').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.g){st.g=b.dataset.g;renderSel()}
+  else if(b.dataset.s!=null){st.s=b.dataset.s;renderSel()}
+  else if(b.dataset.v!=null){st.v=+b.dataset.v;renderSel()}
+  else if(b.dataset.sf){st.sf=b.dataset.sf;renderSel()}
+});
+if(!plate&&CFG.sizeUI!=='chips')$('#size').onchange=e=>{st.s=e.target.value;renderSel()};
+$('#len').onchange=()=>{$('#customWrap').hidden=$('#len').value!=='c';calc()};
+$('#grade').addEventListener('change',()=>{const d=cur();if(d&&window.V3)V3.update(d)});
+['#qty','#clen','#cw','#cl'].forEach(s=>{const el=$(s);if(el)el.addEventListener('input',calc)});
+
+/* drawing */
+const MK='#F2C230',STC='#B9C6D8',FILL='#DCE4EF',MONO='IBM Plex Mono,monospace';
+const TX=(x,y,s,a='middle',rot)=>`<text x="${x}" y="${y}" text-anchor="${a}" fill="${MK}" font-family="${MONO}" font-size="14"${rot?` transform="rotate(-90 ${x} ${y})"`:''}>${s}</text>`;
+const tick=(x,y)=>`<path d="M${x-5},${y+5}L${x+5},${y-5}" stroke="${MK}" stroke-width="1.5"/>`;
+function dimH(x0,x1,yRef,y,label){const up=y<yRef;return `<line x1="${x0}" y1="${yRef+(up?-5:5)}" x2="${x0}" y2="${y+(up?-6:6)}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x1}" y1="${yRef+(up?-5:5)}" x2="${x1}" y2="${y+(up?-6:6)}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${MK}" stroke-width="1.2"/>${tick(x0,y)}${tick(x1,y)}${TX((x0+x1)/2,up?y-10:y+22,label)}`}
+function dimV(y0,y1,xRef,x,label){return `<line x1="${xRef-5}" y1="${y0}" x2="${x-6}" y2="${y0}" stroke="${MK}" stroke-opacity=".6"/><line x1="${xRef-5}" y1="${y1}" x2="${x-6}" y2="${y1}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x}" y1="${y0}" x2="${x}" y2="${y1}" stroke="${MK}" stroke-width="1.2"/>${tick(x,y0)}${tick(x,y1)}${TX(x-12,(y0+y1)/2,label,'middle',1)}`}
+function call(px,py,x2,label){return `<line x1="${x2}" y1="${py}" x2="${px}" y2="${py}" stroke="${MK}"/><circle cx="${px}" cy="${py}" r="2.2" fill="${MK}"/>${TX(x2+4,py+4,label,'start')}`}
+function axes(ax,ay,x0,y0,x1,y1){return `<line x1="${ax}" y1="${y0-26}" x2="${ax}" y2="${y1+14}" stroke="${STC}" stroke-opacity=".5" stroke-dasharray="14 4 2 4"/><line x1="${x0-14}" y1="${ay}" x2="${x1+24}" y2="${ay}" stroke="${STC}" stroke-opacity=".5" stroke-dasharray="14 4 2 4"/><text x="${x1+28}" y="${ay+4}" fill="${STC}" font-family="${MONO}" font-size="12">x</text><text x="${ax+6}" y="${y0-28}" fill="${STC}" font-family="${MONO}" font-size="12">y</text>`}
+const shape=(p,ev)=>`<path d="${p}"${ev?' fill-rule="evenodd"':''} fill="${FILL}" fill-opacity=".92" stroke="#fff" stroke-width="1"/>`;
+function rrect(x,y,w,h,r){r=Math.min(r,w/2,h/2);return `M${x+r},${y}H${x+w-r}A${r},${r} 0 0 1 ${x+w},${y+r}V${y+h-r}A${r},${r} 0 0 1 ${x+w-r},${y+h}H${x+r}A${r},${r} 0 0 1 ${x},${y+h-r}V${y+r}A${r},${r} 0 0 1 ${x+r},${y}Z`}
+const mx=(v,m)=>Math.max(v,m);
+function draw(d){
+  const D=d.d,cx=260,cy=214,BOX=250;let g='',L='',R=d.dim;
+  switch(CFG.draw){
+  case 'box':{const s=BOX/Math.max(D.H,D.B),w=D.B*s,h=D.H*s,t=mx(D.t*s,1.2),x=cx-w/2,y=cy-h/2;
+    g=axes(cx,cy,x,y,x+w,y+h)+shape(rrect(x,y,w,h,D.ro*s)+' '+rrect(x+t,y+t,w-2*t,h-2*t,D.ri*s),1)+dimH(x,x+w,y+h,y+h+34,'B = '+D.B)+dimV(y,y+h,x,x-34,'H = '+D.H)+call(x+w-t/2,y+h*.3,x+w+46,'t = '+tf(D.t));
+    L=`ro = ${tf(D.ro)} mm · ri = ${tf(D.ri)} mm`;break}
+  case 'pipe':{const s=BOX/D.D,Rr=D.D/2*s,t=mx(D.t*s,1.2),r=Rr-t;
+    g=axes(cx,cy,cx-Rr,cy-Rr,cx+Rr,cy+Rr)+shape(`M${cx-Rr},${cy}a${Rr},${Rr} 0 1,0 ${2*Rr},0a${Rr},${Rr} 0 1,0 ${-2*Rr},0Z M${cx-r},${cy}a${r},${r} 0 1,0 ${2*r},0a${r},${r} 0 1,0 ${-2*r},0Z`,1)
+      +dimH(cx-Rr,cx+Rr,cy+Rr,cy+Rr+34,'D = '+tf(D.D))+call(cx+Rr*.707-t*.35,cy-Rr*.707+t*.35,cx+Rr+30,'t = '+tf(D.t));
+    L=`D = ${tf(D.D)} mm · t = ${tf(D.t)} mm`;break}
+  case 'I':case 'Itaper':case 'U':{const s=BOX/Math.max(D.h,D.b),h=D.h*s,b=D.b*s,tw=mx(D.tw*s,1.5),tf_=mx(D.tf*s,1.5),x0=cx-b/2,y0=cy-h/2,x1=x0+b,y1=y0+h;let p,ax=cx;
+    if(CFG.draw==='I'){const r=D.r*s,a=tw/2;p=`M${x0},${y0}H${x1}V${y0+tf_}H${cx+a+r}A${r},${r} 0 0 0 ${cx+a},${y0+tf_+r}V${y1-tf_-r}A${r},${r} 0 0 0 ${cx+a+r},${y1-tf_}H${x1}V${y1}H${x0}V${y1-tf_}H${cx-a-r}A${r},${r} 0 0 0 ${cx-a},${y1-tf_-r}V${y0+tf_+r}A${r},${r} 0 0 0 ${cx-a-r},${y0+tf_}H${x0}Z`;
+      L=`tw = ${tf(D.tw)} · tf = ${tf(D.tf)} · r = ${tf(D.r)} mm`}
+    else if(CFG.draw==='Itaper'){const k=D.sl*(D.b-D.tw)/4*s,tt=mx(tf_-k,1),tr=tf_+k,a=tw/2;
+      p=`M${x0},${y0}H${x1}V${y0+tt}L${cx+a},${y0+tr}V${y1-tr}L${x1},${y1-tt}V${y1}H${x0}V${y1-tt}L${cx-a},${y1-tr}V${y0+tr}L${x0},${y0+tt}Z`;
+      L=`tw = ${tf(D.tw)} · tf = ${tf(D.tf)} mm · başlık eğimi %14`}
+    else if(D.sl){const k=D.sl*(D.b-D.tw)/2*s,tt=mx(tf_-k,1),tr=tf_+k;
+      p=`M${x0},${y0}H${x1}V${y0+tt}L${x0+tw},${y0+tr}V${y1-tr}L${x1},${y1-tt}V${y1}H${x0}Z`;ax=x0+(d.e||0)*10*s;
+      L=`tw = ${tf(D.tw)} · tf = ${tf(D.tf)} · e = ${tf(d.e)} cm · eğim %8`}
+    else{const r=D.r*s;
+      p=`M${x0},${y0}H${x1}V${y0+tf_}H${x0+tw+r}A${r},${r} 0 0 0 ${x0+tw},${y0+tf_+r}V${y1-tf_-r}A${r},${r} 0 0 0 ${x0+tw+r},${y1-tf_}H${x1}V${y1}H${x0}Z`;ax=x0+(d.e||0)*10*s;
+      L=`tw = ${tf(D.tw)} · tf = ${tf(D.tf)} · r = ${tf(D.r)} mm · e = ${tf(d.e)} cm`}
+    const wx=CFG.draw==='U'?x0+tw/2:cx;
+    g=axes(ax,cy,x0,y0,x1,y1)+shape(p)+dimH(x0,x1,y1,y1+34,'b = '+tf(D.b))+dimV(y0,y1,x0,x0-34,'h = '+tf(D.h))
+      +call(x1-3,y0+tf_/2,x1+30,'tf = '+tf(D.tf))+call(wx,cy+h*.22,x1+30,'tw = '+tf(D.tw));break}
+  case 'L':{const s=BOX/Math.max(D.a,D.b),a=D.a*s,b=D.b*s,t=mx(D.t*s,1.5),r=D.r*s,x0=cx-b/2,y1=cy+a/2,y0=y1-a,x1=x0+b;
+    const p=`M${x0},${y1}H${x1}V${y1-t}H${x0+t+r}A${r},${r} 0 0 1 ${x0+t},${y1-t-r}V${y0}H${x0}Z`;
+    g=axes(x0+d.ex*10*s,y1-d.ey*10*s,x0,y0,x1,y1)+shape(p)+dimH(x0,x1,y1,y1+34,'b = '+D.b)+dimV(y0,y1,x0,x0-34,'a = '+D.a)+call(x0+t/2,y0+a*.2,x1+10,'t = '+tf(D.t));
+    L=`r = ${tf(D.r)} mm · ex = ${tf(d.ex)} · ey = ${tf(d.ey)} cm`;break}
+  case 'T':{const s=BOX/Math.max(D.h,D.b),h=D.h*s,b=D.b*s,t=mx(D.t*s,1.5),r=D.r*s,x0=cx-b/2,y0=cy-h/2,x1=x0+b,y1=y0+h,a=t/2;
+    const p=`M${x0},${y0}H${x1}V${y0+t}H${cx+a+r}A${r},${r} 0 0 0 ${cx+a},${y0+t+r}V${y1}H${cx-a}V${y0+t+r}A${r},${r} 0 0 0 ${cx-a-r},${y0+t}H${x0}Z`;
+    g=axes(cx,y0+d.e*10*s,x0,y0,x1,y1)+shape(p)+dimH(x0,x1,y0,y0-30,'b = '+D.b)+dimV(y0,y1,x0,x0-34,'h = '+D.h)+call(cx+a,y1-h*.25,x1+20,'t = '+tf(D.t));
+    L=`t = ${tf(D.t)} mm · e = ${tf(d.e)} cm`;break}
+  case 'trap':{const K=D.kind,s=400/D.we;let sv=Math.min(Math.max(s,70/D.h),150/D.h);const hh=D.h*sv,x0=275-D.we*s/2,x1=x0+D.we*s,yb=cy+hh/2,yt=yb-hh;let pts=[],path;
+    if(K==='sin'){for(let x=0;x<=D.we;x+=2)pts.push([x0+x*s,yb-hh/2+hh/2*Math.cos(2*Math.PI*x/D.p)]);path='M'+pts.map(p=>p.join(',')).join('L')}
+    else if(K==='seam'){const rw=25*s;path=`M${x0},${yt}V${yb}H${x1}V${yt}M${x0},${yt}h${-rw/2}M${x1},${yt}h${rw/2}`;
+      for(const xx of[x0+D.we*s*.33,x0+D.we*s*.66])path+=`M${xx},${yb}l0,-3`}
+    else{const n=Math.round(D.we/D.p),rt=D.rt*s,rb=D.rb*s,p=D.p*s,wx=(p-rt-rb)/2;let x=x0;pts.push([x,yb]);
+      for(let i=0;i<n;i++){const up=K==='deck'?0:0;pts.push([x+rb/2,yb],[x+rb/2+wx,yt],[x+rb/2+wx+rt,yt],[x+rb/2+2*wx+rt,yb],[x+p,yb]);x+=p}
+      path='M'+pts.map(p=>p.join(',')).join('L')}
+    g=`<path d="${path}" fill="none" stroke="${FILL}" stroke-width="3" stroke-linejoin="round"/>`+dimH(x0,x1,yb,yb+40,'Faydalı genişlik = '+D.we)+dimV(yt,yb,x0,x0-30,'h = '+D.h);
+    if(K!=='seam'&&K!=='sin'){const rt=D.rt*s,rb=D.rb*s,p=D.p*s,wx=(p-rt-rb)/2,a=x0+rb/2+wx+rt/2;g+=dimH(a,a+p,yt,yt-26,'adım = '+tf(D.p))}
+    if(K==='sin')g+=dimH(x0,x0+D.p*s,yt,yt-26,'adım = '+tf(D.p));
+    L=gLabel(st.g)+' · t = '+tf(D.t)+' mm'+(sv>s*1.2?' · düşey ölçek büyütülmüştür':'');R=nf(d.kgm2)+' kg/m²';break}
+  case 'flat':{const s=380/D.w,w=D.w*s,t=mx(D.t*s,5),x0=cx-w/2,y0=cy-t/2;
+    g=shape(`M${x0},${y0}H${x0+w}V${y0+t}H${x0}Z`)+dimH(x0,x0+w,y0+t,y0+t+44,'Genişlik = '+D.w)+TX(cx,y0-24,'t = '+tf(D.t)+' mm');
+    L=`${D.w} × ${tf(D.t)} mm`;break}
+  case 'plate':{const {txt}=lenInfo();let [w,l]=[1500,3000];const v=$('#len').value;if(v==='c'){w=+$('#cw').value||1000;l=+$('#cl').value||2000}else if(v)[w,l]=v.split('x').map(Number);
+    const s=Math.min(380/l,240/w),pw=l*s,ph=w*s,x0=cx-pw/2,y0=cy-ph/2-6,th=Math.min(10,3+D.t*.4);
+    const tear=`<defs><pattern id="pt" width="14" height="14" patternUnits="userSpaceOnUse"><ellipse cx="4" cy="4" rx="3.2" ry="1.2" transform="rotate(45 4 4)" fill="#8697AE"/><ellipse cx="11" cy="11" rx="3.2" ry="1.2" transform="rotate(-45 11 11)" fill="#8697AE"/></pattern></defs>`;
+    const dia=`<defs><pattern id="pt" width="16" height="10" patternUnits="userSpaceOnUse"><path d="M8,0L16,5L8,10L0,5Z" fill="none" stroke="#8697AE" stroke-width="1.2"/></pattern></defs>`;
+    const pat=CFG.pattern==='tear'?tear:st.g==='BKL'?dia:'';
+    const col={GLV:'#E8EEF5',HRP:'#AEB9C7',CTD:'#AEB9C7',CTA:'#E4E8EE',CTP:'#C9D1DB'}[st.g]||FILL;
+    g=pat+`<path d="M${x0+pw},${y0}l${th},${th}v${ph}h${-pw}l${-th},${-th}Z" fill="#6E7F96"/><rect x="${x0}" y="${y0}" width="${pw}" height="${ph}" fill="${col}" stroke="#fff"/>`+(pat?`<rect x="${x0}" y="${y0}" width="${pw}" height="${ph}" fill="url(#pt)"/>`:'')
+      +dimH(x0,x0+pw,y0+ph+th,y0+ph+th+30,l+' mm')+dimV(y0,y0+ph,x0,x0-30,w+' mm')
+      +`<text x="${cx}" y="${cy}" text-anchor="middle" fill="#1C2A3D" font-family="${MONO}" font-size="16" font-weight="500">t = ${tf(D.t)} mm</text>`;
+    L=(CFG.slug==='ceta-sac'?gLabel(st.g)+' çeta':gLabel(st.g)+' sac')+' · '+txt;R=nf(d.kgm2)+' kg/m²';break}
+  }
+  $('#sec').innerHTML=g;$('#dCode').textContent=d.k;$('#dL').textContent=L;$('#dR').textContent=R;
+  $('#sec').setAttribute('aria-label',d.lbl+' çizimi');
+  if(window.V3)V3.update(d);
+}
+if(plate){['#len','#cw','#cl'].forEach(s=>$(s).addEventListener('change',()=>{const d=cur();if(d)draw(d)}));['#cw','#cl'].forEach(s=>$(s).addEventListener('input',()=>{const d=cur();if(d)draw(d)}))}
+
+/* quote list — tüm ürün sayfalarında ortak */
+const CK='clk-teklif-listesi';let cart=[];try{cart=JSON.parse(localStorage.getItem(CK)||'[]')}catch(e){cart=[]}
+function saveCart(){try{localStorage.setItem(CK,JSON.stringify(cart))}catch(e){}}
+function renderCart(){$('#cartN').textContent=cart.length;
+  if(!cart.length){$('#qlist').innerHTML='<p style="color:var(--ink-2)">Liste boş. Bir ölçü seçip "Teklif listesine ekle" butonunu kullanın.</p>';$('#qsum').textContent='0 kg';return}
+  $('#qlist').innerHTML=cart.map((c,i)=>`<div class="qitem"><div>${esc(c.lbl)}<small>${esc(c.k)} · ${esc(c.grade)} · ${esc(c.info)} × ${c.q} adet</small></div><span style="font-family:var(--mono)">${nf(c.w,0)} kg</span><button type="button" data-i="${i}">Çıkar</button></div>`).join('');
+  $('#qsum').textContent=nf(cart.reduce((a,c)=>a+c.w,0),0)+' kg'}
+$('#qlist').onclick=e=>{const b=e.target.closest('button');if(!b)return;cart.splice(+b.dataset.i,1);saveCart();renderCart()};
+$('#addBtn').onclick=()=>{const d=cur(),{per,txt}=lenInfo(),q=Math.max(1,parseInt($('#qty').value)||1);
+  if(!per){$('#toast').textContent=plate?'Özel ebat için genişlik ve uzunluk girin.':'Özel boy için 0\'dan büyük bir değer girin.';return}
+  const nm=plate?(CFG.slug==='ceta-sac'?`${gLabel(d.g)} çeta sac ${d.s}`:`${gLabel(d.g)} sac ${tf(d.v)} mm`):(/^[A-ZÇĞİÖŞÜ]/.test(d.lbl)?d.lbl:`${d.lbl} ${CFG.name.join(' ').trim().toLocaleLowerCase('tr')}`);
+  cart.push({k:d.k,lbl:nm,grade:$('#grade').value+(surfaces()?' · '+SF[st.sf].l:''),info:txt,q,w:(plate?d.kgm2:d.kg)*per*q});saveCart();renderCart();
+  $('#toast').textContent=`${nm}, ${q} adet teklif listesine eklendi.`};
+$('#openCart').onclick=()=>{renderCart();$('#dlg').showModal()};$('#closeDlg').onclick=()=>$('#dlg').close();
+window.addEventListener('storage',e=>{if(e.key===CK){try{cart=JSON.parse(e.newValue||'[]')}catch(_){}renderCart()}});
+
+/* table */
+const cols=CFG.cols.map(c=>({k:c[0],l:c[0]==='_bar'?`${L0} m boy (kg)`:c[1],dd:c[2],h:c[3]}));
+const gv=(d,k)=>k.startsWith('d.')?d.d[k.slice(2)]:k==='_bar'?d.kg*L0:d[k];
+let tb={f:'all',q:'',v:null,sort:null,dir:1};
+let T='';if(G)T+=`<div class="seg" role="group" aria-label="Tabloyu filtrele" id="fseg"><button type="button" data-f="all" aria-pressed="true">Tümü</button>${G.map(g=>`<button type="button" data-f="${g.c}" aria-pressed="false">${esc(g.l)}</button>`).join('')}</div>`;
+T+=`<input type="search" id="q" placeholder="Ara, örn. ${esc(DATA[Math.floor(DATA.length/2)].lbl)}" aria-label="Ölçü ara">`;
+if(cols.some(c=>c.h))T+=`<label class="tg"><input type="checkbox" id="showK"> Kesit değerlerini göster</label>`;
+T+=`<span class="count" id="count"></span>`;$('#tools').innerHTML=T;
+if(hasV){const vs=[...new Set(DATA.map(d=>d.v))].sort((a,b)=>a-b);
+  $('#tfilter').innerHTML=`<button type="button" data-v="" aria-pressed="true">Tümü</button>`+vs.map(v=>`<button type="button" data-v="${v}" aria-pressed="false">${tf(v)} mm</button>`).join('');
+  $('#tfilter').onclick=e=>{const b=e.target.closest('button');if(!b)return;tb.v=b.dataset.v?+b.dataset.v:null;$('#tfilter').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTable()}}
+else $('#tfilter').remove();
+if(G)$('#fseg').onclick=e=>{const b=e.target.closest('button');if(!b)return;tb.f=b.dataset.f;$('#fseg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTable()};
+$('#q').addEventListener('input',e=>{tb.q=e.target.value;renderTable()});
+if($('#showK'))$('#showK').onchange=e=>$('#tbl').classList.toggle('showk',e.target.checked);
+$('#thr').innerHTML=cols.map((c,i)=>`<th data-i="${i}"${c.h?' class="kc"':''} scope="col">${esc(c.l)}</th>`).join('')+'<th scope="col"><span class="visually-hidden"></span></th>';
+$('#thr').onclick=e=>{const th=e.target.closest('th[data-i]');if(!th)return;const k=cols[+th.dataset.i].k;
+  if(tb.sort===k)tb.dir*=-1;else{tb.sort=k;tb.dir=1}
+  $('#thr').querySelectorAll('th').forEach(x=>x.removeAttribute('aria-sort'));th.setAttribute('aria-sort',tb.dir>0?'ascending':'descending');renderTable()};
+const norm=s=>String(s).toLowerCase().replace(/[x*×]/g,'x').replace(/,/g,'.').replace(/[\sø"]/g,'');
+function cell(d,c){const v=gv(d,c.k);if(c.k==='_i')return esc(d.dim);if(c.k==='_g')return esc(gLabel(d.g));if(c.dd==null||typeof v!=='number')return esc(v);return nf(v,c.dd)}
+function renderTable(){
+  let rows=DATA.filter(d=>(tb.f==='all'||d.g===tb.f)&&(tb.v===null||d.v===tb.v));
+  if(tb.q.trim()){const q=norm(tb.q);rows=rows.filter(d=>[d.lbl,d.k,d.dim,d.s].some(x=>norm(x).includes(q)))}
+  if(tb.sort){const k=tb.sort;rows=[...rows].sort((a,b)=>{const x=gv(a,k),y=gv(b,k);return tb.dir*(typeof x==='number'?x-y:String(x).localeCompare(String(y),'tr',{numeric:true}))})}
+  $('#count').textContent=rows.length+' ölçü';
+  if(!rows.length){$('#tb').innerHTML=`<tr><td colspan="${cols.length+1}" class="empty">Bu filtreyle eşleşen ölçü yok. Aramayı sadeleştirin ya da filtreleri kaldırın.</td></tr>`;return}
+  $('#tb').innerHTML=rows.map(d=>`<tr data-i="${d._i}">${cols.map(c=>`<td${c.h?' class="kc"':''}>${cell(d,c)}</td>`).join('')}<td><button class="pick" type="button">Seç</button></td></tr>`).join('');markRow()}
+function markRow(){const d=cur();document.querySelectorAll('#tb tr').forEach(r=>r.classList.toggle('sel',!!d&&+r.dataset.i===d._i))}
+$('#tb').onclick=e=>{const tr=e.target.closest('tr[data-i]');if(!tr)return;const d=DATA[+tr.dataset.i];
+  st={g:d.g,s:d.s,v:d.v};renderSel();$('#toast').textContent='';
+  const m=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelector('.cfg').scrollIntoView({behavior:m?'auto':'smooth',block:'start'})};
+
+/* ===== 3B görünüm (three.js, yalnızca 3B sekmesi açılınca yüklenir) ===== */
+window.V3=(function(){
+  const box=$('#v3'),msg=$('#v3msg');let T=null,R,S,C,grp,mesh,loading=false,on=false,last=null,raf=0;
+  let rx=-0.45,ry=0.7,zoom=1,spin=true,drag=null;
+  function load(cb){if(T)return cb();if(loading)return;loading=true;const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    s.onload=()=>{T=window.THREE;init();cb()};s.onerror=()=>{msg.textContent='3B görünüm yüklenemedi. İnternet bağlantınızı kontrol edip tekrar deneyin.';loading=false};document.head.appendChild(s)}
+  function init(){
+    R=new T.WebGLRenderer({antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio||1,2));R.outputEncoding=T.sRGBEncoding;
+    box.appendChild(R.domElement);S=new T.Scene();C=new T.PerspectiveCamera(35,1,0.01,100);
+    S.add(new T.HemisphereLight(0xe6eef8,0x1c2a3d,0.75));S.add(new T.AmbientLight(0xffffff,0.25));
+    const d1=new T.DirectionalLight(0xffffff,1.05);d1.position.set(3,5,4);S.add(d1);
+    const d2=new T.DirectionalLight(0xbcd0ff,0.45);d2.position.set(-4,1.5,-3);S.add(d2);
+    const d3=new T.DirectionalLight(0xffffff,0.3);d3.position.set(0,-3,2);S.add(d3);
+    grp=new T.Group();S.add(grp);msg.textContent='';
+    new ResizeObserver(size).observe(box);size();
+    box.addEventListener('pointerdown',e=>{if(e.target.closest('.v3ctl'))return;drag={x:e.clientX,y:e.clientY};box.setPointerCapture(e.pointerId);setSpin(false)});
+    box.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-drag.x)*0.01;rx+=(e.clientY-drag.y)*0.01;rx=Math.max(-1.5,Math.min(1.5,rx));drag={x:e.clientX,y:e.clientY}});
+    ['pointerup','pointercancel'].forEach(t=>box.addEventListener(t,()=>{drag=null}));
+    box.addEventListener('wheel',e=>{if(!e.ctrlKey)return;e.preventDefault();zoomBy(e.deltaY>0?1.1:0.9)},{passive:false});
+    box.addEventListener('keydown',e=>{const k={ArrowLeft:[0,-.15],ArrowRight:[0,.15],ArrowUp:[-.15,0],ArrowDown:[.15,0]}[e.key];if(k){e.preventDefault();rx+=k[0];ry+=k[1];setSpin(false)}});
+    box.tabIndex=0;box.setAttribute('aria-label','3B görünüm. Ok tuşlarıyla çevirebilirsiniz.');
+  }
+  function size(){if(!R)return;const w=box.clientWidth||400,h=box.clientHeight||380;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix()}
+  function zoomBy(f){zoom=Math.max(0.5,Math.min(2.5,zoom*f))}
+  function setSpin(v){spin=v;$('#v3spin').setAttribute('aria-pressed',v)}
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)spin=false;
+  function loop(){raf=requestAnimationFrame(loop);if(spin)ry+=0.006;grp.rotation.set(rx,ry,0);
+    C.position.set(0,0,3.1*zoom);C.lookAt(0,0,0);R.render(S,C)}
+  /* --- dokular --- */
+  const texCache={};
+  function canvasTex(key,draw,rep){if(!texCache[key]){const c=document.createElement('canvas');c.width=c.height=256;draw(c.getContext('2d'));
+      const t=new T.CanvasTexture(c);t.wrapS=t.wrapT=T.RepeatWrapping;t.encoding=T.sRGBEncoding;t.anisotropy=4;texCache[key]=t}
+    const t=texCache[key].clone();t.needsUpdate=true;if(rep)t.repeat.set(rep[0],rep[1]);return t}
+  function spangle(g,base){g.fillStyle=base;g.fillRect(0,0,256,256);let s=7;for(let i=0;i<110;i++){s=(s*9301+49297)%233280;const x=s/233280*256;s=(s*9301+49297)%233280;const y=s/233280*256;s=(s*9301+49297)%233280;const r=10+s/233280*26;
+      s=(s*9301+49297)%233280;const l=180+Math.floor(s/233280*60);g.fillStyle=`rgba(${l},${l+4},${l+10},.35)`;g.beginPath();for(let k=0;k<6;k++){const a=k/6*6.283+i;g.lineTo(x+Math.cos(a)*r*(.7+.3*((k*7+i)%3)/2),y+Math.sin(a)*r)}g.closePath();g.fill()}}
+  function noise(g,base,amt){g.fillStyle=base;g.fillRect(0,0,256,256);const im=g.getImageData(0,0,256,256);let s=11;for(let i=0;i<im.data.length;i+=4){s=(s*9301+49297)%233280;const n=(s/233280-.5)*amt;im.data[i]+=n;im.data[i+1]+=n;im.data[i+2]+=n}g.putImageData(im,0,0)}
+  function brushed(g,base){g.fillStyle=base;g.fillRect(0,0,256,256);let s=5;for(let y=0;y<256;y++){s=(s*9301+49297)%233280;g.fillStyle=`rgba(255,255,255,${s/233280*.12})`;g.fillRect(0,y,256,1)}}
+  const RAL={'9002':'#D7D5CB','7016':'#383E42','3009':'#6D342D','6020':'#37422F','9006':'#A5A5A5'};
+  function material(rep){
+    let k=st.sf,col;
+    if(CFG.slug==='trapez-sac'){const gv=$('#grade').value,m=gv.match(/RAL (\d{4})/);if(m)return new T.MeshStandardMaterial({color:RAL[m[1]]||'#999',metalness:.25,roughness:.45,side:T.DoubleSide});k=/Alüzinc/.test(gv)?'az':'galv'}
+    const r=rep||[1/60,1/60];
+    switch(k){
+      case 'galv':return new T.MeshStandardMaterial({map:canvasTex('galv',g=>spangle(g,'#c3cad2'),r),metalness:.75,roughness:.32,side:T.DoubleSide});
+      case 'az':return new T.MeshStandardMaterial({map:canvasTex('az',g=>spangle(g,'#b9c0c8'),[r[0]*3,r[1]*3]),metalness:.7,roughness:.3,side:T.DoubleSide});
+      case 'red':return new T.MeshStandardMaterial({map:canvasTex('red',g=>noise(g,'#8a2e22',18),r),metalness:.05,roughness:.82,side:T.DoubleSide});
+      case 'raw':return new T.MeshStandardMaterial({map:canvasTex('raw',g=>brushed(g,'#a7afb8'),r),metalness:.7,roughness:.28,side:T.DoubleSide});
+      case 'alu':return new T.MeshStandardMaterial({map:canvasTex('alu',g=>brushed(g,'#d9dde2'),r),metalness:.6,roughness:.3,side:T.DoubleSide});
+      case 'ss':return new T.MeshStandardMaterial({map:canvasTex('ss',g=>brushed(g,'#cfd4da'),r),metalness:.85,roughness:.22,side:T.DoubleSide});
+      default:return new T.MeshStandardMaterial({map:canvasTex('black',g=>noise(g,'#3b3f45',22),r),metalness:.55,roughness:.6,side:T.DoubleSide});
+    }
+  }
+  function patternTex(kind,base,rep){return canvasTex('pat-'+kind+base,g=>{g.fillStyle=base;g.fillRect(0,0,256,256);
+      const hi='rgba(255,255,255,.55)',lo='rgba(0,0,0,.35)';
+      if(kind==='tear'){[[64,64,45],[192,192,45],[192,64,-45],[64,192,-45]].forEach(([x,y,a],i)=>{const aa=(i<2?45:-45)*Math.PI/180;
+        g.save();g.translate(x,y);g.rotate(aa);g.fillStyle=lo;g.beginPath();g.ellipse(3,3,46,15,0,0,6.283);g.fill();g.fillStyle=hi;g.beginPath();g.ellipse(-2,-2,44,13,0,0,6.283);g.fill();g.fillStyle=base;g.beginPath();g.ellipse(0,0,40,10,0,0,6.283);g.fill();g.restore()})}
+      else{g.lineWidth=10;g.strokeStyle=lo;g.beginPath();g.moveTo(128,4);g.lineTo(252,128);g.lineTo(128,252);g.lineTo(4,128);g.closePath();g.stroke();g.lineWidth=5;g.strokeStyle=hi;g.stroke()}},rep)}
+  /* --- kesit dış hatları (mm) --- */
+  function arcP(cx,cy,r,a0,a1,n=10){const o=[];for(let k=0;k<=n;k++){const a=(a0+(a1-a0)*k/n)*Math.PI/180;o.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}return o}
+  function rr(B,H,r){r=Math.max(0,Math.min(r,B/2,H/2));if(!r)return[[-B/2,-H/2],[B/2,-H/2],[B/2,H/2],[-B/2,H/2]];
+    return[...arcP(B/2-r,H/2-r,r,0,90),...arcP(-B/2+r,H/2-r,r,90,180),...arcP(-B/2+r,-H/2+r,r,180,270),...arcP(B/2-r,-H/2+r,r,270,360)]}
+  function outline(d){const D=d.d;
+    switch(CFG.draw){
+    case 'box':return{o:rr(D.B,D.H,D.ro),h:[rr(D.B-2*D.t,D.H-2*D.t,D.ri)],L:Math.max(D.B,D.H)*2.6};
+    case 'pipe':return{o:arcP(0,0,D.D/2,0,360,64),h:[arcP(0,0,D.D/2-D.t,0,360,64)],L:D.D*2.6};
+    case 'I':{const{h,b,tw,tf,r}=D;return{o:[[-b/2,h/2],[b/2,h/2],[b/2,h/2-tf],...arcP(tw/2+r,h/2-tf-r,r,90,180),...arcP(tw/2+r,-h/2+tf+r,r,180,270),[b/2,-h/2+tf],[b/2,-h/2],[-b/2,-h/2],[-b/2,-h/2+tf],...arcP(-tw/2-r,-h/2+tf+r,r,270,360),...arcP(-tw/2-r,h/2-tf-r,r,0,90),[-b/2,h/2-tf]],L:Math.max(h,b)*2.6}}
+    case 'Itaper':{const{h,b,tw,tf,sl}=D,k=sl*(b-tw)/4,tt=tf-k,tr=tf+k;return{o:[[-b/2,h/2],[b/2,h/2],[b/2,h/2-tt],[tw/2,h/2-tr],[tw/2,-h/2+tr],[b/2,-h/2+tt],[b/2,-h/2],[-b/2,-h/2],[-b/2,-h/2+tt],[-tw/2,-h/2+tr],[-tw/2,h/2-tr],[-b/2,h/2-tt]],L:Math.max(h,b)*2.6}}
+    case 'U':{const{h,b,tw,tf}=D;if(D.sl){const k=D.sl*(b-tw)/2,tt=tf-k,tr=tf+k;return{o:[[0,h/2],[b,h/2],[b,h/2-tt],[tw,h/2-tr],[tw,-h/2+tr],[b,-h/2+tt],[b,-h/2],[0,-h/2]],L:h*2.6}}
+      const r=D.r;return{o:[[0,-h/2],[b,-h/2],[b,-h/2+tf],...arcP(tw+r,-h/2+tf+r,r,270,180),...arcP(tw+r,h/2-tf-r,r,180,90),[b,h/2-tf],[b,h/2],[0,h/2]],L:h*2.6}}
+    case 'L':{const{a,b,t,r}=D,r2=r/2;return{o:[[0,0],[b,0],...arcP(b-r2,t-r2,r2,0,90,6),...arcP(t+r,t+r,r,270,180),...arcP(t-r2,a-r2,r2,0,90,6),[0,a]],L:Math.max(a,b)*2.8}}
+    case 'T':{const{h,b,t,r}=D;return{o:[[-b/2,h],[b/2,h],[b/2,h-t],...arcP(t/2+r,h-t-r,r,90,180),[t/2,0],[-t/2,0],...arcP(-t/2-r,h-t-r,r,0,90),[-b/2,h-t]],L:h*2.8}}
+    case 'flat':return{o:[[-D.w/2,-D.t/2],[D.w/2,-D.t/2],[D.w/2,D.t/2],[-D.w/2,D.t/2]],L:D.w*1.6};
+    case 'trap':{const K=D.kind,tt=Math.max(D.t*2.2,D.we/260);let p=[];
+      if(K==='sin'){for(let x=0;x<=D.we;x+=3)p.push([x,D.h/2+D.h/2*Math.cos(2*Math.PI*x/D.p)])}
+      else if(K==='seam'){p=[[-8,D.h],[0,D.h],[0,0],[D.we,0],[D.we,D.h],[D.we+8,D.h]]}
+      else{const n=Math.round(D.we/D.p),wx=(D.p-D.rt-D.rb)/2;let x=0;p.push([0,0]);for(let i=0;i<n;i++){p.push([x+D.rb/2,0],[x+D.rb/2+wx,D.h],[x+D.rb/2+wx+D.rt,D.h],[x+D.rb/2+2*wx+D.rt,0],[x+D.p,0]);x+=D.p}}
+      const q=p.map(([x,y])=>[x,y-tt]).reverse();return{o:[...p,...q],L:D.we*0.85}}
+    }
+  }
+  function build(d){
+    while(grp.children.length){const m=grp.children.pop();m.geometry.dispose();(Array.isArray(m.material)?m.material:[m.material]).forEach(x=>{if(x.map)x.map.dispose();x.dispose()})}
+    let geo,mat,scale;
+    if(CFG.draw==='plate'){let w=1500,l=3000;const v=$('#len').value;if(v==='c'){w=+$('#cw').value||1000;l=+$('#cl').value||2000}else if(v)[w,l]=v.split('x').map(Number);
+      const t=Math.max(d.d.t,l/120);geo=new T.BoxGeometry(l,t,w);scale=1.9/Math.max(l,w);
+      const side=material([l/300,1]);const pat=CFG.pattern==='tear'?'tear':st.g==='BKL'?'dia':null;
+      let top=side;if(pat){const base={black:'#3b3f45',galv:'#c3cad2',red:'#8a2e22',alu:'#d9dde2',ss:'#cfd4da',raw:'#a7afb8'}[st.sf]||'#3b3f45';
+        top=new T.MeshStandardMaterial({map:patternTex(pat,base,[l/32,w/32]),metalness:side.metalness,roughness:side.roughness})}
+      else top=material([l/400,w/400]);
+      mat=[side,side,top,top,side,side]}
+    else{const O=outline(d);const sh=new T.Shape(O.o.map(([x,y])=>new T.Vector2(x,y)));
+      (O.h||[]).forEach(h=>sh.holes.push(new T.Path(h.map(([x,y])=>new T.Vector2(x,y)))));
+      geo=new T.ExtrudeGeometry(sh,{depth:O.L,bevelEnabled:false,curveSegments:12,steps:1});geo.center();
+      geo.computeBoundingBox();const bb=geo.boundingBox,m=Math.max(bb.max.x-bb.min.x,bb.max.y-bb.min.y,bb.max.z-bb.min.z);scale=1.9/m;
+      mat=material();geo.computeVertexNormals()}
+    mesh=new T.Mesh(geo,mat);mesh.scale.setScalar(scale);grp.add(mesh);
+  }
+  function show(v){on=v;document.querySelectorAll('.vt button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.view==='3d')===v));
+    $('#sec').style.display=v?'none':'';box.hidden=!v;
+    if(v){load(()=>{size();if(last)build(last);cancelAnimationFrame(raf);loop()})}else cancelAnimationFrame(raf)}
+  document.querySelector('.vt').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.view==='3d')});
+  $('#v3spin').onclick=()=>setSpin(!spin);$('#v3in').onclick=()=>zoomBy(0.85);$('#v3out').onclick=()=>zoomBy(1.18);
+  $('#v3reset').onclick=()=>{rx=-0.45;ry=0.7;zoom=1};
+  document.addEventListener('visibilitychange',()=>{if(!on||!T)return;if(document.hidden)cancelAnimationFrame(raf);else{cancelAnimationFrame(raf);loop()}});
+  return{update(d){last=d;if(on&&T)build(d)}};
+})();
+V3.update(cur());
+
+renderSel();renderTable();renderCart();
+
+</script>
+</body>
+</html>

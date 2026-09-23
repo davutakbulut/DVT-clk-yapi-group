@@ -79,4 +79,24 @@ describe('0046 · ürün seçici', () => {
       db.close();
     }
   });
+
+  // 0047 (K-90): ölçü anahtarı, kg/m², geometri ve grup KODU RPC'de; eski dil etiketli grup geriye dönük
+  it('0047: size_key / kg_per_m2 / dims ve grup kodu RPC ile döner', async () => {
+    const db = await createTestDb();
+    try {
+    const cat = (await db.query<{ id: string }>(`insert into public.product_categories (slug, name) values ('{"tr": "sac-cat"}', '{"tr": "Sac"}') returning id`)).rows[0]!.id;
+    const pid = (await db.query<{ id: string }>(`insert into public.products (slug, name, category_id, status, published_locales, published_at, options)
+      values ('{"tr": "sac-test"}', '{"tr": "Sac Test"}', $1, 'published', '{tr}', now(), '{"draw": "plate", "groups": [{"code": "DKP", "label": {"tr": "DKP"}}], "formats": {"DKP": [{"w": 1000, "l": 2000}]}}') returning id`, [cat])).rows[0]!.id;
+    await db.query(`insert into public.product_variants (product_id, size_label, size_key, thickness_mm, kg_per_m2, stock_code, variant_group, dims, sort_order)
+      values ($1, 'DKP 0,4 mm', '0,4 mm', 0.4, 3.14, 'DKP-0.4', '{"code": "DKP"}', '{"t": 0.4, "dim": "0,4 mm"}', 1), ($1, 'Eski', null, 2, null, 'ESKI', '{"tr": "Kare"}', '{}', 2)`, [pid]);
+    const p = (await db.query<{ r: Record<string, unknown> }>('select public.get_product_by_slug($1, $2) as r', ['tr', 'sac-test'])).rows[0]!.r;
+    const v = p['variants'] as Record<string, unknown>[];
+    expect(v[0]).toMatchObject({ size_key: '0,4 mm', kg_per_m2: 3.14, variant_group: 'DKP', dims: { t: 0.4, dim: '0,4 mm' } });
+    expect(v[1]).toMatchObject({ variant_group: 'Kare', kg_per_m2: null });
+    expect(p['options']).toMatchObject({ draw: 'plate' });
+    await expect(db.query(`insert into public.product_variants (product_id, size_label, kg_per_m2) values ($1, 'x', -1)`, [pid])).rejects.toThrow();
+    } finally {
+      await db.close();
+    }
+  });
 });

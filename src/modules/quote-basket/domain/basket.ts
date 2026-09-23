@@ -20,9 +20,10 @@ export interface BasketItem {
 
 /** Aynı ürün+varyant ama farklı kalite/boy ayrı kalemdir. */
 export const itemKey = (i: Pick<BasketItem, 'productId' | 'variantId'> & { readonly attributes?: Readonly<Record<string, string | number>> }) =>
-  `${i.productId}:${i.variantId ?? ''}:${i.attributes?.['grade'] ?? ''}:${i.attributes?.['length_m'] ?? ''}`;
+  `${i.productId}:${i.variantId ?? ''}:${i.attributes?.['grade'] ?? ''}:${i.attributes?.['length_m'] ?? ''}:${i.attributes?.['format'] ?? ''}:${i.attributes?.['surface'] ?? ''}`;
 
-const ATTR_KEYS = ['grade', 'length_m', 'kg_per_m', 'total_kg'] as const;
+/** K-88 kalite/boy/kg; K-90 yüzey, plaka ebadı (format), alan ve kg/m² */
+const ATTR_KEYS = ['grade', 'length_m', 'kg_per_m', 'total_kg', 'surface', 'format', 'area_m2', 'kg_per_m2'] as const;
 function readAttributes(v: unknown): Record<string, string | number> | undefined {
   if (typeof v !== 'object' || v === null) return undefined;
   const out: Record<string, string | number> = {};
@@ -79,12 +80,15 @@ export function updateItem(items: readonly BasketItem[], key: string, patch: Par
   return items.map((i) => (itemKey(i) === key ? withWeight({ ...i, ...patch, quantity: patch.quantity !== undefined ? normalizeQuantity(patch.quantity) : i.quantity }) : i));
 }
 
-/** Miktar değişince toplam ağırlık yeniden hesaplanır (kg/m × boy × adet); veri yoksa dokunulmaz. */
+/** Miktar değişince toplam ağırlık yeniden hesaplanır: kg/m × boy × adet ya da plakada kg/m² × alan (m²) × adet (K-90); veri yoksa dokunulmaz. */
 function withWeight(i: BasketItem): BasketItem {
   const kg = Number(i.attributes?.['kg_per_m']);
   const len = Number(i.attributes?.['length_m']);
-  if (!(kg > 0) || !(len > 0)) return i;
-  const total = Math.round(kg * len * i.quantity * 10) / 10;
+  const kg2 = Number(i.attributes?.['kg_per_m2']);
+  const area = Number(i.attributes?.['area_m2']);
+  const per = kg > 0 && len > 0 ? kg * len : kg2 > 0 && area > 0 ? kg2 * area : null;
+  if (per === null) return i;
+  const total = Math.round(per * i.quantity * 10) / 10;
   return { ...i, weightKg: total, attributes: { ...i.attributes, total_kg: total } };
 }
 

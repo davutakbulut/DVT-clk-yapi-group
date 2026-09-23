@@ -2,83 +2,128 @@
 
 import { useFormatter, useTranslations } from 'next-intl';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { pickLocale } from '@/lib/localized';
 import { useBasket } from '@/modules/quote-basket';
 import { Button } from '@/ui/Button';
-import { cornerRadii, findVariant, fmt, groupsOf, normSearch, PROP_KEYS, PROP_UNITS, sizeKey, sizesOf, thicknessesOf, weightOf, type ProductOptions, type PropKey, type SelectableVariant } from '../../domain/productConfig';
+import {
+  cornerRadii, dimText, findVariant, fmt, formatsFor, galvanizeExtraKg, gradesFor, groupLabel, groupsOf, normSearch, plateWeightOf, propDecimals, PROP_UNITS, SECTION_PROP_KEYS,
+  sizeKey, sizesOf, SURFACE_SWATCH, surfacesFor, thicknessesOf, weightOf, type DrawKind, type ProductOptions, type PropKey, type SelectableVariant, type SurfaceKey,
+} from '../../domain/productConfig';
+import { ProductViewer3D } from './ProductViewer3D';
+import { SectionDrawing } from './SectionDrawing';
 
 interface Props {
   readonly productId: string;
   readonly slug: string;
   readonly name: string;
+  readonly locale: string;
   readonly variants: readonly SelectableVariant[];
   readonly options: ProductOptions;
   readonly unit: string;
 }
 
-type SortKey = 'code' | 'size' | 't' | 'kg' | 'bar6' | 'u' | PropKey;
+type Col = { readonly key: string; readonly label: string; readonly hidden?: boolean; readonly value: (v: SelectableVariant) => number | string | null; readonly decimals?: number | ((x: number) => number); readonly left?: boolean };
 
 /**
- * Ürün seçici (K-88, prototip kutu-profil.html): kesit çizimi + seçim paneli (grup → ölçü → et → kalite → boy → adet),
- * ağırlık hesabı, kesit değerleri, teklif sepetine ekleme; altında filtrelenip sıralanan ölçü tablosu (satır tıklanınca
- * seçime aktarılır). Yerel <select>/<button>'lar; ağır kütüphane yok. Tüm metin next-intl'den, veri DB'den.
+ * Ürün seçici (K-88 → K-90, örnek sayfaların motoru): kesit çizimi (2B, tıklayınca 3B) + seçim paneli
+ * (grup → ölçü → kalınlık → yüzey → kalite → boy/plaka ebadı → adet), ağırlık hesabı, kesit değerleri, teklif sepeti;
+ * altında kesit türüne göre sütunlanan, filtrelenip sıralanan ölçü tablosu (satır → seçim). Tüm metin next-intl, tüm veri DB.
  */
-export function ProductSelector({ productId, slug, name, variants, options, unit }: Props) {
+export function ProductSelector({ productId, slug, name, locale, variants, options, unit }: Props) {
   const t = useTranslations('Products');
   const format = useFormatter();
   const basket = useBasket();
   const id = useId();
   const cfgRef = useRef<HTMLDivElement>(null);
+  const draw: DrawKind = options.draw ?? (variants.some((v) => v.heightMm === null && v.widthMm !== null && v.dims['D'] !== undefined) ? 'pipe' : 'box');
+  const plate = draw === 'plate';
+  const L = (text: Parameters<typeof pickLocale>[0], fallback: string) => pickLocale(text, locale) || fallback;
 
-  const groups = useMemo(() => groupsOf(variants), [variants]);
+  const groups = useMemo(() => groupsOf(variants, options), [variants, options]);
   const [group, setGroup] = useState<string | null>(groups[0] ?? null);
   const sizes = useMemo(() => sizesOf(variants, group), [variants, group]);
-  const [size, setSize] = useState<string>(sizes[0] ?? '');
-  const thicknesses = useMemo(() => thicknessesOf(variants, group, size), [variants, group, size]);
-  const [thickness, setThickness] = useState<number | null>(thicknesses[0] ?? null);
-  const [grade, setGrade] = useState(options.grades[0] ?? '');
-  const [lengthChoice, setLengthChoice] = useState<string>(options.lengthsM[0] !== undefined ? String(options.lengthsM[0]) : options.customLength ? 'custom' : '');
+  const [size, setSize] = useState<string>(sizes[Math.min(sizes.length - 1, Math.floor(sizes.length / 3))] ?? '');
+  const thicknesses = useMemo(() => thicknessesOf(variants, group, size, plate), [variants, group, size, plate]);
+  const [thickness, setThickness] = useState<number | null>(thicknesses[Math.floor(thicknesses.length / 2)] ?? null);
+  const surfaces = surfacesFor(options, group);
+  const [surface, setSurface] = useState<SurfaceKey>(surfaces[0] ?? 'black');
+  const grades = gradesFor(options, group);
+  const [grade, setGrade] = useState(grades[0] ?? '');
+  const formats = formatsFor(options, group);
+  const [lengthChoice, setLengthChoice] = useState<string>(() => (plate ? (formats[0] ? `${formats[0].w}x${formats[0].l}` : 'custom') : options.lengthsM[0] !== undefined ? String(options.lengthsM[0]) : options.customLength ? 'custom' : ''));
   const [customLength, setCustomLength] = useState('3');
-  const [qty, setQty] = useState('10');
+  const [customW, setCustomW] = useState('1000');
+  const [customL, setCustomL] = useState('2000');
+  const [qty, setQty] = useState(String(options.qtyDefault ?? (plate ? 2 : 10)));
+  const [view3d, setView3d] = useState(false);
   const [toast, setToast] = useState('');
   const [showProps, setShowProps] = useState(false);
   const [query, setQuery] = useState('');
   const [tableGroup, setTableGroup] = useState<string | null>(null);
   const [tableT, setTableT] = useState<number | null>(null);
-  const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 } | null>(null);
+  const [sort, setSort] = useState<{ key: string; dir: 1 | -1 } | null>(null);
 
   // Grup/ölçü değişince alt seçimler geçerli kalsın
   useEffect(() => {
-    if (!sizes.includes(size)) setSize(sizes[0] ?? '');
-  }, [sizes, size]);
+    if (!plate && !sizes.includes(size)) setSize(sizes[Math.min(sizes.length - 1, Math.floor(sizes.length / 3))] ?? '');
+  }, [sizes, size, plate]);
   useEffect(() => {
-    if (thickness === null ? thicknesses.length > 0 : !thicknesses.includes(thickness)) setThickness(thicknesses.includes(3) ? 3 : (thicknesses[Math.floor(thicknesses.length / 2)] ?? null));
+    if (thickness === null ? thicknesses.length > 0 : !thicknesses.includes(thickness)) setThickness(thicknesses[Math.floor(thicknesses.length / 2)] ?? null);
   }, [thicknesses, thickness]);
+  useEffect(() => {
+    if (surfaces.length && !surfaces.includes(surface)) setSurface(surfaces[0]!);
+  }, [surfaces, surface]);
+  useEffect(() => {
+    if (grades.length && !grades.includes(grade)) setGrade(grades[0]!);
+  }, [grades, grade]);
+  useEffect(() => {
+    if (plate && lengthChoice !== 'custom' && !formats.some((f) => `${f.w}x${f.l}` === lengthChoice)) setLengthChoice(formats[0] ? `${formats[0].w}x${formats[0].l}` : 'custom');
+  }, [plate, formats, lengthChoice]);
 
-  const current = findVariant(variants, group, size, thickness);
+  const current = findVariant(variants, group, size, thickness, plate);
+  const n = (v: number, d = 2) => format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const quantity = Math.max(1, Math.floor(Number(qty) || 1));
+  // Boy (m) ya da plaka ebadı (mm)
   const fixedLengthM = current?.lengthMm ? current.lengthMm / 1000 : null;
   const lengthM = fixedLengthM ?? (lengthChoice === 'custom' ? Math.max(0, Number(customLength.replace(',', '.')) || 0) : Number(lengthChoice) || 0);
-  const quantity = Math.max(1, Math.floor(Number(qty) || 1));
-  const w = weightOf(current?.kgPerM ?? null, lengthM, quantity);
-  const hasLengthChoice = fixedLengthM === null && (options.lengthsM.length > 0 || options.customLength);
-  const n = (v: number, d = 2) => format.number(v, { minimumFractionDigits: d, maximumFractionDigits: d });
-  const totalText = w.total === null ? '—' : w.total >= 1000 ? `${n(w.total / 1000)} t` : `${n(w.total, 0)} kg`;
+  const fmtSel = useMemo(() => (plate ? (lengthChoice === 'custom' ? { w: Math.max(0, Number(customW) || 0), l: Math.max(0, Number(customL) || 0) } : (formats.find((f) => `${f.w}x${f.l}` === lengthChoice) ?? null)) : null), [plate, lengthChoice, customW, customL, formats]);
+  const bar = plate ? null : weightOf(current?.kgPerM ?? null, lengthM, quantity);
+  const sheet = plate ? plateWeightOf(current?.kgPerM2 ?? null, fmtSel?.w ?? 0, fmtSel?.l ?? 0, quantity) : null;
+  const unitWeight = plate ? (current?.kgPerM2 ?? null) : (current?.kgPerM ?? null);
+  const perOne = plate ? (sheet?.perSheet ?? null) : (bar?.perBar ?? null);
+  const total = plate ? (sheet?.total ?? null) : (bar?.total ?? null);
+  const per = plate ? (sheet?.areaM2 ?? 0) : lengthM;
+  const hasLengthChoice = !plate && fixedLengthM === null && (options.lengthsM.length > 0 || options.customLength);
+  const totalText = total === null ? '—' : total >= 1000 ? `${n(total / 1000)} t` : `${n(total, 0)} kg`;
+  const galvKg = surface === 'galv' && surfaces.length && !(plate && group === 'GLV') && per > 0 ? galvanizeExtraKg({ draw, paintAreaM2PerM: current?.props.u ?? null, per, qty: quantity }) : 0;
+  const coverM2 = current?.props.we && per > 0 ? (current.props.we / 1000) * per * quantity : null;
+  const gLabel = (code: string | null) => groupLabel(options, code, locale);
   const label = current ? current.sizeLabel : '';
+  const pattern: 'tear' | 'dia' | null = options.pattern === 'tear' ? 'tear' : group === 'BKL' ? 'dia' : null;
+  const formatText = fmtSel ? `${fmtSel.w}×${fmtSel.l} mm` : '';
+
   const attrs = useMemo(() => {
     const a: Record<string, string | number> = {};
     if (grade) a['grade'] = grade;
-    if (lengthM > 0) a['length_m'] = Math.round(lengthM * 100) / 100;
-    if (current?.kgPerM) a['kg_per_m'] = current.kgPerM;
-    if (w.total !== null) a['total_kg'] = Math.round(w.total * 10) / 10;
+    if (surfaces.length) a['surface'] = t(`cfg.surf.${surface}`);
+    if (plate) {
+      if (fmtSel && fmtSel.w > 0 && fmtSel.l > 0) { a['format'] = `${fmtSel.w}×${fmtSel.l} mm`; a['area_m2'] = Math.round(((fmtSel.w * fmtSel.l) / 1e6) * 1000) / 1000; }
+      if (current?.kgPerM2) a['kg_per_m2'] = current.kgPerM2;
+    } else {
+      if (lengthM > 0) a['length_m'] = Math.round(lengthM * 100) / 100;
+      if (current?.kgPerM) a['kg_per_m'] = current.kgPerM;
+    }
+    if (total !== null) a['total_kg'] = Math.round(total * 10) / 10;
     return a;
-  }, [grade, lengthM, current, w.total]);
+  }, [grade, surfaces.length, surface, plate, fmtSel, current, lengthM, total, t]);
 
   const add = () => {
     if (!current) return;
-    if (hasLengthChoice && lengthChoice === 'custom' && !(lengthM > 0)) {
-      setToast(t('cfg.customInvalid'));
+    if (plate ? !(fmtSel && fmtSel.w > 0 && fmtSel.l > 0) : hasLengthChoice && lengthChoice === 'custom' && !(lengthM > 0)) {
+      setToast(t(plate ? 'cfg.customFormatInvalid' : 'cfg.customInvalid'));
       return;
     }
-    basket.add({ productId, variantId: current.id, slug, name, variantLabel: current.sizeLabel, stockCode: current.stockCode, quantity, unit, note: '', attributes: attrs, weightKg: w.total });
+    basket.add({ productId, variantId: current.id, slug, name, variantLabel: current.sizeLabel, stockCode: current.stockCode, quantity, unit, note: '', attributes: attrs, weightKg: total });
     setToast(t('cfg.added', { label: current.sizeLabel, qty: quantity, unit }));
   };
   const pick = (v: SelectableVariant) => {
@@ -89,41 +134,88 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
     cfgRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   };
 
-  // Tablo
+  // ── Tablo: kesit türüne göre sütunlar
   const allT = useMemo(() => [...new Set(variants.map((v) => v.thicknessMm).filter((x): x is number => x !== null))].sort((a, b) => a - b), [variants]);
-  const anyProps = variants.some((v) => Object.keys(v.props).length > 0);
+  const propKeys = useMemo(() => SECTION_PROP_KEYS.filter((k) => variants.some((v) => v.props[k] !== undefined)), [variants]);
   const anyBar = variants.some((v) => v.kgPerM !== null);
+  const anyM2 = variants.some((v) => v.kgPerM2 !== null);
+  const anyU = variants.some((v) => v.props.u !== undefined);
+  const L0 = options.lengthsM[0] ?? 6;
+  const plateCols = useMemo(() => (plate ? formatsFor(options, groups[0] ?? null).slice(0, 3) : []), [plate, options, groups]);
+  const cols = useMemo<Col[]>(() => {
+    const c: Col[] = [{ key: 'code', label: t('table.code'), value: (v) => v.stockCode ?? '', left: true }];
+    if (groups.length > 1 && (plate || draw === 'trap')) c.push({ key: 'group', label: t('table.group'), value: (v) => gLabel(v.group), left: true });
+    if (draw === 'trap') c.push({ key: 'sizeKey', label: L(options.sizeLabel, t('table.size')), value: (v) => sizeKey(v), left: true });
+    c.push({ key: 'size', label: plate ? t('table.thickness') : draw === 'trap' ? t('table.t') : t('table.size'), value: (v) => (plate ? v.thicknessMm : dimText(v, draw)), decimals: plate ? 1 : undefined, left: !plate });
+    if (draw === 'I' || draw === 'Itaper' || draw === 'U') {
+      c.push({ key: 'tw', label: t('table.tw'), value: (v) => (typeof v.dims['tw'] === 'number' ? (v.dims['tw'] as number) : null), decimals: 1 });
+      c.push({ key: 'tf', label: t('table.tf'), value: (v) => (typeof v.dims['tf'] === 'number' ? (v.dims['tf'] as number) : null), decimals: 1 });
+    }
+    if (allT.length > 0 && !plate && draw !== 'trap' && draw !== 'flat' && draw !== 'T') c.push({ key: 't', label: t('table.t'), value: (v) => v.thicknessMm, decimals: (x) => (Number.isInteger(x) ? 0 : 1) });
+    if (draw === 'trap' && allT.length > 0) c.push({ key: 't', label: t('table.t'), value: (v) => v.thicknessMm, decimals: 2 });
+    if (anyM2 && !plate) c.push({ key: 'kgm2', label: t('table.kgm2'), value: (v) => v.kgPerM2, decimals: 2 });
+    if (anyBar) {
+      c.push({ key: 'kg', label: draw === 'trap' ? t('table.kgSheet') : t('table.kgPerM'), value: (v) => v.kgPerM, decimals: (x) => (x < 10 ? 2 : 1) });
+      c.push({ key: 'bar', label: draw === 'trap' ? t('table.sheetN', { n: fmt(L0) }) : t('table.barN', { n: fmt(L0) }), value: (v) => (v.kgPerM === null ? null : v.kgPerM * L0), decimals: (x) => (x < 10 ? 2 : 1) });
+    }
+    if (plate) {
+      c.push({ key: 'kgm2', label: t('table.kgm2'), value: (v) => v.kgPerM2, decimals: 2 });
+      for (const f of plateCols) c.push({ key: `f${f.w}x${f.l}`, label: t('table.formatKg', { w: f.w, l: f.l }), value: (v) => (v.kgPerM2 === null ? null : (v.kgPerM2 * f.w * f.l) / 1e6), decimals: 1 });
+    }
+    if (draw === 'trap') {
+      c.push({ key: 'we', label: t('table.we'), value: (v) => v.props.we ?? null, decimals: 0 });
+      c.push({ key: 'h', label: t('table.h'), value: (v) => v.props.h ?? null, decimals: 0, hidden: true });
+      c.push({ key: 'p', label: t('table.p'), value: (v) => v.props.p ?? null, decimals: 1, hidden: true });
+      c.push({ key: 'coil', label: t('table.coil'), value: (v) => v.props.coil ?? null, decimals: 0, hidden: true });
+    }
+    for (const k of propKeys) c.push({ key: k, label: `${t(`cfg.propNames.${k}`)} (${PROP_UNITS[k]})`, value: (v) => v.props[k] ?? null, decimals: (x) => propDecimals(k, x), hidden: true });
+    if (anyU) c.push({ key: 'u', label: t('table.paint'), value: (v) => v.props.u ?? null, decimals: 3 });
+    return c;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- gLabel/L türevleri options+locale'e bağlı
+  }, [t, groups.length, plate, draw, options, allT.length, anyM2, anyBar, L0, plateCols, propKeys, anyU, locale]);
+  const anyHidden = cols.some((c) => c.hidden);
   const rows = useMemo(() => {
     let list = variants.filter((v) => (tableGroup === null || v.group === tableGroup) && (tableT === null || v.thicknessMm === tableT));
     const q = normSearch(query.trim());
-    if (q) list = list.filter((v) => normSearch(`${v.heightMm ?? ''}x${v.widthMm ?? ''}x${v.thicknessMm ?? ''}`).includes(q) || normSearch(v.sizeLabel).includes(q) || (v.stockCode ?? '').toLocaleLowerCase('en-US').includes(q));
+    if (q) list = list.filter((v) => [v.sizeLabel, v.stockCode ?? '', dimText(v, draw), sizeKey(v), `${v.heightMm ?? ''}x${v.widthMm ?? ''}x${v.thicknessMm ?? ''}`].some((x) => normSearch(x).includes(q)));
     if (sort) {
-      const val = (v: SelectableVariant): number | string => {
-        switch (sort.key) {
-          case 'code':
-            return v.stockCode ?? '';
-          case 'size':
-            return (v.heightMm ?? 0) * 1e6 + (v.widthMm ?? 0) * 1e3 + (v.thicknessMm ?? 0);
-          case 't':
-            return v.thicknessMm ?? 0;
-          case 'kg':
-          case 'bar6':
-            return v.kgPerM ?? 0;
-          default:
-            return v.props[sort.key] ?? 0;
-        }
-      };
-      list = [...list].sort((a, b) => {
-        const x = val(a);
-        const y = val(b);
-        return sort.dir * (typeof x === 'string' || typeof y === 'string' ? String(x).localeCompare(String(y), 'tr') : x - y);
-      });
+      const col = cols.find((c) => c.key === sort.key);
+      if (col) {
+        list = [...list].sort((a, b) => {
+          const x = col.value(a) ?? '';
+          const y = col.value(b) ?? '';
+          return sort.dir * (typeof x === 'number' && typeof y === 'number' ? x - y : String(x).localeCompare(String(y), 'tr', { numeric: true }));
+        });
+      }
     }
     return list;
-  }, [variants, tableGroup, tableT, query, sort]);
-  const toggleSort = (key: SortKey) => setSort((s) => (s?.key === key ? { key, dir: s.dir === 1 ? -1 : 1 } : { key, dir: 1 }));
-  const ariaSort = (key: SortKey) => (sort?.key === key ? (sort.dir === 1 ? 'ascending' : 'descending') : undefined);
-  const propCols: PropKey[] = ['A', 'Ix', 'Iy', 'Wx', 'Wy', 'ix', 'iy'];
+  }, [variants, tableGroup, tableT, query, sort, cols, draw]);
+  const toggleSort = (key: string) => setSort((s) => (s?.key === key ? { key, dir: s.dir === 1 ? -1 : 1 } : { key, dir: 1 }));
+  const ariaSort = (key: string) => (sort?.key === key ? (sort.dir === 1 ? 'ascending' : 'descending') : undefined);
+  const cell = (c: Col, v: SelectableVariant) => {
+    const x = c.value(v);
+    if (x === null || x === '') return '—';
+    if (typeof x === 'string') return x;
+    return n(x, typeof c.decimals === 'function' ? c.decimals(x) : (c.decimals ?? 2));
+  };
+  const D = current?.dims ?? {};
+  const dn = (k: string, fb: number | null = null) => (typeof D[k] === 'number' ? fmt(D[k] as number) : fb !== null ? fmt(fb) : '—');
+  const drawMeta = (): string => {
+    if (!current) return '';
+    switch (draw) {
+      case 'box': { const tt = current.thicknessMm ?? 0; const r = cornerRadii(tt || 1); return t('cfg.drawMeta.box', { ro: dn('ro', r.outer), ri: dn('ri', r.inner) }); }
+      case 'pipe': return t('cfg.drawMeta.pipe', { D: dn('D', current.widthMm ?? 0), t: dn('t', current.thicknessMm ?? 0) });
+      case 'I': return t('cfg.drawMeta.I', { tw: dn('tw'), tf: dn('tf'), r: dn('r') });
+      case 'Itaper': return t('cfg.drawMeta.Itaper', { tw: dn('tw'), tf: dn('tf') });
+      case 'U': return D['sl'] ? t('cfg.drawMeta.Usl', { tw: dn('tw'), tf: dn('tf'), e: fmt(current.props.e ?? 0) }) : t('cfg.drawMeta.U', { tw: dn('tw'), tf: dn('tf'), r: dn('r'), e: fmt(current.props.e ?? 0) });
+      case 'L': return t('cfg.drawMeta.L', { r: dn('r'), ex: fmt(current.props.ex ?? 0), ey: fmt(current.props.ey ?? 0) });
+      case 'T': return t('cfg.drawMeta.T', { t: dn('t', current.thicknessMm ?? 0), e: fmt(current.props.e ?? 0) });
+      case 'trap': { const we = typeof D['we'] === 'number' ? (D['we'] as number) : 1000; const h = typeof D['h'] === 'number' ? (D['h'] as number) : 20; const scaled = Math.min(Math.max(400 / we, 70 / h), 150 / h) > (400 / we) * 1.2; return t('cfg.drawMeta.trap', { group: gLabel(current.group), t: dn('t', current.thicknessMm ?? 0) }) + (scaled ? t('cfg.drawMeta.trapScaled') : ''); }
+      case 'flat': return t('cfg.drawMeta.flat', { w: dn('w', current.widthMm ?? 0), t: dn('t', current.thicknessMm ?? 0) });
+      case 'plate': return t('cfg.drawMeta.plate', { group: gLabel(current.group), format: formatText });
+    }
+  };
+  const drawRight = current ? (plate || draw === 'trap' ? (current.kgPerM2 !== null ? `${n(current.kgPerM2)} kg/m²` : '') : dimText(current, draw)) : '';
 
   return (
     <div className="grid gap-12">
@@ -133,43 +225,65 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
             <span>{t('cfg.selected')}</span>
             <b data-testid="pcfg-code">{current?.stockCode ?? label}</b>
           </div>
-          {current ? <SectionDrawing v={current} label={t('cfg.drawing', { label })} /> : null}
+          <div className="pcfg-vt" role="group" aria-label={t('viewer3d.label')}>
+            <button type="button" aria-pressed={!view3d} onClick={() => setView3d(false)}>{t('viewer3d.v2d')}</button>
+            <button type="button" aria-pressed={view3d} onClick={() => setView3d(true)}>{t('viewer3d.v3d')}</button>
+          </div>
+          {current ? (
+            view3d ? (
+              <ProductViewer3D v={current} draw={draw} surface={surface} pattern={pattern} format={fmtSel && fmtSel.w > 0 && fmtSel.l > 0 ? fmtSel : null} grade={grade} />
+            ) : (
+              <SectionDrawing v={current} draw={draw} label={t('cfg.drawing', { label })} format={fmtSel && fmtSel.w > 0 && fmtSel.l > 0 ? fmtSel : null} pattern={pattern} groupCode={group} dimLabels={{ we: t('cfg.dimLabels.we'), p: t('cfg.dimLabels.p'), w: t('cfg.dimLabels.w') }} />
+            )
+          ) : (
+            <div className="pcfg-svg pcfg-svg-empty" aria-hidden="true" />
+          )}
           <div className="pcfg-draw-meta">
-            {current?.thicknessMm && current.widthMm && current.heightMm ? <span>{t('cfg.radii', { ro: fmt(cornerRadii(current.thicknessMm).outer), ri: fmt(cornerRadii(current.thicknessMm).inner) })}</span> : <span />}
-            <span className="pcfg-draw-scale">{t('cfg.section', { label })}</span>
+            <span>{drawMeta()}</span>
+            <span className="pcfg-draw-scale">{drawRight}</span>
           </div>
         </div>
         <div className="pcfg-panel">
           {groups.length > 1 ? (
             <div className="pcfg-field">
-              <span className="pcfg-lbl">{t('cfg.group')}</span>
-              <div className="pcfg-seg" role="group" aria-label={t('cfg.group')}>
+              <span className="pcfg-lbl">{L(options.groupLabel, t('cfg.group'))}</span>
+              <div className="pcfg-seg" role="group" aria-label={L(options.groupLabel, t('cfg.group'))}>
                 {groups.map((g) => (
                   <button key={g} type="button" aria-pressed={group === g} onClick={() => setGroup(g)}>
-                    {g}
+                    {gLabel(g)}
                   </button>
                 ))}
               </div>
             </div>
           ) : null}
-          <div className="pcfg-field">
-            <label htmlFor={`${id}-size`}>{t('cfg.size')}</label>
-            <select id={`${id}-size`} value={size} onChange={(e) => setSize(e.target.value)} className="field" aria-describedby={`${id}-size-hint`}>
-              {sizes.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            <span id={`${id}-size-hint`} className="pcfg-hint">
-              {t('cfg.sizeHint')}
-            </span>
-          </div>
+          {!plate ? (
+            options.sizeUi === 'chips' ? (
+              <div className="pcfg-field">
+                <span className="pcfg-lbl" id={`${id}-sz`}>{L(options.sizeLabel, t('cfg.size'))}</span>
+                <div className="pcfg-chips pcfg-chips-sz" role="group" aria-labelledby={`${id}-sz`}>
+                  {sizes.map((s) => (
+                    <button key={s} type="button" aria-pressed={size === s} onClick={() => setSize(s)}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="pcfg-field">
+                <label htmlFor={`${id}-size`}>{L(options.sizeLabel, t('cfg.size'))}</label>
+                <select id={`${id}-size`} value={size} onChange={(e) => setSize(e.target.value)} className="field">
+                  {sizes.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )
+          ) : null}
           {thicknesses.length > 0 ? (
             <div className="pcfg-field">
-              <span className="pcfg-lbl" id={`${id}-t`}>
-                {t('cfg.thickness')}
-              </span>
+              <span className="pcfg-lbl" id={`${id}-t`}>{L(options.variantLabel, t('cfg.thickness'))}</span>
               <div className="pcfg-chips" role="group" aria-labelledby={`${id}-t`}>
                 {thicknesses.map((tv) => (
                   <button key={tv} type="button" aria-pressed={thickness === tv} onClick={() => setThickness(tv)}>
@@ -179,20 +293,45 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
               </div>
             </div>
           ) : null}
+          {surfaces.length > 0 ? (
+            <div className="pcfg-field">
+              <span className="pcfg-lbl" id={`${id}-sf`}>{t('cfg.surface')}</span>
+              <div className="pcfg-surf" role="group" aria-labelledby={`${id}-sf`}>
+                {surfaces.map((s) => (
+                  <button key={s} type="button" aria-pressed={surface === s} onClick={() => setSurface(s)}>
+                    <i style={{ background: SURFACE_SWATCH[s] }} aria-hidden="true" />
+                    {t(`cfg.surf.${s}`)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
           <div className="pcfg-row3">
-            {options.grades.length > 0 ? (
+            {grades.length > 0 ? (
               <div className="pcfg-field">
-                <label htmlFor={`${id}-grade`}>{t('cfg.grade')}</label>
+                <label htmlFor={`${id}-grade`}>{L(options.gradeLabel, plate ? t('cfg.grade2') : t('cfg.grade'))}</label>
                 <select id={`${id}-grade`} value={grade} onChange={(e) => setGrade(e.target.value)} className="field">
-                  {options.grades.map((g) => (
+                  {grades.map((g) => (
                     <option key={g}>{g}</option>
                   ))}
                 </select>
               </div>
             ) : null}
-            {hasLengthChoice ? (
+            {plate ? (
               <div className="pcfg-field">
-                <label htmlFor={`${id}-len`}>{t('cfg.length')}</label>
+                <label htmlFor={`${id}-len`}>{t('cfg.format')}</label>
+                <select id={`${id}-len`} value={lengthChoice} onChange={(e) => setLengthChoice(e.target.value)} className="field">
+                  {formats.map((f) => (
+                    <option key={`${f.w}x${f.l}`} value={`${f.w}x${f.l}`}>
+                      {f.w} × {f.l} mm
+                    </option>
+                  ))}
+                  <option value="custom">{t('cfg.customFormat')}</option>
+                </select>
+              </div>
+            ) : hasLengthChoice ? (
+              <div className="pcfg-field">
+                <label htmlFor={`${id}-len`}>{L(options.lengthLabel, t('cfg.length'))}</label>
                 <select id={`${id}-len`} value={lengthChoice} onChange={(e) => setLengthChoice(e.target.value)} className="field">
                   {options.lengthsM.map((l) => (
                     <option key={l} value={String(l)}>
@@ -210,7 +349,19 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
               <input id={`${id}-qty`} type="number" min={1} step={1} inputMode="numeric" value={qty} onChange={(e) => setQty(e.target.value)} className="field" />
             </div>
           </div>
-          {hasLengthChoice && lengthChoice === 'custom' ? (
+          {plate && lengthChoice === 'custom' ? (
+            <div className="pcfg-row2">
+              <div className="pcfg-field">
+                <label htmlFor={`${id}-cw`}>{t('cfg.widthMm')}</label>
+                <input id={`${id}-cw`} type="number" min={1} step={1} inputMode="numeric" value={customW} onChange={(e) => setCustomW(e.target.value)} className="field" />
+              </div>
+              <div className="pcfg-field">
+                <label htmlFor={`${id}-cl`}>{t('cfg.lengthMm')}</label>
+                <input id={`${id}-cl`} type="number" min={1} step={1} inputMode="numeric" value={customL} onChange={(e) => setCustomL(e.target.value)} className="field" />
+              </div>
+            </div>
+          ) : null}
+          {!plate && hasLengthChoice && lengthChoice === 'custom' ? (
             <div className="pcfg-field">
               <label htmlFor={`${id}-clen`}>{t('cfg.customLength')}</label>
               <input id={`${id}-clen`} type="number" min={0.1} step={0.1} inputMode="decimal" value={customLength} onChange={(e) => setCustomLength(e.target.value)} className="field" />
@@ -220,13 +371,14 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
             <div>
               <dt>{t('cfg.unitWeight')}</dt>
               <dd>
-                <b>{current?.kgPerM ? n(current.kgPerM) : '—'}</b>kg/m
+                <b>{unitWeight === null ? '—' : n(unitWeight, unitWeight < 1 ? 3 : 2)}</b>
+                {plate ? t('cfg.unitWeightM2') : 'kg/m'}
               </dd>
             </div>
             <div>
-              <dt>{t('cfg.perBar')}</dt>
+              <dt>{L(options.oneLabel, plate ? t('cfg.perSheet') : t('cfg.perBar'))}</dt>
               <dd>
-                <b>{w.perBar === null ? '—' : n(w.perBar)}</b>kg
+                <b>{perOne === null ? '—' : n(perOne, perOne < 10 ? 2 : 1)}</b>kg
               </dd>
             </div>
             <div className="pcfg-total">
@@ -236,14 +388,16 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
               </dd>
             </div>
           </dl>
-          {current && !current.kgPerM ? <p className="pcfg-hint">{t('cfg.noWeight')}</p> : null}
+          {current && unitWeight === null ? <p className="pcfg-hint">{t('cfg.noWeight')}</p> : null}
+          {galvKg > 0 ? <p className="pcfg-hint">{t('cfg.galvNote', { kg: n(galvKg, galvKg < 10 ? 1 : 0) })}</p> : null}
+          {coverM2 !== null ? <p className="pcfg-hint">{t('cfg.coverArea', { m2: n(coverM2, 1) })}</p> : null}
           {current && Object.keys(current.props).length > 0 ? (
             <details className="pcfg-props">
               <summary>{t('cfg.props')}</summary>
               <div className="pcfg-pgrid">
-                {PROP_KEYS.filter((k) => current.props[k] !== undefined).map((k) => (
+                {(Object.keys(PROP_UNITS) as PropKey[]).filter((k) => current.props[k] !== undefined).map((k) => (
                   <div key={k}>
-                    {k === 'u' ? t('cfg.paintArea') : k} ({PROP_UNITS[k]})<b>{n(current.props[k]!, k === 'u' ? 3 : 2)}</b>
+                    {t(`cfg.propNames.${k}`)} ({PROP_UNITS[k]})<b>{n(current.props[k]!, propDecimals(k, current.props[k]!))}</b>
                   </div>
                 ))}
               </div>
@@ -275,13 +429,13 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
               </button>
               {groups.map((g) => (
                 <button key={g} type="button" aria-pressed={tableGroup === g} onClick={() => setTableGroup(g)}>
-                  {g}
+                  {gLabel(g)}
                 </button>
               ))}
             </div>
           ) : null}
           <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('table.search')} aria-label={t('table.search')} className="field max-w-60" />
-          {anyProps ? (
+          {anyHidden ? (
             <label className="flex items-center gap-2 text-[length:var(--fs-sm)]">
               <input type="checkbox" checked={showProps} onChange={(e) => setShowProps(e.target.checked)} /> {t('table.showProps')}
             </label>
@@ -304,65 +458,29 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
           <table className="pcfg-table" data-props={showProps ? '' : undefined}>
             <thead>
               <tr>
-                <th scope="col" aria-sort={ariaSort('code')}>
-                  <button type="button" onClick={() => toggleSort('code')}>{t('table.code')}</button>
-                </th>
-                <th scope="col" aria-sort={ariaSort('size')}>
-                  <button type="button" onClick={() => toggleSort('size')}>{t('table.size')}</button>
-                </th>
-                {allT.length > 0 ? (
-                  <th scope="col" aria-sort={ariaSort('t')}>
-                    <button type="button" onClick={() => toggleSort('t')}>{t('table.t')}</button>
+                {cols.map((c) => (
+                  <th key={c.key} scope="col" className={`${c.hidden ? 'pcfg-kc' : ''} ${c.left ? 'pcfg-left' : ''}`.trim() || undefined} aria-sort={ariaSort(c.key)}>
+                    <button type="button" onClick={() => toggleSort(c.key)}>{c.label}</button>
                   </th>
-                ) : null}
-                {anyBar ? (
-                  <>
-                    <th scope="col" aria-sort={ariaSort('kg')}>
-                      <button type="button" onClick={() => toggleSort('kg')}>{t('table.kgPerM')}</button>
-                    </th>
-                    <th scope="col" aria-sort={ariaSort('bar6')}>
-                      <button type="button" onClick={() => toggleSort('bar6')}>{t('table.bar6')}</button>
-                    </th>
-                  </>
-                ) : null}
-                {anyProps
-                  ? propCols.map((k) => (
-                      <th key={k} scope="col" className="pcfg-kc" aria-sort={ariaSort(k)}>
-                        <button type="button" onClick={() => toggleSort(k)}>
-                          {k} ({PROP_UNITS[k]})
-                        </button>
-                      </th>
-                    ))
-                  : null}
-                {anyProps ? (
-                  <th scope="col" aria-sort={ariaSort('u')}>
-                    <button type="button" onClick={() => toggleSort('u')}>{t('table.paint')}</button>
-                  </th>
-                ) : null}
+                ))}
                 <th scope="col" aria-label={t('table.pick')} />
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 ? (
                 <tr>
-                  <td colSpan={20} className="pcfg-empty">
+                  <td colSpan={cols.length + 1} className="pcfg-empty">
                     {t('table.empty')}
                   </td>
                 </tr>
               ) : (
                 rows.map((v) => (
                   <tr key={v.id} className={current?.id === v.id ? 'pcfg-sel' : undefined} onClick={() => pick(v)}>
-                    <td className="pcfg-td-code">{v.stockCode ?? '—'}</td>
-                    <td>{v.heightMm !== null && v.widthMm !== null ? `${fmt(v.heightMm)} × ${fmt(v.widthMm)}` : v.sizeLabel}</td>
-                    {allT.length > 0 ? <td>{v.thicknessMm === null ? '—' : fmt(v.thicknessMm)}</td> : null}
-                    {anyBar ? (
-                      <>
-                        <td>{v.kgPerM === null ? '—' : n(v.kgPerM)}</td>
-                        <td>{v.kgPerM === null ? '—' : n(v.kgPerM * 6)}</td>
-                      </>
-                    ) : null}
-                    {anyProps ? propCols.map((k) => <td key={k} className="pcfg-kc">{v.props[k] === undefined ? '—' : n(v.props[k]!)}</td>) : null}
-                    {anyProps ? <td>{v.props.u === undefined ? '—' : n(v.props.u, 3)}</td> : null}
+                    {cols.map((c) => (
+                      <td key={c.key} className={`${c.hidden ? 'pcfg-kc' : ''} ${c.left ? 'pcfg-left' : ''} ${c.key === 'code' ? 'pcfg-td-code' : ''}`.trim() || undefined}>
+                        {cell(c, v)}
+                      </td>
+                    ))}
                     <td>
                       <button type="button" className="pcfg-pick" onClick={(e) => { e.stopPropagation(); pick(v); }} aria-label={`${t('table.pick')}: ${v.sizeLabel}`}>
                         {t('table.pick')}
@@ -374,74 +492,8 @@ export function ProductSelector({ productId, slug, name, variants, options, unit
             </tbody>
           </table>
         </div>
-        {anyBar ? <p className="text-[length:var(--fs-sm)] text-[var(--color-text-muted)]">{t('table.note')}</p> : null}
+        <p className="text-[length:var(--fs-sm)] text-[var(--color-text-muted)]">{L(options.tableNote, draw === 'box' ? t('table.note') : t('table.noteGeneric'))}</p>
       </section>
     </div>
-  );
-}
-
-function rrect(x: number, y: number, w: number, h: number, r: number): string {
-  return `M${x + r},${y}H${x + w - r}A${r},${r} 0 0 1 ${x + w},${y + r}V${y + h - r}A${r},${r} 0 0 1 ${x + w - r},${y + h}H${x + r}A${r},${r} 0 0 1 ${x},${y + h - r}V${y + r}A${r},${r} 0 0 1 ${x + r},${y}Z`;
-}
-
-/** Kesit çizimi: dikdörtgen/kare kutu (H×B×t, TS EN 10219 köşeleri) ya da boru (yalnız B×t); ölçü okları ve eksenler. */
-function SectionDrawing({ v, label }: { readonly v: SelectableVariant; readonly label: string }) {
-  const W = 520;
-  const Hh = 420;
-  const cx = W / 2;
-  const cy = Hh / 2 + 6;
-  const box = 250;
-  const B = v.widthMm ?? 0;
-  const H = v.heightMm ?? B;
-  const tt = v.thicknessMm ?? 0;
-  if (!B) return <div className="pcfg-svg pcfg-svg-empty" aria-hidden="true" />;
-  const s = box / Math.max(H, B);
-  const w = B * s;
-  const h = H * s;
-  const th = Math.max(tt * s, 1.2);
-  const x = cx - w / 2;
-  const y = cy - h / 2;
-  const dimY = y + h + 34;
-  const dimX = x - 34;
-  const circle = v.heightMm === null;
-  const { outer, inner } = cornerRadii(tt || 1);
-  const R = circle ? w / 2 : outer * s;
-  const Ri = circle ? Math.max(w / 2 - th, 0) : Math.max(inner * s, 0);
-  const ty = y + Math.min(h * 0.3, h / 2 - R - 4) + R;
-  const tx = x + w;
-  const mk = 'var(--pcfg-mark)';
-  const st = 'var(--pcfg-steel)';
-  const tick = (xx: number, yy: number) => <path d={`M${xx - 5},${yy + 5}L${xx + 5},${yy - 5}`} stroke={mk} strokeWidth="1.5" />;
-  return (
-    <svg viewBox={`0 0 ${W} ${Hh}`} className="pcfg-svg" role="img" aria-label={label}>
-      <line x1={cx} y1={y - 30} x2={cx} y2={y + h + 14} stroke={st} strokeOpacity=".5" strokeDasharray="14 4 2 4" />
-      <line x1={x - 14} y1={cy} x2={x + w + 30} y2={cy} stroke={st} strokeOpacity=".5" strokeDasharray="14 4 2 4" />
-      <text x={x + w + 34} y={cy + 4} fill={st} className="pcfg-svg-axis">x</text>
-      <text x={cx + 6} y={y - 32} fill={st} className="pcfg-svg-axis">y</text>
-      <path d={`${rrect(x, y, w, h, R)} ${rrect(x + th, y + th, w - 2 * th, h - 2 * th, Ri)}`} fillRule="evenodd" fill="#DCE4EF" fillOpacity=".92" stroke="#fff" strokeWidth="1" />
-      <line x1={x} y1={y + h + 6} x2={x} y2={dimY + 8} stroke={mk} strokeOpacity=".6" />
-      <line x1={x + w} y1={y + h + 6} x2={x + w} y2={dimY + 8} stroke={mk} strokeOpacity=".6" />
-      <line x1={x} y1={dimY} x2={x + w} y2={dimY} stroke={mk} strokeWidth="1.2" />
-      {tick(x, dimY)}
-      {tick(x + w, dimY)}
-      <text x={cx} y={dimY + 22} textAnchor="middle" fill={mk} className="pcfg-svg-dim">{circle ? `D = ${fmt(B)}` : `B = ${fmt(B)}`}</text>
-      {!circle ? (
-        <>
-          <line x1={x - 6} y1={y} x2={dimX - 8} y2={y} stroke={mk} strokeOpacity=".6" />
-          <line x1={x - 6} y1={y + h} x2={dimX - 8} y2={y + h} stroke={mk} strokeOpacity=".6" />
-          <line x1={dimX} y1={y} x2={dimX} y2={y + h} stroke={mk} strokeWidth="1.2" />
-          {tick(dimX, y)}
-          {tick(dimX, y + h)}
-          <text x={dimX - 12} y={cy} textAnchor="middle" fill={mk} className="pcfg-svg-dim" transform={`rotate(-90 ${dimX - 12} ${cy})`}>{`H = ${fmt(H)}`}</text>
-        </>
-      ) : null}
-      {tt ? (
-        <>
-          <line x1={tx + 46} y1={ty} x2={tx - th} y2={ty} stroke={mk} strokeWidth="1" />
-          <circle cx={tx - th / 2} cy={ty} r="2.2" fill={mk} />
-          <text x={tx + 50} y={ty + 4} fill={mk} className="pcfg-svg-dim">{`t = ${fmt(tt)}`}</text>
-        </>
-      ) : null}
-    </svg>
   );
 }

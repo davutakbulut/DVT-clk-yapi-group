@@ -10,7 +10,7 @@ import { IDLE } from '@/lib/formState';
 import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveProduct, saveProductCategory } from '../../actions';
 import type { AdminProduct, AdminProductCategory, Choice } from '../../data/adminProductsRepository';
-import { formatFacts } from '../../domain/productConfig';
+import { DRAW_KINDS, formatFacts, formatFormats, formatGrouped, formatGroups } from '../../domain/productConfig';
 import { formatSpecs, formatVariants } from '../../domain/productLines';
 import { MediaPicker } from '@/modules/media';
 
@@ -61,21 +61,72 @@ export function ProductForm({ product, images, documents, categories, services }
         <p className="text-xs text-muted-foreground">{t('products.selectorHint')}</p>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="grid gap-1">
+            <Label htmlFor="f-draw">{t('products.draw')}</Label>
+            <select id="f-draw" name="draw" defaultValue={product?.options.draw ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+              <option value="">{t('common.none')}</option>
+              {DRAW_KINDS.map((k) => (
+                <option key={k} value={k}>
+                  {t(`products.drawKinds.${k}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-sizeUi">{t('products.sizeUi')}</Label>
+            <select id="f-sizeUi" name="sizeUi" defaultValue={product?.options.sizeUi ?? 'select'} className="h-9 rounded-md border bg-background px-2 text-sm">
+              <option value="select">{t('products.sizeUiSelect')}</option>
+              <option value="chips">{t('products.sizeUiChips')}</option>
+            </select>
+          </div>
+          <div className="grid gap-1">
             <Label htmlFor="f-grades">{t('products.grades')}</Label>
-            <Input id="f-grades" name="grades" defaultValue={product?.options.grades.join(', ') ?? ''} placeholder="S235JRH, S275J0H, S355J2H" />
+            <Textarea id="f-grades" name="grades" rows={2} defaultValue={product ? formatGrouped(product.options.grades, product.options.gradesByGroup) : ''} placeholder={'S235JRH, S275J0H, S355J2H\nDKP: DC01, DC03'} />
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-groups">{t('products.groups')}</Label>
+            <Textarea id="f-groups" name="groups" rows={2} defaultValue={product ? formatGroups(product.options.groups) : ''} placeholder={'K | Kare | Square\nD | Dikdörtgen | Rectangular' /* static-ok: panel yer tutucu, biçim örneği */} />
           </div>
           <div className="grid gap-1">
             <Label htmlFor="f-lengthsM">{t('products.lengths')}</Label>
             <Input id="f-lengthsM" name="lengthsM" defaultValue={product?.options.lengthsM.join(', ') ?? ''} placeholder="6, 12" inputMode="decimal" />
           </div>
           <div className="grid gap-1">
-            <Label htmlFor="f-unit">{t('products.unit')}</Label>
-            <Input id="f-unit" name="unit" defaultValue={product?.options.unit ?? ''} placeholder={tp('unitDefault')} maxLength={20} />
+            <Label htmlFor="f-formats">{t('products.formats')}</Label>
+            <Textarea id="f-formats" name="formats" rows={2} defaultValue={product ? formatFormats(product.options.formats) : ''} placeholder={'HRP: 1000×2000, 1250×2500, 1500×3000'} />
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-surfaces">{t('products.surfaces')}</Label>
+            <Textarea id="f-surfaces" name="surfaces" rows={2} defaultValue={product ? formatGrouped(product.options.surfaces, product.options.surfacesByGroup) : ''} placeholder={'black, galv, red\nGLV: galv'} />
+            <p className="text-xs text-muted-foreground">{t('products.surfacesHint')}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-1">
+              <Label htmlFor="f-unit">{t('products.unit')}</Label>
+              <Input id="f-unit" name="unit" defaultValue={product?.options.unit ?? ''} placeholder={tp('unitDefault')} maxLength={20} />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor="f-qtyDefault">{t('products.qtyDefault')}</Label>
+              <Input id="f-qtyDefault" name="qtyDefault" defaultValue={product?.options.qtyDefault ?? ''} inputMode="numeric" placeholder="10" />
+            </div>
+            <div className="grid gap-1">
+              <Label htmlFor="f-pattern">{t('products.pattern')}</Label>
+              <select id="f-pattern" name="pattern" defaultValue={product?.options.pattern ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+                <option value="">{t('common.none')}</option>
+                <option value="tear">{t('products.patternTear')}</option>
+              </select>
+            </div>
           </div>
           <label className="flex items-center gap-2 self-end text-sm">
             <input type="checkbox" name="customLength" defaultChecked={product?.options.customLength ?? false} /> {t('products.customLength')}
           </label>
         </div>
+        <LocalizedField name="groupLabel" label={t('products.groupLabel')} value={product?.options.groupLabel} state={state} />
+        <LocalizedField name="sizeLabel" label={t('products.sizeLabel')} value={product?.options.sizeLabel} state={state} />
+        <LocalizedField name="variantLabel" label={t('products.variantLabel')} value={product?.options.variantLabel} state={state} hint={t('products.variantLabelHint')} />
+        <LocalizedField name="gradeLabel" label={t('products.gradeLabel')} value={product?.options.gradeLabel} state={state} />
+        <LocalizedField name="lengthLabel" label={t('products.lengthLabel')} value={product?.options.lengthLabel} state={state} />
+        <LocalizedField name="oneLabel" label={t('products.oneLabel')} value={product?.options.oneLabel} state={state} />
+        <LocalizedField name="tableNote" label={t('products.tableNote')} value={product?.options.tableNote} state={state} multiline rows={2} />
         <LocalizedField name="facts" label={t('products.facts')} value={product ? { tr: formatFacts(product.facts, 'tr'), en: formatFacts(product.facts, 'en') } : null} state={state} multiline rows={3} hint={t('products.factsHint')} />
       </FormSection>
       <FormSection title={t('products.specs')}>

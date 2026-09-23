@@ -7,6 +7,17 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — ürün sayfaları örnek sayfalar gibi · koyu renk sistemi · 3B (K-90, K-91)
+- **Ürün başlığı:** koyu geniş bant kaldırıldı; kırıntı → aile çubuğu (aynı kategorideki yayındaki ürünler, geçerli işaretli) → satır satır büyük başlık + giriş → gerçekler
+- **Seçici motoru:** kesit türüne göre 2B çizim (kutu, boru, I/H, eğimli I, U, L, T, lama, trapez/sinüs/kenet, plaka), plaka modu (kg/m² × hazır/özel ebat), trapez (levha boyu, örtü alanı), yüzey seçimi + galvaniz payı, grup bazlı kalite/ebat/yüzey, ölçü çipleri ya da liste, kesit değerleri (A, Ix, Iy, Wx, Wy, ix, iy, I, W, i, iv, ey, ex, e, u, we, coil, h, p), kesit türüne göre tablo sütunları
+- **3B görünüm:** "3B" düğmesiyle three.js dinamik iner (ilk yüke girmez); sürükleyerek çevirme, Ctrl+tekerlek yakınlaştırma, klavye okları, döndür/sıfırla; yüzey dokuları ve RAL renkleri
+- **Veri:** `0047` — `product_variants.size_key / kg_per_m2 / dims`, RPC'de grup kodu; `products.options` genişledi (draw, pattern, groups, etiketler, grades_by_group, formats, surfaces). `scripts/import-product-families.mjs`: 15 aile → 18 ürün (sac tipleri ayrı ürünlere; lama ve T profil yeni) — 1.000+ ölçü, özellikler, SSS, gerçekler, kısa açıklamalar
+- **Panel:** Ürün → Seçici bölümünde kesit türü, ölçü seçimi biçimi, gruplar, grup bazlı kaliteler, plaka ebatları, yüzeyler, varsayılan adet, desen ve 7 etiket; varyant alanı CSV başlıklı biçimi kabul eder
+- **Sepet:** plaka kalemleri (kg/m² × alan), yüzey ve ebat nitelikleri
+- **Renk sistemi:** örnek sayfaların koyu paleti tüm sitede (zemin/yüzey/metin/çizgi/altın işaret/odak mavisi); birincil buton açık zemin, koyu bantlarda altın; yorum kaynak rozetleri koyu zemine uyarlandı
+- **Düzeltme:** hover'da kaybolan buton zemini — shadcn tema katmanı `--color-accent`/`--color-border`'ı eziyordu; site tokenları `base` katmanına alındı
+- **Testler:** `productConfig`/`productLines` birim (K-90 biçimleri, plaka/galvaniz hesabı), DB `0047`, `product-selector.spec` (kutu, HEA çipleri, DKP plaka, 3B yükleme)
+
 ### Eklendi — ürün kapak/galeri görselleri (kendi fotoğraflarımızdan) · önbellek düşürme ucu
 - `scripts/product-covers.mjs <eşleme.json> <assets klasörleri>`: firmanın kendi fotoğraflarını ürün kapağı + galeri olarak yükler (media/products, WebP varyantları, kararlı id). IPE, HEA, HEB, HEM, IPN ve beyaz alçıpan için uygulandı; HEA/HEB'in yanlış kapağı (saha videosu posteri) düzeltildi
 - `/api/cron/revalidate?tags=…` (CRON_SECRET): panel dışı veri değişikliklerinden sonra etiket düşürme (K-89)

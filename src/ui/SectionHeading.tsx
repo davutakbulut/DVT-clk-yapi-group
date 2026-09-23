@@ -13,7 +13,8 @@ interface Props {
 
 export function SectionHeading({ index, kicker, title, lead, as: Tag = 'h2', align = 'start', onDark = false }: Props) {
   const color = onDark ? 'text-[var(--color-text-inverse)]' : 'text-[var(--color-text)]';
-  const badge = onDark ? 'bg-[var(--color-accent-on-dark)] text-[var(--ink)]' : 'bg-[var(--color-accent-text)] text-[var(--color-text-inverse)]';
+  // Numara rozeti: altın zemin üstünde her zaman koyu mürekkep (K-91: koyu temada --color-text-inverse açık renktir → 1,4:1 olurdu)
+  const badge = onDark ? 'bg-[var(--color-accent-on-dark)] text-[var(--ink)]' : 'bg-[var(--color-accent-text)] text-[var(--ink)]';
   const leadColor = onDark ? 'text-[var(--color-text-inverse-muted)]' : 'text-[var(--color-text-muted)]';
   return (
     <div className={`grid gap-4 ${align === 'center' ? 'justify-items-center text-center' : ''}`}>

@@ -5,7 +5,7 @@ import { createPublicClient } from '@/core/db/createPublicClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import type { MediaAsset } from '@/core/storage';
 import { isLocalizedText, pickLocale } from '@/lib/localized';
-import { readFacts, readOptions, readProps, type PropKey, type ProductOptions } from '../domain/productConfig';
+import { readDims, readFacts, readOptions, readProps, type Dims, type PropKey, type ProductOptions } from '../domain/productConfig';
 
 export interface ProductCategoryRef {
   readonly id: string;
@@ -31,14 +31,18 @@ export interface ProductCardData {
 export interface ProductVariant {
   readonly id: string;
   readonly sizeLabel: string;
+  readonly sizeKey: string | null;
   readonly widthMm: number | null;
   readonly heightMm: number | null;
   readonly thicknessMm: number | null;
   readonly lengthMm: number | null;
   readonly kgPerM: number | null;
+  readonly kgPerM2: number | null;
   readonly stockCode: string | null;
+  /** Grup kodu (K-90) ya da eski dil etiketi (K-88). */
   readonly group: string | null;
   readonly props: Partial<Record<PropKey, number>>;
+  readonly dims: Dims;
 }
 
 export interface ProductDetailData {
@@ -140,7 +144,7 @@ async function fetchProductBySlug(locale: string, slug: string): Promise<Result<
     service: service?.slug && service.title ? { slug: service.slug, title: service.title } : null,
     images: ((d['images'] ?? []) as NonNullable<RpcMedia>[]).map((m) => rpcMedia(m, locale)!),
     specs: ((d['specs'] ?? []) as { group: string | null; name: string | null; value: string | null; unit: string | null }[]).map((s) => ({ group: s.group ?? '', name: s.name ?? '', value: s.value ?? '', unit: s.unit })),
-    variants: ((d['variants'] ?? []) as Record<string, unknown>[]).map((v) => ({ id: String(v['id']), sizeLabel: String(v['size_label'] ?? ''), widthMm: num(v['width_mm']), heightMm: num(v['height_mm']), thicknessMm: num(v['thickness_mm']), lengthMm: num(v['length_mm']), kgPerM: num(v['kg_per_m']), stockCode: (v['stock_code'] as string | null) ?? null, group: typeof v['variant_group'] === 'string' && v['variant_group'] ? v['variant_group'] : null, props: readProps(v['props']) })),
+    variants: ((d['variants'] ?? []) as Record<string, unknown>[]).map((v) => ({ id: String(v['id']), sizeLabel: String(v['size_label'] ?? ''), sizeKey: typeof v['size_key'] === 'string' && v['size_key'] ? v['size_key'] : null, widthMm: num(v['width_mm']), heightMm: num(v['height_mm']), thicknessMm: num(v['thickness_mm']), lengthMm: num(v['length_mm']), kgPerM: num(v['kg_per_m']), kgPerM2: num(v['kg_per_m2']), stockCode: (v['stock_code'] as string | null) ?? null, group: typeof v['variant_group'] === 'string' && v['variant_group'] ? v['variant_group'] : null, props: readProps(v['props']), dims: readDims(v['dims']) })),
     options: readOptions(d['options']),
     facts: readFacts(d['facts']).map((f) => ({ label: pickLocale(f.label, locale), value: pickLocale(f.value, locale) })).filter((f) => f.label || f.value),
     documents: ((d['documents'] ?? []) as { title: string | null; doc_type: string; bucket: string; path: string; size_bytes: number | null }[]).filter((x) => x.title).map((x) => ({ title: x.title!, docType: x.doc_type, bucket: x.bucket, path: x.path, sizeBytes: x.size_bytes })),

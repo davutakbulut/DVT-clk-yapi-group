@@ -29,13 +29,15 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 
 ## 2. Renk
 
-- Vurgu **çelik mavisi**: çizgi/zemin `--color-accent`, metin `--color-accent-text`. **Altın/sarı vurgu yok.**
+- **Koyu palet (K-91):** sayfa zemini `--color-bg` (#12161c), kart/panel `--color-surface` (#1a1f27), koyu bant (header, footer, çizim paneli) `--color-surface-dark` (#0e1622); metin `--color-text` (#ecebe7), ikincil `--color-text-muted`.
+- Vurgu **altın işaret**: zemin/çizgi `--color-accent` (#f2c230), metin `--color-accent-text` (koyu zeminde aynı altın, 11:1). Altın **açık zeminde metin olarak kullanılmaz** (1,7:1).
+- "Metin rengi zemin" (aktif çip, birincil buton) üstündeki metin **`--color-bg`**'dir, `--color-text-inverse` değil (koyu temada ikisi aynı açık renk olur).
 - Bir bölümde vurgu rengi en fazla iki öğede (aktif kart çerçevesi + aktif nokta gibi).
 - İstisnalar (anlam taşıyan renkler):
   - Puan yıldızı: `#c9962f` (evrensel "yıldız" rengi; yalnız `.star-on`).
   - Kaynak rozetleri (`t-badge-google|manual|visitor|verified`): açık zeminli anlamsal tonlar.
   - "Örnek" rozeti: koyu zemin (`--color-surface-dark`) — gözden kaçmamalı.
-- Kart zemini `--color-surface` (beyaz), sayfa zemini `--color-bg` (kâğıt).
+- Kart zemini `--color-surface`, sayfa zemini `--color-bg`; ham hex yazılmaz. `--color-accent` / `--color-border` adları shadcn temasıyla çakışır → site tokenları `base` katmanında kalır (K-91), yeni token eklerken katmanı değiştirme.
 
 ## 3. Köşe · Gölge
 
@@ -82,6 +84,12 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - `<select>` kabına sığar (`width:100%; min-width:0`) — uzun seçenek metni sayfayı genişletmesin.
 - `100dvh` (asla `100vh`), mobilde ScrollTrigger `pin` yok, dokunma hedefi ≥ 24×24 (tercihen 44).
 - Her yeni bölüm `e2e/mobile-overflow.spec.ts` ve axe denetiminden geçer.
+
+## 8b. Ürün sayfası (K-90)
+
+- Başlık koyu bant DEĞİL: kırıntı → aile çubuğu (`.fams`, aynı kategori, geçerli `aria-current`) → `.product-head` (her kelime ayrı satırda büyük başlık + giriş) → `.product-facts`.
+- Seçici paneli koyu çizim + açık yüzey panel; seçili çip altın zemin + mürekkep metin; segment (grup) metin-rengi zemin.
+- 3B yalnız düğmeyle yüklenir; three.js ilk yüke girmez (K-24).
 
 ## 8a. Araç sayfaları (konfigüratör)
 

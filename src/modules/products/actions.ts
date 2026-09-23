@@ -10,7 +10,7 @@ import { createServerClient, type ServerDbClient } from '@/core/db/createServerC
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
-import { parseFacts, parseList, parseNumberList, writeOptions } from './domain/productConfig';
+import { DRAW_KINDS, parseFacts, parseFormats, parseGrouped, parseGroups, parseNumberList, writeOptions, SURFACE_KEYS, type SurfaceKey } from './domain/productConfig';
 import { parseSpecs, parseVariants } from './domain/productLines';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
@@ -50,12 +50,27 @@ const productSchema = publishSchema.extend({
   specsTr: long,
   specsEn: long,
   variants: long,
-  grades: short,
+  grades: long,
   lengthsM: short,
   customLength: z.boolean(),
   unit: z.string().trim().max(20).optional().or(z.literal('')),
   factsTr: long,
   factsEn: long,
+  // K-90: kesit türü, gruplar, etiketler, plaka ebatları, yüzeyler
+  draw: z.enum(['', ...DRAW_KINDS]).optional(),
+  pattern: z.enum(['', 'tear']).optional(),
+  sizeUi: z.enum(['select', 'chips']).optional(),
+  qtyDefault: z.string().trim().max(6).optional().or(z.literal('')),
+  groups: long,
+  formats: long,
+  surfaces: long,
+  groupLabelTr: short, groupLabelEn: short,
+  sizeLabelTr: short, sizeLabelEn: short,
+  variantLabelTr: short, variantLabelEn: short,
+  gradeLabelTr: short, gradeLabelEn: short,
+  lengthLabelTr: short, lengthLabelEn: short,
+  oneLabelTr: short, oneLabelEn: short,
+  tableNoteTr: long, tableNoteEn: long,
   seoTitleTr: short,
   seoTitleEn: short,
   seoDescriptionTr: short,
@@ -79,6 +94,9 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
   if (!client.ok) return failed('notConfigured');
 
   const slug = slugMap({ slugTr: v.slugTr, slugEn: v.slugEn, titleTr: v.nameTr });
+  const grades = parseGrouped(v.grades ?? '');
+  const surfaces = parseGrouped(v.surfaces ?? '');
+  const isSurface = (x: string): x is SurfaceKey => (SURFACE_KEYS as readonly string[]).includes(x);
   const existing = v.id ? await readPublishedAt(client.data, 'products', v.id) : null;
   const publish = publishColumns(v, { titleEn: v.nameEn ?? '', slugEn: slug['en'] ?? null, hasSlug: true, reviewerId: gate.data.id }, existing);
   if (!publish.ok) return failed('validation', { [publish.field]: 'validation' });
@@ -94,7 +112,15 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     cover_image_id: v.coverImageId || null,
     og_image_id: v.ogImageId || null,
     is_featured: v.isFeatured,
-    options: writeOptions({ grades: parseList(v.grades ?? ''), lengthsM: parseNumberList(v.lengthsM ?? ''), customLength: v.customLength, unit: v.unit || null }) as Json,
+    options: writeOptions({
+      grades: grades.flat, gradesByGroup: grades.byGroup, lengthsM: parseNumberList(v.lengthsM ?? ''), customLength: v.customLength, unit: v.unit || null,
+      draw: v.draw || null, pattern: v.pattern === 'tear' ? 'tear' : null, sizeUi: v.sizeUi === 'chips' ? 'chips' : 'select',
+      qtyDefault: Number(v.qtyDefault) > 0 ? Math.floor(Number(v.qtyDefault)) : null,
+      groups: parseGroups(v.groups ?? ''), formats: parseFormats(v.formats ?? ''),
+      surfaces: surfaces.flat.filter(isSurface), surfacesByGroup: Object.fromEntries(Object.entries(surfaces.byGroup).map(([g, l]) => [g, l.filter(isSurface)]).filter(([, l]) => (l as string[]).length)),
+      groupLabel: localized(v.groupLabelTr, v.groupLabelEn), sizeLabel: localized(v.sizeLabelTr, v.sizeLabelEn), variantLabel: localized(v.variantLabelTr, v.variantLabelEn),
+      gradeLabel: localized(v.gradeLabelTr, v.gradeLabelEn), lengthLabel: localized(v.lengthLabelTr, v.lengthLabelEn), oneLabel: localized(v.oneLabelTr, v.oneLabelEn), tableNote: localized(v.tableNoteTr, v.tableNoteEn),
+    }) as Json,
     facts: parseFacts(v.factsTr ?? '', v.factsEn ?? '') as unknown as Json,
     seo_title: localized(v.seoTitleTr, v.seoTitleEn),
     seo_description: localized(v.seoDescriptionTr, v.seoDescriptionEn),
@@ -124,7 +150,9 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     docs.push({ product_id: id, media_id: media, title: localized(titleTr, titleEn), doc_type: DOC_TYPES.includes(type as (typeof DOC_TYPES)[number]) ? type : 'other', locales: titleEn ? ['tr', 'en'] : ['tr'], sort_order: docs.length + 1 });
   }
   const specs = parseSpecs(v.specsTr ?? '', v.specsEn ?? '').map((s, i) => ({ product_id: id, group_name: s.group as Json, name: s.name as Json, value: s.value as Json, unit: s.unit, sort_order: i + 1 }));
-  const variants = parseVariants(v.variants ?? '').map((x, i) => ({ product_id: id, size_label: x.sizeLabel, width_mm: x.widthMm, height_mm: x.heightMm, thickness_mm: x.thicknessMm, length_mm: x.lengthMm, kg_per_m: x.kgPerM, stock_code: x.stockCode, variant_group: (x.variantGroup ? { tr: x.variantGroup } : {}) as Json, props: x.props as Json, sort_order: i + 1 }));
+  // Grup: panelde tanımlı kod ise {code}, değilse eski dil etiketi {tr}
+  const groupCodes = new Set(parseGroups(v.groups ?? '').map((g) => g.code));
+  const variants = parseVariants(v.variants ?? '').map((x, i) => ({ product_id: id, size_label: x.sizeLabel, size_key: x.sizeKey, width_mm: x.widthMm, height_mm: x.heightMm, thickness_mm: x.thicknessMm, length_mm: x.lengthMm, kg_per_m: x.kgPerM, kg_per_m2: x.kgPerM2, stock_code: x.stockCode, variant_group: (x.variantGroup ? (groupCodes.has(x.variantGroup) || /^[A-Z0-9_-]{1,12}$/.test(x.variantGroup) ? { code: x.variantGroup } : { tr: x.variantGroup }) : {}) as Json, props: x.props as Json, dims: x.dims as Json, sort_order: i + 1 }));
   const relErr =
     (await replaceChildren(client.data, 'product_images', id, ids(formData, 'gallery').map((media_id, i) => ({ product_id: id, media_id, sort_order: i + 1 })))) ??
     (await replaceChildren(client.data, 'product_specs', id, specs)) ??
