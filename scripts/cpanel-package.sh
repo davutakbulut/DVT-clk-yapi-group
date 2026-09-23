@@ -27,6 +27,13 @@ echo "2/4 Paket toplanıyor…"
 cp -R .next-cpanel/standalone/. "$APP/"
 mkdir -p "$APP/.next-cpanel"
 cp -R .next-cpanel/static "$APP/.next-cpanel/static"
+# K-101: önceki derlemelerin statik parçaları da pakete girer (içerik hash'li → çakışmaz). Dağıtım anında açık kalan eski
+# sayfalar yeni sunucudan eski chunk/css isteyince 404 + "MIME text/html" hatası alıyordu; son 3 derleme korunur.
+HIST="$OUT/static-history"; BID=$(cat .next-cpanel/BUILD_ID); mkdir -p "$HIST"
+rm -rf "$HIST/$BID"; cp -R .next-cpanel/static "$HIST/$BID"
+ls -1t "$HIST" | tail -n +4 | while read -r old; do rm -rf "$HIST/$old"; done
+for h in "$HIST"/*/; do [ "$(basename "$h")" = "$BID" ] && continue; cp -Rn "$h". "$APP/.next-cpanel/static/" 2>/dev/null || true; done
+echo "Statik geçmiş: $(ls -1 "$HIST" | wc -l | tr -d ' ') derleme korunuyor"
 [ -d public ] && cp -R public "$APP/public"
 # Sırlar ve geliştirme artıkları pakete girmez
 rm -f "$APP"/.env "$APP"/.env.* 2>/dev/null || true

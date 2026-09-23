@@ -151,3 +151,7 @@ Veritabanı değişiklikleri (migration) hosting'den bağımsızdır: `npm run d
 - Otomatik yayın yok (Vercel'deki gibi push → yayın olmaz); her güncelleme yukarıdaki adımlarla
 - Başlangıç dosyasında `HOSTNAME=0.0.0.0` **değiştirilmez**: belirli bir ad verilirse çeviri yolları (`/tr/urunler`) 307 döngüsüne girer
 - Paylaşımlı sunucuda komşu sitelerin yükü hızı etkiler; ölçüm kötüyse VPS'e geçiş aynı paketle yapılır (`node app.js` + nginx)
+
+## Dağıtım anında 404 chunk / "MIME text/html" (K-101)
+
+Dağıtımda `app/` klasörü yenilenince, o sırada açık olan eski sayfalar eski hash'li `_next/static` dosyalarını ister ve 404 (HTML) alır. `cpanel-package.sh` bu yüzden son 3 derlemenin statik parçalarını `deploy/static-history/` altında saklar ve yeni pakete `cp -n` ile ekler; içerik hash'li oldukları için çakışmaz. Kullanıcı sayfayı yenileyince zaten yeni sürüm gelir.

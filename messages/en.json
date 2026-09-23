@@ -1473,7 +1473,15 @@
           "secondary_beam": "Secondary beam section"
         }
       },
-      "hallTitle": "Steel hall configurator"
+      "hallTitle": "Steel hall configurator",
+      "simple": {
+        "title": "Other configurators (K-100)",
+        "hint": "JSON rule objects: limits, unit weights, sections, product slugs. Empty → defaults.",
+        "cladding": "Roof & wall cladding",
+        "mezzanine": "Mezzanine platform",
+        "fence": "Fence & railing",
+        "drywall": "Drywall partition"
+      }
     },
     "navGroups": {
       "overview": "Overview",
@@ -2218,6 +2226,26 @@
         "title": "Multi-storey steel building",
         "body": "Column-and-beam frame for offices, housing and commercial buildings. Grid spacing, column count and raft thickness follow the number of floors.",
         "params": "Width · length · storey height · floors"
+      },
+      "cladding": {
+        "title": "Roof & wall cladding",
+        "body": "Trapezoidal sheet or sandwich panel count, m², weight, screws, ridge and gutter take-off for a gable roof and walls.",
+        "params": "Width · length · slope · wall height · material"
+      },
+      "mezzanine": {
+        "title": "Mezzanine platform",
+        "body": "Steel mezzanine for warehouses and workshops: column grid, main/secondary beams, decking and concrete, stairs, handrail.",
+        "params": "Width · length · height · column grid · load class"
+      },
+      "fence": {
+        "title": "Fence & railing",
+        "body": "Box-section posts and rails: posts, rails, infill bars/flat bars, paint area, galvanising allowance.",
+        "params": "Length · height · spacing · rails · infill · gates"
+      },
+      "drywall": {
+        "title": "Drywall partition",
+        "body": "Boards, C studs, U tracks, screws, joint tape, compound and rock wool take-off for a partition wall.",
+        "params": "Length · height · layers · stud spacing · doors"
       }
     },
     "multiStorey": {
@@ -2261,7 +2289,194 @@
       "open": "Dimensions & take-off",
       "close": "Close panel"
     },
-    "backToTypes": "Configurators"
+    "backToTypes": "Configurators",
+    "simple": {
+      "unit": "pcs",
+      "takeoff": "Take-off",
+      "item": "Item",
+      "spec": "Section / size",
+      "qty": "Quantity",
+      "weight": "Weight",
+      "add": "Add to basket",
+      "addAll": "Add all to quote basket",
+      "added": "Item added to the quote basket.",
+      "addedAll": "{count} items added to the quote basket.",
+      "noProducts": "No product is linked to this item; request a quote.",
+      "total": "Total weight",
+      "quote": "Request a quote",
+      "cladding": {
+        "canvasLabel": "Roof section and dimensions",
+        "note": "Sheet counts use effective width, end lap and waste; values are nominal.",
+        "params": {
+          "width": "Building width",
+          "length": "Building length",
+          "slopePct": "Roof slope",
+          "wallHeight": "Wall height",
+          "overhang": "Eave overhang",
+          "roofType": "Roof cladding",
+          "wallType": "Wall cladding",
+          "insulated": "Insulated"
+        },
+        "options": {
+          "roofType": {
+            "trapez": "Trapezoidal sheet",
+            "sandwich": "Sandwich panel"
+          },
+          "wallType": {
+            "none": "None",
+            "trapez": "Trapezoidal sheet",
+            "sandwich": "Sandwich panel"
+          }
+        },
+        "stats": {
+          "roofArea": "Roof area",
+          "wallArea": "Wall area",
+          "slopeLen": "Slope length",
+          "ridgeHeight": "Ridge height",
+          "weight": "Cladding weight"
+        },
+        "lines": {
+          "roofSheets": "Roof sheets",
+          "roofArea": "Roof cladding area (incl. waste)",
+          "ridgeCap": "Ridge cap",
+          "gutter": "Gutter",
+          "roofScrews": "Roof screws",
+          "wallSheets": "Wall sheets",
+          "wallArea": "Wall cladding area (incl. waste)",
+          "cornerFlashing": "Corner flashing",
+          "wallScrews": "Wall screws"
+        },
+        "caption": "{length} m long · {area} m² roof"
+      },
+      "mezzanine": {
+        "canvasLabel": "Mezzanine plan: column grid and beams",
+        "note": "Section choice is preliminary sizing; structural design is by a licensed engineer.",
+        "params": {
+          "width": "Platform width",
+          "length": "Platform length",
+          "height": "Floor height",
+          "grid": "Column spacing (max.)",
+          "load": "Load class",
+          "deck": "Decking"
+        },
+        "options": {
+          "load": {
+            "light": "Light (2.5 kN/m²)",
+            "medium": "Medium (5 kN/m²)",
+            "heavy": "Heavy (7.5 kN/m²)"
+          },
+          "deck": {
+            "composite": "Composite deck + concrete",
+            "grating": "Grating / plate"
+          }
+        },
+        "stats": {
+          "area": "Platform area",
+          "load": "Live load",
+          "grid": "Grid spacing",
+          "columns": "Columns",
+          "steel": "Total steel"
+        },
+        "lines": {
+          "columns": "Columns",
+          "mainBeams": "Main beams",
+          "secondaryBeams": "Secondary beams",
+          "deck": "Decking",
+          "concrete": "Concrete",
+          "stairs": "Stairs",
+          "handrail": "Handrail"
+        },
+        "caption": "{columns} columns · h = {height} m"
+      },
+      "fence": {
+        "canvasLabel": "Fence elevation: posts, rails and infill",
+        "note": "Post length includes embedment; kg/m from the box-section table.",
+        "params": {
+          "length": "Total length",
+          "height": "Height",
+          "postSpacing": "Post spacing",
+          "rails": "Rails",
+          "infill": "Infill",
+          "barSpacing": "Bar spacing",
+          "gates": "Gates",
+          "galvanized": "Hot-dip galvanised"
+        },
+        "options": {
+          "infill": {
+            "bars": "Vertical box bars",
+            "lama": "Horizontal flat bars",
+            "panel": "Panel",
+            "none": "None"
+          }
+        },
+        "stats": {
+          "length": "Length",
+          "posts": "Posts",
+          "paint": "Paint area",
+          "weight": "Steel weight",
+          "galvanize": "Galvanising allowance"
+        },
+        "lines": {
+          "posts": "Posts",
+          "rails": "Rails",
+          "bars": "Infill bars",
+          "lama": "Flat bar infill",
+          "panels": "Panels",
+          "gates": "Gates"
+        },
+        "caption": "{length} m · {rails} rails"
+      },
+      "drywall": {
+        "canvasLabel": "Wall elevation: studs and boards",
+        "note": "Consumption factors are average site values; door openings are deducted.",
+        "params": {
+          "length": "Wall length",
+          "height": "Wall height",
+          "doubleSided": "Boarded both sides",
+          "layers": "Layers per side",
+          "studSpacing": "Stud spacing",
+          "doors": "Doors",
+          "insulated": "Rock wool insulation",
+          "boardType": "Board type",
+          "boardSize": "Board size"
+        },
+        "options": {
+          "boardType": {
+            "white": "Standard board",
+            "green": "Moisture resistant",
+            "red": "Fire resistant"
+          },
+          "boardSize": {
+            "1200x2500": "1200 × 2500 mm",
+            "1200x2000": "1200 × 2000 mm",
+            "1200x3000": "1200 × 3000 mm"
+          },
+          "studSpacing": {
+            "0_4": "40 cm",
+            "0_6": "60 cm"
+          }
+        },
+        "stats": {
+          "netArea": "Net wall area",
+          "faceArea": "Boarded area",
+          "boards": "Boards",
+          "weight": "Total weight"
+        },
+        "lines": {
+          "boards": "Plasterboard",
+          "studs": "C studs",
+          "tracks": "U tracks",
+          "screws": "Drywall screws",
+          "tape": "Joint tape",
+          "compound": "Joint compound",
+          "insulation": "Rock wool"
+        },
+        "caption": "{length} m · {layers} layer(s) · {sides} side(s)"
+      },
+      "viewLabel": "View",
+      "view2d": "2D",
+      "view3d": "3D"
+    }
   },
   "FieldVideos": {
     "lead": "Short clips from our sites and erection work.",

@@ -59,6 +59,10 @@ export const routing = defineRouting({
     // Seçim sayfası → tür sayfaları (K-80)
     '/configurator/hall': { tr: '/konfigurator/hol', en: '/configurator/hall' },
     '/configurator/multi-storey': { tr: '/konfigurator/cok-katli', en: '/configurator/multi-storey' },
+    '/configurator/cladding': { tr: '/konfigurator/cati-cephe', en: '/configurator/cladding' },
+    '/configurator/mezzanine': { tr: '/konfigurator/ara-kat', en: '/configurator/mezzanine' },
+    '/configurator/fence': { tr: '/konfigurator/cit-korkuluk', en: '/configurator/fence' },
+    '/configurator/drywall': { tr: '/konfigurator/alcipan-duvar', en: '/configurator/drywall' },
     '/configurator/k/[token]': { tr: '/konfigurator/k/[token]', en: '/configurator/k/[token]' },
     '/configurator/k/[token]/print': { tr: '/konfigurator/k/[token]/yazdir', en: '/configurator/k/[token]/print' },
     // Faz 17 · müşteri yorumları

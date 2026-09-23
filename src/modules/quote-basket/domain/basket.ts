@@ -20,10 +20,10 @@ export interface BasketItem {
 
 /** Aynı ürün+varyant ama farklı kalite/boy ayrı kalemdir. */
 export const itemKey = (i: Pick<BasketItem, 'productId' | 'variantId'> & { readonly attributes?: Readonly<Record<string, string | number>> }) =>
-  `${i.productId}:${i.variantId ?? ''}:${i.attributes?.['grade'] ?? ''}:${i.attributes?.['length_m'] ?? ''}:${i.attributes?.['format'] ?? ''}:${i.attributes?.['surface'] ?? ''}`;
+  `${i.productId}:${i.variantId ?? ''}:${i.attributes?.['grade'] ?? ''}:${i.attributes?.['length_m'] ?? ''}:${i.attributes?.['format'] ?? ''}:${i.attributes?.['surface'] ?? ''}:${i.attributes?.['spec'] ?? ''}`;
 
 /** K-88 kalite/boy/kg; K-90 yüzey, plaka ebadı (format), alan ve kg/m² */
-const ATTR_KEYS = ['grade', 'length_m', 'kg_per_m', 'total_kg', 'surface', 'format', 'area_m2', 'kg_per_m2'] as const;
+const ATTR_KEYS = ['grade', 'length_m', 'kg_per_m', 'total_kg', 'surface', 'format', 'area_m2', 'kg_per_m2', 'configurator', 'spec'] as const;
 function readAttributes(v: unknown): Record<string, string | number> | undefined {
   if (typeof v !== 'object' || v === null) return undefined;
   const out: Record<string, string | number> = {};

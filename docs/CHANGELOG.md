@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Eklendi — dört yeni konfigüratör (K-100) · dağıtım statik geçmişi (K-101)
+- `/konfigurator/cati-cephe`, `/ara-kat`, `/cit-korkuluk`, `/alcipan-duvar`: ortak `SimpleConfigurator` (alanlar, 2B SVG, metraj, sepete ekle, URL paylaşımı), kurallar panelden JSON; seçici sayfasında 6 kart; birim testleri (6) + E2E
+- Dağıtım paketi son 3 derlemenin `_next/static` dosyalarını taşır (dağıtım anındaki 404/MIME hataları)
+
 ### Eklendi — geliştirici imzası (K-99)
 - `site.developer` ayarı (`0048`): footer imzası, meta author/creator, JSON-LD WebSite.creator, /humans.txt, /llms.txt, X-Developed-By başlığı, panel kenar çubuğu
 

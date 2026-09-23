@@ -1473,7 +1473,15 @@
           "secondary_beam": "Tali kiriş profili"
         }
       },
-      "hallTitle": "Çelik hol konfigüratörü"
+      "hallTitle": "Çelik hol konfigüratörü",
+      "simple": {
+        "title": "Diğer konfigüratörler (K-100)",
+        "hint": "JSON kural nesneleri: limitler, birim ağırlıklar, profiller, ürün slug'ları. Boş bırakılırsa varsayılan kullanılır.",
+        "cladding": "Çatı & cephe kaplama",
+        "mezzanine": "Ara kat platformu",
+        "fence": "Çit & korkuluk",
+        "drywall": "Alçıpan bölme duvar"
+      }
     },
     "navGroups": {
       "overview": "Genel",
@@ -2218,6 +2226,26 @@
         "title": "Çok katlı çelik yapı",
         "body": "Ofis, konut ve ticari binalar için kolon-kiriş çerçeve. Aks aralığı, kolon adedi ve radye kalınlığı kat sayısına göre hesaplanır.",
         "params": "En · boy · kat yüksekliği · kat adedi"
+      },
+      "cladding": {
+        "title": "Çatı & cephe kaplama",
+        "body": "Beşik çatı ve cephe için trapez sac ya da sandviç panel adedi, m², ağırlık, vida, mahya ve oluk metrajı.",
+        "params": "En · boy · eğim · duvar yüksekliği · malzeme"
+      },
+      "mezzanine": {
+        "title": "Ara kat platformu",
+        "body": "Depo ve atölye içi çelik ara kat: kolon ızgarası, ana/tali kirişler, döşeme sacı ve beton, merdiven, korkuluk.",
+        "params": "En · boy · yükseklik · kolon aralığı · yük sınıfı"
+      },
+      "fence": {
+        "title": "Çit & korkuluk",
+        "body": "Kutu profil direk ve kuşaklarla çit ya da korkuluk: direk, kuşak, dolgu çubuğu/lama metrajı, boya yüzeyi, galvaniz payı.",
+        "params": "Uzunluk · yükseklik · aks · kuşak · dolgu · kapı"
+      },
+      "drywall": {
+        "title": "Alçıpan bölme duvar",
+        "body": "Bölme duvar için levha, C dikme, U ray, vida, derz bandı, dolgu ve taş yünü metrajı.",
+        "params": "Uzunluk · yükseklik · kat · dikme aralığı · kapı"
       }
     },
     "multiStorey": {
@@ -2261,7 +2289,194 @@
       "open": "Ölçüler ve metraj",
       "close": "Paneli kapat"
     },
-    "backToTypes": "Konfigüratörler"
+    "backToTypes": "Konfigüratörler",
+    "simple": {
+      "unit": "adet",
+      "takeoff": "Metraj",
+      "item": "Kalem",
+      "spec": "Profil / ölçü",
+      "qty": "Miktar",
+      "weight": "Ağırlık",
+      "add": "Sepete ekle",
+      "addAll": "Tümünü teklif sepetine ekle",
+      "added": "Kalem teklif sepetine eklendi.",
+      "addedAll": "{count} kalem teklif sepetine eklendi.",
+      "noProducts": "Bu kalem için sepete eklenecek ürün tanımlı değil; teklif isteyin.",
+      "total": "Toplam ağırlık",
+      "quote": "Teklif iste",
+      "cladding": {
+        "canvasLabel": "Çatı kesiti ve ölçüler",
+        "note": "Levha adedi faydalı genişlik, bindirme ve fire payıyla hesaplanır; nominal değerlerdir.",
+        "params": {
+          "width": "Bina eni",
+          "length": "Bina boyu",
+          "slopePct": "Çatı eğimi",
+          "wallHeight": "Duvar yüksekliği",
+          "overhang": "Saçak çıkması",
+          "roofType": "Çatı kaplaması",
+          "wallType": "Cephe kaplaması",
+          "insulated": "Yalıtımlı"
+        },
+        "options": {
+          "roofType": {
+            "trapez": "Trapez sac",
+            "sandwich": "Sandviç panel"
+          },
+          "wallType": {
+            "none": "Yok",
+            "trapez": "Trapez sac",
+            "sandwich": "Sandviç panel"
+          }
+        },
+        "stats": {
+          "roofArea": "Çatı alanı",
+          "wallArea": "Cephe alanı",
+          "slopeLen": "Eğik uzunluk",
+          "ridgeHeight": "Mahya yüksekliği",
+          "weight": "Kaplama ağırlığı"
+        },
+        "lines": {
+          "roofSheets": "Çatı levhaları",
+          "roofArea": "Çatı kaplama alanı (fireli)",
+          "ridgeCap": "Mahya kapaması",
+          "gutter": "Oluk",
+          "roofScrews": "Çatı vidası",
+          "wallSheets": "Cephe levhaları",
+          "wallArea": "Cephe kaplama alanı (fireli)",
+          "cornerFlashing": "Köşe kapaması",
+          "wallScrews": "Cephe vidası"
+        },
+        "caption": "{length} m boy · {area} m² çatı"
+      },
+      "mezzanine": {
+        "canvasLabel": "Ara kat planı: kolon ızgarası ve kirişler",
+        "note": "Profil seçimi ön boyutlandırmadır; statik hesap yetkili mühendisçe yapılır.",
+        "params": {
+          "width": "Platform eni",
+          "length": "Platform boyu",
+          "height": "Kat yüksekliği",
+          "grid": "Kolon aralığı (en fazla)",
+          "load": "Yük sınıfı",
+          "deck": "Döşeme"
+        },
+        "options": {
+          "load": {
+            "light": "Hafif (2,5 kN/m²)",
+            "medium": "Orta (5 kN/m²)",
+            "heavy": "Ağır (7,5 kN/m²)"
+          },
+          "deck": {
+            "composite": "Betonaltı trapez + beton",
+            "grating": "Izgara / sac"
+          }
+        },
+        "stats": {
+          "area": "Platform alanı",
+          "load": "Hareketli yük",
+          "grid": "Aks aralığı",
+          "columns": "Kolon adedi",
+          "steel": "Toplam çelik"
+        },
+        "lines": {
+          "columns": "Kolonlar",
+          "mainBeams": "Ana kirişler",
+          "secondaryBeams": "Tali kirişler",
+          "deck": "Döşeme sacı",
+          "concrete": "Beton",
+          "stairs": "Merdiven",
+          "handrail": "Korkuluk"
+        },
+        "caption": "{columns} kolon · h = {height} m"
+      },
+      "fence": {
+        "canvasLabel": "Çit görünüşü: direk, kuşak ve dolgu",
+        "note": "Direk boyuna gömme payı eklenir; kg/m değerleri kutu profil tablosundan.",
+        "params": {
+          "length": "Toplam uzunluk",
+          "height": "Yükseklik",
+          "postSpacing": "Direk aralığı",
+          "rails": "Kuşak sayısı",
+          "infill": "Dolgu",
+          "barSpacing": "Çubuk aralığı",
+          "gates": "Kapı adedi",
+          "galvanized": "Sıcak daldırma galvaniz"
+        },
+        "options": {
+          "infill": {
+            "bars": "Dikey kutu çubuk",
+            "lama": "Yatay lama",
+            "panel": "Panel",
+            "none": "Yok"
+          }
+        },
+        "stats": {
+          "length": "Uzunluk",
+          "posts": "Direk adedi",
+          "paint": "Boya yüzeyi",
+          "weight": "Çelik ağırlığı",
+          "galvanize": "Galvaniz payı"
+        },
+        "lines": {
+          "posts": "Direkler",
+          "rails": "Kuşaklar",
+          "bars": "Dolgu çubukları",
+          "lama": "Lama dolgu",
+          "panels": "Paneller",
+          "gates": "Kapılar"
+        },
+        "caption": "{length} m · {rails} kuşak"
+      },
+      "drywall": {
+        "canvasLabel": "Duvar görünüşü: dikmeler ve levhalar",
+        "note": "Sarf katsayıları ortalama şantiye değerleridir; kapı boşlukları düşülür.",
+        "params": {
+          "length": "Duvar uzunluğu",
+          "height": "Duvar yüksekliği",
+          "doubleSided": "Çift yüz kaplama",
+          "layers": "Kat sayısı (yüz başına)",
+          "studSpacing": "Dikme aralığı",
+          "doors": "Kapı adedi",
+          "insulated": "Taş yünü yalıtım",
+          "boardType": "Levha türü",
+          "boardSize": "Levha ebadı"
+        },
+        "options": {
+          "boardType": {
+            "white": "Beyaz alçıpan",
+            "green": "Yeşil (neme dayanıklı)",
+            "red": "Kırmızı (yangına dayanıklı)"
+          },
+          "boardSize": {
+            "1200x2500": "1200 × 2500 mm",
+            "1200x2000": "1200 × 2000 mm",
+            "1200x3000": "1200 × 3000 mm"
+          },
+          "studSpacing": {
+            "0_4": "40 cm",
+            "0_6": "60 cm"
+          }
+        },
+        "stats": {
+          "netArea": "Net duvar alanı",
+          "faceArea": "Kaplama alanı",
+          "boards": "Levha adedi",
+          "weight": "Toplam ağırlık"
+        },
+        "lines": {
+          "boards": "Alçıpan levha",
+          "studs": "C dikme",
+          "tracks": "U ray",
+          "screws": "Alçıpan vidası",
+          "tape": "Derz bandı",
+          "compound": "Derz dolgu",
+          "insulation": "Taş yünü"
+        },
+        "caption": "{length} m · {layers} kat · {sides} yüz"
+      },
+      "viewLabel": "Görünüm",
+      "view2d": "2B",
+      "view3d": "3B"
+    }
   },
   "FieldVideos": {
     "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",

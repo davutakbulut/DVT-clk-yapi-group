@@ -5,12 +5,14 @@ import { openConfiguratorPanel } from './support/configuratorPanel';
 
 // K-80: menüdeki "Konfigüratör" önce tür seçtirir; eski paylaşım bağlantıları hol konfigüratörüne yönlenir; çok katlı konfigüratör hesaplar.
 test.describe('konfigüratör seçimi', () => {
-  test('/tr/konfigurator: iki tür kartı; 3D tuval yok; kartlar doğru sayfalara gider', async ({ page }) => {
+  test('/tr/konfigurator: altı tür kartı; 3D tuval yok; kartlar doğru sayfalara gider', async ({ page }) => {
     await page.goto('/tr/konfigurator');
     await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hangi yapıyı tasarlamak istiyorsunuz?');
     await expect(page.locator('canvas')).toHaveCount(0);
     const cards = page.locator('.configurator-type');
-    await expect(cards).toHaveCount(2);
+    await expect(cards).toHaveCount(6);
+    await expect(cards.nth(2)).toHaveAttribute('href', '/tr/konfigurator/cati-cephe');
+    await expect(cards.nth(5)).toHaveAttribute('href', '/tr/konfigurator/alcipan-duvar');
     await expect(cards.nth(0)).toHaveAttribute('href', '/tr/konfigurator/hol');
     await expect(cards.nth(1)).toHaveAttribute('href', '/tr/konfigurator/cok-katli');
     await cards.nth(1).click();

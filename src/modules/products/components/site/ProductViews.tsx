@@ -33,11 +33,9 @@ export function ProductCard({ product, locale, supabaseUrl, headingLevel: Headin
           ) : (
             <div className="card-media-icon" aria-hidden="true" />
           )}
-          {/* K-94: "Öne çıkan" görselin sağ üstünde küçük rozet — kartı uzatmaz */}
           {product.isFeatured ? <span className="card-badge">{featuredLabel}</span> : null}
         </div>
         <div className="card-body">
-          {/* K-94: kategori addan küçük, cümle düzeni (büyük harf dönüşümü yok) */}
           {product.category ? <p className="card-kicker">{product.category.name}</p> : null}
           <Heading className="card-title">{product.name}</Heading>
           {product.shortDescription ? <p className="card-excerpt">{product.shortDescription}</p> : null}

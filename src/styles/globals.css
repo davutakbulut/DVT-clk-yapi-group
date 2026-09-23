@@ -1797,6 +1797,12 @@
   .product-crumb { padding-top: var(--space-6); font-size: var(--fs-xs); color: var(--color-text-muted); }
   .product-crumb a:hover { color: var(--color-text); text-decoration: underline; text-underline-offset: 4px; }
   .pcfg-search-toggle { display: none; }
+  /* K-100: basit konfigüratör tuvali — koyu ızgaralı zemin, ortalanmış SVG şema */
+  .simple-canvas { --mark: #f2c230; display: grid; place-items: center; width: 100%; height: 100%; min-height: 360px; background: var(--navy-dark) linear-gradient(90deg, rgb(143 163 191 / 0.1) 1px, transparent 1px) 0 0 / 32px 32px, linear-gradient(0deg, rgb(143 163 191 / 0.1) 1px, transparent 1px) 0 0 / 32px 32px; }
+  .simple-canvas .simple-drawing { width: min(100%, 760px); height: auto; max-height: 100%; }
+  .simple-canvas, .simple-canvas-3d { position: relative; }
+  .simple-canvas-3d { min-height: 360px; height: 100%; }
+  .simple-vt { z-index: 4; }
   .pcfg-search { max-width: 15rem; }
   .fams { position: relative; display: flex; gap: 6px; overflow-x: auto; padding: var(--space-3) 0 2px; scrollbar-width: thin; } /* position: relative → kaydırma kutusu, taşma sayılmaz (04-DESIGN-RULES §8) */
   .fams a { flex: 0 0 auto; padding: 6px 11px; border: 1px solid var(--color-border-strong); font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }

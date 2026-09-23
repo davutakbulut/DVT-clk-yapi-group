@@ -65,7 +65,7 @@ export function BasketPage({ options }: { readonly options: QuoteFormOptions }) 
                     {item.stockCode ? <span className="block font-mono text-[length:var(--fs-xs)] text-[var(--color-text-subtle)]">{item.stockCode}</span> : null}
                     {item.attributes ? (
                       <span className="block text-[length:var(--fs-xs)] text-[var(--color-text-muted)]">
-                        {[item.attributes['grade'], item.attributes['surface'], item.attributes['length_m'] !== undefined ? `${format.number(Number(item.attributes['length_m']))} m` : null, item.attributes['format']].filter(Boolean).join(' · ')}
+                        {[item.attributes['spec'], item.attributes['grade'], item.attributes['surface'], item.attributes['length_m'] !== undefined ? `${format.number(Number(item.attributes['length_m']))} m` : null, item.attributes['format']].filter(Boolean).join(' · ')}
                         {typeof item.weightKg === 'number' ? ` · ${format.number(item.weightKg, { maximumFractionDigits: 1 })} kg` : ''}
                       </span>
                     ) : null}

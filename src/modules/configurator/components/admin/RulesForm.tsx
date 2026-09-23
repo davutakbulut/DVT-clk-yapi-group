@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { IDLE } from '@/lib/formState';
 import { ActionMessage, FieldError, FormSection } from '@/modules/admin-shell';
 import { saveRules } from '../../actions';
+import { SIMPLE_KINDS } from '../../domain/simple/registry';
 import type { ConfiguratorRules } from '../../data/rulesRepository';
 import type { RuleChoices } from '../../data/adminConfigurationsRepository';
 import type { ProfileKey } from '../../domain/structure';
@@ -47,6 +48,18 @@ export function RulesForm({ rules, choices }: Props) {
           <textarea id="r-limits" name="limits" rows={4} defaultValue={JSON.stringify(rules.limits, null, 1)} className="rounded-md border bg-background px-2 py-1 font-mono text-xs" aria-invalid={state.fieldErrors?.['limits'] ? 'true' : undefined} />
           <p className="text-xs text-muted-foreground">{t('limitsHint')}</p>
           <FieldError state={state} name="limits" />
+        </div>
+      </FormSection>
+      <FormSection title={t('simple.title')}>
+        <p className="text-xs text-muted-foreground">{t('simple.hint')}</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {SIMPLE_KINDS.map((k) => (
+            <div key={k} className="grid gap-1">
+              <Label htmlFor={`r-simple-${k}`}>{t(`simple.${k}`)}</Label>
+              <textarea id={`r-simple-${k}`} name={`simple_${k}`} rows={8} defaultValue={JSON.stringify(rules.simple[k], null, 1)} className="rounded-md border bg-background px-2 py-1 font-mono text-xs" aria-invalid={state.fieldErrors?.[`simple_${k}`] ? 'true' : undefined} />
+              <FieldError state={state} name={`simple_${k}`} />
+            </div>
+          ))}
         </div>
       </FormSection>
       <FormSection title={t('profileMap')}>

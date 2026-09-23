@@ -485,6 +485,12 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 ### K-99 · Geliştirici imzası tek ayardan her yere
 **Karar:** "Davut Akbulut | Dijital Web Ajansı" imzası `site.developer` ayarından (Site Ayarları → geliştirici adı + isteğe bağlı bağlantı) okunur ve şu noktalara yayılır: footer alt satırı ("Tasarım ve yazılım: …", bağlantı varsa `rel="author"`), `<meta name="author">` / `creator` / `designer` / `developer` etiketleri, JSON-LD `WebSite.creator`, `/humans.txt`, `/llms.txt` Credits bölümü, `X-Developed-By` yanıt başlığı (yapılandırma sabiti), yönetim paneli kenar çubuğu altı. Ayar boşsa hiçbiri görünmez (Kural 1). Kaynak koduna yorum satırı eklenmedi: React yorumları HTML'e yazmaz.
 
+### K-101 · Dağıtımda önceki derlemenin statik parçaları korunur
+**Karar:** cPanel paketine son 3 derlemenin `_next/static` dosyaları eklenir (`deploy/static-history/`, `cp -n`). Böylece dağıtım anında açık sayfalar eski chunk/css'i bulmaya devam eder; ürün sahibinin bildirdiği "Refused to apply style… MIME text/html" ve chunk 404 hataları yalnız dağıtım penceresine özgüydü.
+
+### K-100 · Dört metraj konfigüratörü (çatı-cephe, ara kat, çit-korkuluk, alçıpan) tek motorla
+**Karar:** Ürün ve hizmet kataloğuna bağlı dört yeni konfigüratör: **çatı & cephe kaplama** (trapez/sandviç: levha adedi, m², kg, vida, mahya, oluk), **ara kat platformu** (kolon ızgarası, HEA/IPE ana-tali kirişler, betonaltı trapez + beton, merdiven, korkuluk), **çit & korkuluk** (kutu profil direk/kuşak, çubuk/lama/panel dolgu, boya yüzeyi, galvaniz payı), **alçıpan bölme duvar** (levha, C/U profil, vida, bant, dolgu, taş yünü). Ortak arayüz `SimpleConfigurator` (kaydırıcı/seçim/anahtar alanlar → anlık hesap, 2B SVG şema, istatistik, metraj tablosu, satır/tümünü teklif sepetine ekle, URL paylaşımı, taslak). Three.js YOK (K-24). Kurallar `configurator_rules.{cladding,mezzanine,fence,drywall}` JSON (panel → Konfigüratör kuralları); varsayılanlar standart tablo değerleridir (K-75), `steel_profiles` boş olsa da çalışır. Sepet satırları kural dosyasındaki ürün slug'larına bağlanır (trapez-sac, cati/cephe-sandvic-paneli, hea, ipe, betonalti-trapez-saci, kutu-profil, lama, beyaz/yesil/kirmizi-alcipan, tas-yunu). Hesaplar ön boyutlandırma/metrajdır; statik hesap değildir (sayfa notu + site yasal uyarısı).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

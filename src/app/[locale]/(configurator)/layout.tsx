@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
 import { ConfiguratorBackLink } from '@/modules/configurator';
+import { BasketProvider } from '@/modules/quote-basket';
 import { moduleEnabled } from '@/modules/site-settings';
 import { notFound } from 'next/navigation';
 
@@ -20,9 +21,12 @@ export default async function ConfiguratorLayout({ children }: { readonly childr
         <ConfiguratorBackLink />
         <span className="label-mono text-[var(--color-text-inverse-subtle)]">{t('title')}</span>
       </header>
-      <main id="main-content" tabIndex={-1} className="configurator-main">
-        {children}
-      </main>
+      {/* K-100: basit konfigüratörler metrajı teklif sepetine ekler → sağlayıcı bu grupta da var (localStorage, sunucu isteği yok) */}
+      <BasketProvider>
+        <main id="main-content" tabIndex={-1} className="configurator-main">
+          {children}
+        </main>
+      </BasketProvider>
     </div>
   );
 }

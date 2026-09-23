@@ -14,3 +14,5 @@ export { MultiStoreyConfigurator } from './components/site/MultiStoreyConfigurat
 export { MultiStoreyRulesForm } from './components/admin/MultiStoreyRulesForm';
 export { parseMultiStorey, buildMultiStorey, DEFAULT_MULTI_STOREY_RULES, type MultiStoreyParams, type MultiStoreyRules } from './domain/multiStorey';
 export { ConfiguratorBackLink } from './components/site/ConfiguratorBackLink';
+export { SimpleConfigurator } from './components/site/SimpleConfigurator';
+export { SIMPLE, SIMPLE_KINDS, SIMPLE_RULE_KEY, simpleProductSlugs, type SimpleKind, type AnyParams, type AnyRules } from './domain/simple/registry';

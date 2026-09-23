@@ -7,6 +7,8 @@ import { DEFAULT_LIMITS, limitsSchema, type Limits } from '../domain/params';
 import { DEFAULT_PROFILE_MAP } from '../domain/profiles';
 import type { ProfileKey } from '../domain/structure';
 
+import { SIMPLE, SIMPLE_KINDS, SIMPLE_RULE_KEY, type AnyRules, type SimpleKind } from '../domain/simple/registry';
+
 export interface ConfiguratorRules {
   readonly limits: Limits;
   readonly trussThresholdM: number;
@@ -17,9 +19,11 @@ export interface ConfiguratorRules {
   readonly priceMap: { readonly steel: string; readonly roof_panel: string; readonly wall_panel: string; readonly bolt: string };
   /** Çok katlı konfigüratör kuralları (`multi_storey` anahtarı); bozuk/yok → varsayılan. */
   readonly multiStorey: MultiStoreyRules;
+  /** Basit konfigüratör kuralları (K-100): `cladding` · `mezzanine` · `fence` · `drywall` anahtarları; bozuk/yok → varsayılan. */
+  readonly simple: Readonly<Record<SimpleKind, AnyRules>>;
 }
 
-export const DEFAULT_RULES: ConfiguratorRules = { limits: DEFAULT_LIMITS, trussThresholdM: 30, purlinSpacingM: 1, laborFactor: 1, profileMap: DEFAULT_PROFILE_MAP, priceMap: { steel: '', roof_panel: '', wall_panel: '', bolt: '' }, multiStorey: DEFAULT_MULTI_STOREY_RULES };
+export const DEFAULT_RULES: ConfiguratorRules = { limits: DEFAULT_LIMITS, trussThresholdM: 30, purlinSpacingM: 1, laborFactor: 1, profileMap: DEFAULT_PROFILE_MAP, priceMap: { steel: '', roof_panel: '', wall_panel: '', bolt: '' }, multiStorey: DEFAULT_MULTI_STOREY_RULES, simple: Object.fromEntries(SIMPLE_KINDS.map((k) => [k, SIMPLE[k].defaultRules])) as Record<SimpleKind, AnyRules> };
 
 /** configurator_rules (anonim okur, 0008): limitler, sistem eşiği, profil eşlemesi. Bozuk/yok → varsayılan (asla fırlatmaz). */
 async function fetchRules(): Promise<Result<ConfiguratorRules>> {
@@ -40,7 +44,11 @@ async function fetchRules(): Promise<Result<ConfiguratorRules>> {
   const priceMap = { ...DEFAULT_RULES.priceMap } as Record<keyof ConfiguratorRules['priceMap'], string>;
   if (typeof pr === 'object' && pr !== null) for (const [k, v] of Object.entries(pr)) if (k in priceMap && typeof v === 'string') priceMap[k as keyof typeof priceMap] = v;
   const ms = multiStoreyRulesSchema.safeParse(map.get('multi_storey'));
-  return ok({ multiStorey: ms.success ? ms.data : DEFAULT_MULTI_STOREY_RULES, priceMap, limits: limits.success ? limits.data : DEFAULT_LIMITS, trussThresholdM: num('truss_threshold_m', 30), purlinSpacingM: num('purlin_spacing_m', 1), laborFactor: num('labor_factor', 1), profileMap });
+  const simple = Object.fromEntries(SIMPLE_KINDS.map((k) => {
+    const parsed = SIMPLE[k].rulesSchema.safeParse(map.get(SIMPLE_RULE_KEY[k]));
+    return [k, parsed.success ? parsed.data : SIMPLE[k].defaultRules];
+  })) as Record<SimpleKind, AnyRules>;
+  return ok({ simple, multiStorey: ms.success ? ms.data : DEFAULT_MULTI_STOREY_RULES, priceMap, limits: limits.success ? limits.data : DEFAULT_LIMITS, trussThresholdM: num('truss_threshold_m', 30), purlinSpacingM: num('purlin_spacing_m', 1), laborFactor: num('labor_factor', 1), profileMap });
 }
 
 export const getCachedRules = cached(fetchRules, ['configurator', 'rules'], { tags: [CACHE_TAGS.configurator] });

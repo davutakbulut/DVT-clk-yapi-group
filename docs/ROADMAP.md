@@ -294,6 +294,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [x] `leads`: kaynak `configurator`, `LeadFormSection` `hiddenFields`; E2E `configurator-save.spec.ts` (kapı → kaydet → paylaşım → yazdır → teklif TLP-; üye fiyat paneli + Hesabım)
   - [ ] *Ürün sahibi:* `price_map` kodları + `material_prices` (çelik kg/ton, panel m², civata adet) — girilmeden fiyat kutusu "hesaplanamadı" der
 - [x] **Faz 29** — Konfigüratör admin + satışa dönüştür ✅
+- [x] **Faz 29b** — Dört metraj konfigüratörü: çatı-cephe, ara kat, çit-korkuluk, alçıpan (K-100) ✅
   - [x] Admin `/admin/configurator` (gönderimler: sahip [üye adı / anonim e-posta], sürüm, tonaj, fiyat, durum süzgeci) · `/admin/configurator/[id]` (ölçüler, güncel sürüm metrajı, sürüm geçmişi, paylaşım/talep/satış bağlantıları, **satışa dönüştür**, arşivle) · `/admin/configurator/rules` (`RulesForm`: kafes eşiği, aşık aralığı, işçilik, limit JSON, eleman→profil [datalist + katalog uyarısı], fiyat kalemi→malzeme) · talep detayında "Konfigürasyonu aç"
   - [x] `0040_configuration_to_sale.sql` — `create_sale_from_configuration` (yalnız talebi olan kayıt: `create_sale_from_lead` → müşteri+satış; metraj kalemleri satış kalemi kg/m²/m/adet, birim fiyat 0 satışçı doldurur; `sales.configuration_id`, durum `converted_to_sale`)
   - [x] `data/adminConfigurationsRepository` (leads/sales iki yönlü FK → ayrı sorgular) · `actions` `saveRules` · `convertConfigurationToSale` · `archiveConfiguration`; nav `configurations`/`configuratorRules`; mesajlar

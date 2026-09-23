@@ -1,5 +1,7 @@
 'use server';
 
+import { SIMPLE, SIMPLE_KINDS, SIMPLE_RULE_KEY } from './domain/simple/registry';
+
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { requireRole } from '@/core/auth';
@@ -207,9 +209,25 @@ export async function saveRules(_prev: ActionState, formData: FormData): Promise
     if (!c.success) return failed('validation', { [`price_${k}`]: 'validation' });
     priceMap[k] = c.data;
   }
+  // K-100: basit konfigüratör kuralları (JSON, tür şemasıyla doğrulanır; boş → satır yazılmaz, varsayılan kalır)
+  const simpleRows: { key: string; value: unknown }[] = [];
+  for (const k of SIMPLE_KINDS) {
+    const text = String(raw[`simple_${k}`] ?? '').trim();
+    if (!text) continue;
+    let json: unknown;
+    try {
+      json = JSON.parse(text);
+    } catch {
+      return failed('validation', { [`simple_${k}`]: 'validation' });
+    }
+    const sp = SIMPLE[k].rulesSchema.safeParse(json);
+    if (!sp.success) return failed('validation', { [`simple_${k}`]: 'validation' });
+    simpleRows.push({ key: SIMPLE_RULE_KEY[k], value: sp.data });
+  }
   const client = await createServerClient();
   if (!client.ok) return failed('notConfigured');
   const rows = [
+    ...simpleRows,
     { key: 'limits', value: limitsParsed.data as unknown as Json },
     { key: 'truss_threshold_m', value: parsed.data.trussThresholdM },
     { key: 'purlin_spacing_m', value: parsed.data.purlinSpacingM },
