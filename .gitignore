@@ -30,7 +30,7 @@ supabase/.branches/
 supabase/.temp/
 
 # Medya kaynakları — Supabase Storage'a taşınır (Faz 3)
-assets/
+/assets/   # yalnız kökteki saha fotoğrafları; docs/assets izlenir
 _archive/original-images/
 
 # Test & kapsam
