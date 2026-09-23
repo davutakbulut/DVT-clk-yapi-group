@@ -31,7 +31,7 @@ test.describe('konfigüratör admin', () => {
     const name = `E2E Konfig Admin ${stamp}`;
     await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
     await dismissCookies(page);
-    const form = page.getByTestId('save-form');
+    const form = page.getByTestId('save-form').first(); // bkz. configurator.spec: hidrasyon yarışı notu
     await form.getByLabel('Kayıt adı (isteğe bağlı)').fill(name);
     await form.locator('input[name="email"]').fill(`e2e-konfig-${stamp}@example.com`);
     await form.locator('input[name="consentKvkk"]').check();

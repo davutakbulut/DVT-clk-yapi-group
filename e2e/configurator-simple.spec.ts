@@ -18,7 +18,7 @@ test.describe('basit konfigüratörler', () => {
     await expect(page).toHaveURL(/w=30/);
     await expect(page.getByTestId('sc-roofArea')).not.toHaveText('809 m²');
     await page.getByRole('button', { name: 'Tümünü teklif sepetine ekle' }).click();
-    await expect(page.getByRole('status').filter({ hasText: /sepete eklendi/ })).toBeVisible();
+    await expect(page.locator('.pcfg-toast')).toHaveText(/sepetine eklendi/);
   });
   test('ara kat: varsayılan 12×24 → 15 kolon, IPE 300; çit: 23 direk; alçıpan: 19 levha', async ({ page }) => {
     await page.goto('/tr/konfigurator/ara-kat');

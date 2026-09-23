@@ -23,7 +23,7 @@ test.describe('konfigüratör seçimi', () => {
   test('eski bağlantı ?w=&l=… → /konfigurator/hol (parametreler korunur)', async ({ page }) => {
     await page.goto('/tr/konfigurator?w=24&l=60&e=7&r=9&b=6');
     await expect(page).toHaveURL(/\/tr\/konfigurator\/hol\?.*w=24/);
-    await expect(page.getByTestId('footprint')).toHaveText(/1\.440 m²/);
+    await expect(page.getByTestId('footprint').first()).toHaveText(/1\.440 m²/);
   });
 
   test('çok katlı: varsayılan 20×30, 5 kat → 35 kolon, radye 70 cm; kat 3 → 50 cm; URL paylaşılabilir', async ({ page }) => {

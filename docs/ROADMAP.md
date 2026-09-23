@@ -326,6 +326,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Logo dosyası | 4 | ⏳ |
 | WhatsApp numarası | 4 | ⏳ |
 | Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
+| Hol konfigüratöründe E2E'de yük altında geçici DOM çoğaltması (SSR ağacı + istemci yeniden çizimi; `footprint` 2 öğe). Tek başına üretilemedi; testler `.first()` ile sağlamlaştırıldı | konfigüratör | ⏳ kök neden: hidrasyon uyuşmazlığı şüphesi (matchMedia/inert/replaceState); üretimde gözlenmedi |
 | Diğer profil ürünlerinin ölçü tabloları (boru, HEA/HEB/IPE/UPN…) | ürünler | ✅ 15 aile içe aktarıldı (K-90); yeni aile için panelde CSV yapıştırma |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |

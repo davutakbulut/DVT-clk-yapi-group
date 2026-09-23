@@ -9,7 +9,8 @@ test.describe('konfigüratör', () => {
     await page.goto('/tr/konfigurator?w=24&l=60&e=7&r=9&b=6');
     await openConfiguratorPanel(page);
     await expect(page.getByRole('heading', { level: 2, name: 'Ölçüler' })).toBeVisible();
-    await expect(page.getByTestId('footprint')).toHaveText(/1\.440 m²/);
+    // Yük altında hidrasyon yarışı SSR ağacını geçici olarak çoğaltabiliyor (izleme: docs/ROADMAP › Engelleyiciler) → ilk öğe
+    await expect(page.getByTestId('footprint').first()).toHaveText(/1\.440 m²/);
     await expect(page.getByRole('note')).toContainText('ön metraj');
     await expect(page.getByRole('img', { name: /24 × 60 m/ })).toBeVisible();
     const width = page.getByRole('slider', { name: 'En (açıklık)' });
@@ -17,7 +18,7 @@ test.describe('konfigüratör', () => {
     await width.focus();
     await page.keyboard.press('ArrowRight');
     await expect(width).toHaveValue('25');
-    await expect(page.getByTestId('footprint')).toHaveText(/1\.500 m²/);
+    await expect(page.getByTestId('footprint').first()).toHaveText(/1\.500 m²/);
     await expect.poll(() => new URL(page.url()).searchParams.get('w')).toBe('25');
     // kanvas (WebGL) yüklendi ya da yedek yüklenme kutusu — hata sınırı tetiklenmedi
     await expect(page.getByRole('heading', { name: '3D görünüm bu cihazda açılamadı' })).toHaveCount(0);

@@ -1803,6 +1803,8 @@
   .simple-canvas, .simple-canvas-3d { position: relative; }
   .simple-canvas-3d { min-height: 360px; height: 100%; }
   .simple-vt { z-index: 4; }
+  /* < 1024 px: sağ üstte panel açma düğmesi var → 2B/3B geçişi sol alta */
+  @media (max-width: 1023px) { .simple-vt { top: auto; right: auto; bottom: 14px; left: 14px; } }
   .pcfg-search { max-width: 15rem; }
   .fams { position: relative; display: flex; gap: 6px; overflow-x: auto; padding: var(--space-3) 0 2px; scrollbar-width: thin; } /* position: relative → kaydırma kutusu, taşma sayılmaz (04-DESIGN-RULES §8) */
   .fams a { flex: 0 0 auto; padding: 6px 11px; border: 1px solid var(--color-border-strong); font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
