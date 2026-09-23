@@ -84,6 +84,7 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - `<select>` kabına sığar (`width:100%; min-width:0`) — uzun seçenek metni sayfayı genişletmesin.
 - `100dvh` (asla `100vh`), mobilde ScrollTrigger `pin` yok, dokunma hedefi ≥ 24×24 (tercihen 44).
 - Her yeni bölüm `e2e/mobile-overflow.spec.ts` ve axe denetiminden geçer.
+- **Yoğunluk (K-92):** ≤ 640 px'de tokenlar kendiliğinden daralır (`--section-y`, `--fs-*`, header); yeni bileşende mobil için ayrı boşluk yazma, tokenı kullan. Kartlar 2 sütun, çipler tek satır kaydırmalı; gövde metni 16 px'in altına inmez, dokunma hedefi ≥ 36 px.
 
 ## 8b. Ürün sayfası (K-90)
 

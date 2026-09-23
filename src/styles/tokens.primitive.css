@@ -87,6 +87,21 @@
     --dur-slow: 400ms;
     --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
+  /* ≤ 640 px — mobil yoğunluk (K-92): bölüm boşluğu, başlık ölçeği ve header yüksekliği orantılı küçülür; gövde metni 16px kalır (okunaklılık).
+     Ürün sahibi: küçük ekranda aynı anda daha fazla içerik, doğru sırada. */
+  @media (max-width: 640px) {
+    :root {
+      --fs-display: clamp(1.875rem, 1.25rem + 4vw, 2.5rem);
+      --fs-h2: clamp(1.5rem, 1.15rem + 2.2vw, 1.875rem);
+      --fs-h3: 1.125rem;
+      --fs-h4: 1rem;
+      --fs-body-lg: 1rem;
+      --lh-body: 1.5;
+      --section-y: 2.25rem;
+      --header-row-h: 56px;
+      --topbar-h: 36px;
+    }
+  }
   /* ≥ 1280 px: dil + sepet ana satıra iner, üst bar kalkar */
   @media (min-width: 1280px) {
     :root {

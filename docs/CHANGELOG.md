@@ -7,6 +7,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Değişti — mobil yoğunluk (K-92)
+- ≤ 640 px: bölüm boşluğu/başlık ölçeği/header orantılı küçüldü, kartlar 2 sütun, kategori çipleri tek satır kaydırmalı, hero 180dvh, ürün başlığı + gerçekler + seçici kompakt; ürün listesi mobilde 30,6k → 8,9k px, ana sayfa 8,5k → 6,2k px
+
 ### Değişti — ürün sayfaları örnek sayfalar gibi · koyu renk sistemi · 3B (K-90, K-91)
 - **Ürün başlığı:** koyu geniş bant kaldırıldı; kırıntı → aile çubuğu (aynı kategorideki yayındaki ürünler, geçerli işaretli) → satır satır büyük başlık + giriş → gerçekler
 - **Seçici motoru:** kesit türüne göre 2B çizim (kutu, boru, I/H, eğimli I, U, L, T, lama, trapez/sinüs/kenet, plaka), plaka modu (kg/m² × hazır/özel ebat), trapez (levha boyu, örtü alanı), yüzey seçimi + galvaniz payı, grup bazlı kalite/ebat/yüzey, ölçü çipleri ya da liste, kesit değerleri (A, Ix, Iy, Wx, Wy, ix, iy, I, W, i, iv, ey, ex, e, u, we, coil, h, p), kesit türüne göre tablo sütunları
