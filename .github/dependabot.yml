@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule: { interval: weekly, day: monday, time: "06:00", timezone: "Europe/Istanbul" }
+    open-pull-requests-limit: 5
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+    ignore:
+      # Next.js 15 bilinçli sabit (K-*: Next 16 yükseltmesi ayrı karar)
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint-config-next"
+        update-types: ["version-update:semver-major"]
+    labels: ["bagimlilik"]
+    commit-message: { prefix: "chore(deps)" }
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule: { interval: monthly }
+    labels: ["bagimlilik"]

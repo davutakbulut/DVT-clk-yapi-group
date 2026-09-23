@@ -1,0 +1,28 @@
+CLK Yapı Group — Özel Lisans (Proprietary License)
+===================================================
+
+Telif Hakkı © 2026 CLK Yapı Group. Tüm hakları saklıdır.
+Tasarım ve geliştirme: Davut Akbulut | Dijital Web Ajansı.
+
+Bu depodaki kaynak kod, tasarım, içerik, görsel ve dokümanlar ("Eser") CLK Yapı Group'a aittir.
+Deponun herkese açık olması yalnız inceleme, öğrenme ve şeffaflık amaçlıdır (bkz. docs/02-DECISIONS.md, K-45).
+
+İZİN VERİLENLER
+- Eser'i görüntülemek, okumak ve kişisel öğrenme amacıyla yerelde çalıştırmak.
+- Eser'e hata bildirimi ve öneri göndermek (bkz. docs/CONTRIBUTING.md).
+
+İZİN VERİLMEYENLER (yazılı izin olmadan)
+- Eser'in tamamını ya da bir kısmını ticari veya ticari olmayan başka bir projede kullanmak, kopyalamak, değiştirerek dağıtmak, yayımlamak veya alt lisanslamak.
+- CLK Yapı Group marka kimliğini, logosunu, saha fotoğraflarını ve içeriklerini kullanmak.
+- Fiyatlandırma mantığı, kâr marjı ve tevkifat kurgusu gibi iş kurallarını türev üründe kullanmak.
+
+GARANTİ REDDİ
+Eser "OLDUĞU GİBİ" sunulur; ticari elverişlilik, belirli bir amaca uygunluk ve ihlal etmeme dahil açık ya da zımni hiçbir garanti verilmez. Hiçbir koşulda hak sahipleri Eser'den doğan zararlardan sorumlu tutulamaz.
+
+ÜÇÜNCÜ TARAF BİLEŞENLER
+Bağımlılıklar (Next.js, Supabase istemcileri, Three.js vb.) kendi açık kaynak lisanslarına tabidir; bkz. package.json.
+
+İzin talepleri için: info@clkyapigroup.com
+---------------------------------------------------
+Copyright © 2026 CLK Yapı Group. All rights reserved. This repository is public for review and learning only;
+any reuse, redistribution or derivative work requires prior written permission. Provided "AS IS", without warranty of any kind.

@@ -1,0 +1,29 @@
+name: Hata bildirimi
+description: Sitede ya da panelde çalışmayan bir şey
+title: "[Hata] "
+labels: ["hata"]
+body:
+  - type: input
+    id: url
+    attributes: { label: Sayfa / rota, placeholder: "https://clkyapigroup.com/tr/urunler/kutu-profil ya da /admin/leads" }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Yeniden üretim adımları, placeholder: "1. ... 2. ... 3. ..." }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: Beklenen / gerçekleşen }
+    validations: { required: true }
+  - type: dropdown
+    id: device
+    attributes:
+      label: Cihaz / kırılım
+      options: ["Mobil (< 640px)", "Tablet", "Masaüstü"]
+    validations: { required: true }
+  - type: input
+    id: browser
+    attributes: { label: Tarayıcı ve sürüm }
+  - type: textarea
+    id: extra
+    attributes: { label: Ekran görüntüsü / konsol çıktısı, description: "Gerçek müşteri verisi, anahtar ya da şifre paylaşmayın." }

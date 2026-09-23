@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+_(henüz yok)_
+
+## [0.5.0] — 2026-09-24
+
+İlk etiketli sürüm: 31 faz + hesabım (K-103), site içi arama (K-102), dört yeni 3B konfigüratör (K-100), ürün aileleri (K-90) ve cPanel dağıtımı (K-101) canlıda.
+
 ### Eklendi — hesabım (K-103)
 - `/hesabim` sekmeli üye alanı: özet, tekliflerim (detay + mesaj / revizyon / iptal isteği), konfigürasyonlarım (ad değiştir, arşivle, yazdır), sepetim (cihaz ↔ hesap senkronu, otomatik kayıt), profil (+ firma bilgileri), güvenlik (şifre / e-posta değiştirme, hesap silme), bildirimler, verilerim (KVKK JSON)
 - Migration 0051: `lead_replies.direction/kind`, `profiles.saved_basket`, RPC `customer_lead_message` / `claim_my_leads` / `upsert_my_customer` / `get_my_customer` / `delete_my_account`; panelde müşteri mesajı rozeti, `lead.customer_message` bildirimi; PGlite + E2E testleri

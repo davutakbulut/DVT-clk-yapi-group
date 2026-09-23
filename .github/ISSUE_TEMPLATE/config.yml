@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Güvenlik açığı bildirimi
+    url: https://github.com/davutakbulut/DVT-clk-yapi-group/security/advisories/new
+    about: Güvenlik bulgularını herkese açık issue yerine özel bildirimle iletin.
+  - name: Dokümantasyon
+    url: https://github.com/davutakbulut/DVT-clk-yapi-group/blob/main/docs/00-START-HERE.md
+    about: Soru sormadan önce başlangıç dokümanına bakın.

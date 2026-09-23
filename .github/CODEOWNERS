@@ -1,0 +1,5 @@
+# Varsayılan sahip: tüm dosyalar
+*                       @davutakbulut
+# Veritabanı ve güvenlik dokümanları ek dikkat ister
+/supabase/              @davutakbulut
+/docs/processes/03-SECURITY-KVKK.md  @davutakbulut
