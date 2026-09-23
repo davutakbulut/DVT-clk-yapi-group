@@ -10,13 +10,13 @@ echo "1) /api/search — sabit sahte XFF ile 65 istek → en az 5 adet 429 bekle
 for i in $(seq 1 65); do curl -s -o /dev/null -m 10 -w "%{http_code}\n" -H "X-Forwarded-For: 203.0.113.9" "$BASE/api/search?q=zz$i$RANDOM&locale=tr"; done | codes; echo
 echo "2) /api/search — her istekte FARKLI sahte XFF ile 65 istek → yine 429 bekleniyor (gelmiyorsa IP sahteciliği açığı, K-104)"
 for i in $(seq 1 65); do curl -s -o /dev/null -m 10 -w "%{http_code}\n" -H "X-Forwarded-For: 203.0.113.$((i%250))" "$BASE/api/search?q=zy$i$RANDOM&locale=tr"; done | codes; echo
-echo "3) /api/analytics/collect — 40 boş gövde → 4xx (doğrulama) ve/veya 429 bekleniyor, 500 OLMAMALI"
+echo "3) /api/analytics/collect — 40 boş gövde → hep 204 (uç sessizdir: doğrulama/sınır aşımı da 204), 500 OLMAMALI"
 for i in $(seq 1 40); do curl -s -o /dev/null -m 10 -w "%{http_code}\n" -X POST -H "Content-Type: application/json" -d '{}' "$BASE/api/analytics/collect"; done | codes; echo
-echo "4) /api/errors — 70 istek → 429 bekleniyor"
+echo "4) /api/errors — 70 istek → hep 204 (sınır aşımı sessizce düşürülür; DB'ye en çok 60 yazılır), 500 OLMAMALI"
 for i in $(seq 1 70); do curl -s -o /dev/null -m 10 -w "%{http_code}\n" -X POST -H "Content-Type: application/json" -d '{"message":"probe"}' "$BASE/api/errors"; done | codes; echo
 echo "5) Cron uçları gizli anahtarsız → 401/403 bekleniyor"
 for c in mail heartbeat purge revalidate indexnow rates reviews reminders analytics; do printf "%s:%s " "$c" "$(curl -s -o /dev/null -m 10 -w '%{http_code}' "$BASE/api/cron/$c")"; done; echo
-echo "6) Büyük gövde (1 MB) → 413/400 bekleniyor, 500 OLMAMALI"
+echo "6) Büyük gövde (1 MB) → gövde okunmadan atılır: 204 (sessiz uçlar), 500 OLMAMALI"
 head -c 1000000 /dev/zero | tr '\0' 'a' > /tmp/big.txt; printf "errors:%s " "$(curl -s -o /dev/null -m 20 -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data-binary @/tmp/big.txt "$BASE/api/errors")"; printf "collect:%s\n" "$(curl -s -o /dev/null -m 20 -w '%{http_code}' -X POST -H 'Content-Type: application/json' --data-binary @/tmp/big.txt "$BASE/api/analytics/collect")"
 echo "7) Rastgele 20 adres (404 maliyeti) — hepsi 404, süre makul olmalı"
 t0=$(date +%s); for i in $(seq 1 20); do curl -s -o /dev/null -m 10 "$BASE/tr/olmayan-$RANDOM$i"; done; echo "20×404: $(( $(date +%s) - t0 )) sn"
