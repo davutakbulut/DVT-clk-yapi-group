@@ -9,18 +9,19 @@
     --color-bg: var(--paper-dark);
     --color-surface: var(--surface-dark);
     --color-surface-raised: #20262f;
-    --color-surface-dark: var(--navy-dark); /* header, footer, çizim paneli, koyu kart */
-    --color-surface-darker: #0a0f17;
+    --color-surface-dark: var(--paper-dark); /* header, footer, koyu kart = sayfa zemini (lacivert ton yok); çizim paneli --navy-dark'ı açıkça kullanır */
+    --color-surface-darker: #0b0e13;
     --color-text: var(--ink-dark);
     --color-text-muted: var(--ink-2-dark); /* koyu kâğıt üzerinde 7.3:1 */
     --color-text-subtle: #8a93a1; /* 5.9:1 */
     --color-text-inverse: var(--ink-dark);
     --color-text-inverse-muted: var(--ink-2-dark);
     --color-text-inverse-subtle: #8a93a1;
-    --color-accent: var(--mark); /* altın: zemin/çizgi; koyu zeminde metin olarak da AA (11:1) */
-    --color-accent-hover: var(--mark-hover);
-    --color-accent-text: var(--mark);
-    --color-accent-on-dark: var(--mark);
+    /* Vurgu = açık çelik (#b9c6d8, 9:1). Altın (--mark) yalnız seçili çip, 2B/3B düğmesi ve çizim ölçü oklarında — sayfa geneline yayılmaz (K-91). */
+    --color-accent: var(--steel-pale);
+    --color-accent-hover: #d2dbe7;
+    --color-accent-text: var(--steel-pale);
+    --color-accent-on-dark: var(--steel-pale);
     --color-border: var(--line-dark);
     --color-border-strong: var(--line-2-dark);
     --color-border-dark: var(--line-dark);

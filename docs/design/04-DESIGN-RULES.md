@@ -30,7 +30,7 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 ## 2. Renk
 
 - **Koyu palet (K-91):** sayfa zemini `--color-bg` (#12161c), kart/panel `--color-surface` (#1a1f27), koyu bant (header, footer, çizim paneli) `--color-surface-dark` (#0e1622); metin `--color-text` (#ecebe7), ikincil `--color-text-muted`.
-- Vurgu **altın işaret**: zemin/çizgi `--color-accent` (#f2c230), metin `--color-accent-text` (koyu zeminde aynı altın, 11:1). Altın **açık zeminde metin olarak kullanılmaz** (1,7:1).
+- Vurgu **açık çelik** `--color-accent` / `--color-accent-text` (#b9c6d8). **Altın** (`--mark`, #f2c230) yalnız seçicide: seçili çip, 2B/3B düğmesi, çizim ölçü okları — başka bileşende kullanılmaz. Koyu bantlar (header/footer) sayfa zemini rengindedir, lacivert yok; lacivert (`--navy-dark`) yalnız çizim paneli.
 - "Metin rengi zemin" (aktif çip, birincil buton) üstündeki metin **`--color-bg`**'dir, `--color-text-inverse` değil (koyu temada ikisi aynı açık renk olur).
 - Bir bölümde vurgu rengi en fazla iki öğede (aktif kart çerçevesi + aktif nokta gibi).
 - İstisnalar (anlam taşıyan renkler):

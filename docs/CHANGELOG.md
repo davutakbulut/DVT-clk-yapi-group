@@ -14,7 +14,7 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 - **Veri:** `0047` — `product_variants.size_key / kg_per_m2 / dims`, RPC'de grup kodu; `products.options` genişledi (draw, pattern, groups, etiketler, grades_by_group, formats, surfaces). `scripts/import-product-families.mjs`: 15 aile → 18 ürün (sac tipleri ayrı ürünlere; lama ve T profil yeni) — 1.000+ ölçü, özellikler, SSS, gerçekler, kısa açıklamalar
 - **Panel:** Ürün → Seçici bölümünde kesit türü, ölçü seçimi biçimi, gruplar, grup bazlı kaliteler, plaka ebatları, yüzeyler, varsayılan adet, desen ve 7 etiket; varyant alanı CSV başlıklı biçimi kabul eder
 - **Sepet:** plaka kalemleri (kg/m² × alan), yüzey ve ebat nitelikleri
-- **Renk sistemi:** örnek sayfaların koyu paleti tüm sitede (zemin/yüzey/metin/çizgi/altın işaret/odak mavisi); birincil buton açık zemin, koyu bantlarda altın; yorum kaynak rozetleri koyu zemine uyarlandı
+- **Renk sistemi:** örnek sayfaların koyu paleti tüm sitede (zemin/yüzey/metin/çizgi/odak mavisi); header/footer lacivert değil sayfa zemini; vurgu açık çelik, altın yalnız seçicide (seçili çip, 2B/3B, ölçü okları); birincil buton her yerde açık zemin; yorum kaynak rozetleri koyu zemine uyarlandı
 - **Düzeltme:** hover'da kaybolan buton zemini — shadcn tema katmanı `--color-accent`/`--color-border`'ı eziyordu; site tokenları `base` katmanına alındı
 - **Testler:** `productConfig`/`productLines` birim (K-90 biçimleri, plaka/galvaniz hesabı), DB `0047`, `product-selector.spec` (kutu, HEA çipleri, DKP plaka, 3B yükleme)
 
