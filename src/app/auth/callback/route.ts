@@ -61,7 +61,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 const COPY = {
-  tr: { title: 'Devam etmek için onaylayın', body: 'Güvenlik için bağlantı yalnız siz tıklayınca kullanılır.', button: { recovery: 'Şifremi sıfırla', invite: 'Daveti kabul et', email: 'E-postamı doğrula', signup: 'Hesabımı doğrula', email_change: 'Yeni e-postamı doğrula' } },
+  tr: { title: 'Devam etmek için onaylayın', body: 'Güvenlik için bağlantı yalnız siz tıklayınca kullanılır.', button: { recovery: 'Şifremi sıfırla', invite: 'Daveti kabul et', email: 'E-postamı doğrula', signup: 'Hesabımı doğrula', email_change: 'Yeni e-postamı doğrula' } }, // static-ok: /auth grubunda site layout'u ve next-intl yok; tek kullanımlık onay sayfasının mikro-metni
   en: { title: 'Confirm to continue', body: 'For security, the link is used only when you click.', button: { recovery: 'Reset my password', invite: 'Accept invitation', email: 'Verify my e-mail', signup: 'Verify my account', email_change: 'Verify my new e-mail' } },
 } as const;
 
