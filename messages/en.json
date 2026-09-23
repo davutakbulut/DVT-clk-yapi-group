@@ -2490,5 +2490,33 @@
     "frameTitle": "{title} · video",
     "kicker": "On site",
     "title": "Videos from the field"
+  },
+  "Search": {
+    "title": "Site search",
+    "kicker": "Search",
+    "open": "Search",
+    "close": "Close",
+    "placeholder": "Search products, posts, services…",
+    "hint": "Type at least 2 characters; searches product names, stock codes, posts, services and pages.",
+    "empty": "No results for “{q}”.",
+    "error": "Search is unavailable right now.",
+    "all": "All results for “{q}”",
+    "submit": "Search",
+    "count": "{count} results for “{q}”",
+    "kinds": {
+      "product": "Product",
+      "post": "Blog",
+      "service": "Service",
+      "solution": "Solution",
+      "project": "Project",
+      "page": "Page",
+      "faq": "FAQ"
+    },
+    "fields": {
+      "title": "In title",
+      "excerpt": "In summary",
+      "body": "In content",
+      "variants": "In size table"
+    }
   }
 }

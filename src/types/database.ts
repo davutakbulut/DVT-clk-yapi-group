@@ -5396,6 +5396,17 @@ export type Database = {
         Returns: string
       }
       save_configuration: { Args: { p: Json }; Returns: Json }
+      search_site: {
+        Args: { p_limit?: number; p_locale: string; p_q: string }
+        Returns: {
+          field: string
+          kind: string
+          rank: number
+          slug: string
+          snippet: string
+          title: string
+        }[]
+      }
       set_configuration_sharing: {
         Args: { p_share_price: boolean; p_token: string }
         Returns: boolean

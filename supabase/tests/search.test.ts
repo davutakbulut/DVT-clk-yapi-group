@@ -36,6 +36,8 @@ describe('0049 · site içi arama', () => {
     const faq = await search('ölçüye kesim');
     expect(faq[0]).toMatchObject({ kind: 'faq', field: 'body' });
     expect(await search('k')).toHaveLength(0);
+    // 0050: markdown bağlantısı parçaya URL olarak sızmaz
+    expect(await db.query<{ s: string }>(`select app_private.search_snippet('Önce [kutu profil](/tr/urunler/kutu-profil) sonra aşık', 'sonra') as s`).then((r) => r.rows[0]!.s)).toBe('Önce kutu profil sonra aşık');
     expect(await search('kutu', 'en')).toHaveLength(0); // EN yayında değil
   });
 });

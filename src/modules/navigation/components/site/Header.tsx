@@ -5,6 +5,7 @@ import { BrandMark } from '@/ui/BrandMark';
 import { Container } from '@/ui/Container';
 import { LanguageSwitcher } from '@/ui/LanguageSwitcher';
 import { AccountMenu } from '@/modules/auth';
+import { SiteSearch } from '@/modules/search';
 import { BasketLink } from '@/modules/quote-basket';
 import { getMenu } from '../../services/getMenu';
 import { MenuLinkView } from './MenuLinkView';
@@ -50,6 +51,8 @@ export async function Header({ locale }: Props) {
           <BasketLink />
         </div>
         <div className="site-header-actions">
+          {/* K-102: site içi arama — hesap menüsünün solunda; ≥1024 header altında panel, mobilde tam ekran */}
+          <SiteSearch />
           <AccountMenu />
           {cta ? <MenuLinkView node={cta} className="btn btn-primary hidden sm:inline-flex" /> : null}
         </div>

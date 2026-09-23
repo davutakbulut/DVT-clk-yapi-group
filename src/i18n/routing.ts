@@ -41,6 +41,7 @@ export const routing = defineRouting({
     '/careers': { tr: '/kariyer', en: '/careers' },
     '/careers/[slug]': { tr: '/kariyer/[slug]', en: '/careers/[slug]' },
     '/faq': { tr: '/sss', en: '/faq' },
+    '/search': { tr: '/arama', en: '/search' },
     // Faz 12 · yasal + site haritası
     '/privacy-policy': { tr: '/gizlilik-politikasi', en: '/privacy-policy' },
     '/cookie-policy': { tr: '/cerez-politikasi', en: '/cookie-policy' },

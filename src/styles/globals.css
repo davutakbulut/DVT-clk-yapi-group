@@ -1804,7 +1804,7 @@
   .simple-canvas-3d { min-height: 360px; height: 100%; }
   .simple-vt { z-index: 4; }
   /* < 1024 px: sağ üstte panel açma düğmesi var → 2B/3B geçişi sol alta */
-  @media (max-width: 1023px) { .simple-vt { top: auto; right: auto; bottom: 14px; left: 14px; } }
+  @media (max-width: 1023px) { .pcfg-vt.simple-vt { inset: auto auto 14px 14px; } } /* tek `inset`: ≤640 .pcfg-vt kuralı top/right'ı geri yazıp kutuyu tuvale yayıyordu */
   .pcfg-search { max-width: 15rem; }
   .fams { position: relative; display: flex; gap: 6px; overflow-x: auto; padding: var(--space-3) 0 2px; scrollbar-width: thin; } /* position: relative → kaydırma kutusu, taşma sayılmaz (04-DESIGN-RULES §8) */
   .fams a { flex: 0 0 auto; padding: 6px 11px; border: 1px solid var(--color-border-strong); font-size: var(--fs-xs); color: var(--color-text-muted); white-space: nowrap; transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
@@ -2316,5 +2316,43 @@
     .gap-12 { gap: var(--space-8); }
     .gap-10 { gap: var(--space-6); }
     .gap-8 { gap: var(--space-5); }
+  }
+}
+
+@layer components {
+  /* ── Site içi arama (K-102): header'da büyüteç; ≥1024px header altında panel, mobilde tam ekran katman */
+  .site-search-toggle { display: inline-grid; place-items: center; width: 44px; height: 44px; color: inherit; background: none; border: 0; cursor: pointer; }
+  .site-search-toggle:hover, .site-search-toggle[aria-expanded='true'] { color: var(--color-accent-on-dark); }
+  .site-search { position: fixed; inset: 0; z-index: 60; }
+  .site-search-backdrop { position: absolute; inset: 0; background: rgb(11 14 19 / 0.7); border: 0; cursor: default; }
+  .site-search-box { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--color-bg); color: var(--color-text); }
+  .site-search-form { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--gutter); border-bottom: 1px solid var(--color-border); }
+  .site-search-icon { flex: none; color: var(--color-text-muted); }
+  .site-search-input { flex: 1; min-width: 0; height: 44px; padding: 0 var(--space-2); background: transparent; border: 0; color: var(--color-text); font: inherit; font-size: var(--fs-body-lg); }
+  .site-search-input:focus-visible { outline: none; }
+  .site-search-close { display: inline-grid; place-items: center; width: 40px; height: 40px; background: none; border: 1px solid var(--color-border-strong); color: var(--color-text); cursor: pointer; }
+  .site-search-results { flex: 1; overflow-y: auto; padding: var(--space-3) var(--gutter) var(--space-6); }
+  .site-search-hint { margin: var(--space-3) 0; font-size: var(--fs-sm); color: var(--color-text-muted); }
+  .site-search-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .site-search-item { display: grid; grid-template-columns: auto 1fr auto; grid-template-areas: 'kind title where' 'kind snippet snippet'; column-gap: var(--space-3); row-gap: 2px; align-items: baseline; padding: var(--space-3); border: 1px solid transparent; }
+  .site-search-item:hover, .site-search-item[data-active] { background: var(--color-surface); border-color: var(--color-border); }
+  .site-search-kind { grid-area: kind; align-self: start; padding: 2px 6px; border: 1px solid var(--color-border-strong); font-size: 10px; color: var(--color-text-muted); white-space: nowrap; }
+  .site-search-title { grid-area: title; font-weight: 600; }
+  .site-search-where { grid-area: where; font-size: var(--fs-xs); color: var(--color-accent-text); white-space: nowrap; }
+  .site-search-snippet { grid-area: snippet; font-size: var(--fs-sm); color: var(--color-text-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .site-search mark, .site-search-list-page mark { background: color-mix(in srgb, var(--mark) 35%, transparent); color: inherit; padding: 0 1px; }
+  .site-search-all { display: inline-block; margin-top: var(--space-4); font-size: var(--fs-sm); color: var(--color-accent-text); }
+  .site-search-form-page { border: 1px solid var(--color-border-strong); padding: var(--space-2); max-width: 640px; }
+  .site-search-form-page .field { flex: 1; border: 0; }
+  @media (min-width: 1024px) {
+    /* header altında panel: üstten header yüksekliği kadar boşluk, kutu ortalı; alan varsa header içine sığmaz → altına açılır */
+    .site-search-box { top: var(--header-h); bottom: auto; left: 50%; transform: translateX(-50%); width: min(100vw - 2 * var(--gutter), 760px); max-height: min(70dvh, 640px); border: 1px solid var(--color-border-strong); box-shadow: var(--shadow-3); }
+    .site-search-form { padding: var(--space-3) var(--space-4); }
+    .site-search-results { padding: var(--space-3) var(--space-4) var(--space-5); }
+  }
+  @media (max-width: 640px) {
+    .site-search-item { grid-template-columns: auto 1fr; grid-template-areas: 'kind title' 'kind where' 'kind snippet'; }
+    .site-search-where { white-space: normal; }
+    .site-search-input { font-size: 16px; } /* iOS yakınlaştırma yapmasın */
   }
 }

@@ -2490,5 +2490,33 @@
     "frameTitle": "{title} · video",
     "kicker": "Saha",
     "title": "Sahadan videolar"
+  },
+  "Search": {
+    "title": "Site içi arama",
+    "kicker": "Arama",
+    "open": "Ara",
+    "close": "Kapat",
+    "placeholder": "Ürün, yazı, hizmet ara…",
+    "hint": "En az 2 karakter yazın; ürün adı, stok kodu, yazı, hizmet ve sayfalarda arar.",
+    "empty": "“{q}” için sonuç yok.",
+    "error": "Arama şu an kullanılamıyor.",
+    "all": "“{q}” için tüm sonuçlar",
+    "submit": "Ara",
+    "count": "“{q}” için {count} sonuç",
+    "kinds": {
+      "product": "Ürün",
+      "post": "Blog",
+      "service": "Hizmet",
+      "solution": "Çözüm",
+      "project": "Proje",
+      "page": "Sayfa",
+      "faq": "SSS"
+    },
+    "fields": {
+      "title": "Başlıkta",
+      "excerpt": "Özette",
+      "body": "İçerikte",
+      "variants": "Ölçü tablosunda"
+    }
   }
 }
