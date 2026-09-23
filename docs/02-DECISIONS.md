@@ -479,6 +479,9 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 ### K-97 · Mobil çekmece içeriği
 **Karar:** Çekmece bağlantıları soldan kademeli girer (45 ms aralık, `--i` sırası; azaltılmış harekette yok), her bağlantı numaralı ("01"), üstte slogan (site ayarı), altta hızlı iletişim (telefon/e-posta, `tel:`/`mailto:`), sosyal bağlantılar ve CTA. Tümü site ayarlarından gelir; boş alan gösterilmez.
 
+### K-98 · Footer satır başı ikonları
+**Karar:** Footer sütun başlıkları (kurumsal → bina, hizmetler → anahtar, ürün & proje → kutu; bağlantı yollarından türetilir) ve iletişim satırları (telefon, e-posta, adres, saat) 16 px çizgi ikonuyla başlar; dekoratif (`aria-hidden`), açık çelik tonda. İkon seti `Footer.tsx` içinde sabit yol tanımlarıdır (markasız, genel).
+
 ## Değiştirilen Kararlar
 
 *(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*

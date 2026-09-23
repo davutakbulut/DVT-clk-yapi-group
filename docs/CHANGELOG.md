@@ -9,6 +9,7 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ### Eklendi — blog iç bağlantı zenginleştirme (K-96) · mobil çekmece içeriği (K-97)
 - Çekmece: kademeli giriş animasyonu, numaralı bağlantılar, slogan, hızlı iletişim, sosyal bağlantılar
+- Footer: başlık ve iletişim satırlarında ikonlar (K-98)
 - 3 yazıya satır içi bağlantılar + ilgili ürün/hizmet/yazı bölümleri (`scripts/enrich-blog-internal-links.mjs`), okuma süresi güncellendi
 
 ### Değişti — mobil yoğunluk (K-92, K-93, K-94, K-95)
