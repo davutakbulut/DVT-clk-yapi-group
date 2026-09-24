@@ -172,7 +172,8 @@
       "configurations": "Configurator Submissions",
       "configuratorRules": "Configurator Rules",
       "fieldVideos": "Field Videos",
-      "socialLinks": "Social Media"
+      "socialLinks": "Social Media",
+      "pagesSettings": "Page Copy"
     },
     "common": {
       "save": "Save",
@@ -417,7 +418,16 @@
       "focusKeyword": "Focus keyword",
       "ogImage": "Share image (OG)",
       "canonical": "Canonical URL (leave empty)",
-      "noindex": "Hide from search engines (noindex)"
+      "noindex": "Hide from search engines (noindex)",
+      "group": "Service group",
+      "groups": {
+        "steel": "Steel structures",
+        "engineering": "Engineering and design",
+        "construction": "Construction and interiors"
+      },
+      "drawing": "Technical drawing (when no cover)",
+      "highlights": "Highlights (one per line)",
+      "projectCategory": "Linked project category (\"See projects\")"
     },
     "projects": {
       "title": "Projects",
@@ -448,7 +458,16 @@
       "ogImage": "Share image (OG)",
       "canonical": "Canonical URL (leave empty)",
       "noindex": "Hide from search engines (noindex)",
-      "completedCol": "Completed"
+      "completedCol": "Completed",
+      "phase": "Phase",
+      "phases": {
+        "completed": "Completed",
+        "ongoing": "Ongoing",
+        "design": "Design"
+      },
+      "year": "Year",
+      "duration": "Duration (e.g. 4 months)",
+      "drawing": "Technical drawing (when no cover)"
     },
     "projectCategories": {
       "title": "Project Categories",
@@ -456,7 +475,8 @@
       "new": "New category",
       "name": "Name",
       "description": "Description",
-      "active": "Active"
+      "active": "Active",
+      "drawing": "Technical drawing"
     },
     "blog": {
       "title": "Blog Posts",
@@ -1550,6 +1570,30 @@
         "validation": "Empty name or invalid address (must start with https://).",
         "unexpected": "Could not save, try again."
       }
+    },
+    "pagesSettings": {
+      "title": "Page Copy",
+      "lead": "Hero, process, why steel, tools, FAQ and CTA copy of the Services and Projects pages. In list fields each line is one item: \"Title | Text\".",
+      "services": "Services page",
+      "projects": "Projects page",
+      "heroTitle": "Hero title (line break = new line)",
+      "heroLede": "Hero lede",
+      "groups": "Groups (3 lines: steel, engineering, construction — \"Title | Lede\")",
+      "why": "Why steel — items",
+      "whyTitle": "Why steel — title",
+      "whyLede": "Why steel — lede",
+      "steps": "Process steps",
+      "stepsTitle": "Process title",
+      "tools": "Tool cards (3 lines: configurator, products, pricing — \"Title | Text | Button\")",
+      "toolsTitle": "Tools title",
+      "toolsLede": "Tools lede",
+      "faq": "FAQ (\"Question | Answer\")",
+      "faqTitle": "FAQ title",
+      "ctaTitle": "CTA title",
+      "ctaLede": "CTA lede",
+      "stats": "Counters (\"Value | Label\", hidden when empty)",
+      "emptyTitle": "Empty category title ({category} placeholder)",
+      "emptyText": "Empty category text"
     }
   },
   "Services": {
@@ -1561,13 +1605,18 @@
     "empty": "No services published yet.",
     "home": "Home",
     "breadcrumb": "Breadcrumb",
-    "process": "How we work",
+    "process": "Process",
     "gallery": "Gallery",
     "relatedProjects": "Projects delivered with this service",
     "faq": "Frequently asked questions",
     "ctaTitle": "Get a quote for your project",
     "ctaLead": "Tell us about your plot and target schedule; we will prepare a tailored timeline and quote.",
-    "ctaButton": "Get a quote"
+    "ctaButton": "Get a quote",
+    "jump": "Service groups",
+    "faqShort": "FAQ",
+    "details": "Details",
+    "requestQuote": "Request a quote",
+    "seeProjects": "See projects"
   },
   "Projects": {
     "title": "Our Projects",
@@ -1595,7 +1644,24 @@
     "ctaLead": "Tell us about your plot and target schedule; we will prepare a tailored timeline and quote.",
     "ctaButton": "Get a quote",
     "m2": "m²",
-    "ton": "t"
+    "ton": "t",
+    "filters": "Project filters",
+    "status": "Status",
+    "phaseAll": "All",
+    "phaseDone": "Completed",
+    "phaseOpen": "Ongoing and design",
+    "count": "{count} projects",
+    "year": "Year",
+    "steel": "Steel",
+    "duration": "Duration",
+    "inspect": "View project",
+    "emptyButton": "Request a quote",
+    "phases": {
+      "completed": "Completed",
+      "ongoing": "Ongoing",
+      "design": "Design"
+    },
+    "stats": "In numbers"
   },
   "Blog": {
     "title": "Blog",

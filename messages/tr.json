@@ -172,7 +172,8 @@
       "configurations": "Konfigüratör Gönderimleri",
       "configuratorRules": "Konfigüratör Kuralları",
       "fieldVideos": "Sahadan Videolar",
-      "socialLinks": "Sosyal Medya"
+      "socialLinks": "Sosyal Medya",
+      "pagesSettings": "Sayfa Metinleri"
     },
     "common": {
       "save": "Kaydet",
@@ -417,7 +418,16 @@
       "focusKeyword": "Odak anahtar kelime",
       "ogImage": "Paylaşım görseli (OG)",
       "canonical": "Canonical URL (boş bırakın)",
-      "noindex": "Arama motorlarından gizle (noindex)"
+      "noindex": "Arama motorlarından gizle (noindex)",
+      "group": "Hizmet grubu",
+      "groups": {
+        "steel": "Çelik yapı",
+        "engineering": "Mühendislik ve proje",
+        "construction": "İnşaat ve iç mekân"
+      },
+      "drawing": "Teknik çizim (kapak yoksa)",
+      "highlights": "Öne çıkanlar (her satır bir madde)",
+      "projectCategory": "Bağlı proje kategorisi (\"Projeleri gör\")"
     },
     "projects": {
       "title": "Projeler",
@@ -448,7 +458,16 @@
       "ogImage": "Paylaşım görseli (OG)",
       "canonical": "Canonical URL (boş bırakın)",
       "noindex": "Arama motorlarından gizle (noindex)",
-      "completedCol": "Tamamlanma"
+      "completedCol": "Tamamlanma",
+      "phase": "Aşama",
+      "phases": {
+        "completed": "Tamamlandı",
+        "ongoing": "Devam ediyor",
+        "design": "Tasarım"
+      },
+      "year": "Yıl",
+      "duration": "Süre (ör. 4 ay)",
+      "drawing": "Teknik çizim (kapak yoksa)"
     },
     "projectCategories": {
       "title": "Proje Kategorileri",
@@ -456,7 +475,8 @@
       "new": "Yeni kategori",
       "name": "Ad",
       "description": "Açıklama",
-      "active": "Aktif"
+      "active": "Aktif",
+      "drawing": "Teknik çizim"
     },
     "blog": {
       "title": "Blog Yazıları",
@@ -1550,6 +1570,30 @@
         "validation": "Boş ad ya da geçersiz adres var (https:// ile başlamalı).",
         "unexpected": "Kaydedilemedi, yeniden deneyin."
       }
+    },
+    "pagesSettings": {
+      "title": "Sayfa Metinleri",
+      "lead": "Hizmetler ve Projeler sayfalarının hero, süreç, neden çelik, araçlar, SSS ve CTA metinleri. Liste alanlarında her satır bir madde: \"Başlık | Metin\".",
+      "services": "Hizmetler sayfası",
+      "projects": "Projeler sayfası",
+      "heroTitle": "Hero başlığı (satır sonu = yeni satır)",
+      "heroLede": "Hero açıklaması",
+      "groups": "Gruplar (3 satır: çelik, mühendislik, inşaat — \"Başlık | Açıklama\")",
+      "why": "Neden çelik — maddeler",
+      "whyTitle": "Neden çelik — başlık",
+      "whyLede": "Neden çelik — açıklama",
+      "steps": "Süreç adımları",
+      "stepsTitle": "Süreç başlığı",
+      "tools": "Araç kartları (3 satır: konfigüratör, ürünler, fiyat — \"Başlık | Metin | Düğme\")",
+      "toolsTitle": "Araçlar başlığı",
+      "toolsLede": "Araçlar açıklaması",
+      "faq": "SSS (\"Soru | Cevap\")",
+      "faqTitle": "SSS başlığı",
+      "ctaTitle": "CTA başlığı",
+      "ctaLede": "CTA açıklaması",
+      "stats": "Sayaçlar (\"Değer | Etiket\", boş bırakılırsa gizlenir)",
+      "emptyTitle": "Boş kategori başlığı ({category} yer tutucusu)",
+      "emptyText": "Boş kategori metni"
     }
   },
   "Services": {
@@ -1561,13 +1605,18 @@
     "empty": "Henüz yayında hizmet yok.",
     "home": "Ana sayfa",
     "breadcrumb": "Sayfa yolu",
-    "process": "Nasıl ilerliyoruz",
+    "process": "Süreç",
     "gallery": "Galeri",
     "relatedProjects": "Bu hizmetle yapılan projeler",
     "faq": "Sık sorulan sorular",
     "ctaTitle": "Projeniz için teklif alın",
     "ctaLead": "Parselinizi ve hedef sürenizi anlatın; size özel süre planı ve teklif hazırlayalım.",
-    "ctaButton": "Teklif alın"
+    "ctaButton": "Teklif al",
+    "jump": "Hizmet grupları",
+    "faqShort": "Sık sorulanlar",
+    "details": "Detaylar",
+    "requestQuote": "Teklif iste",
+    "seeProjects": "Projeleri gör"
   },
   "Projects": {
     "title": "Projelerimiz",
@@ -1593,9 +1642,26 @@
     "next": "Sonraki proje",
     "ctaTitle": "Benzer bir proje mi planlıyorsunuz?",
     "ctaLead": "Parselinizi ve hedef sürenizi anlatın; size özel süre planı ve teklif hazırlayalım.",
-    "ctaButton": "Teklif alın",
+    "ctaButton": "Teklif al",
     "m2": "m²",
-    "ton": "ton"
+    "ton": "ton",
+    "filters": "Proje filtreleri",
+    "status": "Durum",
+    "phaseAll": "Tümü",
+    "phaseDone": "Tamamlanan",
+    "phaseOpen": "Devam eden ve tasarım",
+    "count": "{count} proje",
+    "year": "Yıl",
+    "steel": "Çelik",
+    "duration": "Süre",
+    "inspect": "Projeyi incele",
+    "emptyButton": "Teklif iste",
+    "phases": {
+      "completed": "Tamamlandı",
+      "ongoing": "Devam ediyor",
+      "design": "Tasarım"
+    },
+    "stats": "Rakamlarla"
   },
   "Blog": {
     "title": "Blog",

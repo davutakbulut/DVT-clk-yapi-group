@@ -527,3 +527,20 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Gövde/şema sınırları**, e2e atlaması yalnız üretim dışı, Auth/hesap/yorum eylemlerinde hız sınırı, çerez adı proje ref'ine sabit, arama LRU, `cached()` hata sonucu saklamaz, slug deseni DB'den önce, kategori/etiket `dynamicParams=false`, görsel eniyileyici kapalı, izleyici 30 sn/boş paket yok, cron sırrı sabit zamanlı, bakımda 90 günlük temizlik, tablo boyut CHECK'leri.
 
 **Sonuç / bedel:** migration 0052; `docs/processes/07-ABUSE-RESISTANCE.md` (tehdit modeli, katmanlar, envanter, açık maddeler, kontrol listesi); `scripts/abuse-probe.sh` canlı sonda; `scripts/set-rpc-gate.mjs` + `scripts/cpanel-secret-set.sh`. Açık: geçerli desenli rastgele slug'ların ISR 404 disk girişi, Supabase Auth CAPTCHA (panel ayarı), süreç başına sayaç (Upstash ile çözülür).
+
+### K-105 · Masaüstü header: dil/sepet grubu en sağda, menü sütunu taşmaya kapalı
+
+**Bağlam:** 1024–1440 px'te menü sütunu taştığı için "İletişim" ile "TR EN" (ve arama ikonu) üst üste biniyordu.
+**Karar:** ≥1280'de ızgara `brand nav actions utils`: dil + sepet, hesap/CTA'nın ardında ayırıcı çizgiyle en sağda. ≥1024'te menü `ul` yatay kaydırmalı (çubuk gizli), bağlantılar `nowrap`; 1024–1535'te bağlantı dolgusu ve sütun boşluğu daralır, hesap düğmesi yalnız ikon (ad 1536'dan sonra). Header yerleşimi artık taşamaz; en kötü durumda menü kayar.
+
+### K-106 · Hizmetler & Projeler sayfaları: gruplu hizmet vitrini, proje tarayıcı, panelden düzenlenen sayfa metinleri
+
+**Bağlam:** Ürün sahibi iki referans HTML (hizmetler.html, projeler.html) verdi: 3 grupta 12 hizmet (bizde 4), 10 proje kategorisi, teknik çizimli kartlar, "neden çelik", süreç, araçlar, SSS, CTA bandı; projelerde kategori/durum süzgeci ve yıl-alan-çelik-süre metası. Referanstaki proje satırlarının çoğu yer tutucuydu ("[Proje adı]").
+
+**Karar:**
+- Şema (0053): `services.group_key` (steel|engineering|construction), `highlights` (dil→madde listesi), `drawing_key`, `project_category_id` ("Projeleri gör"); `projects.phase` (completed|ongoing|design), `year`, `duration_label`, `drawing_key`; `project_categories.drawing_key`. Teknik çizim anahtarları DB CHECK'i ve `src/ui/TechDrawing.tsx` ile aynı küme.
+- İçerik: 10 kategori (5'i güncellendi, 'ticari' pasif), 8 yeni hizmet gövde metinleriyle (TR yayında, EN taslak → insan onayı K-07). **Projeler migration'da yok** (sözleşme: gerçek-veri tabloları boş başlar); referanstaki iki gerçek tasarım-aşaması projesi `scripts/import-reference-projects.mjs` ile canlıya yazıldı; yer tutucular alınmadı (K-75). Sayaçlar ([X] proje/ton) yer tutucu olduğundan boş → gizli.
+- Sayfa metinleri `site_settings` `services.page` / `projects.page` (public JSON); panel `/admin/settings/pages` satır tabanlı ("Başlık | Metin") formla düzenler. Zod `catch` ile bozuk alan bölümü sessizce düşürür.
+- Tasarım referanstan yerleşim ve bilgi mimarisini alır, renk/köşe/hizayı değil (04-DESIGN-RULES): koyu tema token'ları, teknik çizim zemini `--navy-dark` + ızgara, altın yalnız vurgu çizgisi/CTA. Proje tarayıcı istemci bileşeni (kategori çipleri adetli, durum sekmeleri, `?kategori=` paylaşımı); kategori sayfaları JS'siz yol olarak seçili başlar.
+
+**Sonuç:** `ServicesList`, `ProjectsList` + `ProjectsBrowser`, `ProjectCard` (meta ızgaralı), `src/ui/PageSections.tsx` (hero, adımlar, neden, CTA bandı); admin formlarında yeni alanlar; E2E `services-projects.spec.ts`; PGlite testleri güncellendi.

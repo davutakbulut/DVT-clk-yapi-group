@@ -59,7 +59,22 @@ export function ProjectForm({ project, images, categories, services }: Props) {
           {field('tonnage', t('projects.tonnage'), project?.tonnage, 'number', { min: 0, step: '0.001' })}
           {field('startedOn', t('projects.startedOn'), project?.started_on, 'date')}
           {field('completedOn', t('projects.completedOn'), project?.completed_on, 'date')}
+          {field('year', t('projects.year'), project?.year, 'number', { min: 1990, max: 2100 })}
+          <div className="grid gap-1">
+            <Label htmlFor="f-phase">{t('projects.phase')}</Label>
+            <select id="f-phase" name="phase" defaultValue={project?.phase ?? 'completed'} className="h-9 rounded-md border bg-background px-2 text-sm">
+              {(['completed', 'ongoing', 'design'] as const).map((p) => <option key={p} value={p}>{t(`projects.phases.${p}`)}</option>)}
+            </select>
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-drawingKey">{t('projects.drawing')}</Label>
+            <select id="f-drawingKey" name="drawingKey" defaultValue={project?.drawing_key ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+              <option value="">{t('common.none')}</option>
+              {['konut', 'cati', 'kentsel', 'endustri', 'betonarme', 'epoksi', 'alcipan', 'tadilat', 'peyzaj', 'proje'].map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
         </div>
+        <LocalizedField name="duration" label={t('projects.duration')} value={project?.duration_label} state={state} />
       </FormSection>
       <FormSection title={t('projects.media')}>
         <div className="grid gap-3 sm:grid-cols-2">

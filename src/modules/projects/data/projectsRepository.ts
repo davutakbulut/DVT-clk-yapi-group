@@ -11,6 +11,7 @@ export interface CategoryRef {
   readonly slug: string;
   readonly name: string;
   readonly description: string;
+  readonly drawing: string | null;
 }
 
 export interface ProjectCardData {
@@ -23,6 +24,13 @@ export interface ProjectCardData {
   readonly completedOn: string | null;
   readonly cover: MediaAsset | null;
   readonly categories: readonly Pick<CategoryRef, 'slug' | 'name'>[];
+  /** K-106: aşama, yıl, alan, tonaj, süre etiketi, teknik çizim */
+  readonly phase: 'completed' | 'ongoing' | 'design';
+  readonly year: number | null;
+  readonly areaM2: number | null;
+  readonly tonnage: number | null;
+  readonly duration: string;
+  readonly drawing: string | null;
 }
 
 export interface ProjectImage extends MediaAsset {
@@ -68,13 +76,13 @@ function rpcMedia(m: RpcMedia, locale: string): MediaAsset | null {
 async function fetchCategories(locale: string): Promise<Result<CategoryRef[]>> {
   const client = createPublicClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('project_categories').select('id, slug, name, description').eq('is_active', true).order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('project_categories').select('id, slug, name, description, drawing_key').eq('is_active', true).order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return err(appError('external_service', error.message, { module: 'projects' }));
   const out: CategoryRef[] = [];
   for (const c of data) {
     const slug = slugFor(c.slug, locale);
     const name = pickLocale(lt(c.name), locale);
-    if (slug && name) out.push({ id: c.id, slug, name, description: pickLocale(lt(c.description), locale) });
+    if (slug && name) out.push({ id: c.id, slug, name, description: pickLocale(lt(c.description), locale), drawing: c.drawing_key });
   }
   return ok(out);
 }
@@ -87,11 +95,17 @@ type ListRow = {
   location: unknown;
   is_featured: boolean;
   completed_on: string | null;
+  phase: string;
+  year: number | null;
+  area_m2: number | null;
+  tonnage: number | string | null;
+  duration_label: unknown;
+  drawing_key: string | null;
   status: string;
   published_locales: string[];
   published_at: string | null;
   cover: MediaRow | null;
-  relations: { category: { slug: unknown; name: unknown; is_active: boolean } | null }[];
+  relations: { category: { slug: unknown; name: unknown; drawing_key?: string | null; is_active: boolean } | null }[];
 };
 
 async function fetchProjectList(locale: string): Promise<Result<ProjectCardData[]>> {
@@ -99,7 +113,7 @@ async function fetchProjectList(locale: string): Promise<Result<ProjectCardData[
   if (!client.ok) return client;
   const { data, error } = await client.data
     .from('projects')
-    .select(`id, slug, title, excerpt, location, is_featured, completed_on, status, published_locales, published_at, cover:media_library!projects_cover_image_id_fkey(${MEDIA_SELECT}), relations:project_category_relations(category:project_categories(slug, name, is_active))`)
+    .select(`id, slug, title, excerpt, location, is_featured, completed_on, phase, year, area_m2, tonnage, duration_label, drawing_key, status, published_locales, published_at, cover:media_library!projects_cover_image_id_fkey(${MEDIA_SELECT}), relations:project_category_relations(category:project_categories(slug, name, drawing_key, is_active))`)
     .eq('status', 'published')
     .contains('published_locales', [locale])
     .order('sort_order', { ascending: true, nullsFirst: false })
@@ -117,7 +131,9 @@ async function fetchProjectList(locale: string): Promise<Result<ProjectCardData[
       const name = c ? pickLocale(lt(c.name), locale) : '';
       return cSlug && name ? [{ slug: cSlug, name }] : [];
     });
-    items.push({ id: row.id, slug, title, excerpt: pickLocale(lt(row.excerpt), locale), location: pickLocale(lt(row.location), locale), isFeatured: row.is_featured, completedOn: row.completed_on, cover: rowMedia(row.cover), categories });
+    const catDrawing = row.relations.map((r) => r.category?.drawing_key ?? null).find((d) => d) ?? null;
+    items.push({ id: row.id, slug, title, excerpt: pickLocale(lt(row.excerpt), locale), location: pickLocale(lt(row.location), locale), isFeatured: row.is_featured, completedOn: row.completed_on, cover: rowMedia(row.cover), categories,
+      phase: row.phase === 'ongoing' || row.phase === 'design' ? row.phase : 'completed', year: row.year ?? (row.completed_on ? Number(row.completed_on.slice(0, 4)) : null), areaM2: row.area_m2 === null ? null : Number(row.area_m2), tonnage: row.tonnage === null ? null : Number(row.tonnage), duration: pickLocale(lt(row.duration_label), locale), drawing: row.drawing_key ?? catDrawing });
   }
   return ok(items);
 }

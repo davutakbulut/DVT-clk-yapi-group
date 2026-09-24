@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { type LocalizedText } from '@/lib/localized';
+import { EMPTY_PROJECTS_PAGE, EMPTY_SERVICES_PAGE, parseProjectsPage, parseServicesPage, type ProjectsPageCopy, type ServicesPageCopy } from './pageCopy';
 
 // Boş nesne {} de 'yok' sayılır (panel boş alanı {} yazar; jsonb NOT NULL).
 const localized = z
@@ -29,6 +30,8 @@ const schema = z.object({
   'maintenance': z.object({ enabled: z.boolean().catch(false), message: z.record(z.string(), z.string()).catch({}) }).catch({ enabled: false, message: {} }),
   'modules.enabled': z.record(z.string(), z.boolean()).catch({}),
   'configurator.disclaimer': z.record(z.string(), z.string()).catch({}),
+  'services.page': z.unknown().catch(null),
+  'projects.page': z.unknown().catch(null),
   'analytics.config': z
     .object({ enabled: z.boolean().catch(true), sample_rate: z.number().min(0).max(1).catch(1), ga4_id: z.string().catch(''), ads_id: z.string().catch(''), meta_pixel_id: z.string().catch('') })
     .catch({ enabled: true, sample_rate: 1, ga4_id: '', ads_id: '', meta_pixel_id: '' }),
@@ -92,6 +95,9 @@ export interface PublicSettings {
   readonly analytics: { readonly enabled: boolean; readonly sampleRate: number; readonly ga4Id: string; readonly adsId: string; readonly metaPixelId: string };
   /** Konfigüratör yasal uyarısı (04-CONFIGURATOR zorunlu). */
   readonly configuratorDisclaimer: LocalizedText;
+  /** Hizmetler / Projeler sayfa metinleri (K-106). */
+  readonly servicesPage: ServicesPageCopy;
+  readonly projectsPage: ProjectsPageCopy;
 }
 
 // Veritabanı ulaşılamazsa bile site ayakta kalır (03-ERROR-ISOLATION Katman 2). Yer tutucu iletişim bilgisi YOK.
@@ -111,6 +117,8 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   modules: {},
   analytics: { enabled: false, sampleRate: 1, ga4Id: '', adsId: '', metaPixelId: '' },
   configuratorDisclaimer: {},
+  servicesPage: EMPTY_SERVICES_PAGE,
+  projectsPage: EMPTY_PROJECTS_PAGE,
 };
 
 export function parseSettings(rows: readonly { readonly key: string; readonly value: unknown }[]): PublicSettings {
@@ -137,6 +145,8 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     maintenance: s['maintenance'],
     modules: s['modules.enabled'],
     configuratorDisclaimer: s['configurator.disclaimer'],
+    servicesPage: parseServicesPage(s['services.page']),
+    projectsPage: parseProjectsPage(s['projects.page']),
     analytics: { enabled: s['analytics.config'].enabled, sampleRate: s['analytics.config'].sample_rate, ga4Id: s['analytics.config'].ga4_id, adsId: s['analytics.config'].ads_id, metaPixelId: s['analytics.config'].meta_pixel_id },
   };
 }

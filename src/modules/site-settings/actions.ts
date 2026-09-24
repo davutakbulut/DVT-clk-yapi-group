@@ -7,6 +7,7 @@ import { CACHE_TAGS } from '@/core/cache/tags';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
+import { linesToItems } from './domain/pageCopy';
 
 const MODULE = 'site-settings';
 const MANAGERS = ['super_admin', 'admin'] as const;
@@ -173,6 +174,48 @@ export async function saveSocialLinks(_prev: ActionState, formData: FormData): P
     return failed('unexpected');
   }
   revalidateTag(CACHE_TAGS.siteSettings);
+  revalidatePath('/', 'layout');
+  return DONE;
+}
+
+/** Hizmetler & Projeler sayfa metinleri (K-106): services.page / projects.page. Liste alanları "Başlık | Metin" satırları. */
+export async function savePagesCopy(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(MANAGERS);
+  if (!gate.ok) return failed('forbidden');
+  const f = (k: string) => String(formData.get(k) ?? '').slice(0, 20000);
+  const loc = (k: string) => localized(f(`${k}Tr`).trim(), f(`${k}En`).trim());
+  const list = (k: string) => linesToItems(f(`${k}Tr`), f(`${k}En`));
+  if (!f('sHeroTitleTr').trim() || !f('pHeroTitleTr').trim()) return failed('validation', { sHeroTitle: 'validation' });
+  const groupKeys = ['steel', 'engineering', 'construction'] as const;
+  const toolHrefs = ['/configurator', '/products', '/pricing'];
+  const tools = (() => {
+    const split = (s: string) => s.split('\n').map((l) => l.split('|').map((p) => p.trim())).filter((p) => p[0]);
+    const a = split(f('sToolsTr')), b = split(f('sToolsEn'));
+    return a.slice(0, 3).map((row, i) => ({ href: toolHrefs[i]!, title: localized(row[0], b[i]?.[0]), text: localized(row[1], b[i]?.[1]), cta: localized(row[2], b[i]?.[2]) }));
+  })();
+  const services = {
+    hero: { title: loc('sHeroTitle'), lede: loc('sHeroLede') },
+    groups: list('sGroups').slice(0, 3).map((g, i) => ({ key: groupKeys[i], title: g.title, lede: g.text })),
+    why: { title: loc('sWhyTitle'), lede: loc('sWhyLede'), items: list('sWhy') },
+    steps: { title: loc('sStepsTitle'), items: list('sSteps') },
+    tools: { title: loc('sToolsTitle'), lede: loc('sToolsLede'), items: tools },
+    faq: { title: loc('sFaqTitle'), items: list('sFaq').map((i) => ({ q: i.title, a: i.text })) },
+    cta: { title: loc('sCtaTitle'), lede: loc('sCtaLede') },
+  };
+  const projects = {
+    hero: { title: loc('pHeroTitle'), lede: loc('pHeroLede') },
+    stats: list('pStats').map((i) => ({ value: i.title, label: i.text })),
+    steps: { title: loc('pStepsTitle'), items: list('pSteps') },
+    empty: { title: loc('pEmptyTitle'), text: loc('pEmptyText') },
+    cta: { title: loc('pCtaTitle'), lede: loc('pCtaLede') },
+  };
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  for (const [key, value] of [['services.page', services], ['projects.page', projects]] as const) {
+    const { error } = await client.data.from('site_settings').upsert({ key, value: value as never, is_public: true, updated_by: gate.data.id }, { onConflict: 'key' });
+    if (error) { logger.error('Sayfa metni kaydedilemedi', { module: MODULE, key, code: error.code }); return failed('unexpected'); }
+  }
+  revalidateTag(CACHE_TAGS.siteSettings); revalidateTag(CACHE_TAGS.services); revalidateTag(CACHE_TAGS.projects);
   revalidatePath('/', 'layout');
   return DONE;
 }

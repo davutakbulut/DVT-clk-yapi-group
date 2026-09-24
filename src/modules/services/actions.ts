@@ -18,6 +18,8 @@ const short = z.string().trim().max(300).optional().or(z.literal(''));
 const long = z.string().max(40000).optional().or(z.literal(''));
 const issues = (error: z.ZodError) => Object.fromEntries(error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation']));
 const ICONS = ['building', 'factory', 'warehouse', 'roof', 'hammer', 'ruler', 'layers', 'wrench'] as const;
+const DRAWINGS = ['konut', 'cati', 'kentsel', 'endustri', 'betonarme', 'epoksi', 'alcipan', 'tadilat', 'peyzaj', 'proje'] as const;
+const lines = (s: string | undefined) => (s ?? '').split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 12);
 
 const schema = publishSchema.extend({
   titleTr: z.string().trim().min(1).max(200),
@@ -29,6 +31,11 @@ const schema = publishSchema.extend({
   stepsTr: long,
   stepsEn: long,
   icon: z.enum(ICONS).optional().or(z.literal('')),
+  groupKey: z.enum(['steel', 'engineering', 'construction']).default('steel'),
+  drawingKey: z.enum(DRAWINGS).optional().or(z.literal('')),
+  highlightsTr: long,
+  highlightsEn: long,
+  projectCategoryId: uuid,
   coverImageId: uuid,
   ogImageId: uuid,
   isFeatured: z.boolean(),
@@ -72,6 +79,10 @@ export async function saveService(_prev: ActionState, formData: FormData): Promi
     body: localized(v.bodyTr, v.bodyEn),
     process_steps: parseSteps(v.stepsTr ?? '', v.stepsEn ?? '') as unknown as Json,
     icon: v.icon || null,
+    group_key: v.groupKey,
+    drawing_key: v.drawingKey || null,
+    highlights: { ...(lines(v.highlightsTr).length ? { tr: lines(v.highlightsTr) } : {}), ...(lines(v.highlightsEn).length ? { en: lines(v.highlightsEn) } : {}) } as unknown as Json,
+    project_category_id: v.projectCategoryId || null,
     cover_image_id: v.coverImageId || null,
     og_image_id: v.ogImageId || null,
     is_featured: v.isFeatured,

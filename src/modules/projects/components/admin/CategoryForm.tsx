@@ -32,6 +32,13 @@ export function CategoryForm({ category }: { readonly category: AdminCategory | 
           <Input id={`c-${k}-slugEn`} name="slugEn" defaultValue={category?.slug['en'] ?? ''} />
         </div>
       </div>
+      <div className="grid gap-1">
+        <Label htmlFor={`c-${k}-drawingKey`}>{t('projectCategories.drawing')}</Label>
+        <select id={`c-${k}-drawingKey`} name="drawingKey" defaultValue={category?.drawing_key ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+          <option value="">{t('common.none')}</option>
+          {['konut', 'cati', 'kentsel', 'endustri', 'betonarme', 'epoksi', 'alcipan', 'tadilat', 'peyzaj', 'proje'].map((d) => <option key={d} value={d}>{d}</option>)}
+        </select>
+      </div>
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" name="isActive" defaultChecked={category?.is_active ?? true} /> {t('projectCategories.active')}
       </label>

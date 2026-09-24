@@ -14,6 +14,11 @@ export interface ServiceCardData {
   readonly icon: string | null;
   readonly isFeatured: boolean;
   readonly cover: MediaAsset | null;
+  /** K-106: grup, teknik çizim, öne çıkanlar, "Projeleri gör" kategorisi */
+  readonly group: 'steel' | 'engineering' | 'construction';
+  readonly drawing: string | null;
+  readonly highlights: readonly string[];
+  readonly projectCategorySlug: string | null;
 }
 
 export interface ServiceImage extends MediaAsset {
@@ -50,6 +55,13 @@ type MediaRow = { storage_bucket: string; storage_path: string; width: number | 
 type RpcMedia = { bucket: string; path: string; width: number | null; height: number | null; alt?: string | null; blur?: string | null; variants?: unknown } | null;
 
 const rec = (v: unknown): Record<string, string> => (isLocalizedText(v) ? (v as Record<string, string>) : {});
+/** highlights jsonb {"tr": [...], "en": [...]} → o dilin listesi (yoksa TR) */
+function highlightsFor(v: unknown, locale: string): string[] {
+  if (typeof v !== 'object' || v === null) return [];
+  const o = v as Record<string, unknown>;
+  const pick = (k: string) => (Array.isArray(o[k]) ? (o[k] as unknown[]).filter((x): x is string => typeof x === 'string' && x.trim() !== '') : null);
+  return pick(locale) ?? pick('tr') ?? [];
+}
 
 function rpcMedia(m: RpcMedia, locale: string): MediaAsset | null {
   if (!m) return null;
@@ -61,7 +73,7 @@ async function fetchServiceList(locale: string): Promise<Result<ServiceCardData[
   if (!client.ok) return client;
   const { data, error } = await client.data
     .from('services')
-    .select(`id, slug, title, excerpt, icon, is_featured, status, published_locales, published_at, cover:media_library!services_cover_image_id_fkey(${MEDIA_SELECT})`)
+    .select(`id, slug, title, excerpt, icon, is_featured, status, published_locales, published_at, group_key, drawing_key, highlights, cover:media_library!services_cover_image_id_fkey(${MEDIA_SELECT}), project_category:project_categories(slug, is_active)`)
     .eq('status', 'published')
     .contains('published_locales', [locale])
     .order('sort_order', { ascending: true, nullsFirst: false });
@@ -81,6 +93,10 @@ async function fetchServiceList(locale: string): Promise<Result<ServiceCardData[
       icon: row.icon,
       isFeatured: row.is_featured,
       cover: cover ? { bucket: cover.storage_bucket, path: cover.storage_path, width: cover.width, height: cover.height, blurDataUrl: cover.blur_data_url, alt: rec(cover.alt), variants: rec(cover.variants) } : null,
+      group: row.group_key === 'engineering' || row.group_key === 'construction' ? row.group_key : 'steel',
+      drawing: row.drawing_key,
+      highlights: highlightsFor(row.highlights, locale),
+      projectCategorySlug: (() => { const c = row.project_category as { slug: unknown; is_active: boolean } | null; return c && c.is_active ? slugFor(c.slug, locale) : null; })(),
     });
   }
   return ok(items);

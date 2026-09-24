@@ -6,7 +6,7 @@ export const ADMIN_NAV_GROUPS = ['overview', 'content', 'catalog', 'corporate', 
 export type AdminNavGroup = (typeof ADMIN_NAV_GROUPS)[number];
 
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'fieldVideos' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'socialLinks' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'pagesSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'fieldVideos' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'socialLinks' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   /** Kenar çubuğu bölümü (ADMIN_NAV_GROUPS sırasıyla gösterilir). */
   readonly group: AdminNavGroup;
@@ -64,6 +64,7 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'mailTemplates', href: '/admin/mail-templates', group: 'settings', roles: ['super_admin', 'admin'] },
   { key: 'cookieSettings', href: '/admin/settings/cookies', group: 'settings', roles: ['super_admin', 'admin'] },
   { key: 'analyticsSettings', href: '/admin/settings/analytics', group: 'settings', roles: ['super_admin', 'admin'] },
+  { key: 'pagesSettings', href: '/admin/settings/pages', group: 'settings', roles: ['super_admin', 'admin'] },
   { key: 'modules', href: '/admin/settings/modules', group: 'settings', roles: ['super_admin', 'admin'] },
   { key: 'maintenance', href: '/admin/settings/maintenance', group: 'settings', roles: ['super_admin', 'admin'] },
   { key: 'users', href: '/admin/users', group: 'system', roles: ['super_admin', 'admin'] },

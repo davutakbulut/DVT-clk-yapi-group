@@ -12,13 +12,13 @@ describe('0018 · projeler', () => {
   });
   afterAll(() => db.close());
 
-  it('4 kategori, ASCII slug, projeler BOŞ; anonim aktif kategorileri okur', async () => {
+  it('10 aktif kategori (0053), ASCII slug, projeler BOŞ; anonim aktif kategorileri okur', async () => {
     const cats = await as(db, anon, async (tx) => (await tx.query<{ tr: string; n: string }>(`select slug->>'tr' as tr, name->>'tr' as n from public.project_categories order by sort_order`)).rows);
-    expect(cats.map((c) => c.tr)).toEqual(['kentsel-donusum', 'endustriyel', 'ticari', 'cati-ve-cephe']);
+    expect(cats.map((c) => c.tr)).toEqual(['kentsel-donusum', 'celik-konut-ve-villa', 'endustriyel', 'cati-ve-cephe', 'betonarme', 'zemin-epoksi', 'kuru-duvar', 'tadilat-ve-tamirat', 'cevre-ve-peyzaj', 'proje-statik-ve-3d-render']);
     expect((await db.query<{ n: number }>(`select count(*)::int as n from public.projects`)).rows[0]!.n).toBe(0);
     await db.query(`update public.project_categories set is_active = false where slug->>'tr' = 'ticari'`);
     const active = await as(db, anon, async (tx) => (await tx.query<{ n: number }>(`select count(*)::int as n from public.project_categories`)).rows[0]!.n);
-    expect(active).toBe(3);
+    expect(active).toBe(10); // ticari zaten pasif (0053)
   });
 
   it('taslak projenin kategori ilişkisi ve görselleri anonime sızmaz; yayına alınınca RPC kategori ve hizmeti döner', async () => {
@@ -36,7 +36,7 @@ describe('0018 · projeler', () => {
     await db.query(`update public.projects set status = 'published', published_locales = '{tr}', published_at = now() where id = $1`, [project]);
     const p = await as(db, anon, async (tx) => (await tx.query<{ p: Record<string, unknown> }>(`select public.get_project_by_slug('tr', 'ornek-depo') as p`)).rows[0]!.p);
     expect(p['title']).toBe('Örnek Depo');
-    expect(p['categories']).toEqual([{ slug: 'endustriyel', name: 'Endüstriyel' }]);
+    expect(p['categories']).toEqual([{ slug: 'endustriyel', name: 'Endüstriyel Tesis ve Hangar' }]);
     expect(p['services']).toEqual([{ slug: 'endustriyel-tesis-ve-depo', title: 'Endüstriyel Tesis ve Depo' }]);
     expect(Number(p['area_m2'])).toBe(2400);
   });
@@ -44,6 +44,6 @@ describe('0018 · projeler', () => {
   it('reorder_content projeler ve kategoriler için çalışır (editör)', async () => {
     const ids = (await db.query<{ id: string }>(`select id from public.project_categories order by sort_order`)).rows.map((r) => r.id);
     const n = await as(db, user(users.ids.editor), async (tx) => (await tx.query<{ n: number }>(`select public.reorder_content('project_categories', $1) as n`, [[...ids].reverse()])).rows[0]!.n);
-    expect(n).toBe(4);
+    expect(n).toBe(10); // reorder yalnız aktif kategorileri sayar (ticari pasif)
   });
 });

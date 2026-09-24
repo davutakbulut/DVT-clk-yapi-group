@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Hizmetler & Projeler sayfaları (K-106) · header düzeltmesi (K-105)
+- Hizmetler: 3 grup (çelik yapı 6 · mühendislik 1 · inşaat ve iç mekân 5), teknik çizimli kartlar, öne çıkanlar, "Projeleri gör" bağlantısı, atlama çubuğu, neden çelik, süreç, araçlar, SSS, CTA bandı; 8 yeni hizmet metniyle (TR)
+- Projeler: 10 kategori, adetli çipler + durum sekmeleri + sayaç, yıl/alan/çelik/süre metalı kartlar, aşama çipi, boş durum; iki tasarım-aşaması projesi (script ile)
+- Sayfa metinleri panelden: `/admin/settings/pages`; migration 0053; admin formlarında grup/çizim/öne çıkanlar/aşama/yıl/süre
+- Header: dil + sepet en sağda ayırıcıyla; menü sütunu taşmaz (1024–1535 kompakt)
+
 ### Güvenlik — kötüye kullanım / aşırı yük sertleştirmesi (K-104)
 - RPC kapısı (`x-clk-gate`) + veritabanı içi eşik + boyut sınırları: yazma RPC'leri anon anahtarla doğrudan çağrılamaz (0052, `_impl` sarmalayıcıları); yeni fonksiyonlar varsayılan kapalı
 - Güvenilir istemci IP'si (`clientIp`, X-Forwarded-For sondan) — sahte başlıkla hız sınırı aşımı kapandı; sınırlayıcı sertleştirildi (özet anahtar, üst sınır, Upstash hatasında süreç içi)

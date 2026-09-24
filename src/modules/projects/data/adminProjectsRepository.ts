@@ -33,6 +33,11 @@ export interface AdminProject extends AdminProjectRow {
   readonly gallery: readonly string[];
   readonly categoryIds: readonly string[];
   readonly serviceIds: readonly string[];
+  /** K-106 */
+  readonly phase: string;
+  readonly year: number | null;
+  readonly duration_label: LocalizedText;
+  readonly drawing_key: string | null;
 }
 
 export interface AdminCategory {
@@ -42,6 +47,7 @@ export interface AdminCategory {
   readonly description: LocalizedText;
   readonly is_active: boolean;
   readonly sort_order: number | null;
+  readonly drawing_key: string | null;
 }
 
 export interface Choice {
@@ -63,7 +69,7 @@ export async function listProjectsForAdmin(): Promise<Result<AdminProjectRow[]>>
 export async function listCategoriesForAdmin(): Promise<Result<AdminCategory[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('project_categories').select('id, slug, name, description, is_active, sort_order').order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('project_categories').select('id, slug, name, description, is_active, sort_order, drawing_key').order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return err(appError('external_service', error.message, { module: 'projects' }));
   return ok(data.map((c) => ({ ...c, slug: lt(c.slug), name: lt(c.name), description: lt(c.description) })));
 }
@@ -90,7 +96,7 @@ export async function getProjectForAdmin(id: string): Promise<Result<AdminProjec
   const client = await createServerClient();
   if (!client.ok) return client;
   const [project, images, cats, svcs] = await Promise.all([
-    client.data.from('projects').select(`${LIST}, excerpt, body, client_name, area_m2, tonnage, started_on, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta`).eq('id', id).maybeSingle(),
+    client.data.from('projects').select(`${LIST}, excerpt, body, client_name, area_m2, tonnage, started_on, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta, phase, year, duration_label, drawing_key`).eq('id', id).maybeSingle(),
     client.data.from('project_images').select('media_id').eq('project_id', id).order('sort_order'),
     client.data.from('project_category_relations').select('category_id').eq('project_id', id),
     client.data.from('service_projects').select('service_id').eq('project_id', id),
@@ -107,6 +113,7 @@ export async function getProjectForAdmin(id: string): Promise<Result<AdminProjec
     location: lt(r.location),
     excerpt: lt(r.excerpt),
     body: lt(r.body),
+    duration_label: lt(r.duration_label),
     area_m2: r.area_m2 === null ? null : Number(r.area_m2),
     tonnage: r.tonnage === null ? null : Number(r.tonnage),
     seo_title: lt(r.seo_title),

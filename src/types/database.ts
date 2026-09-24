@@ -3611,6 +3611,7 @@ export type Database = {
           canonical_url: string | null
           created_at: string
           description: Json
+          drawing_key: string | null
           focus_keyword: Json
           id: string
           is_active: boolean
@@ -3627,6 +3628,7 @@ export type Database = {
           canonical_url?: string | null
           created_at?: string
           description?: Json
+          drawing_key?: string | null
           focus_keyword?: Json
           id?: string
           is_active?: boolean
@@ -3643,6 +3645,7 @@ export type Database = {
           canonical_url?: string | null
           created_at?: string
           description?: Json
+          drawing_key?: string | null
           focus_keyword?: Json
           id?: string
           is_active?: boolean
@@ -3756,6 +3759,8 @@ export type Database = {
           completed_on: string | null
           cover_image_id: string | null
           created_at: string
+          drawing_key: string | null
+          duration_label: Json
           excerpt: Json
           focus_keyword: Json
           id: string
@@ -3763,6 +3768,7 @@ export type Database = {
           location: Json
           noindex: boolean
           og_image_id: string | null
+          phase: string
           published_at: string | null
           published_locales: string[]
           sale_id: string | null
@@ -3776,6 +3782,7 @@ export type Database = {
           tonnage: number | null
           translation_meta: Json
           updated_at: string
+          year: number | null
         }
         Insert: {
           area_m2?: number | null
@@ -3786,6 +3793,8 @@ export type Database = {
           completed_on?: string | null
           cover_image_id?: string | null
           created_at?: string
+          drawing_key?: string | null
+          duration_label?: Json
           excerpt?: Json
           focus_keyword?: Json
           id?: string
@@ -3793,6 +3802,7 @@ export type Database = {
           location?: Json
           noindex?: boolean
           og_image_id?: string | null
+          phase?: string
           published_at?: string | null
           published_locales?: string[]
           sale_id?: string | null
@@ -3806,6 +3816,7 @@ export type Database = {
           tonnage?: number | null
           translation_meta?: Json
           updated_at?: string
+          year?: number | null
         }
         Update: {
           area_m2?: number | null
@@ -3816,6 +3827,8 @@ export type Database = {
           completed_on?: string | null
           cover_image_id?: string | null
           created_at?: string
+          drawing_key?: string | null
+          duration_label?: Json
           excerpt?: Json
           focus_keyword?: Json
           id?: string
@@ -3823,6 +3836,7 @@ export type Database = {
           location?: Json
           noindex?: boolean
           og_image_id?: string | null
+          phase?: string
           published_at?: string | null
           published_locales?: string[]
           sale_id?: string | null
@@ -3836,6 +3850,7 @@ export type Database = {
           tonnage?: number | null
           translation_meta?: Json
           updated_at?: string
+          year?: number | null
         }
         Relationships: [
           {
@@ -4357,14 +4372,18 @@ export type Database = {
           canonical_url: string | null
           cover_image_id: string | null
           created_at: string
+          drawing_key: string | null
           excerpt: Json
           focus_keyword: Json
+          group_key: string
+          highlights: Json
           icon: string | null
           id: string
           is_featured: boolean
           noindex: boolean
           og_image_id: string | null
           process_steps: Json
+          project_category_id: string | null
           published_at: string | null
           published_locales: string[]
           seo_description: Json
@@ -4381,14 +4400,18 @@ export type Database = {
           canonical_url?: string | null
           cover_image_id?: string | null
           created_at?: string
+          drawing_key?: string | null
           excerpt?: Json
           focus_keyword?: Json
+          group_key?: string
+          highlights?: Json
           icon?: string | null
           id?: string
           is_featured?: boolean
           noindex?: boolean
           og_image_id?: string | null
           process_steps?: Json
+          project_category_id?: string | null
           published_at?: string | null
           published_locales?: string[]
           seo_description?: Json
@@ -4405,14 +4428,18 @@ export type Database = {
           canonical_url?: string | null
           cover_image_id?: string | null
           created_at?: string
+          drawing_key?: string | null
           excerpt?: Json
           focus_keyword?: Json
+          group_key?: string
+          highlights?: Json
           icon?: string | null
           id?: string
           is_featured?: boolean
           noindex?: boolean
           og_image_id?: string | null
           process_steps?: Json
+          project_category_id?: string | null
           published_at?: string | null
           published_locales?: string[]
           seo_description?: Json
@@ -4437,6 +4464,13 @@ export type Database = {
             columns: ["og_image_id"]
             isOneToOne: false
             referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "services_project_category_id_fkey"
+            columns: ["project_category_id"]
+            isOneToOne: false
+            referencedRelation: "project_categories"
             referencedColumns: ["id"]
           },
         ]

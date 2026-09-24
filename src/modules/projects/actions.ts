@@ -17,6 +17,7 @@ const long = z.string().max(40000).optional().or(z.literal(''));
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional().or(z.literal(''));
 const num = z.coerce.number().positive().optional().or(z.literal(''));
 const issues = (error: z.ZodError) => Object.fromEntries(error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation']));
+const DRAWINGS = ['konut', 'cati', 'kentsel', 'endustri', 'betonarme', 'epoksi', 'alcipan', 'tadilat', 'peyzaj', 'proje'] as const;
 const ids = (formData: FormData, name: string) => formData.getAll(name).map(String).filter((v) => z.string().uuid().safeParse(v).success);
 
 function fail(what: string, error: { code?: string; message: string }): ActionState {
@@ -46,6 +47,11 @@ const projectSchema = publishSchema.extend({
   tonnage: num,
   startedOn: date,
   completedOn: date,
+  phase: z.enum(['completed', 'ongoing', 'design']).default('completed'),
+  year: z.coerce.number().int().min(1990).max(2100).optional().or(z.literal('')),
+  durationTr: short,
+  durationEn: short,
+  drawingKey: z.enum(DRAWINGS).optional().or(z.literal('')),
   coverImageId: uuid,
   ogImageId: uuid,
   isFeatured: z.boolean(),
@@ -87,6 +93,10 @@ export async function saveProject(_prev: ActionState, formData: FormData): Promi
     tonnage: v.tonnage === '' || v.tonnage === undefined ? null : v.tonnage,
     started_on: v.startedOn || null,
     completed_on: v.completedOn || null,
+    phase: v.phase,
+    year: v.year === '' || v.year === undefined ? null : v.year,
+    duration_label: localized(v.durationTr, v.durationEn),
+    drawing_key: v.drawingKey || null,
     cover_image_id: v.coverImageId || null,
     og_image_id: v.ogImageId || null,
     is_featured: v.isFeatured,
@@ -171,6 +181,7 @@ const categorySchema = z.object({
   slugEn: z.string().trim().max(80).optional().or(z.literal('')),
   descriptionTr: short,
   descriptionEn: short,
+  drawingKey: z.enum(DRAWINGS).optional().or(z.literal('')),
   isActive: z.boolean(),
 });
 
@@ -182,7 +193,7 @@ export async function saveCategory(_prev: ActionState, formData: FormData): Prom
   const v = parsed.data;
   const client = await createServerClient();
   if (!client.ok) return failed('notConfigured');
-  const row = { slug: slugMap({ slugTr: v.slugTr, slugEn: v.slugEn, titleTr: v.nameTr }), name: localized(v.nameTr, v.nameEn), description: localized(v.descriptionTr, v.descriptionEn), is_active: v.isActive };
+  const row = { slug: slugMap({ slugTr: v.slugTr, slugEn: v.slugEn, titleTr: v.nameTr }), name: localized(v.nameTr, v.nameEn), description: localized(v.descriptionTr, v.descriptionEn), drawing_key: v.drawingKey || null, is_active: v.isActive };
   const { error } = v.id ? await client.data.from('project_categories').update(row).eq('id', v.id) : await client.data.from('project_categories').insert(row);
   if (error) return fail('Kategori kaydedilemedi', error);
   revalidateTag(CACHE_TAGS.projects);

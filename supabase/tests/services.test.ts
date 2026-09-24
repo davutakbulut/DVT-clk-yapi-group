@@ -14,9 +14,11 @@ describe('0017 · hizmetler', () => {
 
   const bySlug = (locale: string, slug: string) => as(db, anon, async (tx) => (await tx.query<{ s: Record<string, unknown> | null }>('select public.get_service_by_slug($1, $2) as s', [locale, slug])).rows[0]!.s);
 
-  it('başlangıç: 4 hizmet, yalnız TR yayında, slug ASCII, süreç adımları dizi', async () => {
+  it('başlangıç: 12 hizmet (0053: 3 grup), yalnız TR yayında, slug ASCII, süreç adımları dizi', async () => {
     const { rows } = await db.query<{ n: number; en: number }>(`select count(*)::int as n, count(*) filter (where 'en' = any(published_locales))::int as en from public.services`);
-    expect(rows[0]).toEqual({ n: 4, en: 0 });
+    expect(rows[0]).toEqual({ n: 12, en: 0 });
+    const groups = (await db.query<{ g: string; n: number }>(`select group_key as g, count(*)::int as n from public.services group by 1 order by 1`)).rows;
+    expect(groups).toEqual([{ g: 'construction', n: 5 }, { g: 'engineering', n: 1 }, { g: 'steel', n: 6 }]);
     const slugs = await db.query<{ tr: string; en: string }>(`select slug->>'tr' as tr, slug->>'en' as en from public.services`);
     for (const s of slugs.rows) {
       expect(s.tr).toMatch(/^[a-z0-9-]+$/);
@@ -52,7 +54,7 @@ describe('0017 · hizmetler', () => {
     const ids = (await db.query<{ id: string }>(`select id from public.services order by sort_order`)).rows.map((r) => r.id);
     const reversed = [...ids].reverse();
     const n = await as(db, user(users.ids.editor), async (tx) => (await tx.query<{ n: number }>(`select public.reorder_content('services', $1) as n`, [reversed])).rows[0]!.n);
-    expect(n).toBe(4);
+    expect(n).toBe(12);
     await expect(as(db, anon, (tx) => tx.query(`select public.reorder_content('services', $1)`, [reversed]))).rejects.toThrow();
     await expect(as(db, user(users.ids.editor), (tx) => tx.query(`select public.reorder_content('profiles', $1)`, [reversed]))).rejects.toThrow(/izinli degil/);
   });

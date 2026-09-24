@@ -17,10 +17,13 @@ const ICON_KEYS = ['building', 'factory', 'warehouse', 'roof', 'hammer', 'ruler'
 interface Props {
   readonly service: AdminService | null;
   readonly images: readonly MediaChoice[];
+  readonly projectCategories?: readonly { id: string; label: string }[];
 }
+const GROUPS = ['steel', 'engineering', 'construction'] as const;
+const DRAWINGS = ['konut', 'cati', 'kentsel', 'endustri', 'betonarme', 'epoksi', 'alcipan', 'tadilat', 'peyzaj', 'proje'];
 
 /** Hizmet formu: içerik · süreç adımları · medya · SEO · yayın (K-08/K-09). Yeni kayıt kaydedilince düzenleme sayfasına gider. */
-export function ServiceForm({ service, images }: Props) {
+export function ServiceForm({ service, images, projectCategories = [] }: Props) {
   const t = useTranslations('Admin');
   const [state, action, pending] = useActionState(saveService, IDLE);
 
@@ -42,6 +45,29 @@ export function ServiceForm({ service, images }: Props) {
           rows={5}
           hint={t('services.stepsHint')}
         />
+        <LocalizedField name="highlights" label={t('services.highlights')} value={service?.highlights} state={state} multiline rows={4} />
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-1">
+            <Label htmlFor="f-groupKey">{t('services.group')}</Label>
+            <select id="f-groupKey" name="groupKey" defaultValue={service?.group_key ?? 'steel'} className="h-9 rounded-md border bg-background px-2 text-sm">
+              {GROUPS.map((g) => <option key={g} value={g}>{t(`services.groups.${g}`)}</option>)}
+            </select>
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-drawingKey">{t('services.drawing')}</Label>
+            <select id="f-drawingKey" name="drawingKey" defaultValue={service?.drawing_key ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+              <option value="">{t('common.none')}</option>
+              {DRAWINGS.map((d) => <option key={d} value={d}>{d}</option>)}
+            </select>
+          </div>
+          <div className="grid gap-1">
+            <Label htmlFor="f-projectCategoryId">{t('services.projectCategory')}</Label>
+            <select id="f-projectCategoryId" name="projectCategoryId" defaultValue={service?.project_category_id ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+              <option value="">{t('common.none')}</option>
+              {projectCategories.map((c) => <option key={c.id} value={c.id}>{c.label}</option>)}
+            </select>
+          </div>
+        </div>
       </FormSection>
 
       <FormSection title={t('services.media')}>

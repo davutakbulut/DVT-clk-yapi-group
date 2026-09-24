@@ -30,6 +30,11 @@ export interface AdminService extends AdminServiceRow {
   readonly noindex: boolean;
   readonly reviewedEn: boolean;
   readonly gallery: readonly string[];
+  /** K-106 */
+  readonly group_key: string;
+  readonly drawing_key: string | null;
+  readonly highlights: LocalizedText;
+  readonly project_category_id: string | null;
 }
 
 export interface MediaChoice {
@@ -39,6 +44,20 @@ export interface MediaChoice {
 }
 
 const lt = (v: unknown): LocalizedText => (isLocalizedText(v) ? v : {});
+/** highlights jsonb {"tr": [..]} → form metni (satır başına madde) */
+function highlightLines(v: unknown): LocalizedText {
+  const o = (typeof v === 'object' && v !== null ? v : {}) as Record<string, unknown>;
+  const out: Record<string, string> = {};
+  for (const k of ['tr', 'en']) if (Array.isArray(o[k])) out[k] = (o[k] as unknown[]).filter((x): x is string => typeof x === 'string').join('\n');
+  return out;
+}
+/** Hizmet formu için proje kategorisi seçenekleri */
+export async function listProjectCategoryChoices(): Promise<{ id: string; label: string }[]> {
+  const client = await createServerClient();
+  if (!client.ok) return [];
+  const { data } = await client.data.from('project_categories').select('id, name').order('sort_order', { ascending: true, nullsFirst: false });
+  return (data ?? []).map((c) => ({ id: c.id, label: lt(c.name)['tr'] ?? '' }));
+}
 const LIST = 'id, title, slug, status, published_locales, is_featured, sort_order, updated_at';
 
 export async function listServicesForAdmin(): Promise<Result<AdminServiceRow[]>> {
@@ -61,7 +80,7 @@ export async function getServiceForAdmin(id: string): Promise<Result<AdminServic
   const client = await createServerClient();
   if (!client.ok) return client;
   const [service, images] = await Promise.all([
-    client.data.from('services').select(`${LIST}, excerpt, body, process_steps, icon, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta`).eq('id', id).maybeSingle(),
+    client.data.from('services').select(`${LIST}, excerpt, body, process_steps, icon, cover_image_id, og_image_id, seo_title, seo_description, focus_keyword, canonical_url, noindex, translation_meta, group_key, drawing_key, highlights, project_category_id`).eq('id', id).maybeSingle(),
     client.data.from('service_images').select('media_id, sort_order').eq('service_id', id).order('sort_order'),
   ]);
   const failure = service.error ?? images.error;
@@ -73,6 +92,7 @@ export async function getServiceForAdmin(id: string): Promise<Result<AdminServic
     ...r,
     title: lt(r.title),
     slug: lt(r.slug),
+    highlights: highlightLines(r.highlights),
     excerpt: lt(r.excerpt),
     body: lt(r.body),
     process_steps: readSteps(r.process_steps),

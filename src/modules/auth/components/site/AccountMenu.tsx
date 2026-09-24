@@ -49,7 +49,7 @@ export function AccountMenu() {
     return (
       <Link href="/login" className="site-nav-link" aria-label={t('login')}>
         <UserIcon />
-        <span className="ml-1 hidden md:inline">{t('login')}</span>
+        <span className="ml-1 hidden md:inline lg:hidden 2xl:inline">{t('login')}</span>
       </Link>
     );
   }
@@ -58,7 +58,7 @@ export function AccountMenu() {
     <details className="relative">
       <summary className="site-nav-link cursor-pointer list-none" aria-label={t('accountMenu')} aria-haspopup="menu">
         <UserIcon />
-        <span className="ml-1 hidden max-w-[12ch] truncate md:inline">{state.name}</span>
+        <span className="ml-1 hidden max-w-[12ch] truncate md:inline lg:hidden 2xl:inline">{state.name}</span>{/* K-105: 1024–1535 yalnız ikon (menü sütununa yer) */}
       </summary>
       <div role="menu" className="absolute right-0 z-50 mt-2 grid min-w-48 gap-1 border border-[var(--color-border-dark)] bg-[var(--color-surface-dark)] p-2 text-[length:var(--fs-sm)]">
         <Link href="/account" role="menuitem" className="site-nav-link">
