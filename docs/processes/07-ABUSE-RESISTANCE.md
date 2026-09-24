@@ -57,7 +57,7 @@ Uygulama süreçlerinden bağımsız sabit pencere sayacı; aşımda `P0429 rate
 - **Hız sınırlayıcı** (`src/core/rate-limit`): anahtar SHA-1 ile kısaltılır, en çok 20 000 giriş (en eski atılır), süpürme 10 sn'de bir; Upstash hata/kota bitiminde açık kalmaz, süreç içi sayaca düşer.
 - **Gövde sınırı** gövde okunmadan (`bodyTooLarge`, Content-Length): analytics 64 KB, errors/csp 16 KB, redirects/hit 4 KB. Zod: olay `payload` ≤ 1 KB, `utm` ≤ 10 anahtar, hata `context` ≤ 2 KB, CSP directive ≤ 200.
 - **Analitik e2e atlaması** (`?e2e_track=1`) yalnız `SITE_ENV !== 'production'`.
-- **Auth** (Supabase'in IP sınırı sunucu IP'sine işler → ortak kota): giriş IP 10/5 dk + e-posta 8/15 dk; kayıt IP 5/saat; şifre sıfırlama e-posta 3/saat + IP 10/saat (sessiz); hesapta şifre 5/saat, e-posta değişimi 3/saat, talebe mesaj 5/saat.
+- **Auth** (Supabase'in IP sınırı sunucu IP'sine işler → ortak kota; E2E'de `AUTH_RATE_LIMIT` çarpanı): giriş IP 10/5 dk + e-posta 8/15 dk; kayıt IP 5/saat; şifre sıfırlama e-posta 3/saat + IP 10/saat (sessiz); hesapta şifre 5/saat, e-posta değişimi 3/saat, talebe mesaj 5/saat.
 - **Oturum çerezi** yalnız kendi proje ref'iyle sayılır (`sb-<ref>-auth-token`); rastgele çerez artık her istekte Auth'a gitmez.
 - **Arama**: sorgu başına `unstable_cache` yok (her sorgu diske dosya yazıyordu) → 300 girişlik süreç içi LRU, 5 dk; `/arama` sayfası da IP 60/dk.
 - **`cached()` hata sonucunu saklamaz**: geçici DB sorunu 1 saat boyunca 404/boş menü olarak donmaz.

@@ -34,10 +34,11 @@ test.describe('hizmetler & projeler sayfaları', () => {
     const count = page.locator('.proj-count');
     await expect(count).toContainText(/\d+ proje/);
     // durum: "Tamamlanan" → tasarım aşamasındaki projeler düşer
+    // durum sekmeleri: "Tamamlanan"da tasarım çipi görünmez; "Devam eden ve tasarım"da tamamlandı çipi görünmez (paralel testler proje ekleyebilir)
     await page.getByRole('group', { name: 'Durum' }).getByRole('button', { name: 'Tamamlanan' }).click();
-    await expect(count).toContainText('0 proje');
-    await expect(page.locator('.proj-empty').first()).toBeVisible();
+    await expect(page.locator('.chip-phase[data-phase="design"]')).toHaveCount(0);
     await page.getByRole('group', { name: 'Durum' }).getByRole('button', { name: /Devam eden/ }).click();
+    await expect(page.locator('.chip-phase[data-phase="completed"]')).toHaveCount(0);
     const cards = page.locator('.proj-card');
     if ((await cards.count()) > 0) {
       await expect(cards.first().locator('.chip-phase')).toBeVisible();

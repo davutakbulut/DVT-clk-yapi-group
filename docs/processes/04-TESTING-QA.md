@@ -89,3 +89,6 @@ lint · typecheck · vitest · build · madge --circular · npm audit · Lightho
 - `e2e/accessibility-audit.spec.ts`: 21 ön yüz sayfası (mobil + desktop) ve 17 panel ekranı axe (WCAG 2.1 AA) ihlalsiz; yeni sayfa eklenince `PUBLIC_PAGES`/`ADMIN_PAGES` listesine yazılır.
 - Yedek: `npm run backup:export` (üretimden JSON) → `npm run backup:drill` (PGlite'ta sıfırdan kurulum + geri yükleme + sayı doğrulama, rapor). Her büyük migration sonrası bir kez koşturulur.
 
+## E2E ortam değişkenleri (hız sınırları)
+
+Üretim derlemesine karşı koşarken sunucu `LEAD_RATE_LIMIT=100 AUTH_RATE_LIMIT=100 npm run start -- -p 3200` ile başlatılır: tüm testler aynı IP'den geldiği için talep/yorum (LEAD) ve giriş/kayıt/sıfırlama/hesap (AUTH, K-104) sınırları çarpanla yükseltilir. Canlıda bu değişkenler tanımsızdır (çarpan 1).

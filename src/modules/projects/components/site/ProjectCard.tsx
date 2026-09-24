@@ -39,7 +39,7 @@ export function ProjectCard({ project, locale, supabaseUrl, headingLevel: Headin
           <div><dt>{t('steel')}</dt><dd><b>{fmt(project.tonnage, t('ton'))}</b></dd></div>
           <div><dt>{t('duration')}</dt><dd><b>{project.duration || '—'}</b></dd></div>
         </dl>
-        <Link href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }} className="proj-more">{t('inspect')} →</Link>
+        <Link href={{ pathname: '/projects/[slug]', params: { slug: project.slug } }} className="proj-more" aria-label={`${t('inspect')}: ${project.title}`}>{t('inspect')} →</Link>
       </div>
     </article>
   );

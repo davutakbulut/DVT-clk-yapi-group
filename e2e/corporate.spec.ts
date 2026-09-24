@@ -73,14 +73,15 @@ test.describe('kariyer yönetimi', () => {
     const onlyNecessary = vp.getByRole('button', { name: 'Yalnız zorunlu' });
     if (await onlyNecessary.isVisible().catch(() => false)) await onlyNecessary.click();
     await vp.getByLabel('Ad Soyad').fill('E2E Aday');
-    await vp.getByLabel('E-posta').fill('e2e-aday@example.com');
+    const adayMail = `e2e-aday-${Date.now()}@example.com`; // K-104: başvuru e-posta başına 2/gün
+    await vp.getByLabel('E-posta').fill(adayMail);
     await vp.getByLabel(/KVKK/).check();
     await vp.getByRole('button', { name: 'Başvuruyu gönder' }).click();
     await expect(vp.locator('#main-content [role="status"]')).toContainText('Başvurunuz alındı');
     await visitor.close();
 
     await page.goto('/admin/careers/applications?status=new');
-    await expect(page.getByText('e2e-aday@example.com').first()).toBeVisible();
+    await expect(page.getByText(adayMail).first()).toBeVisible();
 
     await page.goto('/admin/careers');
     const row = page.getByRole('row').filter({ hasText: name });

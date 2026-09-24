@@ -49,7 +49,7 @@ test.describe('ürün yönetimi', () => {
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(name);
     // K-88: ölçü tablosu seçicide (stok kodu + H × B); toplam ağırlık hesaplanır (2,31 kg/m × 6 m × 10)
     await expect(page.getByRole('table').filter({ hasText: `E2E-40-${stamp}` })).toBeVisible();
-    await expect(page.getByTestId('pcfg-total')).toHaveText(/139 kg/);
+    await expect(page.getByTestId('pcfg-total').first()).toHaveText(/139 kg/);
     await expect(page.locator('#main-content').getByText('S235JR')).toBeVisible();
     const ld = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(' ');
     expect(ld).toContain('"@type":"Product"');

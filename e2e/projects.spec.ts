@@ -19,7 +19,7 @@ async function login(page: Page, next: string) {
 test.describe('projeler', () => {
   test('/tr/projeler: h1, kategori çipleri (DB varsa), BreadcrumbList, axe temiz', async ({ page }) => {
     await page.goto('/tr/projeler');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Projelerimiz');
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Çelikte') // K-106: hero başlığı site_settings projects.page;
     expect((await page.locator('script[type=\"application/ld+json\"]').allTextContents()).join(' ')).toContain('BreadcrumbList');
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);

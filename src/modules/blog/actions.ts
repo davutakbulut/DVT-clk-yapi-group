@@ -227,7 +227,7 @@ export async function submitComment(_prev: ActionState, formData: FormData): Pro
   if (!client.ok) return failed('notConfigured');
   const [user, h] = await Promise.all([getCurrentUser(), headers()]);
   const ip = clientIp(h);
-  if (!(await rateLimit(`comment:${ip}`, 5, 3600)).allowed) return failed('rateLimited'); // K-104
+  if (!(await rateLimit(`comment:${ip}`, 5 * Math.max(1, Number(process.env['LEAD_RATE_LIMIT'] ?? 1) || 1), 3600)).allowed) return failed('rateLimited'); // K-104
   const ipMasked = ip ? createHash('sha256').update(ip.replace(/\.\d+$/, '.0')).digest('hex').slice(0, 16) : null;
   const { error } = await client.data.from('post_comments').insert({
     post_id: v.postId,

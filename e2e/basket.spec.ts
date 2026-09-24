@@ -62,7 +62,7 @@ test.describe('teklif sepeti', () => {
       await row.getByLabel('Not').fill('Galvanizli');
       const person = `E2E Sepet ${Date.now()}`;
       await vp.getByLabel('Ad Soyad').fill(person);
-      await vp.getByLabel('E-posta', { exact: true }).fill('e2e-sepet@example.com');
+      await vp.getByLabel('E-posta', { exact: true }).fill(`e2e-sepet-${Date.now()}@example.com`);
       await vp.getByLabel(/KVKK/).check();
       await vp.getByRole('button', { name: 'Gönder' }).click();
       const status = vp.locator('#main-content [role="status"]');

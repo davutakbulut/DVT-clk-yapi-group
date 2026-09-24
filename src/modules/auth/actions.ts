@@ -14,6 +14,8 @@ import { rateLimit } from '@/core/rate-limit';
 import { clientIp } from '@/core/request/clientIp';
 
 const MODULE = 'auth';
+const AUTH_MULT = Math.max(1, Number(process.env['AUTH_RATE_LIMIT'] ?? 1) || 1); // E2E aynı IP'den çok giriş yapar → LEAD_RATE_LIMIT gibi yükseltilir
+
 
 async function localePath(pathname: '/' | '/login' | '/account' | '/reset-password'): Promise<string> {
   const locale = (await getLocale()) as Locale;
@@ -26,7 +28,7 @@ export async function signIn(_prev: AuthFormState, formData: FormData): Promise<
   // K-104: Supabase Auth'un IP sınırı sunucu IP'sine işler; deneme selini burada durdur (IP: 10/5 dk, e-posta: 8/15 dk)
   const ip = clientIp(await headers());
   const email = parsed.data.email.toLocaleLowerCase('en');
-  if (!(await rateLimit(`signin:ip:${ip}`, 10, 300)).allowed || !(await rateLimit(`signin:email:${email}`, 8, 900)).allowed) return { ok: false, error: 'rateLimited' };
+  if (!(await rateLimit(`signin:ip:${ip}`, 10 * AUTH_MULT, 300)).allowed || !(await rateLimit(`signin:email:${email}`, 8 * AUTH_MULT, 900)).allowed) return { ok: false, error: 'rateLimited' };
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 
@@ -47,7 +49,7 @@ export async function signIn(_prev: AuthFormState, formData: FormData): Promise<
 export async function signUp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = registerSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
-  if (!(await rateLimit(`signup:ip:${clientIp(await headers())}`, 5, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: onay e-postası kotası
+  if (!(await rateLimit(`signup:ip:${clientIp(await headers())}`, 5 * AUTH_MULT, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: onay e-postası kotası
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 
@@ -70,7 +72,7 @@ export async function requestPasswordReset(_prev: AuthFormState, formData: FormD
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
   // K-104: sıfırlama e-postası projede ortak kotadan düşer → e-posta başına 3/saat, IP başına 10/saat
   const ip = clientIp(await headers());
-  if (!(await rateLimit(`reset:email:${parsed.data.email.toLocaleLowerCase('en')}`, 3, 3600)).allowed || !(await rateLimit(`reset:ip:${ip}`, 10, 3600)).allowed) return { ok: true, done: true }; // sessiz: adres varlığı sızmaz
+  if (!(await rateLimit(`reset:email:${parsed.data.email.toLocaleLowerCase('en')}`, 3 * AUTH_MULT, 3600)).allowed || !(await rateLimit(`reset:ip:${ip}`, 10 * AUTH_MULT, 3600)).allowed) return { ok: true, done: true }; // sessiz: adres varlığı sızmaz
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'notConfigured' };
 

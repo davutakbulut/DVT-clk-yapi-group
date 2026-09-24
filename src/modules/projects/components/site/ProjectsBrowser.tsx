@@ -64,7 +64,7 @@ export function ProjectsBrowser({ locale, supabaseUrl, items, categories, initia
       ) : (
         <ul className="proj-grid">
           {list.map((p, i) => (
-            <li key={p.id} className={i === 0 && list.length > 2 && cat === 'all' ? 'proj-wide' : undefined} style={i === 0 && list.length > 2 && cat === 'all' ? { gridColumn: 'span 2' } : undefined}>
+            <li key={p.id} className={i === 0 && list.length > 2 && cat === 'all' ? 'proj-wide' : undefined}>
               <ProjectCard project={p} locale={locale} supabaseUrl={supabaseUrl} headingLevel="h2" wide={i === 0 && list.length > 2 && cat === 'all'} />
             </li>
           ))}

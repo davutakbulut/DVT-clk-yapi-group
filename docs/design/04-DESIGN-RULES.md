@@ -113,3 +113,13 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 □ Boş durumda uydurma içerik yok
 □ Mobilde taşma yok · axe temiz · klavye ile gezilebilir
 ```
+
+## 8c · Hizmetler & Projeler sayfaları (K-106)
+
+- **Hero:** mono etiket (eyebrow) + 2–3 satırlı büyük başlık (`clamp(2.6rem, 7vw, 6rem)`, satır sonu veriden `\n`) + sağda dar açıklama; mobilde alt alta. Metin `site_settings` `services.page` / `projects.page`.
+- **Teknik çizim zemini** (`.tech-art`): `--navy-dark` + 28 px ızgara, çizgi rengi `--steel-pale`; kapak görseli varsa onu, yoksa `drawing_key` ile şema. Anahtar kümesi DB CHECK ve `src/ui/TechDrawing.tsx` ile aynı: konut · cati · kentsel · endustri · betonarme · epoksi · alcipan · tadilat · peyzaj · proje.
+- **Hizmet grupları:** çelik (3 sütun kart), mühendislik (geniş iki sütunlu kart), inşaat (kompakt satır, 72 px çizim). Öne çıkanlar altın kısa çizgi ile (`.inc li::before`). Bağlantı satırı: "Detaylar →" + soluk "Projeleri gör".
+- **Proje kartı:** aşama çipi sol üstte (tamamlandı yeşil, devam ediyor altın, tasarım lacivert), kategori mono etiket, başlık, konum, özet, yıl/alan/çelik/süre metası (mono değerler, bilinmeyen `—`), "Projeyi incele →". İlk kart "Tümü"de 2 sütun.
+- **Süzgeç:** kategori çipleri adet rozetli (seçili: mürekkep zemin, altın adet), durum sekmeleri alt çizgili, sayaç mono. Mobilde çipler yatay kaydırma (K-92).
+- **CTA bandı:** ızgaralı lacivert zemin, altın birincil düğme (`.btn-mark`), açık çelik çerçeveli telefon düğmesi. Altın yalnız burada ve seçili çip adedinde.
+- Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi. Alınmayan: açık "kâğıt" zemin, köşe yarıçapı, Archivo yazı tipi (04-DESIGN-RULES §2).

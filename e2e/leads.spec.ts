@@ -53,7 +53,7 @@ test.describe('talep akışı', () => {
     await vp.waitForLoadState('networkidle');
     const name = `E2E Talep ${Date.now()}`;
     await vp.getByLabel('Ad Soyad').fill(name);
-    await vp.getByLabel('E-posta', { exact: true }).fill('e2e-talep@example.com');
+    await vp.getByLabel('E-posta', { exact: true }).fill(`e2e-talep-${Date.now()}@example.com`) // K-104: e-posta başına 3/saat DB eşiği → her koşuda benzersiz;
     await vp.getByLabel('Telefon').fill('+90 555 000 00 00');
     await vp.getByLabel('Mesajınız').fill('E2E test talebi. Depo yapısı.');
     await vp.getByLabel(/KVKK/).check();
