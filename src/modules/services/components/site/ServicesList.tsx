@@ -8,6 +8,7 @@ import { EMPTY_SERVICES_PAGE, getPublicSettings, SERVICE_GROUP_KEYS } from '@/mo
 import { Container } from '@/ui/Container';
 import { CtaBand, NumberedSteps, PageHero, WhyGrid } from '@/ui/PageSections';
 import { TechDrawing } from '@/ui/TechDrawing';
+import { ConfiguratorBanner } from '@/modules/configurator-pages';
 import { getCachedServiceList, type ServiceCardData } from '../../data/servicesRepository';
 
 /**
@@ -19,7 +20,7 @@ export async function ServicesList({ locale }: { readonly locale: string }) {
   if (!result.ok) logger.warn(result.error.message, { module: 'services', code: result.error.code });
   const items = result.ok ? result.data : [];
   const copy = settings.servicesPage ?? EMPTY_SERVICES_PAGE; // eski önbellek nesnesinde alan yoksa (dağıtım geçişi) bölümler sessizce boş
-  const L = (v: Readonly<Record<string, string>>) => pickLocale(v, locale, { fallback: 'tr' });
+  const L = (v: Readonly<Partial<Record<string, string>>>) => pickLocale(v, locale, { fallback: 'tr' });
   const url = env.ok ? env.data.url : null;
   const groups = SERVICE_GROUP_KEYS.map((key, i) => ({ key, i, items: items.filter((s) => s.group === key), copy: copy.groups.find((g) => g.key === key) })).filter((g) => g.items.length > 0);
   const steps = copy.steps.items.map((s) => ({ title: L(s.title), text: L(s.text) })).filter((s) => s.title);
@@ -102,6 +103,9 @@ export async function ServicesList({ locale }: { readonly locale: string }) {
             ))}
           </ul>
         </section>
+      ) : null}
+      {L(settings.configuratorBanner.title) ? (
+        <div className="pt-[var(--space-12)]"><ConfiguratorBanner title={L(settings.configuratorBanner.title)} lead={L(settings.configuratorBanner.lead)} button={L(settings.configuratorBanner.button)} href="/configurator-guide" /></div>
       ) : null}
       {faqs.length > 0 ? (
         <section className="page-block faq-list" id="sss" aria-labelledby="sss-h">

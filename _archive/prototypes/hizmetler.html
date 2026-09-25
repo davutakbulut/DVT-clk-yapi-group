@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hizmetlerimiz · CLK Yapı Group</title>
+<meta name="description" content="Çelik kentsel dönüşüm, çelik villa, endüstriyel tesis, çatı ve cephe, güçlendirme, statik proje ve 3D render, betonarme, epoksi, alçıpan, tadilat ve peyzaj hizmetleri.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F5F3;--surface:#FFFFFF;--ink:#15191F;--ink-2:#4A5260;--ink-3:#3A414D;--line:#DCDAD5;--line-2:#C9C6BF;
+  --navy:#1C2A3D;--steel:#B9C6D8;--steel-ink:#3E5A80;--mark:#F2C230;--focus:#2F6FD6;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --grid:rgba(143,163,191,.14);
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#12161C;--surface:#1A1F27;--ink:#ECEBE7;--ink-2:#A7AFBC;--ink-3:#C3C9D2;--line:#2B323D;--line-2:#3A4250;--navy:#0E1622;--steel-ink:#9DB4D6;--focus:#7AA7F0}}
+:root[data-theme="dark"]{--paper:#12161C;--surface:#1A1F27;--ink:#ECEBE7;--ink-2:#A7AFBC;--ink-3:#C3C9D2;--line:#2B323D;--line-2:#3A4250;--navy:#0E1622;--steel-ink:#9DB4D6;--focus:#7AA7F0}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1296px;margin:0 auto;padding:0 24px}
+.grid-bg{background-color:var(--navy);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:28px 28px}
+.mono{font-family:var(--mono)}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:32px;height:68px}
+.logo{font-weight:800;font-stretch:125%;font-size:17px;text-decoration:none;white-space:nowrap}
+.nav{display:flex;gap:26px;font-size:14px;color:var(--ink-2);flex:1}
+.nav a{text-decoration:none}.nav a:hover{color:var(--ink)}.nav a[aria-current]{color:var(--ink);font-weight:600}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;white-space:nowrap}
+@media (max-width:900px){.nav{display:none}.top .wrap{justify-content:space-between}}
+
+/* hero */
+.hero{padding:72px 0 48px;display:flex;flex-direction:column;gap:28px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--steel-ink)}
+.hero-row{display:flex;gap:64px;align-items:flex-end}
+h1{margin:0;font-weight:850;font-stretch:125%;font-size:clamp(46px,8vw,104px);line-height:.92;letter-spacing:-.02em;flex:1}
+.lede{margin:0;max-width:460px;font-size:18px;line-height:1.55;color:var(--ink-3)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats div{padding:18px 0;font-size:14px;color:var(--ink-2)}
+.stats b{display:block;font-family:var(--mono);font-weight:400;font-size:34px;color:var(--ink)}
+@media (max-width:900px){.hero{padding:40px 0 32px}.hero-row{flex-direction:column;align-items:flex-start;gap:20px}.lede{font-size:16px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stats b{font-size:26px}}
+
+/* filters */
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cats button{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;font:inherit;font-size:15px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.cats button span{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.cats button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.cats button[aria-pressed="true"] span{color:var(--mark)}
+.cats button:hover{border-color:var(--ink)}
+@media (max-width:700px){.cats{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}.cats button{flex:0 0 auto}}
+.sbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);margin-top:16px;flex-wrap:wrap}
+.sts{display:flex;gap:4px}
+.sts button{min-height:44px;padding:0 14px;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--ink-2);font:inherit;font-size:15px;cursor:pointer}
+.sts button[aria-pressed="true"]{border-bottom-color:var(--ink);color:var(--ink);font-weight:600}
+.count{font-family:var(--mono);font-size:13px;color:var(--ink-2);padding:10px 0}
+
+/* cards */
+.projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:28px}
+@media (max-width:1000px){.projects{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.projects{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column}
+.card.wide{grid-column:span 2}
+@media (max-width:640px){.card.wide{grid-column:span 1}}
+.card .art{height:220px;position:relative;overflow:hidden}
+.card.wide .art{height:300px}
+.card .art svg{width:100%;height:100%;display:block}
+.card .art img{width:100%;height:100%;object-fit:cover;display:block}
+.chip{position:absolute;top:16px;left:16px;padding:5px 10px;font-family:var(--mono);font-size:12px}
+.body{padding:28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cat{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--steel-ink)}
+.card h3{margin:0;font-stretch:112%;font-weight:800;font-size:24px;line-height:1.15}
+.loc{font-size:14px;color:var(--ink-2)}
+.desc{margin:0;font-size:15px;line-height:1.55;color:var(--ink-3)}
+.meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;border-top:1px solid var(--line);padding-top:14px;margin-top:auto}
+.meta div{font-size:12px;color:var(--ink-2)}
+.meta b{display:block;font-family:var(--mono);font-weight:400;font-size:14px;color:var(--ink);margin-top:2px}
+.more{font-size:15px;font-weight:600;text-decoration:none;min-height:44px;display:flex;align-items:center}
+.more:hover{text-decoration:underline}
+@media (max-width:640px){.body{padding:24px}}
+.empty{border:1px dashed var(--line-2);background:var(--surface);padding:56px;display:flex;gap:28px;align-items:center;margin-top:28px}
+.empty .ph{width:180px;height:110px;flex-shrink:0}
+.empty h3{margin:0 0 10px;font-size:24px;font-weight:800;font-stretch:112%}
+.empty p{margin:0;color:var(--ink-3);font-size:15px;max-width:560px}
+.empty .btn{min-height:48px;padding:0 22px;font-size:15px}
+@media (max-width:700px){.empty{flex-direction:column;align-items:flex-start;padding:32px 24px}}
+
+/* process + cta */
+h2{margin:0;font-weight:800;font-stretch:112%;font-size:clamp(30px,4vw,40px);line-height:1.05}
+.process{padding-top:96px;display:flex;flex-direction:column;gap:24px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:2px solid var(--ink)}
+.steps div{padding:20px 24px 24px 0;display:flex;flex-direction:column;gap:8px}
+.steps .n{font-family:var(--mono);font-size:13px;color:var(--steel-ink)}
+.steps strong{font-size:18px}
+.steps p{margin:0;font-size:15px;color:var(--ink-3);line-height:1.5}
+@media (max-width:900px){.process{padding-top:64px}.steps{grid-template-columns:1fr}}
+.cta{margin-top:96px;padding:56px 64px;display:flex;gap:28px;align-items:center;justify-content:space-between;color:#fff}
+.cta h2{font-weight:850;font-stretch:125%;font-size:clamp(32px,4.5vw,48px);line-height:1}
+.cta p{margin:10px 0 0;color:#DCE4EF;max-width:520px}
+.cta .acts{display:flex;gap:12px}
+.cta a{min-height:52px;padding:0 24px;display:flex;align-items:center;text-decoration:none;font-size:16px}
+.cta .y{background:var(--mark);color:#15191F;font-weight:700}
+.cta .o{border:1px solid var(--steel);color:#fff}
+@media (max-width:900px){.cta{margin-top:64px;padding:36px 24px;flex-direction:column;align-items:flex-start}.cta .acts{flex-direction:column;width:100%}}
+footer{margin-top:88px;border-top:1px solid var(--line);padding:28px 0 36px;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.jump{position:sticky;top:calc(env(safe-area-inset-top,0px) + 68px);z-index:10;background:var(--paper);border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto}
+.jump a{min-height:48px;display:flex;align-items:center;padding:0 14px;text-decoration:none;color:var(--ink-2);font-size:15px;border-bottom:2px solid transparent;white-space:nowrap}
+.jump a:hover,.jump a.on{color:var(--ink);border-bottom-color:var(--ink)}
+.group{padding-top:72px;display:flex;flex-direction:column;gap:24px}
+.ghead{display:flex;gap:40px;align-items:flex-end;justify-content:space-between}
+.ghead p{margin:0;max-width:520px;color:var(--ink-3)}
+.gnum{font-family:var(--mono);font-size:13px;color:var(--steel-ink);display:block;margin-bottom:8px}
+@media (max-width:900px){.group{padding-top:56px}.ghead{flex-direction:column;align-items:flex-start;gap:12px}}
+.svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:1000px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.svc{grid-template-columns:1fr}}
+.card .art{height:180px}
+.inc{margin:4px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-3)}
+.inc li{display:flex;gap:10px;align-items:baseline}
+.inc li::before{content:"";width:8px;height:2px;background:var(--mark);flex-shrink:0;transform:translateY(-4px)}
+.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+.links a{font-size:15px;font-weight:600;text-decoration:none;min-height:44px;display:flex;align-items:center}
+.links a.sec{font-weight:400;color:var(--ink-2)}
+.links a:hover{text-decoration:underline}
+.wide-svc{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line)}
+.wide-svc .art{min-height:320px;position:relative}
+.wide-svc .art svg{width:100%;height:100%;display:block;position:absolute;inset:0}
+.wide-svc .body{padding:36px}
+@media (max-width:900px){.wide-svc{grid-template-columns:1fr}.wide-svc .art{min-height:200px}.wide-svc .body{padding:24px}}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.row article{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px;padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
+.row .mini{height:72px}
+.row .mini svg{width:100%;height:100%;display:block}
+.row h3{margin:0 0 6px;font-size:20px;font-weight:800;font-stretch:112%}
+.row p{margin:0 0 8px;font-size:15px;color:var(--ink-3);line-height:1.5}
+.row .links{border-top:0;padding-top:0}
+@media (max-width:800px){.row{grid-template-columns:1fr}.row article{grid-template-columns:72px minmax(0,1fr);padding-right:0}.row .mini{height:56px}}
+.why{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.why div{background:var(--surface);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:8px}
+.why strong{font-size:18px}
+.why p{margin:0;font-size:15px;color:var(--ink-3);line-height:1.5}
+@media (max-width:900px){.why{grid-template-columns:1fr 1fr}}@media (max-width:560px){.why{grid-template-columns:1fr}}
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.tools a{display:flex;flex-direction:column;gap:8px;padding:24px;border:1px solid var(--line-2);text-decoration:none;background:var(--surface)}
+.tools a:hover{border-color:var(--ink)}
+.tools strong{font-size:18px}.tools span{font-size:15px;color:var(--ink-3)}
+.tools em{font-style:normal;font-weight:600;margin-top:4px}
+@media (max-width:900px){.tools{grid-template-columns:1fr}}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:16px}
+.faq p{margin:10px 0 0;color:var(--ink-3);max-width:72ch}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="https://clkyapigroup.com/tr">CLKYAPI GROUP</a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="https://clkyapigroup.com/tr/konfigurator">Konfigüratör</a>
+      <a href="https://clkyapigroup.com/tr/urunler">Ürünler</a>
+      <a href="https://clkyapigroup.com/tr/hizmetler" aria-current="page">Hizmetler</a>
+      <a href="https://clkyapigroup.com/tr/projeler">Projeler</a>
+      <a href="https://clkyapigroup.com/tr/blog">Blog</a>
+      <a href="https://clkyapigroup.com/tr/iletisim">İletişim</a>
+    </nav>
+    <a class="btn" href="https://clkyapigroup.com/tr/teklif-al">Teklif Al</a>
+  </div>
+</header>
+
+<main class="wrap" id="main-content">
+  <section class="hero">
+    <div class="eyebrow">HİZMETLER</div>
+    <div class="hero-row">
+      <h1>Projeden<br>montaja<br>tek elden</h1>
+      <p class="lede">Çelik yapının statik projesini çiziyor, imalatını ve montajını yapıyoruz. Betonarmeden zemin kaplamaya, iç mekândan peyzaja kadar yapının geri kalanını da aynı ekip ve tek sözleşmeyle üstleniyoruz.</p>
+    </div>
+  </section>
+
+  <nav class="jump" aria-label="Hizmet grupları">
+    <a href="#celik">01 Çelik yapı</a>
+    <a href="#muhendislik">02 Mühendislik ve proje</a>
+    <a href="#insaat">03 İnşaat ve iç mekân</a>
+    <a href="#surec">Süreç</a>
+    <a href="#sss">Sık sorulanlar</a>
+  </nav>
+
+  <section class="group" id="celik">
+    <div class="ghead">
+      <h2><span class="gnum">01</span>Çelik yapı</h2>
+      <p>Ana işimiz. Taşıyıcı sistemi TBDY 2018'e göre tasarlıyor, kesim listesiyle atölyede imal ediyor ve sahada bulonlu birleşimle kuruyoruz.</p>
+    </div>
+    <div class="svc" id="svc-celik"></div>
+  </section>
+
+  <section class="group" id="muhendislik">
+    <div class="ghead">
+      <h2><span class="gnum">02</span>Mühendislik ve proje</h2>
+      <p>Yalnızca proje hizmeti de alabilirsiniz: statik hesap, uygulama çizimleri ve yapıyı inşa edilmeden önce görmenizi sağlayan 3B görseller.</p>
+    </div>
+    <div id="svc-muh"></div>
+  </section>
+
+  <section class="group" id="insaat">
+    <div class="ghead">
+      <h2><span class="gnum">03</span>İnşaat ve iç mekân</h2>
+      <p>Çelik karkas tamamlandıktan sonra yapıyı başka bir firmaya devretmeniz gerekmez; kaba ve ince işleri de biz yürütüyoruz.</p>
+    </div>
+    <div class="row" id="svc-ins"></div>
+  </section>
+
+  <section class="group">
+    <div class="ghead"><h2>Neden çelik yapı</h2><p>Çelik taşıyıcı sistemin betonarmeye göre öne çıkan yanları.</p></div>
+    <div class="why">
+      <div><strong>Kısa şantiye süresi</strong><p>Elemanlar atölyede hazırlanır, sahada yalnızca montaj yapılır. Hava koşulları işi daha az etkiler.</p></div>
+      <div><strong>Hafif yapı</strong><p>Daha düşük yapı ağırlığı, daha küçük deprem kuvveti ve daha hafif temel demektir.</p></div>
+      <div><strong>Ölçüsünde imalat</strong><p>Her parça çizimdeki ölçüsüyle kesilir ve delinir; sahada kalıp ve kür beklenmez.</p></div>
+      <div><strong>Değiştirilebilir</strong><p>Bulonlu birleşimler sayesinde yapı büyütülebilir, sökülüp taşınabilir, çelik geri dönüştürülebilir.</p></div>
+    </div>
+  </section>
+
+  <section class="process" id="surec">
+    <h2>Bir iş nasıl ilerliyor</h2>
+    <div class="steps">
+      <div><span class="n">01</span><strong>Keşif ve ölçüm</strong><p>Yerinde inceleme, zemin ve mevcut yapı değerlendirmesi.</p></div>
+      <div><span class="n">02</span><strong>Statik ve mimari proje</strong><p>TBDY 2018'e uygun çelik tasarım, 3B model ve metraj.</p></div>
+      <div><span class="n">03</span><strong>İmalat</strong><p>Kesim listesi, atölyede kaynak, delik ve yüzey koruma.</p></div>
+      <div><span class="n">04</span><strong>Montaj ve teslim</strong><p>Sahada bulonlu montaj, kontrol ve anahtar teslim.</p></div>
+    </div>
+  </section>
+
+  <section class="group">
+    <div class="ghead"><h2>Fiyatı kendiniz görün</h2><p>Teklif istemeden önce yapınızın boyutlarını ve malzemesini deneyebilirsiniz.</p></div>
+    <div class="tools">
+      <a href="https://clkyapigroup.com/tr/konfigurator"><strong>Konfigüratör</strong><span>Yapınızın ölçülerini girin, çelik miktarını ve yaklaşık maliyeti görün.</span><em>Konfigüratörü aç →</em></a>
+      <a href="https://clkyapigroup.com/tr/urunler"><strong>Ürün kataloğu</strong><span>Profil ve sac ölçüleri, ağırlık tabloları ve 3B görünüm.</span><em>Ürünlere git →</em></a>
+      <a href="https://clkyapigroup.com/tr/fiyatlar"><strong>Fiyat rehberi</strong><span>Hizmet türüne göre güncel birim fiyat aralıkları.</span><em>Fiyatları incele →</em></a>
+    </div>
+  </section>
+
+  <section class="group faq" id="sss">
+    <h2>Sık sorulanlar</h2>
+    <div>
+      <details><summary>Sadece proje (statik hesap) hizmeti alabilir miyim?</summary><p>Evet. Statik proje, uygulama çizimleri ve 3B görselleri imalattan bağımsız olarak hazırlıyoruz. İmalatı başka bir firmaya yaptıracaksanız kesim listesi ve birleşim detaylarını da teslim ediyoruz.</p></details>
+      <details><summary>Hangi bölgelerde çalışıyorsunuz?</summary><p>Merkezimiz İstanbul'da. Proje hizmetini tüm Türkiye'ye veriyoruz; imalat ve montaj için bölgenizi yazın, ekip ve sevkiyat planını birlikte çıkaralım.</p></details>
+      <details><summary>Keşif ücretli mi?</summary><p>[Keşif ücreti ve koşullarını buraya yazın.]</p></details>
+      <details><summary>Kentsel dönüşümde çelik karkas ne kadar sürede biter?</summary><p>Süre kat sayısına, parsel koşullarına ve ruhsat sürecine bağlıdır. Projenizi inceledikten sonra imalat ve montaj takvimini yazılı olarak veriyoruz.</p></details>
+    </div>
+  </section>
+
+  <section class="cta grid-bg">
+    <div>
+      <h2>İşinizi<br>konuşalım</h2>
+      <p>Çizim, ölçü ya da sadece bir fikirle gelin; keşif ve ön fiyatı birlikte çıkaralım.</p>
+    </div>
+    <div class="acts">
+      <a class="y" href="https://clkyapigroup.com/tr/teklif-al">Teklif al</a>
+      <a class="o" href="tel:+905319589885">+90 531 958 98 85</a>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 CLK Yapı Group · info@clkyapigroup.com</div></footer>
+
+<script>
+/* =====================================================================
+   HİZMETLERİ BURADAN DÜZENLEYİN
+   - grup: 'celik' | 'muh' | 'ins'
+   - link: hizmet detay sayfası (yoksa boş bırakın)
+   - kategori: Projeler sayfasındaki kategori anahtarı ("Projeleri gör" linki)
+   ===================================================================== */
+const HIZMETLER=[
+  {grup:'celik',kategori:'kentsel',baslik:'Kentsel Dönüşüm Çelik Karkas',link:'https://clkyapigroup.com/tr/hizmetler/kentsel-donusum-celik-karkas',
+   aciklama:'Dar parsellerde, betonarmeye göre çok daha kısa sürede tamamlanan taşıyıcı sistem.',
+   dahil:['Mevcut yapı ve zemin değerlendirmesi','Çok katlı çelik karkas projesi','İmalat, montaj ve döşeme sistemi']},
+  {grup:'celik',kategori:'konut',baslik:'Çelik Konut ve Villa',link:'',
+   aciklama:'Müstakil ev, villa ve kat ilavesi için hafif ve depreme dayanıklı çelik taşıyıcı sistem.',
+   dahil:['Mimari plana göre çelik tasarım','Kat ilavesi ve genişleme','Anahtar teslim seçeneği']},
+  {grup:'celik',kategori:'endustri',baslik:'Endüstriyel Tesis ve Depo',link:'https://clkyapigroup.com/tr/hizmetler/endustriyel-tesis-ve-depo',
+   aciklama:'Geniş açıklıklı üretim, depolama ve lojistik yapıları için çelik taşıyıcı sistem.',
+   dahil:['Portal çerçeve ve kafes sistemler','Vinç yolu ve asma kat','Sandviç panel çatı ve cephe']},
+  {grup:'celik',kategori:'cati',baslik:'Çelik Çatı ve Cephe Sistemleri',link:'https://clkyapigroup.com/tr/hizmetler/celik-cati-ve-cephe-sistemleri',
+   aciklama:'Mevcut ya da yeni yapılar için hafif çelik çatı, kaplama ve cephe taşıyıcıları.',
+   dahil:['Kırma, beşik ve tek eğimli çatılar','Trapez, sandviç panel ve kenet kaplama','Cephe alt konstrüksiyonu']},
+  {grup:'celik',kategori:'tadilat',baslik:'Çelik Yapı Güçlendirme',link:'https://clkyapigroup.com/tr/hizmetler/celik-yapi-guclendirme',
+   aciklama:'Mevcut betonarme yapılarda çelik elemanlarla taşıyıcı sistem güçlendirmesi.',
+   dahil:['Performans analizi','Çelik çapraz ve mantolama','Kolon ve kiriş takviyesi']},
+  {grup:'celik',kategori:'endustri',baslik:'Çelik İmalat ve Montaj',link:'',
+   aciklama:'Projesi hazır yapılar için kesim listesine göre atölye imalatı ve sahada montaj.',
+   dahil:['Kesim, delik ve kaynak','Antipas, boya veya galvaniz','Sahada bulonlu montaj']},
+  {grup:'muh',kategori:'proje',baslik:'Proje, Statik Hesap ve 3D Render',link:'',
+   aciklama:'Çelik ve betonarme yapıların statik hesabı, uygulama projeleri ve yapıyı inşa edilmeden görmenizi sağlayan 3B görseller.',
+   dahil:['TBDY 2018 ve Çelik Yapılar Yönetmeliği\'ne göre statik hesap','Mimari proje ve uygulama çizimleri','Birleşim detayları, kesim listesi ve metraj','Fotogerçekçi 3D render']},
+  {grup:'ins',kategori:'betonarme',baslik:'Betonarme',link:'',aciklama:'Temel, bodrum perdesi ve betonarme taşıyıcı sistem imalatı.'},
+  {grup:'ins',kategori:'epoksi',baslik:'Zemin Epoksi',link:'',aciklama:'Fabrika, depo, otopark ve ticari alanlar için epoksi zemin kaplama.'},
+  {grup:'ins',kategori:'alcipan',baslik:'İç Dekorasyon ve Alçıpan',link:'',aciklama:'Kutu profil ve alçıpan bölme duvar, asma tavan ve iç mekân düzenlemesi.'},
+  {grup:'ins',kategori:'tadilat',baslik:'Tadilat ve Tamirat',link:'',aciklama:'Konut ve iş yerlerinde onarım, yenileme ve küçük ölçekli yapısal işler.'},
+  {grup:'ins',kategori:'peyzaj',baslik:'Çevre ve Peyzaj',link:'',aciklama:'Bahçe düzenlemesi, çevre duvarı, kamelya ve pergole gibi dış mekân işleri.'}
+];
+const PROJELER_URL='https://clkyapigroup.com/tr/projeler?kategori=';
+/* ===================================================================== */
+const CIZIM={
+  konut:'M60 150V72M140 150V72M220 150V72M60 111H220M60 72H220M46 72L140 30L234 72M24 150H296M100 150V122H124V150M170 96H196V111',
+  cati:'M40 142H280M62 142V104M258 142V104M50 104H270M50 104L118 62H202L270 104M118 62L96 104M202 62L224 104M160 62V104M140 62V104M180 62V104',
+  kentsel:'M84 150V26M140 150V26M196 150V26M252 150V26M84 26H252M84 57H252M84 88H252M84 119H252M84 26L140 57M196 88L252 119M140 88L196 119M60 150H276',
+  endustri:'M36 150V84L160 40L284 84V150M98 150V62M222 150V62M36 84L98 62M284 84L222 62M98 62L160 40L222 62M36 116L98 62M284 116L222 62M18 150H302',
+  betonarme:'M70 150V40M250 150V40M160 150V40M60 40H260M60 76H260M60 112H260M52 150H268M70 40L60 30M250 40L260 30',
+  epoksi:'M36 150L104 62H216L284 150ZM70 106H250M160 62V150M104 62L78 150M216 62L242 150M53 128H267M87 84H233',
+  alcipan:'M60 150V40M100 150V40M140 150V40M180 150V40M220 150V40M260 150V40M48 40H272M48 150H272M48 95H272',
+  tadilat:'M70 150V60L160 32L250 60V150M70 60H250M110 150V100H150V150M180 100H220V124H180ZM40 150H280',
+  peyzaj:'M30 150H290M80 150V112M80 112C60 112 56 86 80 78C104 86 100 112 80 112M230 150V104M230 104C204 104 200 70 230 60C260 70 256 104 230 104M130 150Q160 124 190 150',
+  proje:'M60 140H260V40H60ZM60 110L110 60L170 110M150 90L200 50L260 100M60 70H100M60 40L100 70M260 140L220 110'};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const svg=(k,w)=>`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet" fill="none" stroke="#B9C6D8" stroke-width="${w||2}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${CIZIM[k]||CIZIM.proje}"/></svg>`;
+const links=h=>`<div class="links">${h.link?`<a href="${esc(h.link)}">Detaylar →</a>`:`<a href="https://clkyapigroup.com/tr/teklif-al">Teklif iste →</a>`}<a class="sec" href="${PROJELER_URL+h.kategori}">Projeleri gör</a></div>`;
+const inc=d=>d&&d.length?`<ul class="inc">${d.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'';
+$('#svc-celik').innerHTML=HIZMETLER.filter(h=>h.grup==='celik').map(h=>`<article class="card"><div class="art grid-bg">${svg(h.kategori)}</div>
+  <div class="body"><h3>${esc(h.baslik)}</h3><p class="desc">${esc(h.aciklama)}</p>${inc(h.dahil)}${links(h)}</div></article>`).join('');
+$('#svc-muh').innerHTML=HIZMETLER.filter(h=>h.grup==='muh').map(h=>`<article class="wide-svc"><div class="art grid-bg">${svg(h.kategori)}</div>
+  <div class="body" style="gap:14px"><h3 style="margin:0;font-size:28px;font-weight:800;font-stretch:112%;line-height:1.1">${esc(h.baslik)}</h3><p class="desc">${esc(h.aciklama)}</p>${inc(h.dahil)}${links(h)}</div></article>`).join('');
+$('#svc-ins').innerHTML=HIZMETLER.filter(h=>h.grup==='ins').map(h=>`<article><div class="mini grid-bg">${svg(h.kategori,4)}</div>
+  <div><h3>${esc(h.baslik)}</h3><p>${esc(h.aciklama)}</p>${links(h)}</div></article>`).join('');
+/* aktif grup vurgusu */
+const jl=[...document.querySelectorAll('.jump a')];
+if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){jl.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-40% 0px -55% 0px'});
+  jl.forEach(a=>{const t=document.querySelector(a.getAttribute('href'));if(t)io.observe(t)})}
+</script>
+</body>
+</html>

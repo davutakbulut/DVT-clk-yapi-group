@@ -22,7 +22,7 @@ export async function ProjectsList({ locale, categorySlug }: Props) {
   const items = list.ok ? list.data : [];
   const current = categorySlug ? categories.find((c) => c.slug === categorySlug) : undefined;
   const copy = settings.projectsPage ?? EMPTY_PROJECTS_PAGE;
-  const L = (v: Readonly<Record<string, string>>) => pickLocale(v, locale, { fallback: 'tr' });
+  const L = (v: Readonly<Partial<Record<string, string>>>) => pickLocale(v, locale, { fallback: 'tr' });
   const stats = copy.stats.map((s) => ({ value: L(s.value), label: L(s.label) })).filter((s) => s.value);
   const steps = copy.steps.items.map((s) => ({ title: L(s.title), text: L(s.text) })).filter((s) => s.title);
   return (

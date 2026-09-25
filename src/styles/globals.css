@@ -2429,6 +2429,7 @@
   .page-hero { display: grid; gap: var(--space-6); padding: var(--space-8) 0 var(--space-6); }
   .page-hero-row { display: flex; gap: var(--space-10); align-items: flex-end; }
   .page-hero-title { flex: 1; margin: 0; font-size: clamp(2.6rem, 7vw, 6rem); line-height: 0.94; letter-spacing: -0.02em; font-stretch: 116%; }
+  .page-hero-title-md { font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.02; max-width: 24ch; }
   .page-hero-lede { margin: 0; max-width: 30rem; font-size: var(--fs-body-lg); color: var(--color-text-muted); }
   .hero-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
   .hero-stats div { padding: var(--space-4) 0; font-size: var(--fs-sm); color: var(--color-text-muted); }
@@ -2530,4 +2531,29 @@
   @media (max-width: 1023px) { .svc-grid, .proj-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .why-grid { grid-template-columns: 1fr 1fr; } .tools, .steps { grid-template-columns: 1fr; } .wide-svc { grid-template-columns: 1fr; } .wide-svc .tech-art { min-height: 200px; } .ghead { flex-direction: column; align-items: flex-start; gap: var(--space-3); } .page-hero-row { flex-direction: column; align-items: flex-start; gap: var(--space-5); } .cta-band { flex-direction: column; align-items: flex-start; padding: var(--space-8) var(--space-6); } .cta-band-acts { flex-direction: column; width: 100%; } .cta-band-acts .btn { width: 100%; justify-content: center; } }
   @media (max-width: 800px) { .svc-rows { grid-template-columns: 1fr; } .svc-rows li { grid-template-columns: 72px minmax(0, 1fr); padding-right: 0; } .svc-rows .tech-art { height: 56px; } }
   @media (max-width: 640px) { .svc-grid, .proj-grid { grid-template-columns: 1fr; } .proj-wide { grid-column: span 1; } .why-grid { grid-template-columns: 1fr; } .hero-stats { grid-template-columns: 1fr 1fr; } .hero-stats b { font-size: 1.5rem; } .proj-cats { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: thin; position: relative; } .proj-cats > * { flex: 0 0 auto; } .proj-empty { flex-direction: column; align-items: flex-start; padding: var(--space-6) var(--space-4); } .page-hero { padding-top: var(--space-6); } .svc-body, .proj-body { padding: var(--space-5); } }
+}
+
+/* ── Konfigüratör rehber sayfaları + "Kendiniz inşa etmek ister misiniz?" bandı (K-107) ── */
+@layer components {
+  .cfg-art { height: 180px; color: var(--steel-pale); }
+  .cfg-art svg { width: 60%; height: auto; max-height: 80%; }
+  .cfg-hero-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--space-6); align-items: end; }
+  .cfg-hero-art { min-height: 260px; color: var(--steel-pale); }
+  .cfg-hero-art svg { width: 55%; height: auto; }
+  .cfg-hero-acts { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .configurator-chooser-grid > li { display: grid; grid-template-rows: 1fr auto; } /* K-107: rehber bağlantısı kartın altında sabit satırda */
+  .configurator-type-guide { display: inline-flex; align-items: center; min-height: 40px; margin-top: 6px; padding: 0 var(--space-2); font-size: var(--fs-sm); color: var(--color-text-inverse-muted); }
+  .configurator-type-guide:hover { color: var(--color-accent-on-dark); text-decoration: underline; text-underline-offset: 4px; }
+  .cfg-banner { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--space-8); align-items: center; padding: var(--space-8) var(--space-10); color: var(--color-text-inverse); background: var(--navy-dark) linear-gradient(rgb(143 163 191 / 0.14) 1px, transparent 1px), linear-gradient(90deg, rgb(143 163 191 / 0.14) 1px, transparent 1px); background-size: 28px 28px; border-left: 4px solid var(--mark); }
+  .cfg-banner-art { color: var(--steel-pale); }
+  .cfg-banner-art svg { width: 100%; height: auto; }
+  .cfg-banner-body { display: grid; gap: var(--space-3); }
+  .cfg-banner-title { margin: 0; font-family: var(--font-heading, ui-sans-serif), sans-serif; font-weight: 800; font-stretch: 116%; font-size: clamp(1.6rem, 3.2vw, 2.4rem); line-height: 1.05; }
+  .cfg-banner-lead { margin: 0; max-width: 40rem; color: var(--color-text-inverse-muted); }
+  .cfg-banner-acts { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-2); }
+  .prose-site h2 { margin: var(--space-8) 0 var(--space-3); font-size: 1.5rem; line-height: 1.15; }
+  .prose-site p, .prose-site li { color: var(--color-text-muted); line-height: 1.65; }
+  .prose-site ul { padding-left: 1.2em; display: grid; gap: 6px; }
+  .prose-site strong { color: var(--color-text); }
+  @media (max-width: 1023px) { .cfg-hero-row { grid-template-columns: 1fr; } .cfg-banner { grid-template-columns: 1fr; padding: var(--space-6); } .cfg-banner-art { width: 140px; } }
 }

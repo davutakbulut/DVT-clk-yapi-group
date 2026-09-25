@@ -307,6 +307,8 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [ ] *Açık:* geçerli desenli rastgele slug ISR 404 disk girişi (middleware slug listesi) · Supabase Auth CAPTCHA (ürün sahibi, panel) · Upstash ile süreçler arası sayaç · konfigürasyon sürüm üst sınırı
 - [x] **Faz 29e** — Hizmetler & Projeler sayfaları yeniden (K-106): 12 hizmet / 3 grup, 10 kategori, proje tarayıcı, panelden sayfa metinleri; header dil/sepet yerleşimi (K-105) ✅ 2026-09-24
   - [ ] *Ürün sahibi:* proje sayaçları (tamamlanan proje / ton / m² / il) `/admin/settings/pages` → Sayaçlar; tamamlanan projelerin fotoğraf, m², ton ve süre bilgileri; yeni hizmetlerin EN onayı
+- [x] **Faz 29f** — Konfigüratör rehber (SEO iniş) sayfaları + band (K-107): 6 sayfa, HowTo/FAQ yapısal veri, panel, site haritası ✅ 2026-09-25
+  - [ ] *Ürün sahibi:* rehberlere kapak görseli (konfigüratör ekran görüntüsü) ve EN onayı
 - [x] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel ✅
   - [x] RSS 2.0 `/{locale}/feed.xml` (dil başına yayındaki son 50 yazı; `atom:link self`; 30 dk önbellek) · `buildAlternates` her sayfaya `application/rss+xml` otomatik keşfi · `llms.txt` genişletildi (çözümler, ürünler, projeler, beslemeler)
   - [x] IndexNow: `core/jobs/indexNow` (`parseSitemap`/`selectChanged` 2 test; sitemap'teki `lastmod` > son başarılı koşu → `api.indexnow.org` tek POST; ilk koşuda tümü; yalnız üretim + `SITE_INDEXABLE`; heartbeat `indexnow`) · `/api/cron/indexnow` (saatte bir, `vercel.json`) · `/api/indexnow-key` (keyLocation) · SEO ayarlarında durum + "Şimdi gönder" (`triggerIndexNow`, admin oturumu K-56 deseni)

@@ -30,6 +30,7 @@ const schema = z.object({
   'maintenance': z.object({ enabled: z.boolean().catch(false), message: z.record(z.string(), z.string()).catch({}) }).catch({ enabled: false, message: {} }),
   'modules.enabled': z.record(z.string(), z.boolean()).catch({}),
   'configurator.disclaimer': z.record(z.string(), z.string()).catch({}),
+  'configurator.banner': z.object({ title: z.record(z.string(), z.string()).catch({}), lead: z.record(z.string(), z.string()).catch({}), button: z.record(z.string(), z.string()).catch({}) }).catch({ title: {}, lead: {}, button: {} }),
   'services.page': z.unknown().catch(null),
   'projects.page': z.unknown().catch(null),
   'analytics.config': z
@@ -96,6 +97,8 @@ export interface PublicSettings {
   /** Konfigüratör yasal uyarısı (04-CONFIGURATOR zorunlu). */
   readonly configuratorDisclaimer: LocalizedText;
   /** Hizmetler / Projeler sayfa metinleri (K-106). */
+  /** "Kendiniz inşa etmek ister misiniz?" bandı (K-107). */
+  readonly configuratorBanner: { readonly title: LocalizedText; readonly lead: LocalizedText; readonly button: LocalizedText };
   readonly servicesPage: ServicesPageCopy;
   readonly projectsPage: ProjectsPageCopy;
 }
@@ -117,6 +120,7 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   modules: {},
   analytics: { enabled: false, sampleRate: 1, ga4Id: '', adsId: '', metaPixelId: '' },
   configuratorDisclaimer: {},
+  configuratorBanner: { title: {}, lead: {}, button: {} },
   servicesPage: EMPTY_SERVICES_PAGE,
   projectsPage: EMPTY_PROJECTS_PAGE,
 };
@@ -145,6 +149,7 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     maintenance: s['maintenance'],
     modules: s['modules.enabled'],
     configuratorDisclaimer: s['configurator.disclaimer'],
+    configuratorBanner: s['configurator.banner'],
     servicesPage: parseServicesPage(s['services.page']),
     projectsPage: parseProjectsPage(s['projects.page']),
     analytics: { enabled: s['analytics.config'].enabled, sampleRate: s['analytics.config'].sample_rate, ga4Id: s['analytics.config'].ga4_id, adsId: s['analytics.config'].ads_id, metaPixelId: s['analytics.config'].meta_pixel_id },

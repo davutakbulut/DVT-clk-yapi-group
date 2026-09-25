@@ -8,6 +8,7 @@ import { getCachedProjectCategories, getCachedProjectList } from '@/modules/proj
 import { getCachedServiceList } from '@/modules/services';
 import { getCachedPriceGuideList } from '@/modules/pricing';
 import { getCachedSolutionList } from '@/modules/solutions';
+import { getCachedGuideList } from '@/modules/configurator-pages';
 import { getCachedLegalPages } from '@/modules/static-pages';
 
 // 02-SEO: veritabanından, her URL tam dil kümesiyle (alternates.languages → xhtml:link). Çevrilmemiş dil YAZILMAZ.
@@ -15,6 +16,7 @@ const STATIC: readonly { readonly href: AppHref; readonly priority: number; read
   { href: '/', priority: 1, changeFrequency: 'weekly' },
   { href: '/services', priority: 0.9, changeFrequency: 'weekly' },
   { href: '/solutions', priority: 0.8, changeFrequency: 'monthly' },
+  { href: '/configurator-guide', priority: 0.8, changeFrequency: 'monthly' },
   { href: '/pricing', priority: 0.8, changeFrequency: 'weekly' },
   { href: '/reviews', priority: 0.5, changeFrequency: 'weekly' },
   { href: '/projects', priority: 0.8, changeFrequency: 'weekly' },
@@ -74,6 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   await byId(getCachedServiceList, '/services/[slug]', 0.8, 'monthly');
   await byId(getCachedSolutionList, '/solutions/[slug]', 0.7, 'monthly');
+  await byId(getCachedGuideList, '/configurator-guide/[slug]', 0.8, 'monthly');
   await byId(getCachedPriceGuideList, '/pricing/[slug]', 0.8, 'weekly', (g) => g.pricesUpdatedAt);
   await byId(getCachedProjectList, '/projects/[slug]', 0.7, 'monthly', (p) => p.completedOn);
   await byId(getCachedProjectCategories, '/projects/category/[slug]', 0.6, 'monthly');

@@ -6,7 +6,7 @@ export const ADMIN_NAV_GROUPS = ['overview', 'content', 'catalog', 'corporate', 
 export type AdminNavGroup = (typeof ADMIN_NAV_GROUPS)[number];
 
 export interface AdminNavItem {
-  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'pagesSettings' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'fieldVideos' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'socialLinks' | 'whatsapp' | 'errors' | 'media' | 'users';
+  readonly key: 'dashboard' | 'home' | 'services' | 'projects' | 'projectCategories' | 'blog' | 'blogTaxonomy' | 'comments' | 'leads' | 'mailTemplates' | 'formSettings' | 'pagesSettings' | 'configuratorPages' | 'team' | 'references' | 'certificates' | 'careers' | 'applications' | 'faq' | 'products' | 'productCategories' | 'solutions' | 'pricing' | 'fieldVideos' | 'materialPrices' | 'steelProfiles' | 'configurations' | 'configuratorRules' | 'testimonials' | 'notifications' | 'customers' | 'sales' | 'invoices' | 'reports' | 'analytics' | 'analyticsSettings' | 'heatmap' | 'funnels' | 'formAnalytics' | 'journeys' | 'errorLogs' | 'brokenLinks' | 'vitals' | 'translations' | 'redirects' | 'audit' | 'modules' | 'legalPages' | 'seoSettings' | 'cookieSettings' | 'maintenance' | 'menus' | 'settings' | 'socialLinks' | 'whatsapp' | 'errors' | 'media' | 'users';
   readonly href: string;
   /** Kenar çubuğu bölümü (ADMIN_NAV_GROUPS sırasıyla gösterilir). */
   readonly group: AdminNavGroup;
@@ -44,6 +44,7 @@ export const ADMIN_NAV: readonly AdminNavItem[] = [
   { key: 'reports', href: '/admin/reports', group: 'crm', roles: ['super_admin', 'admin', 'sales', 'viewer'] },
   { key: 'configurations', href: '/admin/configurator', group: 'configurator', roles: ['super_admin', 'admin', 'sales', 'viewer', 'editor'] },
   { key: 'configuratorRules', href: '/admin/configurator/rules', group: 'configurator', roles: ['super_admin', 'admin'] },
+  { key: 'configuratorPages', href: '/admin/configurator-pages', group: 'configurator', roles: ['super_admin', 'admin', 'editor'] },
   { key: 'steelProfiles', href: '/admin/configurator/profiles', group: 'configurator', roles: ['super_admin', 'admin'] },
   { key: 'analytics', href: '/admin/analytics', group: 'analytics' },
   { key: 'heatmap', href: '/admin/analytics/heatmap', group: 'analytics' },

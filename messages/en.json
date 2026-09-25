@@ -173,7 +173,8 @@
       "configuratorRules": "Configurator Rules",
       "fieldVideos": "Field Videos",
       "socialLinks": "Social Media",
-      "pagesSettings": "Page Copy"
+      "pagesSettings": "Page Copy",
+      "configuratorPages": "Configurator Guides"
     },
     "common": {
       "save": "Save",
@@ -1594,6 +1595,34 @@
       "stats": "Counters (\"Value | Label\", hidden when empty)",
       "emptyTitle": "Empty category title ({category} placeholder)",
       "emptyText": "Empty category text"
+    },
+    "configuratorPages": {
+      "title": "Configurator Guides",
+      "lead": "An SEO landing page per configurator: ranks in Google and AI search and sends visitors to the configurator with a \"Want to build it yourself?\" banner.",
+      "new": "New guide",
+      "hero": "Title and summary",
+      "key": "Configurator",
+      "keyHint": "One page per configurator; the guide links to it.",
+      "keys": {
+        "hall": "Steel hall",
+        "multi_storey": "Multi-storey steel building",
+        "cladding": "Roof & facade cladding",
+        "mezzanine": "Mezzanine platform",
+        "fence": "Fence & railing",
+        "drywall": "Drywall partition"
+      },
+      "name": "Page title (H1)",
+      "summary": "Summary (under hero, meta description fallback)",
+      "body": "Body",
+      "bodyMd": "Body text (Markdown)",
+      "bodyHint": "## for subheadings, - for bullets; use the keyword in headings for SEO.",
+      "lists": "Benefits, steps, FAQ",
+      "benefits": "Benefits (\"Title | Description\")",
+      "steps": "How-to steps (\"Title | Description\") — HowTo structured data",
+      "faqs": "FAQ (\"Question | Answer\") — FAQPage structured data",
+      "pairHint": "One item per line; title and description separated by a pipe.",
+      "faqHint": "One question per line; question and answer separated by a pipe.",
+      "banner": "\"Want to build it yourself?\" banner"
     }
   },
   "Services": {
@@ -2737,5 +2766,20 @@
       "includes": "Profile, company details, quote requests and items, messages, configurations.",
       "privacy": "Privacy policy"
     }
+  },
+  "ConfiguratorGuide": {
+    "title": "Configurator Guides",
+    "kicker": "Configurator",
+    "lead": "Guides explaining what each configurator does, what it asks for and what it produces. Read, then try it yourself.",
+    "empty": "No guides published yet.",
+    "home": "Home",
+    "read": "Read the guide",
+    "open": "Open the configurator",
+    "all": "All guides",
+    "benefits": "What you gain",
+    "steps": "How to use it",
+    "faq": "Frequently asked",
+    "quote": "Request a quote",
+    "howItWorks": "How does it work?"
   }
 }

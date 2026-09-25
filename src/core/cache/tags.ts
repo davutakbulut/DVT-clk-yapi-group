@@ -12,6 +12,7 @@ export const CACHE_TAGS = {
   blog: 'blog_posts',
   products: 'products',
   solutions: 'solutions',
+  configuratorPages: 'configurator_pages',
   pricing: 'price_guides',
   testimonials: 'testimonials',
   corporate: 'corporate',

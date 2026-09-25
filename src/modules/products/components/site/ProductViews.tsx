@@ -17,6 +17,9 @@ import { Container } from '@/ui/Container';
 import { Crumbs } from '@/ui/Crumbs';
 import { SectionHeading } from '@/ui/SectionHeading';
 import { getCachedProductCategories, getCachedProductList, type ProductCardData, type ProductDetailData } from '../../data/productsRepository';
+import { getPublicSettings } from '@/modules/site-settings';
+import { ConfiguratorBanner } from '@/modules/configurator-pages';
+import { pickLocale } from '@/lib/localized';
 
 export function ProductCard({ product, locale, supabaseUrl, headingLevel: Heading = 'h3' }: { readonly product: ProductCardData; readonly locale: string; readonly supabaseUrl: string | null; readonly headingLevel?: 'h2' | 'h3' }) {
   const t = useTranslations('Products');
@@ -52,8 +55,11 @@ export function ProductCard({ product, locale, supabaseUrl, headingLevel: Headin
 
 /** /urunler ve /urunler/kategori/[slug]: kategori çipleri (alt kategoriler dahil) + kart ızgarası. */
 export async function ProductsList({ locale, categorySlug }: { readonly locale: string; readonly categorySlug?: string }) {
-  const [list, cats, env, t] = await Promise.all([getCachedProductList(locale), getCachedProductCategories(locale), readSupabasePublicEnv(), getTranslations('Products')]);
+  const [list, cats, env, t, settings] = await Promise.all([getCachedProductList(locale), getCachedProductCategories(locale), readSupabasePublicEnv(), getTranslations('Products'), getPublicSettings()]);
   if (!list.ok) logger.warn(list.error.message, { module: 'products', code: list.error.code });
+  // K-107: "Kendiniz inşa etmek ister misiniz?" bandı — metin site_settings configurator.banner
+  const L = (v: Readonly<Partial<Record<string, string>>>) => pickLocale(v, locale, { fallback: 'tr' });
+  const banner = { title: L(settings.configuratorBanner.title), lead: L(settings.configuratorBanner.lead), button: L(settings.configuratorBanner.button) };
   const categories = cats.ok ? cats.data : [];
   const current = categorySlug ? categories.find((c) => c.slug === categorySlug) : undefined;
   const inScope = new Set<string>();
@@ -101,6 +107,7 @@ export async function ProductsList({ locale, categorySlug }: { readonly locale: 
           ))}
         </ul>
       )}
+      {banner.title ? <ConfiguratorBanner title={banner.title} lead={banner.lead} button={banner.button} href="/configurator-guide" glyph="cladding" /> : null}
     </Container>
   );
 }

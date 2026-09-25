@@ -863,6 +863,102 @@ export type Database = {
           },
         ]
       }
+      configurator_pages: {
+        Row: {
+          benefits: Json
+          body: Json
+          canonical_url: string | null
+          configurator_key: string
+          cover_image_id: string | null
+          created_at: string
+          cta: Json
+          faqs: Json
+          focus_keyword: Json
+          hero_summary: Json
+          id: string
+          noindex: boolean
+          og_image_id: string | null
+          published_at: string | null
+          published_locales: string[]
+          seo_description: Json
+          seo_title: Json
+          slug: Json
+          sort_order: number | null
+          status: string
+          steps: Json
+          title: Json
+          translation_meta: Json
+          updated_at: string
+        }
+        Insert: {
+          benefits?: Json
+          body?: Json
+          canonical_url?: string | null
+          configurator_key: string
+          cover_image_id?: string | null
+          created_at?: string
+          cta?: Json
+          faqs?: Json
+          focus_keyword?: Json
+          hero_summary?: Json
+          id?: string
+          noindex?: boolean
+          og_image_id?: string | null
+          published_at?: string | null
+          published_locales?: string[]
+          seo_description?: Json
+          seo_title?: Json
+          slug: Json
+          sort_order?: number | null
+          status?: string
+          steps?: Json
+          title: Json
+          translation_meta?: Json
+          updated_at?: string
+        }
+        Update: {
+          benefits?: Json
+          body?: Json
+          canonical_url?: string | null
+          configurator_key?: string
+          cover_image_id?: string | null
+          created_at?: string
+          cta?: Json
+          faqs?: Json
+          focus_keyword?: Json
+          hero_summary?: Json
+          id?: string
+          noindex?: boolean
+          og_image_id?: string | null
+          published_at?: string | null
+          published_locales?: string[]
+          seo_description?: Json
+          seo_title?: Json
+          slug?: Json
+          sort_order?: number | null
+          status?: string
+          steps?: Json
+          title?: Json
+          translation_meta?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "configurator_pages_cover_image_id_fkey"
+            columns: ["cover_image_id"]
+            isOneToOne: false
+            referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "configurator_pages_og_image_id_fkey"
+            columns: ["og_image_id"]
+            isOneToOne: false
+            referencedRelation: "media_library"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       configurator_rules: {
         Row: {
           created_at: string
@@ -5402,6 +5498,10 @@ export type Database = {
         Returns: Json
       }
       get_configuration_by_token: { Args: { p_token: string }; Returns: Json }
+      get_configurator_page_by_slug: {
+        Args: { p_locale: string; p_slug: string }
+        Returns: Json
+      }
       get_my_customer: { Args: never; Returns: Json }
       get_price_guide_by_slug: {
         Args: { p_locale: string; p_slug: string }

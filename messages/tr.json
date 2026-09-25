@@ -173,7 +173,8 @@
       "configuratorRules": "Konfigüratör Kuralları",
       "fieldVideos": "Sahadan Videolar",
       "socialLinks": "Sosyal Medya",
-      "pagesSettings": "Sayfa Metinleri"
+      "pagesSettings": "Sayfa Metinleri",
+      "configuratorPages": "Konfigüratör Rehberleri"
     },
     "common": {
       "save": "Kaydet",
@@ -1594,6 +1595,34 @@
       "stats": "Sayaçlar (\"Değer | Etiket\", boş bırakılırsa gizlenir)",
       "emptyTitle": "Boş kategori başlığı ({category} yer tutucusu)",
       "emptyText": "Boş kategori metni"
+    },
+    "configuratorPages": {
+      "title": "Konfigüratör Rehberleri",
+      "lead": "Her konfigüratör için SEO odaklı tanıtım sayfası: Google ve yapay zeka aramalarında çıkar, \"Kendiniz inşa etmek ister misiniz?\" bandıyla konfigüratöre yönlendirir.",
+      "new": "Yeni rehber",
+      "hero": "Başlık ve özet",
+      "key": "Konfigüratör",
+      "keyHint": "Her konfigüratör için tek sayfa; rehber bu konfigüratöre bağlanır.",
+      "keys": {
+        "hall": "Çelik hol",
+        "multi_storey": "Çok katlı çelik yapı",
+        "cladding": "Çatı & cephe kaplama",
+        "mezzanine": "Ara kat platformu",
+        "fence": "Çit & korkuluk",
+        "drywall": "Alçıpan bölme duvar"
+      },
+      "name": "Sayfa başlığı (H1)",
+      "summary": "Özet (hero altı, meta açıklama yedeği)",
+      "body": "Gövde",
+      "bodyMd": "Gövde metni (Markdown)",
+      "bodyHint": "## ile alt başlık, - ile madde; SEO için anahtar kelimeyi başlıklarda kullanın.",
+      "lists": "Faydalar, adımlar, SSS",
+      "benefits": "Faydalar (\"Başlık | Açıklama\")",
+      "steps": "Nasıl kullanılır adımları (\"Başlık | Açıklama\") — HowTo yapısal verisi",
+      "faqs": "Sık sorulanlar (\"Soru | Cevap\") — FAQPage yapısal verisi",
+      "pairHint": "Her satır bir madde; dikey çizgiyle başlık ve açıklama.",
+      "faqHint": "Her satır bir soru; dikey çizgiyle soru ve cevap.",
+      "banner": "\"Kendiniz inşa etmek ister misiniz?\" bandı"
     }
   },
   "Services": {
@@ -2737,5 +2766,20 @@
       "includes": "Profil, firma bilgisi, teklif talepleri ve kalemleri, yazışmalar, konfigürasyonlar.",
       "privacy": "Gizlilik politikası"
     }
+  },
+  "ConfiguratorGuide": {
+    "title": "Konfigüratör Rehberleri",
+    "kicker": "Konfigüratör",
+    "lead": "Her konfigüratörün ne yaptığını, hangi bilgileri istediğini ve ne ürettiğini anlatan rehberler. Okuyun, sonra kendiniz deneyin.",
+    "empty": "Henüz yayında rehber yok.",
+    "home": "Ana sayfa",
+    "read": "Rehberi oku",
+    "open": "Konfigüratörü aç",
+    "all": "Tüm rehberler",
+    "benefits": "Ne kazandırır",
+    "steps": "Nasıl kullanılır",
+    "faq": "Sık sorulanlar",
+    "quote": "Teklif iste",
+    "howItWorks": "Nasıl çalışır?"
   }
 }

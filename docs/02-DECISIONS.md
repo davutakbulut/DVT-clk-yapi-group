@@ -544,3 +544,15 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - Tasarım referanstan yerleşim ve bilgi mimarisini alır, renk/köşe/hizayı değil (04-DESIGN-RULES): koyu tema token'ları, teknik çizim zemini `--navy-dark` + ızgara, altın yalnız vurgu çizgisi/CTA. Proje tarayıcı istemci bileşeni (kategori çipleri adetli, durum sekmeleri, `?kategori=` paylaşımı); kategori sayfaları JS'siz yol olarak seçili başlar.
 
 **Sonuç:** `ServicesList`, `ProjectsList` + `ProjectsBrowser`, `ProjectCard` (meta ızgaralı), `src/ui/PageSections.tsx` (hero, adımlar, neden, CTA bandı); admin formlarında yeni alanlar; E2E `services-projects.spec.ts`; PGlite testleri güncellendi.
+
+### K-107 · Konfigüratör rehber (SEO iniş) sayfaları + "Kendiniz inşa etmek ister misiniz?" bandı
+
+**Bağlam:** Konfigüratörler dinamik, sorgu dizesine bağlı sayfalar; arama motorları ve yapay zeka aramaları için anlatan, dizine giren HTML içerik yoktu. Ürün sahibi her konfigüratör için tanıtım sayfası ve konfigüratöre yönlendiren slogan bandı istedi.
+
+**Karar:**
+- Yeni içerik tipi `configurator_pages` (0055): konfigüratör başına TEK sayfa (`configurator_key` tekil), çevrili slug, başlık, özet, Markdown gövde, faydalar/adımlar/SSS (satır biçimi), band metni, kapak, SEO alanları, yayın akışı (K-07/K-08/K-09). `is_content_type` listesine `configurator_page` (slug geçmişi → 308). RPC `get_configurator_page_by_slug` yalnız yayındaki ve o dilde yayınlanmış sayfayı döner.
+- Rotalar `(marketing)` grubunda (header/footer ile): `/konfigurator-rehberi` ve `/konfigurator-rehberi/[slug]`; ISR + `generateStaticParams`. Yapısal veri: WebPage(about: SoftwareApplication) + HowTo (adımlar) + FAQPage + BreadcrumbList; hreflang yalnız yayındaki diller; site haritasında.
+- İç bağlantı: seçim sayfası kartlarında "Nasıl çalışır?", rehber → konfigüratör (hero düğmesi + band), ürünler ve hizmetler sayfalarında genel band (`site_settings` `configurator.banner`, panelden düzenlenir). Tür simgesi `src/ui/ConfiguratorGlyph.tsx` ortak.
+- Panel: `/admin/configurator-pages` (liste, yeni, düzenle); grup "Konfigüratör". İçerik tohumu 6 rehber TR (EN taslak, onaysız); sayısal iddia/fiyat yok (K-55).
+
+**Sonuç:** modül `src/modules/configurator-pages`; PGlite `configurator-pages.test.ts`; E2E `configurator-guide.spec.ts`.

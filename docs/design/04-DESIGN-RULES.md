@@ -123,3 +123,9 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - **Süzgeç:** kategori çipleri adet rozetli (seçili: mürekkep zemin, altın adet), durum sekmeleri alt çizgili, sayaç mono. Mobilde çipler yatay kaydırma (K-92).
 - **CTA bandı:** ızgaralı lacivert zemin, altın birincil düğme (`.btn-mark`), açık çelik çerçeveli telefon düğmesi. Altın yalnız burada ve seçili çip adedinde.
 - Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi. Alınmayan: açık "kâğıt" zemin, köşe yarıçapı, Archivo yazı tipi (04-DESIGN-RULES §2).
+
+## 8d · Konfigüratör rehber sayfaları ve band (K-107)
+
+- Rehber hero'su **kompakt** başlık (`.page-hero-title-md`, ≤ 24ch): SEO başlıkları uzundur, dev hero ölçüsü 7 satıra düşüyordu.
+- "Kendiniz inşa etmek ister misiniz?" bandı (`.cfg-banner`): ızgaralı lacivert zemin, solda altın 4 px çizgi, çizgisel tür simgesi (`src/ui/ConfiguratorGlyph.tsx`), altın birincil düğme + açık çelik ikincil düğme. Metin veriden (rehberde kendi bandı; ürünler/hizmetlerde `configurator.banner` ayarı).
+- Seçim sayfasında "Nasıl çalışır? →" bağlantısı kartın **dışında**, altında sabit satırda (kart tek bağlantıdır; iç içe bağlantı yok).

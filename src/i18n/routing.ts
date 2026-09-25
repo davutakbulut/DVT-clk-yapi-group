@@ -73,6 +73,9 @@ export const routing = defineRouting({
     '/configurator/mezzanine': { tr: '/konfigurator/ara-kat', en: '/configurator/mezzanine' },
     '/configurator/fence': { tr: '/konfigurator/cit-korkuluk', en: '/configurator/fence' },
     '/configurator/drywall': { tr: '/konfigurator/alcipan-duvar', en: '/configurator/drywall' },
+    // K-107 · konfigüratör rehber (SEO iniş) sayfaları — marketing grubunda, header/footer ile
+    '/configurator-guide': { tr: '/konfigurator-rehberi', en: '/configurator-guide' },
+    '/configurator-guide/[slug]': { tr: '/konfigurator-rehberi/[slug]', en: '/configurator-guide/[slug]' },
     '/configurator/k/[token]': { tr: '/konfigurator/k/[token]', en: '/configurator/k/[token]' },
     '/configurator/k/[token]/print': { tr: '/konfigurator/k/[token]/yazdir', en: '/configurator/k/[token]/print' },
     // Faz 17 · müşteri yorumları

@@ -3,13 +3,13 @@ import { Link } from '@/i18n/navigation';
 import type { AppHref } from '@/i18n/navigation';
 
 /** Ortak sayfa bölümleri (K-106): hero, numaralı süreç, "neden", CTA bandı. Tüm metinler veriden gelir; boş liste → bölüm yok. */
-export function PageHero({ eyebrow, title, lede, children }: { readonly eyebrow: string; readonly title: string; readonly lede?: string; readonly children?: ReactNode }) {
+export function PageHero({ eyebrow, title, lede, children, compact = false }: { readonly eyebrow: string; readonly title: string; readonly lede?: string; readonly children?: ReactNode; /** Uzun (SEO) başlıklar için orta boy — rehber sayfaları */ readonly compact?: boolean }) {
   if (!title) return null;
   return (
     <header className="page-hero">
       <p className="label-mono text-[var(--color-accent-text)]">{eyebrow}</p>
       <div className="page-hero-row">
-        <h1 className="page-hero-title">{title.split('\n').map((l, i) => (i === 0 ? l : <span key={i}><br />{l}</span>))}</h1>
+        <h1 className={compact ? 'page-hero-title page-hero-title-md' : 'page-hero-title'}>{title.split('\n').map((l, i) => (i === 0 ? l : <span key={i}><br />{l}</span>))}</h1>
         {lede ? <p className="page-hero-lede">{lede}</p> : null}
       </div>
       {children}

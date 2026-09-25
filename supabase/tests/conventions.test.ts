@@ -27,6 +27,7 @@ const ANON_READABLE = [
   'project_categories', 'project_category_relations', 'project_images', 'projects', 'redirects', 'service_images',
   'service_projects', 'services', 'site_settings', 'slug_history', 'solutions', 'static_pages', 'steel_profiles', 'team_members',
   'testimonials', 'ui_translations', 'whatsapp_settings',
+  'configurator_pages',
   'published_comments', // görünüm: e-posta/IP içermeyen dar kolon listesi
 ];
 

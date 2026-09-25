@@ -7,6 +7,9 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Konfigüratör rehber sayfaları (K-107)
+- `/konfigurator-rehberi` + 6 SEO iniş sayfası (Markdown gövde, faydalar, HowTo adımları, FAQPage SSS, band), seçim sayfasında "Nasıl çalışır?" bağlantıları, ürünler/hizmetler sayfalarında "Kendiniz inşa etmek ister misiniz?" bandı; panel `/admin/configurator-pages`; migration 0055; site haritası + hreflang
+
 ### Hizmetler & Projeler sayfaları (K-106) · header düzeltmesi (K-105)
 - Hizmetler: 3 grup (çelik yapı 6 · mühendislik 1 · inşaat ve iç mekân 5), teknik çizimli kartlar, öne çıkanlar, "Projeleri gör" bağlantısı, atlama çubuğu, neden çelik, süreç, araçlar, SSS, CTA bandı; 8 yeni hizmet metniyle (TR)
 - Projeler: 10 kategori, adetli çipler + durum sekmeleri + sayaç, yıl/alan/çelik/süre metalı kartlar, aşama çipi, boş durum; iki tasarım-aşaması projesi (script ile)
