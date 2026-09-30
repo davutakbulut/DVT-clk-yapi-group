@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getSiteUrl } from '@/core/config/site';
 import { bodyTooLarge, rateLimit } from '@/core/rate-limit';
 import { clientIp } from '@/core/request/clientIp';
 import { unsubscribeByToken } from '@/modules/mail-campaigns/server';
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
 
 /** Bağlantı tarayıcıda açılırsa onay sayfasına gider: GET hiçbir şeyi değiştirmez (posta tarayıcıları bağlantıları ön yükler). */
 export function GET(request: Request) {
-  const url = new URL(request.url);
-  const token = url.searchParams.get('t') ?? '';
-  return NextResponse.redirect(new URL(`/tr/abonelik-iptal${UUID.test(token) ? `?t=${token}` : ''}`, url.origin), 302);
+  const token = new URL(request.url).searchParams.get('t') ?? '';
+  // Hedef, isteğin kendi adresinden DEĞİL site adresinden kurulur: Passenger arkasında request.url iç adresi (0.0.0.0:3000) taşır
+  return NextResponse.redirect(new URL(`/tr/abonelik-iptal${UUID.test(token) ? `?t=${token}` : ''}`, getSiteUrl().origin), 302);
 }
