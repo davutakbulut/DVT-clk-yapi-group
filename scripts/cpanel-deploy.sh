@@ -12,6 +12,15 @@ API="https://$HOST:2083"; AUTH="Authorization: cpanel $USER_:$TOKEN"; HOME_="/ho
 ok() { node -e "const j=JSON.parse(require('fs').readFileSync(0,'utf8'));const r=j.cpanelresult?(j.cpanelresult.data?.[0]?.result??j.cpanelresult.event?.result):j.status;if(r!=1){console.error(JSON.stringify(j.errors??j.cpanelresult?.error??j).slice(0,300));process.exit(1)}"; }
 fileop() { curl -fsS -m 300 -H "$AUTH" "$API/json-api/cpanel" --data-urlencode cpanel_jsonapi_user="$USER_" -d cpanel_jsonapi_apiversion=2 -d cpanel_jsonapi_module=Fileman -d cpanel_jsonapi_func=fileop -d doubledecode=0 "$@" | ok; }
 
+# Kota denetimi: açma sırasında disk dolarsa site yarım kalır → yer azsa hiçbir şeye dokunmadan dur.
+# Bir tur ≈ 60 MB zip + 210 MB açılmış paket ister; çöpe taşınan eski yedekler de kotadan yer (bkz. 06-DEPLOY-CPANEL.md "Disk kotası").
+NEED_MB=700
+REMAIN=$(curl -fsS -m 60 -H "$AUTH" "$API/execute/Quota/get_quota_info" | node -e "const d=JSON.parse(require('fs').readFileSync(0,'utf8')).data||{};console.log(Number(d.megabyte_limit)>0?Math.floor(Number(d.megabytes_remain)):-1)")
+if [ "$REMAIN" -ge 0 ]; then
+  echo "Sunucuda boş alan: $REMAIN MB"
+  [ "$REMAIN" -ge "$NEED_MB" ] || { echo "DİSK KOTASI YETERSİZ (< $NEED_MB MB) → cPanel → Dosya Yöneticisi → Çöp Kutusunu Görüntüle → Çöpü Boşalt, sonra yeniden çalıştırın"; exit 1; }
+fi
+
 bash scripts/cpanel-package.sh "$LIVE"
 git checkout tsconfig.json 2>/dev/null || true
 echo "Yükleniyor…";    curl -fsS -m 900 -H "$AUTH" -F "dir=$HOME_" -F overwrite=1 -F "file-1=@deploy/clk-site.zip;filename=clk-site-new.zip" "$API/execute/Fileman/upload_files" | ok
