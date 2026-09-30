@@ -570,3 +570,16 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Bilinçli dışarıda:** açılma/tıklama izleme (izleme pikseli KVKK açısından ayrı aydınlatma ister), ek dosya, görsel, İYS (İleti Yönetim Sistemi) entegrasyonu, geri dönen iletilerin otomatik işlenmesi (SMTP'de yok; elle engel listesine eklenir).
 
 **Sonuç:** modül `src/modules/mail-campaigns`, panel `/admin/campaigns` (+ `/suppressions`, `/settings`, `[id]/export` CSV); PGlite `mail-campaigns.test.ts`; birim `render.test.ts`, `types.test.ts`; E2E `campaigns.spec.ts` (E2E hiçbir zaman gerçek alıcıya kampanya başlatmaz). Operasyon: `docs/modules/07-MAIL-NOTIFICATIONS.md` › Toplu e-posta.
+
+### K-109 · Toplu e-posta hazır şablonları
+
+**Bağlam:** Ürün sahibi farklı durumlar için hazır mail şablonları istedi: seçilsin, canlı önizlensin, metni değiştirilip gönderilsin.
+
+**Karar:**
+- Tablo `mail_campaign_templates` (0058): ad, durum (8 kategori), açıklama, TR/EN konu · ön başlık · metin · düğme yazısı · düğme adresi, sıra, aktiflik. RLS: yalnız `super_admin`/`admin` okur ve yazar; audit. Şablonlar içeriktir → veritabanında, panelden eklenir/düzenlenir (`/admin/campaigns/templates`).
+- **14 başlangıç şablonu** (TR + elle yazılmış EN): genel duyuru, tamamlanan proje, konfigüratör tanıtımı, yeni ürün/stok, fiyat güncellemesi, dönemsel kampanya, teklif hatırlatma, etkinlik daveti, bayram, yeni yıl, proje sonrası teşekkür, yorum isteği, tatil/çalışma saatleri, iletişim bilgisi değişikliği.
+- **Uydurma bilgi yok (K-55):** fiyat, tarih, proje adı gibi bilgiler şablonda köşeli parantezli alan olarak durur (`[tarih]`, `[ürün adı]`). Taslakta doldurulmamış alanlar uyarı olarak listelenir; alan kalan kampanya başlatılamaz (düğme kapalı + `startCampaign` sunucuda yeniden denetler). `[metin](https://…)` bağlantı biçimi alan sayılmaz.
+- **Akış:** kampanya taslağında "Hazır şablon" bölümü → durum süzgeci → kart → **Önizle** (sağdaki önizleme şablonu gösterir, form değişmez) → **Bu şablonu kullan** (konu/ön başlık/metin/düğme forma yazılır; formda metin varsa önce üzerine yazma onayı) → metin düzenlenir → kaydet → gönder. Kampanya adı ve alıcılar şablondan etkilenmez. Şablon dili kampanyanın alt bilgi diline göre seçilir; o dilde metin yoksa tüm alanlar Türkçe gelir.
+- Kampanyadan şablon: taslak ve rapor sayfasında "Şablon olarak kaydet". Önizleme bileşeni (`MailPreview`) kampanya ve şablon düzenleyicide ortaktır ve gönderimdeki render fonksiyonunu kullanır.
+
+**Sonuç:** `src/modules/mail-campaigns` (TemplatePicker, TemplateForm, MailPreview, templatesRepository); PGlite `mail-campaigns.test.ts` (0058), birim `types.test.ts`, E2E `campaigns.spec.ts`.

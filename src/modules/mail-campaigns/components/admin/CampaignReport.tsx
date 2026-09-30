@@ -5,7 +5,7 @@ import { getSiteUrl } from '@/core/config/site';
 import { campaignVariables, unsubscribeUrls } from '@/core/mail/bulkSettings';
 import { renderCampaignMail } from '@/core/mail/render';
 import { FormSection } from '@/modules/admin-shell';
-import { changeCampaignState, duplicateCampaign } from '../../actions';
+import { changeCampaignState, duplicateCampaign, saveCampaignAsTemplate } from '../../actions';
 import type { CampaignDetail, RecipientRow, SendingOverview } from '../../data/adminCampaignsRepository';
 import { estimateMinutes, progressPercent, RECIPIENT_STATUSES, type RecipientStatus } from '../../domain/types';
 import { AutoRefresh } from './AutoRefresh';
@@ -82,6 +82,11 @@ export async function CampaignReport({ campaign: c, recipients, overview, filter
             <input type="hidden" name="id" value={c.id} />
             <input type="hidden" name="name" value={t('campaigns.copyName', { name: c.name }).slice(0, 120)} />
             <Button type="submit" size="sm" variant="outline">{t('campaigns.duplicate')}</Button>
+          </form>
+          <form action={saveCampaignAsTemplate}>
+            <input type="hidden" name="id" value={c.id} />
+            <input type="hidden" name="name" value={c.name} />
+            <Button type="submit" size="sm" variant="outline">{t('campaigns.templates.saveAs')}</Button>
           </form>
           <a href={`/admin/campaigns/${c.id}/export`} download className="inline-flex h-8 items-center rounded-md border px-3 text-sm hover:bg-muted">{t('campaigns.exportCsv')}</a>
         </div>

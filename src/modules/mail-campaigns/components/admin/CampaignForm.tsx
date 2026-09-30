@@ -1,21 +1,24 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { startTransition, useActionState, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { campaignVariables, unsubscribeUrls, type BulkMailSettings } from '@/core/mail/bulkSettings';
-import { renderCampaignMail } from '@/core/mail/render';
+import type { BulkMailSettings } from '@/core/mail/bulkSettings';
 import { IDLE } from '@/lib/formState';
 import { ActionMessage, FieldError, FormSection } from '@/modules/admin-shell';
 import { computeAudience, saveCampaign, sendTestCampaign, startCampaign, type AudienceState, type StartState, type TestSendState } from '../../actions';
 import type { CampaignDetail } from '../../data/adminCampaignsRepository';
-import { CAMPAIGN_SEGMENTS, estimateMinutes, formatManualList, MANUAL_LIMIT } from '../../domain/types';
+import { CAMPAIGN_SEGMENTS, estimateMinutes, findPlaceholders, formatManualList, MANUAL_LIMIT, templateContent, type CampaignTemplate } from '../../domain/types';
+import { MailPreview } from './MailPreview';
+import { TemplatePicker } from './TemplatePicker';
 
 interface Props {
   readonly campaign: CampaignDetail | null;
+  /** Hazır şablonlar (yalnız aktifler, K-109). */
+  readonly templates: readonly CampaignTemplate[];
   readonly cities: readonly string[];
   readonly settings: BulkMailSettings;
   readonly siteName: { readonly tr: string; readonly en: string };
@@ -37,7 +40,7 @@ const VARIABLES = ['full_name', 'company', 'email'] as const;
  * Eylemler `action=` ile DEĞİL onSubmit içinden çağrılır: React, form eylemi bitince formu sıfırlar ve denetimli onay kutuları
  * ekranda işaretsiz kalır (durum işaretli dese de) → "alıcıları hesapla" seçimi silmiş gibi görünürdü.
  */
-export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, userEmail, userName, providerConfigured }: Props) {
+export function CampaignForm({ campaign, templates, cities, settings, siteName, siteUrl, userEmail, userName, providerConfigured }: Props) {
   const t = useTranslations('Admin');
   const c = campaign;
   const [state, saveAction, saving] = useActionState(saveCampaign, IDLE);
@@ -60,7 +63,9 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
   const [ctaUrl, setCtaUrl] = useState(c?.cta_url ?? '');
   const [dirty, setDirty] = useState(false);
   const [mode, setMode] = useState<'now' | 'later'>('now');
+  const [previewTemplate, setPreviewTemplate] = useState<CampaignTemplate | null>(null);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
+  const subjectRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => { if (state.done) setDirty(false); }, [state]);
 
@@ -77,15 +82,20 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
     startTransition(() => startAction(data));
   };
 
-  const html = useMemo(() => {
-    const links = unsubscribeUrls(siteUrl, locale, '00000000-0000-4000-8000-000000000000');
-    return renderCampaignMail({
-      subject, preheader, body, ctaLabel, ctaUrl,
-      variables: campaignVariables({ email: userEmail, full_name: userName || null, company: null }, settings, locale),
-      siteName: siteName[locale], siteUrl, footer: settings.footer[locale] || settings.footer.tr,
-      unsubscribeLabel: settings.unsubscribe_label[locale] || settings.unsubscribe_label.tr || links.page, unsubscribeUrl: links.page,
-    }).html;
-  }, [subject, preheader, body, ctaLabel, ctaUrl, locale, settings, siteName, siteUrl, userEmail, userName]);
+  /** Şablonu forma yazar: konu, ön başlık, metin ve düğme değişir; kampanya adı ve alıcılar olduğu gibi kalır. */
+  const applyTemplate = (template: CampaignTemplate) => {
+    const content = templateContent(template, locale);
+    setSubject(content.subject);
+    setPreheader(content.preheader);
+    setBody(content.body);
+    setCtaLabel(content.ctaLabel);
+    setCtaUrl(content.ctaUrl);
+    setPreviewTemplate(null);
+    setDirty(true);
+    requestAnimationFrame(() => subjectRef.current?.focus());
+  };
+  const placeholders = findPlaceholders(subject, preheader, body, ctaLabel);
+  const shown = previewTemplate ? templateContent(previewTemplate, locale) : { subject, preheader, body, ctaLabel, ctaUrl };
 
   const insertVariable = (name: string) => {
     const el = bodyRef.current;
@@ -122,10 +132,19 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
             </div>
           </FormSection>
 
+          <FormSection title={t('campaigns.templates.pick')}>
+            <details open={!c?.body}>
+              <summary className="cursor-pointer text-sm underline underline-offset-4">{t('campaigns.templates.pickHint', { count: templates.length })}</summary>
+              <div className="mt-3">
+                <TemplatePicker templates={templates} locale={locale} previewId={previewTemplate?.id ?? null} hasContent={Boolean(subject.trim() || body.trim())} onPreview={setPreviewTemplate} onUse={applyTemplate} />
+              </div>
+            </details>
+          </FormSection>
+
           <FormSection title={t('campaigns.sectionContent')}>
             <div className="grid gap-1">
               <Label htmlFor="cm-subject">{t('campaigns.subject')}</Label>
-              <Input id="cm-subject" name="subject" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={200} aria-invalid={state.fieldErrors?.['subject'] ? 'true' : undefined} />
+              <Input ref={subjectRef} id="cm-subject" name="subject" value={subject} onChange={(e) => setSubject(e.target.value)} maxLength={200} aria-invalid={state.fieldErrors?.['subject'] ? 'true' : undefined} />
               <p className="text-xs text-muted-foreground">{t('campaigns.subjectHint', { count: subject.length })}</p>
             </div>
             <div className="grid gap-1">
@@ -145,6 +164,11 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
               </div>
               <Textarea ref={bodyRef} id="cm-body" name="body" value={body} onChange={(e) => setBody(e.target.value)} rows={16} maxLength={20000} className="font-mono text-sm" aria-invalid={state.fieldErrors?.['body'] ? 'true' : undefined} />
               <p className="text-xs text-muted-foreground">{t('campaigns.bodyHint')}</p>
+              {placeholders.length > 0 ? (
+                <p role="status" className="rounded-md border border-amber-500 bg-amber-50 p-2 text-xs text-amber-900">
+                  {t('campaigns.templates.placeholders', { count: placeholders.length })} <span className="font-mono">{placeholders.join(' · ')}</span>
+                </p>
+              ) : null}
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="grid gap-1">
@@ -283,11 +307,12 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
               </label>
               <p className="text-xs text-muted-foreground">{t('campaigns.sendHint', { limit: settings.hourly_limit })}</p>
               <div className="flex flex-wrap items-center gap-3">
-                <Button type="submit" size="sm" disabled={starting || dirty}>{mode === 'later' ? t('campaigns.schedule') : t('campaigns.start')}</Button>
+                <Button type="submit" size="sm" disabled={starting || dirty || placeholders.length > 0}>{mode === 'later' ? t('campaigns.schedule') : t('campaigns.start')}</Button>
                 {dirty ? <span className="text-xs text-amber-700">{t('campaigns.saveFirst')}</span> : null}
+                {!dirty && placeholders.length > 0 ? <span className="text-xs text-amber-700">{t('campaigns.templates.fillFirst')}</span> : null}
               </div>
               <div aria-live="polite">
-                {start.error ? <p role="alert" className="text-sm text-destructive">{t(`campaigns.startErrors.${start.error}`)}</p> : null}
+                {start.error ? <p role="alert" className="text-sm text-destructive">{t(`campaigns.startErrors.${start.error}`)}{start.placeholders ? ` ${start.placeholders.join(' · ')}` : ''}</p> : null}
                 {start.ok ? <p role="status" className="text-sm text-green-700">{t('campaigns.started', { count: start.count ?? 0 })}</p> : null}
               </div>
             </form>
@@ -297,14 +322,19 @@ export function CampaignForm({ campaign, cities, settings, siteName, siteUrl, us
         )}
       </div>
 
-      <aside className="grid content-start gap-2 xl:sticky xl:top-4 xl:self-start">
-        <h2 className="text-base font-semibold">{t('campaigns.preview')}</h2>
-        <p className="text-xs text-muted-foreground">{t('campaigns.previewHint')}</p>
-        <div className="rounded-md border bg-card p-3 text-sm">
-          <p className="truncate font-medium">{subject || t('campaigns.subject')}</p>
-          <p className="truncate text-xs text-muted-foreground">{preheader}</p>
-        </div>
-        <iframe title={t('campaigns.preview')} srcDoc={html} sandbox="" className="h-[36rem] w-full rounded-md border bg-white" />
+      <aside className="xl:sticky xl:top-4 xl:self-start">
+        <MailPreview
+          locale={locale} {...shown} settings={settings} siteName={siteName} siteUrl={siteUrl} userEmail={userEmail} userName={userName}
+          banner={previewTemplate ? (
+            <div role="status" className="grid gap-2 rounded-md border border-primary bg-muted/40 p-3 text-sm">
+              <p>{t('campaigns.templates.previewing', { name: previewTemplate.name })}</p>
+              <div className="flex flex-wrap gap-2">
+                <Button type="button" size="sm" onClick={() => applyTemplate(previewTemplate)}>{subject.trim() || body.trim() ? t('campaigns.templates.useReplace') : t('campaigns.templates.use')}</Button>
+                <Button type="button" size="sm" variant="outline" onClick={() => setPreviewTemplate(null)}>{t('campaigns.templates.closePreview')}</Button>
+              </div>
+            </div>
+          ) : undefined}
+        />
       </aside>
     </div>
   );

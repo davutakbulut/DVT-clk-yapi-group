@@ -7,6 +7,10 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Toplu e-posta hazır şablonları (K-109)
+- Kampanya taslağında "Hazır şablon" seçici: durum süzgeci, kart önizlemesi (form değişmeden), "Bu şablonu kullan", üzerine yazma onayı; doldurulmamış `[alan]` uyarısı ve başlatma engeli
+- 14 başlangıç şablonu (TR/EN); panel `/admin/campaigns/templates` (yeni, düzenle, TR/EN canlı önizleme, sil); kampanyadan "Şablon olarak kaydet"; migration 0058
+
 ### Toplu e-posta (K-108)
 - Panel `/admin/campaigns`: kampanya taslağı (konu, ön başlık, biçimli metin, düğme, kişiye özel alanlar), canlı önizleme, test iletisi, alıcı grupları (kurumsal müşteriler · izinli bireysel müşteriler · pazarlama izni veren talep sahipleri · elle liste) + il süzgeci, "alıcıları hesapla", hemen/zamanlı başlatma, duraklat · sürdür · iptal · başarısızları yeniden dene, kopyala, alıcı tablosu + CSV
 - Gönderim arka planda (mail cron'u), saatlik sınır ve koşu başına adet panelden; "listeden çık" bağlantısı + tek tık başlıkları; engel listesi `/admin/campaigns/suppressions`; ayarlar `/admin/campaigns/settings`

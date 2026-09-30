@@ -3,3 +3,4 @@ export { getCampaign, getSendingOverview, listAudienceCities, listCampaigns, lis
 export { CampaignList } from './components/admin/CampaignList';
 export { CampaignReport } from './components/admin/CampaignReport';
 export { unsubscribeByToken, type UnsubscribeOutcome } from './data/unsubscribeRepository';
+export { getCampaignTemplate, listCampaignTemplates } from './data/templatesRepository';

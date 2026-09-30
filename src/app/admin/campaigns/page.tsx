@@ -14,6 +14,7 @@ export default async function CampaignsPage() {
     <div className="grid gap-6">
       <AdminPageHeader title={t('campaigns.title')} lead={t('campaigns.lead')} action={{ href: '/admin/campaigns/new', label: t('campaigns.new') }} />
       <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <NextLink href="/admin/campaigns/templates" className="underline underline-offset-4">{t('campaigns.templates.title')}</NextLink>
         <NextLink href="/admin/campaigns/suppressions" className="underline underline-offset-4">{t('campaigns.suppression.title')}</NextLink>
         <NextLink href="/admin/campaigns/settings" className="underline underline-offset-4">{t('campaigns.settings.title')}</NextLink>
         <NextLink href="/admin/mail-templates" className="underline underline-offset-4">{t('campaigns.mailLogs')}</NextLink>

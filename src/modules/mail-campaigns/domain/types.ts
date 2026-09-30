@@ -123,3 +123,71 @@ export function estimateMinutes(pending: number, hourlyLimit: number, batchSize:
   if (pending <= hourlyLimit) return Math.ceil(pending / perMinute);
   return Math.ceil((pending / Math.max(1, Math.min(hourlyLimit, perMinute * 60))) * 60);
 }
+
+// ── Hazır şablonlar (K-109) ─────────────────────────────────────────────────────────────────────────────────────────────
+
+export const TEMPLATE_CATEGORIES = ['announcement', 'product', 'pricing', 'followup', 'event', 'greeting', 'relationship', 'operations'] as const;
+export type TemplateCategory = (typeof TEMPLATE_CATEGORIES)[number];
+
+export interface LocalizedPair {
+  readonly tr: string;
+  readonly en: string;
+}
+
+export interface CampaignTemplate {
+  readonly id: string;
+  readonly name: string;
+  readonly category: TemplateCategory;
+  readonly description: string;
+  readonly subject: LocalizedPair;
+  readonly preheader: LocalizedPair;
+  readonly body: LocalizedPair;
+  readonly cta_label: LocalizedPair;
+  readonly cta_url: LocalizedPair;
+  readonly sort_order: number;
+  readonly is_active: boolean;
+}
+
+/** Şablonun seçilen dildeki içeriği; o dilde boş olan alan Türkçeye düşer. */
+export function templateContent(template: CampaignTemplate, locale: 'tr' | 'en'): { readonly subject: string; readonly preheader: string; readonly body: string; readonly ctaLabel: string; readonly ctaUrl: string } {
+  // Metin o dilde yoksa TÜM alanlar Türkçe kalır (yarısı İngilizce ileti çıkmasın)
+  const use = template.body[locale] ? locale : 'tr';
+  return { subject: template.subject[use] || template.subject.tr, preheader: template.preheader[use], body: template.body[use], ctaLabel: template.cta_label[use], ctaUrl: template.cta_url[use] };
+}
+
+/**
+ * Doldurulmamış şablon alanları: köşeli parantez içindeki metinler ([tarih], [ürün adı]).
+ * Bağlantı biçimi [metin](https://…) alan DEĞİLDİR. Aynı alan bir kez döner, en çok 12.
+ */
+export function findPlaceholders(...texts: readonly string[]): string[] {
+  const found = new Set<string>();
+  for (const text of texts) {
+    for (const match of text.matchAll(/\[([^\]\n]{1,80})\](?!\()/g)) {
+      found.add(`[${match[1]}]`);
+      if (found.size >= 12) return [...found];
+    }
+  }
+  return [...found];
+}
+
+const httpsOrEmpty = z.string().trim().max(500).regex(/^(https:\/\/\S+)?$/);
+
+export const templateSchema = z.object({
+  id: z.string().uuid().optional().or(z.literal('')),
+  name: z.string().trim().min(2).max(120),
+  category: z.enum(TEMPLATE_CATEGORIES),
+  description: z.string().trim().max(300),
+  subjectTr: z.string().trim().min(1).max(200),
+  subjectEn: z.string().trim().max(200),
+  preheaderTr: z.string().trim().max(200),
+  preheaderEn: z.string().trim().max(200),
+  bodyTr: z.string().max(20000).refine((v) => v.trim().length > 0),
+  bodyEn: z.string().max(20000),
+  ctaLabelTr: z.string().trim().max(80),
+  ctaLabelEn: z.string().trim().max(80),
+  ctaUrlTr: httpsOrEmpty,
+  ctaUrlEn: httpsOrEmpty,
+  sortOrder: z.coerce.number().int().min(0).max(9999),
+  isActive: z.boolean(),
+});
+export type TemplateInput = z.infer<typeof templateSchema>;

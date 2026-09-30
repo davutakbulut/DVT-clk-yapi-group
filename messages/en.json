@@ -1727,7 +1727,8 @@
         "unexpected": "An unexpected error occurred.",
         "noRecipients": "No recipients. Select at least one group under Recipients and save the draft.",
         "noContent": "Subject and text are required. Write the content and save the draft.",
-        "confirm": "Tick the confirmation box."
+        "confirm": "Tick the confirmation box.",
+        "placeholders": "There are unfilled fields; fill in the parts in square brackets and save the draft:"
       },
       "preview": "Preview",
       "previewHint": "What the recipient will see. Personal fields are filled with your own details.",
@@ -1816,7 +1817,50 @@
         "unsubscribeLabel": "Unsubscribe link text"
       },
       "searchRecipients": "Search (e-mail, name, company)",
-      "audienceSummary": "Selected audience"
+      "audienceSummary": "Selected audience",
+      "templates": {
+        "title": "Ready-made templates",
+        "lead": "Ready e-mail texts for common situations. Pick one in a campaign draft, preview it, edit the text and send.",
+        "new": "New template",
+        "newLead": "Anything you write in square brackets (such as [date]) is a field for the person preparing the campaign to fill in.",
+        "editLead": "Changes only affect campaigns that pick the template from now on; messages already sent do not change.",
+        "empty": "No templates yet.",
+        "delete": "Delete template",
+        "saveAs": "Save as template",
+        "pick": "Ready-made template",
+        "pickHint": "Choose a situation ({count} templates): preview, use the one you like, then adapt the text.",
+        "all": "All ({count})",
+        "use": "Use this template",
+        "useReplace": "Use (replaces the current text)",
+        "confirmReplace": "Yes, overwrite",
+        "replaceWarning": "The subject, text and button you wrote will be replaced by this template. The campaign name and recipients stay as they are.",
+        "closePreview": "Close preview",
+        "previewing": "Template preview: {name}. The text in your form has not changed yet.",
+        "placeholders": "{count} fields still need to be filled in:",
+        "fillFirst": "Fill in the fields in square brackets and save the draft.",
+        "fieldsInTemplate": "Fields to fill in this template:",
+        "bodyHint": "Write the parts the sender must fill in square brackets: [date].",
+        "sectionInfo": "Template",
+        "name": "Template name",
+        "category": "Situation",
+        "description": "Description",
+        "descriptionHint": "Shown under the name in the picker: when is this template used?",
+        "sortOrder": "Order",
+        "active": "Show in the picker",
+        "language": "Language",
+        "languageHint": "Each language is written separately; if English is empty, an English campaign gets the Turkish text.",
+        "languages": "Languages",
+        "categories": {
+          "announcement": "Announcement",
+          "product": "Products and stock",
+          "pricing": "Prices and offers",
+          "followup": "Quotation follow-up",
+          "event": "Events and invitations",
+          "greeting": "Greetings",
+          "relationship": "Thanks and feedback",
+          "operations": "Working schedule"
+        }
+      }
     }
   },
   "Services": {

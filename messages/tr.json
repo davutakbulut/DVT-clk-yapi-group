@@ -1727,7 +1727,8 @@
         "unexpected": "Beklenmeyen bir hata oluştu.",
         "noRecipients": "Alıcı yok. Alıcılar bölümünde en az bir grup seçip taslağı kaydedin.",
         "noContent": "Konu ve metin gerekli. İçeriği yazıp taslağı kaydedin.",
-        "confirm": "Onay kutusunu işaretleyin."
+        "confirm": "Onay kutusunu işaretleyin.",
+        "placeholders": "Doldurulmamış alanlar var; köşeli parantezli yerleri doldurup taslağı kaydedin:"
       },
       "preview": "Önizleme",
       "previewHint": "Alıcının göreceği görünüm. Kişiye özel alanlar sizin bilgilerinizle doldurulur.",
@@ -1816,7 +1817,50 @@
         "unsubscribeLabel": "\"Listeden çık\" bağlantı yazısı"
       },
       "searchRecipients": "Ara (e-posta, ad, firma)",
-      "audienceSummary": "Seçilen kitle"
+      "audienceSummary": "Seçilen kitle",
+      "templates": {
+        "title": "Hazır şablonlar",
+        "lead": "Sık karşılaşılan durumlar için hazır e-posta metinleri. Kampanya taslağında seçilir, önizlenir ve metni değiştirilerek gönderilir.",
+        "new": "Yeni şablon",
+        "newLead": "Köşeli parantez içine yazdığınız yerler ([tarih] gibi) kampanyayı hazırlayan kişinin dolduracağı alanlardır.",
+        "editLead": "Değişiklikler yalnız bundan sonra seçilen kampanyaları etkiler; gönderilmiş iletiler değişmez.",
+        "empty": "Henüz şablon yok.",
+        "delete": "Şablonu sil",
+        "saveAs": "Şablon olarak kaydet",
+        "pick": "Hazır şablon",
+        "pickHint": "Bir durum seçin ({count} şablon): önizleyin, beğendiğinizi kullanın, sonra metni kendinize göre değiştirin.",
+        "all": "Tümü ({count})",
+        "use": "Bu şablonu kullan",
+        "useReplace": "Kullan (mevcut metnin yerine)",
+        "confirmReplace": "Evet, üzerine yaz",
+        "replaceWarning": "Yazdığınız konu, metin ve düğme bu şablonla değişecek. Kampanya adı ve alıcılar değişmez.",
+        "closePreview": "Önizlemeyi kapat",
+        "previewing": "Şablon önizlemesi: {name}. Formdaki metniniz henüz değişmedi.",
+        "placeholders": "Doldurulması gereken {count} alan var:",
+        "fillFirst": "Köşeli parantezli alanları doldurup taslağı kaydedin.",
+        "fieldsInTemplate": "Bu şablonda doldurulacak alanlar:",
+        "bodyHint": "Gönderenin dolduracağı yerleri köşeli parantezle yazın: [tarih].",
+        "sectionInfo": "Şablon",
+        "name": "Şablon adı",
+        "category": "Durum",
+        "description": "Açıklama",
+        "descriptionHint": "Seçicide adın altında görünür: bu şablon ne zaman kullanılır?",
+        "sortOrder": "Sıra",
+        "active": "Seçicide görünsün",
+        "language": "Dil",
+        "languageHint": "Her dilin metni ayrı yazılır; İngilizce boşsa İngilizce kampanyada Türkçe metin gelir.",
+        "languages": "Diller",
+        "categories": {
+          "announcement": "Duyuru",
+          "product": "Ürün ve stok",
+          "pricing": "Fiyat ve kampanya",
+          "followup": "Teklif takibi",
+          "event": "Etkinlik ve davet",
+          "greeting": "Kutlama",
+          "relationship": "Teşekkür ve geri bildirim",
+          "operations": "Çalışma düzeni"
+        }
+      }
     }
   },
   "Services": {

@@ -88,6 +88,7 @@ SMTP/Resend → email_logs (template_key 'campaign') → alıcı durumu → biti
 | Saatlik sınır / dakikalık adet / alt bilgi / hitap / yanıt adresi | `/admin/campaigns/settings` → `site_settings` `mail.bulk` |
 | Gönderilmeyecek adresler | `/admin/campaigns/suppressions` → `mail_suppressions` |
 | Bireysel müşteri izni | müşteri kartı → "Ticari ileti izni var" (`customers.marketing_consent`) |
+| Hazır şablonlar (K-109) | `/admin/campaigns/templates` → `mail_campaign_templates`; `[köşeli parantez]` = gönderenin dolduracağı alan |
 | İşçi | `src/core/jobs/mailCampaigns.ts` |
 | Şablon | `src/core/mail/render.ts` › `renderCampaignMail` |
 

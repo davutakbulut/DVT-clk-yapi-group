@@ -62,6 +62,65 @@ test.describe('toplu e-posta (panel)', () => {
     await expect(page.getByRole('row').filter({ hasText: name })).toHaveCount(0);
   });
 
+  test('hazır şablon: önizle (form değişmez) → kullan → doldurulmamış alan uyarısı, başlatma kapalı → üzerine yazma onayı', async ({ page }) => {
+    test.slow();
+    const name = `E2E Kampanya şablon ${Date.now()}`;
+    await login(page, '/admin/campaigns/new');
+    await page.getByLabel('Kampanya adı').fill(name);
+    const card = page.locator('li').filter({ hasText: 'Teklif hatırlatma' });
+    await card.getByRole('button', { name: 'Önizle' }).click();
+    const preview = page.frameLocator('iframe[title="Önizleme"]');
+    await expect(preview.locator('body')).toContainText('teklifimizi değerlendirme fırsatınız oldu mu?');
+    await expect(page.getByRole('status').filter({ hasText: 'Şablon önizlemesi: Teklif hatırlatma' })).toBeVisible();
+    await expect(page.getByLabel('Konu')).toHaveValue(''); // önizleme formu değiştirmez
+    await card.getByRole('button', { name: 'Bu şablonu kullan' }).click();
+    await expect(page.getByLabel('Konu')).toHaveValue('Teklifimizle ilgili sorunuz var mı?');
+    await expect(page.getByLabel('Metin')).toHaveValue(/\[tarih\] tarihinde ilettiğimiz/);
+    await expect(page.getByLabel('Düğme adresi')).toHaveValue(/^https:\/\//);
+    await expect(page.getByText(/Doldurulması gereken 2 alan var/)).toBeVisible();
+
+    // Formda metin varken başka şablon: önce onay ister
+    const other = page.locator('li').filter({ hasText: 'Yeni yıl kutlaması' });
+    await other.getByRole('button', { name: 'Bu şablonu kullan' }).click();
+    await expect(other.getByRole('alert')).toContainText('bu şablonla değişecek');
+    await expect(page.getByLabel('Konu')).toHaveValue('Teklifimizle ilgili sorunuz var mı?');
+    await other.getByRole('button', { name: 'Vazgeç' }).click();
+
+    await page.getByRole('button', { name: 'Taslağı kaydet' }).click();
+    await page.waitForURL(/\/admin\/campaigns\/[0-9a-f-]{36}$/);
+    await expect(page.getByRole('button', { name: 'Gönderimi başlat' })).toBeDisabled();
+    await expect(page.getByText('Köşeli parantezli alanları doldurup taslağı kaydedin.')).toBeVisible();
+    const body = await page.getByLabel('Metin').inputValue();
+    await page.getByLabel('Metin').fill(body.replace('[tarih]', '12 Eylül').replace('[proje ya da ürün]', 'çelik hol'));
+    await expect(page.getByText(/Doldurulması gereken/)).toHaveCount(0);
+    await expect(preview.locator('body')).toContainText('12 Eylül tarihinde ilettiğimiz çelik hol teklifimizi');
+    await page.getByRole('button', { name: 'Taslağı sil' }).click();
+    await page.waitForURL(/\/admin\/campaigns$/);
+  });
+
+  test('şablon yönetimi: yeni şablon (canlı önizleme) → listede → seçicide görünür → sil', async ({ page }) => {
+    test.slow();
+    const name = `E2E Şablon ${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+    await login(page, '/admin/campaigns/templates/new');
+    await page.getByLabel('Şablon adı').fill(name);
+    await page.getByLabel('Durum').selectOption('event');
+    await page.getByLabel('Konu').fill('E2E şablon konusu');
+    await page.getByLabel('Metin').fill('## E2E başlık\n\nSayın {{full_name}},\n[tarih] için deneme metni.');
+    await expect(page.frameLocator('iframe[title="Önizleme"]').locator('h2')).toHaveText('E2E başlık');
+    await expect(page.getByText('Bu şablonda doldurulacak alanlar:')).toContainText('[tarih]');
+    await page.getByRole('button', { name: 'Kaydet' }).click();
+    await page.waitForURL(/\/admin\/campaigns\/templates\/[0-9a-f-]{36}$/);
+    await page.goto('/admin/campaigns/templates');
+    await expect(page.getByRole('row').filter({ hasText: name })).toContainText('Etkinlik ve davet');
+    await page.goto('/admin/campaigns/new');
+    await expect(page.locator('li').filter({ hasText: name })).toBeVisible();
+    await page.goto('/admin/campaigns/templates');
+    await page.getByRole('link', { name }).click();
+    await page.getByRole('button', { name: 'Şablonu sil' }).click();
+    await page.waitForURL(/\/admin\/campaigns\/templates$/);
+    await expect(page.getByRole('row').filter({ hasText: name })).toHaveCount(0);
+  });
+
   test('engel listesi: ekle → listede → kaldır; gönderim ayarları açılır', async ({ page }) => {
     const address = `e2e-engel-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.com`;
     await login(page, '/admin/campaigns/suppressions');

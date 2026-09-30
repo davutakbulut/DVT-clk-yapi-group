@@ -5,8 +5,8 @@ import { requireRole } from '@/core/auth';
 import { getSiteUrl } from '@/core/config/site';
 import { AdminPageHeader } from '@/modules/admin-shell';
 import { CampaignForm, CampaignStatusBadge, RECIPIENT_STATUSES, type RecipientStatus } from '@/modules/mail-campaigns';
-import { deleteCampaign } from '@/modules/mail-campaigns/actions';
-import { CampaignReport, getCampaign, getSendingOverview, listAudienceCities, listRecipients } from '@/modules/mail-campaigns/server';
+import { deleteCampaign, saveCampaignAsTemplate } from '@/modules/mail-campaigns/actions';
+import { CampaignReport, getCampaign, getSendingOverview, listAudienceCities, listCampaignTemplates, listRecipients } from '@/modules/mail-campaigns/server';
 
 interface Props {
   readonly params: Promise<{ id: string }>;
@@ -25,16 +25,23 @@ export default async function CampaignPage({ params, searchParams }: Props) {
   const o = overview.data;
   const header = <AdminPageHeader title={c.name} lead={t('campaigns.detailLead')} action={{ href: '/admin/campaigns', label: t('form.back') }} />;
   if (c.status === 'draft') {
-    const cities = await listAudienceCities();
+    const [cities, templates] = await Promise.all([listAudienceCities(), listCampaignTemplates(true)]);
     return (
       <div className="grid gap-6">
         {header}
         <p><CampaignStatusBadge status={c.status} /></p>
-        <CampaignForm campaign={c} cities={cities.ok ? cities.data : []} settings={o.settings} siteName={o.siteName} siteUrl={getSiteUrl().origin} userEmail={gate.data.email} userName={gate.data.fullName} providerConfigured={o.providerConfigured} />
-        <form action={deleteCampaign} className="border-t pt-4">
-          <input type="hidden" name="id" value={c.id} />
-          <Button type="submit" size="sm" variant="destructive">{t('campaigns.deleteDraft')}</Button>
-        </form>
+        <CampaignForm campaign={c} templates={templates.ok ? templates.data : []} cities={cities.ok ? cities.data : []} settings={o.settings} siteName={o.siteName} siteUrl={getSiteUrl().origin} userEmail={gate.data.email} userName={gate.data.fullName} providerConfigured={o.providerConfigured} />
+        <div className="flex flex-wrap items-center gap-3 border-t pt-4">
+          <form action={saveCampaignAsTemplate}>
+            <input type="hidden" name="id" value={c.id} />
+            <input type="hidden" name="name" value={c.name} />
+            <Button type="submit" size="sm" variant="outline">{t('campaigns.templates.saveAs')}</Button>
+          </form>
+          <form action={deleteCampaign}>
+            <input type="hidden" name="id" value={c.id} />
+            <Button type="submit" size="sm" variant="destructive">{t('campaigns.deleteDraft')}</Button>
+          </form>
+        </div>
       </div>
     );
   }

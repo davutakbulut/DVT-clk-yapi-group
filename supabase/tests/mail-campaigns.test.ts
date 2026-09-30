@@ -158,6 +158,36 @@ describe('0057 · toplu e-posta', () => {
     });
   });
 
+  it('0058 · hazır şablonlar: 14 başlangıç şablonu TR+EN dolu; yalnız yönetici okur/yazar; http düğme adresi ve boş TR konu reddedilir', async () => {
+    const rows = (await db.query<{ name: string; category: string; s_tr: string; s_en: string; b_tr: string; b_en: string }>(
+      `select name, category, subject->>'tr' as s_tr, subject->>'en' as s_en, body->>'tr' as b_tr, body->>'en' as b_en from public.mail_campaign_templates order by category, sort_order`)).rows;
+    expect(rows).toHaveLength(14);
+    expect(new Set(rows.map((r) => r.category)).size).toBe(8);
+    for (const r of rows) {
+      expect(r.s_tr.length, r.name).toBeGreaterThan(5);
+      expect(r.s_en.length, r.name).toBeGreaterThan(5);
+      expect(r.b_tr, r.name).toContain('{{full_name}}');
+      expect(r.b_en, r.name).toContain('{{full_name}}');
+      // Uydurma fiyat/oran yok (K-55): gövdede para birimi ya da yüzde geçmez
+      expect(`${r.b_tr} ${r.b_en}`, r.name).not.toMatch(/₺|\bTL\b|%\s?\d|\d\s?%|\$\d/);
+    }
+    await expect(as(db, anon, (tx) => tx.query('select * from public.mail_campaign_templates'))).rejects.toThrow(/permission|denied/i);
+    for (const role of ['member', 'sales', 'editor', 'viewer'] as const) {
+      await as(db, user(users.ids[role]), async (tx) => {
+        expect(await count(tx, 'select 1 from public.mail_campaign_templates')).toBe(0);
+        expect(await cannotWrite(tx, `update public.mail_campaign_templates set is_active = false`)).toBe(true);
+      });
+    }
+    await as(db, user(users.ids.admin), async (tx) => {
+      expect(await count(tx, 'select 1 from public.mail_campaign_templates')).toBe(14);
+      await tx.query(`insert into public.mail_campaign_templates (name, category, subject, body) values ('Deneme', 'announcement', '{"tr":"Konu"}', '{"tr":"Metin"}')`);
+      expect(await count(tx, 'select 1 from public.mail_campaign_templates')).toBe(15);
+      await expectFail(tx as Tx, `insert into public.mail_campaign_templates (name, category, subject, cta_url) values ('Deneme 2', 'announcement', '{"tr":"Konu"}', '{"tr":"http://guvensiz.local"}')`, [], /cta_https/);
+      await expectFail(tx as Tx, `insert into public.mail_campaign_templates (name, category, subject) values ('Deneme 3', 'announcement', '{"tr":"  "}')`, [], /subject_tr/);
+      await expectFail(tx as Tx, `insert into public.mail_campaign_templates (name, category, subject) values ('Deneme 4', 'bilinmeyen', '{"tr":"Konu"}')`, [], /category/);
+    });
+  });
+
   it('K-104: kapı açıkken başlıksız "listeden çık" reddedilir; eşik aşılınca P0429', async () => {
     const GATE = 'test-gate-secret-0123456789abcdef';
     await db.query(`select set_config('request.jwt.claims', '{"role":"service_role"}', false)`);

@@ -36,6 +36,7 @@ const TARGETS = [
   // Toplu e-posta (K-108): E2E kampanyaları (alıcı satırları cascade) ve teste ayrılmış / yerel çöp kutusu adreslerinin engel kayıtları
   ['mail_suppressions', (q) => q.or('email.ilike.%@example.com,email.ilike.%@sink.clkyapigroup.com')],
   ['mail_campaigns', (q) => q.ilike('name', 'E2E %')],
+  ['mail_campaign_templates', (q) => q.ilike('name', 'E2E %')],
 ];
 for (const [table, filter] of TARGETS) {
   const count = await filter(s.from(table).select('id', { count: 'exact', head: true }));

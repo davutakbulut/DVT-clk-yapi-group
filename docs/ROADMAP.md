@@ -309,6 +309,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
   - [ ] *Ürün sahibi:* proje sayaçları (tamamlanan proje / ton / m² / il) `/admin/settings/pages` → Sayaçlar; tamamlanan projelerin fotoğraf, m², ton ve süre bilgileri; yeni hizmetlerin EN onayı
 - [x] **Faz 29f** — Konfigüratör rehber (SEO iniş) sayfaları + band (K-107): 6 sayfa, HowTo/FAQ yapısal veri, panel, site haritası ✅ 2026-09-25
 - [x] **Faz 29g** — Toplu e-posta (K-108): kampanya taslağı, kitle kuralları, zamanlı/saatlik sınırlı gönderim, listeden çıkma, engel listesi, panel ✅ 2026-09-30
+- [x] **Faz 29h** — Toplu e-posta hazır şablonları (K-109): 14 şablon, seçici + canlı önizleme, doldurulmamış alan engeli, şablon yönetimi ✅ 2026-09-30
   - [ ] *Ürün sahibi:* rehberlere kapak görseli (konfigüratör ekran görüntüsü) ve EN onayı
 - [x] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel ✅
   - [x] RSS 2.0 `/{locale}/feed.xml` (dil başına yayındaki son 50 yazı; `atom:link self`; 30 dk önbellek) · `buildAlternates` her sayfaya `application/rss+xml` otomatik keşfi · `llms.txt` genişletildi (çözümler, ürünler, projeler, beslemeler)

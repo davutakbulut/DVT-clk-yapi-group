@@ -2473,6 +2473,54 @@ export type Database = {
           },
         ]
       }
+      mail_campaign_templates: {
+        Row: {
+          body: Json
+          category: string
+          created_at: string
+          cta_label: Json
+          cta_url: Json
+          description: string
+          id: string
+          is_active: boolean
+          name: string
+          preheader: Json
+          sort_order: number
+          subject: Json
+          updated_at: string
+        }
+        Insert: {
+          body?: Json
+          category: string
+          created_at?: string
+          cta_label?: Json
+          cta_url?: Json
+          description?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          preheader?: Json
+          sort_order?: number
+          subject?: Json
+          updated_at?: string
+        }
+        Update: {
+          body?: Json
+          category?: string
+          created_at?: string
+          cta_label?: Json
+          cta_url?: Json
+          description?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          preheader?: Json
+          sort_order?: number
+          subject?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mail_campaigns: {
         Row: {
           audience: Json

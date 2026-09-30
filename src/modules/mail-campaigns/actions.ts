@@ -14,7 +14,7 @@ import { logger } from '@/core/observability/logger';
 import { rateLimit } from '@/core/rate-limit';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import { getSendingOverview, previewAudience, type AudiencePreview } from './data/adminCampaignsRepository';
-import { CAMPAIGN_SEGMENTS, campaignSchema, parseManualList, SUPPRESSION_REASONS, type CampaignAudience, type CampaignSegment } from './domain/types';
+import { CAMPAIGN_SEGMENTS, campaignSchema, findPlaceholders, parseManualList, SUPPRESSION_REASONS, templateSchema, type CampaignAudience, type CampaignSegment } from './domain/types';
 
 // Toplu gönderim geri alınamaz ve firmanın gönderici itibarını etkiler → yalnız yönetici (K-108). RPC'ler de aynı rolü denetler.
 const ADMINS = ['super_admin', 'admin'] as const;
@@ -122,8 +122,10 @@ export async function sendTestCampaign(_prev: TestSendState, formData: FormData)
 
 export interface StartState {
   readonly ok: boolean;
-  readonly error?: 'forbidden' | 'validation' | 'unexpected' | 'noRecipients' | 'noContent' | 'confirm';
+  readonly error?: 'forbidden' | 'validation' | 'unexpected' | 'noRecipients' | 'noContent' | 'confirm' | 'placeholders';
   readonly count?: number;
+  /** Doldurulmamış şablon alanları ([tarih] gibi), error === 'placeholders' iken. */
+  readonly placeholders?: readonly string[];
 }
 
 /** Başlat / zamanla: "onaylıyorum" kutusu zorunlu. Tarih boşsa hemen; doluysa İstanbul saatiyle o anda. */
@@ -143,6 +145,11 @@ export async function startCampaign(_prev: StartState, formData: FormData): Prom
   }
   const client = await createServerClient();
   if (!client.ok) return { ok: false, error: 'unexpected' };
+  // Hazır şablondan kalan [köşeli parantezli] alanlar doldurulmadan gönderim başlamaz (K-109)
+  const saved = await client.data.from('mail_campaigns').select('subject, preheader, body, cta_label').eq('id', id.data).maybeSingle();
+  if (saved.error || !saved.data) return { ok: false, error: 'unexpected' };
+  const placeholders = findPlaceholders(saved.data.subject, saved.data.preheader, saved.data.body, saved.data.cta_label);
+  if (placeholders.length > 0) return { ok: false, error: 'placeholders', placeholders };
   const { data, error } = await client.data.rpc('start_mail_campaign', at ? { p_id: id.data, p_at: at } : { p_id: id.data });
   if (error) {
     if (/alıcı yok/.test(error.message)) return { ok: false, error: 'noRecipients' };
@@ -267,4 +274,73 @@ export async function saveBulkSettings(_prev: ActionState, formData: FormData): 
   revalidatePath(ADMIN_PATH);
   revalidatePath(`${ADMIN_PATH}/settings`);
   return DONE;
+}
+
+// ── Hazır şablonlar (K-109) ─────────────────────────────────────────────────────────────────────────────────────────────
+const TEMPLATES_PATH = `${ADMIN_PATH}/templates`;
+
+export async function saveCampaignTemplate(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(ADMINS);
+  if (!gate.ok) return failed('forbidden');
+  const parsed = templateSchema.safeParse({ ...Object.fromEntries(formData), isActive: checkbox(formData, 'isActive') });
+  if (!parsed.success) return failed('validation', Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation'])));
+  const v = parsed.data;
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  const row = {
+    name: v.name, category: v.category, description: v.description, sort_order: v.sortOrder, is_active: v.isActive,
+    subject: { tr: v.subjectTr, en: v.subjectEn }, preheader: { tr: v.preheaderTr, en: v.preheaderEn }, body: { tr: v.bodyTr, en: v.bodyEn },
+    cta_label: { tr: v.ctaLabelTr, en: v.ctaLabelEn }, cta_url: { tr: v.ctaUrlTr, en: v.ctaUrlEn },
+  };
+  let id = v.id || '';
+  if (id) {
+    const { error } = await client.data.from('mail_campaign_templates').update(row).eq('id', id);
+    if (error) { logger.error('Sablon kaydedilemedi', { module: MODULE, code: error.code, message: error.message }); return failed(dbErrorKey(error.code)); }
+  } else {
+    const { data, error } = await client.data.from('mail_campaign_templates').insert(row).select('id').single();
+    if (error) { logger.error('Sablon kaydedilemedi', { module: MODULE, code: error.code, message: error.message }); return failed(dbErrorKey(error.code)); }
+    id = data.id;
+  }
+  revalidatePath(TEMPLATES_PATH);
+  revalidatePath(`${TEMPLATES_PATH}/${id}`);
+  if (!v.id) redirect(`${TEMPLATES_PATH}/${id}`);
+  return DONE;
+}
+
+export async function deleteCampaignTemplate(formData: FormData): Promise<void> {
+  const gate = await requireRole(ADMINS);
+  if (!gate.ok) return;
+  const id = z.string().uuid().safeParse(formData.get('id'));
+  if (!id.success) return;
+  const client = await createServerClient();
+  if (!client.ok) return;
+  const { error } = await client.data.from('mail_campaign_templates').delete().eq('id', id.data);
+  if (error) {
+    logger.error('Sablon silinemedi', { module: MODULE, code: error.code, message: error.message });
+    return;
+  }
+  revalidatePath(TEMPLATES_PATH);
+  redirect(TEMPLATES_PATH);
+}
+
+/** Kampanyanın içeriğini (kampanyanın dilinde) yeni bir şablon olarak kaydeder → şablon düzenleme sayfasına gider. */
+export async function saveCampaignAsTemplate(formData: FormData): Promise<void> {
+  const gate = await requireRole(ADMINS);
+  if (!gate.ok) return;
+  const parsed = z.object({ id: z.string().uuid(), name: z.string().trim().min(2).max(120) }).safeParse({ id: formData.get('id'), name: formData.get('name') });
+  if (!parsed.success) return;
+  const client = await createServerClient();
+  if (!client.ok) return;
+  const source = await client.data.from('mail_campaigns').select('locale, subject, preheader, body, cta_label, cta_url').eq('id', parsed.data.id).maybeSingle();
+  if (source.error || !source.data || !source.data.subject.trim()) return;
+  const c = source.data;
+  // Türkçe konu zorunlu (0058): İngilizce kampanyadan üretilen şablonda iki dile de aynı metin yazılır, panelden düzeltilir
+  const both = (text: string) => (c.locale === 'en' ? { tr: text, en: text } : { tr: text, en: '' });
+  const { data, error } = await client.data.from('mail_campaign_templates').insert({ name: parsed.data.name, category: 'announcement', subject: both(c.subject), preheader: both(c.preheader), body: both(c.body), cta_label: both(c.cta_label), cta_url: both(c.cta_url), sort_order: 100 }).select('id').single();
+  if (error) {
+    logger.error('Kampanya sablona donusturulemedi', { module: MODULE, code: error.code, message: error.message });
+    return;
+  }
+  revalidatePath(TEMPLATES_PATH);
+  redirect(`${TEMPLATES_PATH}/${data.id}`);
 }
