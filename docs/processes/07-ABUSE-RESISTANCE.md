@@ -88,6 +88,8 @@ Uygulama süreçlerinden bağımsız sabit pencere sayacı; aşımda `P0429 rate
 | `[slug]` detay sayfaları | anon | — | — | ISR 1 saat | bilinen: 0 · bilinmeyen (geçerli desen): 2 çağrı + disk 404 |
 | `/arama` | anon | IP 60/dk | — | LRU | `search_site` |
 | `/konfigurator/k/[token]` | anon | IP 60/dk | — | — | 1 RPC (UUID denetimi önce) |
+| `POST /api/unsubscribe?t=` (tek tık, K-108) | anon (posta istemcisi) | IP 20/10 dk + DB global 300/10 dk | 1 KB (okunmaz) | — | `mail_unsubscribe` (kapı+eşik); her zaman 204 |
+| `/abonelik-iptal` + onay action'ı (K-108) | anon | IP 10/10 dk + DB global | zod (uuid) | dinamik, noindex | sayfa 0 · onayda 1 RPC (UUID denetimi önce) |
 | `[...rest]` 404 | anon | — | — | dinamik (disk yok) | 0 (ayar/menü istek içinde tekil) |
 
 \* Next.js gövde üst sınırı; uygulama ayrıca doğrular.

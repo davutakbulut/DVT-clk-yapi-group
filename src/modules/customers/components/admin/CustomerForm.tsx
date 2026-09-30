@@ -98,6 +98,15 @@ export function CustomerForm({ customer, members, canEdit }: Props) {
             <input type="checkbox" name="isActive" defaultChecked={c?.is_active ?? true} disabled={locked} /> {t('common.active')}
           </label>
         </div>
+        <div className="grid gap-1 text-sm">
+          <label className="flex items-center gap-2">
+            <input type="checkbox" name="marketingConsent" defaultChecked={c?.marketing_consent ?? false} disabled={locked} /> {t('customers.marketingConsent')}
+          </label>
+          <p className="text-xs text-muted-foreground">
+            {t('customers.marketingConsentHint')}
+            {c?.marketing_consent_at ? ` · ${c.marketing_consent_at.slice(0, 10)}` : ''}
+          </p>
+        </div>
         <div className="grid gap-1">
           <Label htmlFor="c-notes">{t('customers.notes')}</Label>
           <Textarea id="c-notes" name="notes" rows={4} defaultValue={c?.notes ?? ''} readOnly={locked} />

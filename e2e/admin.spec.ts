@@ -93,7 +93,7 @@ test.describe('yönetim paneli', () => {
 
   test('hesabım: profil sayfası açılır, header hesap menüsü yönetim paneline bağlanır', async ({ page }) => {
     await login(page, '/tr/hesabim');
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Hesabım');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Hesabım|Hoş geldiniz/); // K-103: adı olan üyeye karşılama başlığı
     const summary = page.getByRole('banner').locator('summary[aria-label="Hesap menüsü"]');
     await expect(summary).toBeVisible({ timeout: 10_000 }); // istemci oturumu okur (getUser + profil)
     await summary.click();

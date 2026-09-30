@@ -174,7 +174,8 @@
       "fieldVideos": "Field Videos",
       "socialLinks": "Social Media",
       "pagesSettings": "Page Copy",
-      "configuratorPages": "Configurator Guides"
+      "configuratorPages": "Configurator Guides",
+      "campaigns": "Bulk E-mail"
     },
     "common": {
       "save": "Save",
@@ -1077,7 +1078,8 @@
         "schedule_due": "Instalment due soon: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "schedule_overdue": "Overdue instalment: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "system_stale_cron": "Cron silent: {job_key} (last run {last_run_at})",
-        "lead_customer_message": "Customer message {ref_no} ({kind})"
+        "lead_customer_message": "Customer message {ref_no} ({kind})",
+        "campaign_finished": "Campaign \"{name}\" finished: {sent} sent, {failed} failed"
       }
     },
     "customers": {
@@ -1120,7 +1122,9 @@
       "anonymizedNote": "This record was anonymised on {date}; it cannot be edited.",
       "anonymous": "Anonymous customer",
       "convertLead": "Convert to customer",
-      "openCustomer": "Open customer card"
+      "openCustomer": "Open customer card",
+      "marketingConsent": "Has consented to commercial messages",
+      "marketingConsentHint": "Bulk e-mail is sent to an individual customer only with this consent. Record how it was obtained (form, contract, written approval) in the notes."
     },
     "sales": {
       "title": "Sales",
@@ -1623,6 +1627,196 @@
       "pairHint": "One item per line; title and description separated by a pipe.",
       "faqHint": "One question per line; question and answer separated by a pipe.",
       "banner": "\"Want to build it yourself?\" banner"
+    },
+    "campaigns": {
+      "title": "Bulk E-mail",
+      "lead": "Send announcements or campaign e-mails to your customers and to enquirers who opted in. Sending runs in the background within the hourly limit.",
+      "new": "New campaign",
+      "newLead": "Save the draft first; compute the recipients and send yourself a test before starting.",
+      "detailLead": "Editable while a draft; content and recipient list are locked once started.",
+      "empty": "No campaigns yet. Create your first draft with \"New campaign\".",
+      "mailLogs": "Delivery log (all e-mail)",
+      "date": "Date",
+      "scheduledFor": "Scheduled:",
+      "startedAt": "Started:",
+      "finishedAt": "Finished:",
+      "minutesLeft": "about {minutes} min left",
+      "autoRefresh": "page refreshes every 20 seconds",
+      "sectionCampaign": "Campaign",
+      "sectionContent": "Content",
+      "sectionAudience": "Recipients",
+      "sectionTest": "Test message",
+      "sectionSend": "Sending",
+      "name": "Campaign name",
+      "nameHint": "Shown in the panel only; recipients do not see it.",
+      "locale": "Footer language",
+      "subject": "Subject",
+      "subjectHint": "{count} / 200 characters. 40–60 characters show untruncated in the inbox.",
+      "preheader": "Preheader",
+      "preheaderHint": "Short summary shown next to the subject in the inbox (optional).",
+      "body": "Text",
+      "insert": "Insert personal field:",
+      "variables": {
+        "full_name": "name",
+        "company": "company",
+        "email": "e-mail"
+      },
+      "bodyHint": "A blank line separates paragraphs. \"## Heading\", \"- item\", **bold** and [link text](https://address) are supported. HTML is not allowed.",
+      "ctaLabel": "Button text",
+      "ctaUrl": "Button address",
+      "ctaHint": "A button appears below the text when both are filled. The address must start with https://.",
+      "segments": "Who should receive it?",
+      "segment": {
+        "customers_corporate": {
+          "title": "Corporate customers",
+          "hint": "Active corporate records with an e-mail on the Customers screen. Merchants and tradespeople may be sent commercial messages without prior consent; they keep the right to unsubscribe."
+        },
+        "customers_individual": {
+          "title": "Consenting individual customers",
+          "hint": "Only individual customers with \"Has consented to commercial messages\" ticked on their card."
+        },
+        "leads": {
+          "title": "Enquirers who opted in to marketing",
+          "hint": "People who ticked the \"keep me informed about campaigns and announcements\" box on the quote or contact form."
+        }
+      },
+      "city": "City",
+      "cityAll": "All cities",
+      "cityHint": "Only customers and enquiries in the selected city. Does not affect manually added addresses.",
+      "manual": "Manually added addresses",
+      "manualPlaceholder": "Full Name '<'address@company.com'>'\naddress@company.com; Full Name\naddress@company.com",
+      "manualHint": "One person per line (up to {limit}). You can paste two columns (name, e-mail) from Excel.",
+      "manualAttest": "I confirm that the owners of these addresses have consented to commercial e-mail or are merchants/tradespeople. (If unticked, manually added addresses are not sent to.)",
+      "manualCount": "{count} manually added addresses",
+      "compute": "Compute recipients",
+      "computeHint": "Sends nothing; shows how many people the selection reaches.",
+      "audienceTotal": "{count} recipients",
+      "audienceSuppressed": "Excluded because unsubscribed: {count}",
+      "audienceDuplicates": "Duplicate lines: {count}",
+      "audienceInvalid": "{count} lines were skipped (not an address):",
+      "estimate": "Estimated duration: about {minutes} minutes (at most {limit} messages per hour).",
+      "sample": "Show the first {count} recipients",
+      "source": {
+        "customer": "Customer",
+        "lead": "Enquiry",
+        "manual": "Manual"
+      },
+      "testEmail": "Test address",
+      "testSend": "Send test",
+      "testHint": "The content in the form is sent to this address immediately, without saving. The unsubscribe link does nothing in a test.",
+      "testSent": "Test message sent: {to}",
+      "testFailed": "Could not send: {detail}",
+      "providerMissing": "E-mail sending is not configured (no SMTP or Resend settings). Nothing can be sent.",
+      "saveDraft": "Save draft",
+      "unsaved": "Unsaved changes",
+      "saveFirst": "Save the draft first; the saved content is what gets sent.",
+      "saveToSend": "Save the draft before sending.",
+      "sendNow": "Start now",
+      "sendLater": "Pick a date and time",
+      "scheduledAt": "Send time",
+      "scheduledHint": "Turkey time. At most 90 days ahead.",
+      "confirmSend": "I have checked the recipient list and the content; the content cannot be changed once sending starts.",
+      "confirmSendCount": "I confirm this goes to about {count} recipients and the content cannot be changed once it starts.",
+      "sendHint": "Sending runs in the background (at most {limit} messages per hour). You can close the browser and follow progress on this page.",
+      "start": "Start sending",
+      "schedule": "Schedule",
+      "started": "Campaign started: {count} recipients.",
+      "startErrors": {
+        "forbidden": "You are not allowed to do this.",
+        "validation": "The date is invalid or in the past.",
+        "unexpected": "An unexpected error occurred.",
+        "noRecipients": "No recipients. Select at least one group under Recipients and save the draft.",
+        "noContent": "Subject and text are required. Write the content and save the draft.",
+        "confirm": "Tick the confirmation box."
+      },
+      "preview": "Preview",
+      "previewHint": "What the recipient will see. Personal fields are filled with your own details.",
+      "sentContent": "Content sent",
+      "statuses": {
+        "draft": "Draft",
+        "scheduled": "Scheduled",
+        "sending": "Sending",
+        "paused": "Paused",
+        "sent": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "stats": {
+        "total": "Recipients",
+        "sent": "Sent",
+        "pending": "Pending",
+        "failed": "Failed",
+        "skipped": "Skipped",
+        "unsubscribed": "Unsubscribed"
+      },
+      "progress": "Sending progress",
+      "pause": "Pause",
+      "resume": "Resume",
+      "retry": "Retry {count} failed recipients",
+      "duplicate": "Duplicate",
+      "copyName": "{name} (copy)",
+      "exportCsv": "Download recipients (CSV)",
+      "cancel": "Cancel campaign",
+      "cancelConfirm": "The {count} pending recipients will not be sent to; this cannot be undone.",
+      "deleteDraft": "Delete draft",
+      "recipients": "Recipients",
+      "recipientsShown": "Showing {shown} of {total} recipients (max 500; all in the CSV).",
+      "recipientStatuses": {
+        "pending": "Pending",
+        "sending": "Sending",
+        "sent": "Sent",
+        "failed": "Failed",
+        "skipped": "Skipped"
+      },
+      "skipReasons": {
+        "suppressed": "On the do-not-send list",
+        "cancelled": "Campaign cancelled",
+        "reserved": "Test address"
+      },
+      "overview": {
+        "hourly": "Sent in the last hour",
+        "hourlyHint": "Remaining this hour: {left}",
+        "speed": "Sending speed",
+        "speedValue": "up to {count} per minute",
+        "provider": "E-mail provider",
+        "providerOk": "Ready",
+        "providerMissing": "Not configured",
+        "suppressions": "Addresses on the do-not-send list"
+      },
+      "suppression": {
+        "title": "Do-not-send addresses",
+        "lead": "Addresses that unsubscribed, bounced or complained. They are never added to any campaign's recipient list.",
+        "reason": "Reason",
+        "note": "Note",
+        "count": "{count} addresses",
+        "remove": "Remove from list",
+        "locked": "The person's own request; cannot be removed",
+        "reasons": {
+          "unsubscribed": "Unsubscribed",
+          "bounced": "Bounced",
+          "complaint": "Complaint",
+          "manual": "Added manually"
+        },
+        "search": "Search (e-mail)"
+      },
+      "settings": {
+        "title": "Sending settings",
+        "lead": "The rate limit must stay below your hosting provider's hourly e-mail limit; exceeding it can get the account temporarily blocked from sending.",
+        "speed": "Speed",
+        "identity": "Sender and footer",
+        "hourlyLimit": "Max messages per hour",
+        "hourlyLimitHint": "Automatic messages such as enquiry replies count towards this number.",
+        "batchSize": "Max messages per minute",
+        "batchSizeHint": "Sending runs once a minute; at most this many messages go out per run.",
+        "replyTo": "Reply-to address",
+        "replyToHint": "Where the message goes when the recipient replies. If empty, the sender address is used.",
+        "nameFallback": "Greeting for recipients without a name",
+        "nameFallbackHint": "Used when the '{{full_name}}' field is empty (e.g. \"Sir or Madam\").",
+        "footer": "Footer text",
+        "footerHint": "Shown at the bottom of every message. Commercial messages must carry the sender's trade name, address and registration number; add them here. '{{site_name}}' inserts the site name.",
+        "unsubscribeLabel": "Unsubscribe link text"
+      },
+      "searchRecipients": "Search (e-mail, name, company)",
+      "audienceSummary": "Selected audience"
     }
   },
   "Services": {
@@ -2781,5 +2975,18 @@
     "faq": "Frequently asked",
     "quote": "Request a quote",
     "howItWorks": "How does it work?"
+  },
+  "Unsubscribe": {
+    "kicker": "E-mail preferences",
+    "title": "Unsubscribe",
+    "lead": "When you press the button below we will no longer send announcements or campaign messages to this address. Transactional messages such as replies to your enquiries are not affected.",
+    "confirm": "Confirm unsubscribe",
+    "working": "Working…",
+    "done": "You have been unsubscribed. No further announcements or campaign messages will be sent to this address.",
+    "errors": {
+      "invalid": "The link is invalid or incomplete. Open the \"Unsubscribe\" link in the e-mail again.",
+      "rateLimited": "Too many attempts. Try again shortly.",
+      "unexpected": "The request could not be completed. Try again shortly."
+    }
   }
 }

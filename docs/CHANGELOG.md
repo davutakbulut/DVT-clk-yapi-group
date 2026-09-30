@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Toplu e-posta (K-108)
+- Panel `/admin/campaigns`: kampanya taslağı (konu, ön başlık, biçimli metin, düğme, kişiye özel alanlar), canlı önizleme, test iletisi, alıcı grupları (kurumsal müşteriler · izinli bireysel müşteriler · pazarlama izni veren talep sahipleri · elle liste) + il süzgeci, "alıcıları hesapla", hemen/zamanlı başlatma, duraklat · sürdür · iptal · başarısızları yeniden dene, kopyala, alıcı tablosu + CSV
+- Gönderim arka planda (mail cron'u), saatlik sınır ve koşu başına adet panelden; "listeden çık" bağlantısı + tek tık başlıkları; engel listesi `/admin/campaigns/suppressions`; ayarlar `/admin/campaigns/settings`
+- Müşteri kartında "Ticari ileti izni"; herkese açık `/abonelik-iptal`; migration 0057; PGlite + birim + E2E
+- Dağıtım betiği: disk kotası denetimi (700 MB altı boş alanda durur)
+
 ### Konfigüratör rehber sayfaları (K-107)
 - `/konfigurator-rehberi` + 6 SEO iniş sayfası (Markdown gövde, faydalar, HowTo adımları, FAQPage SSS, band), seçim sayfasında "Nasıl çalışır?" bağlantıları, ürünler/hizmetler sayfalarında "Kendiniz inşa etmek ister misiniz?" bandı; panel `/admin/configurator-pages`; migration 0055; site haritası + hreflang
 

@@ -27,12 +27,15 @@ const TARGETS = [
   // Sepet/teklif testlerinin isimsiz, e-postasız, mesajsız 'Anonim' talepleri (gerçek form ad ister)
   ['leads', (q) => q.eq('full_name', 'Anonim').is('email', null)],
   // Bağlı kaydı silinmiş bildirimler (lead.created → talep artık yok)
-  ['notifications', (q) => q.or('payload->>full_name.ilike.E2E %,payload->>full_name.eq.Anonim,payload->>author_name.ilike.E2E %')],
+  ['notifications', (q) => q.or('payload->>full_name.ilike.E2E %,payload->>full_name.eq.Anonim,payload->>author_name.ilike.E2E %,payload->>name.ilike.E2E %')],
   ['testimonials', (q) => q.ilike('author_name', 'E2E %')],
   ['field_videos', (q) => q.ilike('title->>tr', 'E2E %')],
   ['ui_translations', (q) => q.ilike('value', 'E2E %')],
   ['email_queue', (q) => q.ilike('to_email', '%@example.com')],
-  ['email_logs', (q) => q.ilike('to_email', '%@example.com')],
+  ['email_logs', (q) => q.or('to_email.ilike.%@example.com,to_email.ilike.%@sink.clkyapigroup.com')],
+  // Toplu e-posta (K-108): E2E kampanyaları (alıcı satırları cascade) ve teste ayrılmış / yerel çöp kutusu adreslerinin engel kayıtları
+  ['mail_suppressions', (q) => q.or('email.ilike.%@example.com,email.ilike.%@sink.clkyapigroup.com')],
+  ['mail_campaigns', (q) => q.ilike('name', 'E2E %')],
 ];
 for (const [table, filter] of TARGETS) {
   const count = await filter(s.from(table).select('id', { count: 'exact', head: true }));

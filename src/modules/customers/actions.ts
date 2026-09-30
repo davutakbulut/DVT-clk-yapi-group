@@ -17,7 +17,7 @@ const ADMIN_PATH = '/admin/customers';
 export async function saveCustomer(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const gate = await requireRole(WRITERS);
   if (!gate.ok) return failed('forbidden');
-  const parsed = customerSchema.safeParse({ ...Object.fromEntries(formData), isActive: checkbox(formData, 'isActive') });
+  const parsed = customerSchema.safeParse({ ...Object.fromEntries(formData), isActive: checkbox(formData, 'isActive'), marketingConsent: checkbox(formData, 'marketingConsent') });
   if (!parsed.success) return failed('validation', Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0] ?? 'form'), 'validation'])));
   const v = parsed.data;
   const client = await createServerClient();
@@ -39,13 +39,17 @@ export async function saveCustomer(_prev: ActionState, formData: FormData): Prom
     source: v.source,
     profile_id: v.profileId || null,
     is_active: v.isActive,
+    marketing_consent: v.marketingConsent,
   };
   let id = v.id || '';
   if (id) {
-    const { error } = await client.data.from('customers').update(row).eq('id', id);
+    // İzin tarihi yalnız izin DEĞİŞTİĞİNDE yazılır (K-108): verildiği an kayıt altında, geri alınınca boşalır
+    const { data: before } = await client.data.from('customers').select('marketing_consent').eq('id', id).maybeSingle();
+    const consentAt = before && before.marketing_consent === v.marketingConsent ? {} : { marketing_consent_at: v.marketingConsent ? new Date().toISOString() : null };
+    const { error } = await client.data.from('customers').update({ ...row, ...consentAt }).eq('id', id);
     if (error) return fail(error);
   } else {
-    const { data, error } = await client.data.from('customers').insert(row).select('id').single();
+    const { data, error } = await client.data.from('customers').insert({ ...row, marketing_consent_at: v.marketingConsent ? new Date().toISOString() : null }).select('id').single();
     if (error) return fail(error);
     id = data.id;
   }

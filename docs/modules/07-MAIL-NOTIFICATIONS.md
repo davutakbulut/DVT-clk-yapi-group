@@ -69,3 +69,31 @@ Supabase Realtime ile panelde anlık bildirim — maili beklemeye gerek kalmaz.
 ## MSSQL Geçiş Notu
 
 Realtime `core/realtime` soyutlaması arkasında. MSSQL'de karşılığı yok; geçişte SignalR veya yoklama (polling) uygulamasına düşülür. Bildirim işlevi kaybolmaz, yalnız iletim yöntemi değişir.
+
+## Toplu e-posta (K-108)
+
+Panel: **Talep ve Satış → Toplu E-posta** (`/admin/campaigns`). Yalnız `super_admin` ve `admin`.
+
+```
+Taslak (içerik + alıcı grupları) → "Alıcıları hesapla" → test iletisi → Başlat / Zamanla
+        ↓ start_mail_campaign: alıcı listesi dondurulur (mail_campaign_recipients)
+Cron (dakikada bir, /api/cron/mail'in 2. adımı) → saatlik sınırdan kalan hak kadar alıcı
+        ↓ her alıcıdan önce engel listesi
+SMTP/Resend → email_logs (template_key 'campaign') → alıcı durumu → bitince yöneticiye bildirim
+```
+
+| Konu | Nerede |
+|---|---|
+| Kitle kuralları (kim alır, kim almaz) | `app_private.mail_audience` (0057) — kod değil veritabanı |
+| Saatlik sınır / dakikalık adet / alt bilgi / hitap / yanıt adresi | `/admin/campaigns/settings` → `site_settings` `mail.bulk` |
+| Gönderilmeyecek adresler | `/admin/campaigns/suppressions` → `mail_suppressions` |
+| Bireysel müşteri izni | müşteri kartı → "Ticari ileti izni var" (`customers.marketing_consent`) |
+| İşçi | `src/core/jobs/mailCampaigns.ts` |
+| Şablon | `src/core/mail/render.ts` › `renderCampaignMail` |
+
+**Operasyon notları**
+- **Saatlik sınır hosting'in SMTP sınırının altında tutulur.** Varsayılan 100/saat; hosting firmasından gerçek sınırı öğrenip ayarlayın. Sınır hesap genelidir (talep yanıtları dahil).
+- **Geri dönen iletiler (bounce)** gönderen posta kutusuna düşer; otomatik işlenmez. Adresi engel listesine "İleti geri döndü" nedeniyle elle ekleyin.
+- **Yasal:** ticari iletilerde gönderenin unvanı, adresi ve MERSİS numarası alt bilgide bulunmalı (ayarlardan yazılır). Bireysel alıcılar için önceden onay şart; İYS kaydı/entegrasyonu bu sürümde yoktur — onaylar İYS'ye ayrıca işlenir.
+- **Test:** otomatik testler yalnız `@example.com` adresleri kullanır; bunlar kitleye girmez → E2E gerçek alıcıya kampanya başlatamaz. Yerel doğrulama için SMTP'yi 127.0.0.1'deki bir çöp kutusuna yönlendirin; artıklar `scripts/purge-e2e-data.mjs --apply` ile silinir.
+- **Teslim edilebilirlik:** SPF + DKIM + DMARC kayıtları olmadan toplu ileti spam'e düşer (bkz. yukarıda "Teslimat").

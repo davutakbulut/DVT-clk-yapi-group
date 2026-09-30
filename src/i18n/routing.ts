@@ -51,6 +51,8 @@ export const routing = defineRouting({
     '/careers/[slug]': { tr: '/kariyer/[slug]', en: '/careers/[slug]' },
     '/faq': { tr: '/sss', en: '/faq' },
     '/search': { tr: '/arama', en: '/search' },
+    // K-108 · toplu e-postadaki "listeden çık" bağlantısı (noindex) — core/mail/bulkSettings.ts unsubscribeUrls ile aynı olmalı
+    '/unsubscribe': { tr: '/abonelik-iptal', en: '/unsubscribe' },
     // Faz 12 · yasal + site haritası
     '/privacy-policy': { tr: '/gizlilik-politikasi', en: '/privacy-policy' },
     '/cookie-policy': { tr: '/cerez-politikasi', en: '/cookie-policy' },

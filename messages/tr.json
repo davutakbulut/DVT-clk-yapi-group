@@ -174,7 +174,8 @@
       "fieldVideos": "Sahadan Videolar",
       "socialLinks": "Sosyal Medya",
       "pagesSettings": "Sayfa Metinleri",
-      "configuratorPages": "Konfigüratör Rehberleri"
+      "configuratorPages": "Konfigüratör Rehberleri",
+      "campaigns": "Toplu E-posta"
     },
     "common": {
       "save": "Kaydet",
@@ -1077,7 +1078,8 @@
         "schedule_due": "Hakediş yaklaşıyor: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "schedule_overdue": "Vadesi geçen hakediş: {sale_no} · {customer} · {amount} ₺ · {due_date}",
         "system_stale_cron": "Cron sessiz: {job_key} (son çalışma {last_run_at})",
-        "lead_customer_message": "Müşteri mesajı {ref_no} ({kind})"
+        "lead_customer_message": "Müşteri mesajı {ref_no} ({kind})",
+        "campaign_finished": "\"{name}\" kampanyası tamamlandı: {sent} gönderildi, {failed} başarısız"
       }
     },
     "customers": {
@@ -1120,7 +1122,9 @@
       "anonymizedNote": "Bu kayıt {date} tarihinde anonimleştirildi; düzenlenemez.",
       "anonymous": "Anonim müşteri",
       "convertLead": "Müşteriye dönüştür",
-      "openCustomer": "Müşteri kartını aç"
+      "openCustomer": "Müşteri kartını aç",
+      "marketingConsent": "Ticari ileti izni var",
+      "marketingConsentHint": "Bireysel müşteriye toplu e-posta yalnız bu izinle gönderilir. İzni nasıl aldığınızı (form, sözleşme, yazılı onay) notlara yazın."
     },
     "sales": {
       "title": "Satışlar",
@@ -1623,6 +1627,196 @@
       "pairHint": "Her satır bir madde; dikey çizgiyle başlık ve açıklama.",
       "faqHint": "Her satır bir soru; dikey çizgiyle soru ve cevap.",
       "banner": "\"Kendiniz inşa etmek ister misiniz?\" bandı"
+    },
+    "campaigns": {
+      "title": "Toplu E-posta",
+      "lead": "Müşterilerinize ve izin veren talep sahiplerine duyuru ya da kampanya e-postası gönderin. Gönderim arka planda, saatlik sınıra uyarak yapılır.",
+      "new": "Yeni kampanya",
+      "newLead": "Önce taslağı kaydedin; alıcıları hesaplayıp kendinize test gönderdikten sonra başlatın.",
+      "detailLead": "Taslakken düzenlenir; başlatıldıktan sonra içerik ve alıcı listesi kilitlenir.",
+      "empty": "Henüz kampanya yok. \"Yeni kampanya\" ile ilk taslağınızı oluşturun.",
+      "mailLogs": "Gönderim kayıtları (tüm e-postalar)",
+      "date": "Tarih",
+      "scheduledFor": "Zamanlandı:",
+      "startedAt": "Başladı:",
+      "finishedAt": "Bitti:",
+      "minutesLeft": "yaklaşık {minutes} dk kaldı",
+      "autoRefresh": "sayfa 20 saniyede bir yenilenir",
+      "sectionCampaign": "Kampanya",
+      "sectionContent": "İçerik",
+      "sectionAudience": "Alıcılar",
+      "sectionTest": "Test iletisi",
+      "sectionSend": "Gönderim",
+      "name": "Kampanya adı",
+      "nameHint": "Yalnız panelde görünür; alıcılar görmez.",
+      "locale": "Alt bilgi dili",
+      "subject": "Konu",
+      "subjectHint": "{count} / 200 karakter. 40–60 karakter gelen kutusunda kesilmeden görünür.",
+      "preheader": "Ön başlık",
+      "preheaderHint": "Gelen kutusunda konunun yanında görünen kısa özet (isteğe bağlı).",
+      "body": "Metin",
+      "insert": "Kişiye özel alan ekle:",
+      "variables": {
+        "full_name": "ad",
+        "company": "firma",
+        "email": "e-posta"
+      },
+      "bodyHint": "Boş satır paragraf ayırır. \"## Başlık\", \"- madde\", **kalın** ve [bağlantı metni](https://adres) kullanılabilir. HTML yazılamaz.",
+      "ctaLabel": "Düğme yazısı",
+      "ctaUrl": "Düğme adresi",
+      "ctaHint": "İkisi de doluysa metnin altında bir düğme çıkar. Adres https:// ile başlamalıdır.",
+      "segments": "Kimlere gönderilsin?",
+      "segment": {
+        "customers_corporate": {
+          "title": "Kurumsal müşteriler",
+          "hint": "Müşteriler ekranındaki aktif, e-postası olan kurumsal kayıtlar. Tacir ve esnafa önceden onay almadan ticari ileti gönderilebilir; listeden çıkma hakları saklıdır."
+        },
+        "customers_individual": {
+          "title": "İzinli bireysel müşteriler",
+          "hint": "Yalnız müşteri kartında \"Ticari ileti izni var\" işaretli bireysel müşteriler."
+        },
+        "leads": {
+          "title": "Pazarlama izni veren talep sahipleri",
+          "hint": "Teklif ya da iletişim formunda \"kampanya ve duyurulardan haberdar olmak istiyorum\" kutusunu işaretleyenler."
+        }
+      },
+      "city": "İl",
+      "cityAll": "Tüm iller",
+      "cityHint": "Yalnız seçilen ildeki müşteri ve talepler. Elle eklenen adresleri etkilemez.",
+      "manual": "Elle eklenen adresler",
+      "manualPlaceholder": "Ad Soyad '<'adres@firma.com'>'\nadres@firma.com; Ad Soyad\nadres@firma.com",
+      "manualHint": "Her satıra bir kişi (en çok {limit}). Excel'den iki sütun (ad, e-posta) yapıştırabilirsiniz.",
+      "manualAttest": "Bu adreslerin sahiplerinden ticari e-posta izni aldığımı ya da tacir/esnaf olduklarını onaylıyorum. (İşaretlenmezse elle eklenen adreslere gönderilmez.)",
+      "manualCount": "Elle eklenen {count} adres",
+      "compute": "Alıcıları hesapla",
+      "computeHint": "Hiçbir şey göndermez; seçime göre kaç kişiye gideceğini gösterir.",
+      "audienceTotal": "{count} alıcı",
+      "audienceSuppressed": "Listeden çıktığı için elenen: {count}",
+      "audienceDuplicates": "Tekrarlanan satır: {count}",
+      "audienceInvalid": "Adres biçimine uymayan {count} satır alınmadı:",
+      "estimate": "Tahmini süre: yaklaşık {minutes} dakika (saatte en çok {limit} ileti).",
+      "sample": "İlk {count} alıcıyı göster",
+      "source": {
+        "customer": "Müşteri",
+        "lead": "Talep",
+        "manual": "Elle"
+      },
+      "testEmail": "Test adresi",
+      "testSend": "Test gönder",
+      "testHint": "Formdaki içerik, kaydetmeden bu adrese hemen gönderilir. \"Listeden çık\" bağlantısı testte işlem yapmaz.",
+      "testSent": "Test iletisi gönderildi: {to}",
+      "testFailed": "Gönderilemedi: {detail}",
+      "providerMissing": "E-posta gönderimi yapılandırılmamış (SMTP ya da Resend ayarı yok). Gönderim yapılamaz.",
+      "saveDraft": "Taslağı kaydet",
+      "unsaved": "Kaydedilmemiş değişiklik var",
+      "saveFirst": "Önce taslağı kaydedin; kaydedilen içerik gönderilir.",
+      "saveToSend": "Göndermek için önce taslağı kaydedin.",
+      "sendNow": "Hemen başlat",
+      "sendLater": "Tarih ve saat seç",
+      "scheduledAt": "Gönderim zamanı",
+      "scheduledHint": "Türkiye saatiyle. En çok 90 gün ileri.",
+      "confirmSend": "Alıcı listesini ve içeriği kontrol ettim; gönderim başladıktan sonra içerik değiştirilemez.",
+      "confirmSendCount": "Yaklaşık {count} alıcıya gönderileceğini ve başladıktan sonra içeriğin değiştirilemeyeceğini onaylıyorum.",
+      "sendHint": "Gönderim arka planda yapılır (saatte en çok {limit} ileti). Tarayıcıyı kapatabilirsiniz; ilerlemeyi bu sayfadan izlersiniz.",
+      "start": "Gönderimi başlat",
+      "schedule": "Zamanla",
+      "started": "Kampanya başlatıldı: {count} alıcı.",
+      "startErrors": {
+        "forbidden": "Bu işlem için yetkiniz yok.",
+        "validation": "Tarih geçersiz ya da geçmişte.",
+        "unexpected": "Beklenmeyen bir hata oluştu.",
+        "noRecipients": "Alıcı yok. Alıcılar bölümünde en az bir grup seçip taslağı kaydedin.",
+        "noContent": "Konu ve metin gerekli. İçeriği yazıp taslağı kaydedin.",
+        "confirm": "Onay kutusunu işaretleyin."
+      },
+      "preview": "Önizleme",
+      "previewHint": "Alıcının göreceği görünüm. Kişiye özel alanlar sizin bilgilerinizle doldurulur.",
+      "sentContent": "Gönderilen içerik",
+      "statuses": {
+        "draft": "Taslak",
+        "scheduled": "Zamanlandı",
+        "sending": "Gönderiliyor",
+        "paused": "Duraklatıldı",
+        "sent": "Tamamlandı",
+        "cancelled": "İptal edildi"
+      },
+      "stats": {
+        "total": "Alıcı",
+        "sent": "Gönderildi",
+        "pending": "Bekliyor",
+        "failed": "Başarısız",
+        "skipped": "Atlandı",
+        "unsubscribed": "Listeden çıktı"
+      },
+      "progress": "Gönderim ilerlemesi",
+      "pause": "Duraklat",
+      "resume": "Sürdür",
+      "retry": "Başarısız {count} alıcıyı yeniden dene",
+      "duplicate": "Kopyasını oluştur",
+      "copyName": "{name} (kopya)",
+      "exportCsv": "Alıcıları indir (CSV)",
+      "cancel": "Kampanyayı iptal et",
+      "cancelConfirm": "Bekleyen {count} alıcıya gönderilmeyecek; geri alınamaz.",
+      "deleteDraft": "Taslağı sil",
+      "recipients": "Alıcılar",
+      "recipientsShown": "{shown} / {total} alıcı gösteriliyor (en çok 500; tamamı CSV'de).",
+      "recipientStatuses": {
+        "pending": "Bekliyor",
+        "sending": "Gönderiliyor",
+        "sent": "Gönderildi",
+        "failed": "Başarısız",
+        "skipped": "Atlandı"
+      },
+      "skipReasons": {
+        "suppressed": "Engel listesinde",
+        "cancelled": "Kampanya iptal edildi",
+        "reserved": "Test adresi"
+      },
+      "overview": {
+        "hourly": "Son 1 saatte gönderilen",
+        "hourlyHint": "Bu saat için kalan: {left}",
+        "speed": "Gönderim hızı",
+        "speedValue": "dakikada en çok {count}",
+        "provider": "E-posta sağlayıcısı",
+        "providerOk": "Hazır",
+        "providerMissing": "Yapılandırılmamış",
+        "suppressions": "Engel listesindeki adres"
+      },
+      "suppression": {
+        "title": "Gönderilmeyecek adresler",
+        "lead": "Listeden çıkan, geri dönen ya da şikâyet eden adresler. Bu adresler hiçbir kampanyanın alıcı listesine girmez.",
+        "reason": "Neden",
+        "note": "Not",
+        "count": "{count} adres",
+        "remove": "Listeden kaldır",
+        "locked": "Kişinin kendi isteği; kaldırılamaz",
+        "reasons": {
+          "unsubscribed": "Kendi isteğiyle çıktı",
+          "bounced": "İleti geri döndü",
+          "complaint": "Şikâyet",
+          "manual": "Elle eklendi"
+        },
+        "search": "Ara (e-posta)"
+      },
+      "settings": {
+        "title": "Gönderim ayarları",
+        "lead": "Hız sınırı hosting firmanızın saatlik e-posta sınırının altında olmalıdır; aşılırsa hesap geçici olarak gönderime kapatılabilir.",
+        "speed": "Hız",
+        "identity": "Gönderici ve alt bilgi",
+        "hourlyLimit": "Saatlik en çok ileti",
+        "hourlyLimitHint": "Talep yanıtları gibi otomatik iletiler de bu sayıya dahildir.",
+        "batchSize": "Dakikada en çok ileti",
+        "batchSizeHint": "Gönderim dakikada bir çalışır; her çalışmada en çok bu kadar ileti gider.",
+        "replyTo": "Yanıt adresi",
+        "replyToHint": "Alıcı \"yanıtla\" dediğinde iletinin gideceği adres. Boşsa gönderen adresi kullanılır.",
+        "nameFallback": "Adı bilinmeyen alıcıya hitap",
+        "nameFallbackHint": "'{{full_name}}' alanı boş kaldığında yazılır (ör. \"Yetkili\").",
+        "footer": "Alt bilgi metni",
+        "footerHint": "Her iletinin altında görünür. Ticari iletilerde gönderenin unvanı, adresi ve MERSİS numarası bulunmalıdır; buraya ekleyin. '{{site_name}}' site adını yazar.",
+        "unsubscribeLabel": "\"Listeden çık\" bağlantı yazısı"
+      },
+      "searchRecipients": "Ara (e-posta, ad, firma)",
+      "audienceSummary": "Seçilen kitle"
     }
   },
   "Services": {
@@ -2781,5 +2975,18 @@
     "faq": "Sık sorulanlar",
     "quote": "Teklif iste",
     "howItWorks": "Nasıl çalışır?"
+  },
+  "Unsubscribe": {
+    "kicker": "E-posta tercihleri",
+    "title": "Listeden çık",
+    "lead": "Aşağıdaki düğmeye bastığınızda bu e-posta adresine bir daha duyuru ya da kampanya iletisi göndermeyiz. Talep yanıtları gibi işlem iletileri bundan etkilenmez.",
+    "confirm": "Listeden çıkmayı onayla",
+    "working": "İşleniyor…",
+    "done": "Listeden çıkarıldınız. Bu adrese bir daha duyuru ya da kampanya iletisi gönderilmeyecek.",
+    "errors": {
+      "invalid": "Bağlantı geçersiz ya da eksik. E-postadaki \"Listeden çık\" bağlantısını yeniden açın.",
+      "rateLimited": "Çok fazla deneme. Biraz sonra yeniden deneyin.",
+      "unexpected": "İşlem tamamlanamadı. Biraz sonra yeniden deneyin."
+    }
   }
 }

@@ -25,6 +25,8 @@ export interface CustomerDetail extends CustomerRow {
   readonly contact_phone: string | null;
   readonly notes: string | null;
   readonly profile_id: string | null;
+  readonly marketing_consent: boolean;
+  readonly marketing_consent_at: string | null;
   readonly leads: readonly { id: string; ref_no: string; status: string; source: string; created_at: string; quoted_amount: number | null }[];
 }
 
@@ -60,7 +62,7 @@ export async function getCustomer(id: string): Promise<Result<CustomerDetail | n
   const client = await createServerClient();
   if (!client.ok) return client;
   const [customer, leads] = await Promise.all([
-    client.data.from('customers').select(`${LIST}, tax_office, address, district, contact_person, contact_phone, notes, profile_id`).eq('id', id).maybeSingle(),
+    client.data.from('customers').select(`${LIST}, tax_office, address, district, contact_person, contact_phone, notes, profile_id, marketing_consent, marketing_consent_at`).eq('id', id).maybeSingle(),
     client.data.from('leads').select('id, ref_no, status, source, created_at, quoted_amount').eq('customer_id', id).order('created_at', { ascending: false }).limit(100),
   ]);
   const failure = customer.error ?? leads.error;

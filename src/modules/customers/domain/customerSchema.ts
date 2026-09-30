@@ -24,6 +24,8 @@ export const customerSchema = z
     source: z.enum(['lead', 'configurator', 'manual']).default('manual'),
     profileId: z.string().uuid().optional().or(z.literal('')),
     isActive: z.boolean(),
+    /** Ticari elektronik ileti izni (K-108): bireysel müşteride toplu e-posta için zorunlu; kurumsal müşteri tacir/esnaf istisnasındadır. */
+    marketingConsent: z.boolean().default(false),
   })
   // 0007 CHECK: ad ya da ünvan zorunlu; kurumsal müşteride ünvan, bireyselde ad beklenir
   .refine((v) => (v.type === 'corporate' ? Boolean(v.companyTitle) : Boolean(v.fullName)), { message: 'name', path: ['fullName'] });

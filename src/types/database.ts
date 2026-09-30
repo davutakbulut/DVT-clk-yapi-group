@@ -1113,6 +1113,8 @@ export type Database = {
           full_name: string | null
           id: string
           is_active: boolean
+          marketing_consent: boolean
+          marketing_consent_at: string | null
           notes: string | null
           phone: string | null
           profile_id: string | null
@@ -1135,6 +1137,8 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_active?: boolean
+          marketing_consent?: boolean
+          marketing_consent_at?: string | null
           notes?: string | null
           phone?: string | null
           profile_id?: string | null
@@ -1157,6 +1161,8 @@ export type Database = {
           full_name?: string | null
           id?: string
           is_active?: boolean
+          marketing_consent?: boolean
+          marketing_consent_at?: string | null
           notes?: string | null
           phone?: string | null
           profile_id?: string | null
@@ -2402,6 +2408,185 @@ export type Database = {
           {
             foreignKeyName: "leads_user_id_fkey"
             columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mail_campaign_recipients: {
+        Row: {
+          campaign_id: string
+          company: string | null
+          created_at: string
+          email: string
+          error: string | null
+          full_name: string | null
+          id: string
+          locked_at: string | null
+          sent_at: string | null
+          source: string
+          status: string
+          token: string
+          unsubscribed_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          company?: string | null
+          created_at?: string
+          email: string
+          error?: string | null
+          full_name?: string | null
+          id?: string
+          locked_at?: string | null
+          sent_at?: string | null
+          source: string
+          status?: string
+          token?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          company?: string | null
+          created_at?: string
+          email?: string
+          error?: string | null
+          full_name?: string | null
+          id?: string
+          locked_at?: string | null
+          sent_at?: string | null
+          source?: string
+          status?: string
+          token?: string
+          unsubscribed_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mail_campaign_recipients_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "mail_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mail_campaigns: {
+        Row: {
+          audience: Json
+          body: string
+          created_at: string
+          created_by: string | null
+          cta_label: string
+          cta_url: string
+          finished_at: string | null
+          id: string
+          locale: string
+          name: string
+          preheader: string
+          scheduled_at: string | null
+          started_at: string | null
+          started_by: string | null
+          status: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          audience?: Json
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string
+          cta_url?: string
+          finished_at?: string | null
+          id?: string
+          locale?: string
+          name: string
+          preheader?: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Update: {
+          audience?: Json
+          body?: string
+          created_at?: string
+          created_by?: string | null
+          cta_label?: string
+          cta_url?: string
+          finished_at?: string | null
+          id?: string
+          locale?: string
+          name?: string
+          preheader?: string
+          scheduled_at?: string | null
+          started_at?: string | null
+          started_by?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mail_campaigns_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mail_campaigns_started_by_fkey"
+            columns: ["started_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mail_suppressions: {
+        Row: {
+          campaign_id: string | null
+          created_at: string
+          created_by: string | null
+          email: string
+          id: string
+          note: string | null
+          reason: string
+        }
+        Insert: {
+          campaign_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          email: string
+          id?: string
+          note?: string | null
+          reason: string
+        }
+        Update: {
+          campaign_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          email?: string
+          id?: string
+          note?: string | null
+          reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mail_suppressions_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "mail_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mail_suppressions_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -5463,6 +5648,10 @@ export type Database = {
       }
     }
     Functions: {
+      add_mail_suppression: {
+        Args: { p_email: string; p_note?: string; p_reason: string }
+        Returns: string
+      }
       admin_dashboard_counts: { Args: never; Returns: Json }
       aggregate_analytics_day: { Args: { p_day: string }; Returns: Json }
       anonymize_customer: { Args: { p_id: string }; Returns: undefined }
@@ -5484,7 +5673,12 @@ export type Database = {
         Args: { p_body: string; p_kind: string; p_lead_id: string }
         Returns: string
       }
+      delete_mail_campaign: { Args: { p_id: string }; Returns: undefined }
       delete_my_account: { Args: never; Returns: undefined }
+      duplicate_mail_campaign: {
+        Args: { p_id: string; p_name: string }
+        Returns: string
+      }
       enqueue_test_email: {
         Args: { p_locale: string; p_template_key: string }
         Returns: string
@@ -5525,6 +5719,21 @@ export type Database = {
       }
       ingest_analytics: { Args: { p: Json }; Returns: Json }
       ingest_analytics_impl: { Args: { p: Json }; Returns: Json }
+      mail_audience_cities: { Args: never; Returns: string[] }
+      mail_audience_preview: { Args: { p: Json }; Returns: Json }
+      mail_campaign_stats: {
+        Args: { p_ids?: string[] }
+        Returns: {
+          campaign_id: string
+          failed: number
+          pending: number
+          sent: number
+          skipped: number
+          total: number
+          unsubscribed: number
+        }[]
+      }
+      mail_unsubscribe: { Args: { p_token: string }; Returns: boolean }
       mark_notifications_read: { Args: { p_ids: string[] }; Returns: number }
       purge_expired_job_applications: {
         Args: never
@@ -5537,6 +5746,7 @@ export type Database = {
       recalc_sale_payments: { Args: { p_sale_id: string }; Returns: undefined }
       record_redirect_hit: { Args: { p_path: string }; Returns: undefined }
       record_redirect_hit_impl: { Args: { p_path: string }; Returns: undefined }
+      remove_mail_suppression: { Args: { p_id: string }; Returns: undefined }
       reorder_content: {
         Args: { p_ids: string[]; p_table: string }
         Returns: number
@@ -5555,6 +5765,7 @@ export type Database = {
       rpc_gate_ok: { Args: never; Returns: boolean }
       save_configuration: { Args: { p: Json }; Returns: Json }
       save_configuration_impl: { Args: { p: Json }; Returns: Json }
+      save_mail_campaign: { Args: { p: Json }; Returns: string }
       search_site: {
         Args: { p_limit?: number; p_locale: string; p_q: string }
         Returns: {
@@ -5585,7 +5796,15 @@ export type Database = {
         Args: { p_share_price: boolean; p_token: string }
         Returns: boolean
       }
+      set_mail_campaign_state: {
+        Args: { p_action: string; p_id: string }
+        Returns: string
+      }
       set_rpc_gate: { Args: { p_secret: string }; Returns: undefined }
+      start_mail_campaign: {
+        Args: { p_at?: string; p_id: string }
+        Returns: number
+      }
       submit_job_application: { Args: { p: Json }; Returns: Json }
       submit_job_application_impl: { Args: { p: Json }; Returns: Json }
       submit_lead: { Args: { p: Json }; Returns: Json }

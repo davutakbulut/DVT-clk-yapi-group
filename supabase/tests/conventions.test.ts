@@ -13,7 +13,7 @@ const names = async (sql: string) => (await db.query<{ name: string }>(sql)).row
 // Yalnız-ekleme (append-only) ve birleşim tabloları: updated_at taşımaz — düzenlenmezler.
 const NO_UPDATED_AT = [
   'analytics_events', 'analytics_pageviews', 'analytics_sessions', 'audit_logs', 'blog_post_tags', 'configuration_items',
-  'configuration_versions', 'content_revisions', 'document_counters', 'email_logs', 'form_analytics', 'heatmap_aggregates',
+  'configuration_versions', 'content_revisions', 'document_counters', 'email_logs', 'form_analytics', 'heatmap_aggregates', 'mail_suppressions',
   'material_price_history', 'notifications', 'post_likes', 'project_category_relations', 'review_sync_runs',
   'scroll_depth_aggregates', 'service_projects', 'slug_history', 'web_vitals',
 ];
@@ -35,7 +35,7 @@ describe('şema sözleşmeleri', () => {
   it('~80 tablo', async () => {
     const tables = await names(`select tablename as name from pg_tables where schemaname = 'public'`);
     expect(tables.length).toBeGreaterThanOrEqual(78);
-    expect(tables.length).toBeLessThanOrEqual(86);
+    expect(tables.length).toBeLessThanOrEqual(92);
   });
 
   it('HER tabloda RLS açık', async () => {

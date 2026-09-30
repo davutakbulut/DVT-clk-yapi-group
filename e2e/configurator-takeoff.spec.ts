@@ -27,7 +27,7 @@ test.describe('metraj', () => {
     await expect(columnRow.getByRole('cell').nth(1)).toHaveText('16');
     await expect(columnRow.getByRole('cell').nth(2)).toHaveText('96 m');
     await expect(takeoff.getByRole('rowheader', { name: 'Çatı paneli' })).toBeVisible();
-    const tonnage = page.getByTestId('tonnage');
+    const tonnage = page.getByTestId('tonnage').first(); // hidrasyon sırasında geçici çift DOM
     await expect(tonnage).toHaveText(/—|\d+,\d+ t/);
   });
 

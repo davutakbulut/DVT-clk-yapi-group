@@ -5,6 +5,9 @@ import type { RenderedMail } from './render';
 export interface MailMessage extends RenderedMail {
   readonly to: string;
   readonly toName?: string | null;
+  /** Ek başlıklar (toplu gönderimde List-Unsubscribe, K-108). */
+  readonly headers?: Readonly<Record<string, string>>;
+  readonly replyTo?: string;
 }
 
 export interface SendOutcome {
@@ -33,7 +36,7 @@ export const resendProvider: MailProvider = {
       const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { Authorization: `Bearer ${process.env['RESEND_API_KEY']}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: from(), to: [message.toName ? `${message.toName} <${message.to}>` : message.to], subject: message.subject, html: message.html, text: message.text }),
+        body: JSON.stringify({ from: from(), to: [message.toName ? `${message.toName} <${message.to}>` : message.to], subject: message.subject, html: message.html, text: message.text, ...(message.headers ? { headers: message.headers } : {}), ...(message.replyTo ? { reply_to: message.replyTo } : {}) }),
         signal: AbortSignal.timeout(10_000),
       });
       const body = (await res.json().catch(() => ({}))) as { id?: string; message?: string; name?: string };
@@ -58,13 +61,17 @@ export const smtpProvider: MailProvider = {
         auth: { user: process.env['SMTP_USER'], pass: process.env['SMTP_PASSWORD'] },
         connectionTimeout: 10_000,
       });
-      const info = await transport.sendMail({ from: from(), to: message.toName ? `"${message.toName}" <${message.to}>` : message.to, subject: message.subject, text: message.text, html: message.html });
+      const info = await transport.sendMail({ from: from(), to: message.toName ? `"${message.toName}" <${message.to}>` : message.to, subject: message.subject, text: message.text, html: message.html, ...(message.headers ? { headers: { ...message.headers } } : {}), ...(message.replyTo ? { replyTo: message.replyTo } : {}) });
       return { provider: 'smtp', ok: true, messageId: info.messageId };
     } catch (cause) {
       return { provider: 'smtp', ok: false, error: cause instanceof Error ? cause.message : String(cause) };
     }
   },
 };
+
+export function isMailConfigured(): boolean {
+  return resendProvider.isConfigured() || smtpProvider.isConfigured();
+}
 
 /** Sırayla dener: ilk başarılı sağlayıcı kazanır; hiçbiri yapılandırılmamışsa açık hata. */
 export async function sendWithFallback(message: MailMessage, providers: readonly MailProvider[] = [resendProvider, smtpProvider]): Promise<SendOutcome> {

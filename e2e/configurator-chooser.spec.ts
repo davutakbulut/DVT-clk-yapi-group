@@ -59,7 +59,7 @@ test.describe('konfigüratör mobil paneli', () => {
       return;
     }
     await expect(heading).toBeHidden();
-    await expect(page.locator('.configurator-summary')).toContainText('18 × 53 m');
+    await expect(page.locator('.configurator-summary').first()).toContainText('18 × 53 m');
     await toggle.click();
     await expect(heading).toBeVisible();
     await expect(toggle).toHaveAttribute('aria-expanded', 'true');
