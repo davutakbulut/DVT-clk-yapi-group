@@ -47,6 +47,8 @@ export async function Header({ locale }: Props) {
         ) : null}
         {/* < 1280: üst bar · ≥ 1280: ana satırın sağı. Her kırılımda erişilebilir (K-50: çekmece olmayabilir). */}
         <div className="site-header-utils">
+          {/* K-111: telefon (referans üst bant); yalnız geniş ekranda, değer yoksa yok */}
+          {settings.contact.phone ? <a href={`tel:${settings.contact.phone.replace(/[^+\d]/g, '')}`} className="site-header-phone">{settings.contact.phone}</a> : null}
           <LanguageSwitcher />
           <BasketLink />
         </div>

@@ -219,3 +219,33 @@ export async function savePagesCopy(_prev: ActionState, formData: FormData): Pro
   revalidatePath('/', 'layout');
   return DONE;
 }
+
+/** Ana sayfa bölüm metinleri (K-111): editör de düzenler (hero formuyla aynı sayfa). Liste alanları "Başlık | Metin" satırları. */
+export async function saveHomeCopy(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const gate = await requireRole(['super_admin', 'admin', 'editor']);
+  if (!gate.ok) return failed('forbidden');
+  const f = (k: string) => String(formData.get(k) ?? '').slice(0, 20000);
+  const loc = (k: string) => localized(f(`${k}Tr`).trim(), f(`${k}En`).trim());
+  const list = (k: string) => linesToItems(f(`${k}Tr`), f(`${k}En`));
+  // Yol kartları: "Etiket | Başlık | Metin" (en çok 2 satır: malzeme, uygulama)
+  const paths = (() => {
+    const split = (s: string) => s.split('\n').map((l) => l.split('|').map((p) => p.trim())).filter((p) => p[0]);
+    const a = split(f('hPathsTr')), b = split(f('hPathsEn'));
+    return a.slice(0, 2).map((row, i) => ({ tag: localized(row[0], b[i]?.[0]), title: localized(row[1], b[i]?.[1]), text: localized(row[2], b[i]?.[2]) }));
+  })();
+  const value = {
+    hero: { eyebrow: loc('hEyebrow'), materialsCta: loc('hMaterialsCta'), servicesCta: loc('hServicesCta'), note: loc('hNote'), noteLink: loc('hNoteLink'), paths },
+    materials: { title: loc('mTitle'), lede: loc('mLede'), why: list('mWhy').slice(0, 3), cta: { title: loc('mCtaTitle'), text: loc('mCtaText'), button: loc('mCtaButton') } },
+    services: { title: loc('sTitle'), lede: loc('sLede') },
+    configurator: { title: loc('cTitle'), lede: loc('cLede'), button: loc('cButton') },
+    projects: { title: loc('pTitle'), cta: { kicker: loc('pCtaKicker'), title: loc('pCtaTitle'), text: loc('pCtaText') } },
+    contact: { title: loc('kTitle'), lede: loc('kLede') },
+  };
+  const client = await createServerClient();
+  if (!client.ok) return failed('notConfigured');
+  const { error } = await client.data.from('site_settings').upsert({ key: 'home.page', value: value as never, is_public: true, updated_by: gate.data.id }, { onConflict: 'key' });
+  if (error) { logger.error('Ana sayfa metni kaydedilemedi', { module: MODULE, code: error.code }); return failed('unexpected'); }
+  revalidateTag(CACHE_TAGS.siteSettings);
+  revalidatePath('/', 'layout');
+  return DONE;
+}

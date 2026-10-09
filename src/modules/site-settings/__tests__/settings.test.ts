@@ -34,4 +34,15 @@ describe('site-settings › parseSettings', () => {
     expect(settings.contact.phone).toBeNull();
     expect(settings.contact.address).toBeNull();
   });
+
+  it('home.page (K-111): bozuk alt alan yalnız o bölümü boşaltır; yol kartları en çok iki', () => {
+    const settings = parseSettings([
+      { key: 'home.page', value: { hero: { eyebrow: { tr: 'Yapı malzemesi' }, paths: [{ tag: { tr: 'A' }, title: { tr: 'Malzeme' }, text: {} }, { tag: {}, title: { tr: 'Uygulama' }, text: {} }, { tag: {}, title: { tr: 'Fazla' }, text: {} }] }, materials: 'bozuk', contact: { title: { tr: 'İşinizi konuşalım' } } } },
+    ]);
+    expect(settings.homePage.hero.eyebrow.tr).toBe('Yapı malzemesi');
+    expect(settings.homePage.hero.paths).toHaveLength(3); // sınır bileşende (ilk iki)
+    expect(settings.homePage.materials.why).toEqual([]);
+    expect(settings.homePage.contact.title.tr).toBe('İşinizi konuşalım');
+    expect(parseSettings([]).homePage.configurator.button).toEqual({});
+  });
 });

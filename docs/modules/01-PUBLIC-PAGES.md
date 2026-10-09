@@ -22,18 +22,26 @@
 
 ## Ana Sayfa Bölüm Sırası
 
+K-111 (2026-10-09, referans `clk-grup-yeni-anasayfa.html`): firma iki iş kolunu eşit anlatır — malzeme satışı ve uygulama.
+
 ```
-1. HEADER            logo ortada, video üstünde, scroll'da koyulaşır
-2. SCROLL VIDEO HERO tam ekran, scroll ile oynar (6-8 sn)
-3. HAKKIMIZDA        metin + görsel + istatistikler
-4. HİZMETLER         yatay kayan görselli kartlar
-5. PROJE GALERİSİ    ızgara → proje detayı
-6. BLOG              son yazılar
-7. TEKLİF / TALEP    form
-8. MÜŞTERİ YORUMLARI carousel (vurgulu orta kart)
-9. FOOTER            4 sütun + alt bar
-   ⌐ yüzen WhatsApp butonu (sağ alt, her sayfada)
+1. HEADER            logo, menü, telefon (≥1280), TR/EN, sepet, hesap, Teklif al; hero üstünde şeffaf, scroll'da koyulaşır
+2. HERO              iki sütun: üst etiket · 3 satırlı başlık · giriş · [Teklif al] [Malzemeleri gör] [Uygulama hizmetleri] · konfigüratör notu
+                     sağda iki yol kartı → #malzeme / #uygulama; hero_media videosu varsa sessiz arka plan döngüsü
+3. ÜRÜN ŞERİDİ       kök ürün kategorileri (çip, yatay kaydırma) → kategori sayfası
+4. 01 MALZEME        kategori kartları (ikon · ad · açıklama · ürün adları ≤8 +N) + "listede yok mu?" teklif kartı + 3 "neden biz"
+5. 02 UYGULAMA       öne çıkan hizmet (geniş kart: öne çıkanlar + teknik çizim/kapak) + 3 grup kartı (çelik / mühendislik / inşaat)
+6. 03 NEDEN ÇELİK    koyu band: 4 madde + 4 süreç adımı (services.page.why / steps ile aynı kaynak)
+7. 04 KONFİGÜRATÖR   metin + düğme · 6 tür bağlantısı (glyph + başlık + özet)
+8. 05 PROJELER       5 proje kartı + "Sıradaki proje sizinki olsun" CTA kartı
+9. 06 SAHA           saha videoları (kayıt yoksa yok)
+10. 07 YORUMLAR      carousel
+11. 08 BLOG          son 3 yazı
+12. İLETİŞİM BANDI   ızgaralı lacivert: başlık · açıklama · [Teklif al] [İletişim sayfası] · telefon / e-posta / değerlendirme kartları
+13. FOOTER           4 sütun + alt bar · yüzen WhatsApp
 ```
+
+Metinler: `site_settings` `home.page` (`/admin/pages/home`), hero başlık/giriş/düğme `hero_media`. Hakkımızda bölümü yalnız `/hakkimizda` sayfasında.
 
 ## Header
 

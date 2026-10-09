@@ -32,12 +32,38 @@ export const projectsPageSchema = z.object({
   empty: z.object({ title: lt, text: lt }).catch({ title: {}, text: {} }),
   cta: z.object({ title: lt, lede: lt }).catch({ title: {}, lede: {} }),
 });
+/** Ana sayfa bölüm metinleri (K-111): site_settings 'home.page'. Hero başlık/alt başlık/birincil CTA hero_media'da kalır; burada ek alanlar. */
+export const homePageSchema = z.object({
+  hero: z.object({
+    eyebrow: lt, materialsCta: lt, servicesCta: lt, note: lt, noteLink: lt,
+    paths: z.array(z.object({ tag: lt, title: lt, text: lt })).catch([]),
+  }).catch({ eyebrow: {}, materialsCta: {}, servicesCta: {}, note: {}, noteLink: {}, paths: [] }),
+  materials: z.object({ title: lt, lede: lt, why: items, cta: z.object({ title: lt, text: lt, button: lt }).catch({ title: {}, text: {}, button: {} }) }).catch({ title: {}, lede: {}, why: [], cta: { title: {}, text: {}, button: {} } }),
+  services: z.object({ title: lt, lede: lt }).catch({ title: {}, lede: {} }),
+  configurator: z.object({ title: lt, lede: lt, button: lt }).catch({ title: {}, lede: {}, button: {} }),
+  projects: z.object({ title: lt, cta: z.object({ kicker: lt, title: lt, text: lt }).catch({ kicker: {}, title: {}, text: {} }) }).catch({ title: {}, cta: { kicker: {}, title: {}, text: {} } }),
+  contact: z.object({ title: lt, lede: lt }).catch({ title: {}, lede: {} }),
+});
 export type ServicesPageCopy = z.infer<typeof servicesPageSchema>;
 export type ProjectsPageCopy = z.infer<typeof projectsPageSchema>;
+export type HomePageCopy = z.infer<typeof homePageSchema>;
 
 export const EMPTY_SERVICES_PAGE: ServicesPageCopy = { hero: { title: {}, lede: {} }, groups: [], why: { title: {}, items: [] }, steps: { title: {}, items: [] }, tools: { title: {}, items: [] }, faq: { title: {}, items: [] }, cta: { title: {}, lede: {} } };
 export const EMPTY_PROJECTS_PAGE: ProjectsPageCopy = { hero: { title: {}, lede: {} }, stats: [], steps: { title: {}, items: [] }, empty: { title: {}, text: {} }, cta: { title: {}, lede: {} } };
 
+export const EMPTY_HOME_PAGE: HomePageCopy = {
+  hero: { eyebrow: {}, materialsCta: {}, servicesCta: {}, note: {}, noteLink: {}, paths: [] },
+  materials: { title: {}, lede: {}, why: [], cta: { title: {}, text: {}, button: {} } },
+  services: { title: {}, lede: {} },
+  configurator: { title: {}, lede: {}, button: {} },
+  projects: { title: {}, cta: { kicker: {}, title: {}, text: {} } },
+  contact: { title: {}, lede: {} },
+};
+
+export function parseHomePage(value: unknown): HomePageCopy {
+  const r = homePageSchema.safeParse(value);
+  return r.success ? r.data : EMPTY_HOME_PAGE;
+}
 export function parseServicesPage(value: unknown): ServicesPageCopy {
   const r = servicesPageSchema.safeParse(value);
   return r.success ? r.data : EMPTY_SERVICES_PAGE;

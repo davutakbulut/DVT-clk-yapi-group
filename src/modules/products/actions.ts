@@ -11,6 +11,7 @@ import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
 import { DRAW_KINDS, parseFacts, parseFormats, parseGrouped, parseGroups, parseNumberList, writeOptions, SURFACE_KEYS, type SurfaceKey } from './domain/productConfig';
+import { PRODUCT_CATEGORY_ICON_KEYS } from './domain/categoryIcons';
 import { parseSpecs, parseVariants } from './domain/productLines';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
@@ -220,6 +221,7 @@ const categorySchema = z.object({
   descriptionEn: short,
   parentId: uuid,
   imageId: uuid,
+  iconKey: z.enum(PRODUCT_CATEGORY_ICON_KEYS).optional().or(z.literal('')),
   isActive: z.boolean(),
 });
 
@@ -232,7 +234,7 @@ export async function saveProductCategory(_prev: ActionState, formData: FormData
   if (v.id && v.parentId && v.id === v.parentId) return failed('validation', { parentId: 'validation' });
   const client = await createServerClient();
   if (!client.ok) return failed('notConfigured');
-  const row = { slug: slugMap({ slugTr: v.slugTr, slugEn: v.slugEn, titleTr: v.nameTr }), name: localized(v.nameTr, v.nameEn), description: localized(v.descriptionTr, v.descriptionEn), parent_id: v.parentId || null, image_id: v.imageId || null, is_active: v.isActive };
+  const row = { slug: slugMap({ slugTr: v.slugTr, slugEn: v.slugEn, titleTr: v.nameTr }), name: localized(v.nameTr, v.nameEn), description: localized(v.descriptionTr, v.descriptionEn), parent_id: v.parentId || null, image_id: v.imageId || null, icon_key: v.iconKey || null, is_active: v.isActive };
   const { error } = v.id ? await client.data.from('product_categories').update(row).eq('id', v.id) : await client.data.from('product_categories').insert(row);
   if (error) return fail('Kategori kaydedilemedi', error);
   revalidateTag(CACHE_TAGS.products);

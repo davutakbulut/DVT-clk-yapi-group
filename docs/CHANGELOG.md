@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Yeni ana sayfa (K-111)
+- Ana sayfa ürün sahibinin yeni prototipine göre yeniden kuruldu: iki yollu hero (malzeme / uygulama kartları, konfigüratör notu, üç düğme), ürün grubu şeridi, 01 Malzeme satışı (kategori kartları + ürün adları + "neden biz" + teklif kartı), 02 Uygulama (öne çıkan hizmet + üç grup kartı), 03 Neden çelik + süreç, 04 3D konfigüratör (altı tür), 05 Projeler (+ CTA kartı), saha videoları, yorumlar, blog, iletişim bandı; hakkımızda bölümü yalnız /hakkimizda'da
+- Veri: tümü veritabanından (kategoriler, ürünler, hizmetler, projeler, ayarlar); `product_categories.icon_key` (0060) panelde seçilir; bölüm metinleri `site_settings` `home.page` → `/admin/pages/home` yeni form; hero başlığı/girişi/düğmesi `hero_media` (0061 yeni metin, başlıkta satır sonu)
+- Hero videosu scroll-scrub yerine sessiz arka plan döngüsü (reduced-motion'da poster); header'da telefon bağlantısı (≥ 1280 px)
+- E2E `home.spec.ts` yeniden yazıldı (bölümler, EN, panel formu kaydet → sitede gör → geri al); birim: `home.page` ayrıştırma
+
 ### Parametrik 3B konfigüratör motoru (K-110)
 - Altı konfigüratör (hol, çok katlı, çatı & cephe, ara kat, çit & korkuluk, alçıpan) ürün sahibinin yeni prototiplerinden tek saf-TS motora taşındı: tam çelik profil kataloğu (~290 profil, kesit değerleri), profil seçerek tonaj, 20 mm bağlantı levhası ve cıvata sayımı, görünüşler, katalog penceresi, CSV, yazdır/PDF, bağlantı paylaşımı; altın veri testleriyle prototiple bire bir doğrulandı
 - `steel_profiles` kataloğu tohumlandı (migration 0059); panel: tür bazlı alan sınırları/varsayılan profiller/notlar (`/admin/configurator/rules`), profil kataloğu ölçülerle (`/admin/configurator/profiles`)

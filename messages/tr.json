@@ -19,7 +19,36 @@
   },
   "Home": {
     "underConstruction": "Yapım aşamasında",
-    "scrollHint": "Kaydırın"
+    "scrollHint": "Kaydırın",
+    "materialsKicker": "Malzeme satışı",
+    "materialsTitle": "Sahada kullandığımız malzemeyi satıyoruz",
+    "allProducts": "Tüm ürünler",
+    "productsLabel": "Ürünler",
+    "servicesKicker": "Uygulama",
+    "servicesTitle": "Projeden montaja tek elden",
+    "allServices": "Tüm hizmetler",
+    "featuredService": "Öne çıkan hizmet",
+    "groups": {
+      "steel": "Çelik yapı",
+      "engineering": "Mühendislik ve proje",
+      "construction": "İnşaat ve iç mekân"
+    },
+    "configuratorLink": "3D konfigüratör",
+    "pricingLink": "Fiyat rehberi",
+    "whyKicker": "Neden çelik yapı",
+    "whyTitle": "Çelik taşıyıcı sistemin öne çıkan yanları",
+    "processLabel": "Bir iş nasıl ilerliyor",
+    "configuratorKicker": "3D konfigüratör",
+    "configuratorTitle": "Fiyatı ve tonajı kendiniz görün",
+    "openConfigurator": "Konfigüratörü aç",
+    "contactKicker": "İletişim",
+    "contactTitle": "İşinizi konuşalım",
+    "quote": "Teklif al",
+    "contactPage": "İletişim sayfası",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "google": "Google",
+    "reviews": "Müşteri değerlendirmeleri"
   },
   "Errors": {
     "notFoundTitle": "Sayfa bulunamadı",
@@ -377,7 +406,7 @@
     },
     "pages": {
       "home": "Ana Sayfa",
-      "homeLead": "Hero videosu, posterler ve başlık; hakkımızda metni ve istatistikler.",
+      "homeLead": "Hero (video, poster, başlık, düğme), bölüm metinleri ve kartlar; hakkımızda metni /hakkimizda sayfasında.",
       "hero": "Hero",
       "heroLabel": "Etiket (dahili)",
       "desktopVideo": "Masaüstü video",
@@ -864,7 +893,20 @@
       "parent": "Üst kategori",
       "root": "(kök)",
       "image": "Görsel",
-      "active": "Aktif"
+      "active": "Aktif",
+      "icon": "İkon (ana sayfa kartı)",
+      "icons": {
+        "profile": "Çelik profil",
+        "sheet": "Sac",
+        "rebar": "İnşaat demiri / hasır",
+        "panel": "Sandviç panel",
+        "insulation": "Yalıtım",
+        "board": "Ahşap levha",
+        "drywall": "Alçı levha",
+        "wall": "Duvar malzemesi",
+        "cement": "Çimento / kaba inşaat",
+        "generic": "Genel"
+      }
     },
     "solutions": {
       "title": "Çözüm Sayfaları",
@@ -1841,6 +1883,32 @@
           "operations": "Çalışma düzeni"
         }
       }
+    },
+    "homePage": {
+      "hero": "Hero ek alanları",
+      "heroHint": "Başlık, giriş ve birincil düğme yukarıdaki Hero formunda (başlıkta satır sonu = yeni satır). Burada üst etiket, ikincil düğmeler, konfigüratör notu ve iki yol kartı.",
+      "eyebrow": "Üst etiket",
+      "title": "Başlık",
+      "lede": "Giriş",
+      "materialsCta": "İkincil düğme: malzeme (sayfa içi #malzeme)",
+      "servicesCta": "İkincil düğme: uygulama (sayfa içi #uygulama)",
+      "note": "Konfigüratör notu",
+      "noteLink": "Konfigüratör bağlantı metni",
+      "paths": "Yol kartları (2 satır: malzeme, uygulama — \"Etiket | Başlık | Metin\")",
+      "materials": "01 · Malzeme satışı",
+      "materialsHint": "Kategori kartları ürün kategorilerinden (ikon: Ürün Kategorileri sayfası), ürün adları yayındaki ürünlerden gelir.",
+      "sectionTitle": "Bölüm başlığı (satır sonu = yeni satır)",
+      "sectionLede": "Bölüm açıklaması",
+      "why": "Neden biz — 3 madde (\"Başlık | Metin\")",
+      "ctaTitle": "Kart başlığı",
+      "ctaText": "Kart metni",
+      "ctaButton": "Düğme metni",
+      "ctaKicker": "Kart üst etiketi",
+      "services": "02 · Uygulama",
+      "servicesHint": "Öne çıkan hizmet: Hizmetler listesinde ilk öne çıkan kayıt; grup metinleri Sayfa Metinleri › Hizmetler'den gelir. 03 · Neden çelik ve süreç adımları da aynı yerden.",
+      "configurator": "04 · 3D konfigüratör",
+      "projects": "05 · Projeler",
+      "contact": "İletişim bandı"
     }
   },
   "Services": {
@@ -1908,7 +1976,8 @@
       "ongoing": "Devam ediyor",
       "design": "Tasarım"
     },
-    "stats": "Rakamlarla"
+    "stats": "Rakamlarla",
+    "ctaMore": "Teklif al"
   },
   "Blog": {
     "title": "Blog",

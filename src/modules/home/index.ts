@@ -1,5 +1,11 @@
 export { HeroSection } from './components/site/HeroSection';
 export { AboutSection } from './components/site/AboutSection';
+export { CategoryStrip } from './components/site/CategoryStrip';
+export { MaterialsSection } from './components/site/MaterialsSection';
+export { ApplicationSection } from './components/site/ApplicationSection';
+export { WhySteelSection } from './components/site/WhySteelSection';
+export { ConfiguratorSection } from './components/site/ConfiguratorSection';
+export { ContactSection } from './components/site/ContactSection';
 export { HeroForm } from './components/admin/HeroForm';
 export { AboutForm } from './components/admin/AboutForm';
 export { parseStats, formatStats, readStats, type AboutStat } from './domain/stats';

@@ -19,7 +19,36 @@
   },
   "Home": {
     "underConstruction": "Under construction",
-    "scrollHint": "Scroll"
+    "scrollHint": "Scroll",
+    "materialsKicker": "Materials",
+    "materialsTitle": "We sell the materials we use on site",
+    "allProducts": "All products",
+    "productsLabel": "Products",
+    "servicesKicker": "Construction",
+    "servicesTitle": "From design to erection, one team",
+    "allServices": "All services",
+    "featuredService": "Featured service",
+    "groups": {
+      "steel": "Steel structures",
+      "engineering": "Engineering and design",
+      "construction": "Construction and interiors"
+    },
+    "configuratorLink": "3D configurator",
+    "pricingLink": "Price guide",
+    "whyKicker": "Why steel",
+    "whyTitle": "What a steel structure does better",
+    "processLabel": "How a job proceeds",
+    "configuratorKicker": "3D configurator",
+    "configuratorTitle": "See the price and tonnage yourself",
+    "openConfigurator": "Open the configurator",
+    "contactKicker": "Contact",
+    "contactTitle": "Let's talk about your job",
+    "quote": "Get a quote",
+    "contactPage": "Contact page",
+    "phone": "Phone",
+    "email": "E-mail",
+    "google": "Google",
+    "reviews": "Customer reviews"
   },
   "Errors": {
     "notFoundTitle": "Page not found",
@@ -377,7 +406,7 @@
     },
     "pages": {
       "home": "Home Page",
-      "homeLead": "Hero video, posters and headline; about text and stats.",
+      "homeLead": "Hero (video, poster, headline, button), section texts and cards; the about text is on /about.",
       "hero": "Hero",
       "heroLabel": "Label (internal)",
       "desktopVideo": "Desktop video",
@@ -864,7 +893,20 @@
       "parent": "Parent category",
       "root": "(root)",
       "image": "Image",
-      "active": "Active"
+      "active": "Active",
+      "icon": "Icon (home card)",
+      "icons": {
+        "profile": "Steel section",
+        "sheet": "Sheet",
+        "rebar": "Rebar / mesh",
+        "panel": "Sandwich panel",
+        "insulation": "Insulation",
+        "board": "Wood board",
+        "drywall": "Gypsum board",
+        "wall": "Wall material",
+        "cement": "Cement / shell",
+        "generic": "Generic"
+      }
     },
     "solutions": {
       "title": "Solution Pages",
@@ -1841,6 +1883,32 @@
           "operations": "Working schedule"
         }
       }
+    },
+    "homePage": {
+      "hero": "Hero extras",
+      "heroHint": "Headline, lede and primary button are in the Hero form above (line break in the headline = new line). Here: eyebrow, secondary buttons, configurator note and the two path cards.",
+      "eyebrow": "Eyebrow",
+      "title": "Title",
+      "lede": "Lede",
+      "materialsCta": "Secondary button: materials (#malzeme)",
+      "servicesCta": "Secondary button: services (#uygulama)",
+      "note": "Configurator note",
+      "noteLink": "Configurator link text",
+      "paths": "Path cards (2 lines: materials, construction — \"Tag | Title | Text\")",
+      "materials": "01 · Materials",
+      "materialsHint": "Category cards come from product categories (icon: Product Categories page); product names from published products.",
+      "sectionTitle": "Section title (line break = new line)",
+      "sectionLede": "Section lede",
+      "why": "Why us — 3 items (\"Title | Text\")",
+      "ctaTitle": "Card title",
+      "ctaText": "Card text",
+      "ctaButton": "Button text",
+      "ctaKicker": "Card eyebrow",
+      "services": "02 · Construction",
+      "servicesHint": "Featured service: the first featured record in Services; group texts come from Page Texts › Services. 03 · Why steel and process steps too.",
+      "configurator": "04 · 3D configurator",
+      "projects": "05 · Projects",
+      "contact": "Contact band"
     }
   },
   "Services": {
@@ -1908,7 +1976,8 @@
       "ongoing": "Ongoing",
       "design": "Design"
     },
-    "stats": "In numbers"
+    "stats": "In numbers",
+    "ctaMore": "Get a quote"
   },
   "Blog": {
     "title": "Blog",

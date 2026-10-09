@@ -130,6 +130,17 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - "Kendiniz inşa etmek ister misiniz?" bandı (`.cfg-banner`): ızgaralı lacivert zemin, solda altın 4 px çizgi, çizgisel tür simgesi (`src/ui/ConfiguratorGlyph.tsx`), altın birincil düğme + açık çelik ikincil düğme. Metin veriden (rehberde kendi bandı; ürünler/hizmetlerde `configurator.banner` ayarı).
 - Seçim sayfasında "Nasıl çalışır? →" bağlantısı kartın **dışında**, altında sabit satırda (kart tek bağlantıdır; iç içe bağlantı yok).
 
+## 8f · Ana sayfa (K-111)
+
+- **Hero:** ızgaralı lacivert zemin (`--navy-dark`, 40 px ızgara), solda `hero-kicker` + ≤ 3 satır başlık (`clamp(2.125rem, 0.9rem + 4vw, 4.25rem)`, satır sonu veriden; `overflow-wrap: break-word` — `anywhere` kelimeyi ortadan bölüyordu) + giriş + bir birincil (`Button`) ve iki açık çelik çerçeveli ikincil düğme (`.btn-outline-light`) + not satırı; sağda iki **yol kartı** (56 px ikon kutusu `--navy-2`, mono etiket, başlık, metin, sağ üstte ok). Video varsa arka planda koyu degrade altında; metin üstünde video yok.
+- **Ürün şeridi:** `--color-surface-darker` band, çipler 36 px, yatay kaydırma (`position: relative`, kaydırma çubuğu gizli).
+- **Kategori kartı:** 44 px ikon kutusu (`--navy-dark` + açık çelik ikon, lucide 1.5), h3, açıklama, altta çizgiyle ayrılmış ürün adları (kalın, ≤ 8 + "+N"). Teklif kartı kesik çizgili çerçeve.
+- **Öne çıkan hizmet:** geniş iki sütunlu lacivert kart (K-106 `.wide-svc` dili), öne çıkanlar kare madde imi; grup kartları `.home-svc` — bağlantı satırları 44 px, sağda ok.
+- **Neden çelik + süreç:** `section-dark` içinde 4 kutu + 4 adım (büyük numara açık çelik, adımlar arası ince çizgi; ≤1023 çizgi yok).
+- **Konfigüratör listesi:** 2 sütun satır kartı (40 px glyph + başlık + özet + ok).
+- **İletişim bandı:** K-106 CTA bandıyla aynı ızgaralı lacivert zemin ve 4 px açık çelik üst çizgi; altın yalnız birincil düğmede; sağda 72 px kartlar.
+- Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi, iki yollu hero fikri. Alınmayan: açık "kâğıt" zemin, lacivert/gök mavisi paleti, 12 px köşe, Barlow, prototipin logosu ve header'ı (§0.3).
+
 ## 8e · Konfigüratör paneli (K-110)
 
 - Sol panel prototipin bilgi sırasını izler: başlık + özet → KPI kutuları (vurgulu "Toplam çelik") → bayrak → bölümler (kaydırıcı + sayı kutusu, segment, anahtar, seçim) → profil kartları (renk karesi, seçim + "Katalog", kesit satırı) → metraj → lejant → eylemler → notlar. Yeni tür eklerken bu sıra bozulmaz.

@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { IDLE } from '@/lib/formState';
 import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, type MediaOption } from '@/modules/admin-shell';
 import { saveProduct, saveProductCategory } from '../../actions';
+import { PRODUCT_CATEGORY_ICON_KEYS } from '../../domain/categoryIcons';
 import type { AdminProduct, AdminProductCategory, Choice } from '../../data/adminProductsRepository';
 import { DRAW_KINDS, formatFacts, formatFormats, formatGrouped, formatGroups } from '../../domain/productConfig';
 import { formatSpecs, formatVariants } from '../../domain/productLines';
@@ -233,6 +234,13 @@ export function ProductCategoryForm({ category, categories, images }: { readonly
           <FieldError state={state} name="parentId" />
         </div>
         <MediaPicker name="imageId" label={t('productCategories.image')} options={images} value={category?.image_id} folder="products" />
+        <div className="grid gap-1">
+          <Label htmlFor={`c-${k}-icon`}>{t('productCategories.icon')}</Label>
+          <select id={`c-${k}-icon`} name="iconKey" defaultValue={category?.icon_key ?? ''} className="h-9 rounded-md border bg-background px-2 text-sm">
+            <option value="">—</option>
+            {PRODUCT_CATEGORY_ICON_KEYS.map((key) => <option key={key} value={key}>{t(`productCategories.icons.${key}`)}</option>)}
+          </select>
+        </div>
         <div className="grid gap-1">
           <Label htmlFor={`c-${k}-slugTr`}>{t('form.slugTr')}</Label>
           <Input id={`c-${k}-slugTr`} name="slugTr" defaultValue={category?.slug['tr'] ?? ''} placeholder={t('form.slugAuto')} />

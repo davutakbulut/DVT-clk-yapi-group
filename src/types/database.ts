@@ -3482,6 +3482,7 @@ export type Database = {
           created_at: string
           description: Json
           focus_keyword: Json
+          icon_key: string | null
           id: string
           image_id: string | null
           is_active: boolean
@@ -3500,6 +3501,7 @@ export type Database = {
           created_at?: string
           description?: Json
           focus_keyword?: Json
+          icon_key?: string | null
           id?: string
           image_id?: string | null
           is_active?: boolean
@@ -3518,6 +3520,7 @@ export type Database = {
           created_at?: string
           description?: Json
           focus_keyword?: Json
+          icon_key?: string | null
           id?: string
           image_id?: string | null
           is_active?: boolean

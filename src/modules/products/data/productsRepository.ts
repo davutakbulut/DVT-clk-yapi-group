@@ -14,6 +14,8 @@ export interface ProductCategoryRef {
   readonly description: string;
   readonly parentId: string | null;
   readonly image: MediaAsset | null;
+  /** Ana sayfa kartı ikonu (K-111, ProductCategoryIcon anahtarı). */
+  readonly iconKey: string | null;
 }
 
 export interface ProductCardData {
@@ -82,13 +84,13 @@ const num = (v: unknown) => (v === null || v === undefined ? null : Number(v));
 async function fetchCategories(locale: string): Promise<Result<ProductCategoryRef[]>> {
   const client = createPublicClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('product_categories').select(`id, slug, name, description, parent_id, image:media_library!product_categories_image_id_fkey(${MEDIA_SELECT})`).eq('is_active', true).order('sort_order', { ascending: true, nullsFirst: false });
+  const { data, error } = await client.data.from('product_categories').select(`id, slug, name, description, parent_id, icon_key, image:media_library!product_categories_image_id_fkey(${MEDIA_SELECT})`).eq('is_active', true).order('sort_order', { ascending: true, nullsFirst: false });
   if (error) return err(appError('external_service', error.message, { module: 'products' }));
   const out: ProductCategoryRef[] = [];
   for (const c of data) {
     const slug = slugFor(c.slug, locale);
     const name = pickLocale(lt(c.name), locale);
-    if (slug && name) out.push({ id: c.id, slug, name, description: pickLocale(lt(c.description), locale), parentId: c.parent_id, image: rowMedia(c.image as MediaRow | null) });
+    if (slug && name) out.push({ id: c.id, slug, name, description: pickLocale(lt(c.description), locale), parentId: c.parent_id, image: rowMedia(c.image as MediaRow | null), iconKey: c.icon_key });
   }
   return ok(out);
 }

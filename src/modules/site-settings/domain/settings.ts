@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { type LocalizedText } from '@/lib/localized';
-import { EMPTY_PROJECTS_PAGE, EMPTY_SERVICES_PAGE, parseProjectsPage, parseServicesPage, type ProjectsPageCopy, type ServicesPageCopy } from './pageCopy';
+import { EMPTY_HOME_PAGE, EMPTY_PROJECTS_PAGE, EMPTY_SERVICES_PAGE, parseHomePage, parseProjectsPage, parseServicesPage, type HomePageCopy, type ProjectsPageCopy, type ServicesPageCopy } from './pageCopy';
 
 // Boş nesne {} de 'yok' sayılır (panel boş alanı {} yazar; jsonb NOT NULL).
 const localized = z
@@ -33,6 +33,7 @@ const schema = z.object({
   'configurator.banner': z.object({ title: z.record(z.string(), z.string()).catch({}), lead: z.record(z.string(), z.string()).catch({}), button: z.record(z.string(), z.string()).catch({}) }).catch({ title: {}, lead: {}, button: {} }),
   'services.page': z.unknown().catch(null),
   'projects.page': z.unknown().catch(null),
+  'home.page': z.unknown().catch(null),
   'analytics.config': z
     .object({ enabled: z.boolean().catch(true), sample_rate: z.number().min(0).max(1).catch(1), ga4_id: z.string().catch(''), ads_id: z.string().catch(''), meta_pixel_id: z.string().catch('') })
     .catch({ enabled: true, sample_rate: 1, ga4_id: '', ads_id: '', meta_pixel_id: '' }),
@@ -101,6 +102,8 @@ export interface PublicSettings {
   readonly configuratorBanner: { readonly title: LocalizedText; readonly lead: LocalizedText; readonly button: LocalizedText };
   readonly servicesPage: ServicesPageCopy;
   readonly projectsPage: ProjectsPageCopy;
+  /** Ana sayfa bölüm metinleri (K-111). */
+  readonly homePage: HomePageCopy;
 }
 
 // Veritabanı ulaşılamazsa bile site ayakta kalır (03-ERROR-ISOLATION Katman 2). Yer tutucu iletişim bilgisi YOK.
@@ -123,6 +126,7 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   configuratorBanner: { title: {}, lead: {}, button: {} },
   servicesPage: EMPTY_SERVICES_PAGE,
   projectsPage: EMPTY_PROJECTS_PAGE,
+  homePage: EMPTY_HOME_PAGE,
 };
 
 export function parseSettings(rows: readonly { readonly key: string; readonly value: unknown }[]): PublicSettings {
@@ -152,6 +156,7 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
     configuratorBanner: s['configurator.banner'],
     servicesPage: parseServicesPage(s['services.page']),
     projectsPage: parseProjectsPage(s['projects.page']),
+    homePage: parseHomePage(s['home.page']),
     analytics: { enabled: s['analytics.config'].enabled, sampleRate: s['analytics.config'].sample_rate, ga4Id: s['analytics.config'].ga4_id, adsId: s['analytics.config'].ads_id, metaPixelId: s['analytics.config'].meta_pixel_id },
   };
 }

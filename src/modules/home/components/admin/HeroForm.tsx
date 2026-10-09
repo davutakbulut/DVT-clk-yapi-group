@@ -42,7 +42,7 @@ export function HeroForm({ hero, images, videos }: Props) {
           <MediaPicker name="desktopPosterId" label={t('pages.desktopPoster')} options={images} value={hero?.desktop_poster_id} folder="hero" />
           <MediaPicker name="mobilePosterId" label={t('pages.mobilePoster')} options={images} value={hero?.mobile_poster_id} folder="hero" />
         </div>
-        <LocalizedField name="headline" label={t('pages.headline')} value={hero?.headline} state={state} />
+        <LocalizedField name="headline" label={t('pages.headline')} value={hero?.headline} state={state} multiline rows={3} />
         <LocalizedField name="subheadline" label={t('pages.subheadline')} value={hero?.subheadline} state={state} multiline rows={3} />
         <LocalizedField name="ctaLabel" label={t('pages.ctaLabel')} value={hero?.cta_label} state={state} />
         <div className="grid gap-1 sm:max-w-sm">
