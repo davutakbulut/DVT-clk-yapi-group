@@ -1,0 +1,28 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "options": "Seçenekler" },
+    "fields": { "width": "Bina eni (açıklık)", "length": "Bina boyu", "eave": "Saçak yüksekliği", "ridge": "Mahya yüksekliği", "bay": "Aks aralığı", "purlins": "Aşık ve kuşaklar", "purlinSp": "Aşık aralığı (eğim boyunca)", "girtSp": "Kuşak aralığı", "door": "Ön alında kapı", "doorW": "Kapı genişliği", "doorH": "Kapı yüksekliği", "panels": "Sandviç panel kaplama (metraja dahil)", "showPanels": "Kaplamayı 3B'de göster" },
+    "profiles": { "col": "Kolon", "raf": "Çatı kirişi (açıklık ≤ 30 m)", "chord": "Makas başlıkları (2L, > 30 m)", "diag": "Makas diyagonalleri (2L, > 30 m)", "sec": "Boyuna kiriş (saçak / mahya)", "wind": "Rüzgar kolonu / kapı dikmesi", "purlin": "Aşık", "girt": "Kuşak", "brace": "Çapraz (duvar ve çatı)", "lintel": "Kapı lentosu" },
+    "bom": { "col": "Kolon", "raf": "Çatı kirişi", "chord": "Makas başlıkları (üst + alt)", "diag": "Makas diyagonali", "sec": "Boyuna kiriş", "wind": "Rüzgar kolonu", "dpost": "Kapı dikmesi", "lintel": "Kapı lentosu", "purlin": "Aşık", "girt": "Yan duvar kuşağı", "ggirt": "Alın kuşağı", "wbr": "Duvar çaprazı", "rbr": "Çatı çaprazı", "roofPanel": "Çatı paneli", "wallPanel": "Yan duvar paneli", "gablePanel": "Alın paneli" },
+    "groups": { "main": "Ana taşıyıcı", "stability": "Stabilite ve ikincil", "cladding": "Kaplama (sandviç panel 40 mm)" },
+    "spec": { "panelModule": "1000 mm modül · {kg} kg/m²", "module": "1000 mm modül", "doorDeducted": "kapı boşluğu düşülmüş" },
+    "kpi": { "footprint": "Taban alanı", "bays": "Aks", "columns": "Kolon adedi", "roofSystem": "Çatı sistemi", "truss": "Makas (2L)", "portal": "Dolu gövde" },
+    "flag": { "truss": "Açıklık {width} m > 30 m — çatıda 2L köşebent makas sistemine otomatik geçildi ({chord} başlık, {diag} diyagonal).", "portal": "Açıklık {width} m ≤ 30 m — dolu gövdeli {raf} çatı kirişi, guseli moment birleşimi.", "doorShrunk": "Kapı ölçüsü yapıya sığacak şekilde {w} × {h} m'ye düşürüldü." },
+    "chip": "saçak {eave} m · mahya {ridge} m",
+    "legend": { "column": "Kolon", "beam": "Çatı kirişi / makas", "secondary": "Aşık, kuşak, boyuna kiriş", "brace": "Çapraz", "plate": "Levha (20 mm)", "door": "Kapı" },
+    "notes": { "0": "Aks aralığı bina boyuna eşit dağıtılır. Rüzgar kolonları alınlarda en fazla 5 m aralıkla yerleşir; kapı açıklığına denk gelenlerin yerini kapı dikmeleri alır.", "1": "Kuşaklar dört duvarda da vardır: yan duvarlarda kolonlara, alınlarda köşe kolonları, rüzgar kolonları ve kapı dikmelerine 20 mm takoz levhası ve 2 adet M12 ile bağlanır. Alın kuşakları çatı eğimine göre kısalır, kapı boşluğunda kesilir.", "2": "Köşe ve mahya birleşimleri guseli, uzatılmış alın levhalı moment birleşimidir. Makas düğümlerinde 2L kollarının arasına 20 mm düğüm levhası girer." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "options": "Options" },
+    "fields": { "width": "Building width (span)", "length": "Building length", "eave": "Eave height", "ridge": "Ridge height", "bay": "Bay spacing", "purlins": "Purlins and girts", "purlinSp": "Purlin spacing (along slope)", "girtSp": "Girt spacing", "door": "Door on front gable", "doorW": "Door width", "doorH": "Door height", "panels": "Sandwich panel cladding (in take-off)", "showPanels": "Show cladding in 3D" },
+    "profiles": { "col": "Column", "raf": "Rafter (span ≤ 30 m)", "chord": "Truss chords (2L, > 30 m)", "diag": "Truss diagonals (2L, > 30 m)", "sec": "Longitudinal beam (eave / ridge)", "wind": "Wind column / door post", "purlin": "Purlin", "girt": "Girt", "brace": "Bracing (wall and roof)", "lintel": "Door lintel" },
+    "bom": { "col": "Column", "raf": "Rafter", "chord": "Truss chords (top + bottom)", "diag": "Truss diagonal", "sec": "Longitudinal beam", "wind": "Wind column", "dpost": "Door post", "lintel": "Door lintel", "purlin": "Purlin", "girt": "Side wall girt", "ggirt": "Gable girt", "wbr": "Wall bracing", "rbr": "Roof bracing", "roofPanel": "Roof panel", "wallPanel": "Side wall panel", "gablePanel": "Gable panel" },
+    "groups": { "main": "Primary structure", "stability": "Stability and secondary", "cladding": "Cladding (40 mm sandwich panel)" },
+    "spec": { "panelModule": "1000 mm module · {kg} kg/m²", "module": "1000 mm module", "doorDeducted": "door opening deducted" },
+    "kpi": { "footprint": "Footprint", "bays": "Bays", "columns": "Columns", "roofSystem": "Roof system", "truss": "Truss (2L)", "portal": "Solid web" },
+    "flag": { "truss": "Span {width} m > 30 m — roof switched automatically to a 2L angle truss ({chord} chords, {diag} diagonals).", "portal": "Span {width} m ≤ 30 m — solid-web {raf} rafter with haunched moment connections.", "doorShrunk": "Door size reduced to {w} × {h} m to fit the building." },
+    "chip": "eave {eave} m · ridge {ridge} m",
+    "legend": { "column": "Column", "beam": "Rafter / truss", "secondary": "Purlin, girt, longitudinal beam", "brace": "Bracing", "plate": "Plate (20 mm)", "door": "Door" },
+    "notes": { "0": "Bay spacing is distributed evenly along the building length. Wind columns are placed on the gables at most 5 m apart; those falling in the door opening are replaced by door posts.", "1": "Girts run on all four walls: on side walls they bolt to the columns, on gables to corner columns, wind columns and door posts through a 20 mm cleat plate with 2 × M12. Gable girts shorten with the roof slope and are cut at the door opening.", "2": "Knee and apex joints are haunched moment connections with extended end plates. At truss nodes a 20 mm gusset plate sits between the 2L legs." }
+  }
+}

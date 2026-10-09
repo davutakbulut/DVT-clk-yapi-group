@@ -115,11 +115,22 @@ describe('şema sözleşmeleri', () => {
   });
 
   // K-75: ürün kataloğu firmanın kendi işinden türetilir (0043) → 'products' bu listede değil.
+  // K-110: steel_profiles yayınlanmış standart tablolardan tohumlanır (EN 10365 vb.) → gerçek-veri listesinde değil; ayrı test aşağıda.
   // K-55: hizmet/hero/hakkımızda gibi TANIMLAYICI başlangıç metinleri seed edilir (sayısal iddia yok); yorum, proje, ekip, sertifika, fiyat ASLA.
   it('referans verisinde uydurma içerik yok: gerçek-veri tabloları BOŞ başlar', async () => {
-    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'steel_profiles', 'customers', 'field_videos']) {
+    for (const table of ['testimonials', 'projects', 'team_members', 'certificates', 'clients', 'material_prices', 'customers', 'field_videos']) {
       const { rows } = await db.query<{ n: number }>(`select count(*)::int n from public.${table}`);
       expect(rows[0]!.n, table).toBe(0);
     }
+  });
+
+  // K-110: profil kataloğu standart tablolardan tohumlanır; ağırlık geometriden (A · 7850) — uydurma değil, yayınlanmış referans
+  it('steel_profiles: ≥ 250 standart profil, etiket/tür/ölçü dolu, kg/m pozitif', async () => {
+    const { rows } = await db.query<{ n: number; bad: number }>(`select count(*)::int n, count(*) filter (where label is null or kind is null or dimensions = '{}'::jsonb or kg_per_m <= 0)::int bad from public.steel_profiles`);
+    expect(rows[0]!.n).toBeGreaterThanOrEqual(250);
+    expect(rows[0]!.bad).toBe(0);
+    const ipe = (await db.query<{ kg: string; kind: string }>(`select kg_per_m::text kg, kind from public.steel_profiles where code = 'IPE200'`)).rows[0]!;
+    expect(Number(ipe.kg)).toBeCloseTo(22.4, 0);
+    expect(ipe.kind).toBe('I');
   });
 });

@@ -1,0 +1,32 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "load": "Yük ve döşeme" },
+    "fields": { "width": "Platform eni", "length": "Platform boyu", "height": "Kat yüksekliği (döşeme üstü)", "span": "En fazla kolon aralığı", "load": "Yük sınıfı", "deck": "Döşeme", "stair": "Merdiven", "rail": "Korkuluk (çevre)" },
+    "options": { "load": { "hafif": "Hafif\n2,5 kN/m²", "orta": "Orta\n5 kN/m²", "agir": "Ağır\n7,5 kN/m²" }, "deck": { "beton": "Trapez + beton", "izgara": "Izgara / sac" } },
+    "profiles": { "col": "Kolonlar", "main": "Ana kirişler", "sec": "Tali kirişler", "stringer": "Merdiven limonu", "post": "Korkuluk dikmesi", "handrail": "Küpeşte" },
+    "bom": { "col": "Kolonlar", "main": "Ana kirişler", "sec": "Tali kirişler", "deck": "Döşeme sacı (trapez)", "concrete": "Beton", "grating": "Izgara döşeme", "stringer": "Merdiven limonu", "tread": "Izgara basamak", "post": "Korkuluk dikmesi", "handrail": "Küpeşte", "mid": "Ara kayıt", "toe": "Süpürgelik" },
+    "groups": { "steel": "Taşıyıcı çelik", "deck": "Döşeme", "stair": "Merdiven", "rail": "Korkuluk (h = 1,10 m)" },
+    "spec": { "deck": "{kg} kg/m²", "concrete": "10 cm · C25/30", "grating": "30×3 · 34×38 göz · {kg} kg/m², galvaniz", "tread": "{w} × 270 mm" },
+    "kpi": { "area": "Platform alanı", "load": "Hareketli yük", "grid": "Aks aralığı", "columns": "Kolon adedi" },
+    "loadNames": { "hafif": "Hafif", "orta": "Orta", "agir": "Ağır" },
+    "flag": { "load": "{name} yük sınıfı ({q} kN/m²) — ön boyut: {col} kolon, {main} ana kiriş, {sec} tali kiriş." },
+    "chip": "{area} m² · {q} kN/m²",
+    "legend": { "column": "Kolon", "beam": "Ana kiriş", "secondary": "Tali kiriş", "stair": "Merdiven", "rail": "Korkuluk", "plate": "Levha (20 mm)" },
+    "notes": { "0": "Yük sınıfı değiştiğinde kolon ve kiriş profilleri ön boyutlandırma için otomatik önerilir; isterseniz katalogdan değiştirebilirsiniz. Kesin profil seçimi için yetkili mühendis tarafından statik hesap yapılmalıdır.", "1": "Ana kirişler kolon başlığına alın levhasıyla, tali kirişler ana kiriş gövdesine kayma levhasıyla bağlanır. Merdiven limonları üstte alın levhasıyla kenar kirişine, altta taban levhasıyla zemine bağlanır." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "load": "Load and deck" },
+    "fields": { "width": "Platform width", "length": "Platform length", "height": "Floor height (top of deck)", "span": "Maximum column spacing", "load": "Load class", "deck": "Deck", "stair": "Stair", "rail": "Guardrail (perimeter)" },
+    "options": { "load": { "hafif": "Light\n2.5 kN/m²", "orta": "Medium\n5 kN/m²", "agir": "Heavy\n7.5 kN/m²" }, "deck": { "beton": "Trapezoidal deck + concrete", "izgara": "Grating / plate" } },
+    "profiles": { "col": "Columns", "main": "Primary beams", "sec": "Secondary beams", "stringer": "Stair stringer", "post": "Guardrail post", "handrail": "Handrail" },
+    "bom": { "col": "Columns", "main": "Primary beams", "sec": "Secondary beams", "deck": "Deck sheet (trapezoidal)", "concrete": "Concrete", "grating": "Grating deck", "stringer": "Stair stringer", "tread": "Grating tread", "post": "Guardrail post", "handrail": "Handrail", "mid": "Mid rail", "toe": "Toe board" },
+    "groups": { "steel": "Structural steel", "deck": "Deck", "stair": "Stair", "rail": "Guardrail (h = 1.10 m)" },
+    "spec": { "deck": "{kg} kg/m²", "concrete": "10 cm · C25/30", "grating": "30×3 · 34×38 mesh · {kg} kg/m², galvanized", "tread": "{w} × 270 mm" },
+    "kpi": { "area": "Platform area", "load": "Live load", "grid": "Grid spacing", "columns": "Columns" },
+    "loadNames": { "hafif": "Light", "orta": "Medium", "agir": "Heavy" },
+    "flag": { "load": "{name} load class ({q} kN/m²) — preliminary sizing: {col} columns, {main} primary beams, {sec} secondary beams." },
+    "chip": "{area} m² · {q} kN/m²",
+    "legend": { "column": "Column", "beam": "Primary beam", "secondary": "Secondary beam", "stair": "Stair", "rail": "Guardrail", "plate": "Plate (20 mm)" },
+    "notes": { "0": "When the load class changes, column and beam profiles are suggested automatically for preliminary sizing; you may change them from the catalog. The final profile selection requires a structural calculation by a licensed engineer.", "1": "Primary beams connect to the column cap with an end plate; secondary beams connect to the primary beam web with a fin plate. Stair stringers bolt to the edge beam through an end plate at the top and to the ground through a base plate at the bottom." }
+  }
+}

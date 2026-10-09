@@ -1,0 +1,420 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "length": "50",
+   "height": "1.8",
+   "postSp": "2.5",
+   "rails": "3",
+   "embed": "0.5",
+   "infill": "bar",
+   "barSp": "0.12",
+   "slatSp": "0.1",
+   "gates": "1",
+   "gateW": "1.2",
+   "finish": "galv",
+   "post": "Kutu 60×60×3",
+   "rail": "Kutu 40×20×2",
+   "bar": "Kutu 20×20×1,5",
+   "slat": "Lama 50×5",
+   "gateFrame": "Kutu 40×40×2"
+  },
+  "rows": [
+   {
+    "group": "Çit / korkuluk"
+   },
+   {
+    "name": "Direkler",
+    "spec": "Kutu 60×60×3 · 2,30 m (gömme 0,50 m) · 5,19 kg/m",
+    "qty": "22",
+    "amount": "50,6 m",
+    "kg": "262 kg"
+   },
+   {
+    "name": "Kuşaklar",
+    "spec": "Kutu 40×20×2 · 1,68 kg/m",
+    "qty": "60",
+    "amount": "142,8 m",
+    "kg": "240 kg"
+   },
+   {
+    "name": "Dolgu çubukları",
+    "spec": "Kutu 20×20×1,5 · 0,83 kg/m",
+    "qty": "409",
+    "amount": "650,7 m",
+    "kg": "537 kg"
+   },
+   {
+    "group": "Kapılar"
+   },
+   {
+    "name": "Kapı çerçevesi",
+    "spec": "1,20 × 1,67 m · Kutu 40×40×2 · 2,31 kg/m",
+    "qty": "1",
+    "amount": "6,6 m",
+    "kg": "15 kg"
+   },
+   {
+    "group": "Yüzey işlemi"
+   },
+   {
+    "name": "Boya / kaplama yüzeyi",
+    "spec": "Sıcak daldırma galvaniz",
+    "qty": "–",
+    "amount": "77,5 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Galvaniz çinko payı",
+    "spec": "çelik ağırlığının %6'sı",
+    "qty": "–",
+    "amount": "–",
+    "kg": "63 kg"
+   },
+   {
+    "name": "Direk temeli (beton)",
+    "spec": "30×30 cm çukur, gömme payı + 10 cm",
+    "qty": "22",
+    "amount": "1,2 m³",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Uzunluk",
+    "50,0 m"
+   ],
+   [
+    "Direk adedi",
+    "22"
+   ],
+   [
+    "Boya yüzeyi",
+    "77,5 m²"
+   ],
+   [
+    "Kapı",
+    "1 × 1,20 m"
+   ],
+   [
+    "Toplam çelik",
+    "1,05 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n1,055 t\nDiğer malzemeler\n63 kg\nToplam ağırlık\n1.118 kg",
+  "flag": "",
+  "chip": "50,0 m · h 1,80 m · sıcak daldırma galvaniz"
+ },
+ {
+  "variant": {
+   "infill": "slat",
+   "gates": 2,
+   "finish": "boya",
+   "height": 2.2
+  },
+  "err": null,
+  "state": {
+   "length": "50",
+   "height": "2.2",
+   "postSp": "2.5",
+   "rails": "3",
+   "embed": "0.5",
+   "infill": "slat",
+   "barSp": "0.12",
+   "slatSp": "0.1",
+   "gates": "2",
+   "gateW": "1.2",
+   "finish": "boya",
+   "post": "Kutu 60×60×3",
+   "rail": "Kutu 40×20×2",
+   "bar": "Kutu 20×20×1,5",
+   "slat": "Lama 50×5",
+   "gateFrame": "Kutu 40×40×2"
+  },
+  "rows": [
+   {
+    "group": "Çit / korkuluk"
+   },
+   {
+    "name": "Direkler",
+    "spec": "Kutu 60×60×3 · 2,70 m (gömme 0,50 m) · 5,19 kg/m",
+    "qty": "24",
+    "amount": "64,8 m",
+    "kg": "336 kg"
+   },
+   {
+    "name": "Kuşaklar",
+    "spec": "Kutu 40×20×2 · 1,68 kg/m",
+    "qty": "63",
+    "amount": "139,0 m",
+    "kg": "233 kg"
+   },
+   {
+    "name": "Dolgu lamaları",
+    "spec": "Lama 50×5 · 1,96 kg/m",
+    "qty": "399",
+    "amount": "876,5 m",
+    "kg": "1.720 kg"
+   },
+   {
+    "group": "Kapılar"
+   },
+   {
+    "name": "Kapı çerçevesi",
+    "spec": "1,20 × 2,07 m · Kutu 40×40×2 · 2,31 kg/m",
+    "qty": "2",
+    "amount": "14,9 m",
+    "kg": "34 kg"
+   },
+   {
+    "group": "Yüzey işlemi"
+   },
+   {
+    "name": "Boya / kaplama yüzeyi",
+    "spec": "Astar + elektrostatik boya",
+    "qty": "–",
+    "amount": "129,3 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Direk temeli (beton)",
+    "spec": "30×30 cm çukur, gömme payı + 10 cm",
+    "qty": "24",
+    "amount": "1,3 m³",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Uzunluk",
+    "50,0 m"
+   ],
+   [
+    "Direk adedi",
+    "24"
+   ],
+   [
+    "Boya yüzeyi",
+    "129,3 m²"
+   ],
+   [
+    "Kapı",
+    "2 × 1,20 m"
+   ],
+   [
+    "Toplam çelik",
+    "2,32 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n2,324 t",
+  "flag": "",
+  "chip": "50,0 m · h 2,20 m · astar + elektrostatik boya"
+ },
+ {
+  "variant": {
+   "infill": "panel",
+   "gates": 0,
+   "embed": 0,
+   "rails": 4
+  },
+  "err": null,
+  "state": {
+   "length": "50",
+   "height": "1.8",
+   "postSp": "2.5",
+   "rails": "4",
+   "embed": "0",
+   "infill": "panel",
+   "barSp": "0.12",
+   "slatSp": "0.1",
+   "gates": "0",
+   "gateW": "1.2",
+   "finish": "galv",
+   "post": "Kutu 60×60×3",
+   "rail": "Kutu 40×20×2",
+   "bar": "Kutu 20×20×1,5",
+   "slat": "Lama 50×5",
+   "gateFrame": "Kutu 40×40×2"
+  },
+  "rows": [
+   {
+    "group": "Çit / korkuluk"
+   },
+   {
+    "name": "Direkler",
+    "spec": "Kutu 60×60×3 · 1,80 m (gömme 0,00 m) · 5,19 kg/m",
+    "qty": "21",
+    "amount": "37,8 m",
+    "kg": "196 kg"
+   },
+   {
+    "name": "Kuşaklar",
+    "spec": "Kutu 40×20×2 · 1,68 kg/m",
+    "qty": "80",
+    "amount": "195,2 m",
+    "kg": "327 kg"
+   },
+   {
+    "name": "Tel panel dolgu",
+    "spec": "5 mm tel, 50×200 göz · 3,9 kg/m²",
+    "qty": "–",
+    "amount": "75,6 m²",
+    "kg": "295 kg"
+   },
+   {
+    "group": "Yüzey işlemi"
+   },
+   {
+    "name": "Boya / kaplama yüzeyi",
+    "spec": "Sıcak daldırma galvaniz",
+    "qty": "–",
+    "amount": "61,0 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Galvaniz çinko payı",
+    "spec": "çelik ağırlığının %6'sı",
+    "qty": "–",
+    "amount": "–",
+    "kg": "49 kg"
+   },
+   {
+    "name": "Direk temeli (beton)",
+    "spec": "30×30 cm çukur, gömme payı + 10 cm",
+    "qty": "21",
+    "amount": "0,2 m³",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Uzunluk",
+    "50,0 m"
+   ],
+   [
+    "Direk adedi",
+    "21"
+   ],
+   [
+    "Boya yüzeyi",
+    "61,0 m²"
+   ],
+   [
+    "Kapı",
+    "yok"
+   ],
+   [
+    "Toplam çelik",
+    "819 kg"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n0,819 t\nDiğer malzemeler\n49 kg\nToplam ağırlık\n868 kg",
+  "flag": "",
+  "chip": "50,0 m · h 1,80 m · sıcak daldırma galvaniz"
+ },
+ {
+  "variant": {
+   "infill": "none",
+   "gates": 3,
+   "gateW": 3
+  },
+  "err": null,
+  "state": {
+   "length": "50",
+   "height": "1.8",
+   "postSp": "2.5",
+   "rails": "3",
+   "embed": "0.5",
+   "infill": "none",
+   "barSp": "0.12",
+   "slatSp": "0.1",
+   "gates": "3",
+   "gateW": "3",
+   "finish": "galv",
+   "post": "Kutu 60×60×3",
+   "rail": "Kutu 40×20×2",
+   "bar": "Kutu 20×20×1,5",
+   "slat": "Lama 50×5",
+   "gateFrame": "Kutu 40×40×2"
+  },
+  "rows": [
+   {
+    "group": "Çit / korkuluk"
+   },
+   {
+    "name": "Direkler",
+    "spec": "Kutu 60×60×3 · 2,30 m (gömme 0,50 m) · 5,19 kg/m",
+    "qty": "24",
+    "amount": "55,2 m",
+    "kg": "286 kg"
+   },
+   {
+    "name": "Kuşaklar",
+    "spec": "Kutu 40×20×2 · 1,68 kg/m",
+    "qty": "60",
+    "amount": "119,4 m",
+    "kg": "200 kg"
+   },
+   {
+    "group": "Kapılar"
+   },
+   {
+    "name": "Kapı çerçevesi",
+    "spec": "3,00 × 1,67 m · Kutu 40×40×2 · 2,31 kg/m",
+    "qty": "3",
+    "amount": "36,1 m",
+    "kg": "83 kg"
+   },
+   {
+    "group": "Yüzey işlemi"
+   },
+   {
+    "name": "Boya / kaplama yüzeyi",
+    "spec": "Sıcak daldırma galvaniz",
+    "qty": "–",
+    "amount": "31,7 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Galvaniz çinko payı",
+    "spec": "çelik ağırlığının %6'sı",
+    "qty": "–",
+    "amount": "–",
+    "kg": "34 kg"
+   },
+   {
+    "name": "Direk temeli (beton)",
+    "spec": "30×30 cm çukur, gömme payı + 10 cm",
+    "qty": "24",
+    "amount": "1,3 m³",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Uzunluk",
+    "50,0 m"
+   ],
+   [
+    "Direk adedi",
+    "24"
+   ],
+   [
+    "Boya yüzeyi",
+    "31,7 m²"
+   ],
+   [
+    "Kapı",
+    "3 × 3,00 m"
+   ],
+   [
+    "Toplam çelik",
+    "570 kg"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n0,570 t\nDiğer malzemeler\n34 kg\nToplam ağırlık\n604 kg",
+  "flag": "",
+  "chip": "50,0 m · h 1,80 m · sıcak daldırma galvaniz"
+ }
+]

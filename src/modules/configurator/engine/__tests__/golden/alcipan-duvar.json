@@ -1,0 +1,394 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "length": "10",
+   "height": "2.8",
+   "board": "beyaz",
+   "size": "2.5",
+   "layers": "1",
+   "frame": "galv",
+   "studSp": "0.6",
+   "double": "1",
+   "wool": "1",
+   "doors": "1",
+   "doorW": "0.9",
+   "doorH": "2.1",
+   "cut": "1",
+   "stud": "CW 75",
+   "track": "UW 75",
+   "studBox": "Kutu 80×40×2",
+   "trackBox": "Kutu 80×40×2"
+  },
+  "rows": [
+   {
+    "group": "Kaplama"
+   },
+   {
+    "name": "Alçıpan levha",
+    "spec": "Beyaz (standart) · 1200 × 2.500 × 12,5 mm · 8,7 kg/m²",
+    "qty": "19",
+    "amount": "57,0 m²",
+    "kg": "496 kg"
+   },
+   {
+    "group": "Karkas (galvaniz)"
+   },
+   {
+    "name": "C dikme",
+    "spec": "CW 75 · 0,82 kg/m",
+    "qty": "18",
+    "amount": "50,3 m",
+    "kg": "41 kg"
+   },
+   {
+    "name": "U ray",
+    "spec": "UW 75 · 0,72 kg/m",
+    "qty": "3",
+    "amount": "19,1 m",
+    "kg": "14 kg"
+   },
+   {
+    "name": "Kapı üst kayıtı",
+    "spec": "UW 75 · 0,72 kg/m",
+    "qty": "1",
+    "amount": "1,0 m",
+    "kg": "1 kg"
+   },
+   {
+    "group": "Sarf malzeme"
+   },
+   {
+    "name": "Alçıpan vidası",
+    "spec": "TN 3,5×25 / ×35",
+    "qty": "783",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Derz bandı",
+    "spec": "",
+    "qty": "–",
+    "amount": "73,1 m",
+    "kg": "–"
+   },
+   {
+    "name": "Derz dolgusu",
+    "spec": "",
+    "qty": "–",
+    "amount": "20,9 kg",
+    "kg": "21 kg"
+   },
+   {
+    "name": "Sızdırmazlık bandı",
+    "spec": "ray ve kenar dikme altı",
+    "qty": "–",
+    "amount": "25,6 m",
+    "kg": "–"
+   },
+   {
+    "name": "Çelik dübel",
+    "spec": "U ray sabitleme, ~60 cm",
+    "qty": "34",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Taş yünü (50 mm)",
+    "spec": "2,3 kg/m²",
+    "qty": "–",
+    "amount": "28,2 m²",
+    "kg": "65 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Net duvar alanı",
+    "26,1 m²"
+   ],
+   [
+    "Kaplama alanı",
+    "52,2 m²"
+   ],
+   [
+    "Levha adedi",
+    "19"
+   ],
+   [
+    "Duvar kalınlığı",
+    "100 mm"
+   ],
+   [
+    "Toplam çelik",
+    "56 kg"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n0,056 t\nDiğer malzemeler\n582 kg\nToplam ağırlık\n637 kg",
+  "flag": "",
+  "chip": "10,0 × 2,80 m · beyaz (standart) · CW 75"
+ },
+ {
+  "variant": {
+   "frame": "kutu",
+   "doors": 2,
+   "double": "0",
+   "wool": "0"
+  },
+  "err": null,
+  "state": {
+   "length": "10",
+   "height": "2.8",
+   "board": "beyaz",
+   "size": "2.5",
+   "layers": "1",
+   "frame": "kutu",
+   "studSp": "0.6",
+   "double": "0",
+   "wool": "0",
+   "doors": "2",
+   "doorW": "0.9",
+   "doorH": "2.1",
+   "cut": "1",
+   "stud": "CW 75",
+   "track": "UW 75",
+   "studBox": "Kutu 80×40×2",
+   "trackBox": "Kutu 80×40×2"
+  },
+  "rows": [
+   {
+    "group": "Kaplama"
+   },
+   {
+    "name": "Alçıpan levha",
+    "spec": "Beyaz (standart) · 1200 × 2.500 × 12,5 mm · 8,7 kg/m²",
+    "qty": "9",
+    "amount": "27,0 m²",
+    "kg": "235 kg"
+   },
+   {
+    "group": "Karkas (kutu profil)"
+   },
+   {
+    "name": "Dikme",
+    "spec": "Kutu 80×40×2 · 3,56 kg/m",
+    "qty": "19",
+    "amount": "51,6 m",
+    "kg": "184 kg"
+   },
+   {
+    "name": "Taban / tavan rayı",
+    "spec": "Kutu 80×40×2 · 3,56 kg/m",
+    "qty": "4",
+    "amount": "18,2 m",
+    "kg": "65 kg"
+   },
+   {
+    "name": "Kapı üst kayıtı",
+    "spec": "Kutu 80×40×2 · 3,56 kg/m",
+    "qty": "2",
+    "amount": "2,0 m",
+    "kg": "7 kg"
+   },
+   {
+    "group": "Sarf malzeme"
+   },
+   {
+    "name": "Alçıpan vidası",
+    "spec": "TN 3,5×25 / ×35",
+    "qty": "363",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Derz bandı",
+    "spec": "",
+    "qty": "–",
+    "amount": "33,9 m",
+    "kg": "–"
+   },
+   {
+    "name": "Derz dolgusu",
+    "spec": "",
+    "qty": "–",
+    "amount": "9,7 kg",
+    "kg": "10 kg"
+   },
+   {
+    "name": "Sızdırmazlık bandı",
+    "spec": "ray ve kenar dikme altı",
+    "qty": "–",
+    "amount": "25,6 m",
+    "kg": "–"
+   },
+   {
+    "name": "Çelik dübel",
+    "spec": "U ray sabitleme, ~60 cm",
+    "qty": "34",
+    "amount": "–",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Net duvar alanı",
+    "24,2 m²"
+   ],
+   [
+    "Kaplama alanı",
+    "24,2 m²"
+   ],
+   [
+    "Levha adedi",
+    "9"
+   ],
+   [
+    "Duvar kalınlığı",
+    "93 mm"
+   ],
+   [
+    "Toplam çelik",
+    "256 kg"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n0,256 t\nDiğer malzemeler\n245 kg\nToplam ağırlık\n500 kg",
+  "flag": "",
+  "chip": "10,0 × 2,80 m · beyaz (standart) · Kutu 80×40×2"
+ },
+ {
+  "variant": {
+   "layers": 2,
+   "size": 3,
+   "studSp": 0.4,
+   "board": "kirmizi",
+   "cut": "0",
+   "length": 7.3
+  },
+  "err": null,
+  "state": {
+   "length": "7.3",
+   "height": "2.8",
+   "board": "kirmizi",
+   "size": "3",
+   "layers": "2",
+   "frame": "galv",
+   "studSp": "0.4",
+   "double": "1",
+   "wool": "1",
+   "doors": "1",
+   "doorW": "0.9",
+   "doorH": "2.1",
+   "cut": "0",
+   "stud": "CW 75",
+   "track": "UW 75",
+   "studBox": "Kutu 80×40×2",
+   "trackBox": "Kutu 80×40×2"
+  },
+  "rows": [
+   {
+    "group": "Kaplama"
+   },
+   {
+    "name": "Alçıpan levha",
+    "spec": "Kırmızı (yangına dayanıklı) · 1200 × 3.000 × 12,5 mm · 10,2 kg/m²",
+    "qty": "23",
+    "amount": "82,8 m²",
+    "kg": "845 kg"
+   },
+   {
+    "group": "Karkas (galvaniz)"
+   },
+   {
+    "name": "C dikme",
+    "spec": "CW 75 · 0,82 kg/m",
+    "qty": "19",
+    "amount": "53,1 m",
+    "kg": "43 kg"
+   },
+   {
+    "name": "U ray",
+    "spec": "UW 75 · 0,72 kg/m",
+    "qty": "3",
+    "amount": "13,7 m",
+    "kg": "10 kg"
+   },
+   {
+    "name": "Kapı üst kayıtı",
+    "spec": "UW 75 · 0,72 kg/m",
+    "qty": "1",
+    "amount": "1,0 m",
+    "kg": "1 kg"
+   },
+   {
+    "group": "Sarf malzeme"
+   },
+   {
+    "name": "Alçıpan vidası",
+    "spec": "TN 3,5×25 / ×35",
+    "qty": "1.113",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Derz bandı",
+    "spec": "",
+    "qty": "–",
+    "amount": "103,9 m",
+    "kg": "–"
+   },
+   {
+    "name": "Derz dolgusu",
+    "spec": "",
+    "qty": "–",
+    "amount": "29,7 kg",
+    "kg": "30 kg"
+   },
+   {
+    "name": "Sızdırmazlık bandı",
+    "spec": "ray ve kenar dikme altı",
+    "qty": "–",
+    "amount": "20,2 m",
+    "kg": "–"
+   },
+   {
+    "name": "Çelik dübel",
+    "spec": "U ray sabitleme, ~60 cm",
+    "qty": "25",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Taş yünü (50 mm)",
+    "spec": "2,3 kg/m²",
+    "qty": "–",
+    "amount": "20,0 m²",
+    "kg": "46 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Net duvar alanı",
+    "18,5 m²"
+   ],
+   [
+    "Kaplama alanı",
+    "74,2 m²"
+   ],
+   [
+    "Levha adedi",
+    "23"
+   ],
+   [
+    "Duvar kalınlığı",
+    "125 mm"
+   ],
+   [
+    "Toplam çelik",
+    "54 kg"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n0,054 t\nDiğer malzemeler\n920 kg\nToplam ağırlık\n974 kg",
+  "flag": "",
+  "chip": "7,3 × 2,80 m · kırmızı (yangına dayanıklı) · CW 75"
+ }
+]

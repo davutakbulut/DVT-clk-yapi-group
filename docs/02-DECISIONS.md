@@ -498,7 +498,9 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 
 ## Değiştirilen Kararlar
 
-*(Henüz yok. Bir karar değişirse buraya taşınır, gerekçesiyle.)*
+- **K-55 (steel_profiles boş başlar) → K-110:** profil kataloğu yayınlanmış standart tablolardan tohumlanır; fiyat/yorum/proje/sertifika için kural aynen sürer.
+- **K-100 (dört basit konfigüratör, 2B şema, sepete ekle) → K-110:** altı tür tek 3B motorda; sepete ekleme bu sürümde yok.
+- **K-65 (hol geometrisi `buildStructure`) → K-110:** aynı ilke (saf TS geometri, sahne yalnız çizer) `engine/` altında altı tür için.
 
 ### K-103 · Hesabım: üyenin kendi verisine tam erişim (talep yazışması, firma bilgisi, sepet senkronu, KVKK silme/dışa aktarım)
 
@@ -583,3 +585,20 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - Kampanyadan şablon: taslak ve rapor sayfasında "Şablon olarak kaydet". Önizleme bileşeni (`MailPreview`) kampanya ve şablon düzenleyicide ortaktır ve gönderimdeki render fonksiyonunu kullanır.
 
 **Sonuç:** `src/modules/mail-campaigns` (TemplatePicker, TemplateForm, MailPreview, templatesRepository); PGlite `mail-campaigns.test.ts` (0058), birim `types.test.ts`, E2E `campaigns.spec.ts`.
+
+### K-110 · Parametrik 3B konfigüratör motoru: altı tür tek motorda, standart profil kataloğu, saf TS geometri + Three.js sahne
+
+**Bağlam:** Ürün sahibi 2026-10-09'da altı konfigüratörün yeni prototiplerini (`yeni-konfiguratorler/`: Three.js, tam profil kataloğu, kesit değerleri, 20 mm bağlantı levhaları, cıvata sayımı, CSV/PDF, telefon çekmecesi) teslim etti ve sisteme uygun biçimde (ayar/yönetim sayfaları, içerik, header/logo, tasarım) taşınmasını istedi. Mevcut hol (K-65), çok katlı ve dört basit konfigüratör (K-100) birbirinden farklı üç motor ve arayüzdü; `steel_profiles` canlıda boştu (metraj ağırlıksızdı).
+
+**Karar:**
+- **Tek motor** `src/modules/configurator/engine/`: `vec.ts` (saf vektör/taban), `catalog.ts` (standart tablolar, kesit çokgeni, kesit integrali: A, G, I, W, Wpl, i, It, AL), `kit.ts` (yapım fonksiyonlarının çizdiğini KAYDEDEN kit: eleman, levha, kutu, cıvata, guse, taban levhası, boru çapraz, yüzeyler), `apps/*.ts` (altı yapım fonksiyonu, prototiplerin bire bir portu), `runtime.ts` (durum doğrulama, panel geçersiz kılmaları, yapım + bağlantı elemanı satırları + toplamlar), `pricing.ts`. Three.js yalnız `EngineScene.tsx`te (dinamik import, K-24): `Model` kaydını çizer, hesap yapmaz — K-65 ilkesi korunur, görünen = sayılan.
+- **Doğruluk kanıtı:** prototipler tarayıcıda koşturulup metraj tabloları altın veri olarak kaydedildi (`engine/__tests__/golden/*.json`, 19 durum); port her satırda adet/miktar/kg ve toplamları ±%0,6 içinde eşler. Katalog kesit değerleri yayınlanmış tablolara ±%2 (UPN ±%4: konik başlık ortalaması).
+- **Profil kataloğu veritabanında** (0059): `steel_profiles` + `label`, `kind`, `dimensions`; ~290 standart profil (EN 10365, DIN 1026, EN 10056, EN 10219, EN 10058, EN 14195) tohumlanır, kg/m = A·7850 (K-55'in "gerçek-veri tabloları boş başlar" kuralına istisna: yayınlanmış referans verisi, uydurma değil; test `conventions.test` listeden çıkarıldı, ayrı doğrulama eklendi). K-65/K-66 korunur: ağırlığın tek kaynağı `kg_per_m` (panelde elle girilebilir, boşsa ölçülerden hesaplanır), katalog dışı kod varsayılana düşer.
+- **Metinler:** alan/kalem/not/lejant metinleri `Engine` mesaj ad alanında (TR/EN, ~470 anahtar, `ui_translations` ile geçersiz kılınabilir); başlık/özet `Configurator.types.*`; yapım fonksiyonu metni kendisi üretmez, `ctx.t` çağırır. Notlar panelden (`configurator_rules.engine.<tür>.notes`) yazılırsa mesaj dosyasındakilerin önüne geçer.
+- **Panel ayarları** `/admin/configurator/rules`: tür başına her aralık alanının min/max/adım/varsayılan, seçimlerde varsayılan, profil alanlarında varsayılan katalog kodu, notlar; genel: işçilik katsayısı ve fiyat eşlemesi. `/admin/configurator/profiles`: kod, etiket, aile, ölçüler (mm), kg/m (otomatik), aktif.
+- **Kayıt biçimi:** `configurations.params = {kind, state}`; eski hol kayıtları (`{w,l,e,r,b,…}`) `parseSavedParams` ile okunur. Kalemler `configuration_items`'a `element_group = kalem anahtarı` (Engine.<tür>.bom.<anahtar> ile çevrilir), profil kodu, adet, boy/alan, kg. Fiyat: çelik kg (levha+cıvata dahil) × birim + işçilik + çatı/cephe m² (kalem anahtarı roof*/wall|fac|gable*).
+- **Arayüz:** prototipin yerleşimi (sol panel: KPI'lar, bayrak, bölümler, profil kartları + "Katalog", metraj, lejant, eylemler, notlar; sağ: tuval, görünüş çubuğu 3B/Ön/Yan/Üst/Sığdır, özet çipi, ipucu) sistemin `ConfiguratorFrame`i içinde (K-81 mobil çekmece, ince üst çubuk + geri bağlantısı, site tokenları; prototipin kendi logosu/başlığı alınmadı). Katalog penceresi `<dialog>`. Yazdırma: tuvalin anlık görüntüsü + panel (K-67). Seçim sayfası prototipin özellik çiplerini ve alt uyarısını aldı.
+- **Kaldırılanlar:** `domain/{structure,takeoff,params,profiles,multiStorey,simple/*}`, `Scene/SimpleScene/MultiStoreyScene` (R3F), `SimpleConfigurator`, `TakeoffPanel`, `PricePanel`, `RulesForm` (eski), `MultiStoreyRulesForm`; `configurator_rules.{limits,truss_threshold_m,purlin_spacing_m,profile_map,multi_storey,cladding,mezzanine,fence,drywall}` anahtarları artık okunmaz (satırlar zararsız). K-100'ün "sepete ekle" akışı bu sürümde yok (kalemler kataloğa bağlı değil); teklif, kayıt → paylaşım sayfası → talep formu üzerinden.
+- **Bilinen bedeli:** prototip kaynakları (`yeni-konfiguratorler/`) depoya alınmaz (.gitignore); referans altın veri testlerde. Çok büyük yapılarda (120 m hol, 20 kat) sahne 10–20 bin nesne çizer; telefonda gölge haritası 1024, piksel oranı ≤ 1,5.
+
+**Sonuç:** migration 0059; birim `engine/__tests__/{catalog,runtime,hall,multiStorey,cladding,mezzanine,fence,drywall}.test.ts`, `pricing.test.ts`; E2E `configurator.spec.ts`, `configurator-chooser.spec.ts`, `configurator-save.spec.ts`, `configurator-admin.spec.ts`. Doküman `docs/modules/04-CONFIGURATOR.md` yenilendi.

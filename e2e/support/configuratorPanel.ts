@@ -5,6 +5,8 @@ import { expect, type Page } from '@playwright/test';
  * Tıklama hidrasyondan önce gelirse işlenmez → açılana dek yeniden dener.
  */
 export async function openConfiguratorPanel(page: Page): Promise<void> {
+  // Yük altında React akışla gelen sınırı istemcide yeniden çizerken ~75 ms iki `.configurator` bulunur (ROADMAP açık madde) → tekleşene dek bekle
+  await expect(page.locator('.configurator')).toHaveCount(1);
   const toggle = page.getByRole('button', { name: /Ölçüler ve metraj|Dimensions & take-off/ });
   // Anlık görünürlük yerine görünüm genişliği: yönlendirme/hidrasyon sırasında düğme bir an görünmeyebilir
   if ((page.viewportSize()?.width ?? 1280) >= 1024) return;

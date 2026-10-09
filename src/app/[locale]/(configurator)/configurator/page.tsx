@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/alternates';
 import { Link, redirect } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
+import { LEGACY_HALL_KEYS } from '@/modules/configurator/server';
 import { CHOOSER_TO_KEY, getCachedGuideList } from '@/modules/configurator-pages';
 import { ConfiguratorGlyph } from '@/ui/ConfiguratorGlyph';
 
@@ -21,7 +22,6 @@ const TYPES = [
   { key: 'fence', href: '/configurator/fence' },
   { key: 'drywall', href: '/configurator/drywall' },
 ] as const;
-const LEGACY_HALL_KEYS = ['w', 'l', 'e', 'r', 'b'];
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -33,9 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ConfiguratorChooserPage({ params, searchParams }: Props) {
   const [{ locale }, sp] = await Promise.all([params, searchParams]);
   setRequestLocale(locale as Locale);
-  if (LEGACY_HALL_KEYS.some((k) => sp[k] !== undefined)) {
+  if (['w', 'l', 'e', 'r', 'b'].some((k) => sp[k] !== undefined)) {
     const query: Record<string, string> = {};
-    for (const [k, v] of Object.entries(sp)) if (typeof v === 'string') query[k] = v;
+    for (const [k, v] of Object.entries(sp)) if (typeof v === 'string') query[LEGACY_HALL_KEYS[k] ?? k] = v;
     redirect({ href: { pathname: '/configurator/hall', query }, locale: locale as Locale });
   }
   const [t, tg, guides] = await Promise.all([getTranslations('Configurator'), getTranslations('ConfiguratorGuide'), getCachedGuideList(locale)]);
@@ -46,6 +46,9 @@ export default async function ConfiguratorChooserPage({ params, searchParams }: 
         <p className="label-mono text-[var(--color-accent-on-dark)]">{t('chooser.kicker')}</p>
         <h1 className="text-[length:var(--fs-h2)]">{t('chooser.title')}</h1>
         <p className="max-w-[var(--prose-max)] text-[var(--color-text-muted)]">{t('chooser.lead')}</p>
+        <ul className="configurator-feats" aria-label={t('chooser.kicker')}>
+          {(['0', '1', '2', '3', '4'] as const).map((i) => <li key={i}>{t(`chooser.feats.${i}`)}</li>)}
+        </ul>
       </div>
       <ul className="configurator-chooser-grid">
         {TYPES.map((type, i) => (
@@ -66,6 +69,7 @@ export default async function ConfiguratorChooserPage({ params, searchParams }: 
           </li>
         ))}
       </ul>
+      <p className="configurator-foot" role="note">{t('chooser.footer')}</p>
     </div>
   );
 }

@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Parametrik 3B konfigüratör motoru (K-110)
+- Altı konfigüratör (hol, çok katlı, çatı & cephe, ara kat, çit & korkuluk, alçıpan) ürün sahibinin yeni prototiplerinden tek saf-TS motora taşındı: tam çelik profil kataloğu (~290 profil, kesit değerleri), profil seçerek tonaj, 20 mm bağlantı levhası ve cıvata sayımı, görünüşler, katalog penceresi, CSV, yazdır/PDF, bağlantı paylaşımı; altın veri testleriyle prototiple bire bir doğrulandı
+- `steel_profiles` kataloğu tohumlandı (migration 0059); panel: tür bazlı alan sınırları/varsayılan profiller/notlar (`/admin/configurator/rules`), profil kataloğu ölçülerle (`/admin/configurator/profiles`)
+- Kayıt/paylaşım/yazdırma/teklif akışı ve admin gönderim detayı yeni kalem biçimine uyarlandı; eski hol kayıtları okunmaya devam eder; seçim sayfasına özellik çipleri ve alt uyarı
+- Kaldırıldı: eski hol/çok katlı/basit konfigüratör bileşenleri ve R3F sahneleri; "teklif sepetine ekle" akışı (K-100)
+
 ### Toplu e-posta hazır şablonları (K-109)
 - Kampanya taslağında "Hazır şablon" seçici: durum süzgeci, kart önizlemesi (form değişmeden), "Bu şablonu kullan", üzerine yazma onayı; doldurulmamış `[alan]` uyarısı ve başlatma engeli
 - 14 başlangıç şablonu (TR/EN); panel `/admin/campaigns/templates` (yeni, düzenle, TR/EN canlı önizleme, sil); kampanyadan "Şablon olarak kaydet"; migration 0058

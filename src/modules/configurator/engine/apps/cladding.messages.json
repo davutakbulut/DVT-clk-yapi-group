@@ -1,0 +1,42 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "cladding": "Kaplama", "sub": "Alt yapı" },
+    "fields": { "width": "Bina eni", "length": "Bina boyu", "slope": "Çatı eğimi", "wallH": "Duvar (saçak) yüksekliği", "ov": "Saçak çıkması", "roofMat": "Çatı kaplaması", "facMat": "Cephe kaplaması", "sheetLen": "Trapez levha boyu", "panelT": "Sandviç panel kalınlığı", "cut": "Kesit görünümü (alt yapıyı göster)", "roofColor": "Çatı rengi", "facColor": "Cephe rengi", "sub": "Aşık / kuşak alt yapısı (metraja dahil)", "bay": "Çerçeve (aks) aralığı", "purlinSp": "Aşık aralığı", "girtSp": "Kuşak aralığı" },
+    "options": {
+      "roofMat": { "trapez": "Trapez sac", "sandvic": "Sandviç panel" },
+      "facMat": { "yok": "Yok", "trapez": "Trapez sac", "sandvic": "Sandviç panel" },
+      "panelT": { "40": "40 mm", "60": "60 mm", "80": "80 mm", "100": "100 mm" },
+      "roofColor": { "r9006": "Gümüş (RAL 9006)", "r7016": "Antrasit (RAL 7016)", "r3009": "Kiremit (RAL 3009)", "r9002": "Beyaz (RAL 9002)" },
+      "facColor": { "r9006": "Gümüş (RAL 9006)", "r7016": "Antrasit (RAL 7016)", "r3009": "Kiremit (RAL 3009)", "r9002": "Beyaz (RAL 9002)" }
+    },
+    "profiles": { "purlin": "Aşık", "girt": "Kuşak" },
+    "bom": { "purlin": "Aşık", "girt": "Kuşak", "roofSheet": "Çatı levhaları (trapez)", "roofArea": "Çatı kaplama alanı", "roofScrew": "Çatı vidası", "roofPanel": "Çatı paneli (sandviç {t} mm)", "panelScrew": "Panel vidası", "ridgeCap": "Mahya kapaması", "gutter": "Oluk", "downpipe": "Yağmur iniş borusu", "verge": "Rüzgarlık (alın kenarı)", "facSheet": "Cephe levhaları (trapez)", "facArea": "Cephe kaplama alanı", "facScrew": "Cephe vidası", "facPanel": "Cephe paneli (sandviç {t} mm)", "cornerTrim": "Köşe kapaması", "drip": "Damlalık (subasman)", "cleat": "Takoz levhası" },
+    "groups": { "roof": "Çatı", "facade": "Cephe", "sub": "Alt yapı" },
+    "spec": { "roofSheet": "1000 × {len} mm · 0,50 mm · {kg} kg/m²", "waste5": "fire dahil (%5)", "waste3": "fire dahil (%3)", "roofScrew": "sac / çelik için matkap uçlu, contalı", "roofPanel": "1000 mm × {len} m · {kg} kg/m²", "panelScrew": "ön delikli, şapkalı", "gutter": "Ø150 yarım daire", "downpipe": "Ø100", "facSheet": "1000 × {len} mm · {kg} kg/m²", "facArea": "alın üçgenleri ve fire dahil", "facPanel": "1000 mm modül · {kg} kg/m²", "cleat": "her aşık / kuşak – çerçeve kesişiminde" },
+    "kpi": { "roofArea": "Çatı alanı", "facArea": "Cephe alanı", "slopeLen": "Eğik uzunluk", "rise": "Mahya yüksekliği", "cladKg": "Kaplama ağırlığı" },
+    "flag": { "slope": "Çatı eğimi %{slope} ({deg}°).", "lowSlope": "%5 altı eğimde trapez sac için ek sızdırmazlık önlemi gerekir." },
+    "chip": "eğim %{slope} · saçak {wallH} m",
+    "legend": { "roof": "Çatı kaplaması", "facade": "Cephe kaplaması", "secondary": "Aşık / kuşak", "plate": "Takoz levhası (20 mm)", "trim": "Oluk / kapama", "ghost": "Ana çerçeve (gösterim)" },
+    "notes": { "0": "Levha adetleri faydalı genişlik (1000 mm), 200 mm boyuna bindirme ve %5 fire payıyla hesaplanır; nominal değerlerdir. Cephe alanına alın üçgenleri dahildir.", "1": "Gri yarı saydam ana çerçeve yalnızca gösterim amaçlıdır (metraja dahil değildir). Aşık ve kuşaklar çerçeveye 20 mm takoz levhası ve 2 adet M12 cıvata ile bağlanır." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "cladding": "Cladding", "sub": "Secondary framing" },
+    "fields": { "width": "Building width", "length": "Building length", "slope": "Roof pitch", "wallH": "Wall (eave) height", "ov": "Eave overhang", "roofMat": "Roof cladding", "facMat": "Wall cladding", "sheetLen": "Trapezoidal sheet length", "panelT": "Sandwich panel thickness", "cut": "Section view (show secondary framing)", "roofColor": "Roof colour", "facColor": "Wall colour", "sub": "Purlin / girt framing (in take-off)", "bay": "Frame (bay) spacing", "purlinSp": "Purlin spacing", "girtSp": "Girt spacing" },
+    "options": {
+      "roofMat": { "trapez": "Trapezoidal sheet", "sandvic": "Sandwich panel" },
+      "facMat": { "yok": "None", "trapez": "Trapezoidal sheet", "sandvic": "Sandwich panel" },
+      "panelT": { "40": "40 mm", "60": "60 mm", "80": "80 mm", "100": "100 mm" },
+      "roofColor": { "r9006": "Silver (RAL 9006)", "r7016": "Anthracite (RAL 7016)", "r3009": "Oxide red (RAL 3009)", "r9002": "Grey white (RAL 9002)" },
+      "facColor": { "r9006": "Silver (RAL 9006)", "r7016": "Anthracite (RAL 7016)", "r3009": "Oxide red (RAL 3009)", "r9002": "Grey white (RAL 9002)" }
+    },
+    "profiles": { "purlin": "Purlin", "girt": "Girt" },
+    "bom": { "purlin": "Purlin", "girt": "Girt", "roofSheet": "Roof sheets (trapezoidal)", "roofArea": "Roof cladding area", "roofScrew": "Roof screws", "roofPanel": "Roof panel (sandwich {t} mm)", "panelScrew": "Panel screws", "ridgeCap": "Ridge capping", "gutter": "Gutter", "downpipe": "Rainwater downpipe", "verge": "Verge flashing (gable edge)", "facSheet": "Wall sheets (trapezoidal)", "facArea": "Wall cladding area", "facScrew": "Wall screws", "facPanel": "Wall panel (sandwich {t} mm)", "cornerTrim": "Corner flashing", "drip": "Drip flashing (base)", "cleat": "Cleat plate" },
+    "groups": { "roof": "Roof", "facade": "Walls", "sub": "Secondary framing" },
+    "spec": { "roofSheet": "1000 × {len} mm · 0.50 mm · {kg} kg/m²", "waste5": "incl. 5% waste", "waste3": "incl. 3% waste", "roofScrew": "self-drilling for sheet / steel, with seal", "roofPanel": "1000 mm × {len} m · {kg} kg/m²", "panelScrew": "pre-drilled, capped", "gutter": "Ø150 half-round", "downpipe": "Ø100", "facSheet": "1000 × {len} mm · {kg} kg/m²", "facArea": "incl. gable triangles and waste", "facPanel": "1000 mm module · {kg} kg/m²", "cleat": "at every purlin / girt – frame intersection" },
+    "kpi": { "roofArea": "Roof area", "facArea": "Wall area", "slopeLen": "Slope length", "rise": "Ridge rise", "cladKg": "Cladding weight" },
+    "flag": { "slope": "Roof pitch {slope}% ({deg}°).", "lowSlope": "Below 5% pitch, trapezoidal sheeting needs additional sealing measures." },
+    "chip": "pitch {slope}% · eave {wallH} m",
+    "legend": { "roof": "Roof cladding", "facade": "Wall cladding", "secondary": "Purlin / girt", "plate": "Cleat plate (20 mm)", "trim": "Gutter / flashing", "ghost": "Main frame (display only)" },
+    "notes": { "0": "Sheet counts are based on a 1000 mm cover width, a 200 mm end lap and a 5% waste allowance; they are nominal values. The wall area includes the gable triangles.", "1": "The grey translucent main frame is for display only (not in the take-off). Purlins and girts connect to the frame through a 20 mm cleat plate with 2 × M12 bolts." }
+  }
+}

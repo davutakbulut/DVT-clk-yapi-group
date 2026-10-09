@@ -1,0 +1,44 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "boardFrame": "Levha ve karkas", "doorView": "Kapı ve görünüm" },
+    "fields": { "length": "Duvar uzunluğu", "height": "Duvar yüksekliği", "board": "Levha tipi", "size": "Levha ölçüsü", "layers": "Yüz başına kat", "frame": "Karkas profili", "studSp": "Dikme aralığı", "double": "Çift yüzlü kaplama", "wool": "Taş yünü yalıtım (50 mm)", "doors": "Kapı adedi", "doorW": "Kapı genişliği", "doorH": "Kapı yüksekliği", "cut": "Kesit görünümü (karkası göster)" },
+    "options": {
+      "board": { "beyaz": "Beyaz\n(standart)", "yesil": "Yeşil\n(neme dayanıklı)", "kirmizi": "Kırmızı\n(yangına dayanıklı)" },
+      "size": { "2000": "1200×2000", "2500": "1200×2500", "3000": "1200×3000" },
+      "frame": { "galv": "Galvaniz C / U", "kutu": "Kutu profil" },
+      "studSp": { "40": "40 cm", "60": "60 cm" }
+    },
+    "boardNames": { "beyaz": "Beyaz (standart)", "yesil": "Yeşil (neme dayanıklı)", "kirmizi": "Kırmızı (yangına dayanıklı)" },
+    "boardLower": { "beyaz": "beyaz (standart)", "yesil": "yeşil (neme dayanıklı)", "kirmizi": "kırmızı (yangına dayanıklı)" },
+    "profiles": { "stud": "C dikme", "track": "U ray (taban / tavan)", "studBox": "Dikme (kutu profil)", "trackBox": "Taban / tavan rayı (kutu profil)" },
+    "bom": { "board": "Alçıpan levha", "stud": "C dikme", "studBox": "Dikme", "track": "U ray", "trackBox": "Taban / tavan rayı", "header": "Kapı üst kayıtı", "screw": "Alçıpan vidası", "tape": "Derz bandı", "filler": "Derz dolgusu", "seal": "Sızdırmazlık bandı", "dowel": "Çelik dübel", "wool": "Taş yünü (50 mm)" },
+    "groups": { "cladding": "Kaplama", "frameGalv": "Karkas (galvaniz)", "frameBox": "Karkas (kutu profil)", "consumables": "Sarf malzeme" },
+    "spec": { "board": "{board} · 1200 × {len} × 12,5 mm · {kg} kg/m²", "screw": "TN 3,5×25 / ×35", "seal": "ray ve kenar dikme altı", "dowel": "U ray sabitleme, ~60 cm", "wool": "{kg} kg/m²" },
+    "kpi": { "net": "Net duvar alanı", "clad": "Kaplama alanı", "boards": "Levha adedi", "thickness": "Duvar kalınlığı" },
+    "flag": { "doors": "Duvar uzunluğu {doors} kapıya yetmiyor; {placed} kapı yerleştirildi." },
+    "chip": "{board} · {stud}",
+    "legend": { "board": "Alçıpan levha", "frame": "C dikme / U ray", "wool": "Taş yünü", "door": "Kapı kasası" },
+    "notes": { "0": "Fire ve sarf katsayıları ortalama şantiye değerleridir; kapı boşlukları düşülür. Kapı kenarlarında çift dikme ve üst kayıt (UW) bulunur.", "1": "Alçıpan karkası hafif galvaniz profillerden oluşur ve vidayla birleşir; çelik bağlantı levhası kullanılmaz. Tüm çelik profil serileri için \"Profil kataloğu\" düğmesine bakabilirsiniz." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "boardFrame": "Board and framing", "doorView": "Door and view" },
+    "fields": { "length": "Wall length", "height": "Wall height", "board": "Board type", "size": "Board size", "layers": "Layers per face", "frame": "Framing profile", "studSp": "Stud spacing", "double": "Double-sided boarding", "wool": "Mineral wool insulation (50 mm)", "doors": "Number of doors", "doorW": "Door width", "doorH": "Door height", "cut": "Section view (show framing)" },
+    "options": {
+      "board": { "beyaz": "White\n(standard)", "yesil": "Green\n(moisture resistant)", "kirmizi": "Red\n(fire resistant)" },
+      "size": { "2000": "1200×2000", "2500": "1200×2500", "3000": "1200×3000" },
+      "frame": { "galv": "Galvanised C / U", "kutu": "Hollow section" },
+      "studSp": { "40": "40 cm", "60": "60 cm" }
+    },
+    "boardNames": { "beyaz": "White (standard)", "yesil": "Green (moisture resistant)", "kirmizi": "Red (fire resistant)" },
+    "boardLower": { "beyaz": "white (standard)", "yesil": "green (moisture resistant)", "kirmizi": "red (fire resistant)" },
+    "profiles": { "stud": "C stud", "track": "U track (floor / ceiling)", "studBox": "Stud (hollow section)", "trackBox": "Floor / ceiling track (hollow section)" },
+    "bom": { "board": "Plasterboard", "stud": "C stud", "studBox": "Stud", "track": "U track", "trackBox": "Floor / ceiling track", "header": "Door head track", "screw": "Drywall screw", "tape": "Joint tape", "filler": "Joint compound", "seal": "Sealing tape", "dowel": "Steel anchor", "wool": "Mineral wool (50 mm)" },
+    "groups": { "cladding": "Boarding", "frameGalv": "Framing (galvanised)", "frameBox": "Framing (hollow section)", "consumables": "Consumables" },
+    "spec": { "board": "{board} · 1200 × {len} × 12.5 mm · {kg} kg/m²", "screw": "TN 3.5×25 / ×35", "seal": "under tracks and edge studs", "dowel": "U track fixing, ~60 cm", "wool": "{kg} kg/m²" },
+    "kpi": { "net": "Net wall area", "clad": "Boarding area", "boards": "Board count", "thickness": "Wall thickness" },
+    "flag": { "doors": "Wall length is not enough for {doors} doors; {placed} placed." },
+    "chip": "{board} · {stud}",
+    "legend": { "board": "Plasterboard", "frame": "C stud / U track", "wool": "Mineral wool", "door": "Door frame" },
+    "notes": { "0": "Waste and consumable factors are average site values; door openings are deducted. Door jambs have double studs and a head track (UW).", "1": "The drywall frame consists of light galvanised profiles joined with screws; no steel connection plates are used. See the \"Profile catalogue\" button for all steel profile series." }
+  }
+}

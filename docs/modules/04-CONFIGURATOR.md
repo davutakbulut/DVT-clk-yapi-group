@@ -1,86 +1,57 @@
-# 3D Konfigüratör
+# 3D Konfigüratör (K-110)
 
-## Mevcut Durum
+Altı yapı türü tek motorda: **çelik hol** · **çok katlı yapı** · **çatı & cephe kaplama** · **ara kat platformu** · **çit & korkuluk** · **alçıpan bölme duvar**.
+Rotalar `(configurator)` grubunda (K-23, Lenis yok, Three.js yalnız burada dinamik import — K-24); seçim sayfası `/konfigurator` (K-80); rehber sayfaları K-107.
 
-`_archive/prototypes/configurator-v4.html` ham bir prototip değil — **Three.js ile parametrik çelik yapı modelleyici**.
-
-| Hazır ✅ | Eksik ❌ |
-|---|---|
-| 5 parametre (en, boy, saçak h, mahya h, aks aralığı) | **Metraj/ağırlık hesabı yok** |
-| Gerçek profil kesitleri: HEB360, IPE500/300, UNP160/200, Ø139.7 boru, L100×100×10 | **Fiyatlandırma yok** |
-| Açıklığa göre otomatik sistem seçimi (≤30m düz makas, >30m kafes) | **Kaydetme yok** |
-| Aşık/kuşak, çapraz, rüzgar kolonu, moment birleşim + cıvata detayı | **Teklife dönüşüm yok** |
-| Panel + kapı toggle, OrbitControls, gölge/ışık | **PDF çıktı yok** |
-| Kategoriye göre renklendirme | **Veritabanı bağlantısı yok** |
-
-**Görsel motor hazır, ticari katmanın tamamı sıfırdan yazılacak.**
-
-## Üyelik Kapısı
-
-**3D model, ölçü değiştirme ve metraj/tonaj herkese açık.**
-**Fiyat, kaydetme ve PDF üyeye özel.**
+## Mimari
 
 ```
-Misafir → ölçü ayarlar → 3D + metraj anında hesaplanır ✅
-        → localStorage'a otomatik taslak (yenilemede kaybolmaz)
-        ├─ "Tahmini Bedeli Gör" 🔒
-        ├─ "PDF İndir"          🔒
-        └─ "Kaydet"             🔒
-             → [Giriş] [Üye Ol] [E-posta ile bağlantı al]
-                  → anonim kayıt + public_token, bağlantı mail'lenir
-                  → aynı e-postayla üye olursa kayıtlar hesaba devredilir
+engine/catalog.ts   standart profil tabloları → kesit çokgeni → kesit değerleri (A, G, I, W, Wpl, i, It, AL)   [saf]
+engine/kit.ts       yapım fonksiyonunun çizdiğini kaydeder (eleman, levha, cıvata, yüzey) + levha/cıvata sayımı [saf]
+engine/apps/*.ts    altı yapım fonksiyonu: durum → Model + metraj satırları + KPI + bayrak + lejant              [saf]
+engine/runtime.ts   durum doğrulama (sınır/adım/seçenek/katalog), panel geçersiz kılmaları, yapım + toplamlar   [saf]
+EngineScene.tsx     Model → Three.js (ExtrudeGeometry, InstancedMesh, gölge, sis, OrbitControls, görünüşler)     [istemci]
+EngineConfigurator  panel + tuval + katalog penceresi + CSV/yazdır/paylaş + kayıt + fiyat                        [istemci]
+EngineConfiguratorPage / SharedConfigurationView  katalog, kurallar, ayarlar, fiyat tablosu                      [sunucu]
 ```
 
-**Giriş duvarı karartılmış önizleme şeklinde:** fiyat kutusu blur'lu görünür, üzerinde "Tahmini bedeli görmek için giriş yapın". Değerin var olduğu hissettirilir, kayıt motivasyonu artar. Ziyaretçi ölçüyle oynamaya devam edebilir.
+**Görünen = sayılan:** metraj da sahne de aynı `Model` kaydından çıkar; sahne hesap yapmaz (K-65).
+**Doğruluk:** `engine/__tests__/golden/*.json` ürün sahibinin prototiplerinden tarayıcıda alınmış 19 durumdur; port satır satır eşleşir.
 
-## Özellikler
+## Veri
 
-- **İsimlendirme** — "Depo Projesi A"
-- **Versiyonlama** — revizyonlar saklanır, v1/v2 karşılaştırılabilir
-- **Kopyalama** — mevcut konfigürasyondan çoğaltma
-- **Paylaşım bağlantısı** — `/konfigurator/k/[ref]` salt-okunur
-- **PDF çıktı** — 3D görünüm + metraj tablosu + tahmini bedel + yasal uyarı
-- **Teklife dönüştür** — `leads` kaydı oluşur, metraj ve fiyat taşınır
+| Tablo / anahtar | İçerik | Panel |
+|---|---|---|
+| `steel_profiles` | kod, etiket, aile, tür, ölçüler (mm), **kg/m** (tek ağırlık kaynağı), aktif | `/admin/configurator/profiles` |
+| `configurator_rules.engine.<tür>` | alan min/max/adım/varsayılan, varsayılan profiller, notlar TR/EN | `/admin/configurator/rules?kind=` |
+| `configurator_rules.labor_factor`, `price_map` | işçilik katsayısı, fiyat kalemi → malzeme kodu | `/admin/configurator/rules` |
+| `site_settings.configurator.disclaimer` | yasal uyarı | Site Ayarları |
+| `configurations` + `configuration_versions` + `configuration_items` | kayıt (`params = {kind, state}`), sürümler, kalemler | `/admin/configurator` |
 
-## Metraj ve Fiyat Motoru
+Metinler: `Engine.*` (alanlar, kalemler, notlar, katalog) ve `Configurator.*` (başlıklar, kayıt, fiyat, paylaşım) mesaj ad alanları; `ui_translations` ile geçersiz kılınabilir.
 
-```
-3D geometri → her elemanın uzunluğu → profil kg/m ile çarpım → TOPLAM TONAJ
-                                                                    ↓
-                        material_prices (₺/kg) + panel m² + işçilik katsayısı
-                                                                    ↓
-                                                          TAHMİNİ BEDEL
-```
+## Üyelik kapısı (K-29/K-30)
 
-`material_prices` **fiyatın tek kaynağıdır** — fiyat rehberi de buradan okur. Fiyat bir yerde güncellenince her yer tutarlı kalır.
+3D model, ölçü değiştirme ve metraj/tonaj herkese açık. **Fiyat** yalnız üyeye (ziyaretçiye bulanık kutu + kayıt bağlantısı). **Kaydetme:** üye hesabına; anonim e-posta + KVKK onayı + token bağlantısı (e-posta doğrulanınca hesaba geçer). Paylaşım sayfası `/konfigurator/k/[token]`: model + yeni sürüm + fiyat paylaşım anahtarı + teklif formu; yazdırma `/yazdir`.
 
-> ⚠️ **Yasal uyarı zorunlu:** "Bu bir ön metraj tahminidir; statik hesap ve resmî teklif yerine geçmez." Mevcut prototipte de benzer uyarı var — doğru bir refleks.
+## Fiyat
 
-## Teknik Kararlar
+`computeEnginePrice`: çelik kg (levha ve cıvata dahil) × birim + işçilik (× katsayı − 1) + çatı m² × birim + duvar/cephe m² × birim. Birim fiyat yoksa kalem fiyatlanmaz ve söylenir (K-66); çelik fiyatı/para birimi yoksa fiyat gösterilmez.
 
-**Kendi route grubunda, Lenis'siz.** Yumuşak scroll React Three Fiber canvas'ıyla çakışıyor.
+## Yeni tür eklemek
 
-**Kendi `error.tsx`'i var:** WebGL desteklenmeyen veya belleği yetersiz cihazda çökmek yerine **statik galeri + iletişim formu** gösterir — hem hata sınırı hem dönüşüm kurtarma.
-
-**Three.js yalnız burada, `dynamic(…, {ssr:false})` ile.** Three.js + R3F ~600 KB; ana sayfaya girerse 150 KB'lık performans bütçesi anında aşılır.
-
-**Durum sorgu dizesinde:** `/tr/konfigurator?w=20&l=40&e=6&r=8&b=6` — paylaşılabilir, satış ekibi link gönderebilir.
-Slider sürüklenirken `window.history.replaceState()` kullanılır, `router.replace()` **değil** — ikincisi her karede RSC turu tetikler ve canvas takılır.
+1. `engine/apps/<tür>.ts` (AppDef: sections, profiles, noteKeys, build) + `apps/<tür>.messages.json` → `messages/*.json` `Engine.<tür>`
+2. `engine/registry.ts` (ENGINE_KINDS, ENGINE_HREF) · `i18n/routing.ts` yol · rota dosyası · `Configurator.types.<tür>` mesajları
+3. `configurator_rules.engine.<tür>` satırı (migration) · seçim sayfası kartı (`page.tsx` TYPES) · rehber sayfası (K-107)
+4. Altın veri testi: prototip varsa tarayıcıdan metraj tablosu kaydı; yoksa elle doğrulanmış bir durum
 
 ## Güvenlik
 
-- `configurations` RLS: üye yalnız **kendi** kayıtlarını görür/düzenler/siler
-- Anonim kayıtlara doğrudan tablo erişimi **yok** — yalnız `public_token` alan `security definer` RPC üzerinden
-- Paylaşım bağlantısı salt-okunur; fiyat gösterimi ayardan kapatılabilir
-- Anonim kaydetme **hız sınırlı** (IP başına saat/gün limiti)
-- Üye başına konfigürasyon üst limiti ayardan
-
-## Admin
-
-`/admin/configurator/submissions` — gelen tüm konfigürasyonlar: kim (üye/anonim), ölçüler, tonaj, hesaplanan bedel, teklife dönüştü mü. Detayda 3D önizleme + metraj dökümü + **"Satışa Dönüştür"** (kalemler `sale_items`'a aktarılır).
-
-`/admin/configurator/profiles` · `prices` · `rules` — profil kataloğu (kg/m), fiyat yönetimi (geçmişli), min/max limitler ve sistem seçim kuralları.
+- `configurations` RLS: üye yalnız kendi kayıtlarını görür; anonim yalnız token RPC'si (`get_configuration_by_token`)
+- `save_configuration` K-104 kapısı + eşik; metraj ve fiyat **sunucuda** yeniden hesaplanır, istemci sayısı kabul edilmez
+- Paylaşım sayfası IP başına 60/dk (token tarama)
 
 ## Doğrulama
 
-Faz 27 sonunda **metraj çıktısı bilinen bir yapı için elle kontrol edilir.** Metraj hatası doğrudan yanlış fiyata dönüşür; bu yüzden birim testi zorunlu ve saf fonksiyon olarak yazılır (`domain/`).
+- `npx vitest run src/modules/configurator` — katalog (±%2 katalog değerleri), altın veri (19 durum), çalışma zamanı, fiyat
+- E2E `configurator*.spec.ts` — KPI/metraj, katalog seçimi, segment, CSV, EN, mobil çekmece, kayıt/paylaşım/yazdır/teklif, admin ayarlar ve profil

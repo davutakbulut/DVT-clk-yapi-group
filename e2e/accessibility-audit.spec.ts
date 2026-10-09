@@ -7,7 +7,7 @@ const PASSWORD = process.env['E2E_ADMIN_PASSWORD'];
 const hasAccount = Boolean(EMAIL && PASSWORD);
 
 // Faz 31 · erişilebilirlik denetimi: Faz 5–30'da eklenen tüm ana ön yüz sayfaları + panel ekranları WCAG 2.1 AA (axe) ihlalsiz.
-const PUBLIC_PAGES = ['/tr/hizmetler', '/tr/cozumler', '/tr/fiyat-rehberi', '/tr/yorumlar', '/tr/urunler', '/tr/projeler', '/tr/blog', '/tr/hakkimizda', '/tr/ekibimiz', '/tr/referanslarimiz', '/tr/belgelerimiz', '/tr/kariyer', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/giris', '/tr/kayit', '/tr/konfigurator', '/tr/konfigurator/hol?w=20&l=40&e=6&r=8&b=6', '/tr/konfigurator/cok-katli?w=20&l=30&h=3.2&n=5', '/en/services', '/en/configurator'];
+const PUBLIC_PAGES = ['/tr/hizmetler', '/tr/cozumler', '/tr/fiyat-rehberi', '/tr/yorumlar', '/tr/urunler', '/tr/projeler', '/tr/blog', '/tr/hakkimizda', '/tr/ekibimiz', '/tr/referanslarimiz', '/tr/belgelerimiz', '/tr/kariyer', '/tr/sss', '/tr/iletisim', '/tr/teklif-al', '/tr/teklif-sepeti', '/tr/giris', '/tr/kayit', '/tr/konfigurator', '/tr/konfigurator/hol?width=20&length=40&eave=6&ridge=8&bay=6', '/tr/konfigurator/cok-katli?width=20&length=30&fh=3.2&floors=5', '/en/services', '/en/configurator'];
 const ADMIN_PAGES = ['/admin', '/admin/leads', '/admin/customers', '/admin/sales', '/admin/invoices', '/admin/reports', '/admin/analytics', '/admin/analytics/funnels', '/admin/errors', '/admin/configurator', '/admin/configurator/rules', '/admin/configurator/profiles', '/admin/translations', '/admin/redirects', '/admin/settings/modules', '/admin/settings/seo', '/admin/audit'];
 
 async function axe(page: Page) {
@@ -53,14 +53,16 @@ test.describe('axe · panel', () => {
 
 test.describe('klavye · konfigüratör', () => {
   test('kayar çubuklar ve anahtarlar Tab ile ulaşılır, ok tuşu değeri değiştirir', async ({ page }) => {
-    await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
+    await page.goto('/tr/konfigurator/hol?width=20&length=40&eave=6&ridge=8&bay=6');
     await openConfiguratorPanel(page); // mobil/tablet: ayrıntılar sağdan açılan panelde (K-81)
-    const width = page.getByRole('slider', { name: 'En (açıklık)' });
+    const width = page.getByRole('slider', { name: 'Bina eni (açıklık)' });
     await width.focus();
     await expect(width).toBeFocused();
     await page.keyboard.press('ArrowRight');
     await expect(width).toHaveValue('21');
+    await page.keyboard.press('Tab'); // K-110: her alanda sayı kutusu + kayar çubuk; sıradaki alanın sayı kutusu
+    await expect(page.locator('#n-length')).toBeFocused();
     await page.keyboard.press('Tab');
-    await expect(page.getByRole('slider', { name: 'Boy' })).toBeFocused();
+    await expect(page.getByRole('slider', { name: 'Bina boyu' })).toBeFocused();
   });
 });

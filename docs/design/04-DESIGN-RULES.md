@@ -129,3 +129,10 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - Rehber hero'su **kompakt** başlık (`.page-hero-title-md`, ≤ 24ch): SEO başlıkları uzundur, dev hero ölçüsü 7 satıra düşüyordu.
 - "Kendiniz inşa etmek ister misiniz?" bandı (`.cfg-banner`): ızgaralı lacivert zemin, solda altın 4 px çizgi, çizgisel tür simgesi (`src/ui/ConfiguratorGlyph.tsx`), altın birincil düğme + açık çelik ikincil düğme. Metin veriden (rehberde kendi bandı; ürünler/hizmetlerde `configurator.banner` ayarı).
 - Seçim sayfasında "Nasıl çalışır? →" bağlantısı kartın **dışında**, altında sabit satırda (kart tek bağlantıdır; iç içe bağlantı yok).
+
+## 8e · Konfigüratör paneli (K-110)
+
+- Sol panel prototipin bilgi sırasını izler: başlık + özet → KPI kutuları (vurgulu "Toplam çelik") → bayrak → bölümler (kaydırıcı + sayı kutusu, segment, anahtar, seçim) → profil kartları (renk karesi, seçim + "Katalog", kesit satırı) → metraj → lejant → eylemler → notlar. Yeni tür eklerken bu sıra bozulmaz.
+- Renkler site tokenlarından (`--color-accent-on-dark`, `--color-surface-dark`); prototipin kendi paleti, logosu ve üst çubuğu **alınmadı** (§0.3). 3B malzeme renkleri (kolon mor, kiriş yeşil, ikincil turkuaz, çapraz mavi, levha gri, kapı altın) lejantla aynı olduğundan tasarım tokenı değildir, motor sabitidir.
+- Katalog penceresi `<dialog>`: masaüstünde 1180×780 sınırlı, mobilde tam ekran; satır seçimi klavyeyle (Enter/Boşluk), Esc kapatır.
+- Yazdırmada tuval yerine anlık görüntü (`.engine-print-img`) basılır; eylemler, fiyat/kayıt formları ve kaydırıcılar gizlenir.

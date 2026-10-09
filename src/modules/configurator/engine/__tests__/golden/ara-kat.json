@@ -1,0 +1,474 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "width": "12",
+   "length": "24",
+   "height": "3.5",
+   "span": "6",
+   "load": "orta",
+   "deck": "beton",
+   "stair": "1",
+   "rail": "1",
+   "col": "HEA 160",
+   "main": "IPE 300",
+   "sec": "IPE 160",
+   "stringer": "UPN 200",
+   "post": "Kutu 40×40×3",
+   "handrail": "Boru 42,4×2,6"
+  },
+  "rows": [
+   {
+    "group": "Taşıyıcı çelik"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEA 160 · 30,4 kg/m",
+    "qty": "15",
+    "amount": "50,7 m",
+    "kg": "1.543 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "10",
+    "amount": "58,1 m",
+    "kg": "2.454 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 160 · 15,8 kg/m",
+    "qty": "24",
+    "amount": "139,6 m",
+    "kg": "2.202 kg"
+   },
+   {
+    "group": "Döşeme"
+   },
+   {
+    "name": "Döşeme sacı (trapez)",
+    "spec": "9,5 kg/m²",
+    "qty": "–",
+    "amount": "288,0 m²",
+    "kg": "2.736 kg"
+   },
+   {
+    "name": "Beton",
+    "spec": "10 cm · C25/30",
+    "qty": "–",
+    "amount": "28,8 m³",
+    "kg": "–"
+   },
+   {
+    "group": "Merdiven"
+   },
+   {
+    "name": "Merdiven limonu",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "2",
+    "amount": "12,2 m",
+    "kg": "314 kg"
+   },
+   {
+    "name": "Izgara basamak",
+    "spec": "1.000 × 270 mm",
+    "qty": "19",
+    "amount": "–",
+    "kg": "266 kg"
+   },
+   {
+    "group": "Korkuluk (h = 1,10 m)"
+   },
+   {
+    "name": "Korkuluk dikmesi",
+    "spec": "Kutu 40×40×3 · 3,30 kg/m",
+    "qty": "65",
+    "amount": "71,5 m",
+    "kg": "236 kg"
+   },
+   {
+    "name": "Küpeşte",
+    "spec": "Boru 42,4×2,6 · 2,55 kg/m",
+    "qty": "7",
+    "amount": "83,2 m",
+    "kg": "212 kg"
+   },
+   {
+    "name": "Ara kayıt",
+    "spec": "Kutu 30×30×2 · 1,68 kg/m",
+    "qty": "7",
+    "amount": "83,2 m",
+    "kg": "140 kg"
+   },
+   {
+    "name": "Süpürgelik",
+    "spec": "Lama 100×4 · 3,14 kg/m",
+    "qty": "5",
+    "amount": "70,9 m",
+    "kg": "223 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "225",
+    "amount": "–",
+    "kg": "1.064 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "106",
+    "amount": "–",
+    "kg": "20 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "224",
+    "amount": "–",
+    "kg": "45 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "60",
+    "amount": "–",
+    "kg": "36 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Platform alanı",
+    "288,0 m²"
+   ],
+   [
+    "Hareketli yük",
+    "5,0 kN/m²"
+   ],
+   [
+    "Aks aralığı",
+    "6,00 × 6,00 m"
+   ],
+   [
+    "Kolon adedi",
+    "15"
+   ],
+   [
+    "Toplam çelik",
+    "8,75 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n8,755 t\nDiğer malzemeler\n2.736 kg\nToplam ağırlık\n11.491 kg",
+  "flag": "Orta yük sınıfı (5,0 kN/m²) — ön boyut: HEA 160 kolon, IPE 300 ana kiriş, IPE 160 tali kiriş.",
+  "chip": "12,0 × 24,0 m · 288,0 m² · 5,0 kN/m²"
+ },
+ {
+  "variant": {
+   "load": "agir",
+   "deck": "izgara",
+   "stair": "0"
+  },
+  "err": null,
+  "state": {
+   "width": "12",
+   "length": "24",
+   "height": "3.5",
+   "span": "6",
+   "load": "agir",
+   "deck": "izgara",
+   "stair": "0",
+   "rail": "1",
+   "col": "HEA 160",
+   "main": "IPE 300",
+   "sec": "IPE 160",
+   "stringer": "UPN 200",
+   "post": "Kutu 40×40×3",
+   "handrail": "Boru 42,4×2,6"
+  },
+  "rows": [
+   {
+    "group": "Taşıyıcı çelik"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEA 160 · 30,4 kg/m",
+    "qty": "15",
+    "amount": "52,0 m",
+    "kg": "1.584 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "10",
+    "amount": "58,1 m",
+    "kg": "2.454 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 160 · 15,8 kg/m",
+    "qty": "24",
+    "amount": "139,6 m",
+    "kg": "2.202 kg"
+   },
+   {
+    "group": "Döşeme"
+   },
+   {
+    "name": "Izgara döşeme",
+    "spec": "30×3 · 34×38 göz · 22 kg/m², galvaniz",
+    "qty": "–",
+    "amount": "288,0 m²",
+    "kg": "6.336 kg"
+   },
+   {
+    "group": "Korkuluk (h = 1,10 m)"
+   },
+   {
+    "name": "Korkuluk dikmesi",
+    "spec": "Kutu 40×40×3 · 3,30 kg/m",
+    "qty": "52",
+    "amount": "57,2 m",
+    "kg": "189 kg"
+   },
+   {
+    "name": "Küpeşte",
+    "spec": "Boru 42,4×2,6 · 2,55 kg/m",
+    "qty": "4",
+    "amount": "72,0 m",
+    "kg": "184 kg"
+   },
+   {
+    "name": "Ara kayıt",
+    "spec": "Kutu 30×30×2 · 1,68 kg/m",
+    "qty": "4",
+    "amount": "72,0 m",
+    "kg": "121 kg"
+   },
+   {
+    "name": "Süpürgelik",
+    "spec": "Lama 100×4 · 3,14 kg/m",
+    "qty": "4",
+    "amount": "72,0 m",
+    "kg": "226 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "220",
+    "amount": "–",
+    "kg": "1.034 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "104",
+    "amount": "–",
+    "kg": "12 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "216",
+    "amount": "–",
+    "kg": "43 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "60",
+    "amount": "–",
+    "kg": "36 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Platform alanı",
+    "288,0 m²"
+   ],
+   [
+    "Hareketli yük",
+    "7,5 kN/m²"
+   ],
+   [
+    "Aks aralığı",
+    "6,00 × 6,00 m"
+   ],
+   [
+    "Kolon adedi",
+    "15"
+   ],
+   [
+    "Toplam çelik",
+    "8,08 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n8,085 t\nDiğer malzemeler\n6.336 kg\nToplam ağırlık\n14.421 kg",
+  "flag": "Ağır yük sınıfı (7,5 kN/m²) — ön boyut: HEA 160 kolon, IPE 300 ana kiriş, IPE 160 tali kiriş.",
+  "chip": "12,0 × 24,0 m · 288,0 m² · 7,5 kN/m²"
+ },
+ {
+  "variant": {
+   "rail": "0",
+   "width": 7.5,
+   "length": 33,
+   "span": 4.5
+  },
+  "err": null,
+  "state": {
+   "width": "7.5",
+   "length": "33",
+   "height": "3.5",
+   "span": "4.5",
+   "load": "orta",
+   "deck": "beton",
+   "stair": "1",
+   "rail": "0",
+   "col": "HEA 160",
+   "main": "IPE 300",
+   "sec": "IPE 160",
+   "stringer": "UPN 200",
+   "post": "Kutu 40×40×3",
+   "handrail": "Boru 42,4×2,6"
+  },
+  "rows": [
+   {
+    "group": "Taşıyıcı çelik"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEA 160 · 30,4 kg/m",
+    "qty": "27",
+    "amount": "91,3 m",
+    "kg": "2.778 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "18",
+    "amount": "64,0 m",
+    "kg": "2.706 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 160 · 15,8 kg/m",
+    "qty": "32",
+    "amount": "126,1 m",
+    "kg": "1.989 kg"
+   },
+   {
+    "group": "Döşeme"
+   },
+   {
+    "name": "Döşeme sacı (trapez)",
+    "spec": "9,5 kg/m²",
+    "qty": "–",
+    "amount": "247,5 m²",
+    "kg": "2.351 kg"
+   },
+   {
+    "name": "Beton",
+    "spec": "10 cm · C25/30",
+    "qty": "–",
+    "amount": "24,8 m³",
+    "kg": "–"
+   },
+   {
+    "group": "Merdiven"
+   },
+   {
+    "name": "Merdiven limonu",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "2",
+    "amount": "12,2 m",
+    "kg": "314 kg"
+   },
+   {
+    "name": "Izgara basamak",
+    "spec": "1.000 × 270 mm",
+    "qty": "19",
+    "amount": "–",
+    "kg": "266 kg"
+   },
+   {
+    "group": "Korkuluk (h = 1,10 m)"
+   },
+   {
+    "name": "Korkuluk dikmesi",
+    "spec": "Kutu 40×40×3 · 3,30 kg/m",
+    "qty": "12",
+    "amount": "13,2 m",
+    "kg": "44 kg"
+   },
+   {
+    "name": "Küpeşte",
+    "spec": "Boru 42,4×2,6 · 2,55 kg/m",
+    "qty": "2",
+    "amount": "12,3 m",
+    "kg": "31 kg"
+   },
+   {
+    "name": "Ara kayıt",
+    "spec": "Kutu 30×30×2 · 1,68 kg/m",
+    "qty": "2",
+    "amount": "12,3 m",
+    "kg": "21 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "284",
+    "amount": "–",
+    "kg": "1.673 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "352",
+    "amount": "–",
+    "kg": "71 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "108",
+    "amount": "–",
+    "kg": "65 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Platform alanı",
+    "247,5 m²"
+   ],
+   [
+    "Hareketli yük",
+    "5,0 kN/m²"
+   ],
+   [
+    "Aks aralığı",
+    "3,75 × 4,13 m"
+   ],
+   [
+    "Kolon adedi",
+    "27"
+   ],
+   [
+    "Toplam çelik",
+    "9,96 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n9,957 t\nDiğer malzemeler\n2.351 kg\nToplam ağırlık\n12.308 kg",
+  "flag": "Orta yük sınıfı (5,0 kN/m²) — ön boyut: HEA 160 kolon, IPE 300 ana kiriş, IPE 160 tali kiriş.",
+  "chip": "7,5 × 33,0 m · 247,5 m² · 5,0 kN/m²"
+ }
+]

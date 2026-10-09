@@ -310,6 +310,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 - [x] **Faz 29f** — Konfigüratör rehber (SEO iniş) sayfaları + band (K-107): 6 sayfa, HowTo/FAQ yapısal veri, panel, site haritası ✅ 2026-09-25
 - [x] **Faz 29g** — Toplu e-posta (K-108): kampanya taslağı, kitle kuralları, zamanlı/saatlik sınırlı gönderim, listeden çıkma, engel listesi, panel ✅ 2026-09-30
 - [x] **Faz 29h** — Toplu e-posta hazır şablonları (K-109): 14 şablon, seçici + canlı önizleme, doldurulmamış alan engeli, şablon yönetimi ✅ 2026-09-30
+- [x] **Faz 29i** — Parametrik 3B konfigüratör motoru (K-110): altı tür tek motorda, standart profil kataloğu (0059), tür bazlı panel ayarları, altın veri testleri ✅ 2026-10-09
   - [ ] *Ürün sahibi:* rehberlere kapak görseli (konfigüratör ekran görüntüsü) ve EN onayı
 - [x] **Faz 30** — AI görünürlük · IndexNow · RSS · Search Console · GA4/Ads/Pixel ✅
   - [x] RSS 2.0 `/{locale}/feed.xml` (dil başına yayındaki son 50 yazı; `atom:link self`; 30 dk önbellek) · `buildAlternates` her sayfaya `application/rss+xml` otomatik keşfi · `llms.txt` genişletildi (çözümler, ürünler, projeler, beslemeler)
@@ -335,7 +336,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 | Logo dosyası | 4 | ⏳ |
 | WhatsApp numarası | 4 | ⏳ |
 | Gerçek fiyat verileri | 16 | ⏳ ürün sahibi `/admin/pricing/materials` |
-| Hol konfigüratöründe E2E'de yük altında geçici DOM çoğaltması (SSR ağacı + istemci yeniden çizimi; `footprint` 2 öğe). Tek başına üretilemedi; testler `.first()` ile sağlamlaştırıldı | konfigüratör | ⏳ kök neden: hidrasyon uyuşmazlığı şüphesi (matchMedia/inert/replaceState); üretimde gözlenmedi |
+| Konfigüratör sayfalarında yük altında geçici DOM çoğaltması (~75 ms: React, akışla gelen Suspense sınırını hidre etmek yerine istemcide yeniden çizip SSR kopyasını sonra kaldırıyor — K-110'da Playwright sondasıyla yakalandı: `appendChild` react-dom'dan, konsolda hidrasyon hatası yok, `_rsc` isteği yok). Kök neden React/Next akış yarışı; testler `openConfiguratorPanel` başında `.configurator` tekleşene dek bekler | konfigüratör | ⏳ Next/React sürüm yükseltmesinde yeniden sondala (`scratchpad/dup.mjs` deseni: addInitScript + MutationObserver) |
 | Diğer profil ürünlerinin ölçü tabloları (boru, HEA/HEB/IPE/UPN…) | ürünler | ✅ 15 aile içe aktarıldı (K-90); yeni aile için panelde CSV yapıştırma |
 | Proje bilgileri (ad, lokasyon, m²) | 8 | ⏳ |
 | Google `place_id` | 17 | ⏳ |

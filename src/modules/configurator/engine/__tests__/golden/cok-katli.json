@@ -1,0 +1,422 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "30",
+   "fh": "3.2",
+   "floors": "5",
+   "span": "5",
+   "braces": "1",
+   "slabs": "1",
+   "glass": "0",
+   "col": "HEB 300",
+   "main": "IPE 500",
+   "sec": "IPE 400",
+   "brace": "Boru 139,7×6"
+  },
+  "rows": [
+   {
+    "group": "Çelik taşıyıcı"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEB 300 · 117,0 kg/m · 1 ek/kolon",
+    "qty": "35",
+    "amount": "560,0 m",
+    "kg": "65.539 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 500 · 90,7 kg/m",
+    "qty": "290",
+    "amount": "1.352,9 m",
+    "kg": "122.693 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 400 · 66,3 kg/m",
+    "qty": "120",
+    "amount": "572,4 m",
+    "kg": "37.955 kg"
+   },
+   {
+    "name": "Düşey çaprazlar",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "80",
+    "amount": "386,9 m",
+    "kg": "7.655 kg"
+   },
+   {
+    "group": "Döşeme"
+   },
+   {
+    "name": "Trapez döşeme sacı",
+    "spec": "9,5 kg/m² · 5 kat",
+    "qty": "–",
+    "amount": "3.000,0 m²",
+    "kg": "28.500 kg"
+   },
+   {
+    "name": "Döşeme betonu (12 cm)",
+    "spec": "C30/37, nervür dolgusu dahil",
+    "qty": "–",
+    "amount": "285,0 m³",
+    "kg": "–"
+   },
+   {
+    "group": "Temel"
+   },
+   {
+    "name": "Radye temel betonu",
+    "spec": "70 cm · taşma 0,75 m",
+    "qty": "–",
+    "amount": "474,1 m³",
+    "kg": "–"
+   },
+   {
+    "name": "Radye donatısı (tahmini)",
+    "spec": "100 kg/m³ · B500C",
+    "qty": "–",
+    "amount": "47,41 t",
+    "kg": "47.408 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "1.740",
+    "amount": "–",
+    "kg": "24.394 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "2.460",
+    "amount": "–",
+    "kg": "503 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "2.700",
+    "amount": "–",
+    "kg": "1.095 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "140",
+    "amount": "–",
+    "kg": "84 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Radye temel",
+    "70 cm · 474 m³"
+   ],
+   [
+    "Toplam kat alanı",
+    "3.000 m²"
+   ],
+   [
+    "Bina yüksekliği",
+    "16,0 m"
+   ],
+   [
+    "Kolon aralığı",
+    "5,00 × 5,00 m"
+   ],
+   [
+    "Kolon adedi (aks)",
+    "35"
+   ],
+   [
+    "Toplam çelik",
+    "259,92 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n259,918 t\nDiğer malzemeler\n75.908 kg\nToplam ağırlık\n335.825 kg",
+  "flag": "5 kat: radye kalınlığı 50 cm + 20 cm = 70 cm.",
+  "chip": "20 × 30 m · 5 kat · 3.000 m²"
+ },
+ {
+  "variant": {
+   "floors": 8,
+   "braces": "0",
+   "glass": "1"
+  },
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "30",
+   "fh": "3.2",
+   "floors": "8",
+   "span": "5",
+   "braces": "0",
+   "slabs": "1",
+   "glass": "1",
+   "col": "HEB 300",
+   "main": "IPE 500",
+   "sec": "IPE 400",
+   "brace": "Boru 139,7×6"
+  },
+  "rows": [
+   {
+    "group": "Çelik taşıyıcı"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEB 300 · 117,0 kg/m · 2 ek/kolon",
+    "qty": "35",
+    "amount": "896,0 m",
+    "kg": "104.862 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 500 · 90,7 kg/m",
+    "qty": "464",
+    "amount": "2.164,6 m",
+    "kg": "196.309 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 400 · 66,3 kg/m",
+    "qty": "192",
+    "amount": "915,8 m",
+    "kg": "60.728 kg"
+   },
+   {
+    "group": "Döşeme"
+   },
+   {
+    "name": "Trapez döşeme sacı",
+    "spec": "9,5 kg/m² · 8 kat",
+    "qty": "–",
+    "amount": "4.800,0 m²",
+    "kg": "45.600 kg"
+   },
+   {
+    "name": "Döşeme betonu (12 cm)",
+    "spec": "C30/37, nervür dolgusu dahil",
+    "qty": "–",
+    "amount": "456,0 m³",
+    "kg": "–"
+   },
+   {
+    "group": "Temel"
+   },
+   {
+    "name": "Radye temel betonu",
+    "spec": "100 cm · taşma 0,75 m",
+    "qty": "–",
+    "amount": "677,3 m³",
+    "kg": "–"
+   },
+   {
+    "name": "Radye donatısı (tahmini)",
+    "spec": "100 kg/m³ · B500C",
+    "qty": "–",
+    "amount": "67,73 t",
+    "kg": "67.725 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "2.152",
+    "amount": "–",
+    "kg": "33.435 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "3.936",
+    "amount": "–",
+    "kg": "805 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "3.864",
+    "amount": "–",
+    "kg": "1.567 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "140",
+    "amount": "–",
+    "kg": "84 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Radye temel",
+    "100 cm · 677 m³"
+   ],
+   [
+    "Toplam kat alanı",
+    "4.800 m²"
+   ],
+   [
+    "Bina yüksekliği",
+    "25,6 m"
+   ],
+   [
+    "Kolon aralığı",
+    "5,00 × 5,00 m"
+   ],
+   [
+    "Kolon adedi (aks)",
+    "35"
+   ],
+   [
+    "Toplam çelik",
+    "397,79 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n397,789 t\nDiğer malzemeler\n113.325 kg\nToplam ağırlık\n511.114 kg",
+  "flag": "8 kat: radye kalınlığı 50 cm + 50 cm = 100 cm.",
+  "chip": "20 × 30 m · 8 kat · 4.800 m²"
+ },
+ {
+  "variant": {
+   "width": 31,
+   "length": 17,
+   "span": 7.5,
+   "slabs": "0"
+  },
+  "err": null,
+  "state": {
+   "width": "31",
+   "length": "17",
+   "fh": "3.2",
+   "floors": "5",
+   "span": "7.5",
+   "braces": "1",
+   "slabs": "0",
+   "glass": "0",
+   "col": "HEB 300",
+   "main": "IPE 500",
+   "sec": "IPE 400",
+   "brace": "Boru 139,7×6"
+  },
+  "rows": [
+   {
+    "group": "Çelik taşıyıcı"
+   },
+   {
+    "name": "Kolonlar",
+    "spec": "HEB 300 · 117,0 kg/m · 1 ek/kolon",
+    "qty": "24",
+    "amount": "384,0 m",
+    "kg": "44.941 kg"
+   },
+   {
+    "name": "Ana kirişler",
+    "spec": "IPE 500 · 90,7 kg/m",
+    "qty": "190",
+    "amount": "1.066,3 m",
+    "kg": "96.701 kg"
+   },
+   {
+    "name": "Tali kirişler",
+    "spec": "IPE 400 · 66,3 kg/m",
+    "qty": "75",
+    "amount": "407,8 m",
+    "kg": "27.037 kg"
+   },
+   {
+    "name": "Düşey çaprazlar",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "80",
+    "amount": "456,9 m",
+    "kg": "9.040 kg"
+   },
+   {
+    "group": "Temel"
+   },
+   {
+    "name": "Radye temel betonu",
+    "spec": "70 cm · taşma 0,75 m",
+    "qty": "–",
+    "amount": "420,9 m³",
+    "kg": "–"
+   },
+   {
+    "name": "Radye donatısı (tahmini)",
+    "spec": "100 kg/m³ · B500C",
+    "qty": "–",
+    "amount": "42,09 t",
+    "kg": "42.088 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "1.274",
+    "amount": "–",
+    "kg": "17.161 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "1.500",
+    "amount": "–",
+    "kg": "307 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "2.016",
+    "amount": "–",
+    "kg": "818 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "96",
+    "amount": "–",
+    "kg": "58 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Radye temel",
+    "70 cm · 421 m³"
+   ],
+   [
+    "Toplam kat alanı",
+    "2.635 m²"
+   ],
+   [
+    "Bina yüksekliği",
+    "16,0 m"
+   ],
+   [
+    "Kolon aralığı",
+    "6,20 × 5,67 m"
+   ],
+   [
+    "Kolon adedi (aks)",
+    "24"
+   ],
+   [
+    "Toplam çelik",
+    "196,06 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n196,062 t\nDiğer malzemeler\n42.088 kg\nToplam ağırlık\n238.149 kg",
+  "flag": "5 kat: radye kalınlığı 50 cm + 20 cm = 70 cm.",
+  "chip": "31 × 17 m · 5 kat · 2.635 m²"
+ }
+]

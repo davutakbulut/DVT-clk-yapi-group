@@ -1,0 +1,554 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "40",
+   "eave": "6",
+   "ridge": "8",
+   "bay": "6",
+   "purlins": "1",
+   "purlinSp": "1",
+   "girtSp": "1",
+   "door": "1",
+   "doorW": "4",
+   "doorH": "5",
+   "panels": "1",
+   "showPanels": "0",
+   "col": "HEB 360",
+   "raf": "IPE 500",
+   "chord": "L 100×100×10",
+   "diag": "L 80×80×8",
+   "sec": "IPE 300",
+   "wind": "IPE 300",
+   "purlin": "UPN 200",
+   "girt": "UPN 200",
+   "brace": "Boru 139,7×6",
+   "lintel": "Kutu 200×100×6"
+  },
+  "rows": [
+   {
+    "group": "Ana taşıyıcı"
+   },
+   {
+    "name": "Kolon",
+    "spec": "HEB 360 · 141,8 kg/m",
+    "qty": "16",
+    "amount": "102,3 m",
+    "kg": "14.509 kg"
+   },
+   {
+    "name": "Çatı kirişi",
+    "spec": "IPE 500 · 90,7 kg/m",
+    "qty": "16",
+    "amount": "159,6 m",
+    "kg": "14.472 kg"
+   },
+   {
+    "group": "Stabilite ve ikincil"
+   },
+   {
+    "name": "Boyuna kiriş",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "21",
+    "amount": "117,2 m",
+    "kg": "4.950 kg"
+   },
+   {
+    "name": "Rüzgar kolonu",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "5",
+    "amount": "33,4 m",
+    "kg": "1.412 kg"
+   },
+   {
+    "name": "Kapı dikmesi",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "2",
+    "amount": "14,2 m",
+    "kg": "601 kg"
+   },
+   {
+    "name": "Kapı lentosu",
+    "spec": "Kutu 200×100×6 · 26,4 kg/m",
+    "qty": "1",
+    "amount": "4,0 m",
+    "kg": "106 kg"
+   },
+   {
+    "name": "Aşık",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "18",
+    "amount": "725,4 m",
+    "kg": "18.714 kg"
+   },
+   {
+    "name": "Yan duvar kuşağı",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "10",
+    "amount": "403,0 m",
+    "kg": "10.397 kg"
+   },
+   {
+    "name": "Alın kuşağı",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "19",
+    "amount": "220,3 m",
+    "kg": "5.683 kg"
+   },
+   {
+    "name": "Duvar çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "16",
+    "amount": "113,6 m",
+    "kg": "2.247 kg"
+   },
+   {
+    "name": "Çatı çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "32",
+    "amount": "227,2 m",
+    "kg": "4.494 kg"
+   },
+   {
+    "group": "Kaplama (sandviç panel 40 mm)"
+   },
+   {
+    "name": "Çatı paneli",
+    "spec": "1000 mm modül · 10,5 kg/m²",
+    "qty": "82",
+    "amount": "822,0 m²",
+    "kg": "8.631 kg"
+   },
+   {
+    "name": "Yan duvar paneli",
+    "spec": "1000 mm modül",
+    "qty": "80",
+    "amount": "480,0 m²",
+    "kg": "5.040 kg"
+   },
+   {
+    "name": "Alın paneli",
+    "spec": "kapı boşluğu düşülmüş",
+    "qty": "40",
+    "amount": "260,0 m²",
+    "kg": "2.730 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "661",
+    "amount": "–",
+    "kg": "9.573 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "290",
+    "amount": "–",
+    "kg": "27 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "130",
+    "amount": "–",
+    "kg": "26 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "526",
+    "amount": "–",
+    "kg": "216 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "92",
+    "amount": "–",
+    "kg": "55 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Taban alanı",
+    "800 m²"
+   ],
+   [
+    "Aks",
+    "7 × 5,71 m"
+   ],
+   [
+    "Kolon adedi",
+    "16"
+   ],
+   [
+    "Çatı sistemi",
+    "Dolu gövde"
+   ],
+   [
+    "Toplam çelik",
+    "87,48 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n87,481 t\nDiğer malzemeler\n16.401 kg\nToplam ağırlık\n103.882 kg",
+  "flag": "Açıklık 20 m ≤ 30 m — dolu gövdeli IPE 500 çatı kirişi, guseli moment birleşimi.",
+  "chip": "20 × 40 m · saçak 6,0 m · mahya 8,0 m"
+ },
+ {
+  "variant": {
+   "width": 40,
+   "door": "0"
+  },
+  "err": null,
+  "state": {
+   "width": "40",
+   "length": "40",
+   "eave": "6",
+   "ridge": "8",
+   "bay": "6",
+   "purlins": "1",
+   "purlinSp": "1",
+   "girtSp": "1",
+   "door": "0",
+   "doorW": "4",
+   "doorH": "5",
+   "panels": "1",
+   "showPanels": "0",
+   "col": "HEB 360",
+   "raf": "IPE 500",
+   "chord": "L 100×100×10",
+   "diag": "L 80×80×8",
+   "sec": "IPE 300",
+   "wind": "IPE 300",
+   "purlin": "UPN 200",
+   "girt": "UPN 200",
+   "brace": "Boru 139,7×6",
+   "lintel": "Kutu 200×100×6"
+  },
+  "rows": [
+   {
+    "group": "Ana taşıyıcı"
+   },
+   {
+    "name": "Kolon",
+    "spec": "HEB 360 · 141,8 kg/m",
+    "qty": "16",
+    "amount": "94,7 m",
+    "kg": "13.432 kg"
+   },
+   {
+    "name": "Makas başlıkları (üst + alt)",
+    "spec": "2L 100×100×10 · 30,3 kg/m",
+    "qty": "256",
+    "amount": "641,6 m",
+    "kg": "19.451 kg"
+   },
+   {
+    "name": "Makas diyagonali",
+    "spec": "2L 80×80×8 · 19,4 kg/m",
+    "qty": "128",
+    "amount": "320,3 m",
+    "kg": "6.223 kg"
+   },
+   {
+    "group": "Stabilite ve ikincil"
+   },
+   {
+    "name": "Boyuna kiriş",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "14",
+    "amount": "79,4 m",
+    "kg": "3.354 kg"
+   },
+   {
+    "name": "Rüzgar kolonu",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "14",
+    "amount": "96,4 m",
+    "kg": "4.074 kg"
+   },
+   {
+    "name": "Aşık",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "38",
+    "amount": "1.531,4 m",
+    "kg": "39.507 kg"
+   },
+   {
+    "name": "Yan duvar kuşağı",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "10",
+    "amount": "403,0 m",
+    "kg": "10.397 kg"
+   },
+   {
+    "name": "Alın kuşağı",
+    "spec": "UPN 200 · 25,8 kg/m",
+    "qty": "14",
+    "amount": "500,0 m",
+    "kg": "12.899 kg"
+   },
+   {
+    "name": "Duvar çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "16",
+    "amount": "110,9 m",
+    "kg": "2.193 kg"
+   },
+   {
+    "name": "Çatı çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "64",
+    "amount": "451,2 m",
+    "kg": "8.926 kg"
+   },
+   {
+    "group": "Kaplama (sandviç panel 40 mm)"
+   },
+   {
+    "name": "Çatı paneli",
+    "spec": "1000 mm modül · 10,5 kg/m²",
+    "qty": "82",
+    "amount": "1.620,0 m²",
+    "kg": "17.010 kg"
+   },
+   {
+    "name": "Yan duvar paneli",
+    "spec": "1000 mm modül",
+    "qty": "80",
+    "amount": "480,0 m²",
+    "kg": "5.040 kg"
+   },
+   {
+    "name": "Alın paneli",
+    "spec": "",
+    "qty": "80",
+    "amount": "560,0 m²",
+    "kg": "5.880 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "1.010",
+    "amount": "–",
+    "kg": "11.889 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "380",
+    "amount": "–",
+    "kg": "35 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "84",
+    "amount": "–",
+    "kg": "17 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "1.884",
+    "amount": "–",
+    "kg": "764 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "120",
+    "amount": "–",
+    "kg": "72 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Taban alanı",
+    "1.600 m²"
+   ],
+   [
+    "Aks",
+    "7 × 5,71 m"
+   ],
+   [
+    "Kolon adedi",
+    "16"
+   ],
+   [
+    "Çatı sistemi",
+    "Makas (2L)"
+   ],
+   [
+    "Toplam çelik",
+    "133,23 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n133,231 t\nDiğer malzemeler\n27.930 kg\nToplam ağırlık\n161.162 kg",
+  "flag": "Açıklık 40 m > 30 m — çatıda 2L köşebent makas sistemine otomatik geçildi (L 100×100×10 başlık, L 80×80×8 diyagonal).",
+  "chip": "40 × 40 m · saçak 6,0 m · mahya 8,0 m"
+ },
+ {
+  "variant": {
+   "bay": 8,
+   "purlins": "0",
+   "panels": "0",
+   "length": 61
+  },
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "61",
+   "eave": "6",
+   "ridge": "8",
+   "bay": "8",
+   "purlins": "0",
+   "purlinSp": "1",
+   "girtSp": "1",
+   "door": "1",
+   "doorW": "4",
+   "doorH": "5",
+   "panels": "0",
+   "showPanels": "0",
+   "col": "HEB 360",
+   "raf": "IPE 500",
+   "chord": "L 100×100×10",
+   "diag": "L 80×80×8",
+   "sec": "IPE 300",
+   "wind": "IPE 300",
+   "purlin": "UPN 200",
+   "girt": "UPN 200",
+   "brace": "Boru 139,7×6",
+   "lintel": "Kutu 200×100×6"
+  },
+  "rows": [
+   {
+    "group": "Ana taşıyıcı"
+   },
+   {
+    "name": "Kolon",
+    "spec": "HEB 360 · 141,8 kg/m",
+    "qty": "18",
+    "amount": "115,1 m",
+    "kg": "16.323 kg"
+   },
+   {
+    "name": "Çatı kirişi",
+    "spec": "IPE 500 · 90,7 kg/m",
+    "qty": "18",
+    "amount": "179,5 m",
+    "kg": "16.281 kg"
+   },
+   {
+    "group": "Stabilite ve ikincil"
+   },
+   {
+    "name": "Boyuna kiriş",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "24",
+    "amount": "179,8 m",
+    "kg": "7.594 kg"
+   },
+   {
+    "name": "Rüzgar kolonu",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "5",
+    "amount": "33,4 m",
+    "kg": "1.412 kg"
+   },
+   {
+    "name": "Kapı dikmesi",
+    "spec": "IPE 300 · 42,2 kg/m",
+    "qty": "2",
+    "amount": "14,2 m",
+    "kg": "601 kg"
+   },
+   {
+    "name": "Kapı lentosu",
+    "spec": "Kutu 200×100×6 · 26,4 kg/m",
+    "qty": "1",
+    "amount": "4,0 m",
+    "kg": "106 kg"
+   },
+   {
+    "name": "Duvar çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "16",
+    "amount": "137,8 m",
+    "kg": "2.726 kg"
+   },
+   {
+    "name": "Çatı çaprazı",
+    "spec": "Boru 139,7×6 · 19,8 kg/m",
+    "qty": "32",
+    "amount": "275,6 m",
+    "kg": "5.453 kg"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "501",
+    "amount": "–",
+    "kg": "9.429 kg"
+   },
+   {
+    "name": "Cıvata M16",
+    "spec": "8.8, somun + rondela",
+    "qty": "148",
+    "amount": "–",
+    "kg": "29 kg"
+   },
+   {
+    "name": "Cıvata M20",
+    "spec": "8.8, somun + rondela",
+    "qty": "566",
+    "amount": "–",
+    "kg": "233 kg"
+   },
+   {
+    "name": "Cıvata M24",
+    "spec": "ankraj, 8.8 + somun + rondela",
+    "qty": "100",
+    "amount": "–",
+    "kg": "60 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Taban alanı",
+    "1.220 m²"
+   ],
+   [
+    "Aks",
+    "8 × 7,63 m"
+   ],
+   [
+    "Kolon adedi",
+    "18"
+   ],
+   [
+    "Çatı sistemi",
+    "Dolu gövde"
+   ],
+   [
+    "Toplam çelik",
+    "60,25 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n60,246 t",
+  "flag": "Açıklık 20 m ≤ 30 m — dolu gövdeli IPE 500 çatı kirişi, guseli moment birleşimi.",
+  "chip": "20 × 61 m · saçak 6,0 m · mahya 8,0 m"
+ }
+]

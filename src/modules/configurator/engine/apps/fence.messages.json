@@ -1,0 +1,40 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "infill": "Dolgu ve kapı" },
+    "fields": { "length": "Toplam uzunluk", "height": "Yükseklik", "postSp": "Direk aralığı", "rails": "Kuşak sayısı", "embed": "Gömme payı", "infill": "Dolgu", "barSp": "Çubuk aralığı (eksen)", "slatSp": "Lama aralığı (eksen)", "gates": "Kapı adedi", "gateW": "Kapı genişliği", "finish": "Yüzey" },
+    "options": {
+      "infill": { "bar": "Dikey kutu çubuk", "slat": "Yatay lama", "panel": "Tel panel", "none": "Yok" },
+      "finish": { "galv": "S.D. galvaniz", "galvboya": "Galvaniz + elektrostatik boya", "boya": "Astar + elektrostatik boya" }
+    },
+    "finishNames": { "galv": "Sıcak daldırma galvaniz", "galvboya": "Galvaniz + elektrostatik boya", "boya": "Astar + elektrostatik boya" },
+    "finishLower": { "galv": "sıcak daldırma galvaniz", "galvboya": "galvaniz + elektrostatik boya", "boya": "astar + elektrostatik boya" },
+    "profiles": { "post": "Direk", "rail": "Kuşak", "bar": "Dolgu çubuğu", "slat": "Dolgu laması", "gateFrame": "Kapı çerçevesi" },
+    "bom": { "post": "Direkler", "rail": "Kuşaklar", "bar": "Dolgu çubukları", "slat": "Dolgu lamaları", "mesh": "Tel panel dolgu", "gate": "Kapı çerçevesi", "paint": "Boya / kaplama yüzeyi", "zinc": "Galvaniz çinko payı", "footing": "Direk temeli (beton)" },
+    "groups": { "fence": "Çit / korkuluk", "gates": "Kapılar", "finish": "Yüzey işlemi" },
+    "spec": { "post": "{label} · {len} m (gömme {embed} m) · {kg} kg/m", "mesh": "5 mm tel, 50×200 göz · {kg} kg/m²", "gate": "{w} × {h} m", "zinc": "çelik ağırlığının %{pct}'sı", "footing": "30×30 cm çukur, gömme payı + 10 cm" },
+    "kpi": { "length": "Uzunluk", "posts": "Direk adedi", "paint": "Boya yüzeyi", "gateLabel": "Kapı", "gate": "{n} × {w} m", "noGate": "yok" },
+    "flag": { "gates": "Uzunluk {wanted} kapıya yetmiyor; {placed} kapı yerleştirildi." },
+    "chip": "h {h} m · {finish}",
+    "legend": { "fence": "Çit profilleri", "gate": "Kapı çerçevesi", "soil": "Zemin" },
+    "notes": { "0": "Direk boyuna gömme payı eklenir. Kapılar uzunluk boyunca eşit aralıkla yerleşir; kapı açıklıkları kuşak ve dolgu metrajından düşülür. Birim ağırlıklar profil kataloğundan, boya yüzeyi profil çevresinden (AL) hesaplanır." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "infill": "Infill and gates" },
+    "fields": { "length": "Total length", "height": "Height", "postSp": "Post spacing", "rails": "Number of rails", "embed": "Embedment depth", "infill": "Infill", "barSp": "Bar spacing (c/c)", "slatSp": "Slat spacing (c/c)", "gates": "Number of gates", "gateW": "Gate width", "finish": "Finish" },
+    "options": {
+      "infill": { "bar": "Vertical box bars", "slat": "Horizontal flat slats", "panel": "Wire mesh panel", "none": "None" },
+      "finish": { "galv": "HDG galvanized", "galvboya": "Galvanized + powder coat", "boya": "Primer + powder coat" }
+    },
+    "finishNames": { "galv": "Hot-dip galvanized", "galvboya": "Galvanized + powder coat", "boya": "Primer + powder coat" },
+    "finishLower": { "galv": "hot-dip galvanized", "galvboya": "galvanized + powder coat", "boya": "primer + powder coat" },
+    "profiles": { "post": "Post", "rail": "Rail", "bar": "Infill bar", "slat": "Infill slat", "gateFrame": "Gate frame" },
+    "bom": { "post": "Posts", "rail": "Rails", "bar": "Infill bars", "slat": "Infill slats", "mesh": "Wire mesh infill", "gate": "Gate frame", "paint": "Paint / coating surface", "zinc": "Galvanizing zinc allowance", "footing": "Post footing (concrete)" },
+    "groups": { "fence": "Fence / railing", "gates": "Gates", "finish": "Surface treatment" },
+    "spec": { "post": "{label} · {len} m (embedded {embed} m) · {kg} kg/m", "mesh": "5 mm wire, 50×200 mesh · {kg} kg/m²", "gate": "{w} × {h} m", "zinc": "{pct}% of steel weight", "footing": "30×30 cm hole, embedment + 10 cm" },
+    "kpi": { "length": "Length", "posts": "Posts", "paint": "Paint surface", "gateLabel": "Gate", "gate": "{n} × {w} m", "noGate": "none" },
+    "flag": { "gates": "Length is not enough for {wanted} gates; {placed} gate(s) placed." },
+    "chip": "h {h} m · {finish}",
+    "legend": { "fence": "Fence profiles", "gate": "Gate frame", "soil": "Ground" },
+    "notes": { "0": "Embedment depth is added to the post length. Gates are spaced evenly along the length; gate openings are deducted from the rail and infill take-off. Unit weights come from the profile catalogue; the paint surface is computed from the profile perimeter (AL)." }
+  }
+}

@@ -4,8 +4,11 @@ import { appError, err, ok, type Result } from '@/core/errors/result';
 export interface AdminSteelProfile {
   readonly id: string;
   readonly code: string;
+  readonly label: string;
   readonly family: string;
+  readonly kind: string | null;
   readonly kg_per_m: number;
+  readonly dimensions: Readonly<Record<string, number>>;
   readonly usage: string | null;
   readonly is_active: boolean;
   readonly updated_at: string;
@@ -15,7 +18,7 @@ export interface AdminSteelProfile {
 export async function listSteelProfilesForAdmin(): Promise<Result<AdminSteelProfile[]>> {
   const client = await createServerClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('steel_profiles').select('id, code, family, kg_per_m, usage, is_active, updated_at').order('family').order('code');
+  const { data, error } = await client.data.from('steel_profiles').select('id, code, label, family, kind, kg_per_m, dimensions, usage, is_active, updated_at').order('family').order('sort_order').order('code');
   if (error) return err(appError('external_service', error.message, { module: 'configurator' }));
-  return ok(data.map((p) => ({ ...p, kg_per_m: Number(p.kg_per_m) })));
+  return ok(data.map((p) => ({ ...p, kg_per_m: Number(p.kg_per_m), dimensions: (typeof p.dimensions === 'object' && p.dimensions !== null ? p.dimensions : {}) as Record<string, number> })));
 }

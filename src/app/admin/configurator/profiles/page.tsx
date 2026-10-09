@@ -6,7 +6,7 @@ import { SteelProfileForm } from '@/modules/configurator';
 import { deleteSteelProfile } from '@/modules/configurator/actions';
 import { listSteelProfilesForAdmin } from '@/modules/configurator/server';
 
-/** Profil kataloğu: metrajın TEK ağırlık kaynağı (0008 kg_per_m). Tohum yok (K-55) — ürün sahibi girer. Yalnız admin. */
+/** Profil kataloğu (K-110): standart tablolardan tohumlanır; metrajın TEK ağırlık kaynağı kg_per_m. Ürün sahibi ekler/düzenler/pasifler. Yalnız admin. */
 export default async function SteelProfilesPage() {
   const [t, gate] = await Promise.all([getTranslations('Admin'), requireRole(['super_admin', 'admin'])]);
   if (!gate.ok) return <p role="alert">{t('errors.forbidden')}</p>;
@@ -26,8 +26,8 @@ export default async function SteelProfilesPage() {
           <details key={p.id} className="rounded-md border">
             <summary className="flex cursor-pointer flex-wrap items-center gap-3 px-4 py-2 text-sm">
               <span className="font-mono">{p.code}</span>
+              <span>{p.label}</span>
               <span className="text-muted-foreground">{p.family}</span>
-              {p.usage ? <span className="text-xs text-muted-foreground">{t(`steelProfiles.usages.${p.usage as 'column'}`)}</span> : null}
               {!p.is_active ? <span className="text-xs text-muted-foreground">{t('steelProfiles.inactive')}</span> : null}
               <span className="ml-auto tabular-nums">{p.kg_per_m} kg/m</span>
             </summary>

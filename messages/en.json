@@ -1407,26 +1407,26 @@
     },
     "steelProfiles": {
       "title": "Steel Profiles",
-      "lead": "The single source of weight for take-off: the configurator computes tonnage from the kg/m entered here. Codes must match the profile map in configurator rules. Admin only.",
+      "lead": "Configurator catalogue: ships with standard profile tables (EN 10365, DIN 1026, EN 10056, EN 10219, EN 10058, EN 14195); dimensions drive the section drawing and properties, kg/m drives the take-off. Rows can be added, edited or deactivated. Admin only.",
       "new": "New profile",
       "count": "{count} profiles",
       "empty": "No profiles yet — the configurator take-off shows no weights.",
       "code": "Code",
       "family": "Family",
       "kgPerM": "kg/m",
-      "usage": "Usage",
       "active": "Active",
       "inactive": "inactive",
-      "usages": {
-        "column": "Column",
-        "beam": "Beam",
-        "rafter": "Rafter",
-        "purlin": "Purlin",
-        "girt": "Girt",
-        "bracing": "Bracing",
-        "wind_column": "Wind column",
-        "other": "Other"
-      }
+      "label": "Label",
+      "dims": {
+        "h": "h (mm)",
+        "b": "b (mm)",
+        "tw": "tw (mm)",
+        "tf": "tf (mm)",
+        "r": "r (mm)",
+        "t": "t (mm)"
+      },
+      "computedHint": "Unit weight computed from dimensions: {kg} kg/m. Used when the kg/m box is left empty.",
+      "dimsHint": "Enter the dimensions; the unit weight is computed automatically."
     },
     "configurations": {
       "title": "Configurator Submissions",
@@ -1456,63 +1456,43 @@
       }
     },
     "configuratorRules": {
-      "title": "Configurator Rules",
-      "lead": "System selection, purlin spacing, labor factor, parameter limits, element → profile and price item → material maps. Admin only.",
-      "system": "System and limits",
-      "trussThreshold": "Truss threshold (m)",
-      "trussThresholdHint": "Truss above this span",
-      "purlinSpacing": "Purlin spacing (m)",
-      "laborFactor": "Labor factor",
-      "laborFactorHint": "Material cost × factor (1 = no labor)",
-      "limits": "Parameter limits (JSON)",
-      "limitsHint": "min/max/step (m) for width, length, eave, ridge_extra, bay",
-      "profileMap": "Element → profile",
-      "profileMapHint": "The code must match an active code in the Steel Profiles catalog; otherwise the take-off shows that row without weight.",
-      "missingProfile": "Not active in catalog",
-      "priceMap": "Price item → material",
-      "priceMapHint": "Steel: kg or ton unit; panels: m²; bolts: piece. An empty item is not priced.",
-      "profileKeys": {
-        "column": "Column",
-        "rafter": "Rafter",
-        "secondary": "Secondary beam",
-        "wind_column": "Wind column",
-        "purlin_small_bay": "Purlin (bay ≤ 5 m)",
-        "purlin_large_bay": "Purlin (bay > 5 m)",
-        "brace": "Bracing",
-        "truss_chord": "Truss chord",
-        "door_frame": "Door frame"
-      },
+      "title": "Configurator Settings",
+      "lead": "Price/labour mapping and, per configurator, field limits, default profiles and notes. The site updates immediately on save. Admin only.",
+      "pricing": "Price and labour",
+      "laborFactor": "Labour factor",
+      "laborFactorHint": "Material cost × factor (1 = no labour)",
+      "priceMapHint": "Steel: priced per kg or ton; panels: per m². An empty item is not priced.",
       "priceKeys": {
         "steel": "Steel",
         "roof_panel": "Roof panel",
-        "wall_panel": "Wall/gable panel",
+        "wall_panel": "Wall/gable/facade panel",
         "bolt": "Bolts"
       },
-      "multiStorey": {
-        "title": "Multi-storey configurator",
-        "lead": "Rules for the /configurator/multi-storey page. The site updates as soon as you save.",
-        "maxColumnSpacing": "Max column spacing (m)",
-        "maxColumnSpacingHint": "Grid lines are spaced evenly without exceeding this value.",
-        "raftBase": "Raft base thickness (m)",
-        "raftFreeFloors": "Floors without increase",
-        "raftFreeFloorsHint": "Raft thickness does not grow up to this many floors.",
-        "raftExtraPerFloor": "Extra per further floor (m)",
-        "raftOverhang": "Raft overhang (m, each side)",
-        "limitsHint": "JSON: width, length, floor_height, floors → min · max · step",
-        "groups": {
-          "column": "Column section",
-          "main_beam": "Main beam section",
-          "secondary_beam": "Secondary beam section"
-        }
-      },
-      "hallTitle": "Steel hall configurator",
-      "simple": {
-        "title": "Other configurators (K-100)",
-        "hint": "JSON rule objects: limits, unit weights, sections, product slugs. Empty → defaults.",
-        "cladding": "Roof & wall cladding",
-        "mezzanine": "Mezzanine platform",
+      "missingProfile": "Not active in the catalogue",
+      "kinds": {
+        "hall": "Steel hall",
+        "multiStorey": "Multi-storey building",
+        "cladding": "Roof & facade",
+        "mezzanine": "Mezzanine",
         "fence": "Fence & railing",
-        "drywall": "Drywall partition"
+        "drywall": "Drywall"
+      },
+      "engine": {
+        "kinds": "Configurator type",
+        "fields": "Fields",
+        "fieldsHint": "Lower/upper limit, step and opening value of the sliders. An empty box uses the code default (grey).",
+        "field": "Field",
+        "min": "Min",
+        "max": "Max",
+        "step": "Step",
+        "default": "Default",
+        "codeDefault": "Default ({value})",
+        "profiles": "Default profiles",
+        "profilesHint": "Profile preselected when the configurator opens. Visitors can change it from the catalogue.",
+        "notes": "Notes",
+        "notesHint": "Explanatory paragraphs shown under the panel, one per line (up to 10). Empty → standard notes.",
+        "notesTr": "Notes (Turkish)",
+        "notesEn": "Notes (English)"
       }
     },
     "navGroups": {
@@ -2406,28 +2386,6 @@
     "backHome": "Home",
     "panelLabel": "Parameters",
     "canvasLabel": "3D model of a {width} × {length} m steel structure",
-    "params": {
-      "title": "Dimensions",
-      "width": "Width (span)",
-      "length": "Length",
-      "eave": "Eave height",
-      "ridge": "Ridge height",
-      "bay": "Bay spacing",
-      "visual": "View",
-      "purlins": "Purlins and girts",
-      "door": "Door",
-      "panels": "Panels"
-    },
-    "stats": {
-      "footprint": "Footprint",
-      "bays": "Bays",
-      "columns": "Columns",
-      "windColumns": "Wind columns (per gable)",
-      "system": "Roof system",
-      "portal": "Portal frame (≤ {threshold} m)",
-      "truss": "Truss (> {threshold} m)",
-      "door": "Door"
-    },
     "share": "Copy link",
     "copied": "Copied",
     "disclaimerFallback": "This is a preliminary take-off estimate; it does not replace structural design or a formal quotation.",
@@ -2528,7 +2486,6 @@
       "button": "Print / Save as PDF",
       "generated": "Generated",
       "params": "Dimensions",
-      "dims": "{width} × {length} m · eave {eave} m · ridge {ridge} m · bay {bay} m",
       "element": "Element",
       "profile": "Profile",
       "pieces": "Pcs",
@@ -2553,8 +2510,16 @@
     "chooser": {
       "kicker": "Configurator",
       "title": "Which structure would you like to design?",
-      "lead": "Pick a structure type; as you enter dimensions the frame is built in 3D and the take-off is calculated instantly.",
-      "open": "Open configurator"
+      "lead": "Choose the structure type; as you enter dimensions the load-bearing system is built in 3D and the take-off and tonnage are computed instantly.",
+      "open": "Open configurator",
+      "feats": {
+        "0": "Full steel profile catalogue",
+        "1": "Tonnage by profile choice",
+        "2": "20 mm connection plates",
+        "3": "Take-off CSV / PDF",
+        "4": "Works on phones too"
+      },
+      "footer": "Configurator results are a preliminary take-off estimate; they do not replace structural design or a formal quotation."
     },
     "types": {
       "hall": {
@@ -2588,235 +2553,11 @@
         "params": "Length · height · layers · stud spacing · doors"
       }
     },
-    "multiStorey": {
-      "params": {
-        "width": "Building width",
-        "length": "Building length",
-        "floorHeight": "Storey height",
-        "floors": "Number of floors"
-      },
-      "stats": {
-        "footprint": "Footprint",
-        "totalArea": "Total floor area",
-        "height": "Building height",
-        "spacing": "Column spacing",
-        "columns": "Columns (grid)",
-        "raft": "Raft foundation"
-      },
-      "groups": {
-        "column": "Columns",
-        "main_beam": "Main beams",
-        "secondary_beam": "Secondary beams"
-      },
-      "takeoff": {
-        "title": "Take-off",
-        "member": "Member",
-        "profile": "Section",
-        "count": "Qty",
-        "length": "Total length",
-        "weight": "Weight",
-        "total": "Total steel",
-        "noWeight": "Weight is calculated once kg/m values are entered in the section catalogue."
-      },
-      "raftNoteBase": "{floors} floors: minimum raft thickness of {base} cm applies.",
-      "raftNoteExtra": "{floors} floors: raft thickness {base} cm + {extra} cm = {total} cm.",
-      "prototypeNote": "Columns are spaced evenly across width and length, at most {spacing} m apart.",
-      "quote": "Get a quote for this building",
-      "canvasLabel": "3D model of a {width} × {length} m steel building with {floors} floors",
-      "summary": "{width} × {length} m · {floors} floors · {area} m²"
-    },
     "panel": {
       "open": "Dimensions & take-off",
       "close": "Close panel"
     },
-    "backToTypes": "Configurators",
-    "simple": {
-      "unit": "pcs",
-      "takeoff": "Take-off",
-      "item": "Item",
-      "spec": "Section / size",
-      "qty": "Quantity",
-      "weight": "Weight",
-      "add": "Add to basket",
-      "addAll": "Add all to quote basket",
-      "added": "Item added to the quote basket.",
-      "addedAll": "{count} items added to the quote basket.",
-      "noProducts": "No product is linked to this item; request a quote.",
-      "total": "Total weight",
-      "quote": "Request a quote",
-      "cladding": {
-        "canvasLabel": "Roof section and dimensions",
-        "note": "Sheet counts use effective width, end lap and waste; values are nominal.",
-        "params": {
-          "width": "Building width",
-          "length": "Building length",
-          "slopePct": "Roof slope",
-          "wallHeight": "Wall height",
-          "overhang": "Eave overhang",
-          "roofType": "Roof cladding",
-          "wallType": "Wall cladding",
-          "insulated": "Insulated"
-        },
-        "options": {
-          "roofType": {
-            "trapez": "Trapezoidal sheet",
-            "sandwich": "Sandwich panel"
-          },
-          "wallType": {
-            "none": "None",
-            "trapez": "Trapezoidal sheet",
-            "sandwich": "Sandwich panel"
-          }
-        },
-        "stats": {
-          "roofArea": "Roof area",
-          "wallArea": "Wall area",
-          "slopeLen": "Slope length",
-          "ridgeHeight": "Ridge height",
-          "weight": "Cladding weight"
-        },
-        "lines": {
-          "roofSheets": "Roof sheets",
-          "roofArea": "Roof cladding area (incl. waste)",
-          "ridgeCap": "Ridge cap",
-          "gutter": "Gutter",
-          "roofScrews": "Roof screws",
-          "wallSheets": "Wall sheets",
-          "wallArea": "Wall cladding area (incl. waste)",
-          "cornerFlashing": "Corner flashing",
-          "wallScrews": "Wall screws"
-        },
-        "caption": "{length} m long · {area} m² roof"
-      },
-      "mezzanine": {
-        "canvasLabel": "Mezzanine plan: column grid and beams",
-        "note": "Section choice is preliminary sizing; structural design is by a licensed engineer.",
-        "params": {
-          "width": "Platform width",
-          "length": "Platform length",
-          "height": "Floor height",
-          "grid": "Column spacing (max.)",
-          "load": "Load class",
-          "deck": "Decking"
-        },
-        "options": {
-          "load": {
-            "light": "Light (2.5 kN/m²)",
-            "medium": "Medium (5 kN/m²)",
-            "heavy": "Heavy (7.5 kN/m²)"
-          },
-          "deck": {
-            "composite": "Composite deck + concrete",
-            "grating": "Grating / plate"
-          }
-        },
-        "stats": {
-          "area": "Platform area",
-          "load": "Live load",
-          "grid": "Grid spacing",
-          "columns": "Columns",
-          "steel": "Total steel"
-        },
-        "lines": {
-          "columns": "Columns",
-          "mainBeams": "Main beams",
-          "secondaryBeams": "Secondary beams",
-          "deck": "Decking",
-          "concrete": "Concrete",
-          "stairs": "Stairs",
-          "handrail": "Handrail"
-        },
-        "caption": "{columns} columns · h = {height} m"
-      },
-      "fence": {
-        "canvasLabel": "Fence elevation: posts, rails and infill",
-        "note": "Post length includes embedment; kg/m from the box-section table.",
-        "params": {
-          "length": "Total length",
-          "height": "Height",
-          "postSpacing": "Post spacing",
-          "rails": "Rails",
-          "infill": "Infill",
-          "barSpacing": "Bar spacing",
-          "gates": "Gates",
-          "galvanized": "Hot-dip galvanised"
-        },
-        "options": {
-          "infill": {
-            "bars": "Vertical box bars",
-            "lama": "Horizontal flat bars",
-            "panel": "Panel",
-            "none": "None"
-          }
-        },
-        "stats": {
-          "length": "Length",
-          "posts": "Posts",
-          "paint": "Paint area",
-          "weight": "Steel weight",
-          "galvanize": "Galvanising allowance"
-        },
-        "lines": {
-          "posts": "Posts",
-          "rails": "Rails",
-          "bars": "Infill bars",
-          "lama": "Flat bar infill",
-          "panels": "Panels",
-          "gates": "Gates"
-        },
-        "caption": "{length} m · {rails} rails"
-      },
-      "drywall": {
-        "canvasLabel": "Wall elevation: studs and boards",
-        "note": "Consumption factors are average site values; door openings are deducted.",
-        "params": {
-          "length": "Wall length",
-          "height": "Wall height",
-          "doubleSided": "Boarded both sides",
-          "layers": "Layers per side",
-          "studSpacing": "Stud spacing",
-          "doors": "Doors",
-          "insulated": "Rock wool insulation",
-          "boardType": "Board type",
-          "boardSize": "Board size"
-        },
-        "options": {
-          "boardType": {
-            "white": "Standard board",
-            "green": "Moisture resistant",
-            "red": "Fire resistant"
-          },
-          "boardSize": {
-            "1200x2500": "1200 × 2500 mm",
-            "1200x2000": "1200 × 2000 mm",
-            "1200x3000": "1200 × 3000 mm"
-          },
-          "studSpacing": {
-            "0_4": "40 cm",
-            "0_6": "60 cm"
-          }
-        },
-        "stats": {
-          "netArea": "Net wall area",
-          "faceArea": "Boarded area",
-          "boards": "Boards",
-          "weight": "Total weight"
-        },
-        "lines": {
-          "boards": "Plasterboard",
-          "studs": "C studs",
-          "tracks": "U tracks",
-          "screws": "Drywall screws",
-          "tape": "Joint tape",
-          "compound": "Joint compound",
-          "insulation": "Rock wool"
-        },
-        "caption": "{length} m · {layers} layer(s) · {sides} side(s)"
-      },
-      "viewLabel": "View",
-      "view2d": "2D",
-      "view3d": "3D"
-    }
+    "backToTypes": "Configurators"
   },
   "FieldVideos": {
     "lead": "Short clips from our sites and erection work.",
@@ -3031,6 +2772,707 @@
       "invalid": "The link is invalid or incomplete. Open the \"Unsubscribe\" link in the e-mail again.",
       "rateLimited": "Too many attempts. Try again shortly.",
       "unexpected": "The request could not be completed. Try again shortly."
+    }
+  },
+  "Engine": {
+    "common": {
+      "profiles": "Profiles",
+      "catalog": "Profile catalogue",
+      "catalogShort": "Catalogue",
+      "bomTitle": "Take-off",
+      "legend": "Colours",
+      "bom": {
+        "item": "Item",
+        "qty": "Qty",
+        "amount": "Amount",
+        "weight": "Weight",
+        "plates": "Connection plates",
+        "bolt": "Bolt {label}"
+      },
+      "groups": {
+        "connections": "Connection elements"
+      },
+      "spec": {
+        "plates": "t = {t} mm · S275",
+        "bolt": "8.8, nut + washer",
+        "anchorBolt": "anchor, 8.8 + nut + washer"
+      },
+      "kpi": {
+        "steelTotal": "Total steel"
+      },
+      "totals": {
+        "steel": "Total steel (tonnage)",
+        "other": "Other materials",
+        "all": "Total weight"
+      },
+      "actions": {
+        "csv": "Take-off (CSV)",
+        "print": "Print / PDF",
+        "quote": "Request a quote for this structure"
+      },
+      "csv": {
+        "item": "Item",
+        "spec": "Description",
+        "qty": "Qty",
+        "amount": "Amount",
+        "unit": "Unit",
+        "kg": "Weight (kg)",
+        "steelTotal": "Total steel (kg)",
+        "allTotal": "Total weight (kg)"
+      },
+      "sectionNote": "Section properties are computed from catalogue dimensions (It is approximate)."
+    },
+    "units": {
+      "m": "m",
+      "m2": "m²",
+      "m3": "m³",
+      "pcs": "pcs",
+      "kg": "kg",
+      "t": "t",
+      "floors": "storeys",
+      "layers": "layers",
+      "%": "%"
+    },
+    "views": {
+      "label": "View",
+      "iso": "3D",
+      "front": "Front",
+      "side": "Side",
+      "top": "Top",
+      "fit": "Fit"
+    },
+    "hint": {
+      "mouse": "Left drag: rotate · Right/middle drag: pan · Wheel: zoom to cursor · Double-click: centre on point",
+      "touch": "1 finger: rotate · 2 fingers: zoom / pan · Double tap: centre"
+    },
+    "catalog": {
+      "title": "Steel profile catalogue",
+      "pickFor": "Pick a profile for {field} — click a row",
+      "browse": "All series · to pick a row use the \"Catalogue\" button on an element card",
+      "search": "Search profile (e.g. HEB 300)",
+      "close": "Close ✕",
+      "profile": "Profile",
+      "legend": "A: section area · G: unit weight · I: second moment of area · Wel / Wpl: elastic / plastic section modulus · i: radius of gyration · It: torsion constant (approx.) · AL: paint surface. y-y strong axis, z-z weak axis; u-u / v-v principal axes for angles."
+    },
+    "families": {
+      "IPE": {
+        "label": "IPE",
+        "desc": "European I section (EN 10365)"
+      },
+      "HEA": {
+        "label": "HEA",
+        "desc": "Wide-flange I section, light series (HE A)"
+      },
+      "HEB": {
+        "label": "HEB",
+        "desc": "Wide-flange I section, medium series (HE B)"
+      },
+      "HEM": {
+        "label": "HEM",
+        "desc": "Wide-flange I section, heavy series (HE M)"
+      },
+      "UPN": {
+        "label": "UPN (UNP)",
+        "desc": "Tapered-flange channel (DIN 1026-1)"
+      },
+      "UPE": {
+        "label": "UPE",
+        "desc": "Parallel-flange channel (EN 10365)"
+      },
+      "L": {
+        "label": "L equal",
+        "desc": "Equal-leg angle (EN 10056-1)"
+      },
+      "LU": {
+        "label": "L unequal",
+        "desc": "Unequal-leg angle (EN 10056-1)"
+      },
+      "SHS": {
+        "label": "Square hollow",
+        "desc": "Square hollow section, cold formed (EN 10219)"
+      },
+      "RHS": {
+        "label": "Rectangular hollow",
+        "desc": "Rectangular hollow section, cold formed (EN 10219)"
+      },
+      "CHS": {
+        "label": "Circular hollow",
+        "desc": "Circular hollow section (EN 10219 / EN 10210)"
+      },
+      "FL": {
+        "label": "Flat bar",
+        "desc": "Flat bar (EN 10058)"
+      },
+      "CW": {
+        "label": "CW stud",
+        "desc": "Drywall C stud, galvanised (EN 14195)"
+      },
+      "UW": {
+        "label": "UW track",
+        "desc": "Drywall U track, galvanised (EN 14195)"
+      }
+    },
+    "hall": {
+      "sections": {
+        "dims": "Dimensions",
+        "options": "Options"
+      },
+      "fields": {
+        "width": "Building width (span)",
+        "length": "Building length",
+        "eave": "Eave height",
+        "ridge": "Ridge height",
+        "bay": "Bay spacing",
+        "purlins": "Purlins and girts",
+        "purlinSp": "Purlin spacing (along slope)",
+        "girtSp": "Girt spacing",
+        "door": "Door on front gable",
+        "doorW": "Door width",
+        "doorH": "Door height",
+        "panels": "Sandwich panel cladding (in take-off)",
+        "showPanels": "Show cladding in 3D"
+      },
+      "profiles": {
+        "col": "Column",
+        "raf": "Rafter (span ≤ 30 m)",
+        "chord": "Truss chords (2L, > 30 m)",
+        "diag": "Truss diagonals (2L, > 30 m)",
+        "sec": "Longitudinal beam (eave / ridge)",
+        "wind": "Wind column / door post",
+        "purlin": "Purlin",
+        "girt": "Girt",
+        "brace": "Bracing (wall and roof)",
+        "lintel": "Door lintel"
+      },
+      "bom": {
+        "col": "Column",
+        "raf": "Rafter",
+        "chord": "Truss chords (top + bottom)",
+        "diag": "Truss diagonal",
+        "sec": "Longitudinal beam",
+        "wind": "Wind column",
+        "dpost": "Door post",
+        "lintel": "Door lintel",
+        "purlin": "Purlin",
+        "girt": "Side wall girt",
+        "ggirt": "Gable girt",
+        "wbr": "Wall bracing",
+        "rbr": "Roof bracing",
+        "roofPanel": "Roof panel",
+        "wallPanel": "Side wall panel",
+        "gablePanel": "Gable panel"
+      },
+      "groups": {
+        "main": "Primary structure",
+        "stability": "Stability and secondary",
+        "cladding": "Cladding (40 mm sandwich panel)"
+      },
+      "spec": {
+        "panelModule": "1000 mm module · {kg} kg/m²",
+        "module": "1000 mm module",
+        "doorDeducted": "door opening deducted"
+      },
+      "kpi": {
+        "footprint": "Footprint",
+        "bays": "Bays",
+        "columns": "Columns",
+        "roofSystem": "Roof system",
+        "truss": "Truss (2L)",
+        "portal": "Solid web"
+      },
+      "flag": {
+        "truss": "Span {width} m > 30 m — roof switched automatically to a 2L angle truss ({chord} chords, {diag} diagonals).",
+        "portal": "Span {width} m ≤ 30 m — solid-web {raf} rafter with haunched moment connections.",
+        "doorShrunk": "Door size reduced to {w} × {h} m to fit the building."
+      },
+      "chip": "eave {eave} m · ridge {ridge} m",
+      "legend": {
+        "column": "Column",
+        "beam": "Rafter / truss",
+        "secondary": "Purlin, girt, longitudinal beam",
+        "brace": "Bracing",
+        "plate": "Plate (20 mm)",
+        "door": "Door"
+      },
+      "notes": {
+        "0": "Bay spacing is distributed evenly along the building length. Wind columns are placed on the gables at most 5 m apart; those falling in the door opening are replaced by door posts.",
+        "1": "Girts run on all four walls: on side walls they bolt to the columns, on gables to corner columns, wind columns and door posts through a 20 mm cleat plate with 2 × M12. Gable girts shorten with the roof slope and are cut at the door opening.",
+        "2": "Knee and apex joints are haunched moment connections with extended end plates. At truss nodes a 20 mm gusset plate sits between the 2L legs."
+      }
+    },
+    "multiStorey": {
+      "sections": {
+        "dims": "Dimensions",
+        "options": "Options"
+      },
+      "fields": {
+        "width": "Building width",
+        "length": "Building length",
+        "fh": "Storey height",
+        "floors": "Number of storeys",
+        "span": "Maximum column spacing",
+        "braces": "Vertical bracing (stability)",
+        "slabs": "Composite slab (profiled deck + concrete)",
+        "glass": "Glass facade (visual)"
+      },
+      "profiles": {
+        "col": "Columns",
+        "main": "Primary beams",
+        "sec": "Secondary beams",
+        "brace": "Vertical bracing"
+      },
+      "bom": {
+        "col": "Columns",
+        "main": "Primary beams",
+        "sec": "Secondary beams",
+        "brace": "Vertical bracing",
+        "deck": "Profiled steel deck",
+        "slabConc": "Slab concrete (12 cm)",
+        "raft": "Raft foundation concrete",
+        "rebar": "Raft reinforcement (estimated)"
+      },
+      "groups": {
+        "steel": "Steel structure",
+        "slab": "Slab",
+        "foundation": "Foundation"
+      },
+      "spec": {
+        "splices": "{n} splice(s)/column",
+        "deck": "{kg} kg/m² · {floors} storeys",
+        "slabConc": "C30/37, rib fill included",
+        "raft": "{cm} cm · 0.75 m overhang",
+        "rebar": "{kg} kg/m³ · B500C"
+      },
+      "kpi": {
+        "raft": "Raft foundation",
+        "floorArea": "Total floor area",
+        "height": "Building height",
+        "spacing": "Column spacing",
+        "columns": "Columns (grid)"
+      },
+      "flag": {
+        "thick": "{floors} storeys: raft thickness 50 cm + {extra} cm = {total} cm.",
+        "min": "{floors} storeys: minimum raft thickness of 50 cm applied."
+      },
+      "chip": "{floors} storeys · {area} m²",
+      "legend": {
+        "column": "Column",
+        "beam": "Primary beam",
+        "secondary": "Secondary beam",
+        "brace": "Bracing",
+        "plate": "Plate (20 mm)",
+        "concrete": "Raft / slab"
+      },
+      "notes": {
+        "0": "Column spacing is distributed evenly across width and length and never exceeds the selected maximum. Raft thickness is 50 cm up to 3 storeys, then +10 cm per additional storey.",
+        "1": "Primary beams in the strong-axis direction connect to the column flange with end plates (moment); weak-axis primary beams and secondary beams connect to the web with fin plates (pinned). Columns are spliced with end plates every 3 storeys."
+      }
+    },
+    "cladding": {
+      "sections": {
+        "dims": "Dimensions",
+        "cladding": "Cladding",
+        "sub": "Secondary framing"
+      },
+      "fields": {
+        "width": "Building width",
+        "length": "Building length",
+        "slope": "Roof pitch",
+        "wallH": "Wall (eave) height",
+        "ov": "Eave overhang",
+        "roofMat": "Roof cladding",
+        "facMat": "Wall cladding",
+        "sheetLen": "Trapezoidal sheet length",
+        "panelT": "Sandwich panel thickness",
+        "cut": "Section view (show secondary framing)",
+        "roofColor": "Roof colour",
+        "facColor": "Wall colour",
+        "sub": "Purlin / girt framing (in take-off)",
+        "bay": "Frame (bay) spacing",
+        "purlinSp": "Purlin spacing",
+        "girtSp": "Girt spacing"
+      },
+      "options": {
+        "roofMat": {
+          "trapez": "Trapezoidal sheet",
+          "sandvic": "Sandwich panel"
+        },
+        "facMat": {
+          "yok": "None",
+          "trapez": "Trapezoidal sheet",
+          "sandvic": "Sandwich panel"
+        },
+        "panelT": {
+          "40": "40 mm",
+          "60": "60 mm",
+          "80": "80 mm",
+          "100": "100 mm"
+        },
+        "roofColor": {
+          "r9006": "Silver (RAL 9006)",
+          "r7016": "Anthracite (RAL 7016)",
+          "r3009": "Oxide red (RAL 3009)",
+          "r9002": "Grey white (RAL 9002)"
+        },
+        "facColor": {
+          "r9006": "Silver (RAL 9006)",
+          "r7016": "Anthracite (RAL 7016)",
+          "r3009": "Oxide red (RAL 3009)",
+          "r9002": "Grey white (RAL 9002)"
+        }
+      },
+      "profiles": {
+        "purlin": "Purlin",
+        "girt": "Girt"
+      },
+      "bom": {
+        "purlin": "Purlin",
+        "girt": "Girt",
+        "roofSheet": "Roof sheets (trapezoidal)",
+        "roofArea": "Roof cladding area",
+        "roofScrew": "Roof screws",
+        "roofPanel": "Roof panel (sandwich {t} mm)",
+        "panelScrew": "Panel screws",
+        "ridgeCap": "Ridge capping",
+        "gutter": "Gutter",
+        "downpipe": "Rainwater downpipe",
+        "verge": "Verge flashing (gable edge)",
+        "facSheet": "Wall sheets (trapezoidal)",
+        "facArea": "Wall cladding area",
+        "facScrew": "Wall screws",
+        "facPanel": "Wall panel (sandwich {t} mm)",
+        "cornerTrim": "Corner flashing",
+        "drip": "Drip flashing (base)",
+        "cleat": "Cleat plate"
+      },
+      "groups": {
+        "roof": "Roof",
+        "facade": "Walls",
+        "sub": "Secondary framing"
+      },
+      "spec": {
+        "roofSheet": "1000 × {len} mm · 0.50 mm · {kg} kg/m²",
+        "waste5": "incl. 5% waste",
+        "waste3": "incl. 3% waste",
+        "roofScrew": "self-drilling for sheet / steel, with seal",
+        "roofPanel": "1000 mm × {len} m · {kg} kg/m²",
+        "panelScrew": "pre-drilled, capped",
+        "gutter": "Ø150 half-round",
+        "downpipe": "Ø100",
+        "facSheet": "1000 × {len} mm · {kg} kg/m²",
+        "facArea": "incl. gable triangles and waste",
+        "facPanel": "1000 mm module · {kg} kg/m²",
+        "cleat": "at every purlin / girt – frame intersection"
+      },
+      "kpi": {
+        "roofArea": "Roof area",
+        "facArea": "Wall area",
+        "slopeLen": "Slope length",
+        "rise": "Ridge rise",
+        "cladKg": "Cladding weight"
+      },
+      "flag": {
+        "slope": "Roof pitch {slope}% ({deg}°).",
+        "lowSlope": "Below 5% pitch, trapezoidal sheeting needs additional sealing measures."
+      },
+      "chip": "pitch {slope}% · eave {wallH} m",
+      "legend": {
+        "roof": "Roof cladding",
+        "facade": "Wall cladding",
+        "secondary": "Purlin / girt",
+        "plate": "Cleat plate (20 mm)",
+        "trim": "Gutter / flashing",
+        "ghost": "Main frame (display only)"
+      },
+      "notes": {
+        "0": "Sheet counts are based on a 1000 mm cover width, a 200 mm end lap and a 5% waste allowance; they are nominal values. The wall area includes the gable triangles.",
+        "1": "The grey translucent main frame is for display only (not in the take-off). Purlins and girts connect to the frame through a 20 mm cleat plate with 2 × M12 bolts."
+      }
+    },
+    "mezzanine": {
+      "sections": {
+        "dims": "Dimensions",
+        "load": "Load and deck"
+      },
+      "fields": {
+        "width": "Platform width",
+        "length": "Platform length",
+        "height": "Floor height (top of deck)",
+        "span": "Maximum column spacing",
+        "load": "Load class",
+        "deck": "Deck",
+        "stair": "Stair",
+        "rail": "Guardrail (perimeter)"
+      },
+      "options": {
+        "load": {
+          "hafif": "Light\n2.5 kN/m²",
+          "orta": "Medium\n5 kN/m²",
+          "agir": "Heavy\n7.5 kN/m²"
+        },
+        "deck": {
+          "beton": "Trapezoidal deck + concrete",
+          "izgara": "Grating / plate"
+        }
+      },
+      "profiles": {
+        "col": "Columns",
+        "main": "Primary beams",
+        "sec": "Secondary beams",
+        "stringer": "Stair stringer",
+        "post": "Guardrail post",
+        "handrail": "Handrail"
+      },
+      "bom": {
+        "col": "Columns",
+        "main": "Primary beams",
+        "sec": "Secondary beams",
+        "deck": "Deck sheet (trapezoidal)",
+        "concrete": "Concrete",
+        "grating": "Grating deck",
+        "stringer": "Stair stringer",
+        "tread": "Grating tread",
+        "post": "Guardrail post",
+        "handrail": "Handrail",
+        "mid": "Mid rail",
+        "toe": "Toe board"
+      },
+      "groups": {
+        "steel": "Structural steel",
+        "deck": "Deck",
+        "stair": "Stair",
+        "rail": "Guardrail (h = 1.10 m)"
+      },
+      "spec": {
+        "deck": "{kg} kg/m²",
+        "concrete": "10 cm · C25/30",
+        "grating": "30×3 · 34×38 mesh · {kg} kg/m², galvanized",
+        "tread": "{w} × 270 mm"
+      },
+      "kpi": {
+        "area": "Platform area",
+        "load": "Live load",
+        "grid": "Grid spacing",
+        "columns": "Columns"
+      },
+      "loadNames": {
+        "hafif": "Light",
+        "orta": "Medium",
+        "agir": "Heavy"
+      },
+      "flag": {
+        "load": "{name} load class ({q} kN/m²) — preliminary sizing: {col} columns, {main} primary beams, {sec} secondary beams."
+      },
+      "chip": "{area} m² · {q} kN/m²",
+      "legend": {
+        "column": "Column",
+        "beam": "Primary beam",
+        "secondary": "Secondary beam",
+        "stair": "Stair",
+        "rail": "Guardrail",
+        "plate": "Plate (20 mm)"
+      },
+      "notes": {
+        "0": "When the load class changes, column and beam profiles are suggested automatically for preliminary sizing; you may change them from the catalog. The final profile selection requires a structural calculation by a licensed engineer.",
+        "1": "Primary beams connect to the column cap with an end plate; secondary beams connect to the primary beam web with a fin plate. Stair stringers bolt to the edge beam through an end plate at the top and to the ground through a base plate at the bottom."
+      }
+    },
+    "fence": {
+      "sections": {
+        "dims": "Dimensions",
+        "infill": "Infill and gates"
+      },
+      "fields": {
+        "length": "Total length",
+        "height": "Height",
+        "postSp": "Post spacing",
+        "rails": "Number of rails",
+        "embed": "Embedment depth",
+        "infill": "Infill",
+        "barSp": "Bar spacing (c/c)",
+        "slatSp": "Slat spacing (c/c)",
+        "gates": "Number of gates",
+        "gateW": "Gate width",
+        "finish": "Finish"
+      },
+      "options": {
+        "infill": {
+          "bar": "Vertical box bars",
+          "slat": "Horizontal flat slats",
+          "panel": "Wire mesh panel",
+          "none": "None"
+        },
+        "finish": {
+          "galv": "HDG galvanized",
+          "galvboya": "Galvanized + powder coat",
+          "boya": "Primer + powder coat"
+        }
+      },
+      "finishNames": {
+        "galv": "Hot-dip galvanized",
+        "galvboya": "Galvanized + powder coat",
+        "boya": "Primer + powder coat"
+      },
+      "finishLower": {
+        "galv": "hot-dip galvanized",
+        "galvboya": "galvanized + powder coat",
+        "boya": "primer + powder coat"
+      },
+      "profiles": {
+        "post": "Post",
+        "rail": "Rail",
+        "bar": "Infill bar",
+        "slat": "Infill slat",
+        "gateFrame": "Gate frame"
+      },
+      "bom": {
+        "post": "Posts",
+        "rail": "Rails",
+        "bar": "Infill bars",
+        "slat": "Infill slats",
+        "mesh": "Wire mesh infill",
+        "gate": "Gate frame",
+        "paint": "Paint / coating surface",
+        "zinc": "Galvanizing zinc allowance",
+        "footing": "Post footing (concrete)"
+      },
+      "groups": {
+        "fence": "Fence / railing",
+        "gates": "Gates",
+        "finish": "Surface treatment"
+      },
+      "spec": {
+        "post": "{label} · {len} m (embedded {embed} m) · {kg} kg/m",
+        "mesh": "5 mm wire, 50×200 mesh · {kg} kg/m²",
+        "gate": "{w} × {h} m",
+        "zinc": "{pct}% of steel weight",
+        "footing": "30×30 cm hole, embedment + 10 cm"
+      },
+      "kpi": {
+        "length": "Length",
+        "posts": "Posts",
+        "paint": "Paint surface",
+        "gateLabel": "Gate",
+        "gate": "{n} × {w} m",
+        "noGate": "none"
+      },
+      "flag": {
+        "gates": "Length is not enough for {wanted} gates; {placed} gate(s) placed."
+      },
+      "chip": "h {h} m · {finish}",
+      "legend": {
+        "fence": "Fence profiles",
+        "gate": "Gate frame",
+        "soil": "Ground"
+      },
+      "notes": {
+        "0": "Embedment depth is added to the post length. Gates are spaced evenly along the length; gate openings are deducted from the rail and infill take-off. Unit weights come from the profile catalogue; the paint surface is computed from the profile perimeter (AL)."
+      }
+    },
+    "drywall": {
+      "sections": {
+        "dims": "Dimensions",
+        "boardFrame": "Board and framing",
+        "doorView": "Door and view"
+      },
+      "fields": {
+        "length": "Wall length",
+        "height": "Wall height",
+        "board": "Board type",
+        "size": "Board size",
+        "layers": "Layers per face",
+        "frame": "Framing profile",
+        "studSp": "Stud spacing",
+        "double": "Double-sided boarding",
+        "wool": "Mineral wool insulation (50 mm)",
+        "doors": "Number of doors",
+        "doorW": "Door width",
+        "doorH": "Door height",
+        "cut": "Section view (show framing)"
+      },
+      "options": {
+        "board": {
+          "beyaz": "White\n(standard)",
+          "yesil": "Green\n(moisture resistant)",
+          "kirmizi": "Red\n(fire resistant)"
+        },
+        "size": {
+          "2000": "1200×2000",
+          "2500": "1200×2500",
+          "3000": "1200×3000"
+        },
+        "frame": {
+          "galv": "Galvanised C / U",
+          "kutu": "Hollow section"
+        },
+        "studSp": {
+          "40": "40 cm",
+          "60": "60 cm"
+        }
+      },
+      "boardNames": {
+        "beyaz": "White (standard)",
+        "yesil": "Green (moisture resistant)",
+        "kirmizi": "Red (fire resistant)"
+      },
+      "boardLower": {
+        "beyaz": "white (standard)",
+        "yesil": "green (moisture resistant)",
+        "kirmizi": "red (fire resistant)"
+      },
+      "profiles": {
+        "stud": "C stud",
+        "track": "U track (floor / ceiling)",
+        "studBox": "Stud (hollow section)",
+        "trackBox": "Floor / ceiling track (hollow section)"
+      },
+      "bom": {
+        "board": "Plasterboard",
+        "stud": "C stud",
+        "studBox": "Stud",
+        "track": "U track",
+        "trackBox": "Floor / ceiling track",
+        "header": "Door head track",
+        "screw": "Drywall screw",
+        "tape": "Joint tape",
+        "filler": "Joint compound",
+        "seal": "Sealing tape",
+        "dowel": "Steel anchor",
+        "wool": "Mineral wool (50 mm)"
+      },
+      "groups": {
+        "cladding": "Boarding",
+        "frameGalv": "Framing (galvanised)",
+        "frameBox": "Framing (hollow section)",
+        "consumables": "Consumables"
+      },
+      "spec": {
+        "board": "{board} · 1200 × {len} × 12.5 mm · {kg} kg/m²",
+        "screw": "TN 3.5×25 / ×35",
+        "seal": "under tracks and edge studs",
+        "dowel": "U track fixing, ~60 cm",
+        "wool": "{kg} kg/m²"
+      },
+      "kpi": {
+        "net": "Net wall area",
+        "clad": "Boarding area",
+        "boards": "Board count",
+        "thickness": "Wall thickness"
+      },
+      "flag": {
+        "doors": "Wall length is not enough for {doors} doors; {placed} placed."
+      },
+      "chip": "{board} · {stud}",
+      "legend": {
+        "board": "Plasterboard",
+        "frame": "C stud / U track",
+        "wool": "Mineral wool",
+        "door": "Door frame"
+      },
+      "notes": {
+        "0": "Waste and consumable factors are average site values; door openings are deducted. Door jambs have double studs and a head track (UW).",
+        "1": "The drywall frame consists of light galvanised profiles joined with screws; no steel connection plates are used. See the \"Profile catalogue\" button for all steel profile series."
+      }
     }
   }
 }

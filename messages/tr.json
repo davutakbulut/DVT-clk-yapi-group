@@ -1407,26 +1407,26 @@
     },
     "steelProfiles": {
       "title": "Çelik Profiller",
-      "lead": "Metrajın TEK ağırlık kaynağı: konfigüratör tonajı buradaki kg/m ile hesaplar. Kod, konfigüratör kurallarındaki profil eşlemesiyle (profile_map) eşleşmelidir. Yalnız yönetici.",
+      "lead": "Konfigüratör kataloğu: standart profil tabloları (EN 10365, DIN 1026, EN 10056, EN 10219, EN 10058, EN 14195) ile gelir; ölçüler kesit çizimini ve kesit değerlerini, kg/m metrajı belirler. Satır ekleyebilir, düzenleyebilir ya da pasifleyebilirsiniz. Yalnız yönetici.",
       "new": "Yeni profil",
       "count": "{count} profil",
       "empty": "Henüz profil girilmedi — konfigüratör metrajı ağırlıksız görünür.",
       "code": "Kod",
       "family": "Aile",
       "kgPerM": "kg/m",
-      "usage": "Kullanım",
       "active": "Aktif",
       "inactive": "pasif",
-      "usages": {
-        "column": "Kolon",
-        "beam": "Kiriş",
-        "rafter": "Makas",
-        "purlin": "Aşık",
-        "girt": "Kuşak",
-        "bracing": "Çapraz",
-        "wind_column": "Rüzgar kolonu",
-        "other": "Diğer"
-      }
+      "label": "Etiket",
+      "dims": {
+        "h": "h (mm)",
+        "b": "b (mm)",
+        "tw": "tw (mm)",
+        "tf": "tf (mm)",
+        "r": "r (mm)",
+        "t": "t (mm)"
+      },
+      "computedHint": "Ölçülerden hesaplanan birim ağırlık: {kg} kg/m. kg/m kutusu boş bırakılırsa bu değer yazılır.",
+      "dimsHint": "Ölçüleri girin; birim ağırlık otomatik hesaplanır."
     },
     "configurations": {
       "title": "Konfigüratör Gönderimleri",
@@ -1456,63 +1456,43 @@
       }
     },
     "configuratorRules": {
-      "title": "Konfigüratör Kuralları",
-      "lead": "Sistem seçimi, aşık aralığı, işçilik katsayısı, parametre sınırları, eleman → profil ve fiyat kalemi → malzeme eşlemeleri. Yalnız yönetici.",
-      "system": "Sistem ve sınırlar",
-      "trussThreshold": "Kafes eşiği (m)",
-      "trussThresholdHint": "Bu açıklığın üstünde kafes makas",
-      "purlinSpacing": "Aşık aralığı (m)",
+      "title": "Konfigüratör Ayarları",
+      "lead": "Fiyat/işçilik eşlemeleri ve her konfigüratör için alan sınırları, varsayılan profiller ve notlar. Kaydedince site anında güncellenir. Yalnız yönetici.",
+      "pricing": "Fiyat ve işçilik",
       "laborFactor": "İşçilik katsayısı",
       "laborFactorHint": "Malzeme bedeli × katsayı (1 = işçilik yok)",
-      "limits": "Parametre sınırları (JSON)",
-      "limitsHint": "width, length, eave, ridge_extra, bay için min/max/step (m)",
-      "profileMap": "Eleman → profil",
-      "profileMapHint": "Kod, Çelik Profiller kataloğundaki aktif bir kodla eşleşmeli; eşleşmezse metraj o satırı ağırlıksız gösterir.",
-      "missingProfile": "Katalogda aktif değil",
-      "priceMap": "Fiyat kalemi → malzeme",
-      "priceMapHint": "Çelik: kg ya da ton birimli; paneller: m²; civata: adet. Boş bırakılan kalem fiyatlanmaz.",
-      "profileKeys": {
-        "column": "Kolon",
-        "rafter": "Makas",
-        "secondary": "İkincil kiriş",
-        "wind_column": "Rüzgar kolonu",
-        "purlin_small_bay": "Aşık (aks ≤ 5 m)",
-        "purlin_large_bay": "Aşık (aks > 5 m)",
-        "brace": "Çapraz",
-        "truss_chord": "Kafes başlık",
-        "door_frame": "Kapı çerçevesi"
-      },
+      "priceMapHint": "Çelik: kg ya da ton birimli; paneller: m². Boş bırakılan kalem fiyatlanmaz.",
       "priceKeys": {
         "steel": "Çelik",
         "roof_panel": "Çatı paneli",
-        "wall_panel": "Duvar/alın paneli",
+        "wall_panel": "Duvar/alın/cephe paneli",
         "bolt": "Civata"
       },
-      "multiStorey": {
-        "title": "Çok katlı konfigüratör",
-        "lead": "/konfigurator/cok-katli sayfasının kuralları. Kaydedince site anında güncellenir.",
-        "maxColumnSpacing": "En büyük kolon aralığı (m)",
-        "maxColumnSpacingHint": "Akslar bu değeri aşmayacak şekilde eşit dağıtılır.",
-        "raftBase": "Radye taban kalınlığı (m)",
-        "raftFreeFloors": "Artışsız kat sayısı",
-        "raftFreeFloorsHint": "Bu kat sayısına kadar radye kalınlığı artmaz.",
-        "raftExtraPerFloor": "Sonraki her kat için ek (m)",
-        "raftOverhang": "Radye taşması (m, her kenar)",
-        "limitsHint": "JSON: width, length, floor_height, floors → min · max · step",
-        "groups": {
-          "column": "Kolon profili",
-          "main_beam": "Ana kiriş profili",
-          "secondary_beam": "Tali kiriş profili"
-        }
-      },
-      "hallTitle": "Çelik hol konfigüratörü",
-      "simple": {
-        "title": "Diğer konfigüratörler (K-100)",
-        "hint": "JSON kural nesneleri: limitler, birim ağırlıklar, profiller, ürün slug'ları. Boş bırakılırsa varsayılan kullanılır.",
-        "cladding": "Çatı & cephe kaplama",
-        "mezzanine": "Ara kat platformu",
+      "missingProfile": "Katalogda aktif değil",
+      "kinds": {
+        "hall": "Çelik hol",
+        "multiStorey": "Çok katlı yapı",
+        "cladding": "Çatı & cephe",
+        "mezzanine": "Ara kat",
         "fence": "Çit & korkuluk",
-        "drywall": "Alçıpan bölme duvar"
+        "drywall": "Alçıpan duvar"
+      },
+      "engine": {
+        "kinds": "Konfigüratör türü",
+        "fields": "Alanlar",
+        "fieldsHint": "Kaydırıcıların alt/üst sınırı, adımı ve açılış değeri. Boş bırakılan kutu kod varsayılanını (gri) kullanır.",
+        "field": "Alan",
+        "min": "En az",
+        "max": "En çok",
+        "step": "Adım",
+        "default": "Varsayılan",
+        "codeDefault": "Varsayılan ({value})",
+        "profiles": "Varsayılan profiller",
+        "profilesHint": "Konfigüratör açılınca seçili gelen profil. Ziyaretçi katalogdan değiştirebilir.",
+        "notes": "Notlar",
+        "notesHint": "Panelin altında görünen açıklama paragrafları, her satır bir paragraf (en çok 10). Boşsa standart notlar gösterilir.",
+        "notesTr": "Notlar (Türkçe)",
+        "notesEn": "Notlar (İngilizce)"
       }
     },
     "navGroups": {
@@ -2406,28 +2386,6 @@
     "backHome": "Ana sayfa",
     "panelLabel": "Parametreler",
     "canvasLabel": "{width} × {length} m çelik yapı 3D modeli",
-    "params": {
-      "title": "Ölçüler",
-      "width": "En (açıklık)",
-      "length": "Boy",
-      "eave": "Saçak yüksekliği",
-      "ridge": "Mahya yüksekliği",
-      "bay": "Aks aralığı",
-      "visual": "Görünüm",
-      "purlins": "Aşık ve kuşaklar",
-      "door": "Kapı",
-      "panels": "Paneller"
-    },
-    "stats": {
-      "footprint": "Taban alanı",
-      "bays": "Açıklık (aks)",
-      "columns": "Kolon adedi",
-      "windColumns": "Rüzgar kolonu (alın başına)",
-      "system": "Çatı sistemi",
-      "portal": "Düz makas (≤ {threshold} m)",
-      "truss": "Kafes makas (> {threshold} m)",
-      "door": "Kapı"
-    },
     "share": "Bağlantıyı kopyala",
     "copied": "Kopyalandı",
     "disclaimerFallback": "Bu bir ön metraj tahminidir; statik hesap ve resmî teklif yerine geçmez.",
@@ -2528,7 +2486,6 @@
       "button": "Yazdır / PDF olarak kaydet",
       "generated": "Oluşturma",
       "params": "Ölçüler",
-      "dims": "{width} × {length} m · saçak {eave} m · mahya {ridge} m · aks {bay} m",
       "element": "Eleman",
       "profile": "Profil",
       "pieces": "Adet",
@@ -2553,8 +2510,16 @@
     "chooser": {
       "kicker": "Konfigüratör",
       "title": "Hangi yapıyı tasarlamak istiyorsunuz?",
-      "lead": "Yapı türünü seçin; ölçüleri girdikçe taşıyıcı sistem üç boyutlu olarak oluşur, metraj anında hesaplanır.",
-      "open": "Konfigüratörü aç"
+      "lead": "Yapı türünü seçin; ölçüleri girdikçe taşıyıcı sistem üç boyutlu olarak oluşur, metraj ve tonaj anında hesaplanır.",
+      "open": "Konfigüratörü aç",
+      "feats": {
+        "0": "Tam çelik profil kataloğu",
+        "1": "Profil seçerek tonaj",
+        "2": "20 mm bağlantı levhaları",
+        "3": "Metraj CSV / PDF",
+        "4": "Telefonda da çalışır"
+      },
+      "footer": "Konfigüratör sonuçları ön metraj tahminidir; statik hesap ve resmî teklif yerine geçmez."
     },
     "types": {
       "hall": {
@@ -2588,235 +2553,11 @@
         "params": "Uzunluk · yükseklik · kat · dikme aralığı · kapı"
       }
     },
-    "multiStorey": {
-      "params": {
-        "width": "Bina genişliği",
-        "length": "Bina uzunluğu",
-        "floorHeight": "Kat yüksekliği",
-        "floors": "Kat adedi"
-      },
-      "stats": {
-        "footprint": "Taban alanı",
-        "totalArea": "Toplam kat alanı",
-        "height": "Bina yüksekliği",
-        "spacing": "Kolon aralığı",
-        "columns": "Kolon adedi (aks)",
-        "raft": "Radye temel"
-      },
-      "groups": {
-        "column": "Kolonlar",
-        "main_beam": "Ana kirişler",
-        "secondary_beam": "Tali kirişler"
-      },
-      "takeoff": {
-        "title": "Metraj",
-        "member": "Eleman",
-        "profile": "Profil",
-        "count": "Adet",
-        "length": "Toplam boy",
-        "weight": "Ağırlık",
-        "total": "Toplam çelik",
-        "noWeight": "Ağırlık, profil kataloğunda kg/m değeri girildiğinde hesaplanır."
-      },
-      "raftNoteBase": "{floors} kat: en az radye kalınlığı {base} cm uygulanıyor.",
-      "raftNoteExtra": "{floors} kat: radye kalınlığı {base} cm + {extra} cm = {total} cm.",
-      "prototypeNote": "Kolon aralıkları en ve boya eşit dağıtılır, en fazla {spacing} m olur.",
-      "quote": "Bu yapı için teklif al",
-      "canvasLabel": "{width} × {length} m, {floors} katlı çelik yapının üç boyutlu modeli",
-      "summary": "{width} × {length} m · {floors} kat · {area} m²"
-    },
     "panel": {
       "open": "Ölçüler ve metraj",
       "close": "Paneli kapat"
     },
-    "backToTypes": "Konfigüratörler",
-    "simple": {
-      "unit": "adet",
-      "takeoff": "Metraj",
-      "item": "Kalem",
-      "spec": "Profil / ölçü",
-      "qty": "Miktar",
-      "weight": "Ağırlık",
-      "add": "Sepete ekle",
-      "addAll": "Tümünü teklif sepetine ekle",
-      "added": "Kalem teklif sepetine eklendi.",
-      "addedAll": "{count} kalem teklif sepetine eklendi.",
-      "noProducts": "Bu kalem için sepete eklenecek ürün tanımlı değil; teklif isteyin.",
-      "total": "Toplam ağırlık",
-      "quote": "Teklif iste",
-      "cladding": {
-        "canvasLabel": "Çatı kesiti ve ölçüler",
-        "note": "Levha adedi faydalı genişlik, bindirme ve fire payıyla hesaplanır; nominal değerlerdir.",
-        "params": {
-          "width": "Bina eni",
-          "length": "Bina boyu",
-          "slopePct": "Çatı eğimi",
-          "wallHeight": "Duvar yüksekliği",
-          "overhang": "Saçak çıkması",
-          "roofType": "Çatı kaplaması",
-          "wallType": "Cephe kaplaması",
-          "insulated": "Yalıtımlı"
-        },
-        "options": {
-          "roofType": {
-            "trapez": "Trapez sac",
-            "sandwich": "Sandviç panel"
-          },
-          "wallType": {
-            "none": "Yok",
-            "trapez": "Trapez sac",
-            "sandwich": "Sandviç panel"
-          }
-        },
-        "stats": {
-          "roofArea": "Çatı alanı",
-          "wallArea": "Cephe alanı",
-          "slopeLen": "Eğik uzunluk",
-          "ridgeHeight": "Mahya yüksekliği",
-          "weight": "Kaplama ağırlığı"
-        },
-        "lines": {
-          "roofSheets": "Çatı levhaları",
-          "roofArea": "Çatı kaplama alanı (fireli)",
-          "ridgeCap": "Mahya kapaması",
-          "gutter": "Oluk",
-          "roofScrews": "Çatı vidası",
-          "wallSheets": "Cephe levhaları",
-          "wallArea": "Cephe kaplama alanı (fireli)",
-          "cornerFlashing": "Köşe kapaması",
-          "wallScrews": "Cephe vidası"
-        },
-        "caption": "{length} m boy · {area} m² çatı"
-      },
-      "mezzanine": {
-        "canvasLabel": "Ara kat planı: kolon ızgarası ve kirişler",
-        "note": "Profil seçimi ön boyutlandırmadır; statik hesap yetkili mühendisçe yapılır.",
-        "params": {
-          "width": "Platform eni",
-          "length": "Platform boyu",
-          "height": "Kat yüksekliği",
-          "grid": "Kolon aralığı (en fazla)",
-          "load": "Yük sınıfı",
-          "deck": "Döşeme"
-        },
-        "options": {
-          "load": {
-            "light": "Hafif (2,5 kN/m²)",
-            "medium": "Orta (5 kN/m²)",
-            "heavy": "Ağır (7,5 kN/m²)"
-          },
-          "deck": {
-            "composite": "Betonaltı trapez + beton",
-            "grating": "Izgara / sac"
-          }
-        },
-        "stats": {
-          "area": "Platform alanı",
-          "load": "Hareketli yük",
-          "grid": "Aks aralığı",
-          "columns": "Kolon adedi",
-          "steel": "Toplam çelik"
-        },
-        "lines": {
-          "columns": "Kolonlar",
-          "mainBeams": "Ana kirişler",
-          "secondaryBeams": "Tali kirişler",
-          "deck": "Döşeme sacı",
-          "concrete": "Beton",
-          "stairs": "Merdiven",
-          "handrail": "Korkuluk"
-        },
-        "caption": "{columns} kolon · h = {height} m"
-      },
-      "fence": {
-        "canvasLabel": "Çit görünüşü: direk, kuşak ve dolgu",
-        "note": "Direk boyuna gömme payı eklenir; kg/m değerleri kutu profil tablosundan.",
-        "params": {
-          "length": "Toplam uzunluk",
-          "height": "Yükseklik",
-          "postSpacing": "Direk aralığı",
-          "rails": "Kuşak sayısı",
-          "infill": "Dolgu",
-          "barSpacing": "Çubuk aralığı",
-          "gates": "Kapı adedi",
-          "galvanized": "Sıcak daldırma galvaniz"
-        },
-        "options": {
-          "infill": {
-            "bars": "Dikey kutu çubuk",
-            "lama": "Yatay lama",
-            "panel": "Panel",
-            "none": "Yok"
-          }
-        },
-        "stats": {
-          "length": "Uzunluk",
-          "posts": "Direk adedi",
-          "paint": "Boya yüzeyi",
-          "weight": "Çelik ağırlığı",
-          "galvanize": "Galvaniz payı"
-        },
-        "lines": {
-          "posts": "Direkler",
-          "rails": "Kuşaklar",
-          "bars": "Dolgu çubukları",
-          "lama": "Lama dolgu",
-          "panels": "Paneller",
-          "gates": "Kapılar"
-        },
-        "caption": "{length} m · {rails} kuşak"
-      },
-      "drywall": {
-        "canvasLabel": "Duvar görünüşü: dikmeler ve levhalar",
-        "note": "Sarf katsayıları ortalama şantiye değerleridir; kapı boşlukları düşülür.",
-        "params": {
-          "length": "Duvar uzunluğu",
-          "height": "Duvar yüksekliği",
-          "doubleSided": "Çift yüz kaplama",
-          "layers": "Kat sayısı (yüz başına)",
-          "studSpacing": "Dikme aralığı",
-          "doors": "Kapı adedi",
-          "insulated": "Taş yünü yalıtım",
-          "boardType": "Levha türü",
-          "boardSize": "Levha ebadı"
-        },
-        "options": {
-          "boardType": {
-            "white": "Beyaz alçıpan",
-            "green": "Yeşil (neme dayanıklı)",
-            "red": "Kırmızı (yangına dayanıklı)"
-          },
-          "boardSize": {
-            "1200x2500": "1200 × 2500 mm",
-            "1200x2000": "1200 × 2000 mm",
-            "1200x3000": "1200 × 3000 mm"
-          },
-          "studSpacing": {
-            "0_4": "40 cm",
-            "0_6": "60 cm"
-          }
-        },
-        "stats": {
-          "netArea": "Net duvar alanı",
-          "faceArea": "Kaplama alanı",
-          "boards": "Levha adedi",
-          "weight": "Toplam ağırlık"
-        },
-        "lines": {
-          "boards": "Alçıpan levha",
-          "studs": "C dikme",
-          "tracks": "U ray",
-          "screws": "Alçıpan vidası",
-          "tape": "Derz bandı",
-          "compound": "Derz dolgu",
-          "insulation": "Taş yünü"
-        },
-        "caption": "{length} m · {layers} kat · {sides} yüz"
-      },
-      "viewLabel": "Görünüm",
-      "view2d": "2B",
-      "view3d": "3B"
-    }
+    "backToTypes": "Konfigüratörler"
   },
   "FieldVideos": {
     "lead": "Şantiyelerimizden ve montaj anlarından kısa videolar.",
@@ -3031,6 +2772,707 @@
       "invalid": "Bağlantı geçersiz ya da eksik. E-postadaki \"Listeden çık\" bağlantısını yeniden açın.",
       "rateLimited": "Çok fazla deneme. Biraz sonra yeniden deneyin.",
       "unexpected": "İşlem tamamlanamadı. Biraz sonra yeniden deneyin."
+    }
+  },
+  "Engine": {
+    "common": {
+      "profiles": "Profiller",
+      "catalog": "Profil kataloğu",
+      "catalogShort": "Katalog",
+      "bomTitle": "Metraj",
+      "legend": "Renkler",
+      "bom": {
+        "item": "Kalem",
+        "qty": "Adet",
+        "amount": "Miktar",
+        "weight": "Ağırlık",
+        "plates": "Bağlantı levhaları",
+        "bolt": "Cıvata {label}"
+      },
+      "groups": {
+        "connections": "Bağlantı elemanları"
+      },
+      "spec": {
+        "plates": "t = {t} mm · S275",
+        "bolt": "8.8, somun + rondela",
+        "anchorBolt": "ankraj, 8.8 + somun + rondela"
+      },
+      "kpi": {
+        "steelTotal": "Toplam çelik"
+      },
+      "totals": {
+        "steel": "Toplam çelik (tonaj)",
+        "other": "Diğer malzemeler",
+        "all": "Toplam ağırlık"
+      },
+      "actions": {
+        "csv": "Metraj (CSV)",
+        "print": "Yazdır / PDF",
+        "quote": "Bu yapı için teklif iste"
+      },
+      "csv": {
+        "item": "Kalem",
+        "spec": "Açıklama",
+        "qty": "Adet",
+        "amount": "Miktar",
+        "unit": "Birim",
+        "kg": "Ağırlık (kg)",
+        "steelTotal": "Toplam çelik (kg)",
+        "allTotal": "Toplam ağırlık (kg)"
+      },
+      "sectionNote": "Profil kesit değerleri katalog ölçülerinden hesaplanmıştır (It yaklaşıktır)."
+    },
+    "units": {
+      "m": "m",
+      "m2": "m²",
+      "m3": "m³",
+      "pcs": "ad",
+      "kg": "kg",
+      "t": "t",
+      "floors": "kat",
+      "layers": "kat",
+      "%": "%"
+    },
+    "views": {
+      "label": "Görünüş",
+      "iso": "3B",
+      "front": "Ön",
+      "side": "Yan",
+      "top": "Üst",
+      "fit": "Sığdır"
+    },
+    "hint": {
+      "mouse": "Sol tık: döndür · Sağ/orta tık: kaydır · Tekerlek: imlece yakınlaş · Çift tık: o noktayı merkez al",
+      "touch": "1 parmak: döndür · 2 parmak: yakınlaş / kaydır · Çift dokun: merkez al"
+    },
+    "catalog": {
+      "title": "Çelik profil kataloğu",
+      "pickFor": "{field} için profil seçin — satıra tıklayın",
+      "browse": "Tüm seriler · satır seçmek için bir eleman kartındaki \"Katalog\" düğmesini kullanın",
+      "search": "Profil ara (ör. HEB 300)",
+      "close": "Kapat ✕",
+      "profile": "Profil",
+      "legend": "A: kesit alanı · G: birim ağırlık · I: atalet momenti · Wel / Wpl: elastik / plastik mukavemet momenti · i: atalet yarıçapı · It: burulma sabiti (yaklaşık) · AL: boya yüzeyi. y-y güçlü eksen, z-z zayıf eksen; köşebentte u-u / v-v asal eksenler."
+    },
+    "families": {
+      "IPE": {
+        "label": "IPE",
+        "desc": "Avrupa I profili (EN 10365)"
+      },
+      "HEA": {
+        "label": "HEA",
+        "desc": "Geniş başlıklı I profili, hafif seri (HE A)"
+      },
+      "HEB": {
+        "label": "HEB",
+        "desc": "Geniş başlıklı I profili, normal seri (HE B)"
+      },
+      "HEM": {
+        "label": "HEM",
+        "desc": "Geniş başlıklı I profili, ağır seri (HE M)"
+      },
+      "UPN": {
+        "label": "UPN (UNP)",
+        "desc": "Konik başlıklı U profili (DIN 1026-1)"
+      },
+      "UPE": {
+        "label": "UPE",
+        "desc": "Paralel başlıklı U profili (EN 10365)"
+      },
+      "L": {
+        "label": "L eşit",
+        "desc": "Eşit kollu köşebent (EN 10056-1)"
+      },
+      "LU": {
+        "label": "L farklı",
+        "desc": "Farklı kollu köşebent (EN 10056-1)"
+      },
+      "SHS": {
+        "label": "Kare kutu",
+        "desc": "Kare kutu profil, soğuk şekillendirilmiş (EN 10219)"
+      },
+      "RHS": {
+        "label": "Dikdörtgen kutu",
+        "desc": "Dikdörtgen kutu profil, soğuk şekillendirilmiş (EN 10219)"
+      },
+      "CHS": {
+        "label": "Boru",
+        "desc": "Dairesel boru profil (EN 10219 / EN 10210)"
+      },
+      "FL": {
+        "label": "Lama",
+        "desc": "Lama (yassı çubuk, EN 10058)"
+      },
+      "CW": {
+        "label": "CW dikme",
+        "desc": "Alçıpan C dikme profili, galvaniz (EN 14195)"
+      },
+      "UW": {
+        "label": "UW ray",
+        "desc": "Alçıpan U ray profili, galvaniz (EN 14195)"
+      }
+    },
+    "hall": {
+      "sections": {
+        "dims": "Ölçüler",
+        "options": "Seçenekler"
+      },
+      "fields": {
+        "width": "Bina eni (açıklık)",
+        "length": "Bina boyu",
+        "eave": "Saçak yüksekliği",
+        "ridge": "Mahya yüksekliği",
+        "bay": "Aks aralığı",
+        "purlins": "Aşık ve kuşaklar",
+        "purlinSp": "Aşık aralığı (eğim boyunca)",
+        "girtSp": "Kuşak aralığı",
+        "door": "Ön alında kapı",
+        "doorW": "Kapı genişliği",
+        "doorH": "Kapı yüksekliği",
+        "panels": "Sandviç panel kaplama (metraja dahil)",
+        "showPanels": "Kaplamayı 3B'de göster"
+      },
+      "profiles": {
+        "col": "Kolon",
+        "raf": "Çatı kirişi (açıklık ≤ 30 m)",
+        "chord": "Makas başlıkları (2L, > 30 m)",
+        "diag": "Makas diyagonalleri (2L, > 30 m)",
+        "sec": "Boyuna kiriş (saçak / mahya)",
+        "wind": "Rüzgar kolonu / kapı dikmesi",
+        "purlin": "Aşık",
+        "girt": "Kuşak",
+        "brace": "Çapraz (duvar ve çatı)",
+        "lintel": "Kapı lentosu"
+      },
+      "bom": {
+        "col": "Kolon",
+        "raf": "Çatı kirişi",
+        "chord": "Makas başlıkları (üst + alt)",
+        "diag": "Makas diyagonali",
+        "sec": "Boyuna kiriş",
+        "wind": "Rüzgar kolonu",
+        "dpost": "Kapı dikmesi",
+        "lintel": "Kapı lentosu",
+        "purlin": "Aşık",
+        "girt": "Yan duvar kuşağı",
+        "ggirt": "Alın kuşağı",
+        "wbr": "Duvar çaprazı",
+        "rbr": "Çatı çaprazı",
+        "roofPanel": "Çatı paneli",
+        "wallPanel": "Yan duvar paneli",
+        "gablePanel": "Alın paneli"
+      },
+      "groups": {
+        "main": "Ana taşıyıcı",
+        "stability": "Stabilite ve ikincil",
+        "cladding": "Kaplama (sandviç panel 40 mm)"
+      },
+      "spec": {
+        "panelModule": "1000 mm modül · {kg} kg/m²",
+        "module": "1000 mm modül",
+        "doorDeducted": "kapı boşluğu düşülmüş"
+      },
+      "kpi": {
+        "footprint": "Taban alanı",
+        "bays": "Aks",
+        "columns": "Kolon adedi",
+        "roofSystem": "Çatı sistemi",
+        "truss": "Makas (2L)",
+        "portal": "Dolu gövde"
+      },
+      "flag": {
+        "truss": "Açıklık {width} m > 30 m — çatıda 2L köşebent makas sistemine otomatik geçildi ({chord} başlık, {diag} diyagonal).",
+        "portal": "Açıklık {width} m ≤ 30 m — dolu gövdeli {raf} çatı kirişi, guseli moment birleşimi.",
+        "doorShrunk": "Kapı ölçüsü yapıya sığacak şekilde {w} × {h} m'ye düşürüldü."
+      },
+      "chip": "saçak {eave} m · mahya {ridge} m",
+      "legend": {
+        "column": "Kolon",
+        "beam": "Çatı kirişi / makas",
+        "secondary": "Aşık, kuşak, boyuna kiriş",
+        "brace": "Çapraz",
+        "plate": "Levha (20 mm)",
+        "door": "Kapı"
+      },
+      "notes": {
+        "0": "Aks aralığı bina boyuna eşit dağıtılır. Rüzgar kolonları alınlarda en fazla 5 m aralıkla yerleşir; kapı açıklığına denk gelenlerin yerini kapı dikmeleri alır.",
+        "1": "Kuşaklar dört duvarda da vardır: yan duvarlarda kolonlara, alınlarda köşe kolonları, rüzgar kolonları ve kapı dikmelerine 20 mm takoz levhası ve 2 adet M12 ile bağlanır. Alın kuşakları çatı eğimine göre kısalır, kapı boşluğunda kesilir.",
+        "2": "Köşe ve mahya birleşimleri guseli, uzatılmış alın levhalı moment birleşimidir. Makas düğümlerinde 2L kollarının arasına 20 mm düğüm levhası girer."
+      }
+    },
+    "multiStorey": {
+      "sections": {
+        "dims": "Ölçüler",
+        "options": "Seçenekler"
+      },
+      "fields": {
+        "width": "Bina genişliği",
+        "length": "Bina uzunluğu",
+        "fh": "Kat yüksekliği",
+        "floors": "Kat adedi",
+        "span": "En fazla kolon aralığı",
+        "braces": "Düşey çaprazlar (stabilite)",
+        "slabs": "Kompozit döşeme (trapez sac + beton)",
+        "glass": "Cam cephe (görsel)"
+      },
+      "profiles": {
+        "col": "Kolonlar",
+        "main": "Ana kirişler",
+        "sec": "Tali kirişler",
+        "brace": "Düşey çapraz"
+      },
+      "bom": {
+        "col": "Kolonlar",
+        "main": "Ana kirişler",
+        "sec": "Tali kirişler",
+        "brace": "Düşey çaprazlar",
+        "deck": "Trapez döşeme sacı",
+        "slabConc": "Döşeme betonu (12 cm)",
+        "raft": "Radye temel betonu",
+        "rebar": "Radye donatısı (tahmini)"
+      },
+      "groups": {
+        "steel": "Çelik taşıyıcı",
+        "slab": "Döşeme",
+        "foundation": "Temel"
+      },
+      "spec": {
+        "splices": "{n} ek/kolon",
+        "deck": "{kg} kg/m² · {floors} kat",
+        "slabConc": "C30/37, nervür dolgusu dahil",
+        "raft": "{cm} cm · taşma 0,75 m",
+        "rebar": "{kg} kg/m³ · B500C"
+      },
+      "kpi": {
+        "raft": "Radye temel",
+        "floorArea": "Toplam kat alanı",
+        "height": "Bina yüksekliği",
+        "spacing": "Kolon aralığı",
+        "columns": "Kolon adedi (aks)"
+      },
+      "flag": {
+        "thick": "{floors} kat: radye kalınlığı 50 cm + {extra} cm = {total} cm.",
+        "min": "{floors} kat: en az radye kalınlığı 50 cm uygulanıyor."
+      },
+      "chip": "{floors} kat · {area} m²",
+      "legend": {
+        "column": "Kolon",
+        "beam": "Ana kiriş",
+        "secondary": "Tali kiriş",
+        "brace": "Çapraz",
+        "plate": "Levha (20 mm)",
+        "concrete": "Radye / döşeme"
+      },
+      "notes": {
+        "0": "Kolon aralıkları en ve boya eşit dağıtılır, seçilen en fazla aralığı geçmez. Radye kalınlığı 3 kata kadar 50 cm, sonrasında her kat için +10 cm.",
+        "1": "Güçlü eksen yönündeki ana kirişler kolon başlığına alın levhasıyla (moment), zayıf yöndeki ana kirişler ve tali kirişler gövdeye kayma levhasıyla (mafsallı) bağlanır. Kolonlar her 3 katta alın levhalı ekle eklenir."
+      }
+    },
+    "cladding": {
+      "sections": {
+        "dims": "Ölçüler",
+        "cladding": "Kaplama",
+        "sub": "Alt yapı"
+      },
+      "fields": {
+        "width": "Bina eni",
+        "length": "Bina boyu",
+        "slope": "Çatı eğimi",
+        "wallH": "Duvar (saçak) yüksekliği",
+        "ov": "Saçak çıkması",
+        "roofMat": "Çatı kaplaması",
+        "facMat": "Cephe kaplaması",
+        "sheetLen": "Trapez levha boyu",
+        "panelT": "Sandviç panel kalınlığı",
+        "cut": "Kesit görünümü (alt yapıyı göster)",
+        "roofColor": "Çatı rengi",
+        "facColor": "Cephe rengi",
+        "sub": "Aşık / kuşak alt yapısı (metraja dahil)",
+        "bay": "Çerçeve (aks) aralığı",
+        "purlinSp": "Aşık aralığı",
+        "girtSp": "Kuşak aralığı"
+      },
+      "options": {
+        "roofMat": {
+          "trapez": "Trapez sac",
+          "sandvic": "Sandviç panel"
+        },
+        "facMat": {
+          "yok": "Yok",
+          "trapez": "Trapez sac",
+          "sandvic": "Sandviç panel"
+        },
+        "panelT": {
+          "40": "40 mm",
+          "60": "60 mm",
+          "80": "80 mm",
+          "100": "100 mm"
+        },
+        "roofColor": {
+          "r9006": "Gümüş (RAL 9006)",
+          "r7016": "Antrasit (RAL 7016)",
+          "r3009": "Kiremit (RAL 3009)",
+          "r9002": "Beyaz (RAL 9002)"
+        },
+        "facColor": {
+          "r9006": "Gümüş (RAL 9006)",
+          "r7016": "Antrasit (RAL 7016)",
+          "r3009": "Kiremit (RAL 3009)",
+          "r9002": "Beyaz (RAL 9002)"
+        }
+      },
+      "profiles": {
+        "purlin": "Aşık",
+        "girt": "Kuşak"
+      },
+      "bom": {
+        "purlin": "Aşık",
+        "girt": "Kuşak",
+        "roofSheet": "Çatı levhaları (trapez)",
+        "roofArea": "Çatı kaplama alanı",
+        "roofScrew": "Çatı vidası",
+        "roofPanel": "Çatı paneli (sandviç {t} mm)",
+        "panelScrew": "Panel vidası",
+        "ridgeCap": "Mahya kapaması",
+        "gutter": "Oluk",
+        "downpipe": "Yağmur iniş borusu",
+        "verge": "Rüzgarlık (alın kenarı)",
+        "facSheet": "Cephe levhaları (trapez)",
+        "facArea": "Cephe kaplama alanı",
+        "facScrew": "Cephe vidası",
+        "facPanel": "Cephe paneli (sandviç {t} mm)",
+        "cornerTrim": "Köşe kapaması",
+        "drip": "Damlalık (subasman)",
+        "cleat": "Takoz levhası"
+      },
+      "groups": {
+        "roof": "Çatı",
+        "facade": "Cephe",
+        "sub": "Alt yapı"
+      },
+      "spec": {
+        "roofSheet": "1000 × {len} mm · 0,50 mm · {kg} kg/m²",
+        "waste5": "fire dahil (%5)",
+        "waste3": "fire dahil (%3)",
+        "roofScrew": "sac / çelik için matkap uçlu, contalı",
+        "roofPanel": "1000 mm × {len} m · {kg} kg/m²",
+        "panelScrew": "ön delikli, şapkalı",
+        "gutter": "Ø150 yarım daire",
+        "downpipe": "Ø100",
+        "facSheet": "1000 × {len} mm · {kg} kg/m²",
+        "facArea": "alın üçgenleri ve fire dahil",
+        "facPanel": "1000 mm modül · {kg} kg/m²",
+        "cleat": "her aşık / kuşak – çerçeve kesişiminde"
+      },
+      "kpi": {
+        "roofArea": "Çatı alanı",
+        "facArea": "Cephe alanı",
+        "slopeLen": "Eğik uzunluk",
+        "rise": "Mahya yüksekliği",
+        "cladKg": "Kaplama ağırlığı"
+      },
+      "flag": {
+        "slope": "Çatı eğimi %{slope} ({deg}°).",
+        "lowSlope": "%5 altı eğimde trapez sac için ek sızdırmazlık önlemi gerekir."
+      },
+      "chip": "eğim %{slope} · saçak {wallH} m",
+      "legend": {
+        "roof": "Çatı kaplaması",
+        "facade": "Cephe kaplaması",
+        "secondary": "Aşık / kuşak",
+        "plate": "Takoz levhası (20 mm)",
+        "trim": "Oluk / kapama",
+        "ghost": "Ana çerçeve (gösterim)"
+      },
+      "notes": {
+        "0": "Levha adetleri faydalı genişlik (1000 mm), 200 mm boyuna bindirme ve %5 fire payıyla hesaplanır; nominal değerlerdir. Cephe alanına alın üçgenleri dahildir.",
+        "1": "Gri yarı saydam ana çerçeve yalnızca gösterim amaçlıdır (metraja dahil değildir). Aşık ve kuşaklar çerçeveye 20 mm takoz levhası ve 2 adet M12 cıvata ile bağlanır."
+      }
+    },
+    "mezzanine": {
+      "sections": {
+        "dims": "Ölçüler",
+        "load": "Yük ve döşeme"
+      },
+      "fields": {
+        "width": "Platform eni",
+        "length": "Platform boyu",
+        "height": "Kat yüksekliği (döşeme üstü)",
+        "span": "En fazla kolon aralığı",
+        "load": "Yük sınıfı",
+        "deck": "Döşeme",
+        "stair": "Merdiven",
+        "rail": "Korkuluk (çevre)"
+      },
+      "options": {
+        "load": {
+          "hafif": "Hafif\n2,5 kN/m²",
+          "orta": "Orta\n5 kN/m²",
+          "agir": "Ağır\n7,5 kN/m²"
+        },
+        "deck": {
+          "beton": "Trapez + beton",
+          "izgara": "Izgara / sac"
+        }
+      },
+      "profiles": {
+        "col": "Kolonlar",
+        "main": "Ana kirişler",
+        "sec": "Tali kirişler",
+        "stringer": "Merdiven limonu",
+        "post": "Korkuluk dikmesi",
+        "handrail": "Küpeşte"
+      },
+      "bom": {
+        "col": "Kolonlar",
+        "main": "Ana kirişler",
+        "sec": "Tali kirişler",
+        "deck": "Döşeme sacı (trapez)",
+        "concrete": "Beton",
+        "grating": "Izgara döşeme",
+        "stringer": "Merdiven limonu",
+        "tread": "Izgara basamak",
+        "post": "Korkuluk dikmesi",
+        "handrail": "Küpeşte",
+        "mid": "Ara kayıt",
+        "toe": "Süpürgelik"
+      },
+      "groups": {
+        "steel": "Taşıyıcı çelik",
+        "deck": "Döşeme",
+        "stair": "Merdiven",
+        "rail": "Korkuluk (h = 1,10 m)"
+      },
+      "spec": {
+        "deck": "{kg} kg/m²",
+        "concrete": "10 cm · C25/30",
+        "grating": "30×3 · 34×38 göz · {kg} kg/m², galvaniz",
+        "tread": "{w} × 270 mm"
+      },
+      "kpi": {
+        "area": "Platform alanı",
+        "load": "Hareketli yük",
+        "grid": "Aks aralığı",
+        "columns": "Kolon adedi"
+      },
+      "loadNames": {
+        "hafif": "Hafif",
+        "orta": "Orta",
+        "agir": "Ağır"
+      },
+      "flag": {
+        "load": "{name} yük sınıfı ({q} kN/m²) — ön boyut: {col} kolon, {main} ana kiriş, {sec} tali kiriş."
+      },
+      "chip": "{area} m² · {q} kN/m²",
+      "legend": {
+        "column": "Kolon",
+        "beam": "Ana kiriş",
+        "secondary": "Tali kiriş",
+        "stair": "Merdiven",
+        "rail": "Korkuluk",
+        "plate": "Levha (20 mm)"
+      },
+      "notes": {
+        "0": "Yük sınıfı değiştiğinde kolon ve kiriş profilleri ön boyutlandırma için otomatik önerilir; isterseniz katalogdan değiştirebilirsiniz. Kesin profil seçimi için yetkili mühendis tarafından statik hesap yapılmalıdır.",
+        "1": "Ana kirişler kolon başlığına alın levhasıyla, tali kirişler ana kiriş gövdesine kayma levhasıyla bağlanır. Merdiven limonları üstte alın levhasıyla kenar kirişine, altta taban levhasıyla zemine bağlanır."
+      }
+    },
+    "fence": {
+      "sections": {
+        "dims": "Ölçüler",
+        "infill": "Dolgu ve kapı"
+      },
+      "fields": {
+        "length": "Toplam uzunluk",
+        "height": "Yükseklik",
+        "postSp": "Direk aralığı",
+        "rails": "Kuşak sayısı",
+        "embed": "Gömme payı",
+        "infill": "Dolgu",
+        "barSp": "Çubuk aralığı (eksen)",
+        "slatSp": "Lama aralığı (eksen)",
+        "gates": "Kapı adedi",
+        "gateW": "Kapı genişliği",
+        "finish": "Yüzey"
+      },
+      "options": {
+        "infill": {
+          "bar": "Dikey kutu çubuk",
+          "slat": "Yatay lama",
+          "panel": "Tel panel",
+          "none": "Yok"
+        },
+        "finish": {
+          "galv": "S.D. galvaniz",
+          "galvboya": "Galvaniz + elektrostatik boya",
+          "boya": "Astar + elektrostatik boya"
+        }
+      },
+      "finishNames": {
+        "galv": "Sıcak daldırma galvaniz",
+        "galvboya": "Galvaniz + elektrostatik boya",
+        "boya": "Astar + elektrostatik boya"
+      },
+      "finishLower": {
+        "galv": "sıcak daldırma galvaniz",
+        "galvboya": "galvaniz + elektrostatik boya",
+        "boya": "astar + elektrostatik boya"
+      },
+      "profiles": {
+        "post": "Direk",
+        "rail": "Kuşak",
+        "bar": "Dolgu çubuğu",
+        "slat": "Dolgu laması",
+        "gateFrame": "Kapı çerçevesi"
+      },
+      "bom": {
+        "post": "Direkler",
+        "rail": "Kuşaklar",
+        "bar": "Dolgu çubukları",
+        "slat": "Dolgu lamaları",
+        "mesh": "Tel panel dolgu",
+        "gate": "Kapı çerçevesi",
+        "paint": "Boya / kaplama yüzeyi",
+        "zinc": "Galvaniz çinko payı",
+        "footing": "Direk temeli (beton)"
+      },
+      "groups": {
+        "fence": "Çit / korkuluk",
+        "gates": "Kapılar",
+        "finish": "Yüzey işlemi"
+      },
+      "spec": {
+        "post": "{label} · {len} m (gömme {embed} m) · {kg} kg/m",
+        "mesh": "5 mm tel, 50×200 göz · {kg} kg/m²",
+        "gate": "{w} × {h} m",
+        "zinc": "çelik ağırlığının %{pct}'sı",
+        "footing": "30×30 cm çukur, gömme payı + 10 cm"
+      },
+      "kpi": {
+        "length": "Uzunluk",
+        "posts": "Direk adedi",
+        "paint": "Boya yüzeyi",
+        "gateLabel": "Kapı",
+        "gate": "{n} × {w} m",
+        "noGate": "yok"
+      },
+      "flag": {
+        "gates": "Uzunluk {wanted} kapıya yetmiyor; {placed} kapı yerleştirildi."
+      },
+      "chip": "h {h} m · {finish}",
+      "legend": {
+        "fence": "Çit profilleri",
+        "gate": "Kapı çerçevesi",
+        "soil": "Zemin"
+      },
+      "notes": {
+        "0": "Direk boyuna gömme payı eklenir. Kapılar uzunluk boyunca eşit aralıkla yerleşir; kapı açıklıkları kuşak ve dolgu metrajından düşülür. Birim ağırlıklar profil kataloğundan, boya yüzeyi profil çevresinden (AL) hesaplanır."
+      }
+    },
+    "drywall": {
+      "sections": {
+        "dims": "Ölçüler",
+        "boardFrame": "Levha ve karkas",
+        "doorView": "Kapı ve görünüm"
+      },
+      "fields": {
+        "length": "Duvar uzunluğu",
+        "height": "Duvar yüksekliği",
+        "board": "Levha tipi",
+        "size": "Levha ölçüsü",
+        "layers": "Yüz başına kat",
+        "frame": "Karkas profili",
+        "studSp": "Dikme aralığı",
+        "double": "Çift yüzlü kaplama",
+        "wool": "Taş yünü yalıtım (50 mm)",
+        "doors": "Kapı adedi",
+        "doorW": "Kapı genişliği",
+        "doorH": "Kapı yüksekliği",
+        "cut": "Kesit görünümü (karkası göster)"
+      },
+      "options": {
+        "board": {
+          "beyaz": "Beyaz\n(standart)",
+          "yesil": "Yeşil\n(neme dayanıklı)",
+          "kirmizi": "Kırmızı\n(yangına dayanıklı)"
+        },
+        "size": {
+          "2000": "1200×2000",
+          "2500": "1200×2500",
+          "3000": "1200×3000"
+        },
+        "frame": {
+          "galv": "Galvaniz C / U",
+          "kutu": "Kutu profil"
+        },
+        "studSp": {
+          "40": "40 cm",
+          "60": "60 cm"
+        }
+      },
+      "boardNames": {
+        "beyaz": "Beyaz (standart)",
+        "yesil": "Yeşil (neme dayanıklı)",
+        "kirmizi": "Kırmızı (yangına dayanıklı)"
+      },
+      "boardLower": {
+        "beyaz": "beyaz (standart)",
+        "yesil": "yeşil (neme dayanıklı)",
+        "kirmizi": "kırmızı (yangına dayanıklı)"
+      },
+      "profiles": {
+        "stud": "C dikme",
+        "track": "U ray (taban / tavan)",
+        "studBox": "Dikme (kutu profil)",
+        "trackBox": "Taban / tavan rayı (kutu profil)"
+      },
+      "bom": {
+        "board": "Alçıpan levha",
+        "stud": "C dikme",
+        "studBox": "Dikme",
+        "track": "U ray",
+        "trackBox": "Taban / tavan rayı",
+        "header": "Kapı üst kayıtı",
+        "screw": "Alçıpan vidası",
+        "tape": "Derz bandı",
+        "filler": "Derz dolgusu",
+        "seal": "Sızdırmazlık bandı",
+        "dowel": "Çelik dübel",
+        "wool": "Taş yünü (50 mm)"
+      },
+      "groups": {
+        "cladding": "Kaplama",
+        "frameGalv": "Karkas (galvaniz)",
+        "frameBox": "Karkas (kutu profil)",
+        "consumables": "Sarf malzeme"
+      },
+      "spec": {
+        "board": "{board} · 1200 × {len} × 12,5 mm · {kg} kg/m²",
+        "screw": "TN 3,5×25 / ×35",
+        "seal": "ray ve kenar dikme altı",
+        "dowel": "U ray sabitleme, ~60 cm",
+        "wool": "{kg} kg/m²"
+      },
+      "kpi": {
+        "net": "Net duvar alanı",
+        "clad": "Kaplama alanı",
+        "boards": "Levha adedi",
+        "thickness": "Duvar kalınlığı"
+      },
+      "flag": {
+        "doors": "Duvar uzunluğu {doors} kapıya yetmiyor; {placed} kapı yerleştirildi."
+      },
+      "chip": "{board} · {stud}",
+      "legend": {
+        "board": "Alçıpan levha",
+        "frame": "C dikme / U ray",
+        "wool": "Taş yünü",
+        "door": "Kapı kasası"
+      },
+      "notes": {
+        "0": "Fire ve sarf katsayıları ortalama şantiye değerleridir; kapı boşlukları düşülür. Kapı kenarlarında çift dikme ve üst kayıt (UW) bulunur.",
+        "1": "Alçıpan karkası hafif galvaniz profillerden oluşur ve vidayla birleşir; çelik bağlantı levhası kullanılmaz. Tüm çelik profil serileri için \"Profil kataloğu\" düğmesine bakabilirsiniz."
+      }
     }
   }
 }

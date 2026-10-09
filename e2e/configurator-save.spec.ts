@@ -16,7 +16,7 @@ test.describe('konfigüratör kaydet/paylaş', () => {
   test('anonim: fiyat kapısı · kaydet · paylaşım sayfası · yazdır · teklif iste', async ({ page }) => {
     test.slow();
     const stamp = Date.now();
-    await page.goto('/tr/konfigurator?w=20&l=40&e=6&r=8&b=6');
+    await page.goto('/tr/konfigurator/hol');
     await dismissCookies(page);
     await openConfiguratorPanel(page);
     await expect(page.getByTestId('price-gate').first()).toContainText('üye'); // .first(): hol paneli yük altında kısa süre çift render (ROADMAP açık madde)
@@ -35,12 +35,13 @@ test.describe('konfigüratör kaydet/paylaş', () => {
     // yazdırma görünümü
     await page.goto(`${shareUrl.replace(/\/tr\/konfigurator\/k\//, '/tr/konfigurator/k/')}/yazdir`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(`E2E Konfig ${stamp}`);
-    await expect(page.getByRole('rowheader', { name: 'Kolon', exact: true })).toBeVisible();
+    await expect(page.getByRole('rowheader', { name: 'Kolon', exact: true })).toBeVisible(); // kayıt kalemi Engine.hall.bom.col ile çevrilir
     await expect(page.getByRole('button', { name: /PDF/ })).toBeVisible();
     // teklif
     await page.goto(`${shareUrl}#quote`);
     await dismissCookies(page);
     const quote = page.locator('#quote form');
+    await expect(quote).toHaveCount(1); // yük altında kısa süreli çift DOM (ROADMAP açık madde) → tekleşene dek bekle
     await quote.getByLabel('Ad Soyad').fill(`E2E Konfig Talep ${stamp}`);
     await quote.locator('input[name="email"]').fill(`e2e-konfig-${stamp}@example.com`);
     await quote.locator('input[name="consentKvkk"]').check();

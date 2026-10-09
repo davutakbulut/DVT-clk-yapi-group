@@ -7,7 +7,6 @@ interface Props {
   /** Ölçüler · istatistik · metraj · kayıt — masaüstünde sol sütun, mobilde sağdan açılan panel. */
   readonly panel: ReactNode;
   readonly canvas: ReactNode;
-  readonly canvasLabel: string;
   /** Mobilde tuvalin üstünde kısa özet ("18 × 53 m · 954 m²"): panel kapalıyken de ne çizildiği okunur. */
   readonly summary: string;
 }
@@ -19,7 +18,7 @@ const MOBILE = '(max-width: 1023px)';
  * <1024px: tuval tüm ekranı kaplar; ayrıntılar sağdan açılan panelde (arka plan karartması, Esc ve dışarı dokunma kapatır,
  * kapalıyken `inert` + görünmez → klavye ve ekran okuyucu içine düşmez).
  */
-export function ConfiguratorFrame({ panel, canvas, canvasLabel, summary }: Props) {
+export function ConfiguratorFrame({ panel, canvas, summary }: Props) {
   const t = useTranslations('Configurator');
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -63,7 +62,7 @@ export function ConfiguratorFrame({ panel, canvas, canvasLabel, summary }: Props
         </button>
         {panel}
       </aside>
-      <div className="configurator-canvas" role="img" aria-label={canvasLabel}>
+      <div className="configurator-canvas">
         {canvas}
       </div>
       <div className="configurator-overlay">

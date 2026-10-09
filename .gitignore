@@ -70,3 +70,6 @@ cleanup-marketplace.sql
 
 # Yedek dışa aktarımları (kişisel veri içerir — ASLA COMMIT EDİLMEZ)
 backups/
+
+# Konfigüratör prototip kaynakları (ürün sahibinin HTML/JS dosyaları); port src/modules/configurator/engine altında, altın veri testlerde
+yeni-konfiguratorler/

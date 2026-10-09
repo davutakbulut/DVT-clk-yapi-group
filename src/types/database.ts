@@ -5061,6 +5061,8 @@ export type Database = {
           id: string
           is_active: boolean
           kg_per_m: number
+          kind: string | null
+          label: string
           sort_order: number | null
           updated_at: string
           usage: string | null
@@ -5073,6 +5075,8 @@ export type Database = {
           id?: string
           is_active?: boolean
           kg_per_m: number
+          kind?: string | null
+          label: string
           sort_order?: number | null
           updated_at?: string
           usage?: string | null
@@ -5085,6 +5089,8 @@ export type Database = {
           id?: string
           is_active?: boolean
           kg_per_m?: number
+          kind?: string | null
+          label?: string
           sort_order?: number | null
           updated_at?: string
           usage?: string | null

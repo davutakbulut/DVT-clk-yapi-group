@@ -1,0 +1,28 @@
+{
+  "tr": {
+    "sections": { "dims": "Ölçüler", "options": "Seçenekler" },
+    "fields": { "width": "Bina genişliği", "length": "Bina uzunluğu", "fh": "Kat yüksekliği", "floors": "Kat adedi", "span": "En fazla kolon aralığı", "braces": "Düşey çaprazlar (stabilite)", "slabs": "Kompozit döşeme (trapez sac + beton)", "glass": "Cam cephe (görsel)" },
+    "profiles": { "col": "Kolonlar", "main": "Ana kirişler", "sec": "Tali kirişler", "brace": "Düşey çapraz" },
+    "bom": { "col": "Kolonlar", "main": "Ana kirişler", "sec": "Tali kirişler", "brace": "Düşey çaprazlar", "deck": "Trapez döşeme sacı", "slabConc": "Döşeme betonu (12 cm)", "raft": "Radye temel betonu", "rebar": "Radye donatısı (tahmini)" },
+    "groups": { "steel": "Çelik taşıyıcı", "slab": "Döşeme", "foundation": "Temel" },
+    "spec": { "splices": "{n} ek/kolon", "deck": "{kg} kg/m² · {floors} kat", "slabConc": "C30/37, nervür dolgusu dahil", "raft": "{cm} cm · taşma 0,75 m", "rebar": "{kg} kg/m³ · B500C" },
+    "kpi": { "raft": "Radye temel", "floorArea": "Toplam kat alanı", "height": "Bina yüksekliği", "spacing": "Kolon aralığı", "columns": "Kolon adedi (aks)" },
+    "flag": { "thick": "{floors} kat: radye kalınlığı 50 cm + {extra} cm = {total} cm.", "min": "{floors} kat: en az radye kalınlığı 50 cm uygulanıyor." },
+    "chip": "{floors} kat · {area} m²",
+    "legend": { "column": "Kolon", "beam": "Ana kiriş", "secondary": "Tali kiriş", "brace": "Çapraz", "plate": "Levha (20 mm)", "concrete": "Radye / döşeme" },
+    "notes": { "0": "Kolon aralıkları en ve boya eşit dağıtılır, seçilen en fazla aralığı geçmez. Radye kalınlığı 3 kata kadar 50 cm, sonrasında her kat için +10 cm.", "1": "Güçlü eksen yönündeki ana kirişler kolon başlığına alın levhasıyla (moment), zayıf yöndeki ana kirişler ve tali kirişler gövdeye kayma levhasıyla (mafsallı) bağlanır. Kolonlar her 3 katta alın levhalı ekle eklenir." }
+  },
+  "en": {
+    "sections": { "dims": "Dimensions", "options": "Options" },
+    "fields": { "width": "Building width", "length": "Building length", "fh": "Storey height", "floors": "Number of storeys", "span": "Maximum column spacing", "braces": "Vertical bracing (stability)", "slabs": "Composite slab (profiled deck + concrete)", "glass": "Glass facade (visual)" },
+    "profiles": { "col": "Columns", "main": "Primary beams", "sec": "Secondary beams", "brace": "Vertical bracing" },
+    "bom": { "col": "Columns", "main": "Primary beams", "sec": "Secondary beams", "brace": "Vertical bracing", "deck": "Profiled steel deck", "slabConc": "Slab concrete (12 cm)", "raft": "Raft foundation concrete", "rebar": "Raft reinforcement (estimated)" },
+    "groups": { "steel": "Steel structure", "slab": "Slab", "foundation": "Foundation" },
+    "spec": { "splices": "{n} splice(s)/column", "deck": "{kg} kg/m² · {floors} storeys", "slabConc": "C30/37, rib fill included", "raft": "{cm} cm · 0.75 m overhang", "rebar": "{kg} kg/m³ · B500C" },
+    "kpi": { "raft": "Raft foundation", "floorArea": "Total floor area", "height": "Building height", "spacing": "Column spacing", "columns": "Columns (grid)" },
+    "flag": { "thick": "{floors} storeys: raft thickness 50 cm + {extra} cm = {total} cm.", "min": "{floors} storeys: minimum raft thickness of 50 cm applied." },
+    "chip": "{floors} storeys · {area} m²",
+    "legend": { "column": "Column", "beam": "Primary beam", "secondary": "Secondary beam", "brace": "Bracing", "plate": "Plate (20 mm)", "concrete": "Raft / slab" },
+    "notes": { "0": "Column spacing is distributed evenly across width and length and never exceeds the selected maximum. Raft thickness is 50 cm up to 3 storeys, then +10 cm per additional storey.", "1": "Primary beams in the strong-axis direction connect to the column flange with end plates (moment); weak-axis primary beams and secondary beams connect to the web with fin plates (pinned). Columns are spliced with end plates every 3 storeys." }
+  }
+}

@@ -1,0 +1,480 @@
+[
+ {
+  "variant": {},
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "40",
+   "slope": "15",
+   "wallH": "6",
+   "ov": "0.3",
+   "roofMat": "trapez",
+   "facMat": "trapez",
+   "sheetLen": "6",
+   "panelT": "40",
+   "cut": "1",
+   "roofColor": "r9006",
+   "facColor": "r9002",
+   "sub": "1",
+   "bay": "6",
+   "purlinSp": "1.5",
+   "girtSp": "1.5",
+   "purlin": "UPN 140",
+   "girt": "UPN 120"
+  },
+  "rows": [
+   {
+    "group": "Çatı"
+   },
+   {
+    "name": "Çatı levhaları (trapez)",
+    "spec": "1000 × 6.000 mm · 0,50 mm · 4,5 kg/m²",
+    "qty": "173",
+    "amount": "–",
+    "kg": "3.996 kg"
+   },
+   {
+    "name": "Çatı kaplama alanı",
+    "spec": "fire dahil (%5)",
+    "qty": "–",
+    "amount": "888,0 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Çatı vidası",
+    "spec": "sac / çelik için matkap uçlu, contalı",
+    "qty": "5.074",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Mahya kapaması",
+    "spec": "",
+    "qty": "–",
+    "amount": "40,6 m",
+    "kg": "–"
+   },
+   {
+    "name": "Oluk",
+    "spec": "Ø150 yarım daire",
+    "qty": "–",
+    "amount": "81,2 m",
+    "kg": "–"
+   },
+   {
+    "name": "Yağmur iniş borusu",
+    "spec": "Ø100",
+    "qty": "12",
+    "amount": "72,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Rüzgarlık (alın kenarı)",
+    "spec": "",
+    "qty": "–",
+    "amount": "41,7 m",
+    "kg": "–"
+   },
+   {
+    "group": "Cephe"
+   },
+   {
+    "name": "Cephe levhaları (trapez)",
+    "spec": "1000 × 6.000 mm · 4,5 kg/m²",
+    "qty": "273",
+    "amount": "–",
+    "kg": "3.544 kg"
+   },
+   {
+    "name": "Cephe kaplama alanı",
+    "spec": "alın üçgenleri ve fire dahil",
+    "qty": "–",
+    "amount": "787,5 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Cephe vidası",
+    "spec": "",
+    "qty": "4.500",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Köşe kapaması",
+    "spec": "",
+    "qty": "–",
+    "amount": "24,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Damlalık (subasman)",
+    "spec": "",
+    "qty": "–",
+    "amount": "120,0 m",
+    "kg": "–"
+   },
+   {
+    "group": "Alt yapı"
+   },
+   {
+    "name": "Aşık",
+    "spec": "UPN 140 · 16,4 kg/m",
+    "qty": "14",
+    "amount": "568,4 m",
+    "kg": "9.294 kg"
+   },
+   {
+    "name": "Kuşak",
+    "spec": "UPN 120 · 13,6 kg/m",
+    "qty": "14",
+    "amount": "401,2 m",
+    "kg": "5.476 kg"
+   },
+   {
+    "name": "Takoz levhası",
+    "spec": "her aşık / kuşak – çerçeve kesişiminde",
+    "qty": "184",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "184",
+    "amount": "–",
+    "kg": "491 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "368",
+    "amount": "–",
+    "kg": "33 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Çatı alanı",
+    "846 m²"
+   ],
+   [
+    "Cephe alanı",
+    "750 m²"
+   ],
+   [
+    "Eğik uzunluk",
+    "10,42 m"
+   ],
+   [
+    "Mahya yüksekliği",
+    "1,50 m"
+   ],
+   [
+    "Kaplama ağırlığı",
+    "7,5 t"
+   ],
+   [
+    "Toplam çelik",
+    "15,29 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n15,294 t\nDiğer malzemeler\n7.540 kg\nToplam ağırlık\n22.834 kg",
+  "flag": "Çatı eğimi %15 (8,5°).",
+  "chip": "20,0 × 40,0 m · eğim %15 · saçak 6,0 m"
+ },
+ {
+  "variant": {
+   "roofMat": "sandvic",
+   "facMat": "yok",
+   "cut": "0",
+   "panelT": 80
+  },
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "40",
+   "slope": "15",
+   "wallH": "6",
+   "ov": "0.3",
+   "roofMat": "sandvic",
+   "facMat": "yok",
+   "sheetLen": "6",
+   "panelT": "80",
+   "cut": "0",
+   "roofColor": "r9006",
+   "facColor": "r9002",
+   "sub": "1",
+   "bay": "6",
+   "purlinSp": "1.5",
+   "girtSp": "1.5",
+   "purlin": "UPN 140",
+   "girt": "UPN 120"
+  },
+  "rows": [
+   {
+    "group": "Çatı"
+   },
+   {
+    "name": "Çatı paneli (sandviç 80 mm)",
+    "spec": "1000 mm × 10,42 m · 11,9 kg/m²",
+    "qty": "82",
+    "amount": "–",
+    "kg": "10.366 kg"
+   },
+   {
+    "name": "Çatı kaplama alanı",
+    "spec": "fire dahil (%3)",
+    "qty": "–",
+    "amount": "871,1 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Panel vidası",
+    "spec": "ön delikli, şapkalı",
+    "qty": "3.383",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Mahya kapaması",
+    "spec": "",
+    "qty": "–",
+    "amount": "40,6 m",
+    "kg": "–"
+   },
+   {
+    "name": "Oluk",
+    "spec": "Ø150 yarım daire",
+    "qty": "–",
+    "amount": "81,2 m",
+    "kg": "–"
+   },
+   {
+    "name": "Yağmur iniş borusu",
+    "spec": "Ø100",
+    "qty": "12",
+    "amount": "72,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Rüzgarlık (alın kenarı)",
+    "spec": "",
+    "qty": "–",
+    "amount": "41,7 m",
+    "kg": "–"
+   },
+   {
+    "group": "Alt yapı"
+   },
+   {
+    "name": "Aşık",
+    "spec": "UPN 140 · 16,4 kg/m",
+    "qty": "14",
+    "amount": "568,4 m",
+    "kg": "9.294 kg"
+   },
+   {
+    "name": "Takoz levhası",
+    "spec": "her aşık / kuşak – çerçeve kesişiminde",
+    "qty": "112",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "group": "Bağlantı elemanları"
+   },
+   {
+    "name": "Bağlantı levhaları",
+    "spec": "t = 20 mm · S275",
+    "qty": "112",
+    "amount": "–",
+    "kg": "274 kg"
+   },
+   {
+    "name": "Cıvata M12",
+    "spec": "8.8, somun + rondela",
+    "qty": "224",
+    "amount": "–",
+    "kg": "20 kg"
+   }
+  ],
+  "kpis": [
+   [
+    "Çatı alanı",
+    "846 m²"
+   ],
+   [
+    "Cephe alanı",
+    "–"
+   ],
+   [
+    "Eğik uzunluk",
+    "10,42 m"
+   ],
+   [
+    "Mahya yüksekliği",
+    "1,50 m"
+   ],
+   [
+    "Kaplama ağırlığı",
+    "10,4 t"
+   ],
+   [
+    "Toplam çelik",
+    "9,59 t"
+   ]
+  ],
+  "totals": "Toplam çelik (tonaj)\n9,588 t\nDiğer malzemeler\n10.366 kg\nToplam ağırlık\n19.954 kg",
+  "flag": "Çatı eğimi %15 (8,5°).",
+  "chip": "20,0 × 40,0 m · eğim %15 · saçak 6,0 m"
+ },
+ {
+  "variant": {
+   "facMat": "sandvic",
+   "slope": 4,
+   "sub": "0",
+   "ov": 0
+  },
+  "err": null,
+  "state": {
+   "width": "20",
+   "length": "40",
+   "slope": "4",
+   "wallH": "6",
+   "ov": "0",
+   "roofMat": "trapez",
+   "facMat": "sandvic",
+   "sheetLen": "6",
+   "panelT": "40",
+   "cut": "1",
+   "roofColor": "r9006",
+   "facColor": "r9002",
+   "sub": "0",
+   "bay": "6",
+   "purlinSp": "1.5",
+   "girtSp": "1.5",
+   "purlin": "UPN 140",
+   "girt": "UPN 120"
+  },
+  "rows": [
+   {
+    "group": "Çatı"
+   },
+   {
+    "name": "Çatı levhaları (trapez)",
+    "spec": "1000 × 6.000 mm · 0,50 mm · 4,5 kg/m²",
+    "qty": "168",
+    "amount": "–",
+    "kg": "3.783 kg"
+   },
+   {
+    "name": "Çatı kaplama alanı",
+    "spec": "fire dahil (%5)",
+    "qty": "–",
+    "amount": "840,7 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Çatı vidası",
+    "spec": "sac / çelik için matkap uçlu, contalı",
+    "qty": "4.804",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Mahya kapaması",
+    "spec": "",
+    "qty": "–",
+    "amount": "40,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Oluk",
+    "spec": "Ø150 yarım daire",
+    "qty": "–",
+    "amount": "80,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Yağmur iniş borusu",
+    "spec": "Ø100",
+    "qty": "10",
+    "amount": "60,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Rüzgarlık (alın kenarı)",
+    "spec": "",
+    "qty": "–",
+    "amount": "40,0 m",
+    "kg": "–"
+   },
+   {
+    "group": "Cephe"
+   },
+   {
+    "name": "Cephe paneli (sandviç 40 mm)",
+    "spec": "1000 mm modül · 10,5 kg/m²",
+    "qty": "120",
+    "amount": "–",
+    "kg": "7.873 kg"
+   },
+   {
+    "name": "Cephe kaplama alanı",
+    "spec": "alın üçgenleri ve fire dahil",
+    "qty": "–",
+    "amount": "749,8 m²",
+    "kg": "–"
+   },
+   {
+    "name": "Panel vidası",
+    "spec": "",
+    "qty": "2.912",
+    "amount": "–",
+    "kg": "–"
+   },
+   {
+    "name": "Köşe kapaması",
+    "spec": "",
+    "qty": "–",
+    "amount": "24,0 m",
+    "kg": "–"
+   },
+   {
+    "name": "Damlalık (subasman)",
+    "spec": "",
+    "qty": "–",
+    "amount": "120,0 m",
+    "kg": "–"
+   }
+  ],
+  "kpis": [
+   [
+    "Çatı alanı",
+    "801 m²"
+   ],
+   [
+    "Cephe alanı",
+    "728 m²"
+   ],
+   [
+    "Eğik uzunluk",
+    "10,01 m"
+   ],
+   [
+    "Mahya yüksekliği",
+    "0,40 m"
+   ],
+   [
+    "Kaplama ağırlığı",
+    "11,7 t"
+   ]
+  ],
+  "totals": "Toplam ağırlık\n11.656 kg",
+  "flag": "Çatı eğimi %4 (2,3°) — %5 altı eğimde trapez sac için ek sızdırmazlık önlemi gerekir.",
+  "chip": "20,0 × 40,0 m · eğim %4 · saçak 6,0 m"
+ }
+]

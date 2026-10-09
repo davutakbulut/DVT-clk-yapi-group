@@ -2,53 +2,26 @@ import { cached } from '@/core/cache/cached';
 import { CACHE_TAGS } from '@/core/cache/tags';
 import { createPublicClient } from '@/core/db/createPublicClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
-import { DEFAULT_MULTI_STOREY_RULES, multiStoreyRulesSchema, type MultiStoreyRules } from '../domain/multiStorey';
-import { DEFAULT_LIMITS, limitsSchema, type Limits } from '../domain/params';
-import { DEFAULT_PROFILE_MAP } from '../domain/profiles';
-import type { ProfileKey } from '../domain/structure';
 
-import { SIMPLE, SIMPLE_KINDS, SIMPLE_RULE_KEY, type AnyRules, type SimpleKind } from '../domain/simple/registry';
-
+/** Genel kurallar (configurator_rules): işçilik katsayısı ve fiyat eşlemesi. Tür bazlı motor ayarları `engineRepository`de (K-110). */
 export interface ConfiguratorRules {
-  readonly limits: Limits;
-  readonly trussThresholdM: number;
-  readonly purlinSpacingM: number;
   readonly laborFactor: number;
-  readonly profileMap: Readonly<Record<ProfileKey, string>>;
   /** Fiyat kalemi → material_prices.code ('' = fiyatlanmaz). */
   readonly priceMap: { readonly steel: string; readonly roof_panel: string; readonly wall_panel: string; readonly bolt: string };
-  /** Çok katlı konfigüratör kuralları (`multi_storey` anahtarı); bozuk/yok → varsayılan. */
-  readonly multiStorey: MultiStoreyRules;
-  /** Basit konfigüratör kuralları (K-100): `cladding` · `mezzanine` · `fence` · `drywall` anahtarları; bozuk/yok → varsayılan. */
-  readonly simple: Readonly<Record<SimpleKind, AnyRules>>;
 }
+export const DEFAULT_RULES: ConfiguratorRules = { laborFactor: 1, priceMap: { steel: '', roof_panel: '', wall_panel: '', bolt: '' } };
 
-export const DEFAULT_RULES: ConfiguratorRules = { limits: DEFAULT_LIMITS, trussThresholdM: 30, purlinSpacingM: 1, laborFactor: 1, profileMap: DEFAULT_PROFILE_MAP, priceMap: { steel: '', roof_panel: '', wall_panel: '', bolt: '' }, multiStorey: DEFAULT_MULTI_STOREY_RULES, simple: Object.fromEntries(SIMPLE_KINDS.map((k) => [k, SIMPLE[k].defaultRules])) as Record<SimpleKind, AnyRules> };
-
-/** configurator_rules (anonim okur, 0008): limitler, sistem eşiği, profil eşlemesi. Bozuk/yok → varsayılan (asla fırlatmaz). */
+/** configurator_rules (anonim okur, 0008). Bozuk/yok → varsayılan (asla fırlatmaz). */
 async function fetchRules(): Promise<Result<ConfiguratorRules>> {
   const client = createPublicClient();
   if (!client.ok) return client;
-  const { data, error } = await client.data.from('configurator_rules').select('key, value');
+  const { data, error } = await client.data.from('configurator_rules').select('key, value').in('key', ['labor_factor', 'price_map']);
   if (error) return err(appError('external_service', error.message, { module: 'configurator' }));
   const map = new Map(data.map((r) => [r.key, r.value]));
-  const limits = limitsSchema.safeParse(map.get('limits'));
-  const num = (k: string, fallback: number) => {
-    const v = Number(map.get(k));
-    return Number.isFinite(v) && v > 0 ? v : fallback;
-  };
-  const pm = map.get('profile_map');
-  const profileMap = { ...DEFAULT_PROFILE_MAP } as Record<ProfileKey, string>;
-  if (typeof pm === 'object' && pm !== null) for (const [k, v] of Object.entries(pm)) if (k in profileMap && typeof v === 'string' && v) profileMap[k as ProfileKey] = v;
+  const labor = Number(map.get('labor_factor'));
   const pr = map.get('price_map');
   const priceMap = { ...DEFAULT_RULES.priceMap } as Record<keyof ConfiguratorRules['priceMap'], string>;
   if (typeof pr === 'object' && pr !== null) for (const [k, v] of Object.entries(pr)) if (k in priceMap && typeof v === 'string') priceMap[k as keyof typeof priceMap] = v;
-  const ms = multiStoreyRulesSchema.safeParse(map.get('multi_storey'));
-  const simple = Object.fromEntries(SIMPLE_KINDS.map((k) => {
-    const parsed = SIMPLE[k].rulesSchema.safeParse(map.get(SIMPLE_RULE_KEY[k]));
-    return [k, parsed.success ? parsed.data : SIMPLE[k].defaultRules];
-  })) as Record<SimpleKind, AnyRules>;
-  return ok({ simple, multiStorey: ms.success ? ms.data : DEFAULT_MULTI_STOREY_RULES, priceMap, limits: limits.success ? limits.data : DEFAULT_LIMITS, trussThresholdM: num('truss_threshold_m', 30), purlinSpacingM: num('purlin_spacing_m', 1), laborFactor: num('labor_factor', 1), profileMap });
+  return ok({ laborFactor: Number.isFinite(labor) && labor > 0 ? labor : 1, priceMap });
 }
-
 export const getCachedRules = cached(fetchRules, ['configurator', 'rules'], { tags: [CACHE_TAGS.configurator] });
