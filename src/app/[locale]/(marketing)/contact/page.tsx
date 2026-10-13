@@ -5,7 +5,7 @@ import { breadcrumbList, JsonLd, localBusinessJsonLd } from '@/core/seo';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
-import { ContactInfo, LeadFormSection } from '@/modules/leads';
+import { ContactInfo, LeadFormSection, LocationSection } from '@/modules/leads';
 import { getPublicSettings, moduleEnabled } from '@/modules/site-settings';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
@@ -52,6 +52,10 @@ export default async function ContactPage({ params }: Props) {
           </ModuleBoundary>
         </div>
       </Container>
+      {/* K-112: konum + harita (adres yoksa bölüm yok) */}
+      <ModuleBoundary module="leads/location">
+        <LocationSection locale={locale} />
+      </ModuleBoundary>
     </>
   );
 }

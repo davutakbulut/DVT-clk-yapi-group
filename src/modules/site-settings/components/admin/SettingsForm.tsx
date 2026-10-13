@@ -57,6 +57,10 @@ export function SettingsForm({ settings, logos }: Props) {
         {field('addressTr', `${t('settings.address')} (TR)`, settings.contact.address?.['tr'] ?? '')}
         {field('addressEn', `${t('settings.address')} (EN)`, settings.contact.address?.['en'] ?? '')}
         {field('mapUrl', t('settings.mapUrl'), settings.contact.mapUrl ?? '', 'url')}
+        <div className="grid gap-1">
+          {field('mapEmbedUrl', t('settings.mapEmbedUrl'), settings.contact.mapEmbedUrl ?? '')}
+          <p className="text-xs text-muted-foreground">{t('settings.mapEmbedHint')}</p>
+        </div>
         {field('hoursTr', `${t('settings.workingHours')} (TR)`, settings.contact.workingHours?.['tr'] ?? '')}
         {field('hoursEn', `${t('settings.workingHours')} (EN)`, settings.contact.workingHours?.['en'] ?? '')}
         {field('seoTr', `${t('settings.seoDescription')} (TR)`, settings.seoDescription?.['tr'] ?? '')}

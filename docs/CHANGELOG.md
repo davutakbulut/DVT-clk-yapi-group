@@ -7,6 +7,12 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### İletişim adresi ve konum haritası (K-112)
+- Firma adresi eklendi (0062): iletişim sayfası bilgi satırı, footer iletişim sütunu, ana sayfa iletişim bandı ve JSON-LD (Organization / LocalBusiness)
+- İletişim sayfasında "Konum" bölümü: harita yalnız "Haritayı göster"e basılınca yüklenir (tıklamadan Google'a istek yok), "Yol tarifi al" bağlantısı
+- Panel `/admin/settings`: "Harita gömme adresi" alanı (Google `<iframe>` çıktısı yapıştırılabilir; yalnız Google Haritalar kabul edilir); harita sorgusu sokak düzeyinde doğrulandı (0063)
+- Düzeltme: ana sayfa kategori kartındaki "+N" sayacı statik veri taramasına takılıyordu
+
 ### Yeni ana sayfa (K-111)
 - Ana sayfa ürün sahibinin yeni prototipine göre yeniden kuruldu: iki yollu hero (malzeme / uygulama kartları, konfigüratör notu, üç düğme), ürün grubu şeridi, 01 Malzeme satışı (kategori kartları + ürün adları + "neden biz" + teklif kartı), 02 Uygulama (öne çıkan hizmet + üç grup kartı), 03 Neden çelik + süreç, 04 3D konfigüratör (altı tür), 05 Projeler (+ CTA kartı), saha videoları, yorumlar, blog, iletişim bandı; hakkımızda bölümü yalnız /hakkimizda'da
 - Veri: tümü veritabanından (kategoriler, ürünler, hizmetler, projeler, ayarlar); `product_categories.icon_key` (0060) panelde seçilir; bölüm metinleri `site_settings` `home.page` → `/admin/pages/home` yeni form; hero başlığı/girişi/düğmesi `hero_media` (0061 yeni metin, başlıkta satır sonu)

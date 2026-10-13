@@ -509,6 +509,18 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Kaldırılanlar:** ana sayfada `AboutSection` ve `ServicesSection` kullanımı (bileşenler duruyor: hakkımızda sayfası / ileride), `HeroVideo` scrub bileşeni çağrısı (dosya duruyor, K-24 kararıyla birlikte ileride silinebilir).
 - **Bilinen bedeli:** ana sayfa artık ürün, hizmet, proje, ayar ve blog önbelleklerinin hepsine bağlı — herhangi birinin `revalidateTag`'i ana sayfayı yeniler (zaten `revalidatePath('/')` çağrılıyordu). Kategori ikonu seti 10 anahtarla sınırlı; yeni kategori türü için migration + bileşen birlikte güncellenir.
 
+### K-112 · İletişim adresi ve konum haritası: tıklanınca yüklenen Google Haritalar çerçevesi
+
+**Bağlam:** Ürün sahibi 2026-10-13'te firma adresini verdi (Mihrabat Sokak, Bahçeşehir 2. Kısım, No: 4/266, Başakşehir / İstanbul) ve iletişim sayfasına konum haritası istedi. Adres/harita bağlantısı alanları `site_settings`'te vardı ama boştu; footer ve iletişim satırları değer gelince kendiliğinden görünüyordu.
+
+**Karar:**
+- **Veri** (0062/0063): `contact.address` (TR/EN), `contact.map_url` ("Yol tarifi al" bağlantısı) ve yeni `contact.map_embed_url` (gömme adresi). Üçü de `/admin/settings` › genel ayarlardan düzenlenir; gömme alanına Google'ın `<iframe …>` çıktısı olduğu gibi yapıştırılabilir (`extractMapEmbedUrl` `src`'yi ayıklar).
+- **Kaynak sınırı:** gömme adresi yalnız `https://{www.,maps.}google.com/maps…` (CSP `frame-src` ile aynı; başka alan adı, http, `javascript:` reddedilir — sunucu eylemi ve okuma tarafı aynı işlevi kullanır).
+- **Gizlilik + performans:** çerçeve **yalnız "Haritayı göster"e basılınca** oluşturulur (K-76 ağır medya kuralı; tıklamadan Google'a istek gitmez, çerez yazılmaz → çerez izni kategorisi gerekmez). Kapakta adres, düğme, "Yol tarifi al" (yeni sekme) ve bunu söyleyen not.
+- **Koordinat uydurulmadı:** iğne Google'ın adres çözümlemesinden gelir. Kapı numaralı tam metin Google'da yanlış bölgeye (Ispartakule) düştüğü için sorgu "sokak + mahalle + posta kodu" (0063; tarayıcıda doğrulandı: Google "Mihrabat Sk." etiketine iğne koyuyor; sokak OpenStreetMap'te de aynı mahallede). **İğne sokak düzeyindedir**; bina düzeyi için ürün sahibi Google İşletme kaydının gömme adresini panele yapıştırır.
+- **Yerleşim:** iletişim sayfasında bilgi satırı (adres düz metin + "Yol tarifi al" + "Haritada gör" çapası) ve formun altında `#konum` bölümü; footer iletişim sütununda adres (harita bağlantılı); ana sayfa iletişim bandında adres kartı. Adres boşsa hiçbiri çizilmez.
+- **Bilinen bedeli:** Google gömmesi anahtarsız `output=embed` biçimini kullanır (resmî Embed API anahtarı yok); Google bu biçimi kaldırırsa panelden `…/maps/embed?pb=…` adresi girilir. JSON-LD `PostalAddress` hâlâ tek satır `streetAddress` (ilçe/il ayrı alan değil).
+
 ## Değiştirilen Kararlar
 
 - **K-55 (steel_profiles boş başlar) → K-110:** profil kataloğu yayınlanmış standart tablolardan tohumlanır; fiyat/yorum/proje/sertifika için kural aynen sürer.

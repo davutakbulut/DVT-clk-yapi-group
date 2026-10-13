@@ -21,6 +21,7 @@ const schema = z.object({
   'contact.email': text,
   'contact.address': localized,
   'contact.map_url': text,
+  'contact.map_embed_url': text,
   'contact.working_hours': localized,
   'social.links': z.array(z.object({ platform: z.string().min(1), url: z.string().url() })).catch([]),
   'seo.default_description': localized,
@@ -83,6 +84,8 @@ export interface PublicSettings {
     readonly email: string | null;
     readonly address: LocalizedText | null;
     readonly mapUrl: string | null;
+    /** Harita gömme adresi (K-112); boşsa adresten türetilir. */
+    readonly mapEmbedUrl: string | null;
     readonly workingHours: LocalizedText | null;
   };
   readonly socialLinks: readonly { readonly platform: string; readonly url: string }[];
@@ -113,7 +116,7 @@ export const DEFAULT_SETTINGS: PublicSettings = {
   developer: null,
   logoMediaId: null,
   logoDarkMediaId: null,
-  contact: { phone: null, email: null, address: null, mapUrl: null, workingHours: null },
+  contact: { phone: null, email: null, address: null, mapUrl: null, mapEmbedUrl: null, workingHours: null },
   socialLinks: [],
   seoDescription: null,
   seoOgMediaId: null,
@@ -143,6 +146,7 @@ export function parseSettings(rows: readonly { readonly key: string; readonly va
       email: s['contact.email'],
       address: s['contact.address'],
       mapUrl: s['contact.map_url'],
+      mapEmbedUrl: s['contact.map_embed_url'],
       workingHours: s['contact.working_hours'],
     },
     socialLinks: s['social.links'],

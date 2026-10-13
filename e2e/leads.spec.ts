@@ -29,6 +29,30 @@ test.describe('talep formu', () => {
     expect(results.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
   });
 
+  // K-112: adres iletişim sayfasında, footer'da ve ana sayfa iletişim bandında; harita YALNIZ tıklanınca yüklenir (tıklamadan Google'a istek yok)
+  test('adres + konum: iletişim satırı, footer, ana sayfa bandı; harita tıklanınca Google Haritalar çerçevesi', async ({ page }) => {
+    const googleRequests: string[] = [];
+    page.on('request', (r) => { if (/google\.com\/maps/.test(r.url())) googleRequests.push(r.url()); });
+    await page.goto('/tr/iletisim');
+    const location = page.locator('#konum');
+    test.skip((await location.count()) === 0, 'Veritabanı yok (CI) ya da adres girilmemiş: bölüm sessizce render edilmez');
+    const address = (await location.locator('.location-map-address').textContent())!.trim();
+    expect(address.length).toBeGreaterThan(10);
+    await expect(page.locator('dl').filter({ hasText: 'Adres' })).toContainText(address);
+    await expect(page.locator('dl').getByRole('link', { name: 'Yol tarifi al' })).toHaveAttribute('href', /^https:\/\/(www\.google\.com\/maps|maps\.app\.goo\.gl)/);
+    await expect(page.locator('footer address')).toContainText(address);
+    await expect(location.locator('iframe')).toHaveCount(0);
+    expect(googleRequests).toEqual([]);
+    const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
+    expect(axe.violations.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
+    await location.getByRole('button', { name: 'Haritayı göster' }).click();
+    const frame = location.locator('iframe');
+    await expect(frame).toHaveAttribute('src', /^https:\/\/www\.google\.com\/maps/);
+    await expect(frame).toHaveAttribute('title', /Google Haritalar/);
+    await page.goto('/tr');
+    await expect(page.locator('#iletisim .home-ccard-address')).toContainText(address);
+  });
+
   test('ana sayfa hero CTA teklif sayfasına gider', async ({ page }) => {
     await page.goto('/tr');
     const cta = page.locator('section.hero a[href="/tr/teklif-al"]');

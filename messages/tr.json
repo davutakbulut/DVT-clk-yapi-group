@@ -48,7 +48,8 @@
     "phone": "Telefon",
     "email": "E-posta",
     "google": "Google",
-    "reviews": "Müşteri değerlendirmeleri"
+    "reviews": "Müşteri değerlendirmeleri",
+    "address": "Adres"
   },
   "Errors": {
     "notFoundTitle": "Sayfa bulunamadı",
@@ -306,7 +307,9 @@
       "seoDescription": "Varsayılan meta açıklama",
       "socialMoved": "Sosyal medya bağlantıları ayrı sayfada yönetilir:",
       "developerName": "Geliştirici imzası (footer, meta, humans.txt)",
-      "developerUrl": "Geliştirici bağlantısı (isteğe bağlı)"
+      "developerUrl": "Geliştirici bağlantısı (isteğe bağlı)",
+      "mapEmbedUrl": "Harita gömme adresi (isteğe bağlı)",
+      "mapEmbedHint": "Google Haritalar › Paylaş › Harita yerleştir çıktısını (<iframe …>) olduğu gibi yapıştırabilirsiniz. Boş bırakılırsa harita adresten türetilir."
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -2026,9 +2029,15 @@
     "email": "E-posta",
     "address": "Adres",
     "hours": "Çalışma saatleri",
-    "map": "Haritada aç",
+    "map": "Haritada gör",
     "form": "Mesaj gönderin",
-    "home": "Ana sayfa"
+    "home": "Ana sayfa",
+    "location": "Konum",
+    "locationKicker": "Adres",
+    "showMap": "Haritayı göster",
+    "directions": "Yol tarifi al",
+    "mapNote": "Harita Google Haritalar üzerinden yüklenir; \"Haritayı göster\"e basana kadar Google'a istek gönderilmez.",
+    "mapTitle": "{siteName} konumu (Google Haritalar)"
   },
   "Quote": {
     "title": "Teklif alın",

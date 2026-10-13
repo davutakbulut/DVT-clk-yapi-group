@@ -73,3 +73,6 @@ backups/
 
 # Konfigüratör prototip kaynakları (ürün sahibinin HTML/JS dosyaları); port src/modules/configurator/engine altında, altın veri testlerde
 yeni-konfiguratorler/
+
+# Ürün sahibinin logo/renk kaynak görselleri (referans; site varlığı değil)
+alternatif logolar/

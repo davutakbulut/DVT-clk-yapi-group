@@ -46,13 +46,15 @@ export async function MaterialsSection({ locale, index = '01' }: { readonly loca
         <ul className="home-cats">
           {roots.map((c) => {
             const list = names.get(c.id) ?? [];
+            const rest = list.length - MAX_NAMES; // kartta gösterilmeyen ürün adedi (sayaç, içerik değil)
+            const more = rest <= 0 ? '' : ` +${rest}`;
             return (
               <li key={c.id}>
                 <Link href={{ pathname: '/products/category/[slug]', params: { slug: c.slug } }} className="home-cat">
                   <span className="home-cat-ico"><ProductCategoryIcon name={c.iconKey} /></span>
                   <h3>{c.name}</h3>
                   {c.description ? <p>{c.description}</p> : null}
-                  {list.length > 0 ? <span className="home-cat-items"><b>{list.slice(0, MAX_NAMES).join(' · ')}</b>{list.length > MAX_NAMES ? ` +${list.length - MAX_NAMES}` : ''}</span> : null}
+                  {list.length > 0 ? <span className="home-cat-items"><b>{list.slice(0, MAX_NAMES).join(' · ')}</b>{more}</span> : null}
                 </Link>
               </li>
             );

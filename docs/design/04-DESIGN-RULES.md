@@ -61,7 +61,7 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - **Mobil:** orta-kart düzeni — aktif kart ortada, komşular kenardan görünür (soluk; videoda ±5° eğik), altta `‹ noktalar ›`.
 - Ok: yuvarlak, 44px (mobil) / 52px (yorumlarda yüzen), 1px çizgi, ikon `--color-accent-text`. Nokta: 24×24 dokunma alanı, aktif olan hap biçimli.
 - Aktif olmayan yorum kartı `inert` + `aria-hidden`. Otomatik kayma yalnız yorumlarda; hover/odakta durur, `prefers-reduced-motion`'da hiç başlamaz. Videoda otomatik kayma yok.
-- Ağır medya (YouTube iframe, `<video>`) **yalnız tıklanınca** oluşturulur (K-76).
+- Ağır medya (YouTube iframe, `<video>`, **harita çerçevesi** — K-112) **yalnız tıklanınca** oluşturulur (K-76). Harita kapağı `.tech-art` zemini + iğne ikonu + adres + birincil düğme; çerçeve 16:9 (mobilde 4:5), 1px çizgi, köşe yok.
 
 ## 6. Butonlar
 

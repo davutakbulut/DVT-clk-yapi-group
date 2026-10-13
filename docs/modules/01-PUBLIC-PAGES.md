@@ -74,6 +74,8 @@ Hizmetler▾ Ürünler▾ Projeler▾ Konfigüratör │ LOGO │ Blog Hakkımı
 
 Alt bar: Gizlilik · Çerez · KVKK · Kullanım Koşulları · Site Haritası · © CLK Yapı Group
 
+**İletişim sayfası (K-112):** bilgi satırları (telefon · e-posta · adres + "Yol tarifi al" · çalışma saatleri) + form; altında `#konum` bölümü — harita yalnız "Haritayı göster"e basılınca yüklenir (Google Haritalar çerçevesi). Adres `site_settings` `contact.address`; boşsa adres satırı, footer adresi ve konum bölümü çizilmez.
+
 **Footer'da tüm hizmet listesi olması bilinçli:** Site geneli bir footer bağlantısı, uzun kuyruk sayfalara en ucuz ve en etkili iç bağlantı yoludur.
 
 ## İç Bağlantı Akışı

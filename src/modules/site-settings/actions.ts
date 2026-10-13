@@ -7,6 +7,7 @@ import { CACHE_TAGS } from '@/core/cache/tags';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
+import { extractMapEmbedUrl } from './domain/map';
 import { linesToItems } from './domain/pageCopy';
 
 const MODULE = 'site-settings';
@@ -25,6 +26,8 @@ const schema = z.object({
   addressTr: optional,
   addressEn: optional,
   mapUrl: z.string().trim().url().optional().or(z.literal('')),
+  // K-112: Google'ın <iframe …> parçası da yapıştırılabilir; kaynak yalnız Google Haritalar (CSP frame-src)
+  mapEmbedUrl: z.string().trim().max(2000).refine((v) => v === '' || extractMapEmbedUrl(v) !== null).optional().or(z.literal('')),
   hoursTr: optional,
   hoursEn: optional,
   logoMediaId: z.string().uuid().optional().or(z.literal('')),
@@ -61,6 +64,7 @@ export async function saveSettings(_prev: ActionState, formData: FormData): Prom
     'contact.email': v.email || '',
     'contact.address': localized(v.addressTr, v.addressEn),
     'contact.map_url': v.mapUrl || '',
+    'contact.map_embed_url': extractMapEmbedUrl(v.mapEmbedUrl) ?? '',
     'contact.working_hours': localized(v.hoursTr, v.hoursEn),
     'seo.default_description': localized(v.seoTr, v.seoEn),
   };

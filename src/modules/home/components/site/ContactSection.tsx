@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { pickLocale } from '@/lib/localized';
-import { getPublicSettings, isModuleEnabled } from '@/modules/site-settings';
+import { getPublicSettings, isModuleEnabled, mapLinkHref } from '@/modules/site-settings';
 import { Container } from '@/ui/Container';
 
 /**
@@ -13,6 +13,8 @@ export async function ContactSection({ locale }: { readonly locale: string }) {
   const L = (v: Readonly<Partial<Record<string, string>>> | null | undefined) => pickLocale(v, locale, { fallback: 'tr' });
   const copy = settings.homePage.contact;
   const { phone, email } = settings.contact;
+  const address = pickLocale(settings.contact.address, locale, { fallback: 'tr' });
+  const directions = mapLinkHref(settings.contact.mapUrl, address);
   const title = L(copy.title) || t('contactTitle');
   const reviews = isModuleEnabled(settings.modules, 'testimonials');
   const leads = isModuleEnabled(settings.modules, 'leads');
@@ -31,13 +33,16 @@ export async function ContactSection({ locale }: { readonly locale: string }) {
             </div>
           ) : null}
         </div>
-        {phone || email || reviews ? (
+        {phone || email || address || reviews ? (
           <ul className="home-ccards">
             {phone ? (
               <li><a className="home-ccard" href={`tel:${phone.replace(/[^+\d]/g, '')}`}><span><small>{t('phone')}</small><b>{phone}</b></span><span aria-hidden="true">→</span></a></li>
             ) : null}
             {email ? (
               <li><a className="home-ccard" href={`mailto:${email}`}><span><small>{t('email')}</small><b>{email}</b></span><span aria-hidden="true">→</span></a></li>
+            ) : null}
+            {address && directions ? (
+              <li><a className="home-ccard home-ccard-address" href={directions} target="_blank" rel="noopener noreferrer"><span><small>{t('address')}</small><b>{address}</b></span><span aria-hidden="true">→</span></a></li>
             ) : null}
             {reviews ? (
               <li><Link className="home-ccard" href="/reviews"><span><small>{t('google')}</small><b>{t('reviews')}</b></span><span aria-hidden="true">→</span></Link></li>

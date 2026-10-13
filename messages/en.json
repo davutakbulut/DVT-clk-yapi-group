@@ -48,7 +48,8 @@
     "phone": "Phone",
     "email": "E-mail",
     "google": "Google",
-    "reviews": "Customer reviews"
+    "reviews": "Customer reviews",
+    "address": "Address"
   },
   "Errors": {
     "notFoundTitle": "Page not found",
@@ -306,7 +307,9 @@
       "seoDescription": "Default meta description",
       "socialMoved": "Social links are managed on their own page:",
       "developerName": "Developer credit (footer, meta, humans.txt)",
-      "developerUrl": "Developer link (optional)"
+      "developerUrl": "Developer link (optional)",
+      "mapEmbedUrl": "Map embed URL (optional)",
+      "mapEmbedHint": "You can paste the Google Maps › Share › Embed a map output (<iframe …>) as is. If left empty, the map is derived from the address."
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -2026,9 +2029,15 @@
     "email": "Email",
     "address": "Address",
     "hours": "Working hours",
-    "map": "Open in maps",
+    "map": "See on the map",
     "form": "Send a message",
-    "home": "Home"
+    "home": "Home",
+    "location": "Location",
+    "locationKicker": "Address",
+    "showMap": "Show the map",
+    "directions": "Get directions",
+    "mapNote": "The map is loaded from Google Maps; no request is sent to Google until you press \"Show the map\".",
+    "mapTitle": "{siteName} location (Google Maps)"
   },
   "Quote": {
     "title": "Get a quote",

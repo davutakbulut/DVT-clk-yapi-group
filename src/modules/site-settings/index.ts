@@ -6,6 +6,7 @@ import { DEFAULT_SETTINGS, isModuleEnabled, MODULE_BY_PATH, type ModuleKey, type
 export type { CookieBannerText, PublicSettings, ModuleKey } from './domain/settings';
 export { MODULE_KEYS, MODULE_BY_PATH, isModuleEnabled } from './domain/settings';
 export { EMPTY_HOME_PAGE, EMPTY_PROJECTS_PAGE, EMPTY_SERVICES_PAGE, SERVICE_GROUP_KEYS, itemsToLines, linesToItems, type HomePageCopy, type ServiceGroupKey, type ServicesPageCopy, type ProjectsPageCopy } from './domain/pageCopy';
+export { extractMapEmbedUrl, mapEmbedSrc, mapLinkHref } from './domain/map';
 export { PagesSettingsForm } from './components/admin/PagesSettingsForm';
 export { HomePageSettingsForm } from './components/admin/HomePageSettingsForm';
 
