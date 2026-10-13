@@ -7,17 +7,22 @@
 - Çelik konstrüksiyon (kentsel dönüşüm, İstanbul) · B2B/B2C karma: mülk sahipleri, müteahhitler, mimarlar.
 - Sayfanın birincil işi: **güven + teklif talebi**. Kalıp: *Trust & Authority + Conversion* — hero (misyon/güvenilirlik) → kanıt (projeler, belgeler, istatistik) → çözüm özeti → tek net CTA yolu.
 
-## Renk (semantik tokenlar `src/styles/theme.site.css`)
+## Renk (semantik tokenlar `src/styles/theme.site.css`) — K-113: palet LOGODAN
+
+Ayrıntı ve kontrast tablosu: `docs/design/01-DESIGN-SYSTEM.md` › Renk. Hiyerarşi logonun üç çubuğu.
 
 | Rol | Token | Değer | Not |
 |---|---|---|---|
-| Zemin | `--color-bg` | #F7F6F4 kâğıt | cream değil; nötr sıcak gri |
-| Koyu bölüm | `--color-surface-dark` | #1B2A3D antrasit | header, hero, CTA bandı, footer |
-| Metin | `--color-text` | #0F1315 | gövde `--color-text-muted` #3A4750 |
-| Vurgu | `--color-accent` | #5C7FA3 çelik mavisi | zemin/çizgi; **metin için `--color-accent-text` #4A6A8C (5.21:1)** |
-| Koyu zeminde vurgu | `--color-accent-on-dark` | #8FA9C4 | |
+| Sayfa zemini | `--color-bg` | #1F2D3E logo laciverti | koyu tema; açık "kâğıt" zemin yok |
+| Kart / panel | `--color-surface` | #263850 | bir kademe açık |
+| Gömük bant | `--color-surface-dark`, `--navy-dark` | #182433 | header, footer, hero, çizim paneli, CTA bandı |
+| Metin | `--color-text` | #F2F2F2 | ikincil `--color-text-muted` #A9BBCE, ipucu #93A7BC |
+| Vurgu | `--color-accent` = `--color-accent-text` = `--mark` | #B5D8FC gök mavisi | üstündeki metin `--ink` #182433; **beyaz zeminde metin olmaz** |
+| İkincil vurgu | `--color-accent-2` | #95BBE0 | ok, küçük gösterge |
+| Çizgi | `--color-border` / `-strong` | #33475E / #3E5F80 | |
+| Açık zemin (e-posta, yazdırma, panel) | `--brand-blue` / `--brand-charcoal` | #406180 / #1E1F21 | açık logonun renkleri |
 
-Aracın önerdiği "safety orange" ikinci vurgu **reddedildi**: marka tek vurgu renkli; bir bölümde en fazla iki vurgulu öğe.
+Altın **yok** (K-113). Aracın önerdiği "safety orange" ikinci vurgu da **reddedildi**: marka tek renk ailesi (lacivert → gök mavisi → beyaz); bir bölümde en fazla iki vurgulu öğe.
 
 ## Tipografi
 

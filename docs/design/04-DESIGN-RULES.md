@@ -29,14 +29,16 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 
 ## 2. Renk
 
-- **Koyu palet (K-91):** sayfa zemini `--color-bg` (#12161c), kart/panel `--color-surface` (#1a1f27), koyu bant (header, footer, çizim paneli) `--color-surface-dark` (#0e1622); metin `--color-text` (#ecebe7), ikincil `--color-text-muted`.
-- Vurgu **açık çelik** `--color-accent` / `--color-accent-text` (#b9c6d8). **Altın** (`--mark`, #f2c230) yalnız seçicide: seçili çip, 2B/3B düğmesi, çizim ölçü okları — başka bileşende kullanılmaz. Koyu bantlar (header/footer) sayfa zemini rengindedir, lacivert yok; lacivert (`--navy-dark`) yalnız çizim paneli.
-- "Metin rengi zemin" (aktif çip, birincil buton) üstündeki metin **`--color-bg`**'dir, `--color-text-inverse` değil (koyu temada ikisi aynı açık renk olur).
+- **Palet logodan (K-113; ayrıntı ve kontrast tablosu `01-DESIGN-SYSTEM.md` › Renk):** sayfa zemini logo laciverti `--color-bg` (#1f2d3e), kart/panel `--color-surface` (#263850), gömük bant (header, footer, hero, çizim paneli, CTA/iletişim bandı) `--color-surface-dark` = `--navy-dark` (#182433); metin `--color-text` (#f2f2f2), ikincil `--color-text-muted`.
+- **Hiyerarşi logonun çubukları:** beyaz (başlık, birincil düğme) > gök mavisi `--color-accent` (#b5d8fc: kicker, bağlantı, seçili, ikon, bant içi birincil düğme `.btn-mark`) > `--color-accent-2` (#95bbe0: ok, küçük gösterge). **Altın yok.**
+- "Metin rengi zemin" (aktif çip, birincil buton) üstündeki metin **`--color-bg`**'dir; gök mavisi zemin üstündeki metin **`--ink`** (#182433).
+- **Gök mavisi beyaz/açık zeminde metin olmaz** (1,3:1) → `--brand-blue` (#406180).
 - Bir bölümde vurgu rengi en fazla iki öğede (aktif kart çerçevesi + aktif nokta gibi).
 - İstisnalar (anlam taşıyan renkler):
   - Puan yıldızı: `#c9962f` (evrensel "yıldız" rengi; yalnız `.star-on`).
   - Kaynak rozetleri (`t-badge-google|manual|visitor|verified`): açık zeminli anlamsal tonlar.
-  - "Örnek" rozeti: koyu zemin (`--color-surface-dark`) — gözden kaçmamalı.
+  - Proje aşaması "tamamlandı": yeşil (`#1f5130`); "devam ediyor": gök mavisi; "tasarım": `--navy-2` + çizgi.
+  - 3B malzeme/lejant renkleri (konfigüratör, ürün görüntüleyici): motor sabiti, tasarım tokenı değil.
 - Kart zemini `--color-surface`, sayfa zemini `--color-bg`; ham hex yazılmaz. `--color-accent` / `--color-border` adları shadcn temasıyla çakışır → site tokenları `base` katmanında kalır (K-91), yeni token eklerken katmanı değiştirme.
 
 ## 3. Köşe · Gölge
@@ -89,7 +91,7 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 ## 8b. Ürün sayfası (K-90)
 
 - Başlık koyu bant DEĞİL: kırıntı → aile çubuğu (`.fams`, aynı kategori, geçerli `aria-current`) → `.product-head` (her kelime ayrı satırda büyük başlık + giriş) → `.product-facts`.
-- Seçici paneli koyu çizim + açık yüzey panel; seçili çip altın zemin + mürekkep metin; segment (grup) metin-rengi zemin.
+- Seçici paneli koyu çizim + açık yüzey panel; seçili çip gök mavisi zemin + mürekkep metin; segment (grup) metin-rengi zemin.
 - 3B yalnız düğmeyle yüklenir; three.js ilk yüke girmez (K-24).
 
 ## 8a. Araç sayfaları (konfigüratör)
@@ -118,16 +120,16 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 
 - **Hero:** mono etiket (eyebrow) + 2–3 satırlı büyük başlık (`clamp(2.6rem, 7vw, 6rem)`, satır sonu veriden `\n`) + sağda dar açıklama; mobilde alt alta. Metin `site_settings` `services.page` / `projects.page`.
 - **Teknik çizim zemini** (`.tech-art`): `--navy-dark` + 28 px ızgara, çizgi rengi `--steel-pale`; kapak görseli varsa onu, yoksa `drawing_key` ile şema. Anahtar kümesi DB CHECK ve `src/ui/TechDrawing.tsx` ile aynı: konut · cati · kentsel · endustri · betonarme · epoksi · alcipan · tadilat · peyzaj · proje.
-- **Hizmet grupları:** çelik (3 sütun kart), mühendislik (geniş iki sütunlu kart), inşaat (kompakt satır, 72 px çizim). Öne çıkanlar altın kısa çizgi ile (`.inc li::before`). Bağlantı satırı: "Detaylar →" + soluk "Projeleri gör".
+- **Hizmet grupları:** çelik (3 sütun kart), mühendislik (geniş iki sütunlu kart), inşaat (kompakt satır, 72 px çizim). Öne çıkanlar gök mavisi kısa çizgi ile (`.inc li::before`). Bağlantı satırı: "Detaylar →" + soluk "Projeleri gör".
 - **Proje kartı:** aşama çipi sol üstte (tamamlandı yeşil, devam ediyor altın, tasarım lacivert), kategori mono etiket, başlık, konum, özet, yıl/alan/çelik/süre metası (mono değerler, bilinmeyen `—`), "Projeyi incele →". İlk kart "Tümü"de 2 sütun.
 - **Süzgeç:** kategori çipleri adet rozetli (seçili: mürekkep zemin, altın adet), durum sekmeleri alt çizgili, sayaç mono. Mobilde çipler yatay kaydırma (K-92).
-- **CTA bandı:** ızgaralı lacivert zemin, altın birincil düğme (`.btn-mark`), açık çelik çerçeveli telefon düğmesi. Altın yalnız burada ve seçili çip adedinde.
+- **CTA bandı:** ızgaralı gömük lacivert zemin, gök mavisi birincil düğme (`.btn-mark`), gök mavisi çerçeveli telefon düğmesi (K-113: altın kaldırıldı).
 - Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi. Alınmayan: açık "kâğıt" zemin, köşe yarıçapı, Archivo yazı tipi (04-DESIGN-RULES §2).
 
 ## 8d · Konfigüratör rehber sayfaları ve band (K-107)
 
 - Rehber hero'su **kompakt** başlık (`.page-hero-title-md`, ≤ 24ch): SEO başlıkları uzundur, dev hero ölçüsü 7 satıra düşüyordu.
-- "Kendiniz inşa etmek ister misiniz?" bandı (`.cfg-banner`): ızgaralı lacivert zemin, solda altın 4 px çizgi, çizgisel tür simgesi (`src/ui/ConfiguratorGlyph.tsx`), altın birincil düğme + açık çelik ikincil düğme. Metin veriden (rehberde kendi bandı; ürünler/hizmetlerde `configurator.banner` ayarı).
+- "Kendiniz inşa etmek ister misiniz?" bandı (`.cfg-banner`): ızgaralı lacivert zemin, solda gök mavisi 4 px çizgi, çizgisel tür simgesi (`src/ui/ConfiguratorGlyph.tsx`), gök mavisi birincil düğme + çerçeveli ikincil düğme. Metin veriden (rehberde kendi bandı; ürünler/hizmetlerde `configurator.banner` ayarı).
 - Seçim sayfasında "Nasıl çalışır? →" bağlantısı kartın **dışında**, altında sabit satırda (kart tek bağlantıdır; iç içe bağlantı yok).
 
 ## 8f · Ana sayfa (K-111)
@@ -138,8 +140,8 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - **Öne çıkan hizmet:** geniş iki sütunlu lacivert kart (K-106 `.wide-svc` dili), öne çıkanlar kare madde imi; grup kartları `.home-svc` — bağlantı satırları 44 px, sağda ok.
 - **Neden çelik + süreç:** `section-dark` içinde 4 kutu + 4 adım (büyük numara açık çelik, adımlar arası ince çizgi; ≤1023 çizgi yok).
 - **Konfigüratör listesi:** 2 sütun satır kartı (40 px glyph + başlık + özet + ok).
-- **İletişim bandı:** K-106 CTA bandıyla aynı ızgaralı lacivert zemin ve 4 px açık çelik üst çizgi; altın yalnız birincil düğmede; sağda 72 px kartlar.
-- Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi, iki yollu hero fikri. Alınmayan: açık "kâğıt" zemin, lacivert/gök mavisi paleti, 12 px köşe, Barlow, prototipin logosu ve header'ı (§0.3).
+- **İletişim bandı:** K-106 CTA bandıyla aynı ızgaralı lacivert zemin ve 4 px açık çelik üst çizgi; birincil düğme gök mavisi; sağda 72 px kartlar.
+- Referanstan alınan: yerleşim, bölüm sırası, bilgi mimarisi, iki yollu hero fikri. Alınmayan: açık "kâğıt" zemin, 12 px köşe, Barlow (§0.3). **Lacivert/gök mavisi palet ve logo çizimi K-113 ile alındı** (logonun kendi renkleri).
 
 ## 8e · Konfigüratör paneli (K-110)
 

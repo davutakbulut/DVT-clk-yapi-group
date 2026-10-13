@@ -311,6 +311,7 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 - [x] **Faz 29g** — Toplu e-posta (K-108): kampanya taslağı, kitle kuralları, zamanlı/saatlik sınırlı gönderim, listeden çıkma, engel listesi, panel ✅ 2026-09-30
 - [x] **Faz 29h** — Toplu e-posta hazır şablonları (K-109): 14 şablon, seçici + canlı önizleme, doldurulmamış alan engeli, şablon yönetimi ✅ 2026-09-30
 - [x] **Faz 29i** — Parametrik 3B konfigüratör motoru (K-110): altı tür tek motorda, standart profil kataloğu (0059), tür bazlı panel ayarları, altın veri testleri ✅ 2026-10-09
+- [x] **Faz 29l** — Renk paleti logodan (K-113): marka primitive'leri, hiyerarşi (beyaz > gök mavisi > ikincil), altın kaldırıldı, e-posta/panel/favicon ✅ 2026-10-13
 - [x] **Faz 29k** — İletişim adresi + konum haritası (K-112): adres ayarı, tıklanınca yüklenen harita, panelde gömme adresi (0062/0063) ✅ 2026-10-13
 - [x] **Faz 29j** — Yeni ana sayfa (K-111): iki yollu hero, veriden kategori/hizmet/proje vitrinleri, `home.page` bölüm metinleri + kategori ikonu (0060/0061), panel formu ✅ 2026-10-09
   - [ ] *Ürün sahibi:* rehberlere kapak görseli (konfigüratör ekran görüntüsü) ve EN onayı

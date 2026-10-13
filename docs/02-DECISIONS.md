@@ -521,6 +521,20 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Yerleşim:** iletişim sayfasında bilgi satırı (adres düz metin + "Yol tarifi al" + "Haritada gör" çapası) ve formun altında `#konum` bölümü; footer iletişim sütununda adres (harita bağlantılı); ana sayfa iletişim bandında adres kartı. Adres boşsa hiçbiri çizilmez.
 - **Bilinen bedeli:** Google gömmesi anahtarsız `output=embed` biçimini kullanır (resmî Embed API anahtarı yok); Google bu biçimi kaldırırsa panelden `…/maps/embed?pb=…` adresi girilir. JSON-LD `PostalAddress` hâlâ tek satır `streetAddress` (ilçe/il ayrı alan değil).
 
+### K-113 · Renk paleti logodan: lacivert zemin kademeleri, gök mavisi vurgu, beyaz en üst kademe; altın kaldırıldı
+
+**Bağlam:** Ürün sahibi 2026-10-13'te logo dosyalarını verdi (`alternatif logolar/`: koyu zeminli ana logo, tek renk, açık zeminli) ve "renklerimi, hiyerarşimi, renk paletimi ona göre düzenle" dedi. Site K-91'den beri nötr koyu palet (#12161c) + açık çelik vurgu + altın işaret kullanıyordu; logonun laciverti ve gök mavisi yalnız konfigüratör sahnesinde vardı. K-111'de prototipin paleti "tasarım kuralı gereği" alınmamıştı; bu karar onu tersine çevirir (renkler prototipin değil **logonun** rengi).
+
+**Karar:**
+- **Ölçüm:** logo renkleri pikselden ölçüldü (JPEG ±2) ve ürün sahibinin prototip CSS'indeki değerlerle eşleşti: lacivert `#1F2D3E`, çubuklar `#95BBE0` / `#B5D8FC` / `#F2F2F2`, ayraç `#3E5F80`; açık varyant `#5980A7` / `#406180` / `#1E1F21`, kâğıt `#F2F2F2`.
+- **Hiyerarşi logonun çubuklarından:** beyaz (başlık, metin, birincil düğme) > gök mavisi (vurgu, seçili, bant içi birincil düğme) > `#95BBE0` (ok, küçük gösterge) > `#3E5F80` (güçlü çizgi). Zemin: `#121B27` < `#182433` (gömük bant) < `#1F2D3E` (sayfa) < `#263850` (kart) < `#2E4563`.
+- **Altın (`--mark` #f2c230) kaldırıldı:** logoda yok. `--mark` gök mavisine bağlandı; üstündeki metin `--ink` (#182433).
+- **Uygulama:** yalnız `tokens.primitive.css` (marka primitive'leri + eski adların bağlanması) ve `theme.site.css` (semantik eşleme, yeni `--color-accent-2`); `globals.css`'te ham `rgb()` ızgara/karartma değerleri marka tonlarına çekildi. Bileşenlere dokunulmadı (semantic token ayrımının karşılığı).
+- **Logo çizimi:** `BrandMark`/`BrandIcon` zaten üç çubukluydu; renkleri logoyla aynı (sky-2 / sky / beyaz), ayraç `#3E5F80`. Favicon yer tutucusu logo ikonuyla değişti.
+- **Açık zeminli yüzeyler** açık logonun paletini kullanır: e-posta şablonu ve OAuth ara sayfası (düğme/bağlantı `#406180`), panel teması (birincil `#1F2D3E`, odak `#5980A7`, grafik rampası).
+- **Kontrast:** tüm metin çiftleri ≥ 4,5:1 (tablo `01-DESIGN-SYSTEM.md`); tek tuzak — gök mavisi beyaz zeminde 1,3:1 → seçili kategori çipindeki adet `--brand-blue`.
+- **Bilinen bedeli:** 3B malzeme/lejant renkleri (kapı altını dahil) motor sabiti olarak kaldı. Logo görsel dosyası olarak medya kütüphanesine yüklenmedi (satır içi SVG keskin ve tema renkli); kaynak JPEG'ler depoya alınmaz (.gitignore). OG paylaşım görseli ayrı iştir.
+
 ## Değiştirilen Kararlar
 
 - **K-55 (steel_profiles boş başlar) → K-110:** profil kataloğu yayınlanmış standart tablolardan tohumlanır; fiyat/yorum/proje/sertifika için kural aynen sürer.

@@ -4,49 +4,74 @@ Marka kimliği `_archive/prototypes/homepage-v3-clk-rebrand.html` prototipinden 
 
 ## Renk
 
-### Primitive (ham değerler)
+**K-113 (2026-10-13): palet logodan türetilir.** Kaynak: ürün sahibinin logo dosyaları (`alternatif logolar/`, üç varyant). Renkler pikselden ölçüldü ve ürün sahibinin ana sayfa prototipindeki CSS değerleriyle eşleştirildi.
+
+### Logo varyantları → marka renkleri
+
+| Varyant | Zemin | Kısa çubuk | Orta çubuk | Uzun çubuk + "CLK" | Ayraç | Alt yazı |
+|---|---|---|---|---|---|---|
+| **Ana (koyu)** | `#1F2D3E` lacivert | `#95BBE0` | `#B5D8FC` | `#F2F2F2` | `#3E5F80` | `#B5D8FC` |
+| Tek renk | `#1E1F21` kömür | beyaz | beyaz | beyaz | beyaz | beyaz |
+| Açık | `#F2F2F2` kâğıt | `#5980A7` | `#406180` | `#1E1F21` | `#D3D3D5` | `#406180` |
+
+### Hiyerarşi (logonun çubukları)
+
+Logodaki üç çubuk kısadan uzuna, soluktan parlağa yükselir. Sitedeki renk hiyerarşisi aynı basamakları izler:
+
+| Kademe | Renk | Token | Nerede |
+|---|---|---|---|
+| 1 · En üst | beyaz `#F2F2F2` | `--color-text` | başlık, gövde metni, **birincil düğme zemini**, logonun uzun çubuğu |
+| 2 · Vurgu | gök mavisi `#B5D8FC` | `--color-accent`, `--color-accent-text`, `--mark` | kicker/numara rozeti, bağlantı, seçili çip, ikon, bant içi birincil düğme, logonun orta çubuğu |
+| 3 · İkincil vurgu | `#95BBE0` | `--color-accent-2` | ok işaretleri, küçük göstergeler, logonun kısa çubuğu |
+| 4 · Yapı | `#3E5F80` · `#33475E` | `--color-border-strong` · `--color-border` | güçlü çizgi (logo ayracı) · ince çizgi |
+| 5 · İkincil metin | `#A9BBCE` · `#93A7BC` | `--color-text-muted` · `--color-text-subtle` | açıklama · ipucu |
+
+Zemin kademeleri (derinden yükseğe): `#121B27` en derin (`--color-surface-darker`: ürün şeridi) → `#182433` gömük bant (`--color-surface-dark`, `--navy-dark`: header, footer, hero, çizim paneli, CTA/iletişim bandı) → **`#1F2D3E` sayfa** (`--color-bg`, logo zemini) → `#263850` kart/panel (`--color-surface`) → `#2E4563` yükseltilmiş (`--color-surface-raised`, ikon kutusu).
+
+**Altın (`#f2c230`) kaldırıldı** — logoda yok. Eskiden altın olan yerler (seçili çip, bant düğmesi, madde çizgisi, "devam ediyor" çipi) artık gök mavisi; üstündeki metin `--ink` (`#182433`, 10,6:1).
+
+### Primitive (ham değerler) — `src/styles/tokens.primitive.css`
 
 ```css
---ink         #0F1315   en koyu, ana metin
---bar-dark    #14181C   koyu şerit
---charcoal    #1B2A3D   antrasit — başlık, koyu bölüm zemini
---steel       #3A4750   ikincil metin
---steel-light #5C6B75   üçüncül metin, ipucu
---turq        #5C7FA3   marka vurgu rengi
---turq-deep   #4A6A8C   ← metin için koyulaştırılmış varyant (kâğıtta 5.21:1 ✅)
---turq-light  #8FA9C4   koyu zeminde vurgu
---paper       #F7F6F4   ana zemin
---line        #2B3A4E   koyu zeminde çizgi
---line-light  #D8D3C8   açık zeminde çizgi
+--brand-navy #1f2d3e   --brand-navy-2 #263850   --brand-navy-3 #182433   --brand-navy-4 #121b27
+--brand-sky  #b5d8fc   --brand-sky-2  #95bbe0   --brand-white  #f2f2f2
+--brand-divider #3e5f80   --brand-line #33475e
+--brand-paper #f2f2f2  --brand-charcoal #1e1f21  --brand-blue #406180  --brand-blue-2 #5980a7   /* açık zeminli logo */
 ```
 
-### ⚠️ Kontrast Bulgusu
+Eski adlar (`--paper-dark`, `--surface-dark`, `--steel-pale`, `--mark`, `--turq*`, `--navy-dark`, `--ink` …) bu değerlere bağlandı; bileşenler değişmedi.
 
-`--turq` (#5C7FA3), `--paper` (#F7F6F4) üzerinde **3.87:1** kontrast veriyor.
+### Kontrast (ölçüldü)
 
-| Kullanım | Gereken | Durum |
+| Çift | Oran | Kullanım |
 |---|---|---|
-| Normal metin (< 24px) | 4.5:1 | ❌ **Yetersiz** |
-| Büyük metin (≥ 24px veya ≥ 19px bold) | 3:1 | ✅ Geçer |
-| İkon, çizgi, buton zemini | 3:1 | ✅ Geçer |
+| `#F2F2F2` / `#1F2D3E` | 12,5:1 | metin / sayfa |
+| `#F2F2F2` / `#263850` | 10,6:1 | metin / kart |
+| `#B5D8FC` / `#1F2D3E` | 9,4:1 | vurgu metni / sayfa |
+| `#95BBE0` / `#1F2D3E` | 7,0:1 | ikincil vurgu / sayfa |
+| `#A9BBCE` / `#263850` | 6,1:1 | ikincil metin / kart |
+| `#93A7BC` / `#263850` | 4,8:1 | ipucu / kart (alt sınır) |
+| `#182433` / `#B5D8FC` | 10,6:1 | gök mavisi düğme üstünde metin |
+| `#406180` / `#F2F2F2` | 5,8:1 | açık zeminde vurgu metni (e-posta, yazdırma, panel) |
+| `#5980A7` / `#F2F2F2` | 3,7:1 | açık zeminde **yalnız** çizgi/ikon/büyük metin |
 
-**Kural:** Turkuaz gövde metninde ve küçük etiketlerde **kullanılamaz**. Metin gerektiğinde `--turq-deep` (#4A6A8C) kullanılır — Faz 4'te ölçüldü: kâğıt üzerinde **5.21:1**, beyazda 5.63:1 ✅. Not: `--ink` metin `--turq` zeminde 4.46:1 (kıl payı altında) → birincil buton `--turq-deep` zemin + `--paper` metin (5.21:1); turkuaz zemin yalnız hover ve büyük metinde.
-
-**Neden önemli:** WCAG AA uyumu yasal bir gereklilik değil ama erişilebilirlik denetiminde (axe) hata olarak çıkar ve gerçek kullanıcıları etkiler — düşük kontrastlı metni yaşlı kullanıcılar ve parlak ışıkta telefon bakanlar okuyamaz.
+**Kural:** gök mavisi (`#B5D8FC`) **açık/beyaz zemin üstünde metin olarak kullanılmaz** (1,3:1). Beyaz zeminli seçili çipte ikincil bilgi `--brand-blue` ile yazılır. Açık zeminde (e-posta, yazdırma, panel) açık logonun renkleri geçerlidir.
 
 ### Semantic (kullanım amaçlı)
 
 Bileşenler **yalnız bunları** kullanır, ham renge doğrudan erişmez:
 
 ```css
---color-bg · --color-surface · --color-surface-raised
+--color-bg · --color-surface · --color-surface-raised · --color-surface-dark · --color-surface-darker
 --color-text · --color-text-muted · --color-text-subtle · --color-text-inverse
---color-accent · --color-accent-hover · --color-accent-text
+--color-accent · --color-accent-hover · --color-accent-text · --color-accent-2
 --color-border · --color-border-strong
 --color-success · --color-warning · --color-danger · --color-info
 ```
 
-**Neden bu ayrım:** Marka rengi değişirse tek yerden değişir, bileşenlere dokunulmaz. Ayrıca `--color-accent-text` (turq-deep) ile `--color-accent` (turq) farklı olabilir — bileşen hangisini kullanacağını bilmek zorunda kalmaz.
+**Neden bu ayrım:** Marka rengi değişirse tek yerden değişir, bileşenlere dokunulmaz — K-113 bunun kanıtı: palet iki dosyada değişti.
+
+**Uygulama dışı yüzeyler:** e-posta şablonu (`core/mail/render.ts`) ve OAuth ara sayfası açık logo paletini kullanır (kâğıt `#F2F2F2`, mürekkep `#1E1F21`, düğme/bağlantı `#406180`, üst çizgi `#5980A7`). Panel (`theme.admin.css`): birincil `#1F2D3E`, odak halkası `#5980A7`, grafik rampası `#95BBE0 → #1F2D3E`. Favicon: lacivert zemin + üç çubuk.
 
 ## Tipografi
 

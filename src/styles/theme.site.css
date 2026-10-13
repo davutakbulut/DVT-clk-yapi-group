@@ -3,25 +3,27 @@
    satırlarını `theme` katmanına yazar; aynı <html> öğesinde katman sırası özgüllüğü yener ve sitede --accent/--border tanımsız
    olduğundan --color-accent / --color-border BOŞ kalıyordu (hover'da kaybolan buton zemini, K-91). base > theme → bizim değer kazanır. */
 @layer base {
-  /* K-91: ürün sahibinin örnek sayfalarındaki KOYU palet tüm site için — koyu kâğıt, hafif açık yüzey, açık mürekkep, altın işaret.
+  /* K-113: palet logodan — lacivert zemin (logo zemini), bir kademe açık yüzey, beyaz metin, gök mavisi vurgu. Altın yok.
+     Hiyerarşi logonun çubukları: beyaz (başlık, birincil düğme) > sky (vurgu, bağlantı, seçili) > sky-2 (numara, ok, ikincil ikon).
      "Metin rengi zemin" (aktif çip, birincil buton) üstünde metin = --color-bg; --color-text-inverse yalnız koyu bantlarda (header/footer). */
   [data-surface='site'] {
     --color-bg: var(--paper-dark);
     --color-surface: var(--surface-dark);
-    --color-surface-raised: #20262f;
-    --color-surface-dark: var(--paper-dark); /* header, footer, koyu kart = sayfa zemini (lacivert ton yok); çizim paneli --navy-dark'ı açıkça kullanır */
-    --color-surface-darker: #0b0e13;
+    --color-surface-raised: var(--navy-2);
+    --color-surface-dark: var(--brand-navy-3); /* header (kaydırınca), footer, koyu bölüm: sayfadan bir kademe derin; çizim paneli de aynı ton (--navy-dark) */
+    --color-surface-darker: var(--brand-navy-4);
     --color-text: var(--ink-dark);
     --color-text-muted: var(--ink-2-dark); /* koyu kâğıt üzerinde 7.3:1 */
-    --color-text-subtle: #8a93a1; /* 5.9:1 */
+    --color-text-subtle: #93a7bc; /* navy üzerinde 5,6:1, yüzeyde 4,8:1 */
     --color-text-inverse: var(--ink-dark);
     --color-text-inverse-muted: var(--ink-2-dark);
-    --color-text-inverse-subtle: #8a93a1;
-    /* Vurgu = açık çelik (#b9c6d8, 9:1). Altın (--mark) yalnız seçili çip, 2B/3B düğmesi ve çizim ölçü oklarında — sayfa geneline yayılmaz (K-91). */
-    --color-accent: var(--steel-pale);
-    --color-accent-hover: #d2dbe7;
-    --color-accent-text: var(--steel-pale);
-    --color-accent-on-dark: var(--steel-pale);
+    --color-text-inverse-subtle: #93a7bc;
+    /* Vurgu = logo gök mavisi (#b5d8fc, 9,4:1); ikincil vurgu = kısa çubuk tonu (#95bbe0, 7,0:1) */
+    --color-accent: var(--brand-sky);
+    --color-accent-hover: var(--mark-hover);
+    --color-accent-text: var(--brand-sky);
+    --color-accent-on-dark: var(--brand-sky);
+    --color-accent-2: var(--brand-sky-2);
     --color-border: var(--line-dark);
     --color-border-strong: var(--line-2-dark);
     --color-border-dark: var(--line-dark);

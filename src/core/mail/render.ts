@@ -26,10 +26,10 @@ export function renderMail(input: { readonly subject: string; readonly body: str
     .split(/\n{2,}/)
     .map((p) => `<p style="margin:0 0 16px;line-height:1.6">${escapeHtml(p).replace(/\n/g, '<br />')}</p>`)
     .join('');
-  const html = `<!doctype html><html><body style="margin:0;background:#f7f6f4;font-family:Arial,Helvetica,sans-serif;color:#0f1315">
+  const html = `<!doctype html><html><body style="margin:0;background:#f2f2f2;font-family:Arial,Helvetica,sans-serif;color:#1e1f21">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-top:4px solid #5c7fa3">
-<tr><td style="padding:24px 32px 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a6a8c">${escapeHtml(input.siteName)}</td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-top:4px solid #5980a7">
+<tr><td style="padding:24px 32px 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#406180">${escapeHtml(input.siteName)}</td></tr>
 <tr><td style="padding:8px 32px 32px;font-size:16px">${paragraphs}</td></tr>
 </table></td></tr></table></body></html>`;
   return { subject, text, html };
@@ -59,7 +59,7 @@ const LINK_PATTERN = /\[([^\]\n]+)\]\(((?:https?:\/\/|mailto:)[^\s)]+)\)/g;
 const BOLD_PATTERN = /\*\*([^*\n]+)\*\*/g;
 
 function inlineHtml(escaped: string): string {
-  return escaped.replace(LINK_PATTERN, '<a href="$2" style="color:#4a6a8c;text-decoration:underline">$1</a>').replace(BOLD_PATTERN, '<strong>$1</strong>');
+  return escaped.replace(LINK_PATTERN, '<a href="$2" style="color:#406180;text-decoration:underline">$1</a>').replace(BOLD_PATTERN, '<strong>$1</strong>');
 }
 
 function inlineText(raw: string): string {
@@ -102,24 +102,24 @@ export function renderCampaignMail(input: CampaignMailInput): RenderedMail {
 
   const htmlBlocks = blocks
     .map((b) => {
-      if (b.kind === 'h') return `<h2 style="margin:24px 0 12px;font-size:20px;line-height:1.3;color:#0f1315">${inlineHtml(escapeHtml(b.lines[0]!))}</h2>`;
+      if (b.kind === 'h') return `<h2 style="margin:24px 0 12px;font-size:20px;line-height:1.3;color:#1e1f21">${inlineHtml(escapeHtml(b.lines[0]!))}</h2>`;
       if (b.kind === 'ul') return `<ul style="margin:0 0 16px;padding-left:20px;line-height:1.6">${b.lines.map((l) => `<li>${inlineHtml(escapeHtml(l))}</li>`).join('')}</ul>`;
       return `<p style="margin:0 0 16px;line-height:1.6">${b.lines.map((l) => inlineHtml(escapeHtml(l))).join('<br />')}</p>`;
     })
     .map((b) => interpolate(b, safe))
     .join('');
   const cta = hasCta
-    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 8px"><tr><td style="background:#4a6a8c;border-radius:4px"><a href="${escapeHtml(input.ctaUrl!.trim())}" style="display:inline-block;padding:12px 24px;color:#ffffff;font-size:16px;font-weight:bold;text-decoration:none">${escapeHtml(input.ctaLabel!.trim())}</a></td></tr></table>`
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px 0 8px"><tr><td style="background:#406180;border-radius:4px"><a href="${escapeHtml(input.ctaUrl!.trim())}" style="display:inline-block;padding:12px 24px;color:#ffffff;font-size:16px;font-weight:bold;text-decoration:none">${escapeHtml(input.ctaLabel!.trim())}</a></td></tr></table>`
     : '';
   const preheader = input.preheader?.trim()
     ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent">${escapeHtml(interpolate(input.preheader, input.variables).trim())}</div>`
     : '';
-  const html = `<!doctype html><html><body style="margin:0;background:#f7f6f4;font-family:Arial,Helvetica,sans-serif;color:#0f1315">${preheader}
+  const html = `<!doctype html><html><body style="margin:0;background:#f2f2f2;font-family:Arial,Helvetica,sans-serif;color:#1e1f21">${preheader}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
-<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-top:4px solid #5c7fa3">
-<tr><td style="padding:24px 32px 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#4a6a8c">${escapeHtml(input.siteName)}</td></tr>
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border-top:4px solid #5980a7">
+<tr><td style="padding:24px 32px 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#406180">${escapeHtml(input.siteName)}</td></tr>
 <tr><td style="padding:8px 32px 24px;font-size:16px">${htmlBlocks}${cta}</td></tr>
-<tr><td style="padding:16px 32px 24px;border-top:1px solid #e5e2dc;font-size:12px;line-height:1.6;color:#5b6166">${footerText ? `${escapeHtml(footerText).replace(/\n/g, '<br />')}<br />` : ''}<a href="${escapeHtml(input.unsubscribeUrl)}" style="color:#5b6166;text-decoration:underline">${escapeHtml(input.unsubscribeLabel)}</a></td></tr>
+<tr><td style="padding:16px 32px 24px;border-top:1px solid #d3d3d5;font-size:12px;line-height:1.6;color:#5b6166">${footerText ? `${escapeHtml(footerText).replace(/\n/g, '<br />')}<br />` : ''}<a href="${escapeHtml(input.unsubscribeUrl)}" style="color:#5b6166;text-decoration:underline">${escapeHtml(input.unsubscribeLabel)}</a></td></tr>
 </table></td></tr></table></body></html>`;
   return { subject, text, html };
 }

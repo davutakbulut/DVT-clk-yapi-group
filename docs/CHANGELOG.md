@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Renk paleti logodan (K-113)
+- Site paleti ürün sahibinin logosundan türetildi: lacivert zemin kademeleri (#182433 · #1F2D3E · #263850), gök mavisi vurgu (#B5D8FC), ikincil vurgu (#95BBE0), beyaz metin (#F2F2F2), ayraç tonu çizgiler (#3E5F80); altın işaret kaldırıldı
+- Logo çizimi logoyla aynı renklerde (üç çubuk + ayraç), favicon logo ikonu; e-posta şablonu, OAuth ara sayfası ve panel teması açık zeminli logo paletinde
+- Hiyerarşi kuralları ve kontrast tablosu `01-DESIGN-SYSTEM.md` ve `04-DESIGN-RULES.md` §2'de; ana sayfa hero başlığı üç satıra sığacak ölçüye çekildi
+
 ### İletişim adresi ve konum haritası (K-112)
 - Firma adresi eklendi (0062): iletişim sayfası bilgi satırı, footer iletişim sütunu, ana sayfa iletişim bandı ve JSON-LD (Organization / LocalBusiness)
 - İletişim sayfasında "Konum" bölümü: harita yalnız "Haritayı göster"e basılınca yüklenir (tıklamadan Google'a istek yok), "Yol tarifi al" bağlantısı

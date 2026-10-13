@@ -8,7 +8,8 @@ interface Props {
 }
 
 /**
- * Marka imzası. Logo dosyası gelene kadar (ROADMAP › Engelleyiciler) prototipteki kademe ikonu kullanılır.
+ * Marka imzası (K-113: ürün sahibinin logosuyla aynı çizim ve renkler — üç çubuk sky-2 / sky / beyaz, ayraç #3e5f80, alt yazı sky).
+ * Logo görseli panelden yüklenirse o kullanılır; yoksa bu satır içi SVG (keskin, tema renkleriyle).
  * Site adı veritabanından gelir; ilk kelime büyük, kalanı mono etiket.
  */
 /** Kademe ikonu (üç dikey çubuk). `animated`: çubuklar soldan sağa sırayla hafifçe yükselir (K-95: mobil menü düğmesi, dokunulabilirlik ipucu). */
@@ -36,7 +37,7 @@ export function BrandMark({ siteName, logo = null, size = 'md', iconHiddenBelowL
       ) : (
         <>
           <BrandIcon height={iconH} className={iconVis} />
-          <span aria-hidden="true" className={`h-6 w-px bg-current opacity-25 ${iconVis}`.trim()} />
+          <span aria-hidden="true" className={`h-6 w-px bg-[var(--brand-divider)] ${iconVis}`.trim()} />
           <span className="leading-none">
             <span className="block font-[family-name:var(--font-heading)] text-[19px] font-extrabold tracking-wide">{first}</span>
             {tagline ? <span className="label-mono mt-1 block text-[9px] text-[var(--color-accent-on-dark)]">{tagline}</span> : null}
