@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Ürün içerikleri tamamlandı (K-115)
+- 30 boş ürüne (membranlar, sürme yalıtımlar, EPS, XPS, nem bariyeri, buhar kesici, çimento, kum, alçı, harçlar, bantlar, bentonit, drenaj levhası, geotekstil) kısa açıklama, SEO açıklaması, gerçekler, teknik özellikler, SSS, form kartları + teklif bandı, açıklama ve kullanım alanları
+- 34 ürüne eksik açıklama ve kullanım alanları; dört sac ürününe ürüne özgü kısa açıklama
+- `scripts/fill-product-content.mjs` yalnız boş alanları doldurur; "Dikişli Membran" ürün sahibinden bilgi bekliyor
+
 ### Yapı malzemesi ürün sayfaları (K-114)
 - 17 ürün sayfası ürün sahibinin yeni örneklerine göre dolduruldu: alçıpan (standart, nem, yangın, BoardeX), OSB, MDF, kontrplak, sunta, tuğla, gazbeton, bims, taş yünü, cam yünü, çatı ve cephe sandviç paneli, inşaat demiri, çelik hasır (Çesan) — ölçü tabloları (273 satır), teknik özellikler, SSS, başlık altı gerçekler
 - Seçici: blok/hasır/demir/sandviç çizimleri, aile seçimi (Q/R/TR, nervürlü/kangal), ek seçimler (hadve, sac kalınlıkları), alan modu (m² → adet + palet), yalnız-teklif grupları, RAL renk örneği, ürün görseli/kesit geçişi; taş/cam yünü için form kartları + teklif bandı

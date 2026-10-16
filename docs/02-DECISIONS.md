@@ -547,6 +547,18 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Tasarım:** referansın yerleşimi ve bilgi sırası alındı; renkler logo paletinden (K-113). Çok seçenekli grup (24 hasır tipi) bölümlü düğme yerine sarmalanan çip; tablo süzgeci açılır liste; bölümlü düğme uzun etiketlerde sarmalanır (yana taşma yok).
 - **Bilinen bedeli:** grup sayısı sınırı 12 → 120 (hasır). Önbellekteki eski ürün nesnelerinde yeni alanlar yok → ürün sayfası seçenekleri varsayılanlarla birleştirir (derleme ön üretimi bu yüzden düşmüştü). Specs/SSS metinleri TR (EN sayfada gösterilmez, K-08); kısa etiketlerin EN'i makine taslağı.
 
+### K-115 · Referansı olmayan ürünlerin içeriği: standart ve genel teknik bilgiyle, yalnız boş alanlara
+
+**Bağlam:** K-114'ten sonra 30 üründe (membranlar, sürme ve püskürtme yalıtımlar, EPS, XPS, nem bariyeri, buhar kesici, çimento, beyaz çimento, kum, alçı, harçlar, bantlar, bentonit, drenaj levhası, geotekstil) yalnız ad vardı; neredeyse tüm ürünlerde "açıklama" ve "kullanım alanları" boştu. Ürün sahibi "diğer ürünlerin de eksik bilgilerini doldur" dedi.
+
+**Karar:**
+- **İçerik kaynağı:** ilgili TS EN standartları ve genel teknik bilgi (K-75: standart/genel değer uydurma sayılmaz). Değerler "tipik", "yaygın", "üreticiye göre değişir" kaydıyla. **Stok, fiyat, marka, belge veya uygulama hizmeti iddiası yok.**
+- **Ölçü tablosu yok:** bu ürünlerde ambalaj, ölçü ve palet üreticiye göre değiştiği için ürün sahibinin taş/cam yünü sayfalarındaki düzen uygulandı — iki form kartı + "birlikte belirleyelim" teklif bandı.
+- **Kapsam:** 30 ürüne kısa açıklama, SEO açıklaması, 4 gerçek, teknik özellikler (gruplu), 4 SSS, form kartları, açıklama ve kullanım alanları; 34 dolu ürüne açıklama ve kullanım alanları; dört sac ürününün (DKP, siyah, galvaniz, baklavalı) paylaştığı ortak kısa açıklama ürüne özgü olanla değişti.
+- **Yalnız boş alan:** `scripts/fill-product-content.mjs` + `scripts/data/product-content-{a,b,c}.mjs`; dolu alan ezilmez (istisna: ad benzeri yer tutucu kısa metin, ortak sac metni, HEA'nın "Çelik Konstrüksiyonlar" yer tutucusu). Yeniden çalıştırmak bir şey değiştirmez.
+- **Dil:** metinler TR; EN alanlarına dokunulmadı (K-07/K-08: insan onaylı çeviri).
+- **Bırakılan:** "Dikişli Membran" — hangi ürünü kastettiği belirsiz (piyasada tek bir karşılığı yok); uydurmamak için boş bırakıldı, ürün sahibinden bilgi bekleniyor.
+
 ## Değiştirilen Kararlar
 
 - **K-55 (steel_profiles boş başlar) → K-110:** profil kataloğu yayınlanmış standart tablolardan tohumlanır; fiyat/yorum/proje/sertifika için kural aynen sürer.
