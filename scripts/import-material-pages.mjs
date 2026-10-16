@@ -2,7 +2,7 @@
 /**
  * Yapı malzemesi ürün sayfaları içe aktarımı (K-114): ürün sahibinin "yeni ürün sayfaları" klasöründeki 17 örnek sayfa →
  * products.options/facts/short_description/seo_description (+ ad), product_variants (ölçü tablosu), product_specs, faqs;
- * sandviç panellerde sayfadaki ürün görseli galeriye (çizim panelinde gösterilir). Çelik hasır yeni ürün olarak açılır (yalnız TR yayında).
+ * sandviç panellerde sayfadaki ürün görseli galeriye (çizim panelinde gösterilir). Çelik hasır mevcut "Çesan" ürününe yazılır.
  *   node --env-file=.env.local scripts/import-material-pages.mjs "yeni ürün sayfaları" [--dry] [--only=tugla,osb]
  * Yeniden çalıştırılabilir: ürün slug'ıyla eşlenir; varyant/özellik/gerçek satırları yenilenir; SSS yalnız hiç yoksa eklenir;
  * görsel içerik-hash kimliğiyle (aynı görsel ikinci kez yüklenmez). Kapaklara dokunulmaz.
@@ -46,7 +46,8 @@ const TARGETS = {
   'sandvic-panel-cati': { slug: 'cati-sandvic-paneli', name: 'Çatı Sandviç Paneli' },
   'sandvic-panel-cephe': { slug: 'cephe-sandvic-paneli', name: 'Cephe Sandviç Paneli' },
   'insaat-demiri': { slug: 'insaat-demiri', name: 'İnşaat Demiri' },
-  'celik-hasir': { slug: 'celik-hasir', name: 'Çelik Hasır', en: 'Steel Mesh', create: { slugEn: 'steel-mesh', category: 'yapi-malzemeleri' } },
+  // Mevcut "Çesan" ürünü (çelik hasırın piyasa adı) doldurulur; adres korunur, ad aramada iki adla da bulunur
+  'celik-hasir': { slug: 'cesan', name: 'Çelik Hasır (Çesan)', en: 'Steel Mesh' },
 };
 /** Kısa etiketlerin İngilizcesi (makine taslağı; panelden düzeltilebilir). */
 const EN = {
@@ -60,6 +61,7 @@ const EN = {
   'Q Tipi (Kare Göz)': 'Q type (square mesh)', 'R Tipi (Dikdörtgen)': 'R type (rectangular)', 'TR Tipi (Ters R)': 'TR type (reverse R)', 'Nervürlü (Düz Çubuk)': 'Ribbed (straight bar)', 'Kangal / Rulo (Filmaşin)': 'Coil (wire rod)',
   Standart: 'Standard', 'Yangın sınıfı': 'Fire class', 'λ değeri': 'λ value', 'Servis sıcaklığı': 'Service temperature',
 };
+const ONE_EN = { Levha: 'One board', Panel: 'One panel', Blok: 'One block' };
 const en = (tr) => (tr == null ? undefined : EN[tr] ? { tr, en: EN[tr] } : { tr });
 const trOnly = (s) => (s ? { tr: s } : undefined);
 
@@ -98,6 +100,8 @@ function buildOptions(cfg, content) {
     draw: cfg.draw, size_ui: cfg.sizeUI ?? 'select', qty_default: cfg.qtyDefault ?? null,
     groups: (cfg.groups ?? []).map((g) => ({ code: g.c, label: en(g.l), ...(g.fam ? { family: g.fam } : {}), ...(g.area ? { area: true } : {}), ...(g.quoteOnly ? { quote_only: true } : {}) })),
     group_label: en(cfg.groupLabel), size_label: en(cfg.sizeLabel), variant_label: en(cfg.variantLabel), grade_label: en(cfg.gradeLabel),
+    // "Bir levha / Bir panel / Bir blok" (örnek sayfanın birim adı); çubukta varsayılan "Bir boy"
+    one_label: plate && cfg.lengths?.[0]?.l ? { tr: `Bir ${cfg.lengths[0].l.toLocaleLowerCase('tr')}`, ...(ONE_EN[cfg.lengths[0].l] ? { en: ONE_EN[cfg.lengths[0].l] } : {}) } : undefined,
     table_note: trOnly(content.tableNote),
     lengths_m: plate ? [] : (cfg.lengths ?? []).map((l) => l.v), custom_length: !plate,
     formats: cfg.formats ?? undefined,
@@ -134,7 +138,7 @@ function buildVariants(cfg, data) {
     if (r.alan) dims.alan = r.alan;
     if (mesh && r.kg) dims.kg = r.kg;
     // Aynı stok kodu iki satırda (hasırda iki göz ölçüsü) → göz ölçüsüyle ayrılır (stock_code tekil)
-    const code = seen.get(r.k) > 1 ? `${r.k}-${String(r.gozdim ?? r.g ?? '').split('/')[0]}` : r.k;
+    const code = seen.get(r.k) > 1 ? `${r.k}-${String(r.gozdim ?? r.g ?? '').replace('/', 'X')}` : r.k;
     const num = (x) => (typeof x === 'number' && x > 0 ? x : null);
     return {
       stock_code: code, variant_group: r.g ? { code: r.g } : {}, size_key: r.s ?? null, size_label: r.lbl,

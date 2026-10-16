@@ -48,6 +48,10 @@ AÇIKLAMA · KULLANIM ALANLARI · SSS
 → İlgili hizmet · Benzer ürünler · İlgili projeler · Fiyat rehberi
 ```
 
+### Yapı malzemesi sayfaları (K-114)
+
+Seçici `options` anahtarları (panelde "gelişmiş seçici ayarları" JSON'u): `families` + `default_family` + `default_group_by_family` + `variant_family` · grup bayrakları `family | area | quote_only` · `extras [{id,label,options|options_by_group,note}]` · `pallet_mode` + `area_default` · `quote_note` · `grade_note` · `hide_grade` · `swatches` / `core_colors` / `ral_colors` (#rrggbb) · `corrugated` · `drawing_photo` · `cols [{key,label,decimals,hidden}]` (anahtar: `k v s lbl dim kg kgm2 _g _i _bar d.<geometri> <dims>`) · `value_props` · `forms` + `forms_cta`. Varyant ek değerleri `dims`'te: `fam`, `palet`, `gozdim`, `alan`, `kg` (hasır panel ağırlığı), `hollow`, `note`. Kesit türleri: `block · mesh · rebar · sandwich` (levha modu `plate · block · mesh · sandwich`).
+
 ## Teklif Sepeti
 
 Satın alma yok, ama **birden fazla ürünü biriktirip tek teklif isteme** var — tedarikçi sitelerinde en işe yarayan kalıp.

@@ -127,7 +127,10 @@ export async function ProductDetail({ product, locale, related, families = [], e
   // Önbellekteki eski ürün nesnesinde (dağıtım geçişi) yeni seçenek alanları olmayabilir → varsayılanlarla tamamla
   const options = { ...EMPTY_OPTIONS, ...product.options, formsCta: { ...EMPTY_OPTIONS.formsCta, ...(product.options.formsCta ?? {}) } };
   const sizeRange = product.variants.length > 1 ? { from: product.variants[0]!.sizeLabel, to: product.variants[product.variants.length - 1]!.sizeLabel } : null;
-  const facts = [...product.facts, ...(product.variants.length > 1 ? [{ label: sizeRange ? t('factSizesHint', sizeRange) : '', value: t('factSizes', { count: product.variants.length }) }] : [])];
+  // Otomatik "N ölçü" gerçeği yalnız çelik kesitlerde; örnek sayfası kendi gerçeklerini veren ürünlerde (açık sütun tanımı) eklenmez —
+  // "Q106'ten TR866'e" gibi etiket aralıkları Türkçe ekle bozuluyordu
+  const autoSizes = product.variants.length > 1 && !(product.options.cols?.length);
+  const facts = [...product.facts, ...(autoSizes ? [{ label: sizeRange ? t('factSizesHint', sizeRange) : '', value: t('factSizes', { count: product.variants.length }) }] : [])];
   // K-114: çizim panelinde ürün görseli (sandviç panel) — ilk galeri görseli, yoksa kapak
   const photoMedia = options.drawingPhoto && url ? (product.images[0] ?? product.cover) : null;
   const photo = photoMedia && url ? { src: publicStorageUrl(url, photoMedia), srcSet: mediaSrcSet(url, photoMedia), alt: mediaAlt(photoMedia, locale) || product.name } : null;

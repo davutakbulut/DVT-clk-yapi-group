@@ -2318,7 +2318,8 @@
       "perPallet": " · palet başına {n} adet",
       "quoteDefault": "Bu çeşitte ölçü ve palet bilgisi üreticiye göre değişir; ihtiyacınızı belirtip doğrudan teklif isteyin.",
       "quoteButton": "Teklif iste",
-      "values": "Teknik değerler"
+      "values": "Teknik değerler",
+      "formatGeneric": "Ebat"
     },
     "table": {
       "title": "Ölçü tablosu",

@@ -371,10 +371,11 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
           ) : null}
           {groups.length > 1 || (groups.length === 1 && options.palletMode) ? (
             <div className="pcfg-field">
-              <span className="pcfg-lbl">{L(options.groupLabel, t('cfg.group'))}</span>
-              <div className="pcfg-seg" role="group" aria-label={L(options.groupLabel, t('cfg.group'))}>
+              <span className="pcfg-lbl" id={`${id}-g`}>{L(options.groupLabel, t('cfg.group'))}</span>
+              {/* Çok seçenekte (çelik hasır: 24 tip) bölümlü düğme yerine sarmalanan çipler — yatay taşma olmaz */}
+              <div className={groups.length > 6 ? 'pcfg-chips pcfg-chips-sz' : 'pcfg-seg'} role="group" aria-labelledby={`${id}-g`}>
                 {groups.map((g) => (
-                  <button key={g} type="button" aria-pressed={group === g} onClick={() => setGroup(g)}>
+                  <button key={g} type="button" aria-pressed={group === g} onClick={() => { setGroup(g); setPickedId(null); }}>
                     {gLabel(g)}
                   </button>
                 ))}
@@ -473,7 +474,7 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
             ) : null}
             {plate ? (
               <div className="pcfg-field">
-                <label htmlFor={`${id}-len`}>{t('cfg.format')}</label>
+                <label htmlFor={`${id}-len`}>{draw === 'plate' && !swatch ? t('cfg.format') : t('cfg.formatGeneric')}</label>
                 <select id={`${id}-len`} value={lengthChoice} onChange={(e) => setLengthChoice(e.target.value)} className="field">
                   {formats.map((f) => (
                     <option key={`${f.w}x${f.l}`} value={`${f.w}x${f.l}`}>
@@ -611,7 +612,14 @@ export function ProductSelector({ productId, slug, name, locale, variants, optio
           <button type="button" className="pcfg-search-toggle" aria-expanded={searchOpen || Boolean(query)} aria-controls={`${id}-search`} aria-label={t('table.searchToggle')} onClick={() => setSearchOpen((o) => !o)}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
           </button>
-          {groups.length > 1 ? (
+          {groups.length > 6 ? (
+            <select value={tableGroup ?? ''} onChange={(e) => setTableGroup(e.target.value || null)} aria-label={t('table.filter')} className="field pcfg-tfilter">
+              <option value="">{t('table.all')}</option>
+              {groups.map((g) => (
+                <option key={g} value={g}>{gLabel(g)}</option>
+              ))}
+            </select>
+          ) : groups.length > 1 ? (
             <div className="pcfg-seg" role="group" aria-label={t('table.filter')}>
               <button type="button" aria-pressed={tableGroup === null} onClick={() => setTableGroup(null)}>
                 {t('table.all')}

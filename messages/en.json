@@ -2318,7 +2318,8 @@
       "perPallet": " · {n} pcs per pallet",
       "quoteDefault": "Sizes and pallet quantities vary by manufacturer for this type; tell us what you need and request a quote.",
       "quoteButton": "Request a quote",
-      "values": "Technical values"
+      "values": "Technical values",
+      "formatGeneric": "Size"
     },
     "table": {
       "title": "Size table",

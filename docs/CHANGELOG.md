@@ -7,6 +7,11 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Yapı malzemesi ürün sayfaları (K-114)
+- 17 ürün sayfası ürün sahibinin yeni örneklerine göre dolduruldu: alçıpan (standart, nem, yangın, BoardeX), OSB, MDF, kontrplak, sunta, tuğla, gazbeton, bims, taş yünü, cam yünü, çatı ve cephe sandviç paneli, inşaat demiri, çelik hasır (Çesan) — ölçü tabloları (273 satır), teknik özellikler, SSS, başlık altı gerçekler
+- Seçici: blok/hasır/demir/sandviç çizimleri, aile seçimi (Q/R/TR, nervürlü/kangal), ek seçimler (hadve, sac kalınlıkları), alan modu (m² → adet + palet), yalnız-teklif grupları, RAL renk örneği, ürün görseli/kesit geçişi; taş/cam yünü için form kartları + teklif bandı
+- Panel: kalite/teklif notları, form kartları, gelişmiş seçici ayarları (JSON, doğrulanır); içe aktarma betiği `scripts/import-material-pages.mjs`
+
 ### Renk paleti logodan (K-113)
 - Site paleti ürün sahibinin logosundan türetildi: lacivert zemin kademeleri (#182433 · #1F2D3E · #263850), gök mavisi vurgu (#B5D8FC), ikincil vurgu (#95BBE0), beyaz metin (#F2F2F2), ayraç tonu çizgiler (#3E5F80); altın işaret kaldırıldı
 - Logo çizimi logoyla aynı renklerde (üç çubuk + ayraç), favicon logo ikonu; e-posta şablonu, OAuth ara sayfası ve panel teması açık zeminli logo paletinde

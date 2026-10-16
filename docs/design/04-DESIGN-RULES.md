@@ -94,6 +94,15 @@ Kısa açıklama (isteğe bağlı)   ← lead, --color-text-muted         [ Tüm
 - Seçici paneli koyu çizim + açık yüzey panel; seçili çip gök mavisi zemin + mürekkep metin; segment (grup) metin-rengi zemin.
 - 3B yalnız düğmeyle yüklenir; three.js ilk yüke girmez (K-24).
 
+## 8g. Yapı malzemesi ürün sayfaları (K-114)
+
+- Aynı seçici düzeni (§8b): kırıntı → aile çubuğu → başlık + giriş → gerçekler → koyu çizim paneli + seçim paneli → ölçü tablosu. Seçim sırası örnek sayfayla aynı: aile → grup → kalınlık → ek seçimler → (not) kalite/renk → ebat · miktar → sonuç.
+- **Grup seçimi:** ≤ 6 seçenekte bölümlü düğme (uzun etikette sarmalanır), > 6'da sarmalanan çip; tablo süzgeci > 6 grupta açılır liste. Yana taşma yok (§8).
+- **Alan modu** sonuç kutusu: "1 m²'de · Gereken adet · Gereken palet" (palet bilgisi yoksa "— teklif isteyin"), altında yaklaşık ağırlık notu. **Yalnız teklif** grubunda hesap kutusu ve sepet düğmesi yerine kenarlıklı not kutusu + birincil "Teklif iste".
+- RAL renk seçimi: seçim kutusunun yanında 40 px renk karesi (1 px çizgi); sandviç çiziminde yüz rengi aynı.
+- Çizim panelinde ürün görseli (`drawing_photo`): "Fotoğraf / Kesit" geçişi 2B/3B ile aynı yerde; görsel `object-fit: contain` (kesit kenarı kırpılmasın). 3B düğmesi yalnız çelik kesitlerde.
+- Hesaplayıcısı olmayan üründe form kartları (2 sütun, mobilde 1) + ızgaralı lacivert çağrı bandı (K-106 CTA dili, birincil `.btn-mark`).
+
 ## 8a. Araç sayfaları (konfigüratör)
 
 - Asıl içerik (3D tuval) mobilde ekranı kaplar; ayar/ayrıntı **sağdan açılan panelde** (en çok %86 genişlik, karartma, Esc/dışarı dokunma/✕ kapatır, kapalıyken `inert`). Tuval üstünde tek satır özet + paneli açan düğme.
