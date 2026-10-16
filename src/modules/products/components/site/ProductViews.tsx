@@ -10,7 +10,7 @@ import type { Locale } from '@/i18n/routing';
 import { renderMarkdown } from '@/lib/markdown';
 import { AddToBasket } from '@/modules/quote-basket';
 import { WhatsAppInquiry } from '@/modules/whatsapp';
-import { isConfigurable } from '../../domain/productConfig';
+import { EMPTY_OPTIONS, isConfigurable } from '../../domain/productConfig';
 import { ProductSelector } from './ProductSelector';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
@@ -124,8 +124,16 @@ export async function ProductDetail({ product, locale, related, families = [], e
   const hasDim = (k: 'widthMm' | 'heightMm' | 'thicknessMm' | 'lengthMm' | 'kgPerM' | 'stockCode') => product.variants.some((v) => v[k] !== null && v[k] !== '');
   // K-88: ölçü/ağırlık verisi olan ürünlerde seçici (çizim + hesap + tablo); diğerlerinde basit sepet formu ve düz ölçü tablosu
   const configurable = isConfigurable(product.variants);
+  // Önbellekteki eski ürün nesnesinde (dağıtım geçişi) yeni seçenek alanları olmayabilir → varsayılanlarla tamamla
+  const options = { ...EMPTY_OPTIONS, ...product.options, formsCta: { ...EMPTY_OPTIONS.formsCta, ...(product.options.formsCta ?? {}) } };
   const sizeRange = product.variants.length > 1 ? { from: product.variants[0]!.sizeLabel, to: product.variants[product.variants.length - 1]!.sizeLabel } : null;
   const facts = [...product.facts, ...(product.variants.length > 1 ? [{ label: sizeRange ? t('factSizesHint', sizeRange) : '', value: t('factSizes', { count: product.variants.length }) }] : [])];
+  // K-114: çizim panelinde ürün görseli (sandviç panel) — ilk galeri görseli, yoksa kapak
+  const photoMedia = options.drawingPhoto && url ? (product.images[0] ?? product.cover) : null;
+  const photo = photoMedia && url ? { src: publicStorageUrl(url, photoMedia), srcSet: mediaSrcSet(url, photoMedia), alt: mediaAlt(photoMedia, locale) || product.name } : null;
+  const L = (v: Readonly<Partial<Record<string, string>>>) => pickLocale(v, locale, { fallback: 'tr' });
+  const forms = options.forms.map((f) => ({ title: L(f.title), form: L(f.form), use: L(f.use) })).filter((f) => f.title);
+  const formsCta = { title: L(options.formsCta.title), text: L(options.formsCta.text) };
 
   return (
     <article className="grid">
@@ -174,7 +182,31 @@ export async function ProductDetail({ product, locale, related, families = [], e
           <h2 id="product-selector" className="sr-only">
             {t('cfg.title')}
           </h2>
-          <ProductSelector key={product.id} productId={product.id} slug={product.slug} name={product.name} locale={locale} variants={product.variants} options={product.options} unit={product.options.unit ?? t('unitDefault')} />
+          <ProductSelector key={product.id} productId={product.id} slug={product.slug} name={product.name} locale={locale} variants={product.variants} options={options} unit={options.unit ?? t('unitDefault')} photo={photo} />
+        </Container>
+      ) : null}
+      {!configurable && forms.length > 0 ? (
+        // K-114: hesaplayıcısı olmayan ürünler (taş/cam yünü): form kartları + "ölçüyü birlikte belirleyelim" çağrısı
+        <Container as="section" aria-labelledby="product-forms" className="grid gap-6 pt-[var(--space-10)] pb-[var(--section-y)]">
+          <h2 id="product-forms" className="sr-only">{t('formsTitle')}</h2>
+          <ul className="product-forms">
+            {forms.map((f) => (
+              <li key={f.title} className="product-form">
+                <h3>{f.title}</h3>
+                {f.form ? <p className="product-form-kind">{f.form}</p> : null}
+                {f.use ? <p className="product-form-use">{f.use}</p> : null}
+              </li>
+            ))}
+          </ul>
+          {formsCta.title ? (
+            <div className="product-forms-cta" data-on-dark="">
+              <div>
+                <h3>{formsCta.title}</h3>
+                {formsCta.text ? <p>{formsCta.text}</p> : null}
+              </div>
+              <Link href={{ pathname: '/get-quote', query: { product: product.slug } } as never} className="btn btn-mark">{t('quoteButton')}</Link>
+            </div>
+          ) : null}
         </Container>
       ) : null}
 

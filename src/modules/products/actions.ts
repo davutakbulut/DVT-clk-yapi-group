@@ -10,7 +10,7 @@ import { createServerClient, type ServerDbClient } from '@/core/db/createServerC
 import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
-import { DRAW_KINDS, parseFacts, parseFormats, parseGrouped, parseGroups, parseNumberList, writeOptions, SURFACE_KEYS, type SurfaceKey } from './domain/productConfig';
+import { DRAW_KINDS, EMPTY_OPTIONS, parseAdvanced, parseFacts, parseForms, parseFormats, parseGrouped, parseGroups, parseNumberList, writeOptions, SURFACE_KEYS, type SurfaceKey } from './domain/productConfig';
 import { PRODUCT_CATEGORY_ICON_KEYS } from './domain/categoryIcons';
 import { parseSpecs, parseVariants } from './domain/productLines';
 
@@ -72,6 +72,13 @@ const productSchema = publishSchema.extend({
   lengthLabelTr: short, lengthLabelEn: short,
   oneLabelTr: short, oneLabelEn: short,
   tableNoteTr: long, tableNoteEn: long,
+  // K-114: notlar, yün form kartları, gelişmiş seçici ayarları (JSON)
+  gradeNoteTr: long, gradeNoteEn: long,
+  quoteNoteTr: long, quoteNoteEn: long,
+  formsTr: long, formsEn: long,
+  formsCtaTitleTr: short, formsCtaTitleEn: short,
+  formsCtaTextTr: long, formsCtaTextEn: long,
+  advanced: long,
   seoTitleTr: short,
   seoTitleEn: short,
   seoDescriptionTr: short,
@@ -98,6 +105,8 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
   const grades = parseGrouped(v.grades ?? '');
   const surfaces = parseGrouped(v.surfaces ?? '');
   const isSurface = (x: string): x is SurfaceKey => (SURFACE_KEYS as readonly string[]).includes(x);
+  const advanced = parseAdvanced(v.advanced ?? '', parseGroups(v.groups ?? ''));
+  if (!advanced) return failed('validation', { advanced: 'validation' });
   const existing = v.id ? await readPublishedAt(client.data, 'products', v.id) : null;
   const publish = publishColumns(v, { titleEn: v.nameEn ?? '', slugEn: slug['en'] ?? null, hasSlug: true, reviewerId: gate.data.id }, existing);
   if (!publish.ok) return failed('validation', { [publish.field]: 'validation' });
@@ -114,13 +123,17 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     og_image_id: v.ogImageId || null,
     is_featured: v.isFeatured,
     options: writeOptions({
+      ...EMPTY_OPTIONS,
+      ...advanced.patch,
       grades: grades.flat, gradesByGroup: grades.byGroup, lengthsM: parseNumberList(v.lengthsM ?? ''), customLength: v.customLength, unit: v.unit || null,
       draw: v.draw || null, pattern: v.pattern === 'tear' ? 'tear' : null, sizeUi: v.sizeUi === 'chips' ? 'chips' : 'select',
       qtyDefault: Number(v.qtyDefault) > 0 ? Math.floor(Number(v.qtyDefault)) : null,
-      groups: parseGroups(v.groups ?? ''), formats: parseFormats(v.formats ?? ''),
+      groups: advanced.groups, formats: parseFormats(v.formats ?? ''),
       surfaces: surfaces.flat.filter(isSurface), surfacesByGroup: Object.fromEntries(Object.entries(surfaces.byGroup).map(([g, l]) => [g, l.filter(isSurface)]).filter(([, l]) => (l as string[]).length)),
       groupLabel: localized(v.groupLabelTr, v.groupLabelEn), sizeLabel: localized(v.sizeLabelTr, v.sizeLabelEn), variantLabel: localized(v.variantLabelTr, v.variantLabelEn),
       gradeLabel: localized(v.gradeLabelTr, v.gradeLabelEn), lengthLabel: localized(v.lengthLabelTr, v.lengthLabelEn), oneLabel: localized(v.oneLabelTr, v.oneLabelEn), tableNote: localized(v.tableNoteTr, v.tableNoteEn),
+      gradeNote: localized(v.gradeNoteTr, v.gradeNoteEn), quoteNote: localized(v.quoteNoteTr, v.quoteNoteEn),
+      forms: parseForms(v.formsTr ?? '', v.formsEn ?? ''), formsCta: { title: localized(v.formsCtaTitleTr, v.formsCtaTitleEn), text: localized(v.formsCtaTextTr, v.formsCtaTextEn) },
     }) as Json,
     facts: parseFacts(v.factsTr ?? '', v.factsEn ?? '') as unknown as Json,
     seo_title: localized(v.seoTitleTr, v.seoTitleEn),

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Çelik Hasır Ölçü ve Ağırlık Tablosu — Q / R / TR Tipi Tam Seri · CLK Yapı Group</title>
+<meta name="description" content="Çelik hasır tam ölçü tablosu: Q tipi (kare göz, 73 ölçü), R tipi (dikdörtgen göz, 27 ölçü) ve TR tipi (ters R, 27 ölçü) — tel çapı, göz aralığı, kg/m² ağırlık ve hesaplayıcı. TS 4559 / TS EN 10080, B500A, CE belgeli.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Çelik Hasır (Q / R / TR Tipi)", "category": "Yapı Malzemeleri", "brand": {"@type": "Brand", "name": "CLK Yapı Group"}, "description": "Çelik hasır tam ölçü tablosu: Q tipi (kare göz, 73 ölçü), R tipi (dikdörtgen göz, 27 ölçü) ve TR tipi (ters R, 27 ölçü) — tel çapı, göz aralığı, kg/m² ağırlık ve hesaplayıcı. TS 4559 / TS EN 10080, B500A, CE belgeli.", "offers": {"@type": "AggregateOffer", "priceCurrency": "TRY", "availability": "https://schema.org/InStock", "offerCount": "24"}}</script>
+<style>
+:root{
+  --paper:#F6F5F3; --surface:#FFFFFF; --ink:#15191F; --ink-2:#4A5260; --line:#DCDAD5; --line-2:#C9C6BF;
+  --navy:#1C2A3D; --navy-2:#243650; --grid:rgba(143,163,191,.14); --steel:#B9C6D8; --mark:#F2C230; --mark-ink:#15191F;
+  --focus:#2F6FD6;
+  --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#12161C; --surface:#1A1F27; --ink:#ECEBE7; --ink-2:#A7AFBC; --line:#2B323D; --line-2:#3A4250;
+  --navy:#0E1622; --navy-2:#1A2638; --grid:rgba(143,163,191,.10); --focus:#7AA7F0;
+}}
+:root[data-theme="dark"]{
+  --paper:#12161C; --surface:#1A1F27; --ink:#ECEBE7; --ink-2:#A7AFBC; --line:#2B323D; --line-2:#3A4250;
+  --navy:#0E1622; --navy-2:#1A2638; --grid:rgba(143,163,191,.10); --focus:#7AA7F0;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:28px;height:64px}
+.logo{font-weight:800;font-stretch:125%;letter-spacing:.02em;text-decoration:none;font-size:17px;white-space:nowrap}
+.nav{display:flex;gap:22px;font-size:14px;color:var(--ink-2);flex:1}
+.nav a{text-decoration:none}.nav a:hover{color:var(--ink)}
+.nav a[aria-current]{color:var(--ink);font-weight:600}
+.cart{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--line-2);color:var(--ink);padding:8px 12px;font:inherit;font-size:14px;cursor:pointer}
+.cart b{font-family:var(--mono);font-weight:500;background:var(--ink);color:var(--paper);min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;padding:0 5px}
+.btn-dark{background:var(--ink);color:var(--paper);border:0;padding:10px 16px;font:inherit;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap}
+@media (max-width:900px){.nav{display:none}.top .wrap{justify-content:space-between}}
+.crumb{font-size:13px;color:var(--ink-2);padding:28px 0 0}
+.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
+.head{display:grid;grid-template-columns:1fr minmax(0,420px);gap:40px;align-items:end;padding:18px 0 32px}
+h1{font-weight:850;font-stretch:125%;font-size:clamp(44px,7.5vw,96px);line-height:.92;letter-spacing:-.02em;margin:0}
+.lede{margin:0;color:var(--ink-2);font-size:16px;max-width:52ch}
+.facts{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:40px}
+.facts div{padding:14px 28px 14px 0;margin-right:28px;border-right:1px solid var(--line);font-size:14px;color:var(--ink-2)}
+.facts div:last-child{border-right:0}
+.facts strong{display:block;color:var(--ink);font-size:15px;font-weight:650}
+@media (max-width:900px){.head{grid-template-columns:1fr;gap:16px}.facts div{padding:10px 16px 10px 0;margin-right:16px}}
+.cfg{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);background:var(--surface);border:1px solid var(--line)}
+@media (max-width:900px){.cfg{grid-template-columns:1fr}}
+.draw{background:var(--navy);color:var(--steel);position:relative;min-height:460px;display:flex;flex-direction:column;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.draw svg{flex:1;width:100%;height:100%;min-height:380px;display:block}
+.draw-meta{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;font-family:var(--mono);font-size:12px;border-top:1px solid rgba(185,198,216,.2)}
+.draw-code{position:absolute;top:16px;left:18px;font-family:var(--mono);font-size:13px;color:#fff}
+.draw-code span{display:block;color:var(--steel);font-size:11px}
+.panel{padding:28px;display:flex;flex-direction:column;gap:22px}
+.field label,.field .lbl{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.seg{display:inline-flex;border:1px solid var(--ink);flex-wrap:wrap}
+.seg button{background:none;border:0;padding:9px 18px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+select,input[type=number]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);border-radius:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-family:var(--mono);font-size:13px;padding:7px 11px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer;min-width:52px}
+.chips button[aria-pressed="true"]{background:var(--mark);border-color:var(--mark);color:var(--mark-ink);font-weight:500}
+.chips button:hover{border-color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px}
+@media (max-width:520px){.row3{grid-template-columns:1fr 1fr}.row3 .field:first-child{grid-column:1/-1}}
+.result{border-top:1px solid var(--line);padding-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.result div{font-size:13px;color:var(--ink-2)}
+.result b{display:block;font-family:var(--mono);font-weight:500;font-size:20px;color:var(--ink)}
+.result .total b{font-size:26px}
+.add{display:flex;gap:10px;align-items:center}
+.add .btn-dark{padding:14px 20px;font-size:15px;flex:1}
+.toast{font-size:13px;color:var(--ink-2);min-height:20px}
+details.props{border-top:1px solid var(--line);padding-top:14px}
+details.props summary{cursor:pointer;font-size:14px;font-weight:600}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 14px;margin-top:12px}
+.pgrid div{font-size:12px;color:var(--ink-2)}
+.pgrid b{display:block;font-family:var(--mono);font-weight:500;font-size:14px;color:var(--ink)}
+@media (max-width:520px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+section.blk{padding:72px 0 0}
+h2{font-weight:800;font-stretch:112%;font-size:clamp(28px,4vw,40px);line-height:1.05;margin:0 0 8px;letter-spacing:-.01em}
+.sub{color:var(--ink-2);margin:0 0 24px;max-width:70ch}
+.tools{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:14px}
+.tools input[type=search]{max-width:240px;font:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.tools label.tg{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.tools .count{margin-left:auto;font-size:13px;color:var(--ink-2);font-family:var(--mono)}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tchips button{font-family:var(--mono);font-size:12px;padding:5px 9px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.tchips button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);background:var(--surface)}
+.tscroll{overflow-x:auto;border:1px solid var(--line);background:var(--surface);max-height:640px;overflow-y:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;white-space:nowrap}
+th{position:sticky;top:0;background:var(--navy);color:#fff;font-weight:600;text-align:right;padding:10px 12px;font-size:13px;cursor:pointer;user-select:none}
+th:first-child,th:nth-child(2),td:first-child,td:nth-child(2){text-align:left}
+th[aria-sort="ascending"]::after{content:" ▲";font-size:9px}
+th[aria-sort="descending"]::after{content:" ▼";font-size:9px}
+td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-size:13px}
+td:first-child{font-family:var(--sans);font-size:14px;font-weight:600}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--paper)}
+tbody tr.sel{background:color-mix(in srgb,var(--mark) 22%,transparent)}
+.kc{display:none}.showk .kc{display:table-cell}
+td .pick{font-family:var(--sans);font-size:12px;border:1px solid var(--line-2);background:none;color:var(--ink);padding:4px 8px;cursor:pointer}
+.empty{padding:28px;text-align:center;color:var(--ink-2);font-family:var(--sans)}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
+.specs>div{padding:20px 24px 24px 0}
+.specs h3{font-size:17px;margin:0 0 12px;font-weight:700}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
+dt{color:var(--ink-2)}dd{margin:0}
+@media (max-width:900px){.specs{grid-template-columns:1fr}}
+.faq details{border-bottom:1px solid var(--line);padding:16px 0}
+.faq summary{cursor:pointer;font-weight:600;font-size:16px}
+.faq p{margin:10px 0 0;color:var(--ink-2);max-width:72ch}
+dialog{border:0;padding:0;max-width:520px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
+dialog::backdrop{background:rgba(10,14,20,.5)}
+.dlg{padding:24px}
+.dlg h2{font-size:24px}
+.qitem{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.qitem small{display:block;color:var(--ink-2);font-family:var(--mono);font-size:12px}
+.qitem button{background:none;border:0;color:var(--ink-2);cursor:pointer;font:inherit;font-size:13px;text-decoration:underline}
+.qsum{display:flex;justify-content:space-between;padding:14px 0;font-weight:650}
+.dlg .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+.btn-line{background:none;border:1px solid var(--line-2);color:var(--ink);padding:10px 16px;font:inherit;font-size:14px;cursor:pointer}
+footer{margin-top:88px;border-top:1px solid var(--line);padding:28px 0 36px;font-size:13px;color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.fams{display:flex;gap:6px;overflow-x:auto;padding:14px 0 2px;scrollbar-width:thin}
+.fams a{flex:0 0 auto;font-size:13px;text-decoration:none;padding:6px 11px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.fams a:hover{color:var(--ink);border-color:var(--ink)}
+.fams a[aria-current]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chips.sz button{font-family:var(--sans);min-width:0}
+.fmt2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="https://clkyapigroup.com/tr">CLKYAPI GROUP</a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="https://clkyapigroup.com/tr/konfigurator">Konfigüratör</a>
+      <a href="https://clkyapigroup.com/tr/urunler" aria-current="page">Ürünler</a>
+      <a href="https://clkyapigroup.com/tr/hizmetler">Hizmetler</a>
+      <a href="https://clkyapigroup.com/tr/projeler">Projeler</a>
+      <a href="https://clkyapigroup.com/tr/iletisim">İletişim</a>
+    </nav>
+    <button class="cart" id="openCart" type="button">Teklif listesi <b id="cartN">0</b></button>
+  </div>
+</header>
+<main class="wrap" id="main-content">
+  <div class="crumb"><a href="https://clkyapigroup.com/tr/urunler">Ürünler</a> / <a href="https://clkyapigroup.com/tr/urunler">Yapı Malzemeleri</a> / Çelik Hasır</div>
+  <nav class="fams" id="fams" aria-label="Diğer ürünler"></nav>
+  <div class="head">
+    <h1>Çelik Hasır<br>Q · R · TR Tipi</h1>
+    <p class="lede">Döşeme, perde ve radye donatısında kullanılan çelik hasırların tamamı tek sayfada: iki yönlü çalışan kare göz Q tipi, tek yönlü dikdörtgen göz R tipi ve R'nin 90° döndürülmüş hali TR (ters R) tipi. Üstteki Tip seçiciyle aralarında geçiş yapabilirsiniz.</p>
+  </div>
+  <div class="facts"><div><strong>TS 4559 / TS EN 10080</strong>Standart</div><div><strong>B500A (tek sınıf)</strong>Çelik sınıfı</div><div><strong>2150×5000 mm</strong>Panel ebadı</div><div><strong>Q · R · TR</strong>3 tip ailesi</div></div>
+
+  <div class="cfg" aria-label="Ölçü seçimi ve hesaplama">
+    <div class="draw">
+      <div class="draw-code" aria-live="polite"><span>Seçili ürün</span><b id="dCode"></b></div>
+      <svg id="sec" viewBox="0 0 520 420" role="img" aria-label="Kesit çizimi"></svg>
+      <div class="draw-meta"><span id="dL"></span><span id="dR"></span></div>
+    </div>
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <section class="blk" id="tablo">
+    <h2>Ölçü tablosu</h2>
+    <p class="sub">Bir satıra tıklayınca yukarıdaki hesaplayıcıya aktarılır. Sütun başlığına tıklayarak sıralayabilirsiniz.</p>
+    <div class="tools" id="tools"></div>
+    <div class="tchips" id="tfilter" role="group" aria-label="Kalınlığa göre filtrele"></div>
+    <div class="tscroll"><table id="tbl"><thead><tr id="thr"></tr></thead><tbody id="tb"></tbody></table></div>
+    <p class="sub" style="margin-top:12px;font-size:13px">Q tipi değerleri Ayes Çelik'in Q Tipi Çelik Hasır kataloğundan, R tipi değerleri aynı firmanın R Tipi Çelik Hasır kataloğundan birebir alınmıştır. TR (ters R) tipi, R tipi panelin 90° döndürülmüş halidir: çap ve ağırlık birebir aynıdır, sadece boy/en doğrultusu yer değiştirir — bu türetilmiş TR verileri Şiva Metal ve Çayırova Demir Çelik kataloglarıyla çapraz kontrol edilmiştir.</p>
+  </section>
+
+  <section class="blk">
+    <h2>Teknik özellikler</h2>
+    <p class="sub">Siparişte ölçü, tip ve miktarı belirtmeniz yeterli.</p>
+    <div class="specs"><div><h3>Malzeme</h3><dl><dt>Standart</dt><dd>TS 4559 / TS EN 10080</dd><dt>Çelik sınıfı</dt><dd>B500A — hasır teli soğuk çekim ürünü olduğu için tek sünek sınıfta üretilir, B500B/B500C hasır ürünü yoktur</dd><dt>Belge</dt><dd>EN 10204 3.1 sertifika</dd></dl></div><div><h3>Malzeme sınıfı özellikleri</h3><dl><dt>B500A</dt><dd>fyk ≥500 N/mm² · fuk ≥525 N/mm² (fuk/fyk ≥1,05) · min. uzama (Agt) ≥%2,5</dd><dt>Süneklik</dt><dd>A sınıfı (düşük süneklik) — EN 1992-1-1 Ek C / EN 10080'e göre soğuk çekim telin sınıfı; B420C/B500C'nin C sınıfından (≥%7,5 uzama) farklıdır</dd></dl></div><div><h3>Teslim</h3><dl><dt>Panel ebadı</dt><dd>2150×5000 mm standart</dd><dt>Özel ebat</dt><dd>Boy çubuğu max 12 m, en çubuğu max 3,20 m'ye kadar özel kesit üretilebilir</dd><dt>Sevkiyat</dt><dd>İstanbul ve tüm Türkiye</dd></dl></div><div><h3>Uygulama</h3><dl><dt>Q tipi</dt><dd>İki yönlü çalışan döşeme, şap, perde/radye donatısı</dd><dt>R / TR tipi</dt><dd>Tek yönlü çalışan döşemelerde ana donatı doğrultusuna göre R (boyuna güçlü) veya TR (enine güçlü) seçilir</dd><dt>Kesim</dt><dd>Talebe göre ebatlı kesim</dd></dl></div></div>
+  </section>
+
+  <section class="blk faq">
+    <h2>Sık sorulan sorular</h2>
+    <details><summary>Q, R ve TR arasındaki fark ne?</summary><p>Q tipi her iki doğrultuda eşit çalışan (iki yönlü) döşemeler için kare gözlüdür. R tipi tek yönlü döşemeler için dikdörtgen gözlüdür; boyuna yönde sık (100/150mm) ve kalın tel, enine yönde seyrek (250mm) ve ince tel taşır. TR (ters R) aynı R panelinin 90° döndürülmüş halidir — çap ve ağırlık birebir aynı, sadece güçlü doğrultu enine gelir. Saha donatı doğrultunuza göre R veya TR seçilir.</p></details><details><summary>Q335/221 gibi iki sayılı gösterim ne demek?</summary><p>İlk sayı boyuna yöndeki, ikinci sayı enine yöndeki çelik kesit alanını (mm²/m) gösterir. İki sayı eşitse hasır simetriktir (Q335/335); farklıysa boyuna yön daha güçlüdür (Q335/221) — malzemeden tasarruf için tercih edilir. Bu çift numaralandırma sadece Q tipinde var; R ve TR'de tek tip numarası kullanılır.</p></details><details><summary>R577 ve R589 (ve TR577 / TR589) için neden iki seçenek var?</summary><p>Katalogda bu tipler için farklı göz/çap kombinasyonuyla üretilen iki ayrı versiyon bulunur (göz 100mm ve göz 150mm); ihtiyacınıza göre ikisinden birini seçebilirsiniz.</p></details><details><summary>Neden sadece B500A var, B500B veya B500C yok mu?</summary><p>Hasır teli üretim yöntemi (soğuk çekim) metali sertleştirip sünekliğini düşürür; B ve C sünek sınıfları ancak sıcak haddelenmiş çubukta (düz inşaat demiri) mümkündür. Bu yüzden piyasada B500B veya B500C çelik hasır ürünü bulunmaz.</p></details><details><summary>Ağırlık nasıl hesaplanır?</summary><p>Tip (Q/R/TR), ana ölçü ve varsa enine seçeneği belirleyip ihtiyacınız olan alanı girdiğinizde, 2150×5000 mm standart panel ebadına göre panel adedi ve toplam ağırlık otomatik hesaplanır.</p></details>
+  </section>
+</main>
+<footer><div class="wrap">© 2026 CLK Yapı Group · +90 531 958 98 85 · info@clkyapigroup.com</div></footer>
+
+<dialog id="dlg" aria-labelledby="dlgT">
+  <div class="dlg">
+    <h2 id="dlgT">Teklif listesi</h2>
+    <div id="qlist"></div>
+    <div class="qsum"><span>Toplam ağırlık</span><span id="qsum">0 kg</span></div>
+    <div class="acts">
+      <button class="btn-line" type="button" id="closeDlg">Kapat</button>
+      <a class="btn-dark" href="https://clkyapigroup.com/tr/teklif-al" target="_blank" rel="noopener">Teklif iste</a>
+    </div>
+  </div>
+</dialog>
+<script>
+const CFG={"slug": "celik-hasir", "name": ["Çelik Hasır"], "families": [{"c": "Q", "l": "Q Tipi (Kare Göz)"}, {"c": "R", "l": "R Tipi (Dikdörtgen)"}, {"c": "TR", "l": "TR Tipi (Ters R)"}], "defaultFam": "Q", "famLabel": "Tip", "groups": [{"c": "106", "l": "Q106", "fam": "Q"}, {"c": "131", "l": "Q131", "fam": "Q"}, {"c": "158", "l": "Q158", "fam": "Q"}, {"c": "188", "l": "Q188", "fam": "Q"}, {"c": "221", "l": "Q221", "fam": "Q"}, {"c": "257", "l": "Q257", "fam": "Q"}, {"c": "295", "l": "Q295", "fam": "Q"}, {"c": "317", "l": "Q317", "fam": "Q"}, {"c": "335", "l": "Q335", "fam": "Q"}, {"c": "377", "l": "Q377", "fam": "Q"}, {"c": "424", "l": "Q424", "fam": "Q"}, {"c": "443", "l": "Q443", "fam": "Q"}, {"c": "473", "l": "Q473", "fam": "Q"}, {"c": "503", "l": "Q503", "fam": "Q"}, {"c": "513", "l": "Q513", "fam": "Q"}, {"c": "524", "l": "Q524", "fam": "Q"}, {"c": "589", "l": "Q589", "fam": "Q"}, {"c": "634", "l": "Q634", "fam": "Q"}, {"c": "636", "l": "Q636", "fam": "Q"}, {"c": "709", "l": "Q709", "fam": "Q"}, {"c": "754", "l": "Q754", "fam": "Q"}, {"c": "785", "l": "Q785", "fam": "Q"}, {"c": "950", "l": "Q950", "fam": "Q"}, {"c": "1131", "l": "Q1131", "fam": "Q"}, {"c": "R106", "l": "R106", "fam": "R"}, {"c": "R131", "l": "R131", "fam": "R"}, {"c": "R158", "l": "R158", "fam": "R"}, {"c": "R188", "l": "R188", "fam": "R"}, {"c": "R221", "l": "R221", "fam": "R"}, {"c": "R257", "l": "R257", "fam": "R"}, {"c": "R295", "l": "R295", "fam": "R"}, {"c": "R317", "l": "R317", "fam": "R"}, {"c": "R335", "l": "R335", "fam": "R"}, {"c": "R377", "l": "R377", "fam": "R"}, {"c": "R390", "l": "R390", "fam": "R"}, {"c": "R424", "l": "R424", "fam": "R"}, {"c": "R443", "l": "R443", "fam": "R"}, {"c": "R473", "l": "R473", "fam": "R"}, {"c": "R503", "l": "R503", "fam": "R"}, {"c": "R513", "l": "R513", "fam": "R"}, {"c": "R524", "l": "R524", "fam": "R"}, {"c": "R567", "l": "R567", "fam": "R"}, {"c": "R577a", "l": "R577 (göz 100mm)", "fam": "R"}, {"c": "R577b", "l": "R577 (göz 150mm)", "fam": "R"}, {"c": "R589a", "l": "R589 (göz 100mm)", "fam": "R"}, {"c": "R589b", "l": "R589 (göz 150mm)", "fam": "R"}, {"c": "R634", "l": "R634", "fam": "R"}, {"c": "R636", "l": "R636", "fam": "R"}, {"c": "R709", "l": "R709", "fam": "R"}, {"c": "R785", "l": "R785", "fam": "R"}, {"c": "R866", "l": "R866", "fam": "R"}, {"c": "TR106", "l": "TR106", "fam": "TR"}, {"c": "TR131", "l": "TR131", "fam": "TR"}, {"c": "TR158", "l": "TR158", "fam": "TR"}, {"c": "TR188", "l": "TR188", "fam": "TR"}, {"c": "TR221", "l": "TR221", "fam": "TR"}, {"c": "TR257", "l": "TR257", "fam": "TR"}, {"c": "TR295", "l": "TR295", "fam": "TR"}, {"c": "TR317", "l": "TR317", "fam": "TR"}, {"c": "TR335", "l": "TR335", "fam": "TR"}, {"c": "TR377", "l": "TR377", "fam": "TR"}, {"c": "TR390", "l": "TR390", "fam": "TR"}, {"c": "TR424", "l": "TR424", "fam": "TR"}, {"c": "TR443", "l": "TR443", "fam": "TR"}, {"c": "TR473", "l": "TR473", "fam": "TR"}, {"c": "TR503", "l": "TR503", "fam": "TR"}, {"c": "TR513", "l": "TR513", "fam": "TR"}, {"c": "TR524", "l": "TR524", "fam": "TR"}, {"c": "TR567", "l": "TR567", "fam": "TR"}, {"c": "TR577a", "l": "TR577 (göz 100mm)", "fam": "TR"}, {"c": "TR577b", "l": "TR577 (göz 150mm)", "fam": "TR"}, {"c": "TR589a", "l": "TR589 (göz 100mm)", "fam": "TR"}, {"c": "TR589b", "l": "TR589 (göz 150mm)", "fam": "TR"}, {"c": "TR634", "l": "TR634", "fam": "TR"}, {"c": "TR636", "l": "TR636", "fam": "TR"}, {"c": "TR709", "l": "TR709", "fam": "TR"}, {"c": "TR785", "l": "TR785", "fam": "TR"}, {"c": "TR866", "l": "TR866", "fam": "TR"}], "defaultGByFam": {"Q": "188", "R": "R188", "TR": "TR188"}, "sizeLabel": "Ebat", "sizeUI": "chips", "variantLabel": "Enine Seçenek", "variantFam": "Q", "draw": "mesh", "variantSuffix": "", "grades": {"106": ["B500A"], "131": ["B500A"], "158": ["B500A"], "188": ["B500A"], "221": ["B500A"], "257": ["B500A"], "295": ["B500A"], "317": ["B500A"], "335": ["B500A"], "377": ["B500A"], "424": ["B500A"], "443": ["B500A"], "473": ["B500A"], "503": ["B500A"], "513": ["B500A"], "524": ["B500A"], "589": ["B500A"], "634": ["B500A"], "636": ["B500A"], "709": ["B500A"], "754": ["B500A"], "785": ["B500A"], "950": ["B500A"], "1131": ["B500A"], "R106": ["B500A"], "R131": ["B500A"], "R158": ["B500A"], "R188": ["B500A"], "R221": ["B500A"], "R257": ["B500A"], "R295": ["B500A"], "R317": ["B500A"], "R335": ["B500A"], "R377": ["B500A"], "R390": ["B500A"], "R424": ["B500A"], "R443": ["B500A"], "R473": ["B500A"], "R503": ["B500A"], "R513": ["B500A"], "R524": ["B500A"], "R567": ["B500A"], "R577a": ["B500A"], "R577b": ["B500A"], "R589a": ["B500A"], "R589b": ["B500A"], "R634": ["B500A"], "R636": ["B500A"], "R709": ["B500A"], "R785": ["B500A"], "R866": ["B500A"], "TR106": ["B500A"], "TR131": ["B500A"], "TR158": ["B500A"], "TR188": ["B500A"], "TR221": ["B500A"], "TR257": ["B500A"], "TR295": ["B500A"], "TR317": ["B500A"], "TR335": ["B500A"], "TR377": ["B500A"], "TR390": ["B500A"], "TR424": ["B500A"], "TR443": ["B500A"], "TR473": ["B500A"], "TR503": ["B500A"], "TR513": ["B500A"], "TR524": ["B500A"], "TR567": ["B500A"], "TR577a": ["B500A"], "TR577b": ["B500A"], "TR589a": ["B500A"], "TR589b": ["B500A"], "TR634": ["B500A"], "TR636": ["B500A"], "TR709": ["B500A"], "TR785": ["B500A"], "TR866": ["B500A"]}, "lengths": [{"v": 1, "l": "Panel"}], "plate": true, "groupLabel": "Hasır Tipi", "formats": {"106": [{"w": 2150, "l": 5000}], "131": [{"w": 2150, "l": 5000}], "158": [{"w": 2150, "l": 5000}], "188": [{"w": 2150, "l": 5000}], "221": [{"w": 2150, "l": 5000}], "257": [{"w": 2150, "l": 5000}], "295": [{"w": 2150, "l": 5000}], "317": [{"w": 2150, "l": 5000}], "335": [{"w": 2150, "l": 5000}], "377": [{"w": 2150, "l": 5000}], "424": [{"w": 2150, "l": 5000}], "443": [{"w": 2150, "l": 5000}], "473": [{"w": 2150, "l": 5000}], "503": [{"w": 2150, "l": 5000}], "513": [{"w": 2150, "l": 5000}], "524": [{"w": 2150, "l": 5000}], "589": [{"w": 2150, "l": 5000}], "634": [{"w": 2150, "l": 5000}], "636": [{"w": 2150, "l": 5000}], "709": [{"w": 2150, "l": 5000}], "754": [{"w": 2150, "l": 5000}], "785": [{"w": 2150, "l": 5000}], "950": [{"w": 2150, "l": 5000}], "1131": [{"w": 2150, "l": 5000}], "R106": [{"w": 2150, "l": 5000}], "R131": [{"w": 2150, "l": 5000}], "R158": [{"w": 2150, "l": 5000}], "R188": [{"w": 2150, "l": 5000}], "R221": [{"w": 2150, "l": 5000}], "R257": [{"w": 2150, "l": 5000}], "R295": [{"w": 2150, "l": 5000}], "R317": [{"w": 2150, "l": 5000}], "R335": [{"w": 2150, "l": 5000}], "R377": [{"w": 2150, "l": 5000}], "R390": [{"w": 2150, "l": 5000}], "R424": [{"w": 2150, "l": 5000}], "R443": [{"w": 2150, "l": 5000}], "R473": [{"w": 2150, "l": 5000}], "R503": [{"w": 2150, "l": 5000}], "R513": [{"w": 2150, "l": 5000}], "R524": [{"w": 2150, "l": 5000}], "R567": [{"w": 2150, "l": 5000}], "R577a": [{"w": 2150, "l": 5000}], "R577b": [{"w": 2150, "l": 5000}], "R589a": [{"w": 2150, "l": 5000}], "R589b": [{"w": 2150, "l": 5000}], "R634": [{"w": 2150, "l": 5000}], "R636": [{"w": 2150, "l": 5000}], "R709": [{"w": 2150, "l": 5000}], "R785": [{"w": 2150, "l": 5000}], "R866": [{"w": 2150, "l": 5000}], "TR106": [{"w": 2150, "l": 5000}], "TR131": [{"w": 2150, "l": 5000}], "TR158": [{"w": 2150, "l": 5000}], "TR188": [{"w": 2150, "l": 5000}], "TR221": [{"w": 2150, "l": 5000}], "TR257": [{"w": 2150, "l": 5000}], "TR295": [{"w": 2150, "l": 5000}], "TR317": [{"w": 2150, "l": 5000}], "TR335": [{"w": 2150, "l": 5000}], "TR377": [{"w": 2150, "l": 5000}], "TR390": [{"w": 2150, "l": 5000}], "TR424": [{"w": 2150, "l": 5000}], "TR443": [{"w": 2150, "l": 5000}], "TR473": [{"w": 2150, "l": 5000}], "TR503": [{"w": 2150, "l": 5000}], "TR513": [{"w": 2150, "l": 5000}], "TR524": [{"w": 2150, "l": 5000}], "TR567": [{"w": 2150, "l": 5000}], "TR577a": [{"w": 2150, "l": 5000}], "TR577b": [{"w": 2150, "l": 5000}], "TR589a": [{"w": 2150, "l": 5000}], "TR589b": [{"w": 2150, "l": 5000}], "TR634": [{"w": 2150, "l": 5000}], "TR636": [{"w": 2150, "l": 5000}], "TR709": [{"w": 2150, "l": 5000}], "TR785": [{"w": 2150, "l": 5000}], "TR866": [{"w": 2150, "l": 5000}]}, "props": [], "cols": [["k", "Stok kodu", null, 0], ["dim", "Çap boy/en (mm)", null, 0], ["gozdim", "Göz boy/en (mm)", null, 0], ["kgm2", "kg/m²", 2, 0], ["kg", "Panel ağırlığı (kg)", 2, 0]]};
+const DATA=[{"k": "Q106", "g": "106", "fam": "Q", "s": "Panel", "v": 106, "lbl": "Q106", "dim": "4,5/4,5", "gozdim": "150/150", "kgm2": 1.66, "kg": 17.62, "d": {"span": 240, "p": 150, "p2": 150, "phi": 4.5, "phi2": 4.5}}, {"k": "Q131", "g": "131", "fam": "Q", "s": "Panel", "v": 131, "lbl": "Q131", "dim": "5/5", "gozdim": "150/150", "kgm2": 2.06, "kg": 21.7, "d": {"span": 240, "p": 150, "p2": 150, "phi": 5.0, "phi2": 5.0}}, {"k": "Q158", "g": "158", "fam": "Q", "s": "Panel", "v": 158, "lbl": "Q158", "dim": "5,5/5,5", "gozdim": "150/150", "kgm2": 2.49, "kg": 26.36, "d": {"span": 240, "p": 150, "p2": 150, "phi": 5.5, "phi2": 5.5}}, {"k": "Q188", "g": "188", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q188", "dim": "6/6", "gozdim": "150/150", "kgm2": 2.96, "kg": 31.29, "d": {"span": 240, "p": 150, "p2": 150, "phi": 6.0, "phi2": 6.0}}, {"k": "Q221", "g": "221", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q221", "dim": "6,5/6,5", "gozdim": "150/150", "kgm2": 3.47, "kg": 36.65, "d": {"span": 240, "p": 150, "p2": 150, "phi": 6.5, "phi2": 6.5}}, {"k": "Q257", "g": "257", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q257", "dim": "7/7", "gozdim": "150/150", "kgm2": 4.03, "kg": 42.57, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.0, "phi2": 7.0}}, {"k": "Q257/188", "g": "257", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q257/188", "dim": "7/6", "gozdim": "150/150", "kgm2": 3.49, "kg": 36.89, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.0, "phi2": 6.0}}, {"k": "Q295", "g": "295", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q295", "dim": "7,5/7,5", "gozdim": "150/150", "kgm2": 4.62, "kg": 48.91, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.5, "phi2": 7.5}}, {"k": "Q295/257", "g": "295", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q295/257", "dim": "7,5/7", "gozdim": "150/150", "kgm2": 4.33, "kg": 45.72, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.5, "phi2": 7.0}}, {"k": "Q295/221", "g": "295", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q295/221", "dim": "7,5/6,5", "gozdim": "150/150", "kgm2": 4.04, "kg": 42.73, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.5, "phi2": 6.5}}, {"k": "Q295/188", "g": "295", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q295/188", "dim": "7,5/6", "gozdim": "150/150", "kgm2": 3.79, "kg": 40.04, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.5, "phi2": 6.0}}, {"k": "Q295/158", "g": "295", "fam": "Q", "s": "Panel", "v": 158, "lbl": "Q295/158", "dim": "7,5/5,5", "gozdim": "150/150", "kgm2": 3.56, "kg": 37.55, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.5, "phi2": 5.5}}, {"k": "Q317", "g": "317", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q317", "dim": "7,8/7,8", "gozdim": "150/150", "kgm2": 5.0, "kg": 52.86, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.8, "phi2": 7.8}}, {"k": "Q317/295", "g": "317", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q317/295", "dim": "7,8/7,5", "gozdim": "150/150", "kgm2": 4.81, "kg": 50.8, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.8, "phi2": 7.5}}, {"k": "Q317/257", "g": "317", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q317/257", "dim": "7,8/7", "gozdim": "150/150", "kgm2": 4.52, "kg": 47.61, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.8, "phi2": 7.0}}, {"k": "Q317/221", "g": "317", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q317/221", "dim": "7,8/6,5", "gozdim": "150/150", "kgm2": 4.24, "kg": 44.63, "d": {"span": 240, "p": 150, "p2": 150, "phi": 7.8, "phi2": 6.5}}, {"k": "Q317/188", "g": "317", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q317/188", "dim": "8/6", "gozdim": "150/150", "kgm2": 3.98, "kg": 42.0, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 6.0}}, {"k": "Q335", "g": "335", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q335", "dim": "8/8", "gozdim": "150/150", "kgm2": 5.26, "kg": 55.68, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 8.0}}, {"k": "Q335/317", "g": "335", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q335/317", "dim": "8/7,8", "gozdim": "150/150", "kgm2": 5.13, "kg": 54.18, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 7.8}}, {"k": "Q335/295", "g": "335", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q335/295", "dim": "8/7,5", "gozdim": "150/150", "kgm2": 4.94, "kg": 52.27, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 7.5}}, {"k": "Q335/257", "g": "335", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q335/257", "dim": "8/7", "gozdim": "150/150", "kgm2": 4.64, "kg": 49.08, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 7.0}}, {"k": "Q335/221", "g": "335", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q335/221", "dim": "8/6,5", "gozdim": "150/150", "kgm2": 4.37, "kg": 46.09, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 6.5}}, {"k": "Q335/188", "g": "335", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q335/188", "dim": "8/6", "gozdim": "150/150", "kgm2": 4.11, "kg": 43.4, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.0, "phi2": 6.0}}, {"k": "Q377", "g": "377", "fam": "Q", "s": "Panel", "v": 377, "lbl": "Q377", "dim": "8,5/8,5", "gozdim": "150/150", "kgm2": 5.94, "kg": 62.72, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 8.5}}, {"k": "Q377/335", "g": "377", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q377/335", "dim": "8,5/8", "gozdim": "150/150", "kgm2": 5.6, "kg": 59.17, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 8.0}}, {"k": "Q377/317", "g": "377", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q377/317", "dim": "8,5/7,8", "gozdim": "150/150", "kgm2": 5.47, "kg": 57.69, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 7.8}}, {"k": "Q377/295", "g": "377", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q377/295", "dim": "8,5/7,5", "gozdim": "150/150", "kgm2": 5.28, "kg": 55.77, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 7.5}}, {"k": "Q377/257", "g": "377", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q377/257", "dim": "8,5/7", "gozdim": "150/150", "kgm2": 4.98, "kg": 52.58, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 7.0}}, {"k": "Q377/221", "g": "377", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q377/221", "dim": "8,5/6,5", "gozdim": "150/150", "kgm2": 4.71, "kg": 49.6, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 6.5}}, {"k": "Q377/188", "g": "377", "fam": "Q", "s": "Panel", "v": 188, "lbl": "Q377/188", "dim": "8,5/6", "gozdim": "150/150", "kgm2": 4.45, "kg": 46.9, "d": {"span": 240, "p": 150, "p2": 150, "phi": 8.5, "phi2": 6.0}}, {"k": "Q424", "g": "424", "fam": "Q", "s": "Panel", "v": 424, "lbl": "Q424", "dim": "9/9", "gozdim": "150/150", "kgm2": 6.66, "kg": 70.33, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 9.0}}, {"k": "Q424/377", "g": "424", "fam": "Q", "s": "Panel", "v": 377, "lbl": "Q424/377", "dim": "9/8,5", "gozdim": "150/150", "kgm2": 6.3, "kg": 66.5, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 8.5}}, {"k": "Q424/335", "g": "424", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q424/335", "dim": "9/8", "gozdim": "150/150", "kgm2": 5.96, "kg": 62.96, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 8.0}}, {"k": "Q424/317", "g": "424", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q424/317", "dim": "9/7,8", "gozdim": "150/150", "kgm2": 5.98, "kg": 61.47, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 7.8}}, {"k": "Q424/295", "g": "424", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q424/295", "dim": "9/7,5", "gozdim": "150/150", "kgm2": 5.64, "kg": 59.55, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 7.5}}, {"k": "Q424/257", "g": "424", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q424/257", "dim": "9/7", "gozdim": "150/150", "kgm2": 5.34, "kg": 56.36, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 7.0}}, {"k": "Q424/221", "g": "424", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q424/221", "dim": "9/6,5", "gozdim": "150/150", "kgm2": 5.07, "kg": 53.38, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.0, "phi2": 6.5}}, {"k": "Q443", "g": "443", "fam": "Q", "s": "Panel", "v": 443, "lbl": "Q443", "dim": "9,2/9,2", "gozdim": "150/150", "kgm2": 6.96, "kg": 73.58, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 9.2}}, {"k": "Q443/377", "g": "443", "fam": "Q", "s": "Panel", "v": 377, "lbl": "Q443/377", "dim": "9,2/8,5", "gozdim": "150/150", "kgm2": 6.45, "kg": 67.97, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 8.5}}, {"k": "Q443/335", "g": "443", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q443/335", "dim": "9,2/8", "gozdim": "150/150", "kgm2": 6.11, "kg": 64.42, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 8.0}}, {"k": "Q443/317", "g": "443", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q443/317", "dim": "9,2/7,8", "gozdim": "150/150", "kgm2": 5.98, "kg": 62.94, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 7.8}}, {"k": "Q443/295", "g": "443", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q443/295", "dim": "9,2/7,5", "gozdim": "150/150", "kgm2": 5.79, "kg": 61.02, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 7.5}}, {"k": "Q443/257", "g": "443", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q443/257", "dim": "9,2/7", "gozdim": "150/150", "kgm2": 5.49, "kg": 57.83, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 7.0}}, {"k": "Q443/221", "g": "443", "fam": "Q", "s": "Panel", "v": 221, "lbl": "Q443/221", "dim": "9,2/6,5", "gozdim": "150/150", "kgm2": 5.22, "kg": 54.99, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.2, "phi2": 6.5}}, {"k": "Q473", "g": "473", "fam": "Q", "s": "Panel", "v": 473, "lbl": "Q473", "dim": "9,5/9,5", "gozdim": "150/150", "kgm2": 7.42, "kg": 78.37, "d": {"span": 240, "p": 150, "p2": 150, "phi": 9.5, "phi2": 9.5}}, {"k": "Q503", "g": "503", "fam": "Q", "s": "Panel", "v": 503, "lbl": "Q503", "dim": "8/8", "gozdim": "100/100", "kgm2": 7.89, "kg": 83.09, "d": {"span": 240, "p": 100, "p2": 100, "phi": 8.0, "phi2": 8.0}}, {"k": "Q513", "g": "513", "fam": "Q", "s": "Panel", "v": 513, "lbl": "Q513", "dim": "8,1/8,1", "gozdim": "100/100", "kgm2": 8.09, "kg": 85.2, "d": {"span": 240, "p": 100, "p2": 100, "phi": 8.1, "phi2": 8.1}}, {"k": "Q513/257", "g": "513", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q513/257", "dim": "8,1/7", "gozdim": "100/150", "kgm2": 6.06, "kg": 63.96, "d": {"span": 240, "p": 100, "p2": 150, "phi": 8.1, "phi2": 7.0}}, {"k": "Q524", "g": "524", "fam": "Q", "s": "Panel", "v": 524, "lbl": "Q524", "dim": "10/10", "gozdim": "150/150", "kgm2": 8.22, "kg": 86.97, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 10.0}}, {"k": "Q524/443", "g": "524", "fam": "Q", "s": "Panel", "v": 443, "lbl": "Q524/443", "dim": "10/9,2", "gozdim": "150/150", "kgm2": 7.59, "kg": 80.08, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 9.2}}, {"k": "Q524/424", "g": "524", "fam": "Q", "s": "Panel", "v": 424, "lbl": "Q524/424", "dim": "10/9", "gozdim": "150/150", "kgm2": 7.44, "kg": 78.6, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 9.0}}, {"k": "Q524/377", "g": "524", "fam": "Q", "s": "Panel", "v": 377, "lbl": "Q524/377", "dim": "10/8,5", "gozdim": "150/150", "kgm2": 7.08, "kg": 74.76, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 8.5}}, {"k": "Q524/335", "g": "524", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q524/335", "dim": "10/8", "gozdim": "150/150", "kgm2": 6.74, "kg": 71.21, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 8.0}}, {"k": "Q524/317", "g": "524", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q524/317", "dim": "10/7,8", "gozdim": "150/150", "kgm2": 6.61, "kg": 69.72, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 7.8}}, {"k": "Q524/295", "g": "524", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q524/295", "dim": "10/7,5", "gozdim": "150/150", "kgm2": 6.42, "kg": 67.81, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 7.5}}, {"k": "Q524/257", "g": "524", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q524/257", "dim": "10/7", "gozdim": "150/150", "kgm2": 6.12, "kg": 64.62, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.0, "phi2": 7.0}}, {"k": "Q589", "g": "589", "fam": "Q", "s": "Panel", "v": 589, "lbl": "Q589", "dim": "10,6/10,6", "gozdim": "150/150", "kgm2": 9.24, "kg": 97.53, "d": {"span": 240, "p": 150, "p2": 150, "phi": 10.6, "phi2": 10.6}}, {"k": "Q589", "g": "589", "fam": "Q", "s": "Panel", "v": 589, "lbl": "Q589", "dim": "8,7/8,7", "gozdim": "100/100", "kgm2": 9.33, "kg": 98.24, "d": {"span": 240, "p": 100, "p2": 100, "phi": 8.7, "phi2": 8.7}}, {"k": "Q589/503", "g": "589", "fam": "Q", "s": "Panel", "v": 503, "lbl": "Q589/503", "dim": "8,7/8", "gozdim": "100/100", "kgm2": 8.61, "kg": 90.65, "d": {"span": 240, "p": 100, "p2": 100, "phi": 8.7, "phi2": 8.0}}, {"k": "Q589/377", "g": "589", "fam": "Q", "s": "Panel", "v": 377, "lbl": "Q589/377", "dim": "8,7/8,5", "gozdim": "100/150", "kgm2": 7.64, "kg": 80.61, "d": {"span": 240, "p": 100, "p2": 150, "phi": 8.7, "phi2": 8.5}}, {"k": "Q589/335", "g": "589", "fam": "Q", "s": "Panel", "v": 335, "lbl": "Q589/335", "dim": "8,7/8", "gozdim": "100/150", "kgm2": 7.3, "kg": 76.96, "d": {"span": 240, "p": 100, "p2": 150, "phi": 8.7, "phi2": 8.0}}, {"k": "Q589/317", "g": "589", "fam": "Q", "s": "Panel", "v": 317, "lbl": "Q589/317", "dim": "8,7/7,8", "gozdim": "100/150", "kgm2": 7.17, "kg": 75.47, "d": {"span": 240, "p": 100, "p2": 150, "phi": 8.7, "phi2": 7.8}}, {"k": "Q589/295", "g": "589", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q589/295", "dim": "8,7/7,5", "gozdim": "100/150", "kgm2": 6.98, "kg": 73.66, "d": {"span": 240, "p": 100, "p2": 150, "phi": 8.7, "phi2": 7.5}}, {"k": "Q634", "g": "634", "fam": "Q", "s": "Panel", "v": 634, "lbl": "Q634", "dim": "11/11", "gozdim": "150/150", "kgm2": 9.95, "kg": 105.15, "d": {"span": 240, "p": 150, "p2": 150, "phi": 11.0, "phi2": 11.0}}, {"k": "Q636", "g": "636", "fam": "Q", "s": "Panel", "v": 636, "lbl": "Q636", "dim": "9/9", "gozdim": "100/100", "kgm2": 9.99, "kg": 104.96, "d": {"span": 240, "p": 100, "p2": 100, "phi": 9.0, "phi2": 9.0}}, {"k": "Q636/424", "g": "636", "fam": "Q", "s": "Panel", "v": 424, "lbl": "Q636/424", "dim": "9/9", "gozdim": "100/150", "kgm2": 8.32, "kg": 87.8, "d": {"span": 240, "p": 100, "p2": 150, "phi": 9.0, "phi2": 9.0}}, {"k": "Q709/424", "g": "709", "fam": "Q", "s": "Panel", "v": 424, "lbl": "Q709/424", "dim": "9,5/9", "gozdim": "100/150", "kgm2": 8.89, "kg": 93.78, "d": {"span": 240, "p": 100, "p2": 150, "phi": 9.5, "phi2": 9.0}}, {"k": "Q754", "g": "754", "fam": "Q", "s": "Panel", "v": 754, "lbl": "Q754", "dim": "12/12", "gozdim": "150/150", "kgm2": 11.84, "kg": 125.16, "d": {"span": 240, "p": 150, "p2": 150, "phi": 12.0, "phi2": 12.0}}, {"k": "Q785", "g": "785", "fam": "Q", "s": "Panel", "v": 785, "lbl": "Q785", "dim": "10/10", "gozdim": "100/100", "kgm2": 12.33, "kg": 129.79, "d": {"span": 240, "p": 100, "p2": 100, "phi": 10.0, "phi2": 10.0}}, {"k": "Q785/295", "g": "785", "fam": "Q", "s": "Panel", "v": 295, "lbl": "Q785/295", "dim": "10/7,5", "gozdim": "100/150", "kgm2": 8.48, "kg": 89.4, "d": {"span": 240, "p": 100, "p2": 150, "phi": 10.0, "phi2": 7.5}}, {"k": "Q785/257", "g": "785", "fam": "Q", "s": "Panel", "v": 257, "lbl": "Q785/257", "dim": "10/7", "gozdim": "100/150", "kgm2": 8.18, "kg": 86.21, "d": {"span": 240, "p": 100, "p2": 150, "phi": 10.0, "phi2": 7.0}}, {"k": "Q950", "g": "950", "fam": "Q", "s": "Panel", "v": 950, "lbl": "Q950", "dim": "11/11", "gozdim": "100/100", "kgm2": 14.92, "kg": 156.92, "d": {"span": 240, "p": 100, "p2": 100, "phi": 11.0, "phi2": 11.0}}, {"k": "Q1131", "g": "1131", "fam": "Q", "s": "Panel", "v": 1131, "lbl": "Q1131", "dim": "12/12", "gozdim": "100/100", "kgm2": 17.76, "kg": 186.78, "d": {"span": 240, "p": 100, "p2": 100, "phi": 12.0, "phi2": 12.0}}, {"k": "R106", "g": "R106", "fam": "R", "s": "Panel", "v": null, "lbl": "R106", "dim": "4,5/4,5", "gozdim": "150/250", "kgm2": 1.33, "kg": 14.12, "d": {"span": 240, "p": 150, "p2": 250, "phi": 4.5, "phi2": 4.5}}, {"k": "R131", "g": "R131", "fam": "R", "s": "Panel", "v": null, "lbl": "R131", "dim": "5/5", "gozdim": "150/250", "kgm2": 1.64, "kg": 17.4, "d": {"span": 240, "p": 150, "p2": 250, "phi": 5.0, "phi2": 5.0}}, {"k": "R158", "g": "R158", "fam": "R", "s": "Panel", "v": null, "lbl": "R158", "dim": "5,5/5", "gozdim": "150/250", "kgm2": 1.86, "kg": 19.71, "d": {"span": 240, "p": 150, "p2": 250, "phi": 5.5, "phi2": 5.0}}, {"k": "R188", "g": "R188", "fam": "R", "s": "Panel", "v": null, "lbl": "R188", "dim": "6/5", "gozdim": "150/250", "kgm2": 2.1, "kg": 22.16, "d": {"span": 240, "p": 150, "p2": 250, "phi": 6.0, "phi2": 5.0}}, {"k": "R221", "g": "R221", "fam": "R", "s": "Panel", "v": null, "lbl": "R221", "dim": "6,5/5", "gozdim": "150/250", "kgm2": 2.35, "kg": 24.82, "d": {"span": 240, "p": 150, "p2": 250, "phi": 6.5, "phi2": 5.0}}, {"k": "R257", "g": "R257", "fam": "R", "s": "Panel", "v": null, "lbl": "R257", "dim": "7/5", "gozdim": "150/250", "kgm2": 2.63, "kg": 27.76, "d": {"span": 240, "p": 150, "p2": 250, "phi": 7.0, "phi2": 5.0}}, {"k": "R295", "g": "R295", "fam": "R", "s": "Panel", "v": null, "lbl": "R295", "dim": "7,5/5", "gozdim": "150/250", "kgm2": 2.93, "kg": 30.91, "d": {"span": 240, "p": 150, "p2": 250, "phi": 7.5, "phi2": 5.0}}, {"k": "R317", "g": "R317", "fam": "R", "s": "Panel", "v": null, "lbl": "R317", "dim": "7,8/5", "gozdim": "150/250", "kgm2": 3.12, "kg": 32.87, "d": {"span": 240, "p": 150, "p2": 250, "phi": 7.8, "phi2": 5.0}}, {"k": "R335", "g": "R335", "fam": "R", "s": "Panel", "v": null, "lbl": "R335", "dim": "8/5", "gozdim": "150/250", "kgm2": 3.25, "kg": 34.27, "d": {"span": 240, "p": 150, "p2": 250, "phi": 8.0, "phi2": 5.0}}, {"k": "R377", "g": "R377", "fam": "R", "s": "Panel", "v": null, "lbl": "R377", "dim": "8,5/5,5", "gozdim": "150/250", "kgm2": 3.72, "kg": 39.19, "d": {"span": 240, "p": 150, "p2": 250, "phi": 8.5, "phi2": 5.5}}, {"k": "R390", "g": "R390", "fam": "R", "s": "Panel", "v": null, "lbl": "R390", "dim": "8,7/5,5", "gozdim": "150/250", "kgm2": 3.86, "kg": 40.66, "d": {"span": 240, "p": 150, "p2": 250, "phi": 8.7, "phi2": 5.5}}, {"k": "R424", "g": "R424", "fam": "R", "s": "Panel", "v": null, "lbl": "R424", "dim": "9/5,5", "gozdim": "150/250", "kgm2": 4.08, "kg": 42.97, "d": {"span": 240, "p": 150, "p2": 250, "phi": 9.0, "phi2": 5.5}}, {"k": "R443", "g": "R443", "fam": "R", "s": "Panel", "v": null, "lbl": "R443", "dim": "9,2/5,5", "gozdim": "150/250", "kgm2": 4.22, "kg": 44.58, "d": {"span": 240, "p": 150, "p2": 250, "phi": 9.2, "phi2": 5.5}}, {"k": "R473", "g": "R473", "fam": "R", "s": "Panel", "v": null, "lbl": "R473", "dim": "9,5/5,5", "gozdim": "150/250", "kgm2": 4.46, "kg": 46.96, "d": {"span": 240, "p": 150, "p2": 250, "phi": 9.5, "phi2": 5.5}}, {"k": "R503", "g": "R503", "fam": "R", "s": "Panel", "v": null, "lbl": "R503", "dim": "8/6", "gozdim": "100/250", "kgm2": 4.83, "kg": 51.02, "d": {"span": 240, "p": 100, "p2": 250, "phi": 8.0, "phi2": 6.0}}, {"k": "R513", "g": "R513", "fam": "R", "s": "Panel", "v": null, "lbl": "R513", "dim": "8,1/6", "gozdim": "100/250", "kgm2": 4.93, "kg": 52.07, "d": {"span": 240, "p": 100, "p2": 250, "phi": 8.1, "phi2": 6.0}}, {"k": "R524", "g": "R524", "fam": "R", "s": "Panel", "v": null, "lbl": "R524", "dim": "10/6", "gozdim": "150/250", "kgm2": 4.99, "kg": 52.74, "d": {"span": 240, "p": 150, "p2": 250, "phi": 10.0, "phi2": 6.0}}, {"k": "R567", "g": "R567", "fam": "R", "s": "Panel", "v": null, "lbl": "R567", "dim": "8,5/6", "gozdim": "100/250", "kgm2": 5.34, "kg": 56.27, "d": {"span": 240, "p": 100, "p2": 250, "phi": 8.5, "phi2": 6.0}}, {"k": "R577", "g": "R577a", "fam": "R", "s": "Panel", "v": null, "lbl": "R577", "dim": "8,6/6,5", "gozdim": "100/250", "kgm2": 5.45, "kg": 59.06, "d": {"span": 240, "p": 100, "p2": 250, "phi": 8.6, "phi2": 6.5}}, {"k": "R577", "g": "R577b", "fam": "R", "s": "Panel", "v": null, "lbl": "R577", "dim": "10,5/6,5", "gozdim": "150/250", "kgm2": 5.57, "kg": 58.78, "d": {"span": 240, "p": 150, "p2": 250, "phi": 10.5, "phi2": 6.5}}, {"k": "R589", "g": "R589a", "fam": "R", "s": "Panel", "v": null, "lbl": "R589", "dim": "8,7/6,5", "gozdim": "100/250", "kgm2": 5.71, "kg": 60.22, "d": {"span": 240, "p": 100, "p2": 250, "phi": 8.7, "phi2": 6.5}}, {"k": "R589", "g": "R589b", "fam": "R", "s": "Panel", "v": null, "lbl": "R589", "dim": "10,6/6,5", "gozdim": "150/250", "kgm2": 5.66, "kg": 59.69, "d": {"span": 240, "p": 150, "p2": 250, "phi": 10.6, "phi2": 6.5}}, {"k": "R634", "g": "R634", "fam": "R", "s": "Panel", "v": null, "lbl": "R634", "dim": "11/6,5", "gozdim": "150/250", "kgm2": 6.02, "kg": 63.4, "d": {"span": 240, "p": 150, "p2": 250, "phi": 11.0, "phi2": 6.5}}, {"k": "R636", "g": "R636", "fam": "R", "s": "Panel", "v": null, "lbl": "R636", "dim": "9/6,5", "gozdim": "100/250", "kgm2": 6.04, "kg": 63.57, "d": {"span": 240, "p": 100, "p2": 250, "phi": 9.0, "phi2": 6.5}}, {"k": "R709", "g": "R709", "fam": "R", "s": "Panel", "v": null, "lbl": "R709", "dim": "9,5/6,5", "gozdim": "100/250", "kgm2": 6.61, "kg": 69.56, "d": {"span": 240, "p": 100, "p2": 250, "phi": 9.5, "phi2": 6.5}}, {"k": "R785", "g": "R785", "fam": "R", "s": "Panel", "v": null, "lbl": "R785", "dim": "10/6,5", "gozdim": "100/250", "kgm2": 7.21, "kg": 75.97, "d": {"span": 240, "p": 100, "p2": 250, "phi": 10.0, "phi2": 6.5}}, {"k": "R866", "g": "R866", "fam": "R", "s": "Panel", "v": null, "lbl": "R866", "dim": "10,5/7", "gozdim": "100/250", "kgm2": 8.01, "kg": 84.39, "d": {"span": 240, "p": 100, "p2": 250, "phi": 10.5, "phi2": 7.0}}, {"k": "TR106", "g": "TR106", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR106", "dim": "4,5/4,5", "gozdim": "250/150", "kgm2": 1.33, "kg": 14.12, "d": {"span": 240, "p": 250, "p2": 150, "phi": 4.5, "phi2": 4.5}}, {"k": "TR131", "g": "TR131", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR131", "dim": "5/5", "gozdim": "250/150", "kgm2": 1.64, "kg": 17.4, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 5.0}}, {"k": "TR158", "g": "TR158", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR158", "dim": "5/5,5", "gozdim": "250/150", "kgm2": 1.86, "kg": 19.71, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 5.5}}, {"k": "TR188", "g": "TR188", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR188", "dim": "5/6", "gozdim": "250/150", "kgm2": 2.1, "kg": 22.16, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 6.0}}, {"k": "TR221", "g": "TR221", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR221", "dim": "5/6,5", "gozdim": "250/150", "kgm2": 2.35, "kg": 24.82, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 6.5}}, {"k": "TR257", "g": "TR257", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR257", "dim": "5/7", "gozdim": "250/150", "kgm2": 2.63, "kg": 27.76, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 7.0}}, {"k": "TR295", "g": "TR295", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR295", "dim": "5/7,5", "gozdim": "250/150", "kgm2": 2.93, "kg": 30.91, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 7.5}}, {"k": "TR317", "g": "TR317", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR317", "dim": "5/7,8", "gozdim": "250/150", "kgm2": 3.12, "kg": 32.87, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 7.8}}, {"k": "TR335", "g": "TR335", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR335", "dim": "5/8", "gozdim": "250/150", "kgm2": 3.25, "kg": 34.27, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.0, "phi2": 8.0}}, {"k": "TR377", "g": "TR377", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR377", "dim": "5,5/8,5", "gozdim": "250/150", "kgm2": 3.72, "kg": 39.19, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.5, "phi2": 8.5}}, {"k": "TR390", "g": "TR390", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR390", "dim": "5,5/8,7", "gozdim": "250/150", "kgm2": 3.86, "kg": 40.66, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.5, "phi2": 8.7}}, {"k": "TR424", "g": "TR424", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR424", "dim": "5,5/9", "gozdim": "250/150", "kgm2": 4.08, "kg": 42.97, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.5, "phi2": 9.0}}, {"k": "TR443", "g": "TR443", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR443", "dim": "5,5/9,2", "gozdim": "250/150", "kgm2": 4.22, "kg": 44.58, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.5, "phi2": 9.2}}, {"k": "TR473", "g": "TR473", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR473", "dim": "5,5/9,5", "gozdim": "250/150", "kgm2": 4.46, "kg": 46.96, "d": {"span": 240, "p": 250, "p2": 150, "phi": 5.5, "phi2": 9.5}}, {"k": "TR503", "g": "TR503", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR503", "dim": "6/8", "gozdim": "250/100", "kgm2": 4.83, "kg": 51.02, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.0, "phi2": 8.0}}, {"k": "TR513", "g": "TR513", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR513", "dim": "6/8,1", "gozdim": "250/100", "kgm2": 4.93, "kg": 52.07, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.0, "phi2": 8.1}}, {"k": "TR524", "g": "TR524", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR524", "dim": "6/10", "gozdim": "250/150", "kgm2": 4.99, "kg": 52.74, "d": {"span": 240, "p": 250, "p2": 150, "phi": 6.0, "phi2": 10.0}}, {"k": "TR567", "g": "TR567", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR567", "dim": "6/8,5", "gozdim": "250/100", "kgm2": 5.34, "kg": 56.27, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.0, "phi2": 8.5}}, {"k": "TR577", "g": "TR577a", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR577", "dim": "6,5/8,6", "gozdim": "250/100", "kgm2": 5.45, "kg": 59.06, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.5, "phi2": 8.6}}, {"k": "TR577", "g": "TR577b", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR577", "dim": "6,5/10,5", "gozdim": "250/150", "kgm2": 5.57, "kg": 58.78, "d": {"span": 240, "p": 250, "p2": 150, "phi": 6.5, "phi2": 10.5}}, {"k": "TR589", "g": "TR589a", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR589", "dim": "6,5/8,7", "gozdim": "250/100", "kgm2": 5.71, "kg": 60.22, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.5, "phi2": 8.7}}, {"k": "TR589", "g": "TR589b", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR589", "dim": "6,5/10,6", "gozdim": "250/150", "kgm2": 5.66, "kg": 59.69, "d": {"span": 240, "p": 250, "p2": 150, "phi": 6.5, "phi2": 10.6}}, {"k": "TR634", "g": "TR634", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR634", "dim": "6,5/11", "gozdim": "250/150", "kgm2": 6.02, "kg": 63.4, "d": {"span": 240, "p": 250, "p2": 150, "phi": 6.5, "phi2": 11.0}}, {"k": "TR636", "g": "TR636", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR636", "dim": "6,5/9", "gozdim": "250/100", "kgm2": 6.04, "kg": 63.57, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.5, "phi2": 9.0}}, {"k": "TR709", "g": "TR709", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR709", "dim": "6,5/9,5", "gozdim": "250/100", "kgm2": 6.61, "kg": 69.56, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.5, "phi2": 9.5}}, {"k": "TR785", "g": "TR785", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR785", "dim": "6,5/10", "gozdim": "250/100", "kgm2": 7.21, "kg": 75.97, "d": {"span": 240, "p": 250, "p2": 100, "phi": 6.5, "phi2": 10.0}}, {"k": "TR866", "g": "TR866", "fam": "TR", "s": "Panel", "v": null, "lbl": "TR866", "dim": "7/10,5", "gozdim": "250/100", "kgm2": 8.01, "kg": 84.39, "d": {"span": 240, "p": 250, "p2": 100, "phi": 7.0, "phi2": 10.5}}];
+const FAMS=[{"s": "kutu-profil", "n": "Kutu Profil"}, {"s": "boru-profil", "n": "Boru Profil"}, {"s": "ipe", "n": "IPE"}, {"s": "hea", "n": "HEA"}, {"s": "heb", "n": "HEB"}, {"s": "hem", "n": "HEM"}, {"s": "npi", "n": "NPI"}, {"s": "npu", "n": "NPU"}, {"s": "upe", "n": "UPE"}, {"s": "kosebent", "n": "Köşebent"}, {"s": "t-profil", "n": "T Profil"}, {"s": "lama", "n": "Lama"}, {"s": "sac", "n": "Sac"}, {"s": "ceta-sac", "n": "Çeta Sac"}, {"s": "trapez-sac", "n": "Trapez Sac"}, {"s": "tas-yunu", "n": "Taş/Cam Yünü"}, {"s": "sandvic-panel", "n": "Sandviç Panel"}, {"s": "ahsap-levha", "n": "Ahşap Levha"}, {"s": "alcipan", "n": "Alçıpan"}, {"s": "insaat-demiri", "n": "İnşaat Demiri"}, {"s": "celik-hasir", "n": "Çelik Hasır (Q/R/TR)"}, {"s": "duvar-malzemeleri", "n": "Duvar Malzemeleri"}, {"s": "cimento", "n": "Çimento & Kum"}];
+const LINK=s=>s+'.html';
+const nf=(v,d=2)=>Number(v).toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const tf=t=>String(t).replace('.',',');
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+DATA.forEach((d,i)=>d._i=i);
+const FAM=CFG.families||null;
+const plate=!!CFG.plate,L0=plate?0:CFG.lengths[0].v;
+function groupsFor(fam){if(!CFG.groups)return null;return FAM?CFG.groups.filter(g=>g.fam===fam):CFG.groups}
+const fam0=FAM?(CFG.defaultFam||FAM[0].c):null;
+let G=FAM?groupsFor(fam0):CFG.groups;
+const gLabel=c=>{if(!CFG.groups)return'';if(FAM){for(const f of FAM){const hit=groupsFor(f.c).find(x=>x.c===c);if(hit)return hit.l}return ''}return (CFG.groups.find(x=>x.c===c)||{}).l||''};
+let st={fam:fam0,g:G?((CFG.defaultGByFam&&CFG.defaultGByFam[fam0])||CFG.defaultG||G[0].c):null,s:CFG.defaultS||null,v:CFG.defaultV??null};
+function hasV(){if(!CFG.variantLabel)return false;return !FAM||st.fam===(CFG.variantFam||FAM[0].c)}
+
+$('#fams').innerHTML=FAMS.map(f=>`<a href="${LINK(f.s)}"${f.s===CFG.slug?' aria-current="page"':''}>${esc(f.n)}</a>`).join('');
+
+const rowsG=()=>DATA.filter(d=>(!FAM||d.fam===st.fam)&&(!G||d.g===st.g));
+function sizes(){const a=[];rowsG().forEach(d=>{if(!a.includes(d.s))a.push(d.s)});return a}
+function variants(){return rowsG().filter(d=>plate||d.s===st.s).map(d=>d.v)}
+function cur(){return rowsG().find(d=>(plate||d.s===st.s)&&(!hasV()||d.v===st.v))}
+const grades=()=>Array.isArray(CFG.grades)?CFG.grades:(CFG.grades[st.g]||CFG.grades[st.fam]);
+const formats=()=>plate?CFG.formats[st.g]:[];
+
+let P='';
+if(FAM)P+=`<div class="field"><span class="lbl">${CFG.famLabel||'Tip'}</span><div class="seg" role="group" aria-label="${CFG.famLabel||'Tip'}" id="famseg">${FAM.map(f=>`<button type="button" data-fam="${f.c}" aria-pressed="${f.c===st.fam}">${esc(f.l)}</button>`).join('')}</div></div>`;
+if(G)P+=`<div class="field"><span class="lbl">${CFG.groupLabel}</span><div class="seg" role="group" aria-label="${CFG.groupLabel}" id="gseg">${G.map(g=>`<button type="button" data-g="${g.c}">${esc(g.l)}</button>`).join('')}</div></div>`;
+if(!plate)P+=CFG.sizeUI==='chips'
+  ?`<div class="field"><span class="lbl" id="szl">${CFG.sizeLabel}</span><div class="chips sz" id="szc" role="group" aria-labelledby="szl"></div></div>`
+  :`<div class="field"><label for="size">${CFG.sizeLabel}</label><select id="size"></select></div>`;
+if(CFG.variantLabel)P+=`<div class="field" id="vwrap"${hasV()?'':' hidden'}><span class="lbl" id="vl">${CFG.variantLabel}</span><div class="chips" id="vc" role="group" aria-labelledby="vl"></div></div>`;
+P+=`<div class="row3"><div class="field"><label for="grade">${CFG.gradeLabel||(plate?'Kalite':'Çelik kalitesi')}</label><select id="grade"></select></div>`;
+P+=plate?`<div class="field"><label for="len">${CFG.lenLabel2||'Ebat'}</label><select id="len"></select></div>`
+        :`<div class="field"><label for="len">${CFG.lenLabel||'Boy (m)'}</label><select id="len">${CFG.lengths.map(l=>`<option value="${l.v}">${l.l}</option>`).join('')}<option value="c">Özel</option></select></div>`;
+P+=`<div class="field"><label for="qty">Adet</label><input id="qty" type="number" min="1" step="1" value="${CFG.qtyDefault||(plate?2:10)}" inputmode="numeric"></div></div>`;
+P+=plate?`<div class="fmt2" id="customWrap" hidden><div class="field"><label for="cw">Genişlik (mm)</label><input id="cw" type="number" min="1" value="1000"></div><div class="field"><label for="cl">Uzunluk (mm)</label><input id="cl" type="number" min="1" value="2000"></div></div>`
+        :`<div class="field" id="customWrap" hidden><label for="clen">Özel boy (m)</label><input id="clen" type="number" min="0.1" step="0.1" value="3"></div>`;
+P+=`<div class="result" aria-live="polite"><div>Birim ağırlık<b id="rU"></b>${plate?'kg/m²':'kg/m'}</div><div>${CFG.oneLabel||(plate?'Bir parça':'Bir boy')}<b id="rOne"></b>kg</div><div class="total">Toplam<b id="rTot"></b><span id="rTotU">kg</span></div></div><div class="toast" id="rArea" hidden></div>`;
+if(CFG.props.length)P+=`<details class="props"><summary>Teknik değerler</summary><div class="pgrid" id="pgrid"></div></details>`;
+P+=`<div class="add"><button class="btn-dark" id="addBtn" type="button">Teklif listesine ekle</button></div><div class="toast" id="toast" role="status"></div>`;
+$('#panel').innerHTML=P;
+
+function onFamChange(){
+  if(CFG.groups){G=groupsFor(st.fam);st.g=(CFG.defaultGByFam&&CFG.defaultGByFam[st.fam])||G[0].c;
+    if($('#gseg'))$('#gseg').innerHTML=G.map(g=>`<button type="button" data-g="${g.c}">${esc(g.l)}</button>`).join('');}
+  document.querySelectorAll('#famseg button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.fam===st.fam));
+  if($('#vwrap'))$('#vwrap').hidden=!hasV();
+  tb.f='all';tb.v=null;
+  if(G)buildFseg();
+  if($('#tfilter'))$('#tfilter').hidden=!hasV();
+  const gsel=$('#grade');if(gsel)gsel.dataset.set='';
+}
+function renderSel(){
+  if(G)document.querySelectorAll('#gseg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.g===st.g));
+  if(!plate){
+    const sz=sizes();if(!sz.includes(st.s))st.s=sz[Math.min(sz.length-1,Math.floor(sz.length/3))];
+    if(CFG.sizeUI==='chips')$('#szc').innerHTML=sz.map(s=>`<button type="button" data-s="${esc(s)}" aria-pressed="${s===st.s}">${esc(s)}</button>`).join('');
+    else $('#size').innerHTML=sz.map(s=>`<option${s===st.s?' selected':''}>${esc(s)}</option>`).join('');
+  }
+  if(hasV()){const vs=variants();if(!vs.includes(st.v))st.v=vs[Math.floor(vs.length/2)];
+    $('#vc').innerHTML=vs.map(v=>{const r=plate&&rowsG().find(d=>d.v===v);const lb=r&&r.s.includes('/')?r.s.replace(' mm',''):tf(v);return `<button type="button" data-v="${v}" aria-pressed="${v===st.v}">${lb}</button>`}).join('');}
+  const gs=grades(),gsel=$('#grade');if(gsel.dataset.set!==gs.join()){gsel.innerHTML=gs.map(g=>`<option>${g}</option>`).join('');gsel.dataset.set=gs.join()}
+  if(plate){const fs=formats(),ls=$('#len'),key=st.g;if(ls.dataset.set!==key){const old=ls.value;
+    ls.innerHTML=fs.map(f=>`<option value="${f.w}x${f.l}">${f.w} × ${f.l} mm</option>`).join('')+'<option value="c">Özel ebat</option>';
+    if([...ls.options].some(o=>o.value===old))ls.value=old;ls.dataset.set=key;$('#customWrap').hidden=ls.value!=='c'}}
+  const d=cur();if(!d)return;
+  draw(d);props(d);calc();markRow();
+}
+function lenInfo(){
+  const v=$('#len').value;
+  if(plate){let w,l;if(v==='c'){w=+$('#cw').value||0;l=+$('#cl').value||0}else[w,l]=v.split('x').map(Number);return{per:w*l/1e6,txt:`${w}×${l} mm`}}
+  const L=v==='c'?Math.max(0,parseFloat($('#clen').value)||0):+v;return{per:L,txt:`${tf(L)} m`};
+}
+function calc(){
+  const d=cur();if(!d)return;const u=plate?d.kgm2:d.kg,{per}=lenInfo(),q=Math.max(1,parseInt($('#qty').value)||1);
+  $('#rU').textContent=nf(u,u<1?3:2);$('#rOne').textContent=nf(u*per,u*per<10?2:1);
+  const tot=u*per*q;if(d.we){$('#rArea').hidden=false;$('#rArea').textContent=`Toplam faydalı alan: ${nf(d.we/1000*per*q,1)} m²`}$('#rTot').textContent=tot>=1000?nf(tot/1000,2):nf(tot,0);$('#rTotU').textContent=tot>=1000?'ton':'kg';
+}
+function props(d){if(!CFG.props.length)return;
+  $('#pgrid').innerHTML=CFG.props.filter(p=>d[p[0]]!=null).map(([k,n,u,dd])=>`<div>${n} (${u})<b>${nf(d[k],dd)}</b></div>`).join('');}
+
+$('#panel').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.fam){st.fam=b.dataset.fam;onFamChange();renderSel();renderTable()}
+  else if(b.dataset.g){st.g=b.dataset.g;renderSel()}
+  else if(b.dataset.s!=null){st.s=b.dataset.s;renderSel()}
+  else if(b.dataset.v!=null){st.v=+b.dataset.v;renderSel()}
+});
+if(!plate&&CFG.sizeUI!=='chips')$('#size').onchange=e=>{st.s=e.target.value;renderSel()};
+$('#len').onchange=()=>{$('#customWrap').hidden=$('#len').value!=='c';calc()};
+['#qty','#clen','#cw','#cl'].forEach(s=>{const el=$(s);if(el)el.addEventListener('input',calc)});
+
+const MK='#F2C230',STC='#B9C6D8',FILL='#DCE4EF',MONO='IBM Plex Mono,monospace';
+const TX=(x,y,s,a='middle',rot)=>`<text x="${x}" y="${y}" text-anchor="${a}" fill="${MK}" font-family="${MONO}" font-size="14"${rot?` transform="rotate(-90 ${x} ${y})"`:''}>${s}</text>`;
+const tick=(x,y)=>`<path d="M${x-5},${y+5}L${x+5},${y-5}" stroke="${MK}" stroke-width="1.5"/>`;
+function dimH(x0,x1,yRef,y,label){const up=y<yRef;return `<line x1="${x0}" y1="${yRef+(up?-5:5)}" x2="${x0}" y2="${y+(up?-6:6)}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x1}" y1="${yRef+(up?-5:5)}" x2="${x1}" y2="${y+(up?-6:6)}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" stroke="${MK}" stroke-width="1.2"/>${tick(x0,y)}${tick(x1,y)}${TX((x0+x1)/2,up?y-10:y+22,label)}`}
+function dimV(y0,y1,xRef,x,label){return `<line x1="${xRef-5}" y1="${y0}" x2="${x-6}" y2="${y0}" stroke="${MK}" stroke-opacity=".6"/><line x1="${xRef-5}" y1="${y1}" x2="${x-6}" y2="${y1}" stroke="${MK}" stroke-opacity=".6"/><line x1="${x}" y1="${y0}" x2="${x}" y2="${y1}" stroke="${MK}" stroke-width="1.2"/>${tick(x,y0)}${tick(x,y1)}${TX(x-12,(y0+y1)/2,label,'middle',1)}`}
+function call(px,py,x2,label){return `<line x1="${x2}" y1="${py}" x2="${px}" y2="${py}" stroke="${MK}"/><circle cx="${px}" cy="${py}" r="2.2" fill="${MK}"/>${TX(x2+4,py+4,label,'start')}`}
+function axes(ax,ay,x0,y0,x1,y1){return `<line x1="${ax}" y1="${y0-26}" x2="${ax}" y2="${y1+14}" stroke="${STC}" stroke-opacity=".5" stroke-dasharray="14 4 2 4"/><line x1="${x0-14}" y1="${ay}" x2="${x1+24}" y2="${ay}" stroke="${STC}" stroke-opacity=".5" stroke-dasharray="14 4 2 4"/><text x="${x1+28}" y="${ay+4}" fill="${STC}" font-family="${MONO}" font-size="12">x</text><text x="${ax+6}" y="${y0-28}" fill="${STC}" font-family="${MONO}" font-size="12">y</text>`}
+const shape=(p,ev)=>`<path d="${p}"${ev?' fill-rule="evenodd"':''} fill="${FILL}" fill-opacity=".92" stroke="#fff" stroke-width="1"/>`;
+function rrect(x,y,w,h,r){r=Math.min(r,w/2,h/2);return `M${x+r},${y}H${x+w-r}A${r},${r} 0 0 1 ${x+w},${y+r}V${y+h-r}A${r},${r} 0 0 1 ${x+w-r},${y+h}H${x+r}A${r},${r} 0 0 1 ${x},${y+h-r}V${y+r}A${r},${r} 0 0 1 ${x+r},${y}Z`}
+const mx=(v,m)=>Math.max(v,m);
+function draw(d){
+  const D=d.d,cx=260,cy=214,BOX=250;let g='',L='',R=d.dim;
+  switch(CFG.draw){
+  case 'box':{const s=BOX/Math.max(D.H,D.B),w=D.B*s,h=D.H*s,t=mx(D.t*s,1.2),x=cx-w/2,y=cy-h/2;
+    g=axes(cx,cy,x,y,x+w,y+h)+shape(rrect(x,y,w,h,D.ro*s)+' '+rrect(x+t,y+t,w-2*t,h-2*t,D.ri*s),1)+dimH(x,x+w,y+h,y+h+34,'B = '+D.B)+dimV(y,y+h,x,x-34,'H = '+D.H)+call(x+w-t/2,y+h*.3,x+w+46,'t = '+tf(D.t));
+    L=`ro = ${tf(D.ro)} mm · ri = ${tf(D.ri)} mm`;break}
+  case 'pipe':{const s=BOX/D.D,Rr=D.D/2*s,t=mx(D.t*s,1.2),r=Rr-t;
+    g=axes(cx,cy,cx-Rr,cy-Rr,cx+Rr,cy+Rr)+shape(`M${cx-Rr},${cy}a${Rr},${Rr} 0 1,0 ${2*Rr},0a${Rr},${Rr} 0 1,0 ${-2*Rr},0Z M${cx-r},${cy}a${r},${r} 0 1,0 ${2*r},0a${r},${r} 0 1,0 ${-2*r},0Z`,1)
+      +dimH(cx-Rr,cx+Rr,cy+Rr,cy+Rr+34,'D = '+tf(D.D))+call(cx+Rr*.707-t*.35,cy-Rr*.707+t*.35,cx+Rr+30,'t = '+tf(D.t));
+    L=`D = ${tf(D.D)} mm · t = ${tf(D.t)} mm`;break}
+  case 'flat':{const s=380/D.w,w=D.w*s,t=mx(D.t*s,5),x0=cx-w/2,y0=cy-t/2;
+    g=shape(`M${x0},${y0}H${x0+w}V${y0+t}H${x0}Z`)+dimH(x0,x0+w,y0+t,y0+t+44,'Genişlik = '+D.w)+TX(cx,y0-24,'t = '+tf(D.t)+' mm');
+    L=`${D.w} × ${tf(D.t)} mm`;break}
+  case 'plate':{const {txt}=lenInfo();let [w,l]=[1500,3000];const v=$('#len').value;if(v==='c'){w=+$('#cw').value||1000;l=+$('#cl').value||2000}else if(v)[w,l]=v.split('x').map(Number);
+    const s=Math.min(380/l,240/w),pw=l*s,ph=w*s,x0=cx-pw/2,y0=cy-ph/2-6,th=Math.min(10,3+D.t*.4);
+    const col=(CFG.swatches&&CFG.swatches[st.g])||FILL;
+    g=`<path d="M${x0+pw},${y0}l${th},${th}v${ph}h${-pw}l${-th},${-th}Z" fill="#6E7F96"/><rect x="${x0}" y="${y0}" width="${pw}" height="${ph}" fill="${col}" stroke="#fff"/>`
+      +dimH(x0,x0+pw,y0+ph+th,y0+ph+th+30,l+' mm')+dimV(y0,y0+ph,x0,x0-30,w+' mm')
+      +`<text x="${cx}" y="${cy}" text-anchor="middle" fill="#1C2A3D" font-family="${MONO}" font-size="16" font-weight="500">t = ${tf(D.t)} mm</text>`;
+    L=gLabel(st.g)+' · '+txt;R=(d.kgm2!=null?nf(d.kgm2)+' kg/m²':d.dim);break}
+  case 'rebar':{const s=180/D.D,Rr=Math.max(D.D/2*s,6);
+    g=`<circle cx="${cx}" cy="${cy}" r="${Rr}" fill="${FILL}" fill-opacity=".92" stroke="#fff" stroke-width="1"/>`+
+      Array.from({length:10}).map((_,i)=>{const a=i*Math.PI/5;return `<line x1="${cx+Math.cos(a)*Rr*.4}" y1="${cy+Math.sin(a)*Rr*.4}" x2="${cx+Math.cos(a)*Rr*.92}" y2="${cy+Math.sin(a)*Rr*.92}" stroke="#9AAAC0" stroke-width="1"/>`}).join('')
+      +dimH(cx-Rr,cx+Rr,cy+Rr,cy+Rr+34,'Ø = '+tf(D.D)+' mm');
+    L=`Nervürlü inşaat demiri · Ø${tf(D.D)} mm`;break}
+  case 'mesh':{const n=8,stepX=26,ratio=(D.p2||D.p)/D.p,stepY=Math.max(16,Math.min(34,stepX*ratio)),
+      GW=n*stepX,GH=n*stepY,x0=cx-GW/2,y0=cy-GH/2+6,
+      wthX=Math.min(mx(D.phi*0.55,1.6),6),wthY=Math.min(mx((D.phi2||D.phi)*0.55,1.6),6);
+    let lines='',dots='';for(let i=0;i<=n;i++){const p=x0+i*stepX;lines+=`<line x1="${p}" y1="${y0}" x2="${p}" y2="${y0+GH}" stroke="${FILL}" stroke-width="${wthY}" stroke-linecap="round"/>`}
+    for(let j=0;j<=n;j++){const p=y0+j*stepY;lines+=`<line x1="${x0}" y1="${p}" x2="${x0+GW}" y2="${p}" stroke="${FILL}" stroke-width="${wthX}" stroke-linecap="round"/>`}
+    for(let i=0;i<=n;i++)for(let j=0;j<=n;j++)dots+=`<circle cx="${x0+i*stepX}" cy="${y0+j*stepY}" r="${Math.max(wthX,wthY)*.55}" fill="#AEBFD6"/>`;
+    g=lines+dots+dimH(x0,x0+stepX,y0+GH,y0+GH+34,'boy göz = '+tf(D.p)+' mm')+dimV(y0,y0+stepY,x0,x0-34,'en göz = '+tf(D.p2||D.p)+' mm')+call(x0+stepX*2,y0+stepY*.5,x0+GW+22,'ø boy = '+tf(D.phi)+' mm');
+    L=D.phi2&&D.phi2!==D.phi?`Boyuna ø${tf(D.phi)} mm (${tf(D.p)} mm) · Enine ø${tf(D.phi2)} mm (${tf(D.p2||D.p)} mm)`:`Göz aralığı ${tf(D.p)}×${tf(D.p2||D.p)} mm · tel çapı ø${tf(D.phi)} mm`;break}
+  case 'bag':{const bw=140,bh=170,x0=cx-bw/2,y0=cy-bh/2+10;
+    g=`<path d="M${x0+14},${y0} Q${cx},${y0-22} ${x0+bw-14},${y0} L${x0+bw},${y0+bh} Q${cx},${y0+bh+16} ${x0},${y0+bh} Z" fill="${FILL}" fill-opacity=".92" stroke="#fff" stroke-width="1"/>`+
+      `<rect x="${x0+18}" y="${y0+34}" width="${bw-36}" height="${bh-70}" fill="none" stroke="#1C2A3D" stroke-width="1.2" stroke-dasharray="3 3"/>`+
+      TX(cx,y0+bh/2,'CLK',undefined)+dimH(x0,x0+bw,y0+bh+6,y0+bh+34,D.unit);
+    L=D.note||'';R=d.dim;break}
+  case 'block':{const s=BOX/Math.max(D.H,D.B),w=D.B*s,h=D.H*s,x=cx-w/2,y=cy-h/2,hole=!!D.hollow;
+    let inner='';if(hole){const cols=3,gw=(w-30)/cols;for(let i=0;i<cols;i++)inner+=`<rect x="${x+15+i*gw+4}" y="${y+14}" width="${gw-8}" height="${h-28}" fill="${FILL}" fill-opacity=".35" stroke="#fff" stroke-width=".6"/>`}
+    g=shape(rrect(x,y,w,h,4))+inner+dimH(x,x+w,y+h,y+h+34,'B = '+D.B+' mm')+dimV(y,y+h,x,x-34,'H = '+D.H+' mm');
+    L=D.note||'';break}
+
+  }
+  $('#sec').innerHTML=g;$('#dCode').textContent=d.k;$('#dL').textContent=L;$('#dR').textContent=R;
+  $('#sec').setAttribute('aria-label',d.lbl+' çizimi');
+}
+if(plate){['#len','#cw','#cl'].forEach(s=>$(s).addEventListener('change',()=>{const d=cur();if(d)draw(d)}));['#cw','#cl'].forEach(s=>$(s).addEventListener('input',()=>{const d=cur();if(d)draw(d)}))}
+
+const CK='clk-teklif-listesi';let cart=[];try{cart=JSON.parse(localStorage.getItem(CK)||'[]')}catch(e){cart=[]}
+function saveCart(){try{localStorage.setItem(CK,JSON.stringify(cart))}catch(e){}}
+function renderCart(){$('#cartN').textContent=cart.length;
+  if(!cart.length){$('#qlist').innerHTML='<p style="color:var(--ink-2)">Liste boş. Bir ölçü seçip "Teklif listesine ekle" butonunu kullanın.</p>';$('#qsum').textContent='0 kg';return}
+  $('#qlist').innerHTML=cart.map((c,i)=>`<div class="qitem"><div>${esc(c.lbl)}<small>${esc(c.k)} · ${esc(c.grade)} · ${esc(c.info)} × ${c.q} adet</small></div><span style="font-family:var(--mono)">${nf(c.w,0)} kg</span><button type="button" data-i="${i}">Çıkar</button></div>`).join('');
+  $('#qsum').textContent=nf(cart.reduce((a,c)=>a+c.w,0),0)+' kg'}
+$('#qlist').onclick=e=>{const b=e.target.closest('button');if(!b)return;cart.splice(+b.dataset.i,1);saveCart();renderCart()};
+$('#addBtn').onclick=()=>{const d=cur(),{per,txt}=lenInfo(),q=Math.max(1,parseInt($('#qty').value)||1);
+  if(!per){$('#toast').textContent=plate?'Özel ebat için genişlik ve uzunluk girin.':'Özel boy için 0\'dan büyük bir değer girin.';return}
+  const nm=plate?`${gLabel(d.g)} ${CFG.name.join(' ').toLocaleLowerCase('tr')} ${tf(d.v)} mm`:(/^[A-ZÇĞİÖŞÜ0-9]/.test(d.lbl)?d.lbl:`${d.lbl} ${CFG.name.join(' ').trim().toLocaleLowerCase('tr')}`);
+  cart.push({k:d.k,lbl:nm,grade:$('#grade').value,info:txt,q,w:(plate?d.kgm2:d.kg)*per*q});saveCart();renderCart();
+  $('#toast').textContent=`${nm}, ${q} adet teklif listesine eklendi.`};
+$('#openCart').onclick=()=>{renderCart();$('#dlg').showModal()};$('#closeDlg').onclick=()=>$('#dlg').close();
+window.addEventListener('storage',e=>{if(e.key===CK){try{cart=JSON.parse(e.newValue||'[]')}catch(_){}renderCart()}});
+
+const cols=CFG.cols.map(c=>({k:c[0],l:c[0]==='_bar'?`${L0} m boy (kg)`:c[1],dd:c[2],h:c[3]}));
+const gv=(d,k)=>k.startsWith('d.')?d.d[k.slice(2)]:k==='_bar'?d.kg*L0:d[k];
+let tb={f:'all',q:'',v:null,sort:null,dir:1};
+let T='';if(G)T+=`<div class="seg" role="group" aria-label="Tabloyu filtrele" id="fseg"></div>`;
+T+=`<input type="search" id="q" placeholder="Ara" aria-label="Ölçü ara">`;
+if(cols.some(c=>c.h))T+=`<label class="tg"><input type="checkbox" id="showK"> Detay değerlerini göster</label>`;
+T+=`<span class="count" id="count"></span>`;$('#tools').innerHTML=T;
+function buildFseg(){if(!$('#fseg'))return;$('#fseg').innerHTML=`<button type="button" data-f="all" aria-pressed="${tb.f==='all'}">Tümü</button>`+G.map(g=>`<button type="button" data-f="${g.c}" aria-pressed="${tb.f===g.c}">${esc(g.l)}</button>`).join('')}
+if(G){buildFseg();$('#fseg').onclick=e=>{const b=e.target.closest('button');if(!b)return;tb.f=b.dataset.f;$('#fseg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTable()}}
+if(CFG.variantLabel){const vs=[...new Set(DATA.filter(d=>d.v!=null).map(d=>d.v))].sort((a,b)=>a-b);
+  $('#tfilter').innerHTML=`<button type="button" data-v="" aria-pressed="true">Tümü</button>`+vs.map(v=>`<button type="button" data-v="${v}" aria-pressed="false">${tf(v)}${CFG.variantSuffix||' mm'}</button>`).join('');
+  $('#tfilter').onclick=e=>{const b=e.target.closest('button');if(!b)return;tb.v=b.dataset.v?+b.dataset.v:null;$('#tfilter').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderTable()};
+  $('#tfilter').hidden=!hasV();}
+else $('#tfilter').remove();
+$('#q').addEventListener('input',e=>{tb.q=e.target.value;renderTable()});
+if($('#showK'))$('#showK').onchange=e=>$('#tbl').classList.toggle('showk',e.target.checked);
+$('#thr').innerHTML=cols.map((c,i)=>`<th data-i="${i}"${c.h?' class="kc"':''} scope="col">${esc(c.l)}</th>`).join('')+'<th scope="col"><span class="visually-hidden"></span></th>';
+$('#thr').onclick=e=>{const th=e.target.closest('th[data-i]');if(!th)return;const k=cols[+th.dataset.i].k;
+  if(tb.sort===k)tb.dir*=-1;else{tb.sort=k;tb.dir=1}
+  $('#thr').querySelectorAll('th').forEach(x=>x.removeAttribute('aria-sort'));th.setAttribute('aria-sort',tb.dir>0?'ascending':'descending');renderTable()};
+const norm=s=>String(s).toLowerCase().replace(/[x*×]/g,'x').replace(/,/g,'.').replace(/[\sø"]/g,'');
+function cell(d,c){const v=gv(d,c.k);if(c.k==='_i')return esc(d.dim);if(c.k==='_g')return esc(gLabel(d.g));if(c.dd==null||typeof v!=='number')return esc(v);return nf(v,c.dd)}
+function renderTable(){
+  let rows=DATA.filter(d=>(!FAM||d.fam===st.fam)&&(tb.f==='all'||d.g===tb.f)&&(tb.v===null||d.v===tb.v));
+  if(tb.q.trim()){const q=norm(tb.q);rows=rows.filter(d=>[d.lbl,d.k,d.dim,d.s].some(x=>norm(x).includes(q)))}
+  if(tb.sort){const k=tb.sort;rows=[...rows].sort((a,b)=>{const x=gv(a,k),y=gv(b,k);return tb.dir*(typeof x==='number'?x-y:String(x).localeCompare(String(y),'tr',{numeric:true}))})}
+  $('#count').textContent=rows.length+' ölçü';
+  if(!rows.length){$('#tb').innerHTML=`<tr><td colspan="${cols.length+1}" class="empty">Bu filtreyle eşleşen ölçü yok. Aramayı sadeleştirin ya da filtreleri kaldırın.</td></tr>`;return}
+  $('#tb').innerHTML=rows.map(d=>`<tr data-i="${d._i}">${cols.map(c=>`<td${c.h?' class="kc"':''}>${cell(d,c)}</td>`).join('')}<td><button class="pick" type="button">Seç</button></td></tr>`).join('');markRow()}
+function markRow(){const d=cur();document.querySelectorAll('#tb tr').forEach(r=>r.classList.toggle('sel',!!d&&+r.dataset.i===d._i))}
+$('#tb').onclick=e=>{const tr=e.target.closest('tr[data-i]');if(!tr)return;const d=DATA[+tr.dataset.i];
+  st={fam:d.fam!=null?d.fam:st.fam,g:d.g,s:d.s,v:d.v};renderSel();$('#toast').textContent='';
+  const m=matchMedia('(prefers-reduced-motion: reduce)').matches;document.querySelector('.cfg').scrollIntoView({behavior:m?'auto':'smooth',block:'start'})};
+renderSel();renderTable();renderCart();
+</script>
+</body>
+</html>

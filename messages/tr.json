@@ -866,7 +866,11 @@
         "T": "T profil",
         "flat": "Lama (yassı)",
         "trap": "Trapez / oluklu sac",
-        "plate": "Plaka (sac, kg/m²)"
+        "plate": "Plaka (sac, kg/m²)",
+        "block": "Blok (tuğla, gazbeton, bims)",
+        "mesh": "Çelik hasır",
+        "rebar": "İnşaat demiri (nervürlü)",
+        "sandwich": "Sandviç panel"
       },
       "sizeUi": "Ölçü seçimi",
       "sizeUiSelect": "Açılır liste",
@@ -885,7 +889,16 @@
       "gradeLabel": "Kalite etiketi",
       "lengthLabel": "Boy etiketi",
       "oneLabel": "\"Bir boy\" etiketi",
-      "tableNote": "Tablo dipnotu"
+      "tableNote": "Tablo dipnotu",
+      "gradeNote": "Kalite/renk notu (seçimin altında)",
+      "quoteNote": "Yalnız teklif notu",
+      "quoteNoteHint": "Hesabı yapılmayan gruplarda (gelişmiş ayarlarda quote_only) hesaplayıcı yerine bu not ve teklif düğmesi görünür.",
+      "forms": "Form kartları (hesaplayıcısı olmayan ürün)",
+      "formsHint": "Satır başına: Başlık | Form | Kullanım. Ör. taş yünü levha / şilte. Doluysa sayfada kart olarak görünür.",
+      "formsCtaTitle": "Form kartları altı çağrı başlığı",
+      "formsCtaText": "Form kartları altı çağrı metni",
+      "advanced": "Gelişmiş seçici ayarları (JSON)",
+      "advancedHint": "Aileler, ek seçimler (extras), renkler (swatches, core_colors, ral_colors), tablo sütunları (cols), alan/palet modu (pallet_mode, area_default), grup bayrakları (group_flags: family, area, quote_only). Geçersiz JSON kaydedilmez."
     },
     "productCategories": {
       "title": "Ürün Kategorileri",
@@ -2275,13 +2288,37 @@
         "trap": "{group} · t = {t} mm",
         "trapScaled": " · düşey ölçek büyütülmüştür",
         "flat": "{w} × {t} mm",
-        "plate": "{group} · {format}"
+        "plate": "{group} · {format}",
+        "rebar": "Nervürlü inşaat demiri · Ø{D} mm",
+        "mesh": "Göz aralığı {p}×{p2} mm · tel çapı ø{phi} mm",
+        "meshDiff": "Boyuna ø{phi} mm ({p} mm) · enine ø{phi2} mm ({p2} mm)"
       },
       "dimLabels": {
         "we": "Faydalı genişlik",
         "p": "adım",
-        "w": "Genişlik"
-      }
+        "w": "Genişlik",
+        "meshP": "boy göz",
+        "meshP2": "en göz",
+        "meshPhi": "ø boy"
+      },
+      "family": "Tip",
+      "viewLabel": "Görünüm",
+      "photo": "Fotoğraf",
+      "sectionView": "Kesit",
+      "areaQty": "Duvar/döşeme alanı (m²)",
+      "areaInvalid": "Alan için 0'dan büyük bir değer girin.",
+      "areaSpec": "{area} m² ≈ {pieces} adet · {pallets} palet",
+      "perM2": "1 m²'de",
+      "pcs": "adet",
+      "piecesNeeded": "Gereken adet",
+      "palletsNeeded": "Gereken palet",
+      "pallet": "palet",
+      "askQuote": "teklif isteyin",
+      "areaWeight": "Yaklaşık toplam ağırlık: {kg} kg",
+      "perPallet": " · palet başına {n} adet",
+      "quoteDefault": "Bu çeşitte ölçü ve palet bilgisi üreticiye göre değişir; ihtiyacınızı belirtip doğrudan teklif isteyin.",
+      "quoteButton": "Teklif iste",
+      "values": "Teknik değerler"
     },
     "table": {
       "title": "Ölçü tablosu",
@@ -2332,7 +2369,8 @@
       "reset": "Sıfırla",
       "hint": "Sürükleyerek çevirin · Ctrl + tekerlek ile yakınlaştırın",
       "label": "3B görünüm. Ok tuşlarıyla çevirebilirsiniz."
-    }
+    },
+    "formsTitle": "Form seçenekleri"
   },
   "Basket": {
     "title": "Teklif sepeti",

@@ -23,7 +23,15 @@ export interface DrawingProps {
   readonly format?: { readonly w: number; readonly l: number } | null;
   readonly pattern?: 'tear' | 'dia' | null;
   readonly groupCode?: string | null;
-  readonly dimLabels: { readonly we: string; readonly p: string; readonly w: string };
+  readonly dimLabels: { readonly we: string; readonly p: string; readonly w: string; readonly meshP?: string; readonly meshP2?: string; readonly meshPhi?: string };
+  /** K-114: levha yüzü (grup rengi ya da RAL), sandviç çekirdek rengi, oluklu yüzey ve hadve sayısı. */
+  readonly look?: { readonly face: string | null; readonly core: string | null; readonly corrugated: boolean; readonly ribs: number };
+}
+/** #rrggbb rengi koyulaştır/açar (sandviç panelin yan ve alt yüzü). */
+function shade(hexColor: string, f: number): string {
+  const h = hexColor.replace('#', '');
+  const c = (i: number) => Math.max(0, Math.min(255, Math.round(parseInt(h.slice(i, i + 2), 16) * f))).toString(16).padStart(2, '0');
+  return `#${c(0)}${c(2)}${c(4)}`;
 }
 
 function Tx({ x, y, s, a = 'middle', rot = false, size = 14 }: { x: number; y: number; s: string; a?: 'middle' | 'start' | 'end'; rot?: boolean; size?: number }) {
@@ -110,7 +118,7 @@ export function trapPoints(D: Dims): { readonly kind: string; readonly pts: [num
   return { kind, pts };
 }
 
-export function SectionDrawing({ v, draw, label, format = null, pattern = null, groupCode = null, dimLabels }: DrawingProps) {
+export function SectionDrawing({ v, draw, label, format = null, pattern = null, groupCode = null, dimLabels, look }: DrawingProps) {
   const uid = useId().replace(/:/g, '');
   const D = v.dims;
   let g: ReactNode = null;
@@ -339,11 +347,137 @@ export function SectionDrawing({ v, draw, label, format = null, pattern = null, 
             </defs>
           ) : null}
           <path d={`M${x0 + pw},${y0}l${th},${th}v${ph}h${-pw}l${-th},${-th}Z`} fill="#6E7F96" />
-          <rect x={x0} y={y0} width={pw} height={ph} fill={(groupCode && col[groupCode]) || FILL} stroke="#fff" />
+          <rect x={x0} y={y0} width={pw} height={ph} fill={look?.face || (groupCode && col[groupCode]) || FILL} stroke="#fff" />
           {pattern ? <rect x={x0} y={y0} width={pw} height={ph} fill={`url(#${pid})`} /> : null}
           <DimH x0={x0} x1={x0 + pw} yRef={y0 + ph + th} y={y0 + ph + th + 30} label={`${l} mm`} />
           <DimV y0={y0} y1={y0 + ph} xRef={x0} x={x0 - 30} label={`${w} mm`} />
           <text x={CX} y={CY} textAnchor="middle" fill="#1C2A3D" className="pcfg-svg-dim" fontSize="16" fontWeight="500">{`t = ${fmt(tt)} mm`}</text>
+        </>
+      );
+      break;
+    }
+
+    // ── K-114: yapı malzemeleri (örnek sayfaların draw() portu)
+    case 'block': {
+      const bb = n(D, 'B', v.widthMm ?? 390);
+      const hh = n(D, 'H', v.heightMm ?? 190);
+      const s = BOX / Math.max(hh, bb);
+      const w = bb * s;
+      const h = hh * s;
+      const x = CX - w / 2;
+      const y = CY - h / 2;
+      const gw = (w - 30) / 3;
+      g = (
+        <>
+          <Shape d={rrect(x, y, w, h, 4)} />
+          {n(D, 'hollow') > 0 ? [0, 1, 2].map((i) => <rect key={i} x={x + 15 + i * gw + 4} y={y + 14} width={gw - 8} height={h - 28} fill={FILL} fillOpacity=".35" stroke="#fff" strokeWidth=".6" />) : null}
+          <DimH x0={x} x1={x + w} yRef={y + h} y={y + h + 34} label={`B = ${fmt(bb)} mm`} />
+          <DimV y0={y} y1={y + h} xRef={x} x={x - 34} label={`H = ${fmt(hh)} mm`} />
+        </>
+      );
+      break;
+    }
+    case 'rebar': {
+      const dd = n(D, 'D', v.widthMm ?? 12);
+      const R = Math.max((dd / 2) * (180 / dd), 6);
+      g = (
+        <>
+          <circle cx={CX} cy={CY} r={R} fill={FILL} fillOpacity=".92" stroke="#fff" strokeWidth="1" />
+          {Array.from({ length: 10 }, (_, i) => {
+            const a = (i * Math.PI) / 5;
+            return <line key={i} x1={CX + Math.cos(a) * R * 0.4} y1={CY + Math.sin(a) * R * 0.4} x2={CX + Math.cos(a) * R * 0.92} y2={CY + Math.sin(a) * R * 0.92} stroke="#9AAAC0" strokeWidth="1" />;
+          })}
+          <DimH x0={CX - R} x1={CX + R} yRef={CY + R} y={CY + R + 34} label={`Ø = ${fmt(dd)} mm`} />
+        </>
+      );
+      break;
+    }
+    case 'mesh': {
+      const p = n(D, 'p', 150);
+      const p2 = n(D, 'p2', p);
+      const phi = n(D, 'phi', 6);
+      const phi2 = n(D, 'phi2', phi);
+      const cnt = 8;
+      const stepX = 26;
+      const stepY = Math.max(16, Math.min(34, stepX * (p2 / p)));
+      const GW = cnt * stepX;
+      const GH = cnt * stepY;
+      const x0 = CX - GW / 2;
+      const y0 = CY - GH / 2 + 6;
+      const wX = Math.min(mx(phi * 0.55, 1.6), 6);
+      const wY = Math.min(mx(phi2 * 0.55, 1.6), 6);
+      const idx = Array.from({ length: cnt + 1 }, (_, i) => i);
+      g = (
+        <>
+          {idx.map((i) => <line key={`v${i}`} x1={x0 + i * stepX} y1={y0} x2={x0 + i * stepX} y2={y0 + GH} stroke={FILL} strokeWidth={wY} strokeLinecap="round" />)}
+          {idx.map((j) => <line key={`h${j}`} x1={x0} y1={y0 + j * stepY} x2={x0 + GW} y2={y0 + j * stepY} stroke={FILL} strokeWidth={wX} strokeLinecap="round" />)}
+          {idx.flatMap((i) => idx.map((j) => <circle key={`d${i}-${j}`} cx={x0 + i * stepX} cy={y0 + j * stepY} r={Math.max(wX, wY) * 0.55} fill="#AEBFD6" />))}
+          <DimH x0={x0} x1={x0 + stepX} yRef={y0 + GH} y={y0 + GH + 34} label={`${dimLabels.meshP ?? 'p'} = ${fmt(p)} mm`} />
+          <DimV y0={y0} y1={y0 + stepY} xRef={x0} x={x0 - 34} label={`${dimLabels.meshP2 ?? 'p2'} = ${fmt(p2)} mm`} />
+          <Call px={x0 + stepX * 2} py={y0 + stepY * 0.5} x2={x0 + GW + 22} label={`${dimLabels.meshPhi ?? 'ø'} = ${fmt(phi)} mm`} />
+        </>
+      );
+      break;
+    }
+    case 'sandwich': {
+      const tt = n(D, 't', v.thicknessMm ?? 50);
+      const face = look?.face || '#E7ECEF';
+      const core = look?.core || '#D8DEE8';
+      const corr = Boolean(look?.corrugated);
+      const ribs = corr ? (look?.ribs === 3 ? 3 : 5) : 0;
+      const EW = 142;
+      const fT = 13;
+      const coreT = 58;
+      const amp = corr ? 16 : 0;
+      const x0 = 64;
+      const y0 = 220;
+      const yBase = y0 + amp;
+      const yBot = yBase + fT * 2 + coreT;
+      const vx = 250;
+      const vy = -205;
+      const gid = `sh-${uid}`;
+      const sid = `sd-${uid}`;
+      let top = '';
+      let bot = '';
+      if (corr) {
+        const step = EW / ribs;
+        const flat = step * 0.3;
+        const slope = (step - flat) / 2;
+        top = `M${x0},${yBase}`;
+        for (let i = 0; i < ribs; i++) { const xs = x0 + i * step; top += ` L${xs + slope},${y0} L${xs + slope + flat},${y0} L${xs + step},${yBase}`; }
+        for (let i = ribs - 1; i >= 0; i--) { const xs = x0 + i * step; bot += ` L${xs + step},${yBase + fT} L${xs + slope + flat},${y0 + fT} L${xs + slope},${y0 + fT} L${xs},${yBase + fT}`; }
+      }
+      const step = corr ? EW / ribs : EW / 16;
+      const lines = Array.from({ length: corr ? ribs - 1 : 15 }, (_, i) => x0 + (i + 1) * step);
+      g = (
+        <>
+          <defs>
+            <linearGradient id={gid} x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stopColor="#fff" stopOpacity=".38" /><stop offset=".4" stopColor="#fff" stopOpacity=".04" /><stop offset="1" stopColor="#000" stopOpacity=".16" /></linearGradient>
+            <linearGradient id={sid} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#000" stopOpacity=".22" /><stop offset="1" stopColor="#000" stopOpacity="0" /></linearGradient>
+          </defs>
+          <ellipse cx={x0 + EW / 2 + vx * 0.55} cy={yBot + vy * 0.55 + 22} rx={EW * 1.3} ry="14" fill="#000" fillOpacity=".24" />
+          <path d={`M${x0 + EW},${y0} L${x0 + EW + vx},${y0 + vy} L${x0 + EW + vx},${yBot + vy} L${x0 + EW},${yBot} Z`} fill={shade(face, 0.52)} stroke="#000" strokeOpacity=".15" strokeWidth=".5" />
+          <path d={`M${x0 + EW},${y0} L${x0 + EW + vx},${y0 + vy} L${x0 + EW + vx},${yBot + vy} L${x0 + EW},${yBot} Z`} fill={`url(#${sid})`} />
+          <path d={`M${x0},${y0} L${x0 + EW},${y0} L${x0 + EW + vx},${y0 + vy} L${x0 + vx},${y0 + vy} Z`} fill={face} stroke="#000" strokeOpacity=".12" strokeWidth=".5" />
+          <path d={`M${x0},${y0} L${x0 + EW},${y0} L${x0 + EW + vx},${y0 + vy} L${x0 + vx},${y0 + vy} Z`} fill={`url(#${gid})`} />
+          <line x1={x0 + 1} y1={y0} x2={x0 + vx} y2={y0 + vy} stroke={shade(face, 1.22)} strokeOpacity=".5" strokeWidth="1.6" />
+          {lines.map((xs) => (corr ? (
+            <g key={xs}>
+              <line x1={xs} y1={y0} x2={xs + vx} y2={y0 + vy} stroke="#000" strokeOpacity=".16" strokeWidth="1.6" />
+              <line x1={xs - 2.5} y1={y0} x2={xs - 2.5 + vx} y2={y0 + vy} stroke="#fff" strokeOpacity=".28" strokeWidth="1" />
+            </g>
+          ) : (
+            <line key={xs} x1={xs} y1={y0} x2={xs + vx} y2={y0 + vy} stroke="#000" strokeOpacity=".07" strokeWidth=".6" />
+          )))}
+          {corr ? (
+            <path d={`${top} L${x0 + EW},${yBase + fT}${bot} Z`} fill={face} stroke="#000" strokeOpacity=".25" strokeWidth=".6" />
+          ) : (
+            <rect x={x0} y={yBase} width={EW} height={fT} fill={face} stroke="#000" strokeOpacity=".25" strokeWidth=".6" />
+          )}
+          <rect x={x0} y={yBase + fT} width={EW} height={coreT} fill={core} stroke="#000" strokeOpacity=".25" strokeWidth=".6" />
+          <line x1={x0} y1={yBase + fT + 2} x2={x0 + EW} y2={yBase + fT + 2} stroke="#fff" strokeOpacity=".25" strokeWidth="1" />
+          <rect x={x0} y={yBase + fT + coreT} width={EW} height={fT} fill={shade(face, 0.82)} stroke="#000" strokeOpacity=".25" strokeWidth=".6" />
+          <DimV y0={y0} y1={yBot} xRef={x0} x={x0 - 26} label={`t = ${fmt(tt)}`} />
         </>
       );
       break;

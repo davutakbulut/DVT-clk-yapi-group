@@ -866,7 +866,11 @@
         "T": "T section",
         "flat": "Flat bar",
         "trap": "Trapezoidal / corrugated sheet",
-        "plate": "Plate (sheet, kg/m²)"
+        "plate": "Plate (sheet, kg/m²)",
+        "block": "Block (brick, AAC, pumice)",
+        "mesh": "Steel mesh",
+        "rebar": "Rebar (ribbed)",
+        "sandwich": "Sandwich panel"
       },
       "sizeUi": "Size picker",
       "sizeUiSelect": "Dropdown",
@@ -885,7 +889,16 @@
       "gradeLabel": "Grade label",
       "lengthLabel": "Length label",
       "oneLabel": "\"One bar\" label",
-      "tableNote": "Table footnote"
+      "tableNote": "Table footnote",
+      "gradeNote": "Grade/colour note (below the choice)",
+      "quoteNote": "Quote-only note",
+      "quoteNoteHint": "For groups without a calculation (quote_only in advanced settings) this note and a quote button replace the calculator.",
+      "forms": "Form cards (product without calculator)",
+      "formsHint": "One per line: Title | Form | Use. E.g. stone wool board / blanket. Shown as cards when filled.",
+      "formsCtaTitle": "Call-to-action title under the cards",
+      "formsCtaText": "Call-to-action text under the cards",
+      "advanced": "Advanced selector settings (JSON)",
+      "advancedHint": "Families, extra choices (extras), colours (swatches, core_colors, ral_colors), table columns (cols), area/pallet mode (pallet_mode, area_default), group flags (group_flags: family, area, quote_only). Invalid JSON is not saved."
     },
     "productCategories": {
       "title": "Product Categories",
@@ -2275,13 +2288,37 @@
         "trap": "{group} · t = {t} mm",
         "trapScaled": " · vertical scale enlarged",
         "flat": "{w} × {t} mm",
-        "plate": "{group} · {format}"
+        "plate": "{group} · {format}",
+        "rebar": "Ribbed rebar · Ø{D} mm",
+        "mesh": "Mesh {p}×{p2} mm · wire ø{phi} mm",
+        "meshDiff": "Longitudinal ø{phi} mm ({p} mm) · transverse ø{phi2} mm ({p2} mm)"
       },
       "dimLabels": {
         "we": "Effective width",
         "p": "pitch",
-        "w": "Width"
-      }
+        "w": "Width",
+        "meshP": "long. mesh",
+        "meshP2": "trans. mesh",
+        "meshPhi": "ø long."
+      },
+      "family": "Type",
+      "viewLabel": "View",
+      "photo": "Photo",
+      "sectionView": "Section",
+      "areaQty": "Wall/floor area (m²)",
+      "areaInvalid": "Enter an area greater than 0.",
+      "areaSpec": "{area} m² ≈ {pieces} pcs · {pallets} pallets",
+      "perM2": "Per m²",
+      "pcs": "pcs",
+      "piecesNeeded": "Pieces needed",
+      "palletsNeeded": "Pallets needed",
+      "pallet": "pallets",
+      "askQuote": "ask for a quote",
+      "areaWeight": "Approximate total weight: {kg} kg",
+      "perPallet": " · {n} pcs per pallet",
+      "quoteDefault": "Sizes and pallet quantities vary by manufacturer for this type; tell us what you need and request a quote.",
+      "quoteButton": "Request a quote",
+      "values": "Technical values"
     },
     "table": {
       "title": "Size table",
@@ -2332,7 +2369,8 @@
       "reset": "Reset",
       "hint": "Drag to rotate · Ctrl + wheel to zoom",
       "label": "3D view. Use the arrow keys to rotate."
-    }
+    },
+    "formsTitle": "Form options"
   },
   "Basket": {
     "title": "Quote basket",

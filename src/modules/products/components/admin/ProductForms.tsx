@@ -11,7 +11,7 @@ import { ActionMessage, FieldError, FormSection, LocalizedField, PublishFields, 
 import { saveProduct, saveProductCategory } from '../../actions';
 import { PRODUCT_CATEGORY_ICON_KEYS } from '../../domain/categoryIcons';
 import type { AdminProduct, AdminProductCategory, Choice } from '../../data/adminProductsRepository';
-import { DRAW_KINDS, formatFacts, formatFormats, formatGrouped, formatGroups } from '../../domain/productConfig';
+import { DRAW_KINDS, formatFacts, formatFormats, formatGrouped, formatGroups, formatAdvanced, formatForms } from '../../domain/productConfig';
 import { formatSpecs, formatVariants } from '../../domain/productLines';
 import { MediaPicker } from '@/modules/media';
 
@@ -128,6 +128,18 @@ export function ProductForm({ product, images, documents, categories, services }
         <LocalizedField name="lengthLabel" label={t('products.lengthLabel')} value={product?.options.lengthLabel} state={state} />
         <LocalizedField name="oneLabel" label={t('products.oneLabel')} value={product?.options.oneLabel} state={state} />
         <LocalizedField name="tableNote" label={t('products.tableNote')} value={product?.options.tableNote} state={state} multiline rows={2} />
+        {/* K-114: yapı malzemesi sayfaları — kalite notu, yalnız-teklif notu, yün form kartları, gelişmiş ayarlar */}
+        <LocalizedField name="gradeNote" label={t('products.gradeNote')} value={product?.options.gradeNote} state={state} multiline rows={2} />
+        <LocalizedField name="quoteNote" label={t('products.quoteNote')} value={product?.options.quoteNote} state={state} multiline rows={2} hint={t('products.quoteNoteHint')} />
+        <LocalizedField name="forms" label={t('products.forms')} value={product ? { tr: formatForms(product.options.forms, 'tr'), en: formatForms(product.options.forms, 'en') } : null} state={state} multiline rows={3} hint={t('products.formsHint')} />
+        <LocalizedField name="formsCtaTitle" label={t('products.formsCtaTitle')} value={product?.options.formsCta.title} state={state} />
+        <LocalizedField name="formsCtaText" label={t('products.formsCtaText')} value={product?.options.formsCta.text} state={state} multiline rows={2} />
+        <div className="grid gap-1">
+          <Label htmlFor="f-advanced">{t('products.advanced')}</Label>
+          <Textarea id="f-advanced" name="advanced" rows={8} defaultValue={product ? formatAdvanced(product.options) : ''} className="font-mono text-xs" aria-invalid={state.fieldErrors?.['advanced'] ? 'true' : undefined} spellCheck={false} />
+          <FieldError state={state} name="advanced" />
+          <p className="text-xs text-muted-foreground">{t('products.advancedHint')}</p>
+        </div>
         <LocalizedField name="facts" label={t('products.facts')} value={product ? { tr: formatFacts(product.facts, 'tr'), en: formatFacts(product.facts, 'en') } : null} state={state} multiline rows={3} hint={t('products.factsHint')} />
       </FormSection>
       <FormSection title={t('products.specs')}>
