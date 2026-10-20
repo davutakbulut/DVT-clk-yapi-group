@@ -1,11 +1,10 @@
 // Toplu e-posta RPC'leri (K-108/K-109 → K-116): 0057'deki plpgsql fonksiyonlarının MariaDB karşılığı.
 // Hepsi SECURITY DEFINER'dı (mail_campaign_stats hariç): rol denetimi burada, bağlantı erişim kurallarını atlar.
 import type { PoolConnection, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import { rateLimit } from '@/core/rate-limit';
 import { ACCESS } from '../access.generated';
 import type { Actor } from '../pool';
 import { toDbTimestamp } from '../rest/values';
-import { hasRole, RpcError, type RpcHandler } from './registry';
+import { hasRole, RpcError, throttle, type RpcHandler } from './registry';
 
 type Row = Record<string, unknown>;
 const select = async <T = Row>(conn: PoolConnection, sql: string, params: unknown[] = []) => (await conn.query<RowDataPacket[]>(sql, params))[0] as T[];
@@ -329,8 +328,7 @@ const remove_mail_suppression: RpcHandler = async (conn, actor, args) => {
  */
 const mail_unsubscribe: RpcHandler = async (conn, _actor, args) => {
   // Kapı (require_gate) gereksiz: veritabanına dışarıdan doğrudan çağrı yolu yok.
-  // shortcut: eşik süreç içi sayaç (app_private.throttle tablosu taşınmadı), süreç başına 300/10 dk; çok süreçte Upstash ya da DB tablosu.
-  if (!(await rateLimit('unsub:global', 300, 600)).allowed) throw new RpcError('P0429', 'rate_limited: unsub:global');
+  await throttle(conn, 'unsub:global', 300, 600);
   const token = uuid(args['p_token']);
   if (token == null) return false;
   const [r] = await select<{ email: string; campaign_id: string }>(conn, 'SELECT email, campaign_id FROM mail_campaign_recipients WHERE token = ?', [token]);

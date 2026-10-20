@@ -19,7 +19,6 @@ describe.skipIf(!enabled)('MariaDB toplu e-posta RPC', async () => {
   const { MAIL_RPCS } = await import('../rpc/mail');
   const { RpcError } = await import('../rpc/registry');
   const { mapError } = await import('../rest/engine');
-  const { rateLimit } = await import('@/core/rate-limit');
 
   const service: Actor = { kind: 'service' };
   const anon: Actor = { kind: 'anon' };
@@ -224,7 +223,10 @@ describe.skipIf(!enabled)('MariaDB toplu e-posta RPC', async () => {
   });
 
   it('K-104: "listeden çık" eşiği aşılınca P0429', async () => {
-    while ((await rateLimit('unsub:global', 300, 600)).allowed); // sayaç süreç içi: kalan hakkı tüket
+    // veritabanı sayacı (throttle): bu pencerede hakkı doldur, aşan çağrı reddedilir; sonra pencereyi temizle
+    const start = 'FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(UTC_TIMESTAMP(6)) / 600) * 600)';
+    await sql(`INSERT INTO throttle (\`key\`, window_start, hits) VALUES ('unsub:global', ${start}, 300) ON DUPLICATE KEY UPDATE hits = 300`);
     await expect(call(anon, 'mail_unsubscribe', { p_token: '00000000-0000-4000-8000-000000000000' })).rejects.toMatchObject(fail('P0429', /rate_limited/));
+    await sql("DELETE FROM throttle WHERE `key` = 'unsub:global'");
   });
 });
