@@ -10,7 +10,7 @@ cd "$(dirname "$0")/.."
 
 SITE_URL="${1:-}"
 [[ "$SITE_URL" =~ ^https?://[^/]+$ ]] || { echo "Kullanım: bash scripts/cpanel-package.sh https://www.alanadiniz.com   (sonda / yok)"; exit 1; }
-[ -f .env.local ] || { echo ".env.local yok: NEXT_PUBLIC_SUPABASE_URL ve NEXT_PUBLIC_SUPABASE_ANON_KEY derlemeye gömülür"; exit 1; }
+[ -f .env.local ] || { echo ".env.local yok: NEXT_PUBLIC_SITE_URL derlemeye gömülür"; exit 1; }
 
 OUT=deploy
 APP="$OUT/clk-site"
