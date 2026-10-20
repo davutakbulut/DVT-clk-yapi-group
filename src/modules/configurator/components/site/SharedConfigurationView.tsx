@@ -3,7 +3,7 @@ import { getCurrentUser } from '@/core/auth';
 import { Link } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
 import { pickLocale } from '@/lib/localized';
-import { LeadFormSection } from '@/modules/leads';
+import { LeadFormSection } from '@/modules/leads/server';
 import { getPublicSettings } from '@/modules/site-settings';
 import { setSharing } from '../../actions';
 import type { SharedConfiguration } from '../../data/configurationsRepository';

@@ -9,7 +9,7 @@ import { getCachedServiceList } from '@/modules/services';
 import { getCachedPriceGuideList } from '@/modules/pricing';
 import { getCachedSolutionList } from '@/modules/solutions';
 import { getCachedGuideList } from '@/modules/configurator-pages';
-import { getCachedLegalPages } from '@/modules/static-pages';
+import { getCachedLegalPages } from '@/modules/static-pages/server';
 
 // 02-SEO: veritabanından, her URL tam dil kümesiyle (alternates.languages → xhtml:link). Çevrilmemiş dil YAZILMAZ.
 const STATIC: readonly { readonly href: AppHref; readonly priority: number; readonly changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [

@@ -4,7 +4,7 @@ import { ModuleBoundary } from '@/core/errors';
 import { breadcrumbList, JsonLd } from '@/core/seo';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
-import { ContactInfo, LeadFormSection } from '@/modules/leads';
+import { ContactInfo, LeadFormSection } from '@/modules/leads/server';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 import { moduleEnabled } from '@/modules/site-settings';

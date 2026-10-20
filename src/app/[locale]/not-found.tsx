@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from 'next-intl/server';
-import { ErrorPage, getErrorPage } from '@/modules/static-pages';
+import { ErrorPage } from '@/modules/static-pages';
+import { getErrorPage } from '@/modules/static-pages/server';
 
 // (marketing) dışındaki route gruplarının (ör. konfigüratör) düştüğü dilli 404: çatı yok, içerik aynı.
 export default async function LocaleNotFound() {

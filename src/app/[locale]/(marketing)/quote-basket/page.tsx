@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ModuleBoundary } from '@/core/errors';
 import { buildAlternates } from '@/i18n/alternates';
 import type { Locale } from '@/i18n/routing';
-import { getCachedQuoteFormOptions } from '@/modules/leads';
+import { getCachedQuoteFormOptions } from '@/modules/leads/server';
 import { BasketPage } from '@/modules/quote-basket';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';

@@ -11,7 +11,7 @@ import { ThirdPartyScripts, Tracker } from '@/modules/analytics';
 import { BasketAutoSave } from '@/modules/account';
 import { BasketProvider } from '@/modules/quote-basket';
 import { getPublicSettings } from '@/modules/site-settings';
-import { getErrorPage, getLegalPage } from '@/modules/static-pages';
+import { getErrorPage, getLegalPage } from '@/modules/static-pages/server';
 import { WhatsAppButton } from '@/modules/whatsapp';
 import { SiteLoader } from '@/ui/SiteLoader';
 import { SITE_LOADER_BOOT } from '@/ui/siteLoaderShared';

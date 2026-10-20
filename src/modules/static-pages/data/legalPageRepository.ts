@@ -5,9 +5,9 @@ import { isVisibleIn, type Publishable } from '@/core/content';
 import { createPublicClient } from '@/core/db/createPublicClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import { isLocalizedText, type LocalizedText } from '@/lib/localized';
+import { LEGAL_PAGE_KEYS, type LegalPageKey } from '../domain/legalPageKeys';
+export { LEGAL_PAGE_KEYS, type LegalPageKey };
 
-export type LegalPageKey = 'privacy-policy' | 'cookie-policy' | 'data-protection' | 'terms-of-use';
-export const LEGAL_PAGE_KEYS: readonly LegalPageKey[] = ['privacy-policy', 'cookie-policy', 'data-protection', 'terms-of-use'];
 
 export interface LegalPageRow extends Publishable {
   readonly page_key: string;

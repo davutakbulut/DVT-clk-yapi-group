@@ -1,7 +1,8 @@
 import { logger } from '@/core/observability/logger';
 import { routing } from '@/i18n/routing';
 import { hiddenMenuPaths } from '@/modules/site-settings';
-import { getCachedLegalPages, LEGAL_PAGE_KEYS } from '@/modules/static-pages';
+import { LEGAL_PAGE_KEYS } from '@/modules/static-pages';
+import { getCachedLegalPages } from '@/modules/static-pages/server';
 import { getCachedMenus } from '../data/menuRepository';
 import { buildMenuTree } from '../domain/buildMenuTree';
 import type { MenuItemRow, MenuKey, MenuNode } from '../domain/types';

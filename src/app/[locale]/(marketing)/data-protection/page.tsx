@@ -4,7 +4,8 @@ import { setRequestLocale } from 'next-intl/server';
 import { buildAlternates } from '@/i18n/alternates';
 import { RouteAlternates } from '@/i18n/RouteAlternates';
 import type { Locale } from '@/i18n/routing';
-import { getLegalPage, LegalPage } from '@/modules/static-pages';
+import { LegalPage } from '@/modules/static-pages';
+import { getLegalPage } from '@/modules/static-pages/server';
 
 interface Props {
   readonly params: Promise<{ locale: string }>;

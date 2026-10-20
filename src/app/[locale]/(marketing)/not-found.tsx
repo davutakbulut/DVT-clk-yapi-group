@@ -1,7 +1,8 @@
 import { getLocale, getTranslations } from 'next-intl/server';
 import { getMenu } from '@/modules/navigation';
 import { NotFoundReporter } from '@/modules/errors';
-import { ErrorPage, getErrorPage } from '@/modules/static-pages';
+import { ErrorPage } from '@/modules/static-pages';
+import { getErrorPage } from '@/modules/static-pages/server';
 import { MenuSuggestions } from '@/ui/MenuSuggestions';
 
 // (marketing)/layout.tsx içinde render edilir → 404'te de gezinme ve dil değiştirici görünür.

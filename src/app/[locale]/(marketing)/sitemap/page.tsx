@@ -7,7 +7,7 @@ import { getCachedBlogCategories, getCachedPostList } from '@/modules/blog';
 import { getCachedJobPostings } from '@/modules/corporate';
 import { getCachedProjectCategories, getCachedProjectList } from '@/modules/projects';
 import { getCachedServiceList } from '@/modules/services';
-import { getCachedLegalPages } from '@/modules/static-pages';
+import { getCachedLegalPages } from '@/modules/static-pages/server';
 import { Container } from '@/ui/Container';
 import { SectionHeading } from '@/ui/SectionHeading';
 
