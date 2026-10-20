@@ -2,6 +2,7 @@
 // Mantıksal yedeği (scripts/backup-export.mjs çıktısı) MariaDB'ye yükler (K-116).
 //   node --env-file=.env.local scripts/mysql/import-backup.mjs backups/<zaman> [--target=main|test] [--replace]
 // --replace: yedekte verisi olan tabloları önce boşaltır (DELETE). Yoksa hedefte satır varsa durur.
+// --merge: hedefteki satırlara dokunmadan ekler (göçlerin tohumladığı satırlar, ör. 0004 auth şablonları); anahtar çakışması hata sayılır.
 // Satır hatası göçü durdurmaz ama sonda listelenir ve çıkış kodu 1 olur: şema çevirisi hatasına işaret eder.
 import mysql from 'mysql2/promise';
 import assert from 'node:assert/strict';
@@ -13,6 +14,7 @@ const args = process.argv.slice(2);
 const dir = args.find((a) => !a.startsWith('--'));
 const target = (args.find((a) => a.startsWith('--target=')) ?? '--target=main').slice(9);
 const replace = args.includes('--replace');
+const merge = args.includes('--merge');
 const url = { main: process.env.MYSQL_URL, test: process.env.MYSQL_TEST_URL }[target];
 if (!dir || !url) {
   console.error('Kullanım: import-backup.mjs backups/<zaman> [--target=main|test] [--replace] (MYSQL_URL / MYSQL_TEST_URL gerekli)');
@@ -69,14 +71,14 @@ for (const t of skippedTables) {
 const tables = Object.keys(data);
 if (replace) {
   for (const t of tables) await db.query(`DELETE FROM \`${t}\``);
-} else {
+} else if (!merge) {
   const full = [];
   for (const t of tables) {
     const [[{ n }]] = await db.query(`SELECT COUNT(*) AS n FROM \`${t}\``);
     if (n > 0) full.push(`${t} (${n})`);
   }
   if (full.length) {
-    console.error(`Hedefte veri var, --replace olmadan yüklenmez: ${full.join(', ')}`);
+    console.error(`Hedefte veri var, --replace ya da --merge olmadan yüklenmez: ${full.join(', ')}`);
     await db.end();
     process.exit(1);
   }
