@@ -4,7 +4,7 @@ export type ColumnKind = 'uuid' | 'text' | 'json' | 'bool' | 'int' | 'num' | 'ts
 export interface TableMeta {
   readonly pk: readonly string[];
   readonly cols: Readonly<Record<string, ColumnKind>>;
-  readonly fks: readonly { readonly cols: readonly string[]; readonly ref: string; readonly refCols: readonly string[] }[];
+  readonly fks: readonly { readonly name: string; readonly cols: readonly string[]; readonly ref: string; readonly refCols: readonly string[] }[];
 }
 export const SCHEMA: Readonly<Record<string, TableMeta>> = {
  "about_content": {
@@ -34,6 +34,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "about_content_image_id_fkey",
     "cols": [
      "image_id"
     ],
@@ -43,6 +44,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "about_content_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -74,6 +76,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "analytics_events_pageview_id_fkey",
     "cols": [
      "pageview_id"
     ],
@@ -83,6 +86,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "analytics_events_session_id_fkey",
     "cols": [
      "session_id"
     ],
@@ -111,6 +115,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "analytics_pageviews_session_id_fkey",
     "cols": [
      "session_id"
     ],
@@ -162,6 +167,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "audit_logs_actor_id_fkey",
     "cols": [
      "actor_id"
     ],
@@ -194,6 +200,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "blog_categories_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -216,6 +223,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "blog_post_tags_post_id_fkey",
     "cols": [
      "post_id"
     ],
@@ -225,6 +233,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "blog_post_tags_tag_id_fkey",
     "cols": [
      "tag_id"
     ],
@@ -266,6 +275,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "blog_posts_author_fk",
     "cols": [
      "author_id"
     ],
@@ -275,6 +285,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "blog_posts_category_id_fkey",
     "cols": [
      "category_id"
     ],
@@ -284,6 +295,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "blog_posts_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -293,6 +305,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "blog_posts_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -340,6 +353,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "certificates_document_id_fkey",
     "cols": [
      "document_id"
     ],
@@ -349,6 +363,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "certificates_image_id_fkey",
     "cols": [
      "image_id"
     ],
@@ -377,6 +392,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "clients_logo_id_fkey",
     "cols": [
      "logo_id"
     ],
@@ -408,6 +424,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "configuration_items_configuration_version_id_fkey",
     "cols": [
      "configuration_version_id"
     ],
@@ -417,6 +434,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "configuration_items_panel_type_id_fkey",
     "cols": [
      "panel_type_id"
     ],
@@ -426,6 +444,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "configuration_items_steel_profile_id_fkey",
     "cols": [
      "steel_profile_id"
     ],
@@ -453,6 +472,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "configuration_versions_configuration_id_fkey",
     "cols": [
      "configuration_id"
     ],
@@ -492,6 +512,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "configurations_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -501,6 +522,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "configurations_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -510,6 +532,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "configurations_user_id_fkey",
     "cols": [
      "user_id"
     ],
@@ -552,6 +575,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "configurator_pages_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -561,6 +585,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "configurator_pages_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -617,6 +642,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "content_revisions_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -675,6 +701,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "customers_profile_id_fkey",
     "cols": [
      "profile_id"
     ],
@@ -717,6 +744,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "email_logs_queue_id_fkey",
     "cols": [
      "queue_id"
     ],
@@ -799,6 +827,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "error_logs_resolved_by_fkey",
     "cols": [
      "resolved_by"
     ],
@@ -808,6 +837,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "error_logs_user_id_fkey",
     "cols": [
      "user_id"
     ],
@@ -873,6 +903,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "field_videos_poster_id_fkey",
     "cols": [
      "poster_id"
     ],
@@ -882,6 +913,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "field_videos_video_id_fkey",
     "cols": [
      "video_id"
     ],
@@ -926,6 +958,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "funnel_steps_funnel_id_fkey",
     "cols": [
      "funnel_id"
     ],
@@ -989,6 +1022,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "hero_media_desktop_poster_id_fkey",
     "cols": [
      "desktop_poster_id"
     ],
@@ -998,6 +1032,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "hero_media_desktop_video_id_fkey",
     "cols": [
      "desktop_video_id"
     ],
@@ -1007,6 +1042,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "hero_media_mobile_poster_id_fkey",
     "cols": [
      "mobile_poster_id"
     ],
@@ -1016,6 +1052,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "hero_media_mobile_video_id_fkey",
     "cols": [
      "mobile_video_id"
     ],
@@ -1055,6 +1092,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "invoices_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -1064,6 +1102,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "invoices_customer_id_fkey",
     "cols": [
      "customer_id"
     ],
@@ -1073,6 +1112,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "invoices_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -1107,6 +1147,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "job_applications_job_posting_id_fkey",
     "cols": [
      "job_posting_id"
     ],
@@ -1116,6 +1157,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "job_applications_reviewed_by_fkey",
     "cols": [
      "reviewed_by"
     ],
@@ -1156,6 +1198,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "job_postings_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -1184,6 +1227,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "lead_attachments_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -1216,6 +1260,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "lead_items_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -1225,6 +1270,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "lead_items_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -1234,6 +1280,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "lead_items_variant_id_fkey",
     "cols": [
      "variant_id"
     ],
@@ -1259,6 +1306,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "lead_notes_author_id_fkey",
     "cols": [
      "author_id"
     ],
@@ -1268,6 +1316,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "lead_notes_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -1297,6 +1346,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "lead_replies_author_id_fkey",
     "cols": [
      "author_id"
     ],
@@ -1306,6 +1356,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "lead_replies_email_log_fk",
     "cols": [
      "email_log_id"
     ],
@@ -1315,6 +1366,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "lead_replies_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -1362,6 +1414,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "leads_assigned_to_fkey",
     "cols": [
      "assigned_to"
     ],
@@ -1371,6 +1424,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "leads_configuration_fk",
     "cols": [
      "configuration_id"
     ],
@@ -1380,6 +1434,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "leads_customer_fk",
     "cols": [
      "customer_id"
     ],
@@ -1389,6 +1444,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "leads_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -1398,6 +1454,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "leads_user_id_fkey",
     "cols": [
      "user_id"
     ],
@@ -1430,6 +1487,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "mail_campaign_recipients_campaign_id_fkey",
     "cols": [
      "campaign_id"
     ],
@@ -1486,6 +1544,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "mail_campaigns_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -1495,6 +1554,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "mail_campaigns_started_by_fkey",
     "cols": [
      "started_by"
     ],
@@ -1520,6 +1580,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "mail_suppressions_campaign_id_fkey",
     "cols": [
      "campaign_id"
     ],
@@ -1529,6 +1590,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "mail_suppressions_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -1555,6 +1617,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "material_price_history_changed_by_fkey",
     "cols": [
      "changed_by"
     ],
@@ -1564,6 +1627,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "material_price_history_material_price_id_fkey",
     "cols": [
      "material_price_id"
     ],
@@ -1594,6 +1658,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "material_prices_updated_by_fkey",
     "cols": [
      "updated_by"
     ],
@@ -1629,6 +1694,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "media_library_uploaded_by_fkey",
     "cols": [
      "uploaded_by"
     ],
@@ -1667,6 +1733,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "menu_items_menu_id_fkey",
     "cols": [
      "menu_id"
     ],
@@ -1676,6 +1743,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "menu_items_parent_id_fkey",
     "cols": [
      "parent_id"
     ],
@@ -1736,6 +1804,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "notifications_user_id_fkey",
     "cols": [
      "user_id"
     ],
@@ -1765,6 +1834,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "panel_types_material_price_id_fkey",
     "cols": [
      "material_price_id"
     ],
@@ -1794,6 +1864,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "payment_schedules_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -1827,6 +1898,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "payments_invoice_id_fkey",
     "cols": [
      "invoice_id"
     ],
@@ -1836,6 +1908,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "payments_recorded_by_fkey",
     "cols": [
      "recorded_by"
     ],
@@ -1845,6 +1918,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "payments_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -1854,6 +1928,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "payments_schedule_id_fkey",
     "cols": [
      "schedule_id"
     ],
@@ -1886,6 +1961,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "post_comments_moderated_by_fkey",
     "cols": [
      "moderated_by"
     ],
@@ -1895,6 +1971,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "post_comments_parent_id_fkey",
     "cols": [
      "parent_id"
     ],
@@ -1904,6 +1981,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "post_comments_post_id_fkey",
     "cols": [
      "post_id"
     ],
@@ -1913,6 +1991,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "post_comments_user_id_fkey",
     "cols": [
      "user_id"
     ],
@@ -1935,6 +2014,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "post_likes_post_id_fkey",
     "cols": [
      "post_id"
     ],
@@ -1963,6 +2043,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "price_guide_rows_material_price_fk",
     "cols": [
      "material_price_id"
     ],
@@ -1972,6 +2053,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "price_guide_rows_price_guide_id_fkey",
     "cols": [
      "price_guide_id"
     ],
@@ -2016,6 +2098,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "price_guides_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2025,6 +2108,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "price_guides_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2060,6 +2144,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "product_categories_image_id_fkey",
     "cols": [
      "image_id"
     ],
@@ -2069,6 +2154,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "product_categories_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2078,6 +2164,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "product_categories_parent_id_fkey",
     "cols": [
      "parent_id"
     ],
@@ -2105,6 +2192,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "product_documents_media_id_fkey",
     "cols": [
      "media_id"
     ],
@@ -2114,6 +2202,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "product_documents_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -2139,6 +2228,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "product_images_media_id_fkey",
     "cols": [
      "media_id"
     ],
@@ -2148,6 +2238,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "product_images_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -2175,6 +2266,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "product_specs_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -2211,6 +2303,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "product_variants_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -2254,6 +2347,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "products_category_id_fkey",
     "cols": [
      "category_id"
     ],
@@ -2263,6 +2357,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "products_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -2272,6 +2367,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "products_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2281,6 +2377,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "products_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2312,6 +2409,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "profiles_avatar_fk",
     "cols": [
      "avatar_id"
     ],
@@ -2321,6 +2419,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "profiles_id_fkey",
     "cols": [
      "id"
     ],
@@ -2354,6 +2453,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "project_categories_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2376,6 +2476,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "project_category_relations_category_id_fkey",
     "cols": [
      "category_id"
     ],
@@ -2385,6 +2486,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "project_category_relations_project_id_fkey",
     "cols": [
      "project_id"
     ],
@@ -2411,6 +2513,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "project_images_media_id_fkey",
     "cols": [
      "media_id"
     ],
@@ -2420,6 +2523,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "project_images_project_id_fkey",
     "cols": [
      "project_id"
     ],
@@ -2470,6 +2574,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "projects_client_fk",
     "cols": [
      "client_id"
     ],
@@ -2479,6 +2584,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "projects_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -2488,6 +2594,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "projects_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2497,6 +2604,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "projects_sale_fk",
     "cols": [
      "sale_id"
     ],
@@ -2526,6 +2634,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "redirects_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -2570,6 +2679,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "sale_expenses_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -2603,6 +2713,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "sale_items_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -2612,6 +2723,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sale_items_sale_id_fkey",
     "cols": [
      "sale_id"
     ],
@@ -2621,6 +2733,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sale_items_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2667,6 +2780,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "sales_assigned_to_fkey",
     "cols": [
      "assigned_to"
     ],
@@ -2676,6 +2790,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sales_configuration_fk",
     "cols": [
      "configuration_id"
     ],
@@ -2685,6 +2800,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sales_created_by_fkey",
     "cols": [
      "created_by"
     ],
@@ -2694,6 +2810,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sales_customer_id_fkey",
     "cols": [
      "customer_id"
     ],
@@ -2703,6 +2820,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sales_lead_id_fkey",
     "cols": [
      "lead_id"
     ],
@@ -2712,6 +2830,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "sales_project_id_fkey",
     "cols": [
      "project_id"
     ],
@@ -2756,6 +2875,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "service_images_media_id_fkey",
     "cols": [
      "media_id"
     ],
@@ -2765,6 +2885,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "service_images_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2787,6 +2908,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "service_projects_project_id_fkey",
     "cols": [
      "project_id"
     ],
@@ -2796,6 +2918,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "service_projects_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2840,6 +2963,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "services_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -2849,6 +2973,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "services_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2858,6 +2983,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "services_project_category_id_fkey",
     "cols": [
      "project_category_id"
     ],
@@ -2884,6 +3010,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "site_settings_updated_by_fkey",
     "cols": [
      "updated_by"
     ],
@@ -2940,6 +3067,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "solutions_cover_image_id_fkey",
     "cols": [
      "cover_image_id"
     ],
@@ -2949,6 +3077,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "solutions_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -2958,6 +3087,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "solutions_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -2996,6 +3126,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "static_pages_og_image_id_fkey",
     "cols": [
      "og_image_id"
     ],
@@ -3049,6 +3180,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "team_members_photo_id_fkey",
     "cols": [
      "photo_id"
     ],
@@ -3058,6 +3190,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "team_members_profile_id_fkey",
     "cols": [
      "profile_id"
     ],
@@ -3100,6 +3233,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "testimonials_avatar_id_fkey",
     "cols": [
      "avatar_id"
     ],
@@ -3109,6 +3243,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "testimonials_product_id_fkey",
     "cols": [
      "product_id"
     ],
@@ -3118,6 +3253,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "testimonials_project_id_fkey",
     "cols": [
      "project_id"
     ],
@@ -3127,6 +3263,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
     ]
    },
    {
+    "name": "testimonials_service_id_fkey",
     "cols": [
      "service_id"
     ],
@@ -3169,6 +3306,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "ui_translations_updated_by_fkey",
     "cols": [
      "updated_by"
     ],
@@ -3196,6 +3334,7 @@ export const SCHEMA: Readonly<Record<string, TableMeta>> = {
   },
   "fks": [
    {
+    "name": "web_vitals_session_id_fkey",
     "cols": [
      "session_id"
     ],

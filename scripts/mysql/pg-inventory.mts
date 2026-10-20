@@ -19,6 +19,9 @@ const out = {
   triggers: await q(`select event_object_table t, trigger_name name, action_timing timing, string_agg(event_manipulation, ',') ev, action_statement stmt from information_schema.triggers where trigger_schema='public' group by 1,2,3,5 order by 1,2`),
   policies: await q(`select tablename t, policyname name, cmd, roles::text roles, qual, with_check from pg_policies where schemaname='public' order by 1,2`),
   views: await q(`select table_name t, view_definition def from information_schema.views where table_schema='public'`),
+  rls: await q(`select relname t, relrowsecurity rls from pg_class where relnamespace='public'::regnamespace and relkind='r' order by 1`),
+  tableGrants: await q(`select table_name t, grantee g, string_agg(privilege_type, ',' order by privilege_type) privs from information_schema.role_table_grants where table_schema='public' and grantee in ('anon','authenticated') group by 1,2 order by 1,2`),
+  columnGrants: await q(`select table_name t, column_name c, grantee g, privilege_type p from information_schema.column_privileges where table_schema='public' and grantee in ('anon','authenticated') and (table_name, grantee, privilege_type) not in (select table_name, grantee, privilege_type from information_schema.role_table_grants where table_schema='public') order by 1,2`),
   grants: await q(`select routine_name r, grantee g from information_schema.routine_privileges where routine_schema='public' and grantee in ('anon','authenticated') order by 1,2`),
 };
 console.log(JSON.stringify(out, null, 1));

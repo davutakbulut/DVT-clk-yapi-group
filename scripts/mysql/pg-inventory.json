@@ -29068,6 +29068,1105 @@
    "def": " SELECT job_key,\n    last_run_at,\n    expected_interval_seconds,\n    last_status\n   FROM cron_heartbeats h\n  WHERE ((last_run_at IS NULL) OR (last_run_at < (now() - make_interval(secs => ((expected_interval_seconds * 2))::double precision))) OR (last_status = 'error'::text));"
   }
  ],
+ "rls": [
+  {
+   "t": "about_content",
+   "rls": true
+  },
+  {
+   "t": "analytics_events",
+   "rls": true
+  },
+  {
+   "t": "analytics_pageviews",
+   "rls": true
+  },
+  {
+   "t": "analytics_sessions",
+   "rls": true
+  },
+  {
+   "t": "audit_logs",
+   "rls": true
+  },
+  {
+   "t": "blog_categories",
+   "rls": true
+  },
+  {
+   "t": "blog_post_tags",
+   "rls": true
+  },
+  {
+   "t": "blog_posts",
+   "rls": true
+  },
+  {
+   "t": "blog_tags",
+   "rls": true
+  },
+  {
+   "t": "certificates",
+   "rls": true
+  },
+  {
+   "t": "clients",
+   "rls": true
+  },
+  {
+   "t": "configuration_items",
+   "rls": true
+  },
+  {
+   "t": "configuration_versions",
+   "rls": true
+  },
+  {
+   "t": "configurations",
+   "rls": true
+  },
+  {
+   "t": "configurator_pages",
+   "rls": true
+  },
+  {
+   "t": "configurator_rules",
+   "rls": true
+  },
+  {
+   "t": "content_links",
+   "rls": true
+  },
+  {
+   "t": "content_revisions",
+   "rls": true
+  },
+  {
+   "t": "cron_heartbeats",
+   "rls": true
+  },
+  {
+   "t": "customers",
+   "rls": true
+  },
+  {
+   "t": "document_counters",
+   "rls": true
+  },
+  {
+   "t": "email_logs",
+   "rls": true
+  },
+  {
+   "t": "email_queue",
+   "rls": true
+  },
+  {
+   "t": "email_templates",
+   "rls": true
+  },
+  {
+   "t": "error_logs",
+   "rls": true
+  },
+  {
+   "t": "exchange_rates",
+   "rls": true
+  },
+  {
+   "t": "faqs",
+   "rls": true
+  },
+  {
+   "t": "field_videos",
+   "rls": true
+  },
+  {
+   "t": "form_analytics",
+   "rls": true
+  },
+  {
+   "t": "funnel_steps",
+   "rls": true
+  },
+  {
+   "t": "funnels",
+   "rls": true
+  },
+  {
+   "t": "heatmap_aggregates",
+   "rls": true
+  },
+  {
+   "t": "hero_media",
+   "rls": true
+  },
+  {
+   "t": "invoices",
+   "rls": true
+  },
+  {
+   "t": "job_applications",
+   "rls": true
+  },
+  {
+   "t": "job_postings",
+   "rls": true
+  },
+  {
+   "t": "lead_attachments",
+   "rls": true
+  },
+  {
+   "t": "lead_items",
+   "rls": true
+  },
+  {
+   "t": "lead_notes",
+   "rls": true
+  },
+  {
+   "t": "lead_replies",
+   "rls": true
+  },
+  {
+   "t": "leads",
+   "rls": true
+  },
+  {
+   "t": "mail_campaign_recipients",
+   "rls": true
+  },
+  {
+   "t": "mail_campaign_templates",
+   "rls": true
+  },
+  {
+   "t": "mail_campaigns",
+   "rls": true
+  },
+  {
+   "t": "mail_suppressions",
+   "rls": true
+  },
+  {
+   "t": "material_price_history",
+   "rls": true
+  },
+  {
+   "t": "material_prices",
+   "rls": true
+  },
+  {
+   "t": "media_library",
+   "rls": true
+  },
+  {
+   "t": "menu_items",
+   "rls": true
+  },
+  {
+   "t": "menus",
+   "rls": true
+  },
+  {
+   "t": "newsletter_subscribers",
+   "rls": true
+  },
+  {
+   "t": "notifications",
+   "rls": true
+  },
+  {
+   "t": "panel_types",
+   "rls": true
+  },
+  {
+   "t": "payment_schedules",
+   "rls": true
+  },
+  {
+   "t": "payments",
+   "rls": true
+  },
+  {
+   "t": "post_comments",
+   "rls": true
+  },
+  {
+   "t": "post_likes",
+   "rls": true
+  },
+  {
+   "t": "price_guide_rows",
+   "rls": true
+  },
+  {
+   "t": "price_guides",
+   "rls": true
+  },
+  {
+   "t": "product_categories",
+   "rls": true
+  },
+  {
+   "t": "product_documents",
+   "rls": true
+  },
+  {
+   "t": "product_images",
+   "rls": true
+  },
+  {
+   "t": "product_specs",
+   "rls": true
+  },
+  {
+   "t": "product_variants",
+   "rls": true
+  },
+  {
+   "t": "products",
+   "rls": true
+  },
+  {
+   "t": "profiles",
+   "rls": true
+  },
+  {
+   "t": "project_categories",
+   "rls": true
+  },
+  {
+   "t": "project_category_relations",
+   "rls": true
+  },
+  {
+   "t": "project_images",
+   "rls": true
+  },
+  {
+   "t": "projects",
+   "rls": true
+  },
+  {
+   "t": "redirects",
+   "rls": true
+  },
+  {
+   "t": "review_sync_runs",
+   "rls": true
+  },
+  {
+   "t": "sale_expenses",
+   "rls": true
+  },
+  {
+   "t": "sale_items",
+   "rls": true
+  },
+  {
+   "t": "sales",
+   "rls": true
+  },
+  {
+   "t": "scroll_depth_aggregates",
+   "rls": true
+  },
+  {
+   "t": "service_images",
+   "rls": true
+  },
+  {
+   "t": "service_projects",
+   "rls": true
+  },
+  {
+   "t": "services",
+   "rls": true
+  },
+  {
+   "t": "site_settings",
+   "rls": true
+  },
+  {
+   "t": "slug_history",
+   "rls": true
+  },
+  {
+   "t": "solutions",
+   "rls": true
+  },
+  {
+   "t": "static_pages",
+   "rls": true
+  },
+  {
+   "t": "steel_profiles",
+   "rls": true
+  },
+  {
+   "t": "team_members",
+   "rls": true
+  },
+  {
+   "t": "testimonials",
+   "rls": true
+  },
+  {
+   "t": "translation_glossary",
+   "rls": true
+  },
+  {
+   "t": "ui_translations",
+   "rls": true
+  },
+  {
+   "t": "web_vitals",
+   "rls": true
+  },
+  {
+   "t": "whatsapp_settings",
+   "rls": true
+  }
+ ],
+ "tableGrants": [
+  {
+   "t": "about_content",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "about_content",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "analytics_events",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "analytics_pageviews",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "analytics_sessions",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "audit_logs",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "blog_categories",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "blog_categories",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "blog_post_tags",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "blog_post_tags",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "blog_posts",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "blog_posts",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "blog_tags",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "blog_tags",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "certificates",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "certificates",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "clients",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "clients",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "configuration_items",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT"
+  },
+  {
+   "t": "configuration_versions",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT"
+  },
+  {
+   "t": "configurations",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "configurator_pages",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "configurator_pages",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "configurator_rules",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "configurator_rules",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "content_links",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "content_links",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "content_revisions",
+   "g": "authenticated",
+   "privs": "INSERT,SELECT"
+  },
+  {
+   "t": "cron_heartbeats",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "customers",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "email_logs",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "email_queue",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "email_templates",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "error_logs",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "exchange_rates",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "faqs",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "faqs",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "field_videos",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "field_videos",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "form_analytics",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "funnel_steps",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "funnels",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "heatmap_aggregates",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "hero_media",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "hero_media",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "invoices",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "job_applications",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "job_postings",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "job_postings",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "lead_attachments",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "lead_items",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "lead_notes",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "lead_replies",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "leads",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "mail_campaign_recipients",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "mail_campaign_templates",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "mail_campaigns",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "mail_suppressions",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "material_price_history",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "material_prices",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "media_library",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "media_library",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "menu_items",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "menu_items",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "menus",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "menus",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "newsletter_subscribers",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "notifications",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "panel_types",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "panel_types",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "payment_schedules",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "payments",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "post_comments",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "post_likes",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "price_guide_rows",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "price_guide_rows",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "price_guides",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "price_guides",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "product_categories",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "product_categories",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "product_documents",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "product_documents",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "product_images",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "product_images",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "product_specs",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "product_specs",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "product_variants",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "product_variants",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "products",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "products",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "profiles",
+   "g": "authenticated",
+   "privs": "SELECT,UPDATE"
+  },
+  {
+   "t": "project_categories",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "project_categories",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "project_category_relations",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "project_category_relations",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "project_images",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "project_images",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "projects",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "projects",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "published_comments",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "published_comments",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "redirects",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "redirects",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "review_sync_runs",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "sale_expenses",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "sale_items",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "sale_items_without_cost",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "sales",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "sales_without_cost",
+   "g": "authenticated",
+   "privs": "INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "scroll_depth_aggregates",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "service_images",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "service_images",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "service_projects",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "service_projects",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "services",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "services",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "site_settings",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "site_settings",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "slug_history",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "slug_history",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "solutions",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "solutions",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "stale_cron_jobs",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "static_pages",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "static_pages",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "steel_profiles",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "steel_profiles",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "team_members",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "team_members",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "testimonials",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "testimonials",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "translation_glossary",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "ui_translations",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "ui_translations",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  },
+  {
+   "t": "web_vitals",
+   "g": "authenticated",
+   "privs": "SELECT"
+  },
+  {
+   "t": "whatsapp_settings",
+   "g": "anon",
+   "privs": "SELECT"
+  },
+  {
+   "t": "whatsapp_settings",
+   "g": "authenticated",
+   "privs": "DELETE,INSERT,SELECT,UPDATE"
+  }
+ ],
+ "columnGrants": [
+  {
+   "t": "post_comments",
+   "c": "author_email",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "author_name",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "body",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "ip_masked",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "locale",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "parent_id",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "post_id",
+   "g": "anon",
+   "p": "INSERT"
+  },
+  {
+   "t": "post_comments",
+   "c": "user_id",
+   "g": "anon",
+   "p": "INSERT"
+  }
+ ],
  "grants": [
   {
    "r": "add_mail_suppression",

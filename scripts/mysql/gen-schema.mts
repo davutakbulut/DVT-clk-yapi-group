@@ -139,7 +139,7 @@ const out: string[] = [
   '',
 ];
 const fks: string[] = [];
-const meta: Record<string, { pk: string[]; cols: Record<string, Kind>; fks: { cols: string[]; ref: string; refCols: string[] }[] }> = {};
+const meta: Record<string, { pk: string[]; cols: Record<string, Kind>; fks: { name: string; cols: string[]; ref: string; refCols: string[] }[] }> = {};
 
 for (const t of tables) {
   const lines: string[] = [];
@@ -183,13 +183,13 @@ for (const t of tables) {
     extra.push(`  ${unique ? 'UNIQUE KEY' : 'KEY'} ${i.name} (${keys.map((k) => (k.startsWith('`') ? k : q(k))).join(', ')})`);
   }
   out.push(`CREATE TABLE ${t} (\n${[...lines, ...extra].join(',\n')}\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;`, '');
-  const tfks: { cols: string[]; ref: string; refCols: string[] }[] = [];
+  const tfks: { name: string; cols: string[]; ref: string; refCols: string[] }[] = [];
   for (const f of cons(t, 'f')) {
     const m = /FOREIGN KEY \(([^)]*)\) REFERENCES ([a-z_.]+)\(([^)]*)\)(.*)$/.exec(f.def)!;
     const ref = m[2] === 'auth.users' ? 'users' : m[2]!.replace(/^public\./, '');
     const onDelete = /ON DELETE (CASCADE|SET NULL|RESTRICT)/.exec(m[4] ?? '')?.[0] ?? '';
     fks.push(`ALTER TABLE ${t} ADD CONSTRAINT ${f.name} FOREIGN KEY (${m[1]!.split(', ').map(q).join(', ')}) REFERENCES ${ref} (${m[3]!.split(', ').map(q).join(', ')}) ${onDelete};`.replace(/ ;$/, ';'));
-    tfks.push({ cols: m[1]!.split(',').map((s) => s.trim()), ref, refCols: m[3]!.split(',').map((s) => s.trim()) });
+    tfks.push({ name: f.name, cols: m[1]!.split(',').map((s) => s.trim()), ref, refCols: m[3]!.split(',').map((s) => s.trim()) });
   }
   meta[t] = { pk: cons(t, 'p').flatMap((p) => listCols(p.def)), cols: Object.fromEntries(tcols.map((c) => [c.c, kind(c.udt)])), fks: tfks };
 }
@@ -200,7 +200,7 @@ mkdirSync(join(root, 'src/core/db/mysql'), { recursive: true });
 writeFileSync(join(root, 'db/migrations/0001_schema.sql'), [...out, '-- Yabancı anahtarlar (tablolar oluştuktan sonra)', ...fks, ''].join('\n'));
 writeFileSync(
   join(root, 'src/core/db/mysql/schema.generated.ts'),
-  `// Üretici: scripts/mysql/gen-schema.mts — elle düzenlemeyin (K-116).\n// Sütun türleri sonuç dönüşümü (JSON/boolean/sayı/tarih) için, yabancı anahtarlar gömülü ilişkiler için.\nexport type ColumnKind = 'uuid' | 'text' | 'json' | 'bool' | 'int' | 'num' | 'ts' | 'date';\nexport interface TableMeta {\n  readonly pk: readonly string[];\n  readonly cols: Readonly<Record<string, ColumnKind>>;\n  readonly fks: readonly { readonly cols: readonly string[]; readonly ref: string; readonly refCols: readonly string[] }[];\n}\nexport const SCHEMA: Readonly<Record<string, TableMeta>> = ${JSON.stringify(meta, null, 1)};\n`,
+  `// Üretici: scripts/mysql/gen-schema.mts — elle düzenlemeyin (K-116).\n// Sütun türleri sonuç dönüşümü (JSON/boolean/sayı/tarih) için, yabancı anahtarlar gömülü ilişkiler için.\nexport type ColumnKind = 'uuid' | 'text' | 'json' | 'bool' | 'int' | 'num' | 'ts' | 'date';\nexport interface TableMeta {\n  readonly pk: readonly string[];\n  readonly cols: Readonly<Record<string, ColumnKind>>;\n  readonly fks: readonly { readonly name: string; readonly cols: readonly string[]; readonly ref: string; readonly refCols: readonly string[] }[];\n}\nexport const SCHEMA: Readonly<Record<string, TableMeta>> = ${JSON.stringify(meta, null, 1)};\n`,
 );
 writeFileSync(join(import.meta.dirname, 'untranslated.txt'), untranslated.join('\n') + '\n');
 console.log(`${tables.length + 1} tablo, ${fks.length} yabancı anahtar, ${untranslated.length} çevrilemeyen kural`);
