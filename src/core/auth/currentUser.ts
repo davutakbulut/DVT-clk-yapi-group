@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
+import { getSessionUser } from './session';
 import { isAppRole, isStaffRole, type AppRole } from './roles';
 
 export interface CurrentUser {
@@ -15,16 +16,15 @@ export interface CurrentUser {
 
 /**
  * Oturumdaki kullanıcı + profili. İstek başına bir kez (React cache). Asla fırlatmaz: hata → null (anonim).
- * getSession() değil getUser(): çerezdeki JWT'ye güvenmez, auth sunucusuna doğrulatır. Bu KAPI katmanıdır (K-14);
- * gerçek sınır yine RLS. Pasif hesap anonim sayılır.
+ * Oturum çerezi her istekte veritabanında doğrulanır (K-116, core/auth/session). Bu KAPI katmanıdır (K-14);
+ * gerçek sınır sorgu katmanının erişim kuralları. Pasif hesap anonim sayılır.
  */
 export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+  const user = await getSessionUser();
+  if (!user) return null;
   const client = await createServerClient();
   if (!client.ok) return null;
   try {
-    const { data } = await client.data.auth.getUser();
-    const user = data.user;
-    if (!user) return null;
     const { data: profile, error } = await client.data
       .from('profiles')
       .select('role, full_name, is_active, must_change_password, preferred_locale')
