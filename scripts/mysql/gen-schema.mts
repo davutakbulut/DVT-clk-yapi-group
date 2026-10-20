@@ -155,7 +155,9 @@ for (const t of tables) {
   for (const u of cons(t, 'u')) extra.push(`  UNIQUE KEY ${u.name} (${listCols(u.def).map(q).join(', ')})`);
   for (const c of cons(t, 'c')) {
     const sql = translateCheck(c.def);
-    if (sql) extra.push(`  CONSTRAINT ${c.name} CHECK ${quoteReserved(sql.startsWith('(') ? sql : `(${sql})`)}`);
+    // REGEXP'e giren JSON_VALUE açıkça metne: boş değerde MariaDB REGEXP'i yanlış sonuç / 'NULL argument passed' verir (0006)
+    const fixed = sql && /REGEXP/.test(sql) ? sql.replace(/JSON_VALUE\((\w+), ('\$\.\w+')\)/g, 'CAST(JSON_VALUE($1, $2) AS CHAR CHARACTER SET utf8mb4)') : sql;
+    if (fixed) extra.push(`  CONSTRAINT ${c.name} CHECK ${quoteReserved(fixed.startsWith('(') ? fixed : `(${fixed})`)}`);
     else untranslated.push(`${t}.${c.name}: ${c.def}`);
   }
   const conNames = new Set(inv.constraints.filter((c) => c.t === t).map((c) => c.name));

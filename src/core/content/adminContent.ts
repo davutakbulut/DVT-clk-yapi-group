@@ -4,6 +4,8 @@ import type { ServerDbClient } from '@/core/db/createServerClient';
 import { localized } from '@/lib/localized';
 import { slugify } from '@/lib/slugify';
 
+const PUBLISH_CLOCK_MARGIN_MS = 10_000;
+
 export { localized };
 
 /** Admin formlarındaki ortak yayın alanları. */
@@ -47,7 +49,9 @@ export function publishColumns(input: PublishInput, opts: { readonly titleEn: st
     columns: {
       status: input.status,
       published_locales: locales,
-      published_at: input.status === 'published' ? (existingPublishedAt ?? new Date().toISOString()) : existingPublishedAt,
+      // K-116: yayın anı uygulama saatiyle yazılır, ziyaretçi kuralı veritabanı saatiyle denetler. Uzak veritabanında (yerel/E2E) saat
+      // farkı yeni içeriği bir an "zamanlanmış" gösterip 404'ü önbelleğe alıyordu → birkaç saniye geriden yazılır (canlıda fark ~0).
+      published_at: input.status === 'published' ? (existingPublishedAt ?? new Date(Date.now() - PUBLISH_CLOCK_MARGIN_MS).toISOString()) : existingPublishedAt,
       translation_meta: { en: { machine: false, reviewed: input.reviewedEn, reviewed_by: input.reviewedEn ? opts.reviewerId : null } },
     },
   };
