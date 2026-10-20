@@ -10,7 +10,7 @@ await db.exec(readFileSync(join(dir, 'tests/helpers/supabase-shim.sql'), 'utf8')
 for (const f of readdirSync(join(dir, 'migrations')).filter((n) => n.endsWith('.sql')).sort()) await db.exec(readFileSync(join(dir, 'migrations', f), 'utf8'));
 const q = async (sql: string) => (await db.query(sql)).rows;
 const out = {
-  columns: await q(`select table_name t, column_name c, data_type dt, udt_name udt, is_nullable n, column_default d, character_maximum_length len, is_generated gen, generation_expression ge, ordinal_position pos
+  columns: await q(`select table_name t, column_name c, data_type dt, udt_name udt, is_nullable n, column_default d, character_maximum_length len, numeric_precision np, numeric_scale ns, is_generated gen, generation_expression ge, ordinal_position pos
     from information_schema.columns where table_schema='public' and table_name in (select table_name from information_schema.tables where table_schema='public' and table_type='BASE TABLE') order by table_name, ordinal_position`),
   constraints: await q(`select conrelid::regclass::text t, conname name, contype type, pg_get_constraintdef(oid) def from pg_constraint where connamespace='public'::regnamespace and conrelid<>0 order by 1,2`),
   indexes: await q(`select tablename t, indexname name, indexdef def from pg_indexes where schemaname='public' order by 1,2`),
