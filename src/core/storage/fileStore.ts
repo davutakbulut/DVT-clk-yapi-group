@@ -33,7 +33,7 @@ function remoteRoot(bucket: Bucket): string {
   return bucket === 'media' ? `${home}/public_html/media` : `${home}/storage/private-documents`;
 }
 
-const useCpanel = () => process.env['STORAGE_DRIVER'] === 'cpanel';
+const viaCpanel = () => process.env['STORAGE_DRIVER'] === 'cpanel';
 
 async function cpanel(path: string, init: RequestInit): Promise<unknown> {
   const host = process.env['CPANEL_HOST'];
@@ -60,7 +60,7 @@ export async function putFile(bucket: Bucket, path: string, body: Uint8Array, co
   const rel = safePath(path);
   if (!rel) return fail(`Geçersiz dosya yolu: ${path}`);
   try {
-    if (useCpanel()) {
+    if (viaCpanel()) {
       const target = `${remoteRoot(bucket)}/${rel}`;
       await cpanelMkdirs(dirname(target));
       const form = new FormData();
@@ -88,7 +88,7 @@ export async function removeFiles(bucket: Bucket, paths: readonly string[]): Pro
     for (const path of paths) {
       const rel = safePath(path);
       if (!rel) continue;
-      if (useCpanel()) {
+      if (viaCpanel()) {
         const body = new URLSearchParams({ cpanel_jsonapi_user: process.env['CPANEL_USER'] ?? '', cpanel_jsonapi_apiversion: '2', cpanel_jsonapi_module: 'Fileman', cpanel_jsonapi_func: 'fileop', op: 'unlink', sourcefiles: `${remoteRoot(bucket)}/${rel}`, doubledecode: '0' });
         await cpanel('/json-api/cpanel', { method: 'POST', body });
       } else {
