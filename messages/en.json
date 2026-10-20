@@ -309,7 +309,7 @@
       "developerName": "Developer credit (footer, meta, humans.txt)",
       "developerUrl": "Developer link (optional)",
       "mapEmbedUrl": "Map embed URL (optional)",
-      "mapEmbedHint": "You can paste the Google Maps › Share › Embed a map output (<iframe …>) as is. If left empty, the map is derived from the address."
+      "mapEmbedHint": "You can paste the Google Maps › Share › Embed a map output (the iframe code) as is. If left empty, the map is derived from the address."
     },
     "whatsapp": {
       "title": "WhatsApp",

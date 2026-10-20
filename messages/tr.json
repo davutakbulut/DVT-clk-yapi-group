@@ -309,7 +309,7 @@
       "developerName": "Geliştirici imzası (footer, meta, humans.txt)",
       "developerUrl": "Geliştirici bağlantısı (isteğe bağlı)",
       "mapEmbedUrl": "Harita gömme adresi (isteğe bağlı)",
-      "mapEmbedHint": "Google Haritalar › Paylaş › Harita yerleştir çıktısını (<iframe …>) olduğu gibi yapıştırabilirsiniz. Boş bırakılırsa harita adresten türetilir."
+      "mapEmbedHint": "Google Haritalar › Paylaş › Harita yerleştir çıktısını (iframe kodunu) olduğu gibi yapıştırabilirsiniz. Boş bırakılırsa harita adresten türetilir."
     },
     "whatsapp": {
       "title": "WhatsApp",
