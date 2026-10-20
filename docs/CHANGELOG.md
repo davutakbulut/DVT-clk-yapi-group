@@ -7,6 +7,13 @@ Format [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmadı]
 
+### Supabase'den çıkış: MariaDB, kendi giriş sistemimiz, dosyalar hosting'de (K-116) — canlıya geçiş bekliyor
+- Neden: Supabase ücretsiz planının önbellekli çıkış kotası (ana sayfa videoları) aşıldı; veritabanı, giriş ve depolama 402 ile kapandı (ürün ayrıntıları boş, panel girişi ve şifre sıfırlama çalışmadı)
+- Veritabanı cPanel MariaDB 11.8: şema PostgreSQL envanterinden üretildi (91 tablo, 139 ilişki, tüm kurallar), 98 tetikleyici, 49 sunucu fonksiyonu TypeScript'te; sitenin sorguları PostgREST uyumlu bir motorla değişmeden çalışır, erişim kuralları (RLS) bu motorda
+- Giriş sistemi bizim: şifreler scrypt ile, oturum httpOnly çerezde, e-postalar kendi posta sunucumuzdan; mevcut kullanıcılar geçişte bir kez "Şifremi unuttum" ile yeni şifre belirler
+- Görsel ve videolar `clkyapigroup.com/media` altından sunucunun kendisinden (Supabase trafiği sıfır); CV'ler web'e kapalı klasörde, süreli imzalı bağlantıyla
+- Testler: 263 birim + bütünleşik test, üretim derlemesi temiz
+
 ### Ürün içerikleri tamamlandı (K-115)
 - 30 boş ürüne (membranlar, sürme yalıtımlar, EPS, XPS, nem bariyeri, buhar kesici, çimento, kum, alçı, harçlar, bantlar, bentonit, drenaj levhası, geotekstil) kısa açıklama, SEO açıklaması, gerçekler, teknik özellikler, SSS, form kartları + teklif bandı, açıklama ve kullanım alanları
 - 34 ürüne eksik açıklama ve kullanım alanları; dört sac ürününe ürüne özgü kısa açıklama

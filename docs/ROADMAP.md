@@ -313,13 +313,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 - [x] **Faz 29i** — Parametrik 3B konfigüratör motoru (K-110): altı tür tek motorda, standart profil kataloğu (0059), tür bazlı panel ayarları, altın veri testleri ✅ 2026-10-09
 - [ ] **Faz 29o** — Supabase'den çıkış (K-116): veritabanı cPanel MariaDB, dosyalar hosting diskinde, kendi giriş sistemimiz
   - [x] MariaDB veritabanı + kullanıcı + uzak erişim (geliştirme IP'si) · `mysql2` · son PostgreSQL şeması envanteri (`scripts/mysql/pg-inventory.mts`: 91 tablo, 62 fonksiyon, 130 tetikleyici, 187 RLS kuralı)
-  - [ ] Supabase açılınca tam veri yedeği (`backup-export.mjs`) + depo dosyalarının indirilmesi
-  - [ ] MariaDB şeması (üretici + elle ince ayar) · içe aktarma betiği
-  - [ ] `core/db` uyum katmanı (sorgu kurucu, gömülü ilişkiler, tablo kuralları) + yerel MariaDB ile testler
-  - [ ] RPC'ler ve tetikleyiciler → modül veri katmanında TS
-  - [ ] Giriş sistemi (oturum, sıfırlama, e-posta kodu, Google)
-  - [ ] Medya → `public_html/media/`, panel yüklemesi diske
-  - [ ] Canlıya geçiş · Supabase paketleri/ortam değişkenleri silinir · kullanıcılara şifre yenileme
+  - [ ] Supabase açılınca güncel veri yedeği (`backup-export.mjs`) → `import-backup.mjs --merge` + dosyalar (`migrate-media.mjs`) — *Supabase kotası sıfırlanmayı bekliyor; 18 Eylül yedeğiyle prova yapıldı (1586/1586 satır)*
+  - [x] MariaDB şeması (`gen-schema.mts`: 91 tablo + users, 139 FK, tüm CHECK'ler, slug/EN onayı satır içi) · tetikleyiciler (`gen-triggers.mts`: 98, 52 denetim) · içe aktarma (`import-backup.mjs`)
+  - [x] `core/db` PostgREST uyumlu motor (`rest/engine.ts`): modüllerin 400+ sorgusu değişmeden; RLS karşılığı `access.generated.ts` (187 kural); görünümler; hata kodları; READ COMMITTED + katı sql_mode
+  - [x] 49 RPC → TypeScript (`rpc/*`): içerik, arama, analitik, huni, konfigüratör, talep/başvuru/yorum, müşteri/satış, hesap, toplu e-posta; K-104 eşikleri veritabanı sayacıyla (`throttle`); `rpcCoverage.test` eksik işleyiciyi yakalar
+  - [x] Giriş sistemi: şifre (scrypt), httpOnly oturum, kayıt/doğrulama, sıfırlama, davet, e-posta değişikliği, deneme sınırları; auth e-posta şablonları (0004) — Google girişi yoktu
+  - [x] Dosyalar: `public_html/media` (LiteSpeed doğrudan, 1 yıl önbellek), gizli belgeler web dışında + imzalı bağlantı (`/api/files`); yerelde cPanel API
+  - [x] Betikler: `admin-recovery-link`, `create-super-admin`, `create-e2e-user`, `purge-e2e-data` MariaDB'de; dağıtım ayarları (`secrets.env` MYSQL_URL/FILE_URL_SECRET, `settings.env` medya klasörleri)
+  - [x] Testler: birim + MariaDB bütünleşik 263/263, üretim derlemesi temiz; istemci bileşenlerinin veri katmanına uzanan içe aktarmaları `server.ts`'e taşındı
+  - [ ] E2E (gerçek veriyle) · canlıya geçiş · Supabase betiklerinin arşivi + `@supabase/*` paketlerinin kaldırılması · kullanıcılara şifre yenileme
 - [x] **Faz 29n** — Ürün içerikleri tamamlandı (K-115): 30 boş ürün + 34 ürünün açıklama/kullanım metinleri; yalnız boş alanlara yazan betik ✅ 2026-10-16
   - [ ] *Ürün sahibi:* "Dikişli Membran" hangi ürün? (içerik boş bırakıldı)
 - [x] **Faz 29m** — Yapı malzemesi ürün sayfaları (K-114): 17 ürün, 4 yeni kesit türü, aile/alan-palet/yalnız-teklif, form kartları, panel gelişmiş ayarlar, E2E ✅ 2026-10-16
