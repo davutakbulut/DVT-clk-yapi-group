@@ -1,47 +1,70 @@
 #!/usr/bin/env node
 /**
- * Otomatik testlerin (E2E) veritabanında bıraktığı kayıtları temizler. Yalnız AÇIKÇA test olan satırlara dokunur:
- * adı "E2E " ile başlayan ya da e-postası teste ayrılmış alan adında (@example.com) olan kayıtlar + "POSTA TESTİ" talepleri.
+ * Otomatik testlerin (E2E) veritabanında bıraktığı kayıtları temizler (K-116: MariaDB, doğrudan SQL). Yalnız AÇIKÇA test olan
+ * satırlara dokunur: "E2E " / "e2e-" önekli adlar ve slug'lar, teste ayrılmış alan adları (@example.com, @sink.clkyapigroup.com),
+ * "POSTA TESTİ" talepleri, adsız-e-postasız "Anonim" sepet talepleri.
  *   node --env-file=.env.local scripts/purge-e2e-data.mjs          → yalnız sayar (kuru çalıştırma)
  *   node --env-file=.env.local scripts/purge-e2e-data.mjs --apply  → siler
  */
-import { createClient } from '@supabase/supabase-js';
-const apply = process.argv.includes('--apply');
-const s = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SECRET_KEY, { auth: { persistSession: false } });
+import { connect } from './mysql/lib.mjs';
 
-// Satış → müşteri zinciri: önce E2E müşterilerin satış kalemleri ve satışları, sonra müşteriler
-const e2eCustomerIds = async () => (await s.from('customers').select('id').or('company_title.ilike.E2E %,full_name.ilike.E2E %,email.ilike.%@example.com')).data?.map((r) => r.id) ?? [];
-const e2eSaleIds = async () => { const c = await e2eCustomerIds(); return c.length ? ((await s.from('sales').select('id').in('customer_id', c)).data?.map((r) => r.id) ?? []) : []; };
-const inList = (col, ids) => (q) => (ids.length ? q.in(col, ids) : q.eq(col, '00000000-0000-0000-0000-000000000000'));
-const saleIds = await e2eSaleIds();
-const customerIds = await e2eCustomerIds();
+export const E2E_CUSTOMERS = "SELECT id FROM customers WHERE company_title LIKE 'E2E %' OR full_name LIKE 'E2E %' OR email LIKE '%@example.com'";
+export const E2E_LEADS = "SELECT id FROM leads WHERE full_name LIKE 'E2E %' OR full_name LIKE 'POSTA TESTİ %' OR email LIKE '%@example.com' OR (full_name = 'Anonim' AND email IS NULL)";
+const E2E_SALES = `SELECT id FROM sales WHERE notes LIKE 'E2E %' OR customer_id IN (${E2E_CUSTOMERS}) OR lead_id IN (${E2E_LEADS})`;
+const slug = (prefix) => `JSON_VALUE(slug, '$.tr') LIKE '${prefix}%'`;
 
-const TARGETS = [
-  ['sale_items', inList('sale_id', saleIds)],
-  ['sales', inList('id', saleIds)],
-  // [tablo, filtre] — sıra önemli: önce bağımlılar
-  ['configurations', (q) => q.ilike('name', 'E2E %')],
-  ['job_applications', (q) => q.or('full_name.ilike.E2E %,email.ilike.%@example.com')],
-  ['leads', (q) => q.or('full_name.ilike.E2E %,full_name.ilike.POSTA TESTİ %,email.ilike.%@example.com')],
-  ['customers', inList('id', customerIds)],
-  // Sepet/teklif testlerinin isimsiz, e-postasız, mesajsız 'Anonim' talepleri (gerçek form ad ister)
-  ['leads', (q) => q.eq('full_name', 'Anonim').is('email', null)],
-  // Bağlı kaydı silinmiş bildirimler (lead.created → talep artık yok)
-  ['notifications', (q) => q.or('payload->>full_name.ilike.E2E %,payload->>full_name.eq.Anonim,payload->>author_name.ilike.E2E %,payload->>name.ilike.E2E %')],
-  ['testimonials', (q) => q.ilike('author_name', 'E2E %')],
-  ['field_videos', (q) => q.ilike('title->>tr', 'E2E %')],
-  ['ui_translations', (q) => q.ilike('value', 'E2E %')],
-  ['email_queue', (q) => q.ilike('to_email', '%@example.com')],
-  ['email_logs', (q) => q.or('to_email.ilike.%@example.com,to_email.ilike.%@sink.clkyapigroup.com')],
-  // Toplu e-posta (K-108): E2E kampanyaları (alıcı satırları cascade) ve teste ayrılmış / yerel çöp kutusu adreslerinin engel kayıtları
-  ['mail_suppressions', (q) => q.or('email.ilike.%@example.com,email.ilike.%@sink.clkyapigroup.com')],
-  ['mail_campaigns', (q) => q.ilike('name', 'E2E %')],
-  ['mail_campaign_templates', (q) => q.ilike('name', 'E2E %')],
+// [tablo, koşul] — sıra önemli: önce bağımlılar (fatura/tahsilat satışa RESTRICT)
+export const TARGETS = [
+  ['payments', `sale_id IN (${E2E_SALES})`],
+  ['invoices', `sale_id IN (${E2E_SALES})`],
+  ['payment_schedules', `sale_id IN (${E2E_SALES})`],
+  ['sale_items', `sale_id IN (${E2E_SALES})`],
+  ['sales', `id IN (SELECT id FROM (${E2E_SALES}) s)`],
+  ['configurations', "name LIKE 'E2E %'"],
+  ['job_applications', "full_name LIKE 'E2E %' OR email LIKE 'e2e-%' OR email LIKE '%@example.com'"],
+  ['leads', `id IN (SELECT id FROM (${E2E_LEADS}) l)`],
+  ['customers', `id IN (SELECT id FROM (${E2E_CUSTOMERS}) c)`],
+  ['notifications', "JSON_VALUE(payload, '$.full_name') LIKE 'E2E %' OR JSON_VALUE(payload, '$.full_name') = 'Anonim' OR JSON_VALUE(payload, '$.author_name') LIKE 'E2E %' OR JSON_VALUE(payload, '$.name') LIKE 'E2E %'"],
+  ['projects', slug('e2e-proje-')],
+  ['services', slug('e2e-hizmet-')],
+  ['blog_posts', slug('e2e-yazi-')],
+  ['job_postings', slug('e2e-ilan-')],
+  ['products', slug('e2e-urun-')],
+  ['solutions', slug('e2e-cozum-')],
+  ['price_guides', slug('e2e-fiyat-')],
+  ['material_prices', "code LIKE 'E2E-%'"],
+  ['testimonials', "author_name LIKE 'E2E %'"],
+  ['field_videos', "JSON_VALUE(title, '$.tr') LIKE 'E2E %'"],
+  ['redirects', "source_path LIKE '/e2e-%'"],
+  ['ui_translations', "value LIKE 'E2E %'"],
+  ['translation_glossary', "term_tr LIKE 'E2E %'"],
+  ['funnels', "name LIKE 'E2E Huni %'"],
+  ['steel_profiles', "code LIKE 'E2E%'"],
+  ['error_logs', "message LIKE 'E2E %' OR module = 'e2e' OR path LIKE '/tr/e2e-yok-sayfa-%'"],
+  ['email_queue', "to_email LIKE '%@example.com'"],
+  ['email_logs', "to_email LIKE '%@example.com' OR to_email LIKE '%@sink.clkyapigroup.com'"],
+  // Toplu e-posta (K-108): E2E kampanyaları (alıcı satırları cascade) ve teste ayrılmış adreslerin engel kayıtları
+  ['mail_suppressions', "email LIKE '%@example.com' OR email LIKE '%@sink.clkyapigroup.com'"],
+  ['mail_campaigns', "name LIKE 'E2E %'"],
+  ['mail_campaign_templates', "name LIKE 'E2E %'"],
 ];
-for (const [table, filter] of TARGETS) {
-  const count = await filter(s.from(table).select('id', { count: 'exact', head: true }));
-  if (count.error) { console.log(`${table.padEnd(18)} atlandı (${count.error.message.slice(0, 60)})`); continue; }
-  if (!apply || !count.count) { console.log(`${table.padEnd(18)} ${count.count} kayıt${apply ? '' : ' (kuru çalıştırma)'}`); continue; }
-  const del = await filter(s.from(table).delete()).select('id');
-  console.log(`${table.padEnd(18)} ${del.error ? 'HATA: ' + del.error.message.slice(0, 100) : del.data.length + ' silindi'}`);
+
+export async function purge(apply) {
+  const db = await connect();
+  for (const [table, where] of TARGETS) {
+    try {
+      const [[{ n }]] = await db.query(`SELECT COUNT(*) AS n FROM \`${table}\` WHERE ${where}`);
+      if (!apply || !n) {
+        console.log(`${table.padEnd(24)} ${n} kayıt${apply ? '' : ' (kuru çalıştırma)'}`);
+        continue;
+      }
+      const [res] = await db.query(`DELETE FROM \`${table}\` WHERE ${where}`);
+      console.log(`${table.padEnd(24)} ${res.affectedRows} silindi`);
+    } catch (e) {
+      console.log(`${table.padEnd(24)} HATA: ${String(e.message).slice(0, 120)}`);
+    }
+  }
+  await db.end();
 }
+
+if (import.meta.url === `file://${process.argv[1]}`) await purge(process.argv.includes('--apply'));
