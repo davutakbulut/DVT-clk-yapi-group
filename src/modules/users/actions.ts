@@ -2,9 +2,10 @@
 
 import { z } from 'zod';
 import { ALL_ROLES, requireRole } from '@/core/auth';
-import { getSiteUrl } from '@/core/config/site';
+import { inviteByEmail } from '@/core/auth/authFlow';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
+import { getPathname } from '@/i18n/navigation';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 
 /** Rol/aktiflik: yalnız super_admin (tetikleyici guard_profile_privileges de zorlar; burada anlaşılır hata). */
@@ -25,22 +26,24 @@ export async function updateProfileRole(_prev: ActionState, formData: FormData):
 }
 
 /**
- * Davet: service-role istek yolunda KULLANILMAZ (Kural 4). Bunun yerine e-postaya giriş bağlantısı (OTP) gönderilir;
- * kullanıcı ilk girişte 'member' profiliyle oluşur, rolü super_admin buradan atar.
+ * Davet: kullanıcı 'member' profiliyle şifresiz açılır, e-postasına 7 gün geçerli bağlantı gider (K-116); bağlantı oturum
+ * açar ve şifre belirleme sayfasına götürür. Rolü super_admin buradan atar.
  */
 export async function inviteUser(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const gate = await requireRole(['super_admin', 'admin']);
   if (!gate.ok) return failed('forbidden');
   const parsed = z.object({ email: z.string().trim().email(), fullName: z.string().trim().max(120).optional().or(z.literal('')) }).safeParse(Object.fromEntries(formData));
   if (!parsed.success) return failed('validation', { email: 'validation' });
-  const client = await createServerClient();
-  if (!client.ok) return failed('notConfigured');
-  const { error } = await client.data.auth.signInWithOtp({
+  // personel dili TR (davet metni ve açılış sayfası)
+  const res = await inviteByEmail({
     email: parsed.data.email,
-    options: { shouldCreateUser: true, data: { full_name: parsed.data.fullName || undefined }, emailRedirectTo: `${getSiteUrl().origin}/auth/callback?next=${encodeURIComponent('/tr/hesabim')}` },
+    fullName: parsed.data.fullName ?? '',
+    locale: 'tr',
+    setPasswordPath: getPathname({ locale: 'tr', href: '/reset-password' }),
+    accountPath: getPathname({ locale: 'tr', href: '/account' }),
   });
-  if (error) {
-    logger.warn('Davet gönderilemedi', { module: 'users', code: error.code, status: error.status });
+  if (!res.ok) {
+    logger.warn('Davet gönderilemedi', { module: 'users', message: res.error.message });
     return failed('unexpected');
   }
   return DONE;

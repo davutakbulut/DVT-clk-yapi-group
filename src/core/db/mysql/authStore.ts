@@ -168,14 +168,14 @@ export function consumeToken(purposes: readonly TokenPurpose[], token: string): 
   });
 }
 
-/** K-104: son `minutes` dakikadaki başarısız deneme sayısı (e-posta ve IP ayrı ayrı). */
-export function recentAttempts(kind: string, email: string | null, ip: string | null, minutes: number): Promise<Result<{ byEmail: number; byIp: number }>> {
+/** K-104: son `minutes` dakikadaki deneme sayısı (e-posta ve IP ayrı ayrı). Varsayılan yalnız başarısızlar; `all` → bağlantı isteği kotası. */
+export function recentAttempts(kind: string, email: string | null, ip: string | null, minutes: number, all = false): Promise<Result<{ byEmail: number; byIp: number }>> {
   return svc(async (conn) => {
     const [r] = await rows(
       conn,
       `SELECT COALESCE(SUM(email = ?), 0) AS by_email, COALESCE(SUM(ip = ?), 0) AS by_ip FROM auth_attempts
-        WHERE kind = ? AND ok = FALSE AND created_at > UTC_TIMESTAMP(6) - INTERVAL ? MINUTE AND (email = ? OR ip = ?)`,
-      [email ? normalizeEmail(email) : null, ip, kind, minutes, email ? normalizeEmail(email) : null, ip],
+        WHERE kind = ? AND (ok = FALSE OR ?) AND created_at > UTC_TIMESTAMP(6) - INTERVAL ? MINUTE AND (email = ? OR ip = ?)`,
+      [email ? normalizeEmail(email) : null, ip, kind, all ? 1 : 0, minutes, email ? normalizeEmail(email) : null, ip],
     );
     return { byEmail: Number(r?.['by_email'] ?? 0), byIp: Number(r?.['by_ip'] ?? 0) };
   });
@@ -186,6 +186,18 @@ export function recordAttempt(kind: string, email: string | null, ip: string | n
     await conn.query('INSERT INTO auth_attempts (kind, email, ip, ok) VALUES (?, ?, ?, ?)', [kind, email ? normalizeEmail(email) : null, ip, okFlag ? 1 : 0]);
     // tablo büyümesin: bir günden eski kayıtlar atılır
     await conn.query('DELETE FROM auth_attempts WHERE created_at < UTC_TIMESTAMP(6) - INTERVAL 1 DAY LIMIT 500');
+  });
+}
+
+/** Giriş postası kuyruğa en yüksek öncelikle girer; `email_queue` istek yolunda yalnız buradan yazılır (kullanıcıya INSERT yetkisi yok). */
+export function enqueueMail(input: { templateKey: string; to: string; locale: 'tr' | 'en'; payload: Record<string, unknown>; userId: string }): Promise<Result<string>> {
+  return svc(async (conn) => {
+    const [r] = await rows(
+      conn,
+      "INSERT INTO email_queue (template_key, to_email, locale, payload, priority, related_type, related_id) VALUES (?, ?, ?, ?, 1, 'auth', ?) RETURNING id",
+      [input.templateKey, input.to, input.locale, JSON.stringify(input.payload), input.userId],
+    );
+    return String(r!['id']);
   });
 }
 

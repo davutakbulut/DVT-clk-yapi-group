@@ -40,14 +40,3 @@ export function fieldErrorsFrom(error: z.ZodError): Record<string, AuthErrorKey>
   }
   return out;
 }
-
-/** Supabase auth hatasını kullanıcıya gösterilebilir anahtara indirger; ayrıntı log'a gider, ekrana değil. */
-export function mapAuthError(message: string, status?: number): AuthErrorKey {
-  const m = message.toLocaleLowerCase('en');
-  if (status === 429 || m.includes('rate limit')) return 'rateLimited';
-  if (m.includes('email not confirmed')) return 'emailNotConfirmed';
-  if (m.includes('invalid login credentials') || m.includes('invalid credentials')) return 'invalidCredentials';
-  if (m.includes('session') && (m.includes('missing') || m.includes('expired'))) return 'sessionExpired';
-  if (m.includes('token') && (m.includes('expired') || m.includes('invalid'))) return 'sessionExpired';
-  return 'unexpected';
-}

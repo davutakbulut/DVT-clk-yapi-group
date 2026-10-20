@@ -21,7 +21,7 @@ const BACKOFF_MINUTES = [1, 5, 15, 60, 360];
  * Kuyruk işçisi (07-MAIL): pending işleri kilitler → şablonu render eder → Resend, olmazsa SMTP → email_logs + durum.
  * Her koşu cron_heartbeats'e iz bırakır; sessiz duruş stale_cron_jobs'ta görünür. Çöken işçinin kilidi zaman aşımıyla düşer.
  */
-export async function processMailQueue(limit = 20): Promise<Result<MailQueueSummary>> {
+export async function processMailQueue(limit = 20, ids?: readonly string[]): Promise<Result<MailQueueSummary>> {
   const started = Date.now();
   const client = createServiceClient();
   if (!client.ok) return client;
@@ -29,22 +29,22 @@ export async function processMailQueue(limit = 20): Promise<Result<MailQueueSumm
   const now = new Date();
   const nowIso = now.toISOString();
 
-  // Kilit: pending ve vadesi gelmiş, ya kilitsiz ya da kilidi bayat olan işler
-  const { data: due, error: dueError } = await db
-    .from('email_queue')
-    .select('id')
+  // Kilit: pending ve vadesi gelmiş, ya kilitsiz ya da kilidi bayat olan işler. `ids`: giriş postasının anında gönderimi (K-116)
+  let dueQuery = db.from('email_queue').select('id');
+  if (ids) dueQuery = dueQuery.in('id', [...ids]);
+  const { data: due, error: dueError } = await dueQuery
     .eq('status', 'pending')
     .lte('next_attempt_at', nowIso)
     .or(`locked_at.is.null,locked_at.lt.${new Date(now.getTime() - LOCK_TIMEOUT_MS).toISOString()}`)
     .order('priority')
     .order('next_attempt_at')
     .limit(limit);
-  if (dueError) return finish(db, started, err(appError('external_service', dueError.message, { module: 'jobs/mail' })), 0, 0, 0);
-  const ids = (due ?? []).map((r) => r.id);
-  if (ids.length === 0) return finish(db, started, ok({ claimed: 0, sent: 0, failed: 0, durationMs: Date.now() - started }), 0, 0, 0);
+  if (dueError) return finish(db, !ids, started, err(appError('external_service', dueError.message, { module: 'jobs/mail' })), 0, 0, 0);
+  const dueIds = (due ?? []).map((r) => r.id);
+  if (dueIds.length === 0) return finish(db, !ids, started, ok({ claimed: 0, sent: 0, failed: 0, durationMs: Date.now() - started }), 0, 0, 0);
 
-  const { data: jobs, error: lockError } = await db.from('email_queue').update({ status: 'processing', locked_at: nowIso }).in('id', ids).eq('status', 'pending').select('id, template_key, to_email, to_name, locale, payload, attempts, max_attempts, related_type, related_id');
-  if (lockError) return finish(db, started, err(appError('external_service', lockError.message, { module: 'jobs/mail' })), 0, 0, 0);
+  const { data: jobs, error: lockError } = await db.from('email_queue').update({ status: 'processing', locked_at: nowIso }).in('id', dueIds).eq('status', 'pending').select('id, template_key, to_email, to_name, locale, payload, attempts, max_attempts, related_type, related_id');
+  if (lockError) return finish(db, !ids, started, err(appError('external_service', lockError.message, { module: 'jobs/mail' })), 0, 0, 0);
 
   const keys = [...new Set((jobs ?? []).map((j) => j.template_key))];
   const { data: templates } = await db.from('email_templates').select('key, subject, body, is_active').in('key', keys);
@@ -63,6 +63,8 @@ export async function processMailQueue(limit = 20): Promise<Result<MailQueueSumm
       continue;
     }
     const template = templateByKey.get(job.template_key);
+    // giriş bağlantısı tek kullanımlık jeton taşır: işi biten satırda (yöneticiler kuyruğu okuyabilir) tutulmaz
+    const scrub = job.template_key.startsWith('auth.') ? { payload: {} } : {};
     const attempts = job.attempts + 1;
     let outcome: { ok: boolean; provider: 'resend' | 'smtp'; messageId?: string; error?: string };
     let subject = job.template_key;
@@ -83,22 +85,23 @@ export async function processMailQueue(limit = 20): Promise<Result<MailQueueSumm
       .single();
     if (outcome.ok) {
       sent++;
-      await db.from('email_queue').update({ status: 'sent', attempts, locked_at: null, last_error: null }).eq('id', job.id);
+      await db.from('email_queue').update({ status: 'sent', attempts, locked_at: null, last_error: null, ...scrub }).eq('id', job.id);
       if (job.related_type === 'lead_reply' && job.related_id && log) await db.from('lead_replies').update({ email_log_id: log.id, sent_at: new Date().toISOString() }).eq('id', job.related_id);
     } else {
       failed++;
       const exhausted = attempts >= job.max_attempts;
       const backoff = BACKOFF_MINUTES[Math.min(attempts - 1, BACKOFF_MINUTES.length - 1)]!;
-      await db.from('email_queue').update({ status: exhausted ? 'failed' : 'pending', attempts, locked_at: null, last_error: outcome.error ?? null, next_attempt_at: new Date(Date.now() + backoff * 60_000).toISOString() }).eq('id', job.id);
+      await db.from('email_queue').update({ ...(exhausted ? scrub : {}), status: exhausted ? 'failed' : 'pending', attempts, locked_at: null, last_error: outcome.error ?? null, next_attempt_at: new Date(Date.now() + backoff * 60_000).toISOString() }).eq('id', job.id);
       logger.warn('Mail gonderilemedi', { module: 'jobs/mail', template: job.template_key, attempts, error: outcome.error });
     }
   }
-  return finish(db, started, ok({ claimed: jobs?.length ?? 0, sent, failed, durationMs: Date.now() - started }), jobs?.length ?? 0, sent, failed);
+  return finish(db, !ids, started, ok({ claimed: jobs?.length ?? 0, sent, failed, durationMs: Date.now() - started }), jobs?.length ?? 0, sent, failed);
 }
 
-async function finish<T>(db: ReturnType<typeof createServiceClient> extends Result<infer C> ? C : never, started: number, result: Result<T>, claimed: number, sent: number, failed: number): Promise<Result<T>> {
+async function finish<T>(db: ReturnType<typeof createServiceClient> extends Result<infer C> ? C : never, beat: boolean, started: number, result: Result<T>, claimed: number, sent: number, failed: number): Promise<Result<T>> {
   const duration = Date.now() - started;
-  await db.from('cron_heartbeats').upsert(
+  // anında gönderim cron sayılmaz: durmuş cron'u gizlemesin
+  if (beat) await db.from('cron_heartbeats').upsert(
     { job_key: 'mail_queue', expected_interval_seconds: 120, last_run_at: new Date().toISOString(), last_status: result.ok ? 'ok' : 'error', last_error: result.ok ? null : result.error.message, last_duration_ms: duration },
     { onConflict: 'job_key' },
   );

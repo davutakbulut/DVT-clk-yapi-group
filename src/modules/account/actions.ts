@@ -4,6 +4,8 @@ import { getLocale } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { getCurrentUser } from '@/core/auth';
+import { checkPassword, replacePassword, requestEmailChange } from '@/core/auth/authFlow';
+import { endSession, getSessionToken } from '@/core/auth/session';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
 import { getPathname } from '@/i18n/navigation';
@@ -46,7 +48,7 @@ export async function saveMyCustomer(_prev: AuthFormState, formData: FormData): 
   if (error) { logger.error('Firma bilgisi kaydedilemedi', { module: MODULE, code: error.code }); return { ok: false, error: 'unexpected' }; }
   return { ok: true, done: true };
 }
-/** Şifre değiştirme: mevcut şifreyle yeniden doğrulama + updateUser */
+/** Şifre değiştirme: mevcut şifreyle yeniden doğrulama; diğer cihazlardaki oturumlar kapanır. */
 export async function changePassword(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = z.object({ current: z.string().min(1, 'validation'), password: z.string().min(8, 'passwordShort').max(128), passwordConfirm: z.string() })
     .refine((v) => v.password === v.passwordConfirm, { path: ['passwordConfirm'], message: 'passwordMismatch' }).safeParse(Object.fromEntries(formData));
@@ -54,27 +56,22 @@ export async function changePassword(_prev: AuthFormState, formData: FormData): 
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: 'sessionExpired' };
   if (!(await rateLimit(`pw:${user.id}`, 5 * AUTH_MULT, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-  const check = await client.data.auth.signInWithPassword({ email: user.email, password: parsed.data.current });
-  if (check.error) return { ok: false, error: 'invalidCredentials', fieldErrors: { current: 'invalidCredentials' } };
-  const { error } = await client.data.auth.updateUser({ password: parsed.data.password });
-  if (error) { logger.warn('Şifre güncellenemedi', { module: MODULE, status: error.status }); return { ok: false, error: 'unexpected' }; }
+  if (!(await checkPassword(user.id, parsed.data.current))) return { ok: false, error: 'invalidCredentials', fieldErrors: { current: 'invalidCredentials' } };
+  const res = await replacePassword(user.id, parsed.data.password, await getSessionToken());
+  if (!res.ok) { logger.warn('Şifre güncellenemedi', { module: MODULE, message: res.error.message }); return { ok: false, error: 'unexpected' }; }
   return { ok: true, done: true };
 }
-/** E-posta değiştirme: yeni adrese onay bağlantısı gider (Supabase "secure email change" ayarına göre eski adrese de). */
+/** E-posta değiştirme: mevcut şifreyle doğrulama; onay bağlantısı yeni adrese gider, onaylanınca adres değişir. */
 export async function changeEmail(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = z.object({ email: z.string().trim().email('emailInvalid').max(254), current: z.string().min(1, 'validation') }).safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: 'sessionExpired' };
-  if (!(await rateLimit(`email:${user.id}`, 3 * AUTH_MULT, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: iki adrese onay maili
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-  const check = await client.data.auth.signInWithPassword({ email: user.email, password: parsed.data.current });
-  if (check.error) return { ok: false, error: 'invalidCredentials', fieldErrors: { current: 'invalidCredentials' } };
-  const { error } = await client.data.auth.updateUser({ email: parsed.data.email });
-  if (error) { logger.warn('E-posta değiştirilemedi', { module: MODULE, status: error.status }); return { ok: false, error: error.status === 429 ? 'rateLimited' : 'unexpected' }; }
+  if (!(await rateLimit(`email:${user.id}`, 3 * AUTH_MULT, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: onay maili kotası
+  if (!(await checkPassword(user.id, parsed.data.current))) return { ok: false, error: 'invalidCredentials', fieldErrors: { current: 'invalidCredentials' } };
+  const locale = (await getLocale()) as Locale;
+  const res = await requestEmailChange({ userId: user.id, newEmail: parsed.data.email, locale, next: getPathname({ locale, href: '/account' }) });
+  if (!res.ok) { logger.warn('E-posta değiştirilemedi', { module: MODULE, message: res.error.message }); return { ok: false, error: 'unexpected' }; }
   return { ok: true, done: true };
 }
 /** Hesap silme (RPC delete_my_account; personel silinemez): "SİL" onayı → oturum kapanır → ana sayfa. */
@@ -85,7 +82,7 @@ export async function deleteMyAccount(_prev: AuthFormState, formData: FormData):
   if (!client.ok) return { ok: false, error: 'notConfigured' };
   const { error } = await client.data.rpc('delete_my_account');
   if (error) { logger.error('Hesap silinemedi', { module: MODULE, code: error.code }); return { ok: false, error: 'unexpected' }; }
-  await client.data.auth.signOut({ scope: 'local' });
+  await endSession();
   const locale = (await getLocale()) as Locale;
   redirect(getPathname({ locale, href: '/' }));
 }

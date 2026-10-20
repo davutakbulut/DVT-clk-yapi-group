@@ -1,21 +1,19 @@
 'use server';
 
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getLocale } from 'next-intl/server';
-import { getCurrentUser, safeReturnUrl } from '@/core/auth';
-import { getSiteUrl } from '@/core/config/site';
+import { getCurrentUser, isAppRole, isStaffRole, safeReturnUrl } from '@/core/auth';
+import { mailAllowed, passwordSignIn, replacePassword, sendRecovery, signUpWithPassword } from '@/core/auth/authFlow';
+import { endSession, getSessionToken, setSessionCookie } from '@/core/auth/session';
 import { createServerClient } from '@/core/db/createServerClient';
 import { logger } from '@/core/observability/logger';
+import { clientIp } from '@/core/request/clientIp';
 import { getPathname } from '@/i18n/navigation';
 import type { Locale } from '@/i18n/routing';
-import { fieldErrorsFrom, forgotSchema, loginSchema, mapAuthError, profileSchema, registerSchema, resetSchema, type AuthFormState } from './domain/schemas';
-import { headers } from 'next/headers';
-import { rateLimit } from '@/core/rate-limit';
-import { clientIp } from '@/core/request/clientIp';
+import { fieldErrorsFrom, forgotSchema, loginSchema, profileSchema, registerSchema, resetSchema, type AuthFormState } from './domain/schemas';
 
 const MODULE = 'auth';
-const AUTH_MULT = Math.max(1, Number(process.env['AUTH_RATE_LIMIT'] ?? 1) || 1); // E2E aynı IP'den çok giriş yapar → LEAD_RATE_LIMIT gibi yükseltilir
-
 
 async function localePath(pathname: '/' | '/login' | '/account' | '/reset-password'): Promise<string> {
   const locale = (await getLocale()) as Locale;
@@ -25,43 +23,31 @@ async function localePath(pathname: '/' | '/login' | '/account' | '/reset-passwo
 export async function signIn(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
-  // K-104: Supabase Auth'un IP sınırı sunucu IP'sine işler; deneme selini burada durdur (IP: 10/5 dk, e-posta: 8/15 dk)
-  const ip = clientIp(await headers());
-  const email = parsed.data.email.toLocaleLowerCase('en');
-  if (!(await rateLimit(`signin:ip:${ip}`, 10 * AUTH_MULT, 300)).allowed || !(await rateLimit(`signin:email:${email}`, 8 * AUTH_MULT, 900)).allowed) return { ok: false, error: 'rateLimited' };
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-
-  const { error } = await client.data.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
-  if (error) {
-    logger.warn('Giriş başarısız', { module: MODULE, code: error.code, status: error.status });
-    return { ok: false, error: mapAuthError(error.message, error.status) };
+  const h = await headers();
+  // K-104 eşiği (e-posta 10, IP 30 başarısız / 15 dk) akışın içinde
+  const res = await passwordSignIn(parsed.data.email, parsed.data.password, { ip: clientIp(h), userAgent: h.get('user-agent') });
+  if (!res.ok) {
+    logger.warn('Giriş başarısız', { module: MODULE, reason: res.error });
+    return { ok: false, error: res.error };
   }
+  await setSessionCookie(res.data.token);
   // Üye → hesabım; personel → panel. next= varsa ve güvenliyse o kazanır.
   // redirect() DEĞİL: action içindeki 303 yönlendirmesinde Set-Cookie tarayıcıya bazen işlenmeden RSC gezinmesi başlıyor
   // (E2E yakaladı). Çerez bu 200 yanıtla yazılır; istemci tam sayfa yönlendirmesi yapar, JS'siz durumda giriş sayfası
   // oturumu görüp kendisi yönlendirir.
-  const user = await getCurrentUser();
-  const fallback = user?.isStaff ? '/admin' : await localePath('/account');
+  const role = res.data.role;
+  const fallback = role && isAppRole(role) && isStaffRole(role) ? '/admin' : await localePath('/account');
   return { ok: true, done: true, redirectTo: safeReturnUrl(parsed.data.next, fallback) };
 }
 
 export async function signUp(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = registerSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
-  if (!(await rateLimit(`signup:ip:${clientIp(await headers())}`, 5 * AUTH_MULT, 3600)).allowed) return { ok: false, error: 'rateLimited' }; // K-104: onay e-postası kotası
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-
-  const next = await localePath('/account');
-  const { error } = await client.data.auth.signUp({
-    email: parsed.data.email,
-    password: parsed.data.password,
-    options: { data: { full_name: parsed.data.fullName }, emailRedirectTo: `${getSiteUrl().origin}/auth/callback?next=${encodeURIComponent(next)}` },
-  });
-  if (error) {
-    logger.warn('Kayıt başarısız', { module: MODULE, code: error.code, status: error.status });
-    return { ok: false, error: mapAuthError(error.message, error.status) };
+  if (!(await mailAllowed('signup', parsed.data.email, clientIp(await headers())))) return { ok: false, error: 'rateLimited' }; // K-104: onay e-postası kotası
+  const res = await signUpWithPassword({ ...parsed.data, locale: (await getLocale()) as Locale, next: await localePath('/account') });
+  if (!res.ok) {
+    logger.warn('Kayıt başarısız', { module: MODULE, message: res.error.message });
+    return { ok: false, error: 'unexpected' };
   }
   // Var olan e-postada da aynı yanıt: hesap varlığı sızdırılmaz.
   return { ok: true, done: true };
@@ -70,33 +56,27 @@ export async function signUp(_prev: AuthFormState, formData: FormData): Promise<
 export async function requestPasswordReset(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = forgotSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
-  // K-104: sıfırlama e-postası projede ortak kotadan düşer → e-posta başına 3/saat, IP başına 10/saat
-  const ip = clientIp(await headers());
-  if (!(await rateLimit(`reset:email:${parsed.data.email.toLocaleLowerCase('en')}`, 3 * AUTH_MULT, 3600)).allowed || !(await rateLimit(`reset:ip:${ip}`, 10 * AUTH_MULT, 3600)).allowed) return { ok: true, done: true }; // sessiz: adres varlığı sızmaz
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-
-  const next = await localePath('/reset-password');
-  const { error } = await client.data.auth.resetPasswordForEmail(parsed.data.email, { redirectTo: `${getSiteUrl().origin}/auth/callback?next=${encodeURIComponent(next)}` });
-  if (error && error.status === 429) return { ok: false, error: 'rateLimited' };
-  if (error) logger.warn('Şifre sıfırlama isteği başarısız', { module: MODULE, code: error.code });
+  // K-104: e-posta başına 3/saat, IP başına 10/saat; aşımda da aynı yanıt (adres varlığı sızmaz)
+  if (!(await mailAllowed('recovery', parsed.data.email, clientIp(await headers())))) return { ok: true, done: true };
+  const res = await sendRecovery({ email: parsed.data.email, locale: (await getLocale()) as Locale, next: await localePath('/reset-password') });
+  if (!res.ok) logger.warn('Şifre sıfırlama isteği başarısız', { module: MODULE, message: res.error.message });
   // Adres kayıtlı olsun olmasın aynı mesaj.
   return { ok: true, done: true };
 }
 
+/** Sıfırlama/davet bağlantısıyla açılan oturumda yeni şifre; diğer cihazlardaki oturumlar kapanır. */
 export async function updatePassword(_prev: AuthFormState, formData: FormData): Promise<AuthFormState> {
   const parsed = resetSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { ok: false, error: 'validation', fieldErrors: fieldErrorsFrom(parsed.error) };
-  const client = await createServerClient();
-  if (!client.ok) return { ok: false, error: 'notConfigured' };
-
-  const { error } = await client.data.auth.updateUser({ password: parsed.data.password });
-  if (error) {
-    logger.warn('Şifre güncellenemedi', { module: MODULE, code: error.code, status: error.status });
-    return { ok: false, error: mapAuthError(error.message, error.status) };
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: 'sessionExpired' };
+  const res = await replacePassword(user.id, parsed.data.password, await getSessionToken());
+  if (!res.ok) {
+    logger.warn('Şifre güncellenemedi', { module: MODULE, message: res.error.message });
+    return { ok: false, error: 'unexpected' };
   }
-  const userId = (await client.data.auth.getUser()).data.user?.id;
-  if (userId) await client.data.from('profiles').update({ must_change_password: false }).eq('id', userId);
+  const client = await createServerClient();
+  if (client.ok) await client.data.from('profiles').update({ must_change_password: false }).eq('id', user.id);
   return { ok: true, done: true };
 }
 
@@ -120,10 +100,8 @@ export async function updateProfile(_prev: AuthFormState, formData: FormData): P
   return { ok: true, done: true };
 }
 
+/** Yalnız bu cihazın oturumu kapanır (paralel E2E işçileri aynı hesapla çalışır; kullanıcı için de beklenen bu). */
 export async function signOut(): Promise<void> {
-  const client = await createServerClient();
-  // scope 'local': yalnız bu cihazın oturumu kapanır. Varsayılan 'global' kullanıcının TÜM oturumlarını iptal ediyor —
-  // paralel E2E işçileri aynı hesapla çalışırken birbirini düşürdü; gerçek kullanıcı için de beklenen davranış bu.
-  if (client.ok) await client.data.auth.signOut({ scope: 'local' });
+  await endSession();
   redirect(await localePath('/'));
 }

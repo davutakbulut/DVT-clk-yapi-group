@@ -1,7 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
-import { readSession, type SessionUser } from '@/core/db/mysql/authStore';
+import { deleteSession, readSession, type SessionUser } from '@/core/db/mysql/authStore';
 import type { Actor } from '@/core/db/mysql/pool';
 import { logger } from '@/core/observability/logger';
 import { SESSION_COOKIE } from './authCookie';
@@ -33,4 +33,21 @@ export const getSessionUser = cache(async (): Promise<SessionUser | null> => {
 export async function getSessionActor(): Promise<Actor> {
   const user = await getSessionUser();
   return user ? { kind: 'user', userId: user.id, role: user.role } : { kind: 'anon' };
+}
+
+export async function getSessionToken(): Promise<string | null> {
+  return (await cookies()).get(SESSION_COOKIE)?.value ?? null;
+}
+
+/** Server Action içinde: yeni oturum çerezi (route handler yanıtı çerezi kendisi yazar). */
+export async function setSessionCookie(token: string): Promise<void> {
+  (await cookies()).set(SESSION_COOKIE, token, SESSION_COOKIE_OPTIONS);
+}
+
+/** Çıkış: oturum satırı silinir, çerez boşaltılır. */
+export async function endSession(): Promise<void> {
+  const jar = await cookies();
+  const token = jar.get(SESSION_COOKIE)?.value;
+  if (token) await deleteSession(token);
+  jar.set(SESSION_COOKIE, '', { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
 }

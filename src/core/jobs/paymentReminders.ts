@@ -1,6 +1,7 @@
 import 'server-only';
 import { getSiteUrl } from '@/core/config/site';
 import { createServiceClient } from '@/core/db/createServiceClient';
+import { findUserById } from '@/core/db/mysql/authStore';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import { logger } from '@/core/observability/logger';
 
@@ -50,8 +51,8 @@ export async function runPaymentRemindersJob(): Promise<Result<ReminderSummary>>
     const assignee = sale?.assigned_to ?? null;
     let email: string | null = null;
     if (assignee) {
-      const { data: u } = await db.auth.admin.getUserById(assignee);
-      email = u.user?.email ?? null;
+      const u = await findUserById(assignee);
+      email = u.ok ? (u.data?.email ?? null) : null;
     }
     if (email) {
       const q = await db.from('email_queue').insert({ template_key: 'payment.reminder', to_email: email, locale: 'tr', payload, priority: 2, related_type: 'payment_schedule', related_id: row.id });
