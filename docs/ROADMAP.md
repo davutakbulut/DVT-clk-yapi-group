@@ -311,6 +311,15 @@ Her fazın sonunda: **test edildi → commit → PR → CI geçti → merge → 
 - [x] **Faz 29g** — Toplu e-posta (K-108): kampanya taslağı, kitle kuralları, zamanlı/saatlik sınırlı gönderim, listeden çıkma, engel listesi, panel ✅ 2026-09-30
 - [x] **Faz 29h** — Toplu e-posta hazır şablonları (K-109): 14 şablon, seçici + canlı önizleme, doldurulmamış alan engeli, şablon yönetimi ✅ 2026-09-30
 - [x] **Faz 29i** — Parametrik 3B konfigüratör motoru (K-110): altı tür tek motorda, standart profil kataloğu (0059), tür bazlı panel ayarları, altın veri testleri ✅ 2026-10-09
+- [ ] **Faz 29o** — Supabase'den çıkış (K-116): veritabanı cPanel MariaDB, dosyalar hosting diskinde, kendi giriş sistemimiz
+  - [x] MariaDB veritabanı + kullanıcı + uzak erişim (geliştirme IP'si) · `mysql2` · son PostgreSQL şeması envanteri (`scripts/mysql/pg-inventory.mts`: 91 tablo, 62 fonksiyon, 130 tetikleyici, 187 RLS kuralı)
+  - [ ] Supabase açılınca tam veri yedeği (`backup-export.mjs`) + depo dosyalarının indirilmesi
+  - [ ] MariaDB şeması (üretici + elle ince ayar) · içe aktarma betiği
+  - [ ] `core/db` uyum katmanı (sorgu kurucu, gömülü ilişkiler, tablo kuralları) + yerel MariaDB ile testler
+  - [ ] RPC'ler ve tetikleyiciler → modül veri katmanında TS
+  - [ ] Giriş sistemi (oturum, sıfırlama, e-posta kodu, Google)
+  - [ ] Medya → `public_html/media/`, panel yüklemesi diske
+  - [ ] Canlıya geçiş · Supabase paketleri/ortam değişkenleri silinir · kullanıcılara şifre yenileme
 - [x] **Faz 29n** — Ürün içerikleri tamamlandı (K-115): 30 boş ürün + 34 ürünün açıklama/kullanım metinleri; yalnız boş alanlara yazan betik ✅ 2026-10-16
   - [ ] *Ürün sahibi:* "Dikişli Membran" hangi ürün? (içerik boş bırakıldı)
 - [x] **Faz 29m** — Yapı malzemesi ürün sayfaları (K-114): 17 ürün, 4 yeni kesit türü, aile/alan-palet/yalnız-teklif, form kartları, panel gelişmiş ayarlar, E2E ✅ 2026-10-16

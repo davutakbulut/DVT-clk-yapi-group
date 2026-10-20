@@ -559,6 +559,19 @@ Katalog, `assets/` altındaki gerçek iş fotoğraflarının gösterdiği dört 
 - **Dil:** metinler TR; EN alanlarına dokunulmadı (K-07/K-08: insan onaylı çeviri).
 - **Bırakılan:** "Dikişli Membran" — hangi ürünü kastettiği belirsiz (piyasada tek bir karşılığı yok); uydurmamak için boş bırakıldı, ürün sahibinden bilgi bekleniyor.
 
+### K-116 🔴 · Supabase'den çıkış: veritabanı cPanel MariaDB, dosyalar hosting diskinde, giriş kendi oturum sistemimiz
+**Bağlam:** 2026-10-20'de ücretsiz plandaki önbellekli çıkış kotası (5 GB; asıl tüketici ana sayfadaki videolar) aşıldı ve Supabase veritabanı, giriş ve depolamayı 402 ile kapattı: ürün ayrıntıları boş göründü, panel girişi ve şifre sıfırlama çalışmadı. Site K-82'den beri ücretli kendi hosting'imizde (cPanel, Node 22) çalışıyor; medyanın Supabase'de kalması o geçişte gözden kaçtı. K-85'in gerekçesi ("hosting diski dağıtımda silinir") hatalıydı — dağıtımın dokunmadığı kalıcı bir klasör yeterliydi. Ürün sahibi: "Supabase ile herhangi bir bağlantımız kalmasın."
+**Karar:** K-01 ve K-02'nin Supabase kısmı değiştirildi.
+- **Veritabanı:** cPanel MariaDB 11.8 (`clkyapig_site`, kullanıcı `clkyapig_app`; PostgreSQL bu sunucuda yok). Şema, göç dosyalarının PGlite'ta oluşturduğu son PostgreSQL şemasından üretilir (`scripts/mysql/pg-inventory.mts`). Tür eşlemesi: uuid → UUID, jsonb ve diziler → JSON, timestamptz → DATETIME(6) UTC, ifade/kısmi benzersiz indeks → STORED üretilmiş sütun.
+- **Sorgu katmanı:** `core/db` istemcileri aynı arayüzü (`from().select().eq()…`, gömülü ilişkiler) MariaDB üzerinde sunar; modül veri katmanları az değişir. Sürücü `mysql2`.
+- **RLS'in yerine:** tablo başına okuma/yazma kuralları uyum katmanında (TS), ayrıca servis katmanındaki açık yetki kontrolleri (Kural 4 zaten bunu şart koşuyordu).
+- **plpgsql RPC'ler ve tetikleyiciler:** ilgili modülün veri katmanında TypeScript + transaction; `updated_at` → `ON UPDATE CURRENT_TIMESTAMP`.
+- **Giriş:** kullanıcı, oturum ve sıfırlama jetonu tabloları; scrypt (node:crypto); httpOnly çerez; e-postalar cPanel SMTP'den (mevcut `core/mail`). Supabase'deki şifre özetleri dışarı alınamadığından mevcut kullanıcılar bir kez "şifremi unuttum" ile yeni şifre belirler.
+- **Dosyalar:** hosting'de `~/public_html/media/` (dağıtım klasörünün dışında), Apache doğrudan sunar; panel yüklemeleri sunucuda bu klasöre yazılır. Adres tek yerden üretilir (`core/storage/publicUrl.ts`).
+- **Veri aktarımı:** `scripts/backup-export.mjs` JSON yedeği → MariaDB'ye içe aktarma betiği; dosyalar Supabase deposundan indirilip hosting'e yüklenir.
+- **Geçiş sırası:** şema → veri → katman → modüller → giriş → dosyalar → Supabase paketleri ve ortam değişkenleri koddan silinir. Geçiş bitene kadar canlı site Supabase'de çalışır, kesinti yok.
+**Bilinen bedeli:** RLS'in verdiği veritabanı düzeyindeki ikinci savunma hattı kalmaz; tek hat uygulama katmanıdır (veritabanı kullanıcısı yalnız bu uygulamanın, dışarıdan yalnız izinli IP). PGlite testleri yerel MariaDB'ye taşınır. 7.600 satırlık PostgreSQL göç geçmişi arşive alınır; MariaDB için yeni göç dizisi başlar.
+
 ## Değiştirilen Kararlar
 
 - **K-55 (steel_profiles boş başlar) → K-110:** profil kataloğu yayınlanmış standart tablolardan tohumlanır; fiyat/yorum/proje/sertifika için kural aynen sürer.
