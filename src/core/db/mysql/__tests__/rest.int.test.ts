@@ -103,6 +103,10 @@ describe.skipIf(!enabled)('MariaDB PostgREST motoru', async () => {
     expect(hidden.data).toEqual([]);
     const del = await service.from('site_settings').delete().eq('key', key).select('key');
     expect(del.data).toEqual([{ key }]);
+    // temsil istemeyen güncelle/sil 204 döner (gövdesiz) — hata vermemeli
+    const quiet = await service.from('site_settings').update({ is_public: true }).eq('key', `${key}-yok`);
+    expect(quiet.error).toBeNull();
+    expect(quiet.status).toBe(204);
   });
 
   it('maybeSingle boşta null, single boşta PGRST116', async () => {

@@ -7,8 +7,9 @@ import { handleTable, mapError, type RestError } from './engine';
 /** postgrest-js'in istek attığı sanal kök: ağa çıkmaz, `createDbFetch` yakalar. */
 export const DB_BASE_URL = 'http://mariadb.internal';
 
+// 204/205/304 gövde taşıyamaz: Response yapıcısı boş dizeyle bile "Invalid response status code" fırlatır (güncelle/sil yanıtları)
 const json = (status: number, body: unknown, headers: Record<string, string> = {}) =>
-  new Response(body == null ? '' : JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...headers } });
+  new Response(body == null || status === 204 || status === 205 || status === 304 ? null : JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...headers } });
 const errorResponse = (e: RestError) => json(e.status, { code: e.code, message: e.message, details: e.details, hint: e.hint });
 
 /**
