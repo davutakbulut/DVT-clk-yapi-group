@@ -15,7 +15,8 @@ vi.mock('next/headers', () => ({
 }));
 
 const enabled = !!process.env['MYSQL_URL'] && process.env['MYSQL_URL'] === process.env['MYSQL_TEST_URL'];
-const TAG = `t${Date.now().toString(36)}`;
+// paralel test dosyaları aynı milisaniyede başlayabilir: rastgele ek çakışmayı önler
+const TAG = `t${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 const mail = (name: string) => `${TAG}-${name}@example.com`;
 const ip = (name: string) => `${TAG}-${name}`;
 const CLIENT = { ip: ip('main'), userAgent: 'vitest' };

@@ -6,7 +6,8 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 vi.mock('server-only', () => ({}));
 
 const enabled = !!process.env['MYSQL_URL'] && process.env['MYSQL_URL'] === process.env['MYSQL_TEST_URL'];
-const TAG = `t${Date.now().toString(36)}`;
+// paralel test dosyaları aynı milisaniyede başlayabilir: rastgele ek çakışmayı önler
+const TAG = `t${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 
 describe.skipIf(!enabled)('MariaDB PostgREST motoru', async () => {
   const { createDbFetch, DB_BASE_URL } = await import('../rest/fetch');
@@ -31,6 +32,12 @@ describe.skipIf(!enabled)('MariaDB PostgREST motoru', async () => {
     await service.from('products').delete().like('slug->>tr', `${TAG}%`);
     await service.from('product_categories').delete().like('slug->>tr', `${TAG}%`);
     await service.from('site_settings').delete().like('key', `${TAG}%`);
+  });
+
+  it('bağlantı ayarları uygulanır: UTC, katı sql_mode, READ COMMITTED, aktör değişkenleri', async () => {
+    const { withConnection } = await import('../pool');
+    const res = await withConnection({ kind: 'user', userId: '00000000-0000-4000-8000-000000000009', role: 'editor' }, async (conn) => (await conn.query('SELECT @@time_zone z, @@sql_mode m, @@transaction_isolation i, @app_uid u, @app_role r, @app_kind k'))[0]);
+    expect(res.ok && (res.data as Record<string, unknown>[])[0]).toEqual({ z: '+00:00', m: 'STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', i: 'READ-COMMITTED', u: '00000000-0000-4000-8000-000000000009', r: 'editor', k: 'user' });
   });
 
   it('JSON, boolean ve zaman PostgREST biçiminde döner', async () => {

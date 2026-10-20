@@ -6,7 +6,8 @@ import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 vi.mock('server-only', () => ({}));
 
 const enabled = !!process.env['MYSQL_URL'] && process.env['MYSQL_URL'] === process.env['MYSQL_TEST_URL'];
-const TAG = `t${Date.now().toString(36)}`;
+// paralel test dosyaları aynı milisaniyede başlayabilir: rastgele ek çakışmayı önler
+const TAG = `t${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
 const D = `${TAG}.clk.local`;
 const CITY = `İzmir ${TAG}`;
 const CITY_LOWER = `izmir ${TAG}`;

@@ -29,8 +29,10 @@ function getPool(): Result<Pool> {
     connectTimeout: 5000,
   });
   pool.on('connection', (conn) => {
-    // Sunucunun varsayılan sql_mode'u katı değil: uzun/geçersiz değer uyarıyla kırpılıp yazılırdı (PostgreSQL hata verir)
-    conn.query("SET time_zone = '+00:00', sql_mode = 'STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'");
+    // Sunucunun varsayılan sql_mode'u katı değil: uzun/geçersiz değer uyarıyla kırpılıp yazılırdı (PostgreSQL hata verir).
+    // READ COMMITTED: PostgreSQL varsayılanı. MariaDB 11.8'in REPEATABLE READ + snapshot isolation'ı eşzamanlı güncellemede
+    // "Record has changed since last read" hatası veriyordu (plpgsql'den taşınan mantık bunu beklemez).
+    conn.query("SET time_zone = '+00:00', sql_mode = 'STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', transaction_isolation = 'READ-COMMITTED'");
   });
   return ok(pool);
 }
