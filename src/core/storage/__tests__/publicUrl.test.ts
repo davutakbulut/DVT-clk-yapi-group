@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { mediaAlt, mediaSrcSet, publicStorageUrl, type MediaAsset } from '../publicUrl';
 
-const URL = 'https://abc.supabase.co/';
+const URL = 'https://ornek.com/media/';
 const asset: MediaAsset = {
   bucket: 'media',
   path: 'celik-konstruksiyon/abcdef123456.webp',
@@ -14,14 +14,14 @@ const asset: MediaAsset = {
 
 describe('core/storage', () => {
   it('public URL: sondaki / temizlenir, yol parçaları kodlanır', () => {
-    expect(publicStorageUrl(URL, { bucket: 'media', path: 'a b/c.webp' })).toBe('https://abc.supabase.co/storage/v1/object/public/media/a%20b/c.webp');
+    expect(publicStorageUrl(URL, { bucket: 'media', path: 'a b/c.webp' })).toBe('https://ornek.com/media/a%20b/c.webp');
   });
 
   it('srcset: varyantlar küçükten büyüğe, tam boy en sonda', () => {
     expect(mediaSrcSet(URL, asset)).toBe(
-      'https://abc.supabase.co/storage/v1/object/public/media/celik-konstruksiyon/abcdef123456-w480.webp 480w, ' +
-        'https://abc.supabase.co/storage/v1/object/public/media/celik-konstruksiyon/abcdef123456-w960.webp 960w, ' +
-        'https://abc.supabase.co/storage/v1/object/public/media/celik-konstruksiyon/abcdef123456.webp 1600w',
+      'https://ornek.com/media/celik-konstruksiyon/abcdef123456-w480.webp 480w, ' +
+        'https://ornek.com/media/celik-konstruksiyon/abcdef123456-w960.webp 960w, ' +
+        'https://ornek.com/media/celik-konstruksiyon/abcdef123456.webp 1600w',
     );
     expect(mediaSrcSet(URL, { ...asset, width: null, variants: {} })).toBe('');
   });

@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
@@ -9,7 +9,7 @@ import { PostCard } from './PostCard';
 
 /** Ana sayfa 06 — son 3 yazı. Yazı yoksa bölüm render edilmez. */
 export async function BlogSection({ locale, index = '04' }: { readonly locale: string; readonly index?: string }) {
-  const [result, env, t] = await Promise.all([getCachedPostList(locale), readSupabasePublicEnv(), getTranslations('Blog')]);
+  const [result, env, t] = await Promise.all([getCachedPostList(locale), readMediaEnv(), getTranslations('Blog')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'blog', code: result.error.code });
     return null;

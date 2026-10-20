@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { ModuleBoundary } from '@/core/errors';
 import { absoluteUrl, breadcrumbList, JsonLd } from '@/core/seo';
 import { publicStorageUrl } from '@/core/storage';
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const solution = await load(locale, slug);
   if (!solution) return {};
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   const og = solution.seo.ogImage ?? solution.cover;
   return {
     title: solution.seo.title || solution.title,

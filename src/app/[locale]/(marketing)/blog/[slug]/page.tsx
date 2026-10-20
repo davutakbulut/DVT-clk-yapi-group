@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { ModuleBoundary } from '@/core/errors';
 import { absoluteUrl, breadcrumbList, JsonLd, organizationId } from '@/core/seo';
 import { publicStorageUrl } from '@/core/storage';
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const post = await load(locale, slug);
   if (!post) return {};
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   const og = post.seo.ogImage ?? post.cover;
   return {
     title: post.seo.title || post.title,
@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
     if (fresh) permanentRedirect(getPathname({ href: { pathname: '/blog/[slug]', params: { slug: fresh } }, locale: locale as Locale }));
     notFound();
   }
-  const [t, list, env] = await Promise.all([getTranslations('Blog'), getCachedPostList(locale), readSupabasePublicEnv()]);
+  const [t, list, env] = await Promise.all([getTranslations('Blog'), getCachedPostList(locale), readMediaEnv()]);
   const all = list.ok ? list.data : [];
   const index = all.findIndex((p) => p.id === post.id);
   // Liste yeniden-eskiye: "sonraki" daha eski yazı, "önceki" daha yeni.

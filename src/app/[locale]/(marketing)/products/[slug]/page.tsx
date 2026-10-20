@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { ModuleBoundary } from '@/core/errors';
 import { absoluteUrl, breadcrumbList, JsonLd, organizationId } from '@/core/seo';
 import { publicStorageUrl } from '@/core/storage';
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const product = await load(locale, slug);
   if (!product) return {};
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   const og = product.seo.ogImage ?? product.cover;
   return {
     title: product.seo.title || product.name,
@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: Props) {
     if (fresh) permanentRedirect(getPathname({ href: { pathname: '/products/[slug]', params: { slug: fresh } }, locale: locale as Locale }));
     notFound();
   }
-  const [t, list, env, reviews] = await Promise.all([getTranslations('Products'), getCachedProductList(locale), readSupabasePublicEnv(), getCachedTestimonialsFor(locale, { productId: product.id })]);
+  const [t, list, env, reviews] = await Promise.all([getTranslations('Products'), getCachedProductList(locale), readMediaEnv(), getCachedTestimonialsFor(locale, { productId: product.id })]);
   // Aynı kategorideki yayındaki ürünler: aile çubuğu (K-90) tümünü, "ilgili ürünler" ilk dördünü gösterir
   const families = (list.ok ? list.data : []).filter((p) => product.category && p.category?.id === product.category.id);
   const related = families.filter((p) => p.id !== product.id).slice(0, 4);

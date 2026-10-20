@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
@@ -25,7 +25,7 @@ const PATH_ANCHORS = ['#malzeme', '#uygulama'] as const;
  * Veri gelmezse metin hero'ya düşer (Katman 2); CTA yalnız route'u olan yola bağlanır (K-50).
  */
 export async function HeroSection({ locale, siteName }: Props) {
-  const [result, env, t, settings] = await Promise.all([getCachedHero(), readSupabasePublicEnv(), getTranslations('Home'), getPublicSettings()]);
+  const [result, env, t, settings] = await Promise.all([getCachedHero(), readMediaEnv(), getTranslations('Home'), getPublicSettings()]);
   if (!result.ok) logger.warn(result.error.message, { module: 'home', code: result.error.code });
   const hero = result.ok ? result.data : null;
   const copy = settings.homePage.hero;

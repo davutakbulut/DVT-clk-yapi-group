@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { ModuleBoundary } from '@/core/errors';
 import { absoluteUrl, breadcrumbList, JsonLd } from '@/core/seo';
 import { publicStorageUrl } from '@/core/storage';
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const g = await load(locale, slug);
   if (!g) return {};
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   const og = g.seo.ogImage ?? g.cover;
   return {
     title: g.seo.title || g.title,
@@ -49,7 +49,7 @@ export default async function ConfiguratorGuidePage({ params }: Props) {
     if (fresh) permanentRedirect(getPathname({ href: { pathname: '/configurator-guide/[slug]', params: { slug: fresh } }, locale: locale as Locale }));
     notFound();
   }
-  const [t, env] = await Promise.all([getTranslations('ConfiguratorGuide'), readSupabasePublicEnv()]);
+  const [t, env] = await Promise.all([getTranslations('ConfiguratorGuide'), readMediaEnv()]);
   const self: AppHref = { pathname: '/configurator-guide/[slug]', params: { slug: g.slug } };
   const jsonLd: Record<string, unknown>[] = [
     { '@type': 'WebPage', '@id': absoluteUrl(self, locale as Locale), name: g.title, description: g.seo.description || g.summary || undefined, inLanguage: locale, dateModified: g.updatedAt || undefined, about: { '@type': 'SoftwareApplication', name: g.title, applicationCategory: 'DesignApplication', operatingSystem: 'Web', url: absoluteUrl(CONFIGURATOR_HREF[g.key], locale as Locale) } },

@@ -1,5 +1,5 @@
 import { isVisibleIn } from '@/core/content';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { pickLocale } from '@/lib/localized';
@@ -10,7 +10,7 @@ import { getCachedAbout } from '../../data/homeRepository';
 
 /** Hakkımızda: metin + görsel + istatistikler (01-PUBLIC-PAGES). O dilde yayında değilse (K-07/K-08) bölüm hiç render edilmez. */
 export async function AboutSection({ locale, index = '01', headingLevel = 'h2' }: { readonly locale: string; readonly index?: string; readonly headingLevel?: 'h1' | 'h2' }) {
-  const [result, env] = await Promise.all([getCachedAbout(), readSupabasePublicEnv()]);
+  const [result, env] = await Promise.all([getCachedAbout(), readMediaEnv()]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'home', code: result.error.code });
     return null;

@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
@@ -17,7 +17,7 @@ import { TechDrawing } from '@/ui/TechDrawing';
  * konfigüratör ve fiyat rehberi bağlantıları eklenir). Hizmet yoksa bölüm çizilmez.
  */
 export async function ApplicationSection({ locale, index = '02' }: { readonly locale: string; readonly index?: string }) {
-  const [result, env, settings, t] = await Promise.all([getCachedServiceList(locale), readSupabasePublicEnv(), getPublicSettings(), getTranslations('Home')]);
+  const [result, env, settings, t] = await Promise.all([getCachedServiceList(locale), readMediaEnv(), getPublicSettings(), getTranslations('Home')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'home', code: result.error.code });
     return null;

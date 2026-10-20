@@ -3,7 +3,7 @@ import { notFound, permanentRedirect } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ModuleBoundary } from '@/core/errors';
 import { absoluteUrl, breadcrumbList, JsonLd, organizationId } from '@/core/seo';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { publicStorageUrl } from '@/core/storage';
 import { buildAlternates } from '@/i18n/alternates';
 import { getPathname, type AppHref } from '@/i18n/navigation';
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const service = await load(locale, slug);
   if (!service) return {};
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   const og = service.seo.ogImage ?? service.cover;
   return {
     title: service.seo.title || service.title,

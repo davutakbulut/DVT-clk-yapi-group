@@ -2,6 +2,7 @@ import 'server-only';
 import { createServiceClient } from '@/core/db/createServiceClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import { logger } from '@/core/observability/logger';
+import { removeFiles } from '@/core/storage/fileStore';
 
 export interface PurgeSummary {
   readonly purged: number;
@@ -33,13 +34,13 @@ export async function runPurgeApplicationsJob(): Promise<Result<PurgeSummary>> {
   let filesRemoved = 0;
   let fileErrors = 0;
   for (const [bucket, paths] of byBucket) {
-    const { data: removed, error: rmError } = await db.storage.from(bucket).remove(paths);
-    if (rmError) {
+    const removed = bucket === 'private-documents' ? await removeFiles(bucket, paths) : null;
+    if (!removed?.ok) {
       fileErrors += paths.length;
-      logger.warn('CV dosyalari silinemedi', { module: 'jobs/purge', bucket, message: rmError.message });
+      logger.warn('CV dosyalari silinemedi', { module: 'jobs/purge', bucket, message: removed ? removed.error.message : 'bilinmeyen depo' });
       continue;
     }
-    filesRemoved += removed?.length ?? 0;
+    filesRemoved += removed.data;
   }
   return finish(ok({ purged: rows.length, filesRemoved, fileErrors }));
 }

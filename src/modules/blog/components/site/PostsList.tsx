@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { Link } from '@/i18n/navigation';
 import { Container } from '@/ui/Container';
@@ -17,7 +17,7 @@ interface Props {
 
 /** /blog · /blog/kategori/[slug] · /blog/etiket/[slug]: kategori çipleri + kart ızgarası. */
 export async function PostsList({ locale, categorySlug, tagSlug, title, lead }: Props) {
-  const [list, cats, env, t] = await Promise.all([getCachedPostList(locale), getCachedBlogCategories(locale), readSupabasePublicEnv(), getTranslations('Blog')]);
+  const [list, cats, env, t] = await Promise.all([getCachedPostList(locale), getCachedBlogCategories(locale), readMediaEnv(), getTranslations('Blog')]);
   if (!list.ok) logger.warn(list.error.message, { module: 'blog', code: list.error.code });
   const categories = cats.ok ? cats.data : [];
   const items = (list.ok ? list.data : []).filter((p) => (!categorySlug || p.category?.slug === categorySlug) && (!tagSlug || p.tagSlugs.includes(tagSlug)));

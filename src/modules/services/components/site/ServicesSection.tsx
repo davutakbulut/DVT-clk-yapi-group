@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
@@ -9,7 +9,7 @@ import { ServiceCard } from './ServiceCard';
 
 /** Ana sayfa 04 — hizmet kartları (öne çıkanlar önce, en çok 6). Hizmet yoksa bölüm render edilmez. */
 export async function ServicesSection({ locale, index = '02' }: { readonly locale: string; readonly index?: string }) {
-  const [result, env, t] = await Promise.all([getCachedServiceList(locale), readSupabasePublicEnv(), getTranslations('Services')]);
+  const [result, env, t] = await Promise.all([getCachedServiceList(locale), readMediaEnv(), getTranslations('Services')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'services', code: result.error.code });
     return null;

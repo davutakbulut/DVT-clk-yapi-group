@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -23,7 +23,7 @@ interface Props {
  * bu hizmetle yapılan projeler (Faz 8 verisi; yoksa yok) → SSS → teklif CTA (route gelince). Boş bölüm render edilmez.
  */
 export async function ServiceDetail({ service, locale, extra }: Props) {
-  const [env, t] = await Promise.all([readSupabasePublicEnv(), getTranslations('Services')]);
+  const [env, t] = await Promise.all([readMediaEnv(), getTranslations('Services')]);
   const url = env.ok ? env.data.url : null;
   const cover = service.cover && url ? service.cover : null;
   const quoteRoute = '/get-quote' in routing.pathnames;

@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Button } from '@/ui/Button';
@@ -41,7 +41,7 @@ export async function RatingBadge({ ratings }: { readonly ratings: readonly numb
 
 /** Ana sayfa (footer'dan önce): yayında yorum varsa carousel, yoksa yorum yazmaya davet kartı (uydurma yorum yok). Veri hatasında hiç render edilmez. */
 export async function TestimonialsSection({ locale, index }: { readonly locale: string; readonly index?: string }) {
-  const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readSupabasePublicEnv(), getTranslations('Testimonials')]);
+  const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readMediaEnv(), getTranslations('Testimonials')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'testimonials', code: result.error.code });
     return null;
@@ -90,7 +90,7 @@ export async function TestimonialsSection({ locale, index }: { readonly locale: 
 /** Hizmet/proje/ürün detayı: yalnız o varlığa bağlı yorumlar; yoksa hiç render edilmez. JSON-LD'yi route katmanı ekler. */
 export async function TestimonialsFor({ items, headingId = 'entity-reviews' }: { readonly items: readonly TestimonialData[]; readonly headingId?: string }) {
   if (items.length === 0) return null;
-  const [env, t] = await Promise.all([readSupabasePublicEnv(), getTranslations('Testimonials')]);
+  const [env, t] = await Promise.all([readMediaEnv(), getTranslations('Testimonials')]);
   return (
     <Container as="section" aria-labelledby={headingId} className="grid gap-8 pb-[var(--section-y)]">
       <div className="flex flex-wrap items-end justify-between gap-4">

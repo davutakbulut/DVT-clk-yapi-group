@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { TechDrawing } from '@/ui/TechDrawing';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { Button } from '@/ui/Button';
 import { Container } from '@/ui/Container';
@@ -13,7 +13,7 @@ interface Cta { readonly kicker: string; readonly title: string; readonly text: 
 
 /** Ana sayfa — proje galerisi (öne çıkanlar önce, en çok 6; CTA kartı varsa 5 + kart, K-111). Proje yoksa bölüm render edilmez. */
 export async function ProjectsSection({ locale, index = '03', title, cta }: { readonly locale: string; readonly index?: string; readonly title?: string; readonly cta?: Cta | null }) {
-  const [result, env, t] = await Promise.all([getCachedProjectList(locale), readSupabasePublicEnv(), getTranslations('Projects')]);
+  const [result, env, t] = await Promise.all([getCachedProjectList(locale), readMediaEnv(), getTranslations('Projects')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'projects', code: result.error.code });
     return null;

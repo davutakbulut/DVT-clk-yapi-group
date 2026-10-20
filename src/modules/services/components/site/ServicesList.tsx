@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
@@ -16,7 +16,7 @@ import { getCachedServiceList, type ServiceCardData } from '../../data/servicesR
  * neden çelik · süreç · araçlar · SSS · CTA. Metinler site_settings 'services.page'; hizmetler veritabanından. Boş bölüm render edilmez.
  */
 export async function ServicesList({ locale }: { readonly locale: string }) {
-  const [result, env, t, settings] = await Promise.all([getCachedServiceList(locale), readSupabasePublicEnv(), getTranslations('Services'), getPublicSettings()]);
+  const [result, env, t, settings] = await Promise.all([getCachedServiceList(locale), readMediaEnv(), getTranslations('Services'), getPublicSettings()]);
   if (!result.ok) logger.warn(result.error.message, { module: 'services', code: result.error.code });
   const items = result.ok ? result.data : [];
   const copy = settings.servicesPage ?? EMPTY_SERVICES_PAGE; // eski önbellek nesnesinde alan yoksa (dağıtım geçişi) bölümler sessizce boş

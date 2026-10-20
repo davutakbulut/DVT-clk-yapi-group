@@ -6,8 +6,9 @@ import { logger } from '@/core/observability/logger';
 import { BLUR_WIDTH, WEBP_QUALITY, contentHash, imagePaths, planWidths, readVideoMetadata, uuidFromHash } from '@/lib/mediaPipeline.ts';
 import { slugify } from '@/lib/slugify';
 import { MAX_UPLOAD_BYTES, detectFileType, mimeMatches } from '../domain/fileType';
+import { putFile } from '@/core/storage/fileStore';
 
-const BUCKET = 'media';
+const BUCKET = 'media' as const;
 
 export interface UploadInput {
   readonly bytes: Buffer;
@@ -37,8 +38,8 @@ export async function processUpload(client: ServerDbClient, input: UploadInput):
   const alt: Record<string, string> = { ...(input.altTr ? { tr: input.altTr } : {}), ...(input.altEn ? { en: input.altEn } : {}) };
 
   const upload = async (path: string, body: Buffer, contentType: string) => {
-    const { error } = await client.storage.from(BUCKET).upload(path, body, { contentType, upsert: true, cacheControl: '31536000' });
-    if (error) throw new Error(`Yükleme başarısız ${path}: ${error.message}`); // static-ok: log mesajı
+    const res = await putFile(BUCKET, path, body, contentType);
+    if (!res.ok) throw new Error(`Yükleme başarısız ${path}: ${res.error.message}`); // static-ok: log mesajı
   };
 
   try {

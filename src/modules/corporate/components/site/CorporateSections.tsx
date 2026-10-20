@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
@@ -35,7 +35,7 @@ export async function CorporateLinks() {
 }
 
 export async function TeamGrid({ locale }: { readonly locale: string }) {
-  const [result, env, t] = await Promise.all([getCachedTeam(locale), readSupabasePublicEnv(), getTranslations('Corporate')]);
+  const [result, env, t] = await Promise.all([getCachedTeam(locale), readMediaEnv(), getTranslations('Corporate')]);
   if (!result.ok) logger.warn(result.error.message, { module: 'corporate', code: result.error.code });
   const items = result.ok ? result.data : [];
   const url = env.ok ? env.data.url : null;
@@ -75,7 +75,7 @@ export async function TeamGrid({ locale }: { readonly locale: string }) {
 }
 
 export async function ClientLogos({ locale }: { readonly locale: string }) {
-  const [result, env, t] = await Promise.all([getCachedClients(locale), readSupabasePublicEnv(), getTranslations('Corporate')]);
+  const [result, env, t] = await Promise.all([getCachedClients(locale), readMediaEnv(), getTranslations('Corporate')]);
   if (!result.ok) logger.warn(result.error.message, { module: 'corporate', code: result.error.code });
   const items = result.ok ? result.data : [];
   const url = env.ok ? env.data.url : null;
@@ -117,7 +117,7 @@ export async function ClientLogos({ locale }: { readonly locale: string }) {
 }
 
 export async function CertificatesList({ locale }: { readonly locale: string }) {
-  const [result, env, t, format] = await Promise.all([getCachedCertificates(locale), readSupabasePublicEnv(), getTranslations('Corporate'), getFormatter()]);
+  const [result, env, t, format] = await Promise.all([getCachedCertificates(locale), readMediaEnv(), getTranslations('Corporate'), getFormatter()]);
   if (!result.ok) logger.warn(result.error.message, { module: 'corporate', code: result.error.code });
   const items = result.ok ? result.data : [];
   const url = env.ok ? env.data.url : null;

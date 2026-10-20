@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
@@ -35,7 +35,7 @@ export function SolutionCard({ solution, locale, supabaseUrl, headingLevel: Head
 
 /** /cozumler: yayındaki çözüm sayfaları (K-26). Boşsa kısa not; hata sessiz. */
 export async function SolutionsList({ locale }: { readonly locale: string }) {
-  const [list, env, t] = await Promise.all([getCachedSolutionList(locale), readSupabasePublicEnv(), getTranslations('Solutions')]);
+  const [list, env, t] = await Promise.all([getCachedSolutionList(locale), readMediaEnv(), getTranslations('Solutions')]);
   if (!list.ok) logger.warn(list.error.message, { module: 'solutions', code: list.error.code });
   const items = list.ok ? list.data : [];
   const url = env.ok ? env.data.url : null;
@@ -59,7 +59,7 @@ export async function SolutionsList({ locale }: { readonly locale: string }) {
 
 /** Hizmet detayı vb. için: bir hizmete bağlı çözümler (kart ızgarası). Boşsa hiç render edilmez. */
 export async function SolutionsForService({ serviceId, locale }: { readonly serviceId: string; readonly locale: string }) {
-  const [list, env, t] = await Promise.all([getCachedSolutionList(locale), readSupabasePublicEnv(), getTranslations('Solutions')]);
+  const [list, env, t] = await Promise.all([getCachedSolutionList(locale), readMediaEnv(), getTranslations('Solutions')]);
   const items = list.ok ? list.data.filter((s) => s.serviceId === serviceId) : [];
   if (items.length === 0) return null;
   const url = env.ok ? env.data.url : null;
@@ -84,7 +84,7 @@ export async function SolutionsForService({ serviceId, locale }: { readonly serv
  * Boş bölüm render edilmez; CTA metni veritabanından (boşsa bant yok).
  */
 export async function SolutionDetail({ solution, locale }: { readonly solution: SolutionDetailData; readonly locale: string }) {
-  const [env, t] = await Promise.all([readSupabasePublicEnv(), getTranslations('Solutions')]);
+  const [env, t] = await Promise.all([readMediaEnv(), getTranslations('Solutions')]);
   const url = env.ok ? env.data.url : null;
   const cover = solution.cover && url ? solution.cover : null;
   const quoteRoute = '/get-quote' in routing.pathnames;

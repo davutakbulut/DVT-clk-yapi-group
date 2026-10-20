@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { ModuleBoundary } from '@/core/errors';
 import { breadcrumbList, JsonLd } from '@/core/seo';
 import { buildAlternates } from '@/i18n/alternates';
@@ -21,7 +21,7 @@ export default async function ConfiguratorGuidesPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   if (!(await moduleEnabled('configurator'))) notFound();
-  const [t, list, env] = await Promise.all([getTranslations('ConfiguratorGuide'), getCachedGuideList(locale), readSupabasePublicEnv()]);
+  const [t, list, env] = await Promise.all([getTranslations('ConfiguratorGuide'), getCachedGuideList(locale), readMediaEnv()]);
   return (
     <>
       <JsonLd data={breadcrumbList([{ name: t('home'), href: '/' }, { name: t('title'), href: '/configurator-guide' }], locale as Locale)} />

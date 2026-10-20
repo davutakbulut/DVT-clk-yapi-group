@@ -14,6 +14,7 @@ import { logger } from '@/core/observability/logger';
 import { rateLimit } from '@/core/rate-limit';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import type { Json } from '@/types/database';
+import { putFile } from '@/core/storage/fileStore';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
 const ADMINS = ['super_admin', 'admin'] as const;
@@ -350,9 +351,9 @@ export async function submitApplication(_prev: ActionState, formData: FormData):
     if (!ext) return failed('fileType', { cv: 'validation' });
     cvPath = `cv/${randomUUID()}.${ext}`;
     const contentType = ext === 'pdf' ? 'application/pdf' : ext === 'docx' ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' : 'application/msword';
-    const { error } = await client.data.storage.from('private-documents').upload(cvPath, bytes, { contentType, upsert: false });
-    if (error) {
-      logger.error('CV yuklenemedi', { module: 'corporate', message: error.message });
+    const stored = await putFile('private-documents', cvPath, bytes, contentType);
+    if (!stored.ok) {
+      logger.error('CV yuklenemedi', { module: 'corporate', message: stored.error.message });
       return failed('unexpected');
     }
   }

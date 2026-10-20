@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { getFormatter, getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -27,7 +27,7 @@ interface Props {
  * → önceki/sonraki → teklif CTA. Künyede yalnız dolu alanlar; uydurma değer yok.
  */
 export async function ProjectDetail({ project, locale, related, prev, next, extra }: Props) {
-  const [env, t, format] = await Promise.all([readSupabasePublicEnv(), getTranslations('Projects'), getFormatter()]);
+  const [env, t, format] = await Promise.all([readMediaEnv(), getTranslations('Projects'), getFormatter()]);
   const url = env.ok ? env.data.url : null;
   const cover = project.cover && url ? project.cover : null;
   const quoteRoute = '/get-quote' in routing.pathnames;

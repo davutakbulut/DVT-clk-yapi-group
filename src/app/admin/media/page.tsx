@@ -1,14 +1,14 @@
 import NextLink from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { requireRole } from '@/core/auth';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { MediaCard, UploadForm } from '@/modules/media';
 import { listMedia } from '@/modules/media/server';
 
 export default async function AdminMediaPage({ searchParams }: { readonly searchParams: Promise<{ folder?: string }> }) {
   const [t, gate, { folder }] = await Promise.all([getTranslations('Admin'), requireRole(['super_admin', 'admin', 'editor']), searchParams]);
   if (!gate.ok) return <p role="alert">{t('errors.forbidden')}</p>;
-  const [media, env] = [await listMedia(folder ?? null), readSupabasePublicEnv()];
+  const [media, env] = [await listMedia(folder ?? null), readMediaEnv()];
   if (!media.ok || !env.ok) return <p role="alert">{t('errors.unexpected')}</p>;
 
   return (

@@ -9,6 +9,7 @@ import { logger } from '@/core/observability/logger';
 import { DONE, failed, type ActionState } from '@/lib/formState';
 import { getMediaById } from './data/mediaRepository';
 import { processUpload } from './services/processUpload';
+import { removeFiles } from '@/core/storage/fileStore';
 
 const EDITORS = ['super_admin', 'admin', 'editor'] as const;
 
@@ -81,8 +82,8 @@ export async function deleteMedia(formData: FormData): Promise<void> {
   const row = await getMediaById(client.data, id.data);
   if (!row.ok) return;
   const paths = [row.data.storage_path, ...Object.values(row.data.variants)];
-  const { error: storageError } = await client.data.storage.from(row.data.storage_bucket).remove(paths);
-  if (storageError) logger.warn('Storage silme hatası', { module: 'media', message: storageError.message });
+  const removed = row.data.storage_bucket === 'media' || row.data.storage_bucket === 'private-documents' ? await removeFiles(row.data.storage_bucket, paths) : null;
+  if (removed && !removed.ok) logger.warn('Dosya silme hatası', { module: 'media', message: removed.error.message });
   const { error } = await client.data.from('media_library').delete().eq('id', id.data);
   if (error) logger.error('Medya satırı silinemedi', { module: 'media', code: error.code });
   revalidateTag(CACHE_TAGS.media);

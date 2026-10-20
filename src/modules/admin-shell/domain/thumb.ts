@@ -1,4 +1,4 @@
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { publicStorageUrl } from '@/core/storage';
 import type { ThumbSrc } from '../components/admin/Thumb';
 
@@ -10,7 +10,7 @@ export interface ThumbMedia {
 /** Liste sorgusundaki `thumb:media_library!…(storage_path, variants)` gömüsünü küçük/büyük adres çiftine çevirir; env yoksa null. */
 export function thumbSrc(media: ThumbMedia | null | undefined): ThumbSrc | null {
   if (!media) return null;
-  const env = readSupabasePublicEnv();
+  const env = readMediaEnv();
   if (!env.ok) return null;
   const variants = (typeof media.variants === 'object' && media.variants !== null ? media.variants : {}) as Record<string, string>;
   const smallPath = variants['w480'] ?? variants['w768'] ?? media.storage_path;

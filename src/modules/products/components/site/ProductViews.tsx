@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useTranslations } from 'next-intl';
 import { getFormatter, getTranslations } from 'next-intl/server';
 import { getSiteUrl } from '@/core/config/site';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { getPathname, Link } from '@/i18n/navigation';
@@ -55,7 +55,7 @@ export function ProductCard({ product, locale, supabaseUrl, headingLevel: Headin
 
 /** /urunler ve /urunler/kategori/[slug]: kategori çipleri (alt kategoriler dahil) + kart ızgarası. */
 export async function ProductsList({ locale, categorySlug }: { readonly locale: string; readonly categorySlug?: string }) {
-  const [list, cats, env, t, settings] = await Promise.all([getCachedProductList(locale), getCachedProductCategories(locale), readSupabasePublicEnv(), getTranslations('Products'), getPublicSettings()]);
+  const [list, cats, env, t, settings] = await Promise.all([getCachedProductList(locale), getCachedProductCategories(locale), readMediaEnv(), getTranslations('Products'), getPublicSettings()]);
   if (!list.ok) logger.warn(list.error.message, { module: 'products', code: list.error.code });
   // K-107: "Kendiniz inşa etmek ister misiniz?" bandı — metin site_settings configurator.banner
   const L = (v: Readonly<Partial<Record<string, string>>>) => pickLocale(v, locale, { fallback: 'tr' });
@@ -113,7 +113,7 @@ export async function ProductsList({ locale, categorySlug }: { readonly locale: 
 }
 
 export async function ProductDetail({ product, locale, related, families = [], extra }: { readonly product: ProductDetailData; readonly locale: string; readonly related: readonly ProductCardData[]; /** Aynı kategorideki yayındaki ürünler (aile çubuğu, K-90) */ readonly families?: readonly ProductCardData[]; readonly extra?: ReactNode }) {
-  const [env, t, format] = await Promise.all([readSupabasePublicEnv(), getTranslations('Products'), getFormatter()]);
+  const [env, t, format] = await Promise.all([readMediaEnv(), getTranslations('Products'), getFormatter()]);
   const url = env.ok ? env.data.url : null;
   const cover = product.cover && url ? product.cover : null;
   const groups = new Map<string, typeof product.specs>();

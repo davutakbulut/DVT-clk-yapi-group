@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Container } from '@/ui/Container';
@@ -17,7 +17,7 @@ interface Choice {
 
 /** /yorumlar: tüm yayındaki yorumlar (ızgara) + "deneyiminizi paylaşın" formu. Şema yok (02-SEO: yalnız varlık sayfasında). */
 export async function ReviewsPage({ locale, services }: { readonly locale: string; readonly services: readonly Choice[] }) {
-  const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readSupabasePublicEnv(), getTranslations('Testimonials')]);
+  const [result, env, t] = await Promise.all([getCachedTestimonials(locale), readMediaEnv(), getTranslations('Testimonials')]);
   if (!result.ok) logger.warn(result.error.message, { module: 'testimonials', code: result.error.code });
   const items = result.ok ? result.data : [];
   const url = env.ok ? env.data.url : null;

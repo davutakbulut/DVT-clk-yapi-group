@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { publicStorageUrl } from '@/core/storage';
 import { Container } from '@/ui/Container';
@@ -10,7 +10,7 @@ import { FieldVideosCarousel, type FieldVideoItem } from './FieldVideosCarousel'
 
 /** Ana sayfa "Sahadan Videolar": panelden eklenen videolar. Kayıt yoksa ya da veri gelmezse bölüm HİÇ render edilmez (Kural 3). */
 export async function FieldVideosSection({ locale, index }: { readonly locale: string; readonly index?: string }) {
-  const [result, env, t] = await Promise.all([getCachedFieldVideos(locale), readSupabasePublicEnv(), getTranslations('FieldVideos')]);
+  const [result, env, t] = await Promise.all([getCachedFieldVideos(locale), readMediaEnv(), getTranslations('FieldVideos')]);
   if (!result.ok) {
     logger.warn(result.error.message, { module: 'field-videos', code: result.error.code });
     return null;

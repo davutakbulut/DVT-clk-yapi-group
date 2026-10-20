@@ -1,5 +1,5 @@
-// Storage soyutlaması (K-02: MSSQL geçişinde yalnız bu dosya değişir). Supabase public bucket
-// URL biçimi: <url>/storage/v1/object/public/<bucket>/<path>. İstemci kütüphanesi gerekmez.
+// Medya adresleri (K-116): herkese açık "media" deposu hosting'de ~/public_html/media → <kök>/<path>.
+// Kök: core/storage/mediaEnv (NEXT_PUBLIC_MEDIA_URL). Gizli depo (private-documents) adres almaz: imzalı bağlantı (fileStore.signedUrl).
 
 export interface StorageRef {
   readonly bucket: string;
@@ -16,10 +16,10 @@ export interface MediaAsset extends StorageRef {
   readonly alt: Readonly<Record<string, string>>;
 }
 
-export function publicStorageUrl(supabaseUrl: string, ref: StorageRef): string {
-  const base = supabaseUrl.replace(/\/+$/, '');
+export function publicStorageUrl(mediaBase: string, ref: StorageRef): string {
+  const base = mediaBase.replace(/\/+$/, '');
   const path = ref.path.split('/').map(encodeURIComponent).join('/');
-  return `${base}/storage/v1/object/public/${ref.bucket}/${path}`;
+  return `${base}/${path}`;
 }
 
 const WIDTH_KEY = /^w(\d+)$/;
@@ -28,13 +28,13 @@ const WIDTH_KEY = /^w(\d+)$/;
  * `srcset` dizesi: varyantlar genişliğe göre sıralanır, tam boy en sona `width`'iyle eklenir.
  * Varyantsız kayıt yalnız tam boyu döndürür (video/PDF gibi kayıtlar için boş dize).
  */
-export function mediaSrcSet(supabaseUrl: string, asset: MediaAsset): string {
+export function mediaSrcSet(mediaBase: string, asset: MediaAsset): string {
   const entries: { width: number; url: string }[] = [];
   for (const [key, path] of Object.entries(asset.variants)) {
     const match = WIDTH_KEY.exec(key);
-    if (match?.[1]) entries.push({ width: Number(match[1]), url: publicStorageUrl(supabaseUrl, { bucket: asset.bucket, path }) });
+    if (match?.[1]) entries.push({ width: Number(match[1]), url: publicStorageUrl(mediaBase, { bucket: asset.bucket, path }) });
   }
-  if (asset.width) entries.push({ width: asset.width, url: publicStorageUrl(supabaseUrl, asset) });
+  if (asset.width) entries.push({ width: asset.width, url: publicStorageUrl(mediaBase, asset) });
   return entries
     .sort((a, b) => a.width - b.width)
     .map((e) => `${e.url} ${e.width}w`)

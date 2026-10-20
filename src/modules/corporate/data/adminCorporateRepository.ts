@@ -1,6 +1,7 @@
 import { createServerClient } from '@/core/db/createServerClient';
 import { appError, err, ok, type Result } from '@/core/errors/result';
 import { isLocalizedText, type LocalizedText } from '@/lib/localized';
+import { signedUrl } from '@/core/storage/fileStore';
 
 const lt = (v: unknown): LocalizedText => (isLocalizedText(v) ? v : {});
 const fail = (message: string) => err(appError('external_service', message, { module: 'corporate' }));
@@ -172,8 +173,7 @@ export async function listApplicationsForAdmin(status: string | null): Promise<R
   for (const r of data) {
     let cvUrl: string | null = null;
     if (r.cv_path) {
-      const { data: signed } = await client.data.storage.from(r.cv_bucket).createSignedUrl(r.cv_path, 600);
-      cvUrl = signed?.signedUrl ?? null;
+      cvUrl = r.cv_bucket === 'private-documents' ? signedUrl('private-documents', r.cv_path, 600) : null;
     }
     out.push({ ...r, postingTitle: lt((r.posting as { title?: unknown } | null)?.title)['tr'] ?? '', cvUrl });
   }

@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { mediaAlt, mediaSrcSet, publicStorageUrl } from '@/core/storage';
 import { Link } from '@/i18n/navigation';
 import { extractHeadings, renderMarkdown } from '@/lib/markdown';
@@ -22,7 +22,7 @@ interface Props {
  * etiketler → yazar kutusu → aynı kategoriden → önceki/sonraki → yorumlar (onaylı liste + form).
  */
 export async function PostDetail({ post, locale, related, prev, next }: Props) {
-  const [env, t, format, comments] = await Promise.all([readSupabasePublicEnv(), getTranslations('Blog'), getFormatter(), fetchPublishedComments(post.id)]);
+  const [env, t, format, comments] = await Promise.all([readMediaEnv(), getTranslations('Blog'), getFormatter(), fetchPublishedComments(post.id)]);
   const url = env.ok ? env.data.url : null;
   const cover = post.cover && url ? post.cover : null;
   const headings = extractHeadings(post.body).filter((h) => h.level <= 3);

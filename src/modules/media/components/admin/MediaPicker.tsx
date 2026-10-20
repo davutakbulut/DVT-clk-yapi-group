@@ -29,7 +29,7 @@ interface Props {
 }
 
 const ACCEPT: Record<PickerKind, string> = { image: 'image/jpeg,image/png,image/webp', video: 'video/mp4,video/webm', document: 'application/pdf' };
-const SUPABASE_URL = process.env['NEXT_PUBLIC_SUPABASE_URL'] ?? '';
+const MEDIA_URL = process.env['NEXT_PUBLIC_MEDIA_URL'] ?? `${process.env['NEXT_PUBLIC_SITE_URL'] ?? ''}/media`;
 
 /**
  * Medya seçici (K-85): kütüphaneden seç YA DA doğrudan bu alandan yükle. Yükleme aynı boru hattından geçer (WebP varyantları,
@@ -72,9 +72,9 @@ export function MediaPicker({ name, label, options, value, allowEmpty = true, fo
       <Label htmlFor={`${id}-select`}>{label}</Label>
       <div className="flex flex-wrap items-start gap-3">
         <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded border bg-muted text-[10px] text-muted-foreground" aria-hidden="true">
-          {current && current.mime.startsWith('image/') && SUPABASE_URL ? (
+          {current && current.mime.startsWith('image/') && MEDIA_URL ? (
             // eslint-disable-next-line @next/next/no-img-element -- panel önizlemesi, Storage adresi
-            <img src={publicStorageUrl(SUPABASE_URL, { bucket: 'media', path: current.path })} alt="" className="h-full w-full object-cover" />
+            <img src={publicStorageUrl(MEDIA_URL, { bucket: 'media', path: current.path })} alt="" className="h-full w-full object-cover" />
           ) : (
             <span className="px-1 text-center break-all">{current ? current.path.split('/').pop() : '—'}</span>
           )}

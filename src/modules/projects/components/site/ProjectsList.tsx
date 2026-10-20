@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { readSupabasePublicEnv } from '@/core/db/publicEnv';
+import { readMediaEnv } from '@/core/storage/mediaEnv';
 import { logger } from '@/core/observability/logger';
 import { pickLocale } from '@/lib/localized';
 import { EMPTY_PROJECTS_PAGE, getPublicSettings } from '@/modules/site-settings';
@@ -16,7 +16,7 @@ interface Props {
 
 /** /projeler ve /projeler/kategori/[slug] (K-106): hero + sayaçlar · tarayıcı (çipler, durum, kartlar) · süreç · CTA. Metinler site_settings 'projects.page'. */
 export async function ProjectsList({ locale, categorySlug }: Props) {
-  const [list, cats, env, t, settings] = await Promise.all([getCachedProjectList(locale), getCachedProjectCategories(locale), readSupabasePublicEnv(), getTranslations('Projects'), getPublicSettings()]);
+  const [list, cats, env, t, settings] = await Promise.all([getCachedProjectList(locale), getCachedProjectCategories(locale), readMediaEnv(), getTranslations('Projects'), getPublicSettings()]);
   if (!list.ok) logger.warn(list.error.message, { module: 'projects', code: list.error.code });
   const categories = cats.ok ? cats.data : [];
   const items = list.ok ? list.data : [];
