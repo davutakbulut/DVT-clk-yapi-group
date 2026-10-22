@@ -28,12 +28,6 @@ function getPool(): Result<Pool> {
     multipleStatements: false,
     connectTimeout: 5000,
   });
-  pool.on('connection', (conn) => {
-    // Sunucunun varsayılan sql_mode'u katı değil: uzun/geçersiz değer uyarıyla kırpılıp yazılırdı (PostgreSQL hata verir).
-    // READ COMMITTED: PostgreSQL varsayılanı. MariaDB 11.8'in REPEATABLE READ + snapshot isolation'ı eşzamanlı güncellemede
-    // "Record has changed since last read" hatası veriyordu (plpgsql'den taşınan mantık bunu beklemez).
-    conn.query("SET time_zone = '+00:00', sql_mode = 'STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', transaction_isolation = 'READ-COMMITTED'");
-  });
   return ok(pool);
 }
 
@@ -47,7 +41,13 @@ export async function withConnection<T>(actor: Actor, fn: (conn: PoolConnection)
   let conn: PoolConnection | null = null;
   try {
     conn = await p.data.getConnection();
-    await conn.query('SET @app_uid = ?, @app_role = ?, @app_kind = ?', [actor.kind === 'user' ? actor.userId : null, actor.kind === 'user' ? actor.role : null, actor.kind]);
+    // Oturum ayarları her alımda aktörle aynı komutta (ek tur yok, 'connection' olayına bağlı kalmadan kesin uygulanır):
+    // sunucunun sql_mode'u katı değil (uzun değer sessizce kırpılırdı); READ COMMITTED PostgreSQL varsayılanı — MariaDB 11.8'in
+    // REPEATABLE READ + snapshot isolation'ı eşzamanlı güncellemede "Record has changed since last read" veriyordu.
+    await conn.query(
+      "SET time_zone = '+00:00', sql_mode = 'STRICT_ALL_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', transaction_isolation = 'READ-COMMITTED', @app_uid = ?, @app_role = ?, @app_kind = ?",
+      [actor.kind === 'user' ? actor.userId : null, actor.kind === 'user' ? actor.role : null, actor.kind],
+    );
     return ok(await fn(conn));
   } catch (cause) {
     return err(appError('external_service', (cause as Error).message, { module: 'core/db', cause }));
